@@ -33,6 +33,15 @@ export class I18nPreloadContribution implements PreloadContribution {
 
     async initialize(): Promise<void> {
         const defaultLocale = FrontendApplicationConfigProvider.get().defaultLocale;
+        if (!nls.locale && !defaultLocale) {
+            // No persisted user choice and no configured default: follow the system language for Chinese
+            const systemLanguage = navigator.language.toLowerCase();
+            if (systemLanguage.startsWith('zh')) {
+                Object.assign(nls, {
+                    locale: systemLanguage.startsWith('zh-tw') || systemLanguage.startsWith('zh-hant') ? 'zh-tw' : 'zh-cn'
+                });
+            }
+        }
         if (defaultLocale && !nls.locale) {
             Object.assign(nls, {
                 locale: defaultLocale
