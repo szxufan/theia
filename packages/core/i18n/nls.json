@@ -1,8 +1,8 @@
 {
   "ai-chat-ui.show-settings": "Show AI Settings",
   "ai.executePlanWithCoder": "Execute Current Plan with Coder",
-  "aiConfiguration:open": "Open AI Configuration view",
-  "aiConfiguration:openTools": "Open AI Tools Configuration",
+  "aiConfiguration:open": "Open the AI Configuration view",
+  "aiConfiguration:openTools": "Open the AI Tools Configuration",
   "aiHistory:clear": "AI History: Clear History",
   "aiHistory:open": "Open AI History view",
   "aiHistory:sortChronologically": "AI History: Sort chronologically",
@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AI Configuration",
           "manageMenu": "AI Configuration",
-          "openButton": "Open AI Configuration",
+          "openButton": "Open the AI Configuration",
           "pageTypeLabel": "Page"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "No default agent"
         },
-        "openAiConfiguration": "Open AI Configuration",
+        "openAiConfiguration": "Open the AI Configuration",
         "openGettingStartedWalkthrough": "Get Started with AI",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "New Chat",
       "noSessions": "No chat sessions yet.",
-      "open-ai-configuration-tooltip": "Open AI Configuration",
+      "open-ai-configuration-tooltip": "Open the AI Configuration",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Building a New Extension",
       "newPlugin": "Building a New Plugin",
       "noWalkthroughs": "No walkthroughs are available.",
-      "openAiConfiguration": "Open AI Configuration",
+      "openAiConfiguration": "Open the AI Configuration",
       "resetWalkthroughProgress": "Reset Walkthrough Progress",
       "startup-editor": {
         "welcomePage": "Open the Welcome page, with content to aid in getting started with {0} and extensions."

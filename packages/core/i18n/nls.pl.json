@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "Konfiguracja AI",
           "manageMenu": "Konfiguracja AI",
-          "openButton": "Konfiguracja OpenAI",
+          "openButton": "Otwórz konfigurację AI",
           "pageTypeLabel": "Strona"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Brak domyślnego agenta"
         },
-        "openAiConfiguration": "Konfiguracja OpenAI",
+        "openAiConfiguration": "Otwórz konfigurację AI",
         "openGettingStartedWalkthrough": "Pierwsze kroki z AI",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Nowy czat",
       "noSessions": "Brak sesji czatu.",
-      "open-ai-configuration-tooltip": "Konfiguracja Open AI",
+      "open-ai-configuration-tooltip": "Otwórz konfigurację AI",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Tworzenie nowego rozszerzenia",
       "newPlugin": "Tworzenie nowej wtyczki",
       "noWalkthroughs": "Nie są dostępne żadne instrukcje krok po kroku.",
-      "openAiConfiguration": "Konfiguracja OpenAI",
+      "openAiConfiguration": "Otwórz konfigurację AI",
       "resetWalkthroughProgress": "Zresetuj postęp w samouczku",
       "startup-editor": {
         "welcomePage": "Otwórz stronę powitalną zawierającą informacje pomocne w rozpoczęciu pracy z programem {0} i rozszerzeniami."

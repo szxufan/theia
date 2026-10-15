@@ -2,7 +2,7 @@
   "ai-chat-ui.show-settings": "AI beállítások megjelenítése",
   "ai.executePlanWithCoder": "Jelenlegi terv végrehajtása a Coder segítségével",
   "aiConfiguration:open": "Nyissa meg az AI konfigurációs nézetet",
-  "aiConfiguration:openTools": "Open AI Tools konfiguráció",
+  "aiConfiguration:openTools": "AI-eszközök konfigurációjának megnyitása",
   "aiHistory:clear": "AI előzmények: Előzmények törlése",
   "aiHistory:open": "Nyissa meg az AI történet nézetet",
   "aiHistory:sortChronologically": "AI története: Időrendi rendezés",
@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AI-konfiguráció",
           "manageMenu": "AI-konfiguráció",
-          "openButton": "Open AI konfiguráció",
+          "openButton": "AI-konfiguráció megnyitása",
           "pageTypeLabel": "Oldal"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Nincs alapértelmezett ügynök"
         },
-        "openAiConfiguration": "OpenAI konfiguráció",
+        "openAiConfiguration": "AI-konfiguráció megnyitása",
         "openGettingStartedWalkthrough": "Az AI használatának megkezdése",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Új csevegés",
       "noSessions": "Még nincsenek csevegési munkamenetek.",
-      "open-ai-configuration-tooltip": "Open AI konfiguráció",
+      "open-ai-configuration-tooltip": "AI-konfiguráció megnyitása",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Új kiterjesztés létrehozása",
       "newPlugin": "Új plugin létrehozása",
       "noWalkthroughs": "Nincsenek elérhető útmutatók.",
-      "openAiConfiguration": "Open AI konfiguráció",
+      "openAiConfiguration": "AI-konfiguráció megnyitása",
       "resetWalkthroughProgress": "A bemutató előrehaladásának visszaállítása",
       "startup-editor": {
         "welcomePage": "Nyissa meg az Üdvözlő oldalt, amelynek tartalma segít az {0} és a kiterjesztések használatának megkezdésében."

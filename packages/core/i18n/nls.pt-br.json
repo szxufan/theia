@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "Configuração de IA",
           "manageMenu": "Configuração de IA",
-          "openButton": "Configuração da OpenAI",
+          "openButton": "Abrir a configuração de IA",
           "pageTypeLabel": "Página"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Sem agente padrão"
         },
-        "openAiConfiguration": "Configuração do OpenAI",
+        "openAiConfiguration": "Abrir a configuração de IA",
         "openGettingStartedWalkthrough": "Introdução à IA",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Novo bate-papo",
       "noSessions": "Ainda não há sessões de bate-papo.",
-      "open-ai-configuration-tooltip": "Configuração do OpenAI",
+      "open-ai-configuration-tooltip": "Abrir a configuração de IA",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Criando uma nova extensão",
       "newPlugin": "Criando um novo plug-in",
       "noWalkthroughs": "Não há tutoriais disponíveis.",
-      "openAiConfiguration": "Configuração do OpenAI",
+      "openAiConfiguration": "Abrir a configuração de IA",
       "resetWalkthroughProgress": "Redefinir o progresso do tutorial",
       "startup-editor": {
         "welcomePage": "Abra a página de boas-vindas, com conteúdo para ajudar você a começar a usar o {0} e as extensões."

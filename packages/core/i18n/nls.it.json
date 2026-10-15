@@ -2,7 +2,7 @@
   "ai-chat-ui.show-settings": "Mostra impostazioni AI",
   "ai.executePlanWithCoder": "Esegui piano corrente con codificatore",
   "aiConfiguration:open": "Apri la vista Configurazione AI",
-  "aiConfiguration:openTools": "Configurazione di Open AI Tools",
+  "aiConfiguration:openTools": "Apri la configurazione degli strumenti IA",
   "aiHistory:clear": "Cronologia AI: Cancella cronologia",
   "aiHistory:open": "Apri la vista Cronologia AI",
   "aiHistory:sortChronologically": "Cronologia AI: ordina in ordine cronologico",
@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "Configurazione dell’IA",
           "manageMenu": "Configurazione dell’IA",
-          "openButton": "Configurazione OpenAI",
+          "openButton": "Apri la configurazione dell'IA",
           "pageTypeLabel": "Pagina"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Nessun agente predefinito"
         },
-        "openAiConfiguration": "Configurazione OpenAI",
+        "openAiConfiguration": "Apri la configurazione dell'IA",
         "openGettingStartedWalkthrough": "Introduzione all’IA",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Nuova chat",
       "noSessions": "Non ci sono ancora sessioni di chat.",
-      "open-ai-configuration-tooltip": "Configurazione Open AI",
+      "open-ai-configuration-tooltip": "Apri la configurazione dell'IA",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Creazione di una nuova estensione",
       "newPlugin": "Creazione di un nuovo plugin",
       "noWalkthroughs": "Non sono disponibili guide passo passo.",
-      "openAiConfiguration": "Configurazione OpenAI",
+      "openAiConfiguration": "Apri la configurazione dell'IA",
       "resetWalkthroughProgress": "Ripristina lo stato di avanzamento della guida passo passo",
       "startup-editor": {
         "welcomePage": "Aprire la pagina di benvenuto, con contenuti utili per iniziare a utilizzare l'{0}e e le estensioni."

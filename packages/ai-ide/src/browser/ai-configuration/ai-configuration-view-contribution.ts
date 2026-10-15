@@ -33,12 +33,12 @@ const AI_PREFERENCE_PREFIX = 'ai-features.';
 export const AI_CONFIGURATION_TOGGLE_COMMAND_ID = 'aiConfiguration:toggle';
 export const OPEN_AI_CONFIG_VIEW = Command.toLocalizedCommand({
     id: 'aiConfiguration:open',
-    label: 'Open AI Configuration view',
+    label: 'Open the AI Configuration view',
 });
 
 export const OPEN_AI_CONFIG_VIEW_TOOLS = Command.toLocalizedCommand({
     id: 'aiConfiguration:openTools',
-    label: 'Open AI Tools Configuration',
+    label: 'Open the AI Tools Configuration',
 });
 
 @injectable()
@@ -194,7 +194,7 @@ export class AIConfigurationViewContribution extends AIViewContribution<AIConfig
     }
 
     registerToolbarItems(registry: TabBarToolbarRegistry): void {
-        // The IDE offers "Open AI Configuration" (below) as the single chat-toolbar entry into AI settings,
+        // The IDE offers "Open the AI Configuration" (below) as the single chat-toolbar entry into AI settings,
         // so drop the generic "Open AI Settings" button that @theia/ai-chat-ui contributes for base apps
         // (AI_SHOW_SETTINGS_COMMAND). @theia/ai-ide depends on @theia/ai-chat-ui, so that item is already
         // registered by the time this runs.
@@ -202,7 +202,7 @@ export class AIConfigurationViewContribution extends AIViewContribution<AIConfig
         registry.registerItem({
             id: 'chat-view.' + OPEN_AI_CONFIG_VIEW.id,
             command: OPEN_AI_CONFIG_VIEW.id,
-            tooltip: nls.localize('theia/ai-ide/open-ai-configuration-tooltip', 'Open AI Configuration'),
+            tooltip: nls.localize('theia/ai-ide/open-ai-configuration-tooltip', 'Open the AI Configuration'),
             group: 'ai-settings',
             priority: 2,
             isVisible: widget => this.activationService.isActive && widget instanceof ChatViewWidget

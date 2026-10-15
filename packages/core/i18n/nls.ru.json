@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "Настройка ИИ",
           "manageMenu": "Настройка ИИ",
-          "openButton": "Настройка OpenAI",
+          "openButton": "Открыть конфигурацию ИИ",
           "pageTypeLabel": "Страница"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Агент по умолчанию отсутствует"
         },
-        "openAiConfiguration": "Настройка OpenAI",
+        "openAiConfiguration": "Открыть конфигурацию ИИ",
         "openGettingStartedWalkthrough": "Начало работы с ИИ",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Новый чат",
       "noSessions": "Сеансов чата пока нет.",
-      "open-ai-configuration-tooltip": "Настройка Open AI",
+      "open-ai-configuration-tooltip": "Открыть конфигурацию ИИ",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Создание нового расширения",
       "newPlugin": "Создание нового плагина",
       "noWalkthroughs": "Пошаговые инструкции отсутствуют.",
-      "openAiConfiguration": "Настройка OpenAI",
+      "openAiConfiguration": "Открыть конфигурацию ИИ",
       "resetWalkthroughProgress": "Сброс прогресса прохождения",
       "startup-editor": {
         "welcomePage": "Откройте страницу приветствия, содержащую информацию, которая поможет вам начать работу с {0} и расширениями."

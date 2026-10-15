@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AI Yapılandırması",
           "manageMenu": "AI Yapılandırması",
-          "openButton": "Open AI Yapılandırması",
+          "openButton": "AI yapılandırmasını aç",
           "pageTypeLabel": "Sayfa"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Varsayılan aracı yok"
         },
-        "openAiConfiguration": "Open AI Yapılandırması",
+        "openAiConfiguration": "AI yapılandırmasını aç",
         "openGettingStartedWalkthrough": "AI'ya Başlangıç",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Yeni Sohbet",
       "noSessions": "Henüz sohbet oturumu yok.",
-      "open-ai-configuration-tooltip": "Open AI Yapılandırması",
+      "open-ai-configuration-tooltip": "AI yapılandırmasını aç",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Yeni Bir Uzantı Oluşturma",
       "newPlugin": "Yeni Eklenti Oluşturma",
       "noWalkthroughs": "Kullanım kılavuzları mevcut değildir.",
-      "openAiConfiguration": "Open AI Yapılandırması",
+      "openAiConfiguration": "AI yapılandırmasını aç",
       "resetWalkthroughProgress": "Adım Adım Kılavuzun İlerleme Durumunu Sıfırla",
       "startup-editor": {
         "welcomePage": "{0}'ye ve uzantılara başlamak için yardımcı olacak içeriği içeren Hoş Geldiniz sayfasını açın."

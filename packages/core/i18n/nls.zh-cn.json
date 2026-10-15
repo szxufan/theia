@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AI 配置",
           "manageMenu": "AI 配置",
-          "openButton": "OpenAI 配置",
+          "openButton": "打开 AI 配置",
           "pageTypeLabel": "页面"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "无默认代理"
         },
-        "openAiConfiguration": "OpenAI 配置",
+        "openAiConfiguration": "打开 AI 配置",
         "openGettingStartedWalkthrough": "AI 入门指南",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "新建聊天",
       "noSessions": "目前尚无聊天会话。",
-      "open-ai-configuration-tooltip": "OpenAI 配置",
+      "open-ai-configuration-tooltip": "打开 AI 配置",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "创建新扩展",
       "newPlugin": "构建新插件",
       "noWalkthroughs": "目前暂无操作指南。",
-      "openAiConfiguration": "OpenAI 配置",
+      "openAiConfiguration": "打开 AI 配置",
       "resetWalkthroughProgress": "重置演练进度",
       "startup-editor": {
         "welcomePage": "打开欢迎页面,其中包含帮助用户开始使用{0}及扩展程序的内容。"

@@ -394,7 +394,7 @@ export class GettingStartedWidget extends ReactWidget {
                         tabIndex={0}
                         onClick={this.doOpenAiConfiguration}
                         onKeyDown={this.doOpenAiConfigurationEnter}>
-                        {nls.localize('theia/getting-started/openAiConfiguration', 'Open AI Configuration')}
+                        {nls.localize('theia/getting-started/openAiConfiguration', 'Open the AI Configuration')}
                     </a>
                 </div>
             }

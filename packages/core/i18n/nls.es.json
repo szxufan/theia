@@ -2,7 +2,7 @@
   "ai-chat-ui.show-settings": "Mostrar configuración de IA",
   "ai.executePlanWithCoder": "Ejecutar el plan actual con Coder",
   "aiConfiguration:open": "Abrir la vista Configuración de IA",
-  "aiConfiguration:openTools": "Configuración de Open AI Tools",
+  "aiConfiguration:openTools": "Abrir la configuración de herramientas de IA",
   "aiHistory:clear": "Historial de IA: Borrar historial",
   "aiHistory:open": "Abrir vista Historial de AI",
   "aiHistory:sortChronologically": "Historial de IA: Ordenar cronológicamente",
@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "Configuración de IA",
           "manageMenu": "Configuración de IA",
-          "openButton": "Configuración de OpenAI",
+          "openButton": "Abrir la configuración de IA",
           "pageTypeLabel": "Página"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Sin agente predeterminado"
         },
-        "openAiConfiguration": "Configuración de OpenAI",
+        "openAiConfiguration": "Abrir la configuración de IA",
         "openGettingStartedWalkthrough": "Primeros pasos con la IA",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Nuevo chat",
       "noSessions": "Aún no hay sesiones de chat.",
-      "open-ai-configuration-tooltip": "Configuración de Open AI",
+      "open-ai-configuration-tooltip": "Abrir la configuración de IA",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Creación de una nueva extensión",
       "newPlugin": "Creación de un nuevo complemento",
       "noWalkthroughs": "No hay tutoriales disponibles.",
-      "openAiConfiguration": "Configuración de OpenAI",
+      "openAiConfiguration": "Abrir la configuración de IA",
       "resetWalkthroughProgress": "Restablecer el progreso del tutorial",
       "startup-editor": {
         "welcomePage": "Abra la página de bienvenida, con contenido que le ayudará a empezar a utilizar {0} y las extensiones."

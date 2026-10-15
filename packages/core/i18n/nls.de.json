@@ -2,7 +2,7 @@
   "ai-chat-ui.show-settings": "AI-Einstellungen anzeigen",
   "ai.executePlanWithCoder": "Aktuellen Plan mit Coder ausführen",
   "aiConfiguration:open": "Öffnen Sie die Ansicht „AI-Konfiguration“.",
-  "aiConfiguration:openTools": "Konfiguration der Open-AI-Tools",
+  "aiConfiguration:openTools": "AI-Tools-Konfiguration öffnen",
   "aiHistory:clear": "KI-Verlauf: Verlauf löschen",
   "aiHistory:open": "AI-Verlauf anzeigen",
   "aiHistory:sortChronologically": "AI-Verlauf: Chronologisch sortieren",
@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "KI-Konfiguration",
           "manageMenu": "KI-Konfiguration",
-          "openButton": "OpenAI-Konfiguration",
+          "openButton": "KI-Konfiguration öffnen",
           "pageTypeLabel": "Seite"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Kein Standard-Agent"
         },
-        "openAiConfiguration": "OpenAI-Konfiguration",
+        "openAiConfiguration": "KI-Konfiguration öffnen",
         "openGettingStartedWalkthrough": "Erste Schritte mit KI",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Neuer Chat",
       "noSessions": "Noch keine Chat-Sitzungen.",
-      "open-ai-configuration-tooltip": "Open AI-Konfiguration",
+      "open-ai-configuration-tooltip": "KI-Konfiguration öffnen",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Erstellen einer neuen Erweiterung",
       "newPlugin": "Erstellen eines neuen Plugins",
       "noWalkthroughs": "Es sind keine Anleitungen verfügbar.",
-      "openAiConfiguration": "Open-AI-Konfiguration",
+      "openAiConfiguration": "KI-Konfiguration öffnen",
       "resetWalkthroughProgress": "Fortschritt der Anleitung zurücksetzen",
       "startup-editor": {
         "welcomePage": "Öffnen Sie die Willkommensseite mit Inhalten, die Ihnen den Einstieg in „{0}“ und Erweiterungen erleichtern."

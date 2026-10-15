@@ -2,7 +2,7 @@
   "ai-chat-ui.show-settings": "Afficher les paramètres IA",
   "ai.executePlanWithCoder": "Exécuter le plan actuel avec Coder",
   "aiConfiguration:open": "Ouvrir la vue Configuration AI",
-  "aiConfiguration:openTools": "Configuration des outils Open AI",
+  "aiConfiguration:openTools": "Ouvrir la configuration des outils IA",
   "aiHistory:clear": "Historique de l'IA : Effacer l'historique",
   "aiHistory:open": "Ouvrir l'historique AI",
   "aiHistory:sortChronologically": "Historique de l'IA : trier par ordre chronologique",
@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AI Configuration",
           "manageMenu": "AI Configuration",
-          "openButton": "Open AI Configuration",
+          "openButton": "Ouvrir la configuration de l'IA",
           "pageTypeLabel": "Page"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Aucun agent par défaut"
         },
-        "openAiConfiguration": "Open AI Configuration",
+        "openAiConfiguration": "Ouvrir la configuration de l'IA",
         "openGettingStartedWalkthrough": "Premiers pas avec l'IA",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Nouveau chat",
       "noSessions": "Aucune session de chat pour l'instant.",
-      "open-ai-configuration-tooltip": "Open AI Configuration",
+      "open-ai-configuration-tooltip": "Ouvrir la configuration de l'IA",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Création d'une nouvelle extension",
       "newPlugin": "Création d'un nouveau plugin",
       "noWalkthroughs": "Aucun guide pas à pas n'est disponible.",
-      "openAiConfiguration": "Open AI Configuration",
+      "openAiConfiguration": "Ouvrir la configuration de l'IA",
       "resetWalkthroughProgress": "Réinitialiser la progression du guide pas à pas",
       "startup-editor": {
         "welcomePage": "Ouvrez la page d'accueil, qui contient des informations pour vous aider à démarrer avec l'{0}s et les extensions."

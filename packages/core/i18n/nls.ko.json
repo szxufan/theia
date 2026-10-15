@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AI 구성",
           "manageMenu": "AI 구성",
-          "openButton": "OpenAI 구성",
+          "openButton": "AI 구성 열기",
           "pageTypeLabel": "페이지"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "기본 에이전트 없음"
         },
-        "openAiConfiguration": "OpenAI 구성",
+        "openAiConfiguration": "AI 구성 열기",
         "openGettingStartedWalkthrough": "AI 시작하기",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "새 채팅",
       "noSessions": "아직 채팅 세션이 없습니다.",
-      "open-ai-configuration-tooltip": "OpenAI 구성",
+      "open-ai-configuration-tooltip": "AI 구성 열기",
       "perspective": {
         "aiFirst": "AI 우선"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "새 확장 프로그램 만들기",
       "newPlugin": "새 플러그인 구축",
       "noWalkthroughs": "단계별 안내 자료는 제공되지 않습니다.",
-      "openAiConfiguration": "OpenAI 구성",
+      "openAiConfiguration": "AI 구성 열기",
       "resetWalkthroughProgress": "워크스루 진행 상황 초기화",
       "startup-editor": {
         "welcomePage": "{0}와 확장 프로그램 사용을 시작하는 데 도움이 되는 콘텐츠가 포함된 시작 페이지를 엽니다."

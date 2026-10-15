@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "Konfigurace AI",
           "manageMenu": "Konfigurace AI",
-          "openButton": "Konfigurace Open AI",
+          "openButton": "Otevřít konfiguraci AI",
           "pageTypeLabel": "Stránka"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "Žádný výchozí agent"
         },
-        "openAiConfiguration": "Konfigurace OpenAI",
+        "openAiConfiguration": "Otevřít konfiguraci AI",
         "openGettingStartedWalkthrough": "Začínáme s AI",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "Nový chat",
       "noSessions": "Zatím žádné chatové relace.",
-      "open-ai-configuration-tooltip": "Konfigurace Open AI",
+      "open-ai-configuration-tooltip": "Otevřít konfiguraci AI",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "Vytvoření nového rozšíření",
       "newPlugin": "Vytvoření nového pluginu",
       "noWalkthroughs": "Není k dispozici žádný návod.",
-      "openAiConfiguration": "Konfigurace OpenAI",
+      "openAiConfiguration": "Otevřít konfiguraci AI",
       "resetWalkthroughProgress": "Obnovit průběh průvodce",
       "startup-editor": {
         "welcomePage": "Otevřete úvodní stránku s obsahem, který vám pomůže začít s aplikací {0} a rozšířeními."

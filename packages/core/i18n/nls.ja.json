@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AIの設定",
           "manageMenu": "AIの設定",
-          "openButton": "OpenAIの設定",
+          "openButton": "AI 構成を開く",
           "pageTypeLabel": "ページ"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "デフォルトのエージェントなし"
         },
-        "openAiConfiguration": "OpenAIの設定",
+        "openAiConfiguration": "AI 構成を開く",
         "openGettingStartedWalkthrough": "AIの始め方",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "新しいチャット",
       "noSessions": "まだチャットセッションはありません。",
-      "open-ai-configuration-tooltip": "OpenAIの設定",
+      "open-ai-configuration-tooltip": "AI 構成を開く",
       "perspective": {
         "aiFirst": "AIファースト"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "新しい拡張機能の構築",
       "newPlugin": "新しいプラグインの構築",
       "noWalkthroughs": "操作手順は用意されていません。",
-      "openAiConfiguration": "OpenAIの設定",
+      "openAiConfiguration": "AI 構成を開く",
       "resetWalkthroughProgress": "ウォークスルーの進捗をリセット",
       "startup-editor": {
         "welcomePage": "{0}と拡張機能の使い始めを支援するコンテンツを含むウェルカムページを開く。"

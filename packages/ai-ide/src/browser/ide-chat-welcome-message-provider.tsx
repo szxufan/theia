@@ -355,7 +355,7 @@ New here? [Get started with AI]({0}) walks you through the setup.
                 <button
                     className="theia-button main"
                     onClick={this.openAiConfiguration}>
-                    {nls.localize('theia/ai/ide/openAiConfiguration', 'Open AI Configuration')}
+                    {nls.localize('theia/ai/ide/openAiConfiguration', 'Open the AI Configuration')}
                 </button>
                 <button
                     className="theia-button secondary"
@@ -429,7 +429,7 @@ New here? [Get started with AI]({0}) walks you through the setup.
                 <button
                     className="theia-button main"
                     onClick={this.openAiConfiguration}>
-                    {nls.localize('theia/ai/ide/openAiConfiguration', 'Open AI Configuration')}
+                    {nls.localize('theia/ai/ide/openAiConfiguration', 'Open the AI Configuration')}
                 </button>
                 <button
                     className="theia-button secondary"

@@ -1090,7 +1090,7 @@
         "aiConfiguration": {
           "breadcrumbRoot": "AI 設定",
           "manageMenu": "AI 設定",
-          "openButton": "OpenAI 設定",
+          "openButton": "開啟 AI 設定",
           "pageTypeLabel": "頁面"
         },
         "allowAllMode": {
@@ -1267,7 +1267,7 @@
         "noDefaultAgent": {
           "header": "無預設代理程式"
         },
-        "openAiConfiguration": "OpenAI 設定",
+        "openAiConfiguration": "開啟 AI 設定",
         "openGettingStartedWalkthrough": "AI 入門指南",
         "orchestrator": {
           "error": {
@@ -2065,7 +2065,7 @@
       },
       "newChat": "新聊天室",
       "noSessions": "目前尚無聊天對話紀錄。",
-      "open-ai-configuration-tooltip": "OpenAI 設定",
+      "open-ai-configuration-tooltip": "開啟 AI 設定",
       "perspective": {
         "aiFirst": "AI First"
       },
@@ -2655,7 +2655,7 @@
       "newExtension": "建立新擴充功能",
       "newPlugin": "建立新外掛程式",
       "noWalkthroughs": "目前沒有操作指南。",
-      "openAiConfiguration": "OpenAI 設定",
+      "openAiConfiguration": "開啟 AI 設定",
       "resetWalkthroughProgress": "重置引導流程進度",
       "startup-editor": {
         "welcomePage": "開啟歡迎頁面,內容旨在協助使用者開始使用{0}及其擴充功能。"
