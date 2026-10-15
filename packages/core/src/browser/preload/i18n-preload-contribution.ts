@@ -18,6 +18,7 @@ import { PreloadContribution } from './preloader';
 import { FrontendApplicationConfigProvider } from '../frontend-application-config-provider';
 import { nls } from '../../common/nls';
 import { inject, injectable, named } from 'inversify';
+import { Localization } from '../../common/i18n/localization';
 import { LocalizationServer } from '../../common/i18n/localization-server';
 import { ContributionProvider } from '../../common/contribution-provider';
 import { TextReplacementContribution } from './text-replacement-contribution';
@@ -30,6 +31,16 @@ export class I18nPreloadContribution implements PreloadContribution {
 
     @inject(ContributionProvider) @named(TextReplacementContribution)
     protected readonly replacementContributions: ContributionProvider<TextReplacementContribution>;
+
+    /**
+     * Maximum time in milliseconds to wait for localization data from the backend
+     * before falling back to the default locale.
+     *
+     * Without a timeout a backend that never answers (e.g. its localization cache is
+     * locked by another running instance) would block the preload phase forever,
+     * leaving the application window blank.
+     */
+    protected readonly localizationLoadTimeout: number = 10000;
 
     async initialize(): Promise<void> {
         const defaultLocale = FrontendApplicationConfigProvider.get().defaultLocale;
@@ -49,12 +60,22 @@ export class I18nPreloadContribution implements PreloadContribution {
         }
         let locale = nls.locale ?? nls.defaultLocale;
         if (nls.locale) {
-            const localization = await this.localizationServer.loadLocalization(locale);
-            if (localization.languagePack) {
-                nls.localization = localization;
-            } else if (locale !== nls.defaultLocale) {
-                // In case the localization that we've loaded doesn't localize Theia completely (languagePack is false)
-                // We simply reset the locale to the default again
+            try {
+                const localization = await this.loadLocalization(locale);
+                if (localization.languagePack) {
+                    nls.localization = localization;
+                } else if (locale !== nls.defaultLocale) {
+                    // In case the localization that we've loaded doesn't localize Theia completely (languagePack is false)
+                    // We simply reset the locale to the default again
+                    Object.assign(nls, {
+                        locale: defaultLocale || undefined
+                    });
+                    locale = defaultLocale;
+                }
+            } catch (error) {
+                // Never block application startup on localization loading failures:
+                // fall back to the default locale instead.
+                console.error(`Failed to load localization data for locale '${locale}'. Falling back to the default locale.`, error);
                 Object.assign(nls, {
                     locale: defaultLocale || undefined
                 });
@@ -65,6 +86,18 @@ export class I18nPreloadContribution implements PreloadContribution {
         if (Object.keys(replacements).length > 0) {
             nls.localization ??= { translations: {}, languageId: locale };
             nls.localization.replacements = replacements;
+        }
+    }
+
+    protected async loadLocalization(locale: string): Promise<Localization> {
+        let timeoutHandle: ReturnType<typeof setTimeout> | undefined;
+        const timeout = new Promise<never>((_resolve, reject) => {
+            timeoutHandle = setTimeout(() => reject(new Error(`Timed out after ${this.localizationLoadTimeout} ms.`)), this.localizationLoadTimeout);
+        });
+        try {
+            return await Promise.race([this.localizationServer.loadLocalization(locale), timeout]);
+        } finally {
+            clearTimeout(timeoutHandle);
         }
     }
 

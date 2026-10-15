@@ -14,6 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
+import * as os from 'os';
 import * as path from 'path';
 import * as fs from '@theia/core/shared/fs-extra';
 import { LazyLocalization, LocalizationProvider } from '@theia/core/lib/node/i18n/localization-provider';
@@ -61,13 +62,40 @@ export class HostedPluginLocalizationService implements BackendApplicationContri
     /**
      * This promise resolves when the cache has been cleaned up after starting the backend server.
      * Once resolved, the service allows to cache localization files for plugins.
+     *
+     * Note: this promise is guaranteed to resolve even if the cache directory cannot be prepared
+     * (e.g. it is locked by another running instance). Otherwise consumers awaiting it — such as
+     * plugin deployment via {@link HostedPluginLocalizationService.buildTranslationConfig} — would
+     * never complete, which in turn blocks the frontend during startup.
      */
     ready = this._ready.promise;
 
+    /**
+     * Alternative cache directory used when the shared cache directory cannot be prepared.
+     */
+    protected cacheDirFallback: string | undefined;
+
     initialize(): MaybePromise<void> {
-        this.getLocalizationCacheDir()
-            .then(cacheDir => fs.emptyDir(cacheDir))
-            .then(() => this._ready.resolve());
+        this.prepareLocalizationCacheDir()
+            .catch(error => {
+                this.logger.error('Failed to prepare the localization cache directory. Translation caching is disabled for this session.', error);
+            })
+            // Never leave `ready` pending: a rejected preparation must not block plugin deployment.
+            .finally(() => this._ready.resolve());
+    }
+
+    protected async prepareLocalizationCacheDir(): Promise<void> {
+        const cacheDir = await this.getLocalizationCacheDir();
+        try {
+            await fs.emptyDir(cacheDir);
+        } catch (error) {
+            // The shared cache directory may be locked by another running instance (e.g. EPERM on Windows).
+            // Fall back to a process-local cache directory so that this instance stays fully functional
+            // instead of failing every subsequent cache access.
+            this.logger.warn(`Cannot clean the shared localization cache at '${cacheDir}'. Falling back to a process-local cache directory.`, error);
+            this.cacheDirFallback = path.join(os.tmpdir(), `theia-localization-cache-${process.pid}`);
+            await fs.emptyDir(this.cacheDirFallback);
+        }
     }
 
     async deployLocalizations(plugin: DeployedPlugin): Promise<void> {
@@ -217,6 +245,9 @@ export class HostedPluginLocalizationService implements BackendApplicationContri
     }
 
     protected async getLocalizationCacheDir(): Promise<string> {
+        if (this.cacheDirFallback) {
+            return this.cacheDirFallback;
+        }
         const configDir = new URI(await this.envVariables.getConfigDirUri()).path.fsPath();
         const cacheDir = path.join(configDir, 'localization-cache');
         return cacheDir;
