@@ -171,7 +171,7 @@ describe('ChatSessionStoreImpl', () => {
     describe('trimSessions', () => {
         describe('when persistedSessionLimit is -1 (unlimited)', () => {
             beforeEach(() => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(-1);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(-1);
             });
 
             it('should not delete any sessions regardless of count', async () => {
@@ -215,7 +215,7 @@ describe('ChatSessionStoreImpl', () => {
 
         describe('when persistedSessionLimit is 0 (no persistence)', () => {
             beforeEach(() => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(0);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(0);
             });
 
             it('should delete all sessions and clear index', async () => {
@@ -260,7 +260,7 @@ describe('ChatSessionStoreImpl', () => {
 
         describe('when persistedSessionLimit is positive', () => {
             it('should not trim when session count is within limit', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(5);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(5);
 
                 const sessions = [
                     createMockSessionMetadata('session-1', 1000),
@@ -280,7 +280,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should trim oldest sessions when count exceeds limit', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(3);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(3);
 
                 const sessions = [
                     createMockSessionMetadata('session-1', 1000),
@@ -307,7 +307,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should delete sessions in order of saveDate (oldest first)', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(2);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(2);
 
                 const sessions = [
                     createMockSessionMetadata('session-newest', 5000),
@@ -332,7 +332,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should update index after trimming', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(2);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(2);
 
                 const sessions = [
                     createMockSessionMetadata('session-1', 1000),
@@ -361,7 +361,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should trim to exactly the limit (42 session bug scenario)', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(25);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(25);
 
                 const sessions = Array.from({ length: 42 }, (_, i) =>
                     createMockSessionMetadata(`session-${i}`, (i + 1) * 1000)
@@ -389,7 +389,7 @@ describe('ChatSessionStoreImpl', () => {
 
         describe('edge cases', () => {
             it('should handle empty session index', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(5);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(5);
 
                 const index: ChatSessionIndex = {};
 
@@ -404,7 +404,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should handle sessions exactly at limit', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(3);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(3);
 
                 const sessions = [
                     createMockSessionMetadata('session-1', 1000),
@@ -424,7 +424,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should handle limit of 1', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(1);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(1);
 
                 const sessions = [
                     createMockSessionMetadata('session-1', 1000),
@@ -447,7 +447,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should handle file deletion errors gracefully', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(2);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(2);
 
                 const sessions = [
                     createMockSessionMetadata('session-1', 1000),
@@ -471,7 +471,7 @@ describe('ChatSessionStoreImpl', () => {
             });
 
             it('should handle sessions with equal save dates', async () => {
-                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(2);
+                mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(2);
 
                 const sessions = [
                     createMockSessionMetadata('session-a', 1000),
@@ -499,7 +499,7 @@ describe('ChatSessionStoreImpl', () => {
 
     describe('getPersistedSessionLimit', () => {
         it('should return -1 for unlimited sessions', () => {
-            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(-1);
+            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(-1);
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const result = (chatSessionStore as any).getPersistedSessionLimit();
@@ -508,7 +508,7 @@ describe('ChatSessionStoreImpl', () => {
         });
 
         it('should return 0 for no persistence', () => {
-            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(0);
+            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(0);
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const result = (chatSessionStore as any).getPersistedSessionLimit();
@@ -516,17 +516,17 @@ describe('ChatSessionStoreImpl', () => {
             expect(result).to.equal(0);
         });
 
-        it('should return default value of 25', () => {
-            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(25);
+        it('should return default value of -1 (unlimited)', () => {
+            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(-1);
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const result = (chatSessionStore as any).getPersistedSessionLimit();
 
-            expect(result).to.equal(25);
+            expect(result).to.equal(-1);
         });
 
         it('should return custom positive value', () => {
-            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(100);
+            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(100);
 
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const result = (chatSessionStore as any).getPersistedSessionLimit();
@@ -716,7 +716,7 @@ describe('ChatSessionStoreImpl', () => {
         });
 
         it('should include rootSessionId in the session index when updating', async () => {
-            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(25);
+            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(25);
 
             const sessions = [
                 { model: mockModel('parent-session') as never, title: 'Parent Session', saveDate: 1000, pinnedAgentId: undefined, rootSessionId: undefined },
@@ -740,7 +740,7 @@ describe('ChatSessionStoreImpl', () => {
         });
 
         it('should handle sessions without rootSessionId', async () => {
-            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, 25).returns(25);
+            mockPreferenceService.get.withArgs(PERSISTED_SESSION_LIMIT_PREF, -1).returns(25);
 
             const sessions = [
                 { model: mockModel('standalone-session') as never, title: 'Standalone Session', saveDate: 1000, pinnedAgentId: undefined, rootSessionId: undefined }

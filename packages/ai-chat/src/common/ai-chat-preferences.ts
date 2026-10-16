@@ -55,7 +55,7 @@ export const aiChatPreferences: PreferenceSchema = {
             description: nls.localize('theia/ai/chat/persistedSessionLimit/description',
                 '要持久化的聊天会话最大数量。使用 -1 表示不限制会话数量，0 表示禁用会话持久化。' +
                 '当减少限制后，超过新限制的最旧会话将在下次保存时被自动移除。'),
-            default: 25,
+            default: -1,
             minimum: -1,
             title: AI_CORE_PREFERENCES_TITLE,
         },

@@ -87,23 +87,8 @@ export const AnthropicPreferencesSchema: PreferenceSchema = {
             },
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/anthropic/customEndpoints/mdDescription',
-                '集成与 Anthropic API 兼容的自定义模型。必需的属性是 `model` 和 `url`。\
-            \n\
-            可选地，您可以\
-            \n\
-            - 指定唯一的 `id` 以在 UI 中标识该自定义模型。如果不提供，将使用 `model` 作为 `id`。\
-            \n\
-            - 提供 `apiKey` 以访问给定 URL 上的 API。使用 `true` 表示使用全局 Anthropic API 密钥。\
-            \n\
-            - 指定 `enableStreaming: false` 表示不使用流式传输。\
-            \n\
-            - 指定 `useCaching: false` 表示不使用提示词缓存。\
-            \n\
-            - 指定 `maxRetries: <数字>` 表示请求失败时的最大重试次数。默认为 3。\
-            \n\
-            - 指定 `headers` 以随每个发送到端点的请求附加额外的 HTTP 头，例如 API 前置网关所需的头。\
-            \n\
-            推理能力和最大输出 Token 限制从端点的 `/v1/models` 响应中推导。'),
+                '添加与 Anthropic API 兼容的自定义端点。每个端点填写模型 ID 与 URL 即可，其余字段可选。'
+                + '推理能力和最大输出 Token 限制从端点的 `/v1/models` 响应中推导。'),
             default: [],
             items: {
                 type: 'object',
@@ -115,37 +100,46 @@ export const AnthropicPreferencesSchema: PreferenceSchema = {
                     },
                     url: {
                         type: 'string',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/url/title', '托管该模型的 Anthropic API 兼容端点')
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/url/title', '端点 URL'),
+                        description: nls.localize('theia/ai/anthropic/customEndpoints/url/description',
+                            '托管该模型的 Anthropic API 兼容端点地址')
                     },
                     id: {
                         type: 'string',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/id/title', '用于在 UI 中标识自定义模型的唯一标识符'),
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/id/title', '显示名称'),
+                        description: nls.localize('theia/ai/anthropic/customEndpoints/id/description',
+                            '在 UI 中标识该自定义模型的唯一标识符；不提供时使用模型 ID')
                     },
                     apiKey: {
                         type: ['string', 'boolean'],
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/apiKey/title',
-                            '访问给定 URL 上 API 的密钥，或使用 `true` 表示使用全局 Anthropic API 密钥'),
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/apiKey/title', 'API 密钥'),
+                        description: nls.localize('theia/ai/anthropic/customEndpoints/apiKey/description',
+                            '访问该端点 API 的密钥；填 true 表示使用全局 Anthropic API 密钥')
                     },
                     enableStreaming: {
                         type: 'boolean',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/enableStreaming/title',
-                            '指示是否使用流式 API。默认为 `true`。'),
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/enableStreaming/title', '流式传输'),
+                        description: nls.localize('theia/ai/anthropic/customEndpoints/enableStreaming/description',
+                            '是否使用流式 API。默认开启')
                     },
                     useCaching: {
                         type: 'boolean',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/useCaching/title',
-                            '指示模型是否支持提示词缓存。默认为 `true`'),
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/useCaching/title', '提示词缓存'),
+                        description: nls.localize('theia/ai/anthropic/customEndpoints/useCaching/description',
+                            '该模型是否支持提示词缓存。默认开启')
                     },
                     maxRetries: {
                         type: 'number',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/maxRetries/title',
-                            '请求失败时的最大重试次数。默认为 3'),
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/maxRetries/title', '最大重试次数'),
+                        description: nls.localize('theia/ai/anthropic/customEndpoints/maxRetries/description',
+                            '请求失败时的最大重试次数。默认 3')
                     },
                     headers: {
                         type: 'object',
                         additionalProperties: { type: 'string' },
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/headers/title',
-                            '随每个发送到端点的请求一起发送的额外 HTTP 头'),
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/headers/title', 'HTTP 头'),
+                        description: nls.localize('theia/ai/anthropic/customEndpoints/headers/description',
+                            '随每个请求附加的额外 HTTP 头，如 {"X-Custom": "value"}')
                     }
                 }
             }

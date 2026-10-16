@@ -354,7 +354,7 @@ export class ChatSessionStoreImpl implements ChatSessionStore {
     }
 
     protected getPersistedSessionLimit(): number {
-        return this.preferenceService.get<number>(PERSISTED_SESSION_LIMIT_PREF, 25);
+        return this.preferenceService.get<number>(PERSISTED_SESSION_LIMIT_PREF, -1);
     }
 
     protected async trimSessions(): Promise<void> {
