@@ -25,9 +25,9 @@ export const SkillRegistryPreferencesSchema: PreferenceSchema = {
             type: 'string',
             scope: PreferenceScope.User,
             markdownDescription: nls.localize('theia/ai-registry/skill/githubToken/mdDescription',
-                'Optional GitHub personal access token used when downloading skills from GitHub. A token raises GitHub\'s rate limit from 60 to \
-5000 requests per hour. **Please note:** By using this preference the token is stored in clear text on the \
-machine running Theia. Prefer the environment variable `GITHUB_TOKEN` to provide it securely.') + LINUX_ENV_HINT,
+                '从 GitHub 下载技能时可选使用的 GitHub 个人访问令牌。令牌可将 GitHub 的速率限制从每小时 60 个\
+提高到 5000 个请求。**请注意：** 使用此首选项时，令牌将以明文形式存储在运行 Theia 的机器上。\
+建议使用环境变量 `GITHUB_TOKEN` 来安全地提供它。') + LINUX_ENV_HINT,
             title: AI_CORE_PREFERENCES_TITLE
         }
     }

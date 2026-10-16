@@ -28,7 +28,7 @@ import { QuickFileSelectService } from './quick-file-select-service';
 export const quickFileOpen = Command.toDefaultLocalizedCommand({
     id: 'file-search.openFile',
     category: CommonCommands.FILE_CATEGORY,
-    label: 'Open File...'
+    label: '打开文件...'
 });
 export interface FilterAndRange {
     filter: string;
@@ -163,7 +163,7 @@ export class QuickFileOpenService implements QuickAccessProvider {
             })
             .catch(error => {
                 this.logger.warn(error);
-                this.messageService.error(nls.localizeByDefault("Unable to open '{0}'", uri.path.toString()));
+                this.messageService.error(nls.localizeByDefault("无法打开 '{0}'", uri.path.toString()));
             });
     }
 
@@ -172,10 +172,10 @@ export class QuickFileOpenService implements QuickAccessProvider {
     }
 
     private getPlaceHolder(): string {
-        let placeholder = nls.localizeByDefault('Search files by name (append {0} to go to line or {1} to go to symbol)', ':', '@');
+        let placeholder = nls.localizeByDefault('按名称搜索文件（追加 {0} 转到行，追加 {1} 转到符号）', ':', '@');
         const keybinding = this.getKeyCommand();
         if (keybinding) {
-            placeholder += nls.localize('theia/file-search/toggleExcludedFiles', ' (Press {0} to show/hide excluded files)', keybinding);
+            placeholder += nls.localize('theia/file-search/toggleExcludedFiles', '（按 {0} 显示/隐藏被排除的文件）', keybinding);
         }
         return placeholder;
     }

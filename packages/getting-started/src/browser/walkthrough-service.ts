@@ -585,7 +585,7 @@ export class WalkthroughService implements Disposable {
         } catch (error) {
             const reason = error instanceof Error ? error.message : String(error);
             this.logger.warn(`Could not open the walkthrough link '${url}'.`, error);
-            this.messageService.error(nls.localize('theia/getting-started/walkthroughLinkFailed', "Could not open '{0}': {1}", url, reason));
+            this.messageService.error(nls.localize('theia/getting-started/walkthroughLinkFailed', "无法打开 '{0}'：{1}", url, reason));
         }
     }
 

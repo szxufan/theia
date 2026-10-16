@@ -10,84 +10,84 @@
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/eslint-plugin` contributes rules useful for Eclipse Theia development.
-The plugin helps identify problems during development through static analysis including code quality, potential issues and code smells.
+`@theia/eslint-plugin` 贡献对 Eclipse Theia 开发有用的规则。
+该插件通过静态分析帮助在开发过程中发现问题，包括代码质量、潜在问题和代码异味。
 
-## Rules
+## 规则
 
 ### `annotation-check`
 
-Inversify >=6.1 requires to annotate all constructor parameters of injectable classes as otherwise runtime errors are thrown.
-The rule checks that all constructor parameters of injectable classes are annotated with `@inject`, `@unmanaged` or `@multiInject`.
+Inversify >=6.1 要求为可注入类的所有构造函数参数添加注解，否则会抛出运行时错误。
+该规则检查可注入类的所有构造函数参数是否都用 `@inject`、`@unmanaged` 或 `@multiInject` 进行了注解。
 
 ### `localization-check`
 
-The rule prevents the following localization related issues:
+该规则防止以下与本地化相关的问题：
 
-- incorrect usage of the `nls.localizeByDefault` function by using an incorrect default value.
-- unnecessary call to `nls.localize` which could be replaced by `nls.localizeByDefault`.
+- 使用错误的默认值调用 `nls.localizeByDefault` 函数。
+- 不必要地调用 `nls.localize`，而它本可以被 `nls.localizeByDefault` 替代。
 
 ### `named-logger-check`
 
-The rule enforces the [logging guidelines](https://github.com/eclipse-theia/theia/tree/master/doc/coding-guidelines.md#logging):
+该规则强制执行[日志指南](https://github.com/eclipse-theia/theia/tree/master/doc/coding-guidelines.md#logging)：
 
-- `@injectable()` classes must log through an injected `ILogger` instead of `console.log`, `console.info`, `console.warn`, `console.error`, `console.debug` or `console.trace`. Console methods without an `ILogger` counterpart, such as `console.time` or `console.group`, are allowed.
-- An injected `ILogger` must carry a `@named` decorator whose value follows `[optional-purpose]package-name:class-name#optional-suffix`. The package segment is checked against the `name` of the closest `package.json` without its npm scope, the class segment against the enclosing class. A `@named` value which is not a string literal is not checked.
+- `@injectable()` 类必须通过注入的 `ILogger` 记录日志，而不是 `console.log`、`console.info`、`console.warn`、`console.error`、`console.debug` 或 `console.trace`。没有 `ILogger` 对应方法的控制台方法（例如 `console.time` 或 `console.group`）是允许的。
+- 注入的 `ILogger` 必须带有 `@named` 装饰器，其值遵循 `[optional-purpose]package-name:class-name#optional-suffix` 格式。包片段会对照最近的 `package.json` 的 `name`（不含 npm 作用域）进行检查，类片段对照外围类进行检查。非字符串字面量的 `@named` 值不做检查。
 
-Code without an `ILogger` binding is exempted through ESLint itself rather than by the rule:
+没有 `ILogger` 绑定的代码通过 ESLint 本身而非规则本身豁免：
 
-- The `electron-main` runtime is turned off in the `overrides` of `configs/errors.eslintrc.json`, as the Electron main container binds no `ILogger`.
-- Individual files, such as the console logger and the log config parser, carry an inline `eslint-disable @theia/named-logger-check` with the reason.
+- `electron-main` 运行时在 `configs/errors.eslintrc.json` 的 `overrides` 中被关闭，因为 Electron 主容器不绑定 `ILogger`。
+- 个别文件（例如控制台日志记录器和日志配置解析器）带有内联的 `eslint-disable @theia/named-logger-check` 及原因说明。
 
 ### `no-src-import`
 
-The rule prevents imports using `/src/` rather than `/lib/` as it causes build failures.
-The rule helps developers more easily identify the cause of build errors caused by the incorrect import.
+该规则防止使用 `/src/` 而非 `/lib/` 进行导入，因为这会导致构建失败。
+该规则帮助开发者更容易地识别由错误导入导致的构建错误的原因。
 
 ### `preload-localization-check`
 
-The preload phase runs before the localization data has been loaded, so every string that the NLS API yields there is captured in English and stays untranslated for the rest of the session.
-The rule reports modules of that phase which read a localized string while they are being loaded, either directly or through the modules they import.
-"While they are being loaded" means the top level of the module, including namespace bodies, decorators and static fields, but not the body of a function, which only runs once it is called.
+preload 阶段在本地化数据被加载之前运行，因此 NLS API 在该阶段产出的每个字符串都会以英文捕获，并在会话的其余时间保持未翻译。
+该规则报告 preload 阶段中在加载期间（直接或通过其导入的模块）读取本地化字符串的模块。
+"加载期间"是指模块的顶层，包括命名空间体、装饰器和静态字段，但不包括函数体——函数体只在其被调用时才运行。
 
-The modules of the preload phase are the `preload`, `frontendPreload` and `frontendOnlyPreload` entry points declared in `theiaExtensions`, plus the modules the generated frontend `index.js` requires before it runs the `Preloader`.
-The latter are listed in [`util/preload-phase-modules.json`](./util/preload-phase-modules.json), the one place to add a module that the `FrontendGenerator` of `@theia/application-manager` starts requiring ahead of the `await preload(container)` which ends the phase.
-Rather than leaving that list to be kept in step by hand, `util/preload-phase-modules.spec.js` runs that generator for each target, takes the modules it really requires before that call, and fails when the two have drifted apart, naming the modules to add or to remove.
-The `additionalEntryPoints` option adds further entry points to both.
+preload 阶段的模块是 `theiaExtensions` 中声明的 `preload`、`frontendPreload` 和 `frontendOnlyPreload` 入口点，以及生成的前端 `index.js` 在运行 `Preloader` 之前所需（require）的模块。
+后者列在 [`util/preload-phase-modules.json`](./util/preload-phase-modules.json) 中，这是添加 `@theia/application-manager` 的 `FrontendGenerator` 会在结束该阶段的 `await preload(container)` 之前开始 require 的模块的唯一地方。
+与其让该列表靠人工保持同步，`util/preload-phase-modules.spec.js` 会为每个目标运行该生成器，获取它在该调用之前实际 require 的模块，并在两者出现偏差时失败，同时指出需要添加或移除的模块。
+`additionalEntryPoints` 选项为两者添加更多入口点。
 
-A problem is reported on the entry point, on the import that pulls in the offending module, because that is where it can be fixed: import the required symbols from the module that declares them rather than through a barrel such as `@theia/core/lib/common`.
-Only entry points are analyzed, so a load-time NLS call added deep in the import graph is reported when the entry point is linted, which a run with `--cache` skips until the entry point itself changes.
-CI lints without a cache and therefore always reports it; locally, `npx lerna run lint -- --no-cache` does the same, which is worth running before pushing a change to a module of the preload phase rather than once, as the gap reopens with every such change.
+问题会报告在入口点上，报告在引入违规模块的那个导入上，因为那正是可以修复它的地方：从声明所需符号的模块导入它们，而不是通过诸如 `@theia/core/lib/common` 之类的 barrel 文件。
+只分析入口点，因此在导入图深处添加的加载期 NLS 调用会在入口点被 lint 时报告，而带 `--cache` 的运行会跳过它，直到入口点本身发生变化。
+CI 在不带缓存的情况下进行 lint，因此始终会报告它；在本地，`npx lerna run lint -- --no-cache` 也可以做到，在向 preload 阶段的模块推送变更之前值得运行它——因为每次这样的变更都会重新引入偏差。
 
-Imports that the TypeScript compiler erases, namely type-only imports and named imports whose bindings are never used as a value, pull in nothing at runtime and are therefore not followed.
-A type that `emitDecoratorMetadata`, which the whole repository is compiled with, emits into the metadata of a decorated declaration counts as a value: the type of a decorated property, and the parameter and return types of a decorated member and of the constructor of a decorated class.
-A type of such a position that erases to `Object`, an interface for instance, is emitted as `Object` and its import is erased after all, which only the compiler can tell, so those imports are followed too.
+TypeScript 编译器会擦除的导入（即仅类型导入，以及其绑定从未被作为值使用的具名导入）在运行时不引入任何内容，因此不会被跟踪。
+由 `emitDecoratorMetadata`（整个仓库都用它编译）发射到被装饰声明元数据中的类型会被视为值：被装饰属性的类型，以及被装饰成员和被装饰类构造函数的参数类型和返回类型。
+此类位置上擦除为 `Object` 的类型（例如某个接口）会被作为 `Object` 发射，其导入最终还是会被擦除——只有编译器能判断这一点，因此这些导入也会被跟踪。
 
 #### `runtime-import-check`
 
-The rule prevents imports from folders meant for incompatible runtimes.
-The check enforces the [code organization guidelines](https://github.com/eclipse-theia/theia/wiki/Code-Organization) of the framework and guards against invalid imports which may cause unforeseen issues downstream.
+该规则防止从为不兼容运行时而设的文件夹导入。
+该检查强制执行框架的[代码组织指南](https://github.com/eclipse-theia/theia/wiki/Code-Organization)，防止可能在下游引起不可预见问题的无效导入。
 
 #### `shared-dependencies`
 
-The rule prevents the following:
+该规则防止以下情况：
 
-- prevents the implicit use of a shared dependency from `@theia/core`.
-- prevents extensions from depending on a shared dependency without re-using it from `@theia/core`.
+- 防止隐式使用 `@theia/core` 的共享依赖。
+- 防止扩展依赖某个共享依赖而不从 `@theia/core` 重用它。
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

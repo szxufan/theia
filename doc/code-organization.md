@@ -1,17 +1,17 @@
-# Code Organization
+# 代码组织
 
-The code is fully implemented in [TypeScript](https://github.com/microsoft/typescript). Within the top level folders, which organize code by functional package, we separate between the following platforms:
+代码全部以 [TypeScript](https://github.com/microsoft/typescript) 实现。在按功能包组织代码的顶层文件夹内，我们区分以下平台：
 
-- `common/*`: Source code that only requires basic JavaScript APIs and runs in all target environments.
-- `browser/*`: Source code that requires the `browser` APIs like access to the DOM.
-  - May use code from: `common`.
-- `browser-only/*`: Source code that requires the `browser` APIs like access to the DOM and does not rely on a Node backend.
-  - May use code from: `common`.
-- `node/*`: Source code that requires [`nodejs`](https://nodejs.org) APIs.
-  - May use code from: `common`.
-- `electron-node/*`: Electron specific source code that requires [`nodejs`](https://nodejs.org) APIs.
-  - May use code from: `common`, `node`.
-- `electron-browser/*`: Source code that requires the [Electron renderer process](https://github.com/atom/electron/tree/master/docs#modules-for-the-renderer-process-web-page) APIs.
-  - May use code from: `common`, `browser`.
-- `electron-main/*`: Source code that requires the [Electron main process](https://github.com/atom/electron/tree/master/docs#modules-for-the-main-process) APIs.
-  - May use code from: `electron-node`, `common`, `node`.
+- `common/*`：只依赖基础 JavaScript API、可在所有目标环境中运行的源代码。
+- `browser/*`：依赖 `browser` API（如访问 DOM）的源代码。
+  - 可使用来自：`common` 的代码。
+- `browser-only/*`：依赖 `browser` API（如访问 DOM）且不依赖 Node 后端的源代码。
+  - 可使用来自：`common` 的代码。
+- `node/*`：依赖 [`nodejs`](https://nodejs.org) API 的源代码。
+  - 可使用来自：`common` 的代码。
+- `electron-node/*`：依赖 [`nodejs`](https://nodejs.org) API 的 Electron 专属源代码。
+  - 可使用来自：`common`、`node` 的代码。
+- `electron-browser/*`：依赖 [Electron 渲染进程](https://github.com/atom/electron/tree/master/docs#modules-for-the-renderer-process-web-page) API 的源代码。
+  - 可使用来自：`common`、`browser` 的代码。
+- `electron-main/*`：依赖 [Electron 主进程](https://github.com/atom/electron/tree/master/docs#modules-for-the-main-process) API 的源代码。
+  - 可使用来自：`electron-node`、`common`、`node` 的代码。

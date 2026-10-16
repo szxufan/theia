@@ -4,43 +4,39 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - OPEN VSX REGISTRY EXTENSION</h2>
+<h2>ECLIPSE THEIA - OPEN VSX REGISTRY 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/vsx-registry` extension provides integration with the Open VSX Registry.
+`@theia/vsx-registry` 扩展提供与 Open VSX Registry 的集成。
 
-### Configuration
+### 配置
 
-The extension connects to the public Open VSX Registry hosted on `http://open-vsx.org/`.
-One can host own instance of a [registry](https://github.com/eclipse/openvsx#eclipse-open-vsx)
-and configure `VSX_REGISTRY_URL` environment variable to use it.
+该扩展默认连接到托管在 `http://open-vsx.org/` 上的公共 Open VSX Registry。
+你也可以托管自己的[注册表](https://github.com/eclipse/openvsx#eclipse-open-vsx)实例，并通过配置 `VSX_REGISTRY_URL` 环境变量来使用它。
 
-### Using multiple registries
+### 使用多个注册表
 
-It is possible to target multiple registries by specifying a CLI argument when
-running the backend: `--ovsx-router-config=<path>` where `path` must point to
-a json defining an `OVSXRouterConfig` object.
+可以通过在后端运行时指定 CLI 参数来面向多个注册表：`--ovsx-router-config=<path>`，其中 `path` 必须指向一个定义了 `OVSXRouterConfig` 对象的 json 文件。
 
-See `@theia/ovsx-client`'s documentation to read more about `OVSXRouterClient`
-and its `OVSXRouterConfig` configuration.
+欲了解 `OVSXRouterClient` 及其 `OVSXRouterConfig` 配置的更多信息，请参阅 `@theia/ovsx-client` 的文档。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/vsx-registry`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_vsx-registry.html)
+- [`@theia/vsx-registry` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_vsx-registry.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

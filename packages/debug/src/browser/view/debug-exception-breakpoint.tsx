@@ -50,7 +50,7 @@ export class DebugExceptionBreakpoint extends DebugBreakpoint<ExceptionBreakpoin
             <span className='line-info'>
                 <span className='name'>{this.origin.raw.label} </span>
                 {this.origin.condition &&
-                    <span title={nls.localizeByDefault('Expression condition: {0}', this.origin.condition)}
+                    <span title={nls.localizeByDefault('表达式条件: {0}', this.origin.condition)}
                         className={'path ' + TREE_NODE_INFO_CLASS}>{this.origin.condition} </span>}
             </span>
             {this.renderActions()}
@@ -60,7 +60,7 @@ export class DebugExceptionBreakpoint extends DebugBreakpoint<ExceptionBreakpoin
     protected renderActions(): React.ReactNode {
         if (this.origin.raw.supportsCondition) {
             return <div className='theia-debug-breakpoint-actions'>
-                <div className={codicon('edit', true)} title={nls.localizeByDefault('Edit Condition...')} onClick={this.onEdit} />
+                <div className={codicon('edit', true)} title={nls.localizeByDefault('编辑条件...')} onClick={this.onEdit} />
             </div>;
         }
         return undefined;

@@ -97,7 +97,7 @@ describe('MCPOAuthLoopbackCallbackServer', () => {
             const response = await httpGet(`${base}?state=${encodeURIComponent(state)}&code=authorization-code`);
 
             expect(response.status).to.equal(200);
-            expect(response.body).to.contain('All done. You can close this tab now.');
+            expect(response.body).to.contain('全部完成。你现在可以关闭此标签页了。');
             expect(response.headers['content-security-policy']).to.equal("default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'");
             expect(response.headers['cache-control']).to.equal('no-store');
             const callback = await pending;
@@ -110,7 +110,7 @@ describe('MCPOAuthLoopbackCallbackServer', () => {
             const response = await httpGet(`${base}?state=bogus-state&code=authorization-code`);
 
             expect(response.status).to.equal(400);
-            expect(response.body).to.contain('Unknown or expired OAuth state.');
+            expect(response.body).to.contain('未知或已过期的 OAuth state。');
         });
 
         it('returns 404 for a request that is not the OAuth callback path', async () => {

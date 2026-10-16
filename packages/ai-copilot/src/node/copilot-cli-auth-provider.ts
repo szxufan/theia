@@ -183,7 +183,7 @@ export class CopilotCliAuthProvider {
         const result = this.loginResult;
         const home = this.loginHome;
         if (!result || !home) {
-            throw new Error(nls.localize('theia/ai/copilot/noLoginInProgress', 'No Copilot CLI login is in progress. Please start the sign-in again.'));
+            throw new Error(nls.localize('theia/ai/copilot/noLoginInProgress', '没有正在进行中的 Copilot CLI 登录。请重新启动登录。'));
         }
         try {
             if (!await result.promise) {
@@ -208,8 +208,8 @@ export class CopilotCliAuthProvider {
         const token = await this.findStoredToken(home);
         if (!token) {
             throw new Error(nls.localize('theia/ai/copilot/tokenNotPersisted',
-                'The Copilot CLI reported a successful sign-in but did not persist a token where it was expected. '
-                + 'This can happen when the Copilot CLI changes how it stores credentials.'));
+                'Copilot CLI 报告登录成功，但未在预期位置持久化 Token。'
+                + '当 Copilot CLI 更改其凭据存储方式时可能会发生这种情况。'));
         }
         await this.credentialStore.set({
             token,

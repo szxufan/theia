@@ -31,7 +31,7 @@ export class CompactionPartRenderer implements ChatResponsePartRenderer<Compacti
     }
 
     render(response: CompactionChatResponseContent): ReactNode {
-        const label = nls.localize('theia/ai/chat-ui/compaction-part-renderer/compactionMarker', 'Conversation compacted');
+        const label = nls.localize('theia/ai/chat-ui/compaction-part-renderer/compactionMarker', '对话已压缩');
         if (response.summary) {
             return (
                 <div className='theia-ChatCompactionMarker'>

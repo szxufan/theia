@@ -49,7 +49,7 @@ const LEGACY_WIDGET_TO_CATEGORY_ID: Record<string, string> = {
 export class AIConfigurationContainerWidget extends BaseWidget implements NavigatableWidget {
 
     static readonly ID = 'ai-configuration';
-    static readonly LABEL = nls.localize('theia/ai/core/aiConfiguration/label', 'AI Configuration');
+    static readonly LABEL = nls.localize('theia/ai/core/aiConfiguration/label', 'AI 配置');
 
     /** Constant resource URI so the shell renders Theia breadcrumbs for this view. */
     getResourceUri(): URI | undefined {

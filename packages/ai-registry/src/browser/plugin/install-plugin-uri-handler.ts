@@ -59,7 +59,7 @@ export class InstallPluginUriHandler implements OpenHandler {
         if (!pluginId) {
             this.messageService.error(nls.localize(
                 'theia/ai-registry/plugin/installUri/missingId',
-                'Install link is missing the required "id" parameter.'
+                '安装链接缺少必需的 "id" 参数。'
             ));
             return undefined;
         }
@@ -69,7 +69,7 @@ export class InstallPluginUriHandler implements OpenHandler {
         } catch {
             this.messageService.error(nls.localize(
                 'theia/ai-registry/plugin/installUri/fetchFailed',
-                'Could not load the AI registry to install Agent Plugin "{0}".',
+                '无法加载 AI 注册表以安装代理插件“{0}”。',
                 pluginId
             ));
             return undefined;
@@ -78,7 +78,7 @@ export class InstallPluginUriHandler implements OpenHandler {
         if (!entry) {
             this.messageService.error(nls.localize(
                 'theia/ai-registry/plugin/installUri/unknownId',
-                'Agent Plugin "{0}" is not listed in your AI registry.',
+                '代理插件“{0}”未列在你的 AI 注册表中。',
                 pluginId
             ));
             return undefined;
@@ -87,7 +87,7 @@ export class InstallPluginUriHandler implements OpenHandler {
             if (await this.installer.install(entry, { replaceExisting: false, confirm: true })) {
                 this.messageService.info(nls.localize(
                     'theia/ai-registry/plugin/installUri/success',
-                    'Installed Agent Plugin "{0}" from the AI registry.',
+                    '已从 AI 注册表安装代理插件“{0}”。',
                     entry.name
                 ));
             }

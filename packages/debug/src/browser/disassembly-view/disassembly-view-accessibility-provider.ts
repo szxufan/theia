@@ -23,7 +23,7 @@ import { DisassembledInstructionEntry } from './disassembly-view-utilities';
 export class AccessibilityProvider implements IListAccessibilityProvider<DisassembledInstructionEntry> {
 
     getWidgetAriaLabel(): string {
-        return nls.localizeByDefault('Disassembly View');
+        return nls.localizeByDefault('反汇编视图');
     }
 
     getAriaLabel(element: DisassembledInstructionEntry): string | null {
@@ -31,12 +31,12 @@ export class AccessibilityProvider implements IListAccessibilityProvider<Disasse
 
         const instruction = element.instruction;
         if (instruction.address !== '-1') {
-            label += `${nls.localizeByDefault('Address')}: ${instruction.address}`;
+            label += `${nls.localizeByDefault('地址')}: ${instruction.address}`;
         }
         if (instruction.instructionBytes) {
-            label += `, ${nls.localizeByDefault('Bytes')}: ${instruction.instructionBytes}`;
+            label += `, ${nls.localizeByDefault('字节')}: ${instruction.instructionBytes}`;
         }
-        label += `, ${nls.localizeByDefault('Instruction')}: ${instruction.instruction}`;
+        label += `, ${nls.localizeByDefault('指令')}: ${instruction.instruction}`;
 
         return label;
     }

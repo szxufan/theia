@@ -96,7 +96,7 @@ export class FileChatVariableContribution implements FrontendVariableContributio
 
     protected async imageArgumentPicker(): Promise<string | undefined> {
         const quickPick = this.quickInputService.createQuickPick();
-        quickPick.placeholder = nls.localize('theia/ai/chat/imagePickerPlaceholder', 'Select an image file or search by name');
+        quickPick.placeholder = nls.localize('theia/ai/chat/imagePickerPlaceholder', '选择图片文件或按名称搜索');
 
         // Build initial items with recently opened images and clipboard option
         quickPick.items = await this.buildImagePickerItems('');
@@ -153,7 +153,7 @@ export class FileChatVariableContribution implements FrontendVariableContributio
         // Add recently opened images
         const recentImages = this.getRecentlyOpenedImagePicks(filter, collectedUris);
         if (recentImages.length > 0) {
-            result.push({ type: 'separator', label: nls.localizeByDefault('recently opened') });
+            result.push({ type: 'separator', label: nls.localizeByDefault('最近打开') });
             result.push(...recentImages);
         }
 
@@ -161,18 +161,18 @@ export class FileChatVariableContribution implements FrontendVariableContributio
         if (filter) {
             const searchResults = await this.getImageSearchResults(filter, collectedUris);
             if (searchResults.length > 0) {
-                result.push({ type: 'separator', label: nls.localizeByDefault('file results') });
+                result.push({ type: 'separator', label: nls.localizeByDefault('文件结果') });
                 result.push(...searchResults);
             }
         }
 
         // Add clipboard option
         result.push(
-            { type: 'separator', label: nls.localize('theia/ai/chat/clipboardSeparator', 'clipboard') },
+            { type: 'separator', label: nls.localize('theia/ai/chat/clipboardSeparator', '剪贴板') },
             {
-                label: nls.localize('theia/ai/chat/fromClipboard', 'From Clipboard'),
+                label: nls.localize('theia/ai/chat/fromClipboard', '从剪贴板'),
                 iconClasses: codiconArray('clippy'),
-                description: nls.localize('theia/ai/chat/fromClipboardDescription', 'Paste image from clipboard'),
+                description: nls.localize('theia/ai/chat/fromClipboardDescription', '从剪贴板粘贴图片'),
                 alwaysShow: true,
                 isClipboardOption: true
             } as ClipboardQuickPickItem

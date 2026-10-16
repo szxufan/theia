@@ -53,7 +53,7 @@ export class GettingStartedWidget extends ReactWidget {
     /**
      * The widget `label` which is used for display purposes.
      */
-    static readonly LABEL = nls.localizeByDefault('Welcome');
+    static readonly LABEL = nls.localizeByDefault('欢迎');
 
     /**
      * The `ApplicationInfo` for the application if available.
@@ -159,7 +159,7 @@ export class GettingStartedWidget extends ReactWidget {
     protected updateTitle(): void {
         const walkthrough = this.walkthroughService.selectedWalkthrough;
         const label = walkthrough
-            ? nls.localizeByDefault('Walkthrough: {0}', walkthrough.title)
+            ? nls.localizeByDefault('向导：{0}', walkthrough.title)
             : GettingStartedWidget.LABEL;
         this.title.label = label;
         this.title.caption = label;
@@ -263,7 +263,7 @@ export class GettingStartedWidget extends ReactWidget {
                 tabIndex={0}
                 onClick={this.doCreateFile}
                 onKeyDown={this.doCreateFileEnter}>
-                {nls.localizeByDefault('New File...')}
+                {nls.localizeByDefault('新建文件...')}
             </a>
         </div>;
 
@@ -273,7 +273,7 @@ export class GettingStartedWidget extends ReactWidget {
                 tabIndex={0}
                 onClick={this.doOpen}
                 onKeyDown={this.doOpenEnter}>
-                {nls.localizeByDefault('Open')}
+                {nls.localizeByDefault('打开')}
             </a>
         </div>;
 
@@ -283,7 +283,7 @@ export class GettingStartedWidget extends ReactWidget {
                 tabIndex={0}
                 onClick={this.doOpenFile}
                 onKeyDown={this.doOpenFileEnter}>
-                {nls.localizeByDefault('Open File')}
+                {nls.localizeByDefault('打开文件')}
             </a>
         </div>;
 
@@ -293,7 +293,7 @@ export class GettingStartedWidget extends ReactWidget {
                 tabIndex={0}
                 onClick={this.doOpenFolder}
                 onKeyDown={this.doOpenFolderEnter}>
-                {nls.localizeByDefault('Open Folder')}
+                {nls.localizeByDefault('打开文件夹')}
             </a>
         </div>;
 
@@ -303,12 +303,12 @@ export class GettingStartedWidget extends ReactWidget {
                 tabIndex={0}
                 onClick={this.doOpenWorkspace}
                 onKeyDown={this.doOpenWorkspaceEnter}>
-                {nls.localizeByDefault('Open Workspace')}
+                {nls.localizeByDefault('打开工作区')}
             </a>
         );
 
         return <div className='gs-section'>
-            <h3 className='gs-section-header'><i className={codicon('folder-opened')}></i>{nls.localizeByDefault('Start')}</h3>
+            <h3 className='gs-section-header'><i className={codicon('folder-opened')}></i>{nls.localizeByDefault('开始')}</h3>
             {createFile}
             {open}
             {openFile}
@@ -344,23 +344,23 @@ export class GettingStartedWidget extends ReactWidget {
                 tabIndex={0}
                 onClick={this.doOpenRecentWorkspace}
                 onKeyDown={this.doOpenRecentWorkspaceEnter}>
-                {nls.localizeByDefault('More...')}
+                {nls.localizeByDefault('更多...')}
             </a>
         </div>;
         return <div className='gs-section'>
             <h3 className='gs-section-header'>
-                <i className={codicon('history')}></i>{nls.localizeByDefault('Recent')}
+                <i className={codicon('history')}></i>{nls.localizeByDefault('最近')}
             </h3>
             {items.length > 0 ? content : <p className='gs-no-recent'>
-                {nls.localizeByDefault('You have no recent folders,') + ' '}
+                {nls.localizeByDefault('您没有最近使用的文件夹，') + ' '}
                 <a
                     role={'button'}
                     tabIndex={0}
                     onClick={this.doOpenFolder}
                     onKeyDown={this.doOpenFolderEnter}>
-                    {nls.localizeByDefault('open a folder')}
+                    {nls.localizeByDefault('打开文件夹')}
                 </a>
-                {' ' + nls.localizeByDefault('to start.')}
+                {' ' + nls.localizeByDefault('即可开始。')}
             </p>}
             {more}
         </div>;
@@ -374,7 +374,7 @@ export class GettingStartedWidget extends ReactWidget {
         return <div className='gs-section'>
             <h3 className='gs-section-header'>
                 <i className={codicon('settings-gear')}></i>
-                {nls.localizeByDefault('Settings')}
+                {nls.localizeByDefault('设置')}
             </h3>
             <div className='gs-action-container'>
                 <a
@@ -382,7 +382,7 @@ export class GettingStartedWidget extends ReactWidget {
                     tabIndex={0}
                     onClick={this.doOpenPreferences}
                     onKeyDown={this.doOpenPreferencesEnter}>
-                    {nls.localizeByDefault('Open Settings')}
+                    {nls.localizeByDefault('打开设置')}
                 </a>
             </div>
             {/* The AI preferences are managed in their own view, so it belongs next to the settings link.
@@ -394,7 +394,7 @@ export class GettingStartedWidget extends ReactWidget {
                         tabIndex={0}
                         onClick={this.doOpenAiConfiguration}
                         onKeyDown={this.doOpenAiConfigurationEnter}>
-                        {nls.localize('theia/getting-started/openAiConfiguration', 'Open the AI Configuration')}
+                        {nls.localize('theia/getting-started/openAiConfiguration', '打开 AI 配置')}
                     </a>
                 </div>
             }
@@ -404,7 +404,7 @@ export class GettingStartedWidget extends ReactWidget {
                     tabIndex={0}
                     onClick={this.doOpenKeyboardShortcuts}
                     onKeyDown={this.doOpenKeyboardShortcutsEnter}>
-                    {nls.localizeByDefault('Open Keyboard Shortcuts')}
+                    {nls.localizeByDefault('打开键盘快捷键')}
                 </a>
             </div>
         </div>;
@@ -427,7 +427,7 @@ export class GettingStartedWidget extends ReactWidget {
         return <div className='gs-section'>
             <h3 className='gs-section-header'>
                 <i className={codicon('question')}></i>
-                {nls.localizeByDefault('Help')}
+                {nls.localizeByDefault('帮助')}
             </h3>
             <div className='gs-action-container'>
                 <a
@@ -435,7 +435,7 @@ export class GettingStartedWidget extends ReactWidget {
                     tabIndex={0}
                     onClick={() => this.doOpenExternalLink(this.documentationUrl)}
                     onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, this.documentationUrl)}>
-                    {nls.localizeByDefault('Documentation')}
+                    {nls.localizeByDefault('文档')}
                 </a>
             </div>
             <div className='gs-action-container'>
@@ -444,7 +444,7 @@ export class GettingStartedWidget extends ReactWidget {
                     tabIndex={0}
                     onClick={() => this.doOpenExternalLink(this.compatibilityUrl)}
                     onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, this.compatibilityUrl)}>
-                    {nls.localize('theia/getting-started/apiComparator', '{0} API Compatibility', 'VS Code')}
+                    {nls.localize('theia/getting-started/apiComparator', '{0} API 兼容性', 'VS Code')}
                 </a>
             </div>
             <div className='gs-action-container'>
@@ -453,7 +453,7 @@ export class GettingStartedWidget extends ReactWidget {
                     tabIndex={0}
                     onClick={() => this.doOpenExternalLink(this.extensionUrl)}
                     onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, this.extensionUrl)}>
-                    {nls.localize('theia/getting-started/newExtension', 'Building a New Extension')}
+                    {nls.localize('theia/getting-started/newExtension', '构建新扩展')}
                 </a>
             </div>
             <div className='gs-action-container'>
@@ -462,7 +462,7 @@ export class GettingStartedWidget extends ReactWidget {
                     tabIndex={0}
                     onClick={() => this.doOpenExternalLink(this.pluginUrl)}
                     onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, this.pluginUrl)}>
-                    {nls.localize('theia/getting-started/newPlugin', 'Building a New Plugin')}
+                    {nls.localize('theia/getting-started/newPlugin', '构建新插件')}
                 </a>
             </div>
             <div className='gs-action-container'>
@@ -471,7 +471,7 @@ export class GettingStartedWidget extends ReactWidget {
                     tabIndex={0}
                     onClick={() => this.doOpenExternalLink(this.dataUsageTelemetryUrl)}
                     onKeyDown={(e: React.KeyboardEvent) => this.doOpenExternalLinkEnter(e, this.dataUsageTelemetryUrl)}>
-                    {nls.localize('theia/getting-started/telemetry', 'Data Usage & Telemetry')}
+                    {nls.localize('theia/getting-started/telemetry', '数据使用情况与遥测')}
                 </a>
             </div>
         </div>;
@@ -484,7 +484,7 @@ export class GettingStartedWidget extends ReactWidget {
         return <div className='gs-section'>
             <div className='gs-action-container'>
                 <p className='gs-sub-header' >
-                    {this.applicationInfo ? nls.localizeByDefault('Version: {0}', this.applicationInfo.version) : ''}
+                    {this.applicationInfo ? nls.localizeByDefault('版本：{0}', this.applicationInfo.version) : ''}
                 </p>
             </div>
         </div>;
@@ -663,7 +663,7 @@ function WelcomePreferences(props: PreferencesProps): React.JSX.Element {
                 checked={startupEditor === 'welcomePage' || startupEditor === 'welcomePageInEmptyWorkbench'}
             />
             <label htmlFor="startupEditor">
-                {nls.localizeByDefault('Show welcome page on startup')}
+                {nls.localizeByDefault('启动时显示欢迎页')}
             </label>
         </div>
     );

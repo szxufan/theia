@@ -31,15 +31,15 @@ import { NavigatorContextMenu, SHELL_TABBAR_CONTEXT_REVEAL } from '../browser/na
 export const OPEN_CONTAINING_FOLDER = Command.toDefaultLocalizedCommand({
     id: 'revealFileInOS',
     category: CommonCommands.FILE_CATEGORY,
-    label: isWindows ? 'Reveal in File Explorer' :
-        isOSX ? 'Reveal in Finder' :
-        /* linux */ 'Open Containing Folder'
+    label: isWindows ? '在文件资源管理器中显示' :
+        isOSX ? '在 Finder 中显示' :
+        /* linux */ '打开所在文件夹'
 });
 
 export const OPEN_WITH_SYSTEM_APP = Command.toLocalizedCommand({
     id: 'openWithSystemApp',
     category: CommonCommands.FILE_CATEGORY,
-    label: 'Open With System Editor'
+    label: '使用系统编辑器打开'
 }, 'theia/navigator/openWithSystemEditor');
 
 @injectable()
@@ -72,8 +72,8 @@ export class ElectronNavigatorMenuContribution implements MenuContribution, Comm
         }));
         this.openWithService.registerHandler({
             id: 'system-editor',
-            label: nls.localize('theia/navigator/systemEditor', 'System Editor'),
-            providerName: nls.localizeByDefault('Built-in'),
+            label: nls.localize('theia/navigator/systemEditor', '系统编辑器'),
+            providerName: nls.localizeByDefault('内置'),
             // Low priority to avoid conflicts with other open handlers.
             canHandle: uri => (uri.scheme === 'file') ? 10 : 0,
             open: uri => {

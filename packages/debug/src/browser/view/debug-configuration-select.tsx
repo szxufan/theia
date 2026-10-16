@@ -167,8 +167,8 @@ export class DebugConfigurationSelect extends React.Component<DebugConfiguration
 
         if (picks.length === 0) {
             this.quickInputService.showQuickPick(
-                [{ label: nls.localizeByDefault('No Configurations') }],
-                { placeholder: nls.localizeByDefault('Select Launch Configuration') }
+                [{ label: nls.localizeByDefault('无配置') }],
+                { placeholder: nls.localizeByDefault('选择启动配置') }
             );
             return;
         }
@@ -176,7 +176,7 @@ export class DebugConfigurationSelect extends React.Component<DebugConfiguration
         const selected: DynamicPickItem | undefined = await this.quickInputService.showQuickPick(
             picks,
             {
-                placeholder: nls.localizeByDefault('Select Launch Configuration')
+                placeholder: nls.localizeByDefault('选择启动配置')
             }
         );
 
@@ -243,7 +243,7 @@ export class DebugConfigurationSelect extends React.Component<DebugConfiguration
             const value = DebugConfigurationSelect.NO_CONFIGURATION;
             options.push({
                 value,
-                label: nls.localizeByDefault('No Configurations')
+                label: nls.localizeByDefault('无配置')
             });
         }
 
@@ -267,7 +267,7 @@ export class DebugConfigurationSelect extends React.Component<DebugConfiguration
         });
         options.push({
             value: DebugConfigurationSelect.ADD_CONFIGURATION,
-            label: nls.localizeByDefault('Add Configuration...')
+            label: nls.localizeByDefault('添加配置...')
         });
 
         return options;

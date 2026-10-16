@@ -73,13 +73,13 @@ export class NotificationsContribution implements FrontendApplicationContributio
     }
     protected getStatusBarItemTooltip(count: number): string {
         if (this.manager.centerVisible) {
-            return nls.localizeByDefault('Hide Notifications');
+            return nls.localizeByDefault('隐藏通知');
         }
         return count === 0
-            ? nls.localizeByDefault('No Notifications')
+            ? nls.localizeByDefault('无通知')
             : count === 1
-                ? nls.localizeByDefault('1 New Notification')
-                : nls.localizeByDefault('{0} New Notifications', count.toString());
+                ? nls.localizeByDefault('1 条新通知')
+                : nls.localizeByDefault('{0} 条新通知', count.toString());
     }
 
     registerCommands(commands: CommandRegistry): void {
@@ -140,13 +140,13 @@ export class NotificationsContribution implements FrontendApplicationContributio
                 id: 'notificationCenter.border', defaults: {
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'Notifications center border color. Notifications slide in from the bottom right of the window.'
+                }, description: '通知中心边框颜色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notificationToast.border', defaults: {
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'Notification toast border color. Notifications slide in from the bottom right of the window.'
+                }, description: '通知弹出框边框颜色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notifications.foreground', defaults: {
@@ -154,7 +154,7 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     light: 'editorWidget.foreground',
                     hcDark: 'editorWidget.foreground',
                     hcLight: 'editorWidget.foreground'
-                }, description: 'Notifications foreground color. Notifications slide in from the bottom right of the window.'
+                }, description: '通知前景色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notifications.background', defaults: {
@@ -162,7 +162,7 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     light: 'editorWidget.background',
                     hcDark: 'editorWidget.background',
                     hcLight: 'editorWidget.background'
-                }, description: 'Notifications background color. Notifications slide in from the bottom right of the window.'
+                }, description: '通知背景色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notificationLink.foreground', defaults: {
@@ -170,11 +170,11 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     light: 'textLink.foreground',
                     hcDark: 'textLink.foreground',
                     hcLight: 'textLink.foreground'
-                }, description: 'Notification links foreground color. Notifications slide in from the bottom right of the window.'
+                }, description: '通知链接前景色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notificationCenterHeader.foreground',
-                description: 'Notifications center header foreground color. Notifications slide in from the bottom right of the window.'
+                description: '通知中心标题前景色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notificationCenterHeader.background', defaults: {
@@ -182,7 +182,7 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     light: Color.darken('notifications.background', 0.05),
                     hcDark: 'notifications.background',
                     hcLight: 'notifications.background'
-                }, description: 'Notifications center header background color. Notifications slide in from the bottom right of the window.'
+                }, description: '通知中心标题背景色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notifications.border', defaults: {
@@ -191,7 +191,7 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     hcDark: 'notificationCenterHeader.background',
                     hcLight: 'notificationCenterHeader.background'
                     // eslint-disable-next-line max-len
-                }, description: 'Notifications border color separating from other notifications in the notifications center. Notifications slide in from the bottom right of the window.'
+                }, description: '通知中心中分隔各通知的边框颜色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notificationsErrorIcon.foreground', defaults: {
@@ -199,7 +199,7 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     light: 'editorError.foreground',
                     hcDark: 'editorError.foreground',
                     hcLight: 'editorError.foreground'
-                }, description: 'The color used for the icon of error notifications. Notifications slide in from the bottom right of the window.'
+                }, description: '错误通知图标使用的颜色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notificationsWarningIcon.foreground', defaults: {
@@ -207,7 +207,7 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     light: 'editorWarning.foreground',
                     hcDark: 'editorWarning.foreground',
                     hcLight: 'editorWarning.foreground'
-                }, description: 'The color used for the icon of warning notifications. Notifications slide in from the bottom right of the window.'
+                }, description: '警告通知图标使用的颜色。通知从窗口右下角滑入。'
             },
             {
                 id: 'notificationsInfoIcon.foreground', defaults: {
@@ -215,7 +215,7 @@ export class NotificationsContribution implements FrontendApplicationContributio
                     light: 'editorInfo.foreground',
                     hcDark: 'editorInfo.foreground',
                     hcLight: 'editorInfo.foreground'
-                }, description: 'The color used for the icon of info notifications. Notifications slide in from the bottom right of the window.'
+                }, description: '信息通知图标使用的颜色。通知从窗口右下角滑入。'
             }
         );
     }

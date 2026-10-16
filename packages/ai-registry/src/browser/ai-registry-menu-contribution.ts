@@ -44,17 +44,17 @@ interface AutoUpdateModeItem {
 function modeItem(mode: AutoUpdateMode, order: string, command: Command, defaultCommand: Command, label: string): AutoUpdateModeItem {
     return {
         mode, order, command, label, defaultCommand,
-        defaultLabel: nls.localizeByDefault('{0} (Default)', label)
+        defaultLabel: nls.localizeByDefault('{0}（默认）', label)
     };
 }
 
 const AUTO_UPDATE_MODE_ITEMS: readonly AutoUpdateModeItem[] = [
     modeItem('off', '0', AIRegistryCommands.AUTO_UPDATE_OFF, AIRegistryCommands.AUTO_UPDATE_OFF_DEFAULT,
-        nls.localizeByDefault('Off')),
+        nls.localizeByDefault('关闭')),
     modeItem('ask', '1', AIRegistryCommands.AUTO_UPDATE_ASK, AIRegistryCommands.AUTO_UPDATE_ASK_DEFAULT,
-        nls.localizeByDefault('Ask')),
+        nls.localizeByDefault('询问')),
     modeItem('on', '2', AIRegistryCommands.AUTO_UPDATE_ON, AIRegistryCommands.AUTO_UPDATE_ON_DEFAULT,
-        nls.localizeByDefault('On'))
+        nls.localizeByDefault('开启'))
 ];
 
 /**
@@ -92,7 +92,7 @@ export class AIRegistryMenuContribution implements CommandContribution, MenuCont
     registerMenus(menus: MenuModelRegistry): void {
         menus.registerSubmenu(
             AIRegistryEntryContextMenu.AUTO_UPDATE_SUBMENU,
-            nls.localizeByDefault('Auto Update')
+            nls.localizeByDefault('自动更新')
         );
         for (const item of AUTO_UPDATE_MODE_ITEMS) {
             menus.registerMenuAction(AIRegistryEntryContextMenu.AUTO_UPDATE_SUBMENU, {
@@ -108,7 +108,7 @@ export class AIRegistryMenuContribution implements CommandContribution, MenuCont
         }
         menus.registerMenuAction(AIRegistryEntryContextMenu.COPY, {
             commandId: AIRegistryCommands.COPY_ID.id,
-            label: nls.localize('theia/ai-registry/action/copyId', 'Copy ID'),
+            label: nls.localize('theia/ai-registry/action/copyId', '复制 ID'),
             order: '0'
         });
     }

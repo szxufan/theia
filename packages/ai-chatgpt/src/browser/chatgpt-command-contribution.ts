@@ -23,13 +23,13 @@ import { CHATGPT_ENABLED_PREF, ChatGptAuthService, ChatGptAuthState } from '../c
 
 export namespace ChatGptCommands {
     export const SIGN_IN: Command = Command.toLocalizedCommand(
-        { id: 'chatgpt.signIn', label: 'Sign in', category: 'ChatGPT' },
+        { id: 'chatgpt.signIn', label: '登录', category: 'ChatGPT' },
         'theia/ai/chatgpt/commands/signIn',
         'theia/ai/chatgpt/category'
     );
 
     export const SIGN_OUT: Command = Command.toLocalizedCommand(
-        { id: 'chatgpt.signOut', label: 'Sign out', category: 'ChatGPT' },
+        { id: 'chatgpt.signOut', label: '登出', category: 'ChatGPT' },
         'theia/ai/chatgpt/commands/signOut',
         'theia/ai/chatgpt/category'
     );
@@ -110,21 +110,21 @@ export class ChatGptCommandContribution implements CommandContribution, Disposab
             const success = session.callbackListening ? await this.awaitAuthorization() : await this.requestAuthorizationCode();
             if (success && await this.refreshAuthState() && this.authState.isAuthenticated) {
                 this.messageService.info(this.authState.accountLabel
-                    ? nls.localize('theia/ai/chatgpt/signedInAs', 'Signed in to ChatGPT as {0}.', this.authState.accountLabel)
-                    : nls.localize('theia/ai/chatgpt/signedIn', 'Signed in to ChatGPT.'));
+                    ? nls.localize('theia/ai/chatgpt/signedInAs', '已登录 ChatGPT，账户为 {0}。', this.authState.accountLabel)
+                    : nls.localize('theia/ai/chatgpt/signedIn', '已登录 ChatGPT。'));
             }
         } catch (error) {
             await this.authService.cancelLogin();
-            this.messageService.error(nls.localize('theia/ai/chatgpt/signInFailed', 'The ChatGPT sign in failed: {0}',
+            this.messageService.error(nls.localize('theia/ai/chatgpt/signInFailed', 'ChatGPT 登录失败：{0}',
                 error instanceof Error ? error.message : String(error)));
         }
     }
 
     /** Waits for the browser to complete the sign in while offering to enter the authorization code manually. */
     protected async awaitAuthorization(): Promise<boolean> {
-        const enterCode = nls.localize('theia/ai/chatgpt/enterCode', 'Enter code manually');
+        const enterCode = nls.localize('theia/ai/chatgpt/enterCode', '手动输入代码');
         const chosenAction = this.messageService.info(
-            nls.localize('theia/ai/chatgpt/waiting', 'Complete the ChatGPT sign in in your browser.'), enterCode);
+            nls.localize('theia/ai/chatgpt/waiting', '请在您的浏览器中完成 ChatGPT 登录。'), enterCode);
         const outcome = await Promise.race([
             this.authService.waitForLogin().then(success => ({ success })),
             chosenAction.then(action => ({ action }))
@@ -140,7 +140,7 @@ export class ChatGptCommandContribution implements CommandContribution, Disposab
 
     protected async requestAuthorizationCode(): Promise<boolean> {
         const input = await this.quickInputService.input({
-            prompt: nls.localize('theia/ai/chatgpt/codePrompt', 'Paste the authorization code or the full redirect URL from your browser'),
+            prompt: nls.localize('theia/ai/chatgpt/codePrompt', '粘贴浏览器中的授权代码或完整的重定向 URL'),
             ignoreFocusLost: true
         });
         if (input === undefined) {
@@ -152,8 +152,8 @@ export class ChatGptCommandContribution implements CommandContribution, Disposab
 
     protected async signOut(): Promise<void> {
         const confirmed = await new ConfirmDialog({
-            title: nls.localize('theia/ai/chatgpt/signOutTitle', 'Sign out of ChatGPT'),
-            msg: nls.localize('theia/ai/chatgpt/signOutConfirm', 'Are you sure you want to sign out of ChatGPT?'),
+            title: nls.localize('theia/ai/chatgpt/signOutTitle', '登出 ChatGPT'),
+            msg: nls.localize('theia/ai/chatgpt/signOutConfirm', '您确定要登出 ChatGPT 吗？'),
             ok: Dialog.YES,
             cancel: Dialog.NO
         }).open();

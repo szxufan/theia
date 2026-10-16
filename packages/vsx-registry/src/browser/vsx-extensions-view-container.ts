@@ -28,7 +28,7 @@ import { nls } from '@theia/core/lib/common/nls';
 export class VSXExtensionsViewContainer extends ViewContainer {
 
     static ID = 'vsx-extensions-view-container';
-    static LABEL = nls.localizeByDefault('Extensions');
+    static LABEL = nls.localizeByDefault('扩展');
 
     override disableDNDBetweenContainers = true;
 
@@ -188,7 +188,7 @@ export class VSXExtensionsViewContainer extends ViewContainer {
     }
 
     protected override getToggleVisibilityGroupLabel(): string {
-        return nls.localizeByDefault('Views');
+        return nls.localizeByDefault('视图');
     }
 }
 export namespace VSXExtensionsViewContainer {

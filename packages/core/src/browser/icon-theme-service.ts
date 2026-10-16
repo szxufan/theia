@@ -198,7 +198,8 @@ export class IconThemeService {
         }
     }
 
-    protected updateIconThemePreference = debounce(() => this.doUpdateIconThemePreference(), 500);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateIconThemePreference: any = debounce(() => this.doUpdateIconThemePreference(), 500);
 
     protected doUpdateIconThemePreference(): void {
         const preference = this.schemaProvider.getSchemaProperty(ICON_THEME_PREFERENCE_KEY);

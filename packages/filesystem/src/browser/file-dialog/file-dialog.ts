@@ -171,19 +171,19 @@ export abstract class FileDialog<T> extends AbstractDialog<T> {
 
         navigationPanel.appendChild(this.back = createIconButton(...codiconArray('chevron-left', true)));
         this.back.classList.add(NAVIGATION_BACK_CLASS);
-        this.back.title = nls.localize('theia/filesystem/dialog/navigateBack', 'Navigate Back');
+        this.back.title = nls.localize('theia/filesystem/dialog/navigateBack', '后退');
 
         navigationPanel.appendChild(this.forward = createIconButton(...codiconArray('chevron-right', true)));
         this.forward.classList.add(NAVIGATION_FORWARD_CLASS);
-        this.forward.title = nls.localize('theia/filesystem/dialog/navigateForward', 'Navigate Forward');
+        this.forward.title = nls.localize('theia/filesystem/dialog/navigateForward', '前进');
 
         navigationPanel.appendChild(this.home = createIconButton(...codiconArray('home', true)));
         this.home.classList.add(NAVIGATION_HOME_CLASS);
-        this.home.title = nls.localize('theia/filesystem/dialog/initialLocation', 'Go To Initial Location');
+        this.home.title = nls.localize('theia/filesystem/dialog/initialLocation', '转到初始位置');
 
         navigationPanel.appendChild(this.up = createIconButton(...codiconArray('arrow-up', true)));
         this.up.classList.add(NAVIGATION_UP_CLASS);
-        this.up.title = nls.localize('theia/filesystem/dialog/navigateUp', 'Navigate Up One Directory');
+        this.up.title = nls.localize('theia/filesystem/dialog/navigateUp', '上移一级目录');
 
         const locationListRendererHost = document.createElement('div');
         this.locationListRenderer = this.locationListFactory({ model: this.model, host: locationListRendererHost });
@@ -262,7 +262,7 @@ export abstract class FileDialog<T> extends AbstractDialog<T> {
             this.contentNode.appendChild(filtersPanel);
 
             const titlePanel = document.createElement('div');
-            titlePanel.innerHTML = DOMPurify.sanitize(nls.localize('theia/filesystem/format', 'Format:'));
+            titlePanel.innerHTML = DOMPurify.sanitize(nls.localize('theia/filesystem/format', '格式：'));
             titlePanel.classList.add(FILTERS_LABEL_CLASS);
             filtersPanel.appendChild(titlePanel);
 
@@ -283,7 +283,7 @@ export abstract class FileDialog<T> extends AbstractDialog<T> {
 
         this.appendFiltersPanel();
 
-        this.appendCloseButton(nls.localizeByDefault('Cancel'));
+        this.appendCloseButton(nls.localizeByDefault('取消'));
         this.appendAcceptButton(this.getAcceptButtonLabel());
 
         this.addKeyListener(this.back, Key.ENTER, () => {
@@ -341,12 +341,12 @@ export class OpenFileDialog extends FileDialog<MaybeArray<FileStatNode>> {
     }
 
     protected getAcceptButtonLabel(): string {
-        return this.props.openLabel ? this.props.openLabel : nls.localizeByDefault('Open');
+        return this.props.openLabel ? this.props.openLabel : nls.localizeByDefault('打开');
     }
 
     protected override isValid(value: MaybeArray<FileStatNode>): string {
         if (value && !this.props.canSelectMany && value instanceof Array) {
-            return nls.localize('theia/filesystem/dialog/multipleItemMessage', 'You can select only one item');
+            return nls.localize('theia/filesystem/dialog/multipleItemMessage', '只能选择一项');
         }
         return '';
     }
@@ -391,7 +391,7 @@ export class SaveFileDialog extends FileDialog<URI | undefined> {
     }
 
     protected getAcceptButtonLabel(): string {
-        return this.props.saveLabel ? this.props.saveLabel : nls.localizeByDefault('Save');
+        return this.props.saveLabel ? this.props.saveLabel : nls.localizeByDefault('保存');
     }
 
     protected override onUpdateRequest(msg: Message): void {
@@ -440,7 +440,7 @@ export class SaveFileDialog extends FileDialog<URI | undefined> {
         this.contentNode.appendChild(fileNamePanel);
 
         const titlePanel = document.createElement('div');
-        titlePanel.innerHTML = DOMPurify.sanitize(nls.localizeByDefault('Name:'));
+        titlePanel.innerHTML = DOMPurify.sanitize(nls.localizeByDefault('名称:'));
         titlePanel.classList.add(FILENAME_LABEL_CLASS);
         fileNamePanel.appendChild(titlePanel);
 

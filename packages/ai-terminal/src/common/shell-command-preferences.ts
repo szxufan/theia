@@ -29,9 +29,9 @@ export const shellCommandPreferences: PreferenceSchema = {
             default: [],
             description: nls.localize(
                 'theia/ai-terminal/shellCommandAllowlist/description',
-                'List of shell command patterns. Use * as wildcard: "git log" (exact match), ' +
-                '"git log *" (with optional arguments), "* --version" (any command ending with --version). ' +
-                'Wildcard must be preceded by space. Commands with dangerous patterns ($, backticks) are never auto-allowed.'
+                'Shell 命令模式列表。使用 * 作为通配符："git log"（精确匹配）、' +
+                '"git log *"（可带任意参数）、"* --version"（任何以 --version 结尾的命令）。' +
+                '通配符前必须有空格。包含危险模式（$、反引号）的命令永远不会被自动允许。'
             ),
             title: AI_CORE_PREFERENCES_TITLE,
         },
@@ -86,9 +86,9 @@ export const shellCommandPreferences: PreferenceSchema = {
             ],
             description: nls.localize(
                 'theia/ai-terminal/shellCommandDenylist/description',
-                'List of shell command patterns that should always be denied. Commands matching these patterns will be auto-rejected without confirmation. ' +
-                'Uses pattern syntax: "git push" (exact match) or "git push *" (with any arguments). ' +
-                'Ships with default patterns for dangerous commands (eval, exec, sudo, rm -rf, etc.).'
+                '应始终被拒绝的 Shell 命令模式列表。匹配这些模式的命令将在不经确认的情况下被自动拒绝。' +
+                '使用模式语法："git push"（精确匹配）或 "git push *"（可带任意参数）。' +
+                '内置了危险命令（eval、exec、sudo、rm -rf 等）的默认模式。'
             ),
             title: AI_CORE_PREFERENCES_TITLE,
         }

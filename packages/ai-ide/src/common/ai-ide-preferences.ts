@@ -26,23 +26,22 @@ export const aiIdePreferenceSchema: PreferenceSchema = {
         [PREFERENCE_NAME_ENABLE_AI]: {
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: '❗ ' + nls.localize('theia/ai/ide/enableAI/mdDescription',
-                'This setting allows you to access the AI capabilities of Theia IDE.\
+                '此设置允许你访问 Theia IDE 的 AI 功能。\
             \n\
-            Please be aware that AI features may generate\
-            continuous requests to the language models (LLMs) you provide access to. This might incur costs that you\
-            need to monitor closely. By enabling this option, you acknowledge these risks.\
+            请注意，AI 功能可能会向你授权的语言模型 (LLM) \
+            持续发起请求。这可能产生需要你密切关注的成本。启用此选项即表示你知晓这些风险。\
             \n\
-            **Please note! The settings below in this section will only take effect\n\
-            once the main feature setting is enabled. After enabling the feature, you need to configure at least one\
-            LLM provider below. Also see [the documentation](https://theia-ide.org/docs/user_ai/)**.'),
+            **请注意！只有在启用主功能设置后，本节中的以下设置才会生效。\
+            启用该功能后，你需要在下方至少配置一个\
+            LLM 提供商。另请参阅[文档](https://theia-ide.org/docs/user_ai/)**。'),
             type: 'boolean',
             default: false,
         },
         [PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST]: {
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/ide/orchestrator/excludedAgents/mdDescription',
-                'List of agent IDs that the orchestrator is not allowed to delegate to. ' +
-                'These agents will not be visible to the orchestrator when selecting an agent to handle a request.'),
+                '编排器不允许委派给它的代理 ID 列表。' +
+                '在选择处理请求的代理时，这些代理将对编排器不可见。'),
             type: 'array',
             items: {
                 type: 'string'
@@ -52,8 +51,8 @@ export const aiIdePreferenceSchema: PreferenceSchema = {
         [PREFERENCE_NAME_AGENT_MODE_ENABLED]: {
             title: AI_CORE_PREFERENCES_TITLE,
             description: nls.localize('theia/ai/ide/agentMode/enabled/mdDescription',
-                'Enable agent mode for the Coder agent. Agent mode allows autonomous file modifications without further confirmation.\
-                 A first-use confirmation dialog is shown when using agent mode until this is set to `true`.'),
+                '为 Coder 代理启用代理模式。代理模式允许在不经进一步确认的情况下自主修改文件。\
+                 在将其设置为 `true` 之前，使用代理模式时会显示首次使用确认对话框。'),
             type: 'boolean',
             default: false,
             scope: PreferenceScope.User

@@ -94,16 +94,16 @@ export class DebugConfigurationWidget extends ReactWidget {
 
     render(): React.ReactNode {
         return <React.Fragment>
-            <DebugAction run={this.start} label={nls.localizeByDefault('Start Debugging')} iconClass='debug-start' ref={this.setStepRef} />
+            <DebugAction run={this.start} label={nls.localizeByDefault('启动调试')} iconClass='debug-start' ref={this.setStepRef} />
             <DebugConfigurationSelect
                 manager={this.manager}
                 quickInputService={this.quickInputService}
                 isMultiRoot={this.workspaceService.isMultiRootWorkspaceOpened}
                 labelProvider={this.sessionConfigurationLabelProvider}
             />
-            <DebugAction run={this.openConfiguration} label={nls.localizeByDefault('Open {0}', '"launch.json"')}
+            <DebugAction run={this.openConfiguration} label={nls.localizeByDefault('打开 {0}', '"launch.json"')}
                 iconClass='settings-gear' />
-            <DebugAction run={this.openConsole} label={nls.localizeByDefault('Debug Console')} iconClass='terminal' />
+            <DebugAction run={this.openConsole} label={nls.localizeByDefault('调试控制台')} iconClass='terminal' />
         </React.Fragment>;
     }
 

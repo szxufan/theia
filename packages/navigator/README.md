@@ -4,29 +4,29 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - NAVIGATOR EXTENSION</h2>
+<h2>ECLIPSE THEIA - NAVIGATOR 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/navigator` extension contributes the `file explorer` widget.\
-The `file explorer` can be used to easily view, open, and manage the files that correspond to a given workspace.
+`@theia/navigator` 扩展提供了 `file explorer`（文件资源管理器）组件。\
+`file explorer` 可用于方便地查看、打开和管理给定工作区对应的文件。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/navigator`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_navigator.html)
+- [`@theia/navigator` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_navigator.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

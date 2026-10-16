@@ -215,7 +215,7 @@ export class DebugSessionManager {
             return undefined;
         }
 
-        return this.progressService.withProgress(nls.localizeByDefault('Starting...'), 'debug', async () => {
+        return this.progressService.withProgress(nls.localizeByDefault('正在启动...'), 'debug', async () => {
             try {
                 // If a parent session is available saving should be handled by the parent
                 if (!options.configuration.parentSessionId && !options.configuration.suppressSaveBeforeStart && !await this.saveAll()) {
@@ -243,7 +243,7 @@ export class DebugSessionManager {
                     && this.sessions.some(s => this.sessionConfigurationLabelProvider.getLabel(s.options) === sessionConfigurationLabel)
                 ) {
                     const yes = await new ConfirmDialog({
-                        title: nls.localizeByDefault('Debug'),
+                        title: nls.localizeByDefault('调试'),
                         msg: nls.localizeByDefault("'{0}' is already running. Do you want to start another instance?", sessionConfigurationLabel)
                     }).open();
                     if (!yes) {
@@ -263,11 +263,11 @@ export class DebugSessionManager {
                 return this.doStart(sessionId, resolved);
             } catch (e) {
                 if (DebugError.NotFound.is(e)) {
-                    this.messageService.error(nls.localize('theia/debug/debugSessionTypeNotSupported', 'The debug session type "{0}" is not supported.', e.data.type));
+                    this.messageService.error(nls.localize('theia/debug/debugSessionTypeNotSupported', '不支持类型为"{0}"的调试会话。', e.data.type));
                     return undefined;
                 }
 
-                this.messageService.error(nls.localize('theia/debug/errorStartingDebugSession', 'There was an error starting the debug session, check the logs for more details.'));
+                this.messageService.error(nls.localize('theia/debug/errorStartingDebugSession', '启动调试会话时发生错误，请查看日志了解详情。'));
                 this.logger.error('Error starting the debug session', e);
                 throw e;
             }
@@ -312,7 +312,7 @@ export class DebugSessionManager {
     protected getCompoundConfigurations(options: DebugCompoundSessionOptions, compoundRoot: DebugCompoundRoot | undefined): DebugConfigurationSessionOptions[] {
         const compound = options.compound;
         if (!compound.configurations) {
-            throw new Error(nls.localizeByDefault('Compound must have "configurations" attribute set in order to start multiple configurations.'));
+            throw new Error(nls.localizeByDefault('复合配置必须设置 "configurations" 属性才能启动多个配置。'));
         }
 
         const configurations: DebugConfigurationSessionOptions[] = [];
@@ -320,7 +320,7 @@ export class DebugSessionManager {
         for (const configData of compound.configurations) {
             const name = typeof configData === 'string' ? configData : configData.name;
             if (name === compound.name) {
-                throw new Error(nls.localize('theia/debug/compound-cycle', "Launch configuration '{0}' contains a cycle with itself", name));
+                throw new Error(nls.localize('theia/debug/compound-cycle', '启动配置"{0}"与自身存在循环', name));
             }
 
             const workspaceFolderUri = typeof configData === 'string' ? options.workspaceFolderUri : configData.folder;
@@ -630,7 +630,7 @@ export class DebugSessionManager {
 
         const taskLabel = typeof taskName === 'string' ? taskName : JSON.stringify(taskName);
         if (!taskInfo) {
-            return this.doPostTaskAction(nls.localize('theia/debug/couldNotRunTask', "Could not run the task '{0}'.", taskLabel));
+            return this.doPostTaskAction(nls.localize('theia/debug/couldNotRunTask', '无法运行任务"{0}"。', taskLabel));
         }
 
         const getExitCodePromise: Promise<TaskEndedInfo> = this.taskService.getExitCode(taskInfo.taskId).then(result =>
@@ -648,23 +648,23 @@ export class DebugSessionManager {
         if (taskEndedInfo.taskEndedType === TaskEndedTypes.TaskExited && taskEndedInfo.value === 0) {
             return true;
         } else if (taskEndedInfo.taskEndedType === TaskEndedTypes.TaskExited && taskEndedInfo.value !== undefined) {
-            return this.doPostTaskAction(nls.localize('theia/debug/taskTerminatedWithExitCode', "Task '{0}' terminated with exit code {1}.", taskLabel, taskEndedInfo.value));
+            return this.doPostTaskAction(nls.localize('theia/debug/taskTerminatedWithExitCode', '任务"{0}"已退出，退出码为 {1}。', taskLabel, taskEndedInfo.value));
         } else {
             const signal = await this.taskService.getTerminateSignal(taskInfo.taskId);
             if (signal !== undefined) {
-                return this.doPostTaskAction(nls.localize('theia/debug/taskTerminatedBySignal', "Task '{0}' terminated by signal {1}.", taskLabel, signal));
+                return this.doPostTaskAction(nls.localize('theia/debug/taskTerminatedBySignal', '任务"{0}"已由信号 {1} 终止。', taskLabel, signal));
             } else {
-                return this.doPostTaskAction(nls.localize('theia/debug/taskTerminatedForUnknownReason', "Task '{0}' terminated for unknown reason.", taskLabel));
+                return this.doPostTaskAction(nls.localize('theia/debug/taskTerminatedForUnknownReason', '任务"{0}"因未知原因终止。', taskLabel));
             }
         }
     }
 
     protected async doPostTaskAction(errorMessage: string): Promise<boolean> {
         const actions = [
-            nls.localizeByDefault('Open {0}', 'launch.json'),
-            nls.localizeByDefault('Cancel'),
-            nls.localizeByDefault('Configure Task'),
-            nls.localizeByDefault('Debug Anyway')
+            nls.localizeByDefault('打开 {0}', 'launch.json'),
+            nls.localizeByDefault('取消'),
+            nls.localizeByDefault('配置任务'),
+            nls.localizeByDefault('仍然调试')
         ];
         const result = await this.messageService.error(errorMessage, ...actions);
         switch (result) {

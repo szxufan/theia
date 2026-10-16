@@ -51,7 +51,7 @@ import { MonacoDiffEditor } from '@theia/monaco/lib/browser/monaco-diff-editor';
 export const SCM_WIDGET_FACTORY_ID = ScmWidget.ID;
 export const SCM_VIEW_CONTAINER_ID = 'scm-view-container';
 export const SCM_VIEW_CONTAINER_TITLE_OPTIONS: ViewContainerTitleOptions = {
-    label: nls.localizeByDefault('Source Control'),
+    label: nls.localizeByDefault('源代码管理'),
     iconClass: codicon('source-control'),
     closeable: true
 };
@@ -63,9 +63,9 @@ export namespace ScmMenus {
 export namespace SCM_COMMANDS {
     export const CHANGE_REPOSITORY = {
         id: 'scm.change.repository',
-        category: nls.localizeByDefault('Source Control'),
+        category: nls.localizeByDefault('源代码管理'),
         originalCategory: 'Source Control',
-        label: nls.localize('theia/scm/changeRepository', 'Change Repository...'),
+        label: nls.localize('theia/scm/changeRepository', '更改存储库...'),
         originalLabel: 'Change Repository...'
     };
     export const ACCEPT_INPUT = {
@@ -73,54 +73,54 @@ export namespace SCM_COMMANDS {
     };
     export const TREE_VIEW_MODE = {
         id: 'scm.viewmode.tree',
-        tooltip: nls.localizeByDefault('View as Tree'),
+        tooltip: nls.localizeByDefault('以树形结构查看'),
         iconClass: codicon('list-tree'),
         originalLabel: 'View as Tree',
-        label: nls.localizeByDefault('View as Tree')
+        label: nls.localizeByDefault('以树形结构查看')
     };
     export const LIST_VIEW_MODE = {
         id: 'scm.viewmode.list',
-        tooltip: nls.localizeByDefault('View as List'),
+        tooltip: nls.localizeByDefault('以列表形式查看'),
         iconClass: codicon('list-flat'),
         originalLabel: 'View as List',
-        label: nls.localizeByDefault('View as List')
+        label: nls.localizeByDefault('以列表形式查看')
     };
     export const COLLAPSE_ALL = {
         id: 'scm.collapseAll',
-        category: nls.localizeByDefault('Source Control'),
+        category: nls.localizeByDefault('源代码管理'),
         originalCategory: 'Source Control',
-        tooltip: nls.localizeByDefault('Collapse All'),
+        tooltip: nls.localizeByDefault('全部折叠'),
         iconClass: codicon('collapse-all'),
-        label: nls.localizeByDefault('Collapse All'),
+        label: nls.localizeByDefault('全部折叠'),
         originalLabel: 'Collapse All'
     };
     export const GOTO_NEXT_CHANGE = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.editor.nextChange',
-        category: 'Source Control',
-        label: 'Go to Next Change',
+        category: '源代码管理',
+        label: '转到下一处更改',
         iconClass: codicon('arrow-down')
     });
     export const GOTO_PREVIOUS_CHANGE = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.editor.previousChange',
-        category: 'Source Control',
-        label: 'Go to Previous Change',
+        category: '源代码管理',
+        label: '转到上一处更改',
         iconClass: codicon('arrow-up')
     });
     export const SHOW_NEXT_CHANGE = Command.toDefaultLocalizedCommand({
         id: 'editor.action.dirtydiff.next',
-        category: 'Source Control',
-        label: 'Show Next Change'
+        category: '源代码管理',
+        label: '显示下一处更改'
     });
     export const SHOW_PREVIOUS_CHANGE = Command.toDefaultLocalizedCommand({
         id: 'editor.action.dirtydiff.previous',
-        category: 'Source Control',
-        label: 'Show Previous Change'
+        category: '源代码管理',
+        label: '显示上一处更改'
     });
     export const CLOSE_CHANGE_PEEK_VIEW = {
         id: 'editor.action.dirtydiff.close',
-        category: nls.localizeByDefault('Source Control'),
+        category: nls.localizeByDefault('源代码管理'),
         originalCategory: 'Source Control',
-        label: nls.localize('theia/scm/dirtyDiff/close', 'Close Change Peek View'),
+        label: nls.localize('theia/scm/dirtyDiff/close', '关闭更改速览视图'),
         originalLabel: 'Close Change Peek View'
     };
 }
@@ -254,12 +254,12 @@ export class ScmContribution extends AbstractViewContribution<ScmWidget> impleme
         super.registerMenus(menus);
         menus.registerMenuAction(ScmMenus.CHANGES_GROUP, {
             commandId: SCM_COMMANDS.SHOW_NEXT_CHANGE.id,
-            label: nls.localizeByDefault('Next Change'),
+            label: nls.localizeByDefault('下一处更改'),
             order: '1'
         });
         menus.registerMenuAction(ScmMenus.CHANGES_GROUP, {
             commandId: SCM_COMMANDS.SHOW_PREVIOUS_CHANGE.id,
-            label: nls.localizeByDefault('Previous Change'),
+            label: nls.localizeByDefault('上一处更改'),
             order: '2'
         });
     }

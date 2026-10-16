@@ -103,7 +103,7 @@ export class DebugPrefixConfiguration implements CommandContribution, CommandHan
             getInstance: () => this,
             prefix: DebugPrefixConfiguration.PREFIX,
             placeholder: '',
-            helpEntries: [{ description: nls.localize('theia/debug/debugConfiguration', 'Debug Configuration'), needsEditor: false }]
+            helpEntries: [{ description: nls.localize('theia/debug/debugConfiguration', '调试配置'), needsEditor: false }]
         });
     }
 

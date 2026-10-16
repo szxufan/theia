@@ -36,7 +36,7 @@ export const filesystemPreferenceSchema: PreferenceSchema = {
     properties: {
         'files.watcherExclude': {
             // eslint-disable-next-line max-len
-            markdownDescription: nls.localizeByDefault('Configure paths or [glob patterns](https://aka.ms/vscode-glob-patterns) to exclude from file watching. Paths can either be relative to the watched folder or absolute. Glob patterns are matched relative from the watched folder. When you experience the file watcher process consuming a lot of CPU, make sure to exclude large folders that are of less interest (such as build output folders).'),
+            markdownDescription: nls.localizeByDefault('配置要从文件监视中排除的路径或 [glob 模式](https://aka.ms/vscode-glob-patterns)。路径可以是相对于被监视文件夹的相对路径，也可以是绝对路径。glob 模式相对于被监视文件夹进行匹配。如果发现文件监视进程占用大量 CPU，请确保排除关注度较低的大型文件夹（例如构建输出文件夹）。'),
             additionalProperties: {
                 type: 'boolean'
             },
@@ -50,13 +50,13 @@ export const filesystemPreferenceSchema: PreferenceSchema = {
             type: 'object',
             default: { '**/.git': true, '**/.svn': true, '**/.hg': true, '**/CVS': true, '**/.DS_Store': true },
             // eslint-disable-next-line max-len
-            markdownDescription: nls.localize('theia/filesystem/filesExclude', 'Configure [glob patterns](https://aka.ms/vscode-glob-patterns) for excluding files and folders. For example, the file Explorer decides which files and folders to show or hide based on this setting.'),
+            markdownDescription: nls.localize('theia/filesystem/filesExclude', '配置用于排除文件和文件夹的 [glob 模式](https://aka.ms/vscode-glob-patterns)。例如，文件资源管理器根据此设置决定显示或隐藏哪些文件和文件夹。'),
             scope: PreferenceScope.Folder
         },
         'files.enableTrash': {
             type: 'boolean',
             default: true,
-            description: nls.localizeByDefault('Moves files/folders to the OS trash (recycle bin on Windows) when deleting. Disabling this will delete files/folders permanently.')
+            description: nls.localizeByDefault('删除时将文件/文件夹移入操作系统回收站（Windows 上为回收站）。禁用此选项将永久删除文件/文件夹。')
         },
         'files.associations': {
             type: 'object',
@@ -70,7 +70,7 @@ export const filesystemPreferenceSchema: PreferenceSchema = {
             type: 'boolean',
             default: false,
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault('When enabled, the editor will attempt to guess the character set encoding when opening files. This setting can also be configured per language. Note, this setting is not respected by text search. Only {0} is respected.', '`#files.encoding#`'),
+            description: nls.localizeByDefault('启用后，编辑器将在打开文件时尝试猜测字符集编码。此设置也可以按语言进行配置。注意，文本搜索不会遵循此设置，仅遵循 {0}。', '`#files.encoding#`'),
             scope: PreferenceScope.Folder,
             overridable: true,
             included: Object.keys(SUPPORTED_ENCODINGS).length > 1
@@ -85,19 +85,19 @@ export const filesystemPreferenceSchema: PreferenceSchema = {
         'files.maxFileSizeMB': {
             type: 'number',
             default: MAX_FILE_SIZE_MB,
-            markdownDescription: nls.localize('theia/filesystem/maxFileSizeMB', 'Controls the max file size in MB which is possible to open.')
+            markdownDescription: nls.localize('theia/filesystem/maxFileSizeMB', '控制可打开的最大文件大小（以 MB 为单位）。')
         },
         'files.trimTrailingWhitespace': {
             type: 'boolean',
             default: false,
-            description: nls.localizeByDefault('When enabled, will trim trailing whitespace when saving a file.'),
+            description: nls.localizeByDefault('启用后，保存文件时会去除行尾空白。'),
             scope: PreferenceScope.Folder,
             overridable: true
         },
         'files.insertFinalNewline': {
             type: 'boolean',
             default: false,
-            description: nls.localizeByDefault('When enabled, insert a final new line at the end of the file when saving it.'),
+            description: nls.localizeByDefault('启用后，保存文件时会在文件末尾插入一个最终换行符。'),
             scope: PreferenceScope.Folder,
             overridable: true
         },

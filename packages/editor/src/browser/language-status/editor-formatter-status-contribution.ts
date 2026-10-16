@@ -30,23 +30,23 @@ interface ScopeDisplayInfo {
 const SCOPE_DISPLAY_MAP: Record<FormatterSettingScope, () => ScopeDisplayInfo> = {
     user: () => ({
         icon: '$(account)',
-        text: nls.localizeByDefault('User Settings')
+        text: nls.localizeByDefault('用户设置')
     }),
     workspace: () => ({
         icon: '$(folder)',
-        text: nls.localizeByDefault('Workspace Settings')
+        text: nls.localizeByDefault('工作区设置')
     }),
     folder: () => ({
         icon: '$(folder-opened)',
-        text: nls.localizeByDefault('Folder Settings')
+        text: nls.localizeByDefault('文件夹设置')
     }),
     auto: () => ({
         icon: '$(check)',
-        text: nls.localize('theia/editor/onlyAvailableFormatter', 'Only Available Formatter')
+        text: nls.localize('theia/editor/onlyAvailableFormatter', '唯一可用的格式化程序')
     }),
     none: () => ({
         icon: '$(question)',
-        text: nls.localizeByDefault('Unknown')
+        text: nls.localizeByDefault('未知')
     })
 };
 
@@ -110,7 +110,7 @@ export class EditorFormatterStatusContribution {
 
         return {
             id: EditorFormatterStatusContribution.FORMATTER_STATUS_ITEM_ID,
-            name: nls.localize('theia/editor/formatter', 'Formatter'),
+            name: nls.localize('theia/editor/formatter', '格式化程序'),
             selector: { language: editor.document.languageId },
             severity: displayInfo.severity,
             label: displayInfo.label,
@@ -144,8 +144,8 @@ export class EditorFormatterStatusContribution {
     createPinnedStatusBarEntry(editor: TextEditor | undefined, onclick?: (e: MouseEvent) => void): StatusBarEntry {
         if (!this.formatterService || !editor) {
             return {
-                text: `${FormatterIcon.Warning} ${nls.localize('theia/editor/formatter', 'Formatter')}`,
-                tooltip: nls.localize('theia/editor/noEditor', 'No editor active'),
+                text: `${FormatterIcon.Warning} ${nls.localize('theia/editor/formatter', '格式化程序')}`,
+                tooltip: nls.localize('theia/editor/noEditor', '没有活动的编辑器'),
                 affinity: { id: 'editor-status-language', alignment: StatusBarAlignment.RIGHT, compact: false },
                 alignment: StatusBarAlignment.RIGHT,
                 onclick,
@@ -175,8 +175,8 @@ export class EditorFormatterStatusContribution {
 
         if (formatters.length === 0) {
             await this.quickInputService.showQuickPick(
-                [{ label: nls.localize('theia/editor/noFormattersAvailable', 'No formatters available for this language') }],
-                { placeholder: nls.localize('theia/editor/selectFormatter', 'Select Default Formatter') }
+                [{ label: nls.localize('theia/editor/noFormattersAvailable', '此语言没有可用的格式化程序') }],
+                { placeholder: nls.localize('theia/editor/selectFormatter', '选择默认格式化程序') }
             );
             return;
         }
@@ -246,8 +246,8 @@ export class EditorFormatterStatusContribution {
 
     protected buildNoFormattersDisplayInfo(status: FormatterStatus, useShortLabel = false): FormatterDisplayInfo {
         const label = useShortLabel
-            ? nls.localize('theia/editor/noFormatter', 'No Formatter')
-            : nls.localize('theia/editor/noFormatterInstalled', 'No Formatter installed');
+            ? nls.localize('theia/editor/noFormatter', '无格式化程序')
+            : nls.localize('theia/editor/noFormatterInstalled', '未安装格式化程序');
 
         if (status.configuredFormatterId) {
             const scopeInfo = getScopeDisplayInfo(status.scope);
@@ -256,7 +256,7 @@ export class EditorFormatterStatusContribution {
                 label,
                 tooltip: nls.localize(
                     'theia/editor/configuredNotInstalled',
-                    "'{0}' configured in {1} but not installed",
+                    "已在 {1} 中配置 '{0}'，但未安装",
                     status.configuredFormatterId,
                     scopeInfo.text
                 ),
@@ -267,7 +267,7 @@ export class EditorFormatterStatusContribution {
         return {
             icon: FormatterIcon.Info,
             label,
-            tooltip: nls.localize('theia/editor/noFormattersInstalledTooltip', 'No formatters are installed for this language.'),
+            tooltip: nls.localize('theia/editor/noFormattersInstalledTooltip', '未安装适用于此语言的格式化程序。'),
             hasConfigureAction: false,
             severity: Severity.Info
         };
@@ -282,7 +282,7 @@ export class EditorFormatterStatusContribution {
                 label: formatter.displayName,
                 tooltip: nls.localize(
                     'theia/editor/configuredNotInstalledFallbackNamed',
-                    "'{0}' configured in {1} not installed, using '{2}'",
+                    "已在 {1} 中配置 '{0}'，但未安装，正在使用 '{2}'",
                     status.configuredFormatterId,
                     scopeInfo.text,
                     formatter.displayName
@@ -296,7 +296,7 @@ export class EditorFormatterStatusContribution {
         return {
             icon: FormatterIcon.Info,
             label: formatter.displayName,
-            tooltip: nls.localize('theia/editor/onlyFormatterInstalled', '{0} (only formatter installed)', formatter.displayName),
+            tooltip: nls.localize('theia/editor/onlyFormatterInstalled', '{0}（唯一已安装的格式化程序）', formatter.displayName),
             hasConfigureAction: false,
             severity: Severity.Info
         };
@@ -328,7 +328,7 @@ export class EditorFormatterStatusContribution {
                 label: status.formatter.displayName,
                 tooltip: nls.localize(
                     'theia/editor/configuredIn',
-                    'Configured in {0}',
+                    '已在 {0} 中配置',
                     scopeInfo.text
                 ),
                 hasConfigureAction: true,
@@ -339,8 +339,8 @@ export class EditorFormatterStatusContribution {
         // No formatter configured
         return {
             icon: FormatterIcon.Info,
-            label: nls.localize('theia/editor/noDefaultConfiguredLabel', 'No default formatter configured'),
-            tooltip: nls.localize('theia/editor/noDefaultConfiguredTooltip', 'No default formatter configured ({0} formatters available)', formatterCount),
+            label: nls.localize('theia/editor/noDefaultConfiguredLabel', '未配置默认格式化程序'),
+            tooltip: nls.localize('theia/editor/noDefaultConfiguredTooltip', '未配置默认格式化程序（有 {0} 个格式化程序可用）', formatterCount),
             hasConfigureAction: true,
             severity: Severity.Info
         };
@@ -355,7 +355,7 @@ export class EditorFormatterStatusContribution {
         }
         const status = this.formatterService.getFormatterStatus(editor);
         const currentFormatterId = status.formatter?.id;
-        const currentLabel = nls.localize('theia/editor/currentFormatter', '(Current)');
+        const currentLabel = nls.localize('theia/editor/currentFormatter', '（当前）');
 
         const formatterItems: QuickPickItem[] = formatters.map(formatter => ({
             label: formatter.displayName,
@@ -365,15 +365,15 @@ export class EditorFormatterStatusContribution {
         }));
 
         const noneItem: QuickPickItem = {
-            label: nls.localizeByDefault('None'),
+            label: nls.localizeByDefault('无'),
             description: !currentFormatterId ? currentLabel : undefined,
-            detail: nls.localize('theia/editor/clearFormatterSetting', 'Clear formatter setting'),
+            detail: nls.localize('theia/editor/clearFormatterSetting', '清除格式化程序设置'),
             id: ''
         };
 
         return this.quickInputService.showQuickPick(
             [noneItem, ...formatterItems],
-            { placeholder: nls.localize('theia/editor/selectFormatter', 'Select Default Formatter') }
+            { placeholder: nls.localize('theia/editor/selectFormatter', '选择默认格式化程序') }
         );
     }
 
@@ -400,19 +400,19 @@ export class EditorFormatterStatusContribution {
         const scopeItems: (QuickPickItem & { value: PreferenceScope })[] = [
             {
                 label: `${userScopeInfo.icon} ${userScopeInfo.text}`,
-                detail: nls.localize('theia/editor/userSettingsDetail', 'Apply to all workspaces'),
+                detail: nls.localize('theia/editor/userSettingsDetail', '应用于所有工作区'),
                 value: PreferenceScope.User
             },
             {
                 label: `${workspaceScopeInfo.icon} ${workspaceScopeInfo.text}`,
-                detail: nls.localize('theia/editor/workspaceSettingsDetail', 'Apply to current workspace only'),
+                detail: nls.localize('theia/editor/workspaceSettingsDetail', '仅应用于当前工作区'),
                 value: PreferenceScope.Workspace
             }
         ];
 
         const result = await this.quickInputService.showQuickPick(
             scopeItems,
-            { placeholder: nls.localize('theia/editor/selectScope', 'Select where to save the setting') }
+            { placeholder: nls.localize('theia/editor/selectScope', '选择保存此设置的位置') }
         );
 
         return result?.value;

@@ -143,7 +143,8 @@ export class MemoryTableWidget extends ReactWidget {
         super.onResize(msg);
     }
 
-    protected updateColumnWidths = debounce(this.doUpdateColumnWidths.bind(this), Constants.DEBOUNCE_TIME);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateColumnWidths: any = debounce(this.doUpdateColumnWidths.bind(this), Constants.DEBOUNCE_TIME);
 
     protected doUpdateColumnWidths(): void {
         setTimeout(() => {
@@ -540,7 +541,8 @@ export class MemoryTableWidget extends ReactWidget {
         this.debounceHandleMouseTableMove(target);
     };
 
-    protected debounceHandleMouseTableMove = debounce(this.doHandleTableMouseMove.bind(this), Constants.DEBOUNCE_TIME, { trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected debounceHandleMouseTableMove: any = debounce(this.doHandleTableMouseMove.bind(this), Constants.DEBOUNCE_TIME, { trailing: true });
 
     protected doHandleTableMouseMove(targetSpan: React.MouseEvent['target']): void {
         const target = targetSpan instanceof HTMLElement && targetSpan;

@@ -74,7 +74,7 @@ export const OutlineViewWidgetFactory = Symbol('OutlineViewWidgetFactory');
 @injectable()
 export class OutlineViewWidget extends TreeWidget {
 
-    static LABEL = nls.localizeByDefault('Outline');
+    static LABEL = nls.localizeByDefault('大纲');
 
     readonly onDidChangeOpenStateEmitter = new Emitter<boolean>();
 
@@ -189,7 +189,7 @@ export class OutlineViewWidget extends TreeWidget {
 
     protected override renderTree(model: TreeModel): React.ReactNode {
         if (CompositeTreeNode.is(this.model.root) && !this.model.root.children.length) {
-            return <div className='theia-widget-noInfo no-outline'>{nls.localizeByDefault('The active editor cannot provide outline information.')}</div>;
+            return <div className='theia-widget-noInfo no-outline'>{nls.localizeByDefault('活动编辑器无法提供大纲信息。')}</div>;
         }
         return super.renderTree(model);
     }

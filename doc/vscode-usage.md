@@ -1,21 +1,21 @@
-## Using code from VS Code
+## 使用来自 VS Code 的代码
 
-Since its inception, Theia has used the "Monaco" editor component from VS Code. With the recent move to using ECMAScript modules, consuming code from the VS Code project has become much easier and safer. But while reusing code saves us work, there is also a downside to it. Monaco has a relatively stable external API because Microsoft also releases it as a stand-alone editor component. But other parts of the code base may change more frequently and in unexpected ways. We always use the same version of all modules making up VS Code. So when we update VS Code, often to provide a new feature in Monaco to our adopters, we will have to deal with all the API changes at that same time. As an example: Theia used the quick-input component from VS Code directly to implement it's own quick-input component. Because the component was not encapsulated in any way, the updating Monaco to a new version became difficult and time-consuming.
+自诞生以来，Theia 就在使用来自 VS Code 的 "Monaco" 编辑器组件。随着近期改用 ECMAScript 模块，消费来自 VS Code 项目的代码变得容易和安全得多。但复用代码在节省工作的同时也有不利之处。Monaco 的外部 API 相对稳定，因为 Microsoft 也将其作为独立编辑器组件发布。但代码库的其他部分可能更频繁、以更出人意料的方式变化。我们始终使用构成 VS Code 的所有模块的同一版本。因此当我们更新 VS Code 时（通常是为了向采用者提供 Monaco 的新特性），就必须同时处理所有 API 变更。举个例子：Theia 曾直接使用 VS Code 的 quick-input 组件来实现自己的 quick-input 组件。由于该组件没有任何封装，把 Monaco 升级到新版本变得困难且耗时。
 
-So while we don't  prohibit the use of code from VS Code (other than the Monaco editor API), we have the following goals:
+因此，虽然我们不禁止使用来自 VS Code 的代码（Monaco 编辑器 API 除外），但我们有如下目标：
 
-* Updating Monaco should not impact adopters
+* 更新 Monaco 不应影响采用者
 
-* Adoption of a new Monaco version should generally be a straightforward, quick process (< 1 week of work)
+* 采用新的 Monaco 版本通常应是直接、快速的过程（< 1 周的工作量）
 
-In order to achieve those goals, follow these simple rules:
+为实现这些目标，请遵循以下简单规则：
 
-* Never export a type, function or variable from an internal VS Code API from a theia package
+* 绝不从 theia 包导出 VS Code 内部 API 的类型、函数或变量
 
-* Don't use code from VS Code that you could not easily copy into the Theia codebase if the need arises.
+* 不要使用那些一旦需要时你无法轻松复制进 Theia 代码库的 VS Code 代码。
 
-The first rule shields our adopters from having to change their code in response to updating Monaco. If they cannot see an object or type, they cannot rely on its existence or API. Note that this includes functions, supertype relationships or parameter and return types. If you need to export functionality, export an interface in Theia and import that interface using imported code from VS Code. This way, we can build adapters to shield against API changes. The rule also prevents spreading dependencies on VS Code in our code without our being aware of them.  While it's not technically possible to enforce non-export of stuff in our current build system, we should make sure we're not exporting tainted code through `index.ts` or similar mechanisms. At the very least, we should not require package users to rely on VS Code stuff.
+第一条规则让采用者无需因更新 Monaco 而修改代码。如果他们看不到某个对象或类型，就无法依赖其存在或 API。注意这同样包括函数、超类型关系以及参数与返回类型。如果你需要导出功能，请在 Theia 中导出一个接口，并使用从 VS Code 导入的代码来实现该接口。这样，我们就能构建适配器来屏蔽 API 变更。该规则也防止我们对 VS Code 的依赖在我们不知情的情况下在代码中扩散。虽然在当前构建系统中无法从技术上强制禁止导出，但应确保不通过 `index.ts` 或类似机制导出受污染的代码。至少，我们不应要求包用户依赖 VS Code 的内部实现。
 
-The second rule  ensures that we do not rely on VS Code stuff that is deeply coupled with other parts of VS Code that we don't want to import. It gives us the escape hatch of just copying the old version of the code and filing a CQ with the Eclipse foundation if updating to the version of stuff from VS Code is not what we want (because it doesn't fit our needs or takes to long).
+第二条规则确保我们不依赖那些与我们不想引入的 VS Code 其他部分深度耦合的实现。它给了我们一条逃生通道：如果更新到 VS Code 的某个版本并非我们所需（因为不符合需求或耗时过长），就直接复制旧版本代码，并向 Eclipse Foundation 提交 CQ。
 
-Tip: you can find locations where VS code is used by searching for import statements from `@theia/monaco-editor-core/esm/vs`.
+提示：可以通过搜索来自 `@theia/monaco-editor-core/esm/vs` 的 import 语句来找到使用 VS Code 的位置。

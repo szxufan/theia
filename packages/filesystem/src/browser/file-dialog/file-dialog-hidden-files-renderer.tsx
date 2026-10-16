@@ -41,7 +41,7 @@ export class FileDialogHiddenFilesToggleRenderer extends ReactRenderer {
     protected override doRender(): React.ReactNode {
         return (
             <div className={TOGGLE_HIDDEN_CONTAINER_CLASS}>
-                {nls.localize('theia/fileDialog/showHidden', 'Show hidden files')}
+                {nls.localize('theia/fileDialog/showHidden', '显示隐藏文件')}
                 <input
                     type='checkbox'
                     className={CHECKBOX_CLASS}

@@ -34,7 +34,7 @@ export class AiConfigurationLabelProviderContribution implements LabelProviderCo
     }
 
     getName(): string {
-        return nls.localize('theia/ai/ide/aiConfiguration/breadcrumbRoot', 'AI Configuration');
+        return nls.localize('theia/ai/ide/aiConfiguration/breadcrumbRoot', 'AI 配置');
     }
 
     getLongName(): string {

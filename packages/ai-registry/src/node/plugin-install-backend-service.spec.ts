@@ -316,7 +316,7 @@ describe('PluginInstallBackendService', () => {
         await instance.discard(staged.stagingId);
 
         expect(await stagingFolders()).to.deep.equal([]);
-        expect((await expectRejection(instance.commit(staged.stagingId, false))).message).to.match(/no longer available/i);
+        expect((await expectRejection(instance.commit(staged.stagingId, false))).message).to.match(/不再可用/);
     });
 
     it('refuses to commit over an existing plugin directory rather than failing on the rename', async () => {
@@ -327,7 +327,7 @@ describe('PluginInstallBackendService', () => {
         const error = await expectRejection(instance.commit(staged.stagingId, false));
 
         // Without the check this is a raw ENOTEMPTY quoting the user's home directory.
-        expect(error.message).to.match(/already installed/i);
+        expect(error.message).to.match(/已安装/);
         expect(error.message).to.not.match(/ENOTEMPTY/);
         // The install that is already there is untouched, and nothing is left in staging.
         expect(await exists(path.join(root, DIRECTORY_NAME, 'plugin.json'))).to.equal(true);
@@ -337,7 +337,7 @@ describe('PluginInstallBackendService', () => {
     it('refuses a plugin id that does not encode to a usable directory name', async () => {
         const error = await expectRejection(service().stage({ ...entry, pluginId: '' }));
 
-        expect(error.message).to.match(/invalid plugin directory name/i);
+        expect(error.message).to.match(/无效的插件目录名称/);
         expect(await exists(root)).to.equal(false);
     });
 
@@ -390,7 +390,7 @@ describe('PluginInstallBackendService', () => {
     });
 
     it('refuses to link a directory that does not exist', async () => {
-        expect((await expectRejection(service().link(entry, DIRECTORY_NAME))).message).to.match(/no local plugin directory/i);
+        expect((await expectRejection(service().link(entry, DIRECTORY_NAME))).message).to.match(/没有名为.*的本地插件目录/);
     });
 
     it('creates the plugin data directory on link, because adoption also ends in launching a subprocess', async () => {
@@ -428,7 +428,7 @@ describe('PluginInstallBackendService', () => {
 
         const error = await expectRejection(service().link(entry, 'hand-placed-plugin'));
 
-        expect(error.message).to.match(/can only be linked to a directory named/i);
+        expect(error.message).to.match(/只能链接到名为/);
         expect(await exists(path.join(handPlaced, REGISTRY_METADATA_FILE))).to.equal(false);
     });
 
@@ -544,7 +544,7 @@ describe('PluginInstallBackendService', () => {
         const installed = await instance.listInstalledPlugins();
 
         expect(installed[0].skills).to.deep.equal([]);
-        expect(installed[0].skipped).to.deep.equal([{ name: 'skills', reason: '"skills" is not a directory.' }]);
+        expect(installed[0].skipped).to.deep.equal([{ name: 'skills', reason: '“skills”不是目录。' }]);
     });
 
     it('disables MCP for the plugin when mcp.json is not valid JSON, keeping the skills', async () => {
@@ -553,7 +553,7 @@ describe('PluginInstallBackendService', () => {
 
         const installed = await instance.listInstalledPlugins();
 
-        expect(installed[0].mcpDisabledReason).to.match(/not valid JSON/i);
+        expect(installed[0].mcpDisabledReason).to.match(/不是有效的 JSON/);
         expect(installed[0].servers).to.deep.equal([]);
         expect(installed[0].skills).to.deep.equal(['deploy']);
     });

@@ -63,17 +63,17 @@ export class MergeRangeActions {
             (state === 'Base' || !(mergeRange.isEqualChange || mergeRange.getModifiedRange(side).isEmpty))
         ) {
             result.push({
-                text: nls.localizeByDefault('Accept {0}', sideTitle),
-                tooltip: nls.localizeByDefault('Accept {0} in the result document.', sideTitle),
+                text: nls.localizeByDefault('接受 {0}', sideTitle),
+                tooltip: nls.localizeByDefault('在结果文档中接受 {0}。', sideTitle),
                 run: () => this.applyMergeRangeAcceptedState(mergeRange, MergeRangeAcceptedState.addSide(state, side))
             });
 
             if (mergeRange.canBeSmartCombined(side)) {
                 result.push({
                     text: mergeRange.isSmartCombinationOrderRelevant ?
-                        nls.localizeByDefault('Accept Combination ({0} First)', sideTitle) :
-                        nls.localizeByDefault('Accept Combination'),
-                    tooltip: nls.localizeByDefault('Accept an automatic combination of both sides in the result document.'),
+                        nls.localizeByDefault('接受组合（{0} 优先）', sideTitle) :
+                        nls.localizeByDefault('接受组合'),
+                    tooltip: nls.localizeByDefault('接受在结果文档中自动组合的两侧内容。'),
                     run: () => this.applyMergeRangeAcceptedState(mergeRange, MergeRangeAcceptedState.addSide(
                         side === 1 ? 'Side1' : 'Side2', side === 1 ? 2 : 1, { smartCombination: true }))
                 });
@@ -95,22 +95,22 @@ export class MergeRangeActions {
 
         if (state === 'Unrecognized') {
             result.push({
-                text: nls.localizeByDefault('Manual Resolution'),
-                tooltip: nls.localizeByDefault('This conflict has been resolved manually.')
+                text: nls.localizeByDefault('手动解决'),
+                tooltip: nls.localizeByDefault('此冲突已被手动解决。')
             });
             result.push({
-                text: nls.localizeByDefault('Reset to base'),
-                tooltip: nls.localizeByDefault('Reset this conflict to the common ancestor of both the right and left changes.'),
+                text: nls.localizeByDefault('重置为共同祖先'),
+                tooltip: nls.localizeByDefault('将此冲突重置为左右更改的共同祖先。'),
                 run: () => this.applyMergeRangeAcceptedState(mergeRange, 'Base')
             });
         } else if (state === 'Base') {
             result.push({
-                text: nls.localizeByDefault('No Changes Accepted'),
-                tooltip: nls.localizeByDefault('The current resolution of this conflict equals the common ancestor of both the right and left changes.')
+                text: nls.localizeByDefault('未接受任何更改'),
+                tooltip: nls.localizeByDefault('此冲突的当前解决方案等于左右更改的共同祖先。')
             });
             if (!model.isMergeRangeHandled(mergeRange)) {
                 result.push({
-                    text: nls.localizeByDefault('Mark as Handled'),
+                    text: nls.localizeByDefault('标记为已处理'),
                     run: () => this.markMergeRangeAsHandled(mergeRange)
                 });
             }
@@ -119,8 +119,8 @@ export class MergeRangeActions {
                 text: side1Title + ' = ' + side2Title
             });
             result.push({
-                text: nls.localizeByDefault('Reset to base'),
-                tooltip: nls.localizeByDefault('Reset this conflict to the common ancestor of both the right and left changes.'),
+                text: nls.localizeByDefault('重置为共同祖先'),
+                tooltip: nls.localizeByDefault('将此冲突重置为左右更改的共同祖先。'),
                 run: () => this.applyMergeRangeAcceptedState(mergeRange, 'Base')
             });
         } else {
@@ -129,16 +129,16 @@ export class MergeRangeActions {
             if (state.includes('Side1')) {
                 labels.push(side1Title);
                 stateToggles.push({
-                    text: nls.localizeByDefault('Remove {0}', side1Title),
-                    tooltip: nls.localizeByDefault('Remove {0} from the result document.', side1Title),
+                    text: nls.localizeByDefault('移除 {0}', side1Title),
+                    tooltip: nls.localizeByDefault('从结果文档中移除 {0}。', side1Title),
                     run: () => this.applyMergeRangeAcceptedState(mergeRange, MergeRangeAcceptedState.removeSide(state, 1))
                 });
             }
             if (state.includes('Side2')) {
                 labels.push(side2Title);
                 stateToggles.push({
-                    text: nls.localizeByDefault('Remove {0}', side2Title),
-                    tooltip: nls.localizeByDefault('Remove {0} from the result document.', side2Title),
+                    text: nls.localizeByDefault('移除 {0}', side2Title),
+                    tooltip: nls.localizeByDefault('从结果文档中移除 {0}。', side2Title),
                     run: () => this.applyMergeRangeAcceptedState(mergeRange, MergeRangeAcceptedState.removeSide(state, 2))
                 });
             }

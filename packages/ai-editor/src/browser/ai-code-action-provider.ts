@@ -81,28 +81,28 @@ export class AICodeActionProvider implements FrontendApplicationContribution {
                 // Create code actions for each error marker: Fix with AI and Explain with AI
                 errorMarkers.forEach(marker => {
                     actions.push({
-                        title: nls.localizeByDefault('Fix with AI'),
+                        title: nls.localizeByDefault('使用 AI 修复'),
                         diagnostics: [marker],
                         isAI: true,
                         kind: 'quickfix',
                         command: {
                             id: AI_EDITOR_SEND_TO_CHAT.id,
-                            title: nls.localizeByDefault('Fix with AI'),
+                            title: nls.localizeByDefault('使用 AI 修复'),
                             arguments: [{
-                                prompt: `@Coder ${nls.localize('theia/ai/editor/fixWithAI/prompt', 'Help to fix this error')}: "${marker.message}"`
+                                prompt: `@Coder ${nls.localize('theia/ai/editor/fixWithAI/prompt', '帮助修复这个错误')}: "${marker.message}"`
                             }]
                         }
                     });
                     actions.push({
-                        title: nls.localize('theia/ai/editor/explainWithAI/title', 'Explain with AI'),
+                        title: nls.localize('theia/ai/editor/explainWithAI/title', '使用 AI 解释'),
                         diagnostics: [marker],
                         kind: 'quickfix',
                         isAI: true,
                         command: {
                             id: AI_EDITOR_SEND_TO_CHAT.id,
-                            title: nls.localize('theia/ai/editor/explainWithAI/title', 'Explain with AI'),
+                            title: nls.localize('theia/ai/editor/explainWithAI/title', '使用 AI 解释'),
                             arguments: [{
-                                prompt: `@Architect ${nls.localize('theia/ai/editor/explainWithAI/prompt', 'Explain this error')}: "${marker.message}"`
+                                prompt: `@Architect ${nls.localize('theia/ai/editor/explainWithAI/prompt', '解释这个错误')}: "${marker.message}"`
                             }]
                         }
                     });

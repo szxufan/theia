@@ -50,10 +50,10 @@ import {
 export class VariablesConfigurationCategory extends SinglePageCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.VARIABLES;
-    readonly label = nls.localizeByDefault('Variables');
+    readonly label = nls.localizeByDefault('变量');
     readonly description = nls.localize(
         'theia/ai/ide/variableConfiguration/pageSubtitle',
-        'Values you can reference with {0}name in a prompt. They are resolved and inserted at request time.',
+        '可在提示词中用 {0}name 引用的值。它们会在请求时被解析并插入。',
         PromptText.VARIABLE_CHAR
     );
     readonly iconClass = codicon('symbol-variable');
@@ -166,11 +166,11 @@ export class VariablesConfigurationCategory extends SinglePageCategoryRenderer i
         const pills: string[] = [];
         if (argCount > 0) {
             pills.push(argCount === 1
-                ? nls.localize('theia/ai/ide/variableConfiguration/argCountSingular', '1 argument')
-                : nls.localize('theia/ai/ide/variableConfiguration/argCountPlural', '{0} arguments', argCount));
+                ? nls.localize('theia/ai/ide/variableConfiguration/argCountSingular', '1 个参数')
+                : nls.localize('theia/ai/ide/variableConfiguration/argCountPlural', '{0} 个参数', argCount));
         }
         if (agents.length > 0) {
-            pills.push(agents.length === 1 ? nls.localizeByDefault('1 agent') : nls.localizeByDefault('{0} agents', agents.length));
+            pills.push(agents.length === 1 ? nls.localizeByDefault('1 个代理') : nls.localizeByDefault('{0} 个代理', agents.length));
         }
         return {
             id: variable.id,
@@ -202,20 +202,20 @@ export class VariablesConfigurationCategory extends SinglePageCategoryRenderer i
         const groups: CollapsibleGroup[] = [
             {
                 id: 'context',
-                title: nls.localize('theia/ai/ide/variableConfiguration/contextGroup', 'Context Variables'),
+                title: nls.localize('theia/ai/ide/variableConfiguration/contextGroup', '上下文变量'),
                 description: nls.localize(
                     'theia/ai/ide/variableConfiguration/contextGroupDescription',
-                    'Referenced with {0}name in a prompt and also attachable to a request as context that the agent and its tools can inspect.',
+                    '在提示词中用 {0}name 引用，也可作为上下文附加到请求中，供代理及其工具查看。',
                     PromptText.VARIABLE_CHAR
                 ),
                 rows: variables.filter(variable => variable.isContextVariable).map(variable => this.buildRow(variable, usage, onOpenAgent))
             },
             {
                 id: 'plain',
-                title: nls.localize('theia/ai/ide/variableConfiguration/plainGroup', 'Plain Variables'),
+                title: nls.localize('theia/ai/ide/variableConfiguration/plainGroup', '普通变量'),
                 description: nls.localize(
                     'theia/ai/ide/variableConfiguration/plainGroupDescription',
-                    'Referenced with {0}name in a prompt and resolved inline to a text value at request time.',
+                    '在提示词中用 {0}name 引用，在请求时内联解析为文本值。',
                     PromptText.VARIABLE_CHAR
                 ),
                 rows: variables.filter(variable => !variable.isContextVariable).map(variable => this.buildRow(variable, usage, onOpenAgent))
@@ -223,14 +223,14 @@ export class VariablesConfigurationCategory extends SinglePageCategoryRenderer i
         ];
         return <CollapsibleList
             groups={groups}
-            filterPlaceholder={nls.localize('theia/ai/ide/variableConfiguration/filterPlaceholder', 'Filter variables by name or description')}
-            emptyMessage={nls.localize('theia/ai/ide/variableConfiguration/noVariables', 'No variables are available.')}
-            filterEmptyMessage={query => nls.localize('theia/ai/ide/variableConfiguration/noMatches', 'No variables match "{0}".', query)}
+            filterPlaceholder={nls.localize('theia/ai/ide/variableConfiguration/filterPlaceholder', '按名称或描述筛选变量')}
+            emptyMessage={nls.localize('theia/ai/ide/variableConfiguration/noVariables', '没有可用的变量。')}
+            filterEmptyMessage={query => nls.localize('theia/ai/ide/variableConfiguration/noMatches', '没有与“{0}”匹配的变量。', query)}
         />;
     }
 
     getSearchItems(): AiConfigurationSearchItem[] {
-        const typeLabel = nls.localizeByDefault('Variable');
+        const typeLabel = nls.localizeByDefault('变量');
         return this.getVariables().map(variable => ({
             label: variable.name,
             typeLabel,
@@ -267,7 +267,7 @@ const CopyReferenceButton: React.FC<{ onCopy: () => void }> = ({ onCopy }) => {
             clearTimeout(timeoutRef.current);
         }
     }, []);
-    const label = nls.localize('theia/ai/ide/variableConfiguration/copyVariableName', 'Copy variable name');
+    const label = nls.localize('theia/ai/ide/variableConfiguration/copyVariableName', '复制变量名称');
     return <>
         <CollapsibleRowAction
             iconClass={codicon(copied ? 'check' : 'copy')}
@@ -282,7 +282,7 @@ const CopyReferenceButton: React.FC<{ onCopy: () => void }> = ({ onCopy }) => {
             }}
         />
         {/* Announce the copy to assistive tech; the region is always present so the change is spoken. */}
-        <span className='ai-variable-visually-hidden' aria-live='polite'>{copied ? nls.localizeByDefault('Copied') : ''}</span>
+        <span className='ai-variable-visually-hidden' aria-live='polite'>{copied ? nls.localizeByDefault('已复制') : ''}</span>
     </>;
 };
 
@@ -291,19 +291,19 @@ const VariableArgs: React.FC<{ variable: AIVariable }> = ({ variable }) => {
         return undefined;
     }
     return <div className='ai-variable-section'>
-        <div className='ai-variable-section-label'>{nls.localizeByDefault('Arguments')}</div>
+        <div className='ai-variable-section-label'>{nls.localizeByDefault('参数')}</div>
         <div className='ai-variable-args-container'>
             {variable.args.map(arg => <div key={arg.name} className='ai-variable-arg-row'>
                 <code className='ai-variable-arg-name'>{arg.name}</code>
                 <span className={`ai-variable-arg-badge ${arg.isOptional ? 'optional' : 'required'}`}>
                     {arg.isOptional
-                        ? nls.localize('theia/ai/ide/variableConfiguration/optional', 'optional')
-                        : nls.localize('theia/ai/ide/variableConfiguration/required', 'required')}
+                        ? nls.localize('theia/ai/ide/variableConfiguration/optional', '可选')
+                        : nls.localize('theia/ai/ide/variableConfiguration/required', '必填')}
                 </span>
                 <div className='ai-variable-arg-description'>
                     {VariablesConfigurationCategory.normalizeDescription(arg.description)}
                     {arg.enum && arg.enum.length > 0 && <span className='ai-variable-arg-enum'>
-                        {nls.localize('theia/ai/ide/variableConfiguration/argEnum', 'One of: {0}', arg.enum.join(', '))}
+                        {nls.localize('theia/ai/ide/variableConfiguration/argEnum', '可选值：{0}', arg.enum.join(', '))}
                     </span>}
                 </div>
             </div>)}
@@ -314,7 +314,7 @@ const VariableArgs: React.FC<{ variable: AIVariable }> = ({ variable }) => {
 /** The agents that reference the variable, rendered as navigable chips. */
 const UsedByAgents: React.FC<{ agents: Agent[]; onOpenAgent: (agentId: string) => void }> = ({ agents, onOpenAgent }) =>
     <div className='ai-variable-section'>
-        <div className='ai-variable-section-label'>{nls.localize('theia/ai/ide/variableConfiguration/usedByAgents', 'Used by Agents')}</div>
+        <div className='ai-variable-section-label'>{nls.localize('theia/ai/ide/variableConfiguration/usedByAgents', '被以下代理使用')}</div>
         <div className='ai-variable-agent-chips'>
             {agents.map(agent => <AgentChip key={agent.id} agent={agent} onOpenAgent={onOpenAgent} />)}
         </div>

@@ -200,7 +200,7 @@ describe('GitHubTarballSource', () => {
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://github.com/example/plugins', sourcePath: 'plugins/missing', destination }));
 
         expect(error.message).to.match(/plugins\/missing/);
-        expect(error.message).to.match(/does not exist/i);
+        expect(error.message).to.match(/不存在/);
     });
 
     it('reports a subtree that exists but holds no installable file as such, not as a wrong path', async () => {
@@ -214,8 +214,8 @@ describe('GitHubTarballSource', () => {
 
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://github.com/example/plugins', sourcePath: 'plugins/demo', destination }));
 
-        expect(error.message).to.match(/holds no file to install/i);
-        expect(error.message).to.not.match(/does not exist/i);
+        expect(error.message).to.match(/没有可安装的文件/);
+        expect(error.message).to.not.match(/不存在/);
         expect(error.message).to.match(/plugins\/demo/);
     });
 
@@ -227,7 +227,7 @@ describe('GitHubTarballSource', () => {
 
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://github.com/example/plugins', destination }));
 
-        expect(error.message).to.match(/holds no file to install/i);
+        expect(error.message).to.match(/没有可安装的文件/);
     });
 
     it('rejects an entry with an absolute path, writing nothing outside the destination', async () => {
@@ -239,7 +239,7 @@ describe('GitHubTarballSource', () => {
 
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://github.com/example/plugins', destination }));
 
-        expect(error.message).to.match(/outside the plugin directory/i);
+        expect(error.message).to.match(/插件目录之外/);
         expect(await exists(escaped)).to.equal(false);
     });
 
@@ -251,7 +251,7 @@ describe('GitHubTarballSource', () => {
 
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://github.com/example/plugins', destination }));
 
-        expect(error.message).to.match(/outside the plugin directory/i);
+        expect(error.message).to.match(/插件目录之外/);
         expect(await exists(path.join(destination, '..', 'relative-escape.txt'))).to.equal(false);
     });
 
@@ -336,7 +336,7 @@ describe('GitHubTarballSource', () => {
 
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://github.com/example/plugins', destination }));
 
-        expect(error.message).to.match(/too large/i);
+        expect(error.message).to.match(/过大/);
         expect(await exists(path.join(destination, 'plugin.json'))).to.equal(false);
     });
 
@@ -351,7 +351,7 @@ describe('GitHubTarballSource', () => {
 
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://github.com/example/plugins', destination }));
 
-        expect(error.message).to.match(/too large/i);
+        expect(error.message).to.match(/过大/);
         expect(await exists(path.join(destination, 'huge.bin'))).to.equal(false);
     });
 
@@ -360,7 +360,7 @@ describe('GitHubTarballSource', () => {
 
         const error = await expectRejection(service.fetch({ sourceUrl: 'https://gitlab.com/example/plugins.git', destination }));
 
-        expect(error.message).to.match(/not GitHub/i);
+        expect(error.message).to.match(/不是 GitHub/);
         expect(request.requestedUrls).to.deep.equal([]);
     });
 

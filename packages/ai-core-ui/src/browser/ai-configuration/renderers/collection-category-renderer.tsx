@@ -159,6 +159,6 @@ export abstract class CollectionCategoryRenderer implements AiConfigurationCateg
     }
 
     protected getEmptyMessage(): string {
-        return nls.localize('theia/ai/core/aiConfiguration/collectionEmpty', 'No items to configure yet.');
+        return nls.localize('theia/ai/core/aiConfiguration/collectionEmpty', '暂无可配置的条目。');
     }
 }

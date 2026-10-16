@@ -31,10 +31,10 @@ export class ChangeSetAcceptAction implements ChangeSetActionRenderer {
         return <button
             className='theia-button'
             disabled={!hasPendingElementsToAccept(changeSet)}
-            title={nls.localize('theia/ai/chat-ui/applyAllTitle', 'Apply all pending changes')}
+            title={nls.localize('theia/ai/chat-ui/applyAllTitle', '应用所有待处理的更改')}
             onClick={() => acceptAllPendingElements(changeSet)}
         >
-            {nls.localize('theia/ai/chat-ui/applyAll', 'Apply All')}
+            {nls.localize('theia/ai/chat-ui/applyAll', '全部应用')}
         </button>;
     }
 }

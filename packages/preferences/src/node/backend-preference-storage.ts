@@ -35,7 +35,8 @@ export class BackendPreferenceStorage implements PreferenceStorage {
 
     protected pendingWrites: WriteOperation[] = [];
     protected writeDeferred = new Deferred<boolean>();
-    protected writeFile = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected writeFile: any = debounce(() => {
         this.doWrite();
     }, 10);
 

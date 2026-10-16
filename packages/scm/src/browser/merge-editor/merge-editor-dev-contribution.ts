@@ -89,12 +89,12 @@ export class MergeEditorDevContribution implements CommandContribution {
             languageId: model.resultDocument.getLanguageId()
         };
         this.clipboardService.writeText(JSON.stringify(editorContents, undefined, 2));
-        this.messageService.info(nls.localizeByDefault('Successfully copied merge editor state'));
+        this.messageService.info(nls.localizeByDefault('已成功复制合并编辑器状态'));
     }
 
     protected async openContentsFromJSON(): Promise<void> {
         const inputText = await this.quickInputService.input({
-            prompt: nls.localizeByDefault('Enter JSON'),
+            prompt: nls.localizeByDefault('输入 JSON'),
             value: await this.clipboardService.readText()
         });
 

@@ -68,7 +68,7 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({ response }) => {
     return (
         <div className='theia-tool-confirmation-countdown'>
             {nls.localize('theia/ai/chat-ui/toolconfirmation/autoCancel',
-                'Auto-cancels in {0}', `${Math.floor(remainingSeconds / 60)}:${(remainingSeconds % 60).toString().padStart(2, '0')}`)}
+                '将在 {0} 后自动取消', `${Math.floor(remainingSeconds / 60)}:${(remainingSeconds % 60).toString().padStart(2, '0')}`)}
         </div>
     );
 };
@@ -281,15 +281,15 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
     const scopeLabel = (type: 'allow' | 'deny', scope: ConfirmationScope): string => {
         if (type === 'allow') {
             switch (scope) {
-                case 'once': return nls.localizeByDefault('Allow');
-                case 'session': return nls.localize('theia/ai/chat-ui/toolconfirmation/allow-session', 'Allow for this Chat');
-                case 'forever': return nls.localizeByDefault('Always Allow');
+                case 'once': return nls.localizeByDefault('允许');
+                case 'session': return nls.localize('theia/ai/chat-ui/toolconfirmation/allow-session', '在此聊天中允许');
+                case 'forever': return nls.localizeByDefault('始终允许');
             }
         } else {
             switch (scope) {
-                case 'once': return nls.localizeByDefault('Deny');
-                case 'session': return nls.localize('theia/ai/chat-ui/toolconfirmation/deny-session', 'Deny for this Chat');
-                case 'forever': return nls.localize('theia/ai/chat-ui/toolconfirmation/deny-forever', 'Always Deny');
+                case 'once': return nls.localizeByDefault('拒绝');
+                case 'session': return nls.localize('theia/ai/chat-ui/toolconfirmation/deny-session', '在此聊天中拒绝');
+                case 'forever': return nls.localize('theia/ai/chat-ui/toolconfirmation/deny-forever', '始终拒绝');
             }
         }
     };
@@ -300,9 +300,9 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
         }
         return nls.localize(
             'theia/ai/chat-ui/toolconfirmation/alwaysAllowGenericWarning',
-            'This tool requires confirmation before auto-approval can be enabled. ' +
-            'Once enabled, all future invocations will execute without confirmation. ' +
-            'Only enable this if you trust this tool and understand the potential risks.'
+            '此工具需要先确认才能启用自动批准。' +
+            '启用后，未来所有调用都将不经确认直接执行。' +
+            '只有在您信任此工具并了解潜在风险时才启用。'
         );
     };
 
@@ -330,7 +330,7 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
             const reasonGroup = new GroupImpl('reason', '2');
             reasonGroup.addNode(new InlineActionMenuNode(
                 'tool-confirmation-deny-with-reason',
-                nls.localize('theia/ai/chat-ui/toolconfirmation/deny-with-reason', 'Deny with reason...'),
+                nls.localize('theia/ai/chat-ui/toolconfirmation/deny-with-reason', '拒绝并说明原因...'),
                 handleDenyWithReason,
                 '0'
             ));
@@ -375,8 +375,8 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
                     aria-haspopup="true"
                     tabIndex={0}
                     title={type === 'allow'
-                        ? nls.localize('theia/ai/chat-ui/toolconfirmation/allow-options-dropdown-tooltip', 'More Allow Options')
-                        : nls.localize('theia/ai/chat-ui/toolconfirmation/deny-options-dropdown-tooltip', 'More Deny Options')}
+                        ? nls.localize('theia/ai/chat-ui/toolconfirmation/allow-options-dropdown-tooltip', '更多允许选项')
+                        : nls.localize('theia/ai/chat-ui/toolconfirmation/deny-options-dropdown-tooltip', '更多拒绝选项')}
                 >
                     <span className={codicon('chevron-down')}></span>
                 </button>
@@ -389,7 +389,7 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
             <div className="theia-tool-confirmation-always-allow-modal">
                 <div className="theia-tool-confirmation-header">
                     <span className={codicon('warning')}></span>
-                    {nls.localize('theia/ai/chat-ui/toolconfirmation/alwaysAllowTitle', 'Enable Auto-Approval for "{0}"?', toolName)}
+                    {nls.localize('theia/ai/chat-ui/toolconfirmation/alwaysAllowTitle', '为"{0}"启用自动批准？', toolName)}
                 </div>
                 <div className="theia-tool-confirmation-warning">
                     {getAlwaysAllowWarning()}
@@ -399,13 +399,13 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
                         className="theia-button secondary"
                         onClick={handleCancelAlwaysAllow}
                     >
-                        {nls.localizeByDefault('Cancel')}
+                        {nls.localizeByDefault('取消')}
                     </button>
                     <button
                         className="theia-button main"
                         onClick={handleConfirmAlwaysAllow}
                     >
-                        {nls.localize('theia/ai/chat-ui/toolconfirmation/alwaysAllowConfirm', 'I understand, enable auto-approval')}
+                        {nls.localize('theia/ai/chat-ui/toolconfirmation/alwaysAllowConfirm', '我已了解，启用自动批准')}
                     </button>
                 </div>
             </div>
@@ -419,7 +419,7 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
                     ref={denyReasonInputRef}
                     type="text"
                     className="theia-input theia-tool-confirmation-deny-reason-input"
-                    placeholder={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-reason-placeholder', 'Enter reason for denial...')}
+                    placeholder={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-reason-placeholder', '输入拒绝原因...')}
                     value={denyReason}
                     onChange={e => setDenyReason(e.target.value)}
                     onKeyDown={handleDenyReasonKeyDown}
@@ -429,13 +429,13 @@ export const ToolConfirmationActions: React.FC<ToolConfirmationActionsProps> = (
                         className="theia-button secondary"
                         onClick={handleCancelDenyReason}
                     >
-                        {nls.localizeByDefault('Cancel')}
+                        {nls.localizeByDefault('取消')}
                     </button>
                     <button
                         className="theia-button main"
                         onClick={handleSubmitDenyReason}
                     >
-                        {nls.localizeByDefault('Deny')}
+                        {nls.localizeByDefault('拒绝')}
                     </button>
                 </div>
             </div>
@@ -528,7 +528,7 @@ export const ToolConfirmation: React.FC<ToolConfirmationProps> = ({
     if (state === 'allowed') {
         return (
             <div className="theia-tool-confirmation-status allowed">
-                <span className={codicon('check')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/allowed', 'Tool execution allowed')}
+                <span className={codicon('check')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/allowed', '已允许执行工具')}
             </div>
         );
     }
@@ -536,14 +536,14 @@ export const ToolConfirmation: React.FC<ToolConfirmationProps> = ({
     if (state === 'denied') {
         return (
             <div className="theia-tool-confirmation-status denied">
-                <span className={codicon('close')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/denied', 'Tool execution denied')}
+                <span className={codicon('close')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/denied', '已拒绝执行工具')}
             </div>
         );
     }
 
     const toolNameContent = (
         <>
-            <span className="label">{nls.localizeByDefault('Tool')}:</span>
+            <span className="label">{nls.localizeByDefault('工具')}:</span>
             <span className="value">{response.name}</span>
         </>
     );
@@ -553,7 +553,7 @@ export const ToolConfirmation: React.FC<ToolConfirmationProps> = ({
             {showIntro && markdownRenderer && <ToolConfirmationIntro markdownRenderer={markdownRenderer} />}
             <div className="theia-tool-confirmation">
                 <div className="theia-tool-confirmation-header">
-                    <span className={codicon('shield')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/header', 'Confirm Tool Execution')}
+                    <span className={codicon('shield')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/header', '确认工具执行')}
                 </div>
                 <div className="theia-tool-confirmation-info">
                     {toolRequest?.description ? (
@@ -598,7 +598,7 @@ const ToolArgsDisplay: React.FC<ToolArgsDisplayProps> = ({ args, openerService }
     return (
         <details className="theia-tool-confirmation-args">
             <summary>
-                <span className="label">{nls.localizeByDefault('Arguments')}:</span>
+                <span className="label">{nls.localizeByDefault('参数')}:</span>
                 <span className="theia-tool-confirmation-args-summary">{summaryLabel}</span>
             </summary>
             <MarkdownRender
@@ -676,7 +676,7 @@ export function withToolCallConfirmation<P extends object>(
         if (confirmationState === 'rejected' || (requestCanceled && !response.finished)) {
             return (
                 <div className="theia-tool-confirmation-status rejected">
-                    <span className={codicon('error')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/canceled', 'Tool execution canceled')}
+                    <span className={codicon('error')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/canceled', '工具执行已取消')}
                 </div>
             );
         }
@@ -684,7 +684,7 @@ export function withToolCallConfirmation<P extends object>(
         if (confirmationState === 'denied') {
             return (
                 <div className="theia-tool-confirmation-status denied">
-                    <span className={codicon('error')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/executionDenied', 'Tool execution denied')}
+                    <span className={codicon('error')}></span> {nls.localize('theia/ai/chat-ui/toolconfirmation/executionDenied', '工具执行被拒绝')}
                 </div>
             );
         }

@@ -1,4 +1,4 @@
 # plugin-browser
 
-A minimal example of a browser-only VS Code extension that runs inside the Theia plugin web worker.
-It registers a single command, `plugin-browser.hello`, which displays an information message.
+一个仅浏览器运行的 VS Code 扩展的最小示例，它运行在 Theia 插件 web worker 中。
+它注册单个命令 `plugin-browser.hello`，用于显示一条信息消息。

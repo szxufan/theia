@@ -19,6 +19,7 @@ import * as React from '@theia/core/shared/react';
 import { AiConfigurationScope } from '../ai-configuration-category';
 import { AiSettingsControl, AiSettingsRowService } from './ai-settings-row-service';
 import { AiArrayInput, AiEditInSettingsButton, AiEnumSelect, AiNumberStepper, AiTextInput, AiToggleSwitch } from './ai-configuration-controls';
+import { AiObjectListInput } from './ai-object-list-input';
 import { AiConfigurationSettingRow } from './ai-configuration-setting-row';
 
 export interface AiSettingsRowProps {
@@ -107,10 +108,16 @@ export const AiSettingsRow: React.FC<AiSettingsRowProps> = ({
     />;
 };
 
+/** Whether a stored array entry is a plain object and can therefore be shown as an object-list card. */
+function isPlainObject(entry: unknown): entry is Record<string, unknown> {
+    return !!entry && typeof entry === 'object' && !Array.isArray(entry);
+}
+
 /**
  * Renders the shared control for a schema-derived {@link AiSettingsControl}, so generically-discovered
  * preferences get the same controls as the hand-authored pages. Boolean→toggle, number→stepper,
- * enum→select, array→chip editor, object/array-of-objects→"Edit in settings.json", everything else→text.
+ * enum→select, array→chip editor, array-of-objects→per-entry cards, object→"Edit in settings.json",
+ * everything else→text.
  */
 export const AiSettingsRowControl: React.FC<{
     control: AiSettingsControl;
@@ -150,14 +157,25 @@ export const AiSettingsRowControl: React.FC<{
             return <AiArrayInput
                 values={Array.isArray(value) ? value.map(String) : []}
                 ariaLabel={label}
-                addPlaceholder={control.placeholder ?? nls.localize('theia/ai/core/aiConfiguration/addValue', 'Add Value...')}
+                addPlaceholder={control.placeholder ?? nls.localize('theia/ai/core/aiConfiguration/addValue', '添加值...')}
                 validate={control.validate}
+                disabled={disabled}
+                onChange={onCommit}
+            />;
+        case 'objectList':
+            return <AiObjectListInput
+                // Entries that are not plain objects (a hand-edited settings.json may contain any
+                // JSON) cannot be shown as cards and are dropped from the editor; they stay in the
+                // stored value until the next commit from here.
+                values={Array.isArray(value) ? value.filter(isPlainObject) : []}
+                itemSchema={control.itemSchema}
+                ariaLabel={label}
                 disabled={disabled}
                 onChange={onCommit}
             />;
         case 'json':
             return <AiEditInSettingsButton
-                label={nls.localizeByDefault('Edit in settings.json')}
+                label={nls.localizeByDefault('在 settings.json 中编辑')}
                 ariaLabel={label}
                 disabled={disabled}
                 onClick={onEditInSettings}

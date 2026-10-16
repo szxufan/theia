@@ -60,7 +60,7 @@ export class EditorContribution implements FrontendApplicationContribution,
         this.openWithService.registerHandler({
             id: 'default',
             label: this.editorManager.label,
-            providerName: nls.localizeByDefault('Built-in'),
+            providerName: nls.localizeByDefault('内置'),
             canHandle: () => 100,
             // Higher priority than any other handler
             // so that the text editor always appears first in the quick pick
@@ -127,7 +127,7 @@ export class EditorContribution implements FrontendApplicationContribution,
             alignment: StatusBarAlignment.RIGHT,
             priority: 10,
             command: EditorCommands.CHANGE_ENCODING.id,
-            tooltip: nls.localizeByDefault('Select Encoding')
+            tooltip: nls.localizeByDefault('选择编码')
         });
     }
 
@@ -138,7 +138,7 @@ export class EditorContribution implements FrontendApplicationContribution,
         }
         const { cursor } = editor;
         statusBar.setElement('editor-status-cursor-position', {
-            text: nls.localizeByDefault('Ln {0}, Col {1}', cursor.line + 1, editor.getVisibleColumn(cursor)),
+            text: nls.localizeByDefault('行 {0}，列 {1}', cursor.line + 1, editor.getVisibleColumn(cursor)),
             alignment: StatusBarAlignment.RIGHT,
             priority: 100,
             tooltip: EditorCommands.GOTO_LINE_COLUMN.label,
@@ -201,22 +201,22 @@ export class EditorContribution implements FrontendApplicationContribution,
     registerMenus(registry: MenuModelRegistry): void {
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_UP.id,
-            label: nls.localizeByDefault('Split Up'),
+            label: nls.localizeByDefault('向上拆分'),
             order: '1',
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_DOWN.id,
-            label: nls.localizeByDefault('Split Down'),
+            label: nls.localizeByDefault('向下拆分'),
             order: '2',
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_LEFT.id,
-            label: nls.localizeByDefault('Split Left'),
+            label: nls.localizeByDefault('向左拆分'),
             order: '3',
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_RIGHT.id,
-            label: nls.localizeByDefault('Split Right'),
+            label: nls.localizeByDefault('向右拆分'),
             order: '4',
         });
     }

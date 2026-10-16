@@ -59,16 +59,14 @@ import { QuickInputService, QuickPickItem, QuickPickItemOrSeparator, QuickPickSe
 import { AsyncLocalizationProvider } from '../common/i18n/localization';
 import { nls } from '../common/nls';
 import { CurrentWidgetCommandAdapter } from './shell/current-widget-command-adapter';
-import { ConfirmDialog, confirmExit, ConfirmSaveDialog, Dialog } from './dialogs';
+import { confirmExit, ConfirmSaveDialog, Dialog } from './dialogs';
 import { WindowService } from './window/window-service';
 import { SecondaryWindowService } from './window/secondary-window-service';
-import { FrontendApplicationConfigProvider } from './frontend-application-config-provider';
 import { DecorationStyle } from './decoration-style';
 import { codicon, isPinned, Title, togglePinned, Widget } from './widgets';
 import { SaveableService } from './saveable-service';
 import { UserWorkingDirectoryProvider } from './user-working-directory-provider';
 import { PreferenceChangeEvent, PreferenceScope, PreferenceService, UNTITLED_SCHEME, UntitledResourceResolver } from '../common';
-import { LanguageQuickPickService } from './i18n/language-quick-pick-service';
 import { SidebarMenu } from './shell/sidebar-menu-widget';
 import { UndoRedoHandlerService } from './undo-redo-handler';
 import { timeout } from '../common/promise-util';
@@ -154,9 +152,6 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
     @inject(UserWorkingDirectoryProvider)
     protected readonly workingDirProvider: UserWorkingDirectoryProvider;
 
-    @inject(LanguageQuickPickService)
-    protected readonly languageQuickPickService: LanguageQuickPickService;
-
     @inject(UntitledResourceResolver)
     protected readonly untitledResourceResolver: UntitledResourceResolver;
 
@@ -205,7 +200,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             const accountsMenu: SidebarMenu = {
                 id: 'accounts-menu',
                 iconClass: codicon('account'),
-                title: nls.localizeByDefault('Accounts'),
+                title: nls.localizeByDefault('账户'),
                 menuPath: ACCOUNTS_MENU,
                 order: 1,
                 onDidBadgeChange: this.authenticationService.onDidUpdateSignInCount
@@ -266,7 +261,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     this.shell.leftPanelHandler.addTopMenu({
                         id: mainMenuId,
                         iconClass: `theia-compact-menu ${codicon('menu')}`,
-                        title: nls.localizeByDefault('Application Menu'),
+                        title: nls.localizeByDefault('应用程序菜单'),
                         menuPath: MAIN_MENU_BAR,
                         order: 0,
                     });
@@ -322,13 +317,13 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
     }
 
     registerMenus(registry: MenuModelRegistry): void {
-        registry.registerSubmenu(CommonMenus.FILE, nls.localizeByDefault('File'));
-        registry.registerSubmenu(CommonMenus.EDIT, nls.localizeByDefault('Edit'));
-        registry.registerSubmenu(CommonMenus.VIEW, nls.localizeByDefault('View'));
-        registry.registerSubmenu(CommonMenus.HELP, nls.localizeByDefault('Help'));
+        registry.registerSubmenu(CommonMenus.FILE, nls.localizeByDefault('文件'));
+        registry.registerSubmenu(CommonMenus.EDIT, nls.localizeByDefault('编辑'));
+        registry.registerSubmenu(CommonMenus.VIEW, nls.localizeByDefault('视图'));
+        registry.registerSubmenu(CommonMenus.HELP, nls.localizeByDefault('帮助'));
 
         // For plugins contributing create new file commands/menu-actions
-        registry.registerSubmenu(CommonMenus.FILE_NEW_CONTRIBUTIONS, nls.localizeByDefault('New File...'));
+        registry.registerSubmenu(CommonMenus.FILE_NEW_CONTRIBUTIONS, nls.localizeByDefault('新建文件...'));
 
         registry.registerMenuAction(CommonMenus.FILE_SAVE, {
             commandId: CommonCommands.SAVE.id
@@ -385,7 +380,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         registry.registerMenuAction(CommonMenus.VIEW_APPEARANCE_SUBMENU_BAR, {
             commandId: CommonCommands.TOGGLE_STATUS_BAR.id,
             order: '2',
-            label: nls.localizeByDefault('Toggle Status Bar Visibility')
+            label: nls.localizeByDefault('切换状态栏可见性')
         });
         registry.registerMenuAction(CommonMenus.VIEW_APPEARANCE_SUBMENU_BAR, {
             commandId: CommonCommands.COLLAPSE_ALL_PANELS.id,
@@ -394,27 +389,27 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
 
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_CLOSE, {
             commandId: CommonCommands.CLOSE_TAB.id,
-            label: nls.localizeByDefault('Close'),
+            label: nls.localizeByDefault('关闭'),
             order: '0'
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_CLOSE, {
             commandId: CommonCommands.CLOSE_OTHER_TABS.id,
-            label: nls.localizeByDefault('Close Others'),
+            label: nls.localizeByDefault('关闭其他'),
             order: '1'
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_CLOSE, {
             commandId: CommonCommands.CLOSE_RIGHT_TABS.id,
-            label: nls.localizeByDefault('Close to the Right'),
+            label: nls.localizeByDefault('关闭右侧'),
             order: '2'
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_CLOSE, {
             commandId: CommonCommands.CLOSE_SAVED_TABS.id,
-            label: nls.localizeByDefault('Close Saved'),
+            label: nls.localizeByDefault('关闭已保存'),
             order: '3',
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_CLOSE, {
             commandId: CommonCommands.CLOSE_ALL_TABS.id,
-            label: nls.localizeByDefault('Close All'),
+            label: nls.localizeByDefault('全部关闭'),
             order: '4'
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_SPLIT, {
@@ -439,17 +434,17 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         });
         registry.registerMenuAction(CommonMenus.VIEW_APPEARANCE_SUBMENU_BAR, {
             commandId: CommonCommands.SHOW_MENU_BAR.id,
-            label: nls.localizeByDefault('Toggle Menu Bar'),
+            label: nls.localizeByDefault('切换菜单栏'),
             order: '0'
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_PIN, {
             commandId: CommonCommands.PIN_TAB.id,
-            label: nls.localizeByDefault('Pin'),
+            label: nls.localizeByDefault('固定'),
             order: '7'
         });
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_PIN, {
             commandId: CommonCommands.UNPIN_TAB.id,
-            label: nls.localizeByDefault('Unpin'),
+            label: nls.localizeByDefault('取消固定'),
             order: '8'
         });
         registry.registerMenuAction(CommonMenus.HELP, {
@@ -469,7 +464,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             commandId: CommonCommands.SELECT_ICON_THEME.id
         });
 
-        registry.registerSubmenu(CommonMenus.MANAGE_SETTINGS_THEMES, nls.localizeByDefault('Themes'), { sortString: 'a50' });
+        registry.registerSubmenu(CommonMenus.MANAGE_SETTINGS_THEMES, nls.localizeByDefault('主题'), { sortString: 'a50' });
         registry.registerMenuAction(CommonMenus.MANAGE_SETTINGS_THEMES, {
             commandId: CommonCommands.SELECT_COLOR_THEME.id,
             order: '0'
@@ -479,17 +474,17 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             order: '1'
         });
 
-        registry.registerSubmenu(CommonMenus.VIEW_APPEARANCE_SUBMENU, nls.localizeByDefault('Appearance'));
+        registry.registerSubmenu(CommonMenus.VIEW_APPEARANCE_SUBMENU, nls.localizeByDefault('外观'));
 
         registry.registerMenuAction(CommonMenus.FILE_NEW_TEXT, {
             commandId: CommonCommands.NEW_UNTITLED_TEXT_FILE.id,
-            label: nls.localizeByDefault('New Text File'),
+            label: nls.localizeByDefault('新建文本文件'),
             order: 'a'
         });
 
         registry.registerMenuAction(CommonMenus.FILE_NEW_TEXT, {
             commandId: CommonCommands.PICK_NEW_FILE.id,
-            label: nls.localizeByDefault('New File...'),
+            label: nls.localizeByDefault('新建文件...'),
             order: 'a1'
         });
     }
@@ -514,7 +509,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                         document.execCommand('cut');
                     }
                 } else {
-                    this.messageService.warn(nls.localize('theia/core/cutWarn', "Please use the browser's cut command or shortcut."));
+                    this.messageService.warn(nls.localize('theia/core/cutWarn', "请使用浏览器的剪切命令或快捷键。"));
                 }
             }
         });
@@ -533,7 +528,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                         document.execCommand('copy');
                     }
                 } else {
-                    this.messageService.warn(nls.localize('theia/core/copyWarn', "Please use the browser's copy command or shortcut."));
+                    this.messageService.warn(nls.localize('theia/core/copyWarn', "请使用浏览器的复制命令或快捷键。"));
                 }
             }
         });
@@ -550,7 +545,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                         document.execCommand('paste');
                     }
                 } else {
-                    this.messageService.warn(nls.localize('theia/core/pasteWarn', "Please use the browser's paste command or shortcut."));
+                    this.messageService.warn(nls.localize('theia/core/pasteWarn', "请使用浏览器的粘贴命令或快捷键。"));
                 }
             }
         });
@@ -563,7 +558,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     const text = uris.map(resource => resource.path.fsPath()).join(lineDelimiter);
                     await this.clipboardService.writeText(text);
                 } else {
-                    await this.messageService.info(nls.localize('theia/core/copyInfo', 'Open a file first to copy its path'));
+                    await this.messageService.info(nls.localize('theia/core/copyInfo', '请先打开一个文件以复制其路径'));
                 }
             }
         }));
@@ -754,7 +749,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                 if (this.saveResourceService.canSaveAs(currentWidget)) {
                     this.saveResourceService.saveAs(currentWidget);
                 } else {
-                    this.messageService.error(nls.localize('theia/workspace/failSaveAs', 'Cannot run "{0}" for the current widget.', CommonCommands.SAVE_AS.label!));
+                    this.messageService.error(nls.localize('theia/workspace/failSaveAs', '无法对当前部件运行“{0}”。', CommonCommands.SAVE_AS.label!));
                 }
             },
         });
@@ -786,9 +781,6 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             isEnabled: title => Boolean(title && isPinned(title)),
             execute: title => this.togglePinned(title),
         }));
-        commandRegistry.registerCommand(CommonCommands.CONFIGURE_DISPLAY_LANGUAGE, {
-            execute: () => this.configureDisplayLanguage()
-        });
         commandRegistry.registerCommand(CommonCommands.TOGGLE_BREADCRUMBS, {
             execute: () => this.toggleBreadcrumbs(),
             isToggled: () => this.isBreadcrumbsEnabled(),
@@ -810,7 +802,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         });
 
         for (const [index, ordinal] of this.getOrdinalNumbers().entries()) {
-            commandRegistry.registerCommand({ id: `workbench.action.focus${ordinal}EditorGroup`, label: index === 0 ? nls.localizeByDefault('Focus First Editor Group') : '', category: nls.localize(CommonCommands.VIEW_CATEGORY_KEY, CommonCommands.VIEW_CATEGORY) }, {
+            commandRegistry.registerCommand({ id: `workbench.action.focus${ordinal}EditorGroup`, label: index === 0 ? nls.localizeByDefault('聚焦第一个编辑器组') : '', category: nls.localize(CommonCommands.VIEW_CATEGORY_KEY, CommonCommands.VIEW_CATEGORY) }, {
                 isEnabled: () => this.shell.mainAreaTabBars.length > index,
                 execute: () => {
                     const widget = this.shell.mainAreaTabBars[index]?.currentTitle?.owner;
@@ -1031,7 +1023,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
     // Asks the user to confirm whether they want to exit with or without saving the changes
     private async confirmExitWithOrWithoutSaving(captionsToSave: string[], performSave: () => Promise<void>): Promise<boolean | undefined> {
         const div: HTMLElement = document.createElement('div');
-        div.innerText = nls.localizeByDefault("Your changes will be lost if you don't save them.");
+        div.innerText = nls.localizeByDefault("如果不保存，你的更改将丢失。");
 
         let result;
         if (captionsToSave.length > 0) {
@@ -1046,10 +1038,10 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             span.appendChild(document.createElement('br'));
             div.appendChild(span);
             result = await new ConfirmSaveDialog({
-                title: nls.localizeByDefault('Do you want to save the changes to the following {0} files?', captionsToSave.length),
+                title: nls.localizeByDefault('是否要保存对以下 {0} 个文件的更改？', captionsToSave.length),
                 msg: div,
-                dontSave: nls.localizeByDefault("Don't Save"),
-                save: nls.localizeByDefault('Save All'),
+                dontSave: nls.localizeByDefault('不保存'),
+                save: nls.localizeByDefault('全部保存'),
                 cancel: Dialog.CANCEL
             }).open();
 
@@ -1077,16 +1069,6 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             NavigatableWidget.getUri(widget)?.scheme === UNTITLED_SCHEME && this.saveResourceService.canSaveAs(widget)
         );
     }
-    protected async configureDisplayLanguage(): Promise<void> {
-        const languageInfo = await this.languageQuickPickService.pickDisplayLanguage();
-        if (languageInfo && !nls.isSelectedLocale(languageInfo.languageId) && await this.confirmRestart(
-            languageInfo.localizedLanguageName ?? languageInfo.languageName ?? languageInfo.languageId
-        )) {
-            nls.setLocale(languageInfo.languageId);
-            this.windowService.setSafeToShutDown();
-            this.windowService.reload();
-        }
-    }
     /**
      * saves any dirty widget in toSave
      * side effect - will pop all widgets from toSave that was saved
@@ -1110,17 +1092,6 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
 
     protected isBreadcrumbsEnabled(): boolean {
         return !!this.preferenceService.get('breadcrumbs.enabled');
-    }
-
-    protected async confirmRestart(languageName: string): Promise<boolean> {
-        const appName = FrontendApplicationConfigProvider.get().applicationName;
-        const shouldRestart = await new ConfirmDialog({
-            title: nls.localizeByDefault('Restart {0} to switch to {1}?', appName, languageName),
-            msg: nls.localizeByDefault('To change the display language to {0}, {1} needs to restart.', languageName, appName),
-            ok: nls.localizeByDefault('Restart'),
-            cancel: Dialog.CANCEL,
-        }).open();
-        return shouldRestart === true;
     }
 
     protected selectIconTheme(): void {
@@ -1150,7 +1121,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
 
         this.quickInputService?.showQuickPick(items,
             {
-                placeholder: nls.localizeByDefault('Select File Icon Theme'),
+                placeholder: nls.localizeByDefault('选择文件图标主题'),
                 activeItem: items.find(item => item.id === resetTo?.id),
                 onDidChangeSelection: (_, selectedItems) => {
                     resetTo = undefined;
@@ -1179,9 +1150,9 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             hcLight: Array<QuickPickWithId>
         } = { light: [], dark: [], hc: [], hcLight: [] };
 
-        const lightThemesSeparator = nls.localizeByDefault('light themes');
-        const darkThemesSeparator = nls.localizeByDefault('dark themes');
-        const highContrastThemesSeparator = nls.localizeByDefault('high contrast themes');
+        const lightThemesSeparator = nls.localizeByDefault('浅色主题');
+        const darkThemesSeparator = nls.localizeByDefault('深色主题');
+        const highContrastThemesSeparator = nls.localizeByDefault('高对比度主题');
 
         for (const theme of this.themeService.getThemes().sort((a, b) => a.label.localeCompare(b.label))) {
             const themeItems: QuickPickItemOrSeparator[] = itemsByTheme[theme.type];
@@ -1212,7 +1183,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         const items = [...itemsByTheme.light, ...itemsByTheme.dark, ...itemsByTheme.hc, ...itemsByTheme.hcLight];
         this.quickInputService?.showQuickPick(items,
             {
-                placeholder: nls.localizeByDefault('Select Color Theme'),
+                placeholder: nls.localizeByDefault('选择颜色主题'),
                 activeItem: items.find(item => item.id === resetTo),
                 onDidChangeSelection: (_, selectedItems) => {
                     resetTo = undefined;
@@ -1236,8 +1207,8 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         const newFileContributions = this.menuRegistry.getMenuNode(CommonMenus.FILE_NEW_CONTRIBUTIONS) as Submenu; // Add menus
         const items: QuickPickItemOrSeparator[] = [
             {
-                label: nls.localizeByDefault('New Text File'),
-                description: nls.localizeByDefault('Built-in'),
+                label: nls.localizeByDefault('新建文本文件'),
+                description: nls.localizeByDefault('内置'),
                 execute: async () => this.commandRegistry.executeCommand(CommonCommands.NEW_UNTITLED_TEXT_FILE.id)
             },
             ...newFileContributions.children
@@ -1266,8 +1237,8 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         // Create a "Create New File" item only if there is a NEW_FILE command handler.
         const createNewFileItem: QuickPickItem & { value?: string } | undefined = hasNewFileHandler ? {
             id: CREATE_NEW_FILE_ITEM_ID,
-            label: nls.localizeByDefault('Create New File ({0})'),
-            description: nls.localizeByDefault('Built-in'),
+            label: nls.localizeByDefault('新建文件 ({0})'),
+            description: nls.localizeByDefault('内置'),
             execute: async () => {
                 if (createNewFileItem?.value) {
                     const parent = await this.workingDirProvider.getUserWorkingDir();
@@ -1278,8 +1249,8 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         } : undefined;
 
         this.quickInputService.showQuickPick(items, {
-            title: nls.localizeByDefault('New File...'),
-            placeholder: nls.localizeByDefault('Select File Type or Enter File Name...'),
+            title: nls.localizeByDefault('新建文件...'),
+            placeholder: nls.localizeByDefault('选择文件类型或输入文件名...'),
             canSelectMany: false,
             onDidChangeValue: picker => {
                 if (createNewFileItem === undefined) {
@@ -1289,7 +1260,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                 if (picker.value) {
                     createNewFileItem.alwaysShow = true;
                     createNewFileItem.value = picker.value;
-                    createNewFileItem.label = nls.localizeByDefault('Create New File ({0})', picker.value);
+                    createNewFileItem.label = nls.localizeByDefault('新建文件 ({0})', picker.value);
                     picker.items = [...items, createNewFileItem];
                 } else {
                     createNewFileItem.alwaysShow = false;

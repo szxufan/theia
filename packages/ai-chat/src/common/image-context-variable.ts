@@ -24,30 +24,30 @@ import { ParsedChatRequestPart, ParsedChatRequestVariablePart } from './parsed-c
 
 export const IMAGE_CONTEXT_VARIABLE: AIVariable = {
     id: 'imageContext',
-    description: nls.localize('theia/ai/chat/imageContextVariable/description', 'Provides context information for an image'),
+    description: nls.localize('theia/ai/chat/imageContextVariable/description', '提供图片的上下文信息'),
     name: 'imageContext',
-    label: nls.localize('theia/ai/chat/imageContextVariable/label', 'Image File'),
+    label: nls.localize('theia/ai/chat/imageContextVariable/label', '图片文件'),
     iconClasses: ['codicon', 'codicon-file-media'],
     isContextVariable: true,
     args: [
         {
             name: 'name',
-            description: nls.localize('theia/ai/chat/imageContextVariable/args/name/description', 'The name of the image file if available.'),
+            description: nls.localize('theia/ai/chat/imageContextVariable/args/name/description', '图片文件的名称（如果可用）。'),
             isOptional: true
         },
         {
             name: 'wsRelativePath',
-            description: nls.localize('theia/ai/chat/imageContextVariable/args/wsRelativePath/description', 'The workspace-relative path of the image file if available.'),
+            description: nls.localize('theia/ai/chat/imageContextVariable/args/wsRelativePath/description', '图片文件的工作区相对路径（如果可用）。'),
             isOptional: true
         },
         {
             name: 'data',
-            description: nls.localize('theia/ai/chat/imageContextVariable/args/data/description', 'The image data in base64.'),
+            description: nls.localize('theia/ai/chat/imageContextVariable/args/data/description', 'base64 编码的图片数据。'),
             isOptional: true
         },
         {
             name: 'mimeType',
-            description: nls.localize('theia/ai/chat/imageContextVariable/args/mimeType/description', 'The mimetype of the image.'),
+            description: nls.localize('theia/ai/chat/imageContextVariable/args/mimeType/description', '图片的 MIME 类型。'),
             isOptional: true
         }
     ]

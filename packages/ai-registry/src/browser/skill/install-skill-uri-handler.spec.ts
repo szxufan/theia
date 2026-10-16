@@ -115,7 +115,7 @@ describe('InstallSkillUriHandler', () => {
         await handler.open(new URI('theia://install-skill'));
 
         expect(messages.error).to.have.lengthOf(1);
-        expect(messages.error[0]).to.match(/missing.*id/i);
+        expect(messages.error[0]).to.match(/缺少必需的 "id" 参数/);
         expect(messages.info).to.deep.equal([]);
         expect(installCalls).to.deep.equal([]);
         expect(handler.confirmCalls).to.equal(0);
@@ -127,7 +127,7 @@ describe('InstallSkillUriHandler', () => {
         await handler.open(new URI('theia://install-skill?id=io.github.example/unknown'));
 
         expect(messages.error).to.have.lengthOf(1);
-        expect(messages.error[0]).to.match(/not listed/i);
+        expect(messages.error[0]).to.match(/未列在你的 AI 注册表中/);
         expect(messages.error[0]).to.include('io.github.example/unknown');
         expect(installCalls).to.deep.equal([]);
         expect(handler.confirmCalls).to.equal(0);
@@ -139,7 +139,7 @@ describe('InstallSkillUriHandler', () => {
         await handler.open(new URI(`theia://install-skill?id=${entry.skillId}`));
 
         expect(messages.error).to.have.lengthOf(1);
-        expect(messages.error[0]).to.match(/could not load/i);
+        expect(messages.error[0]).to.match(/无法加载 AI 注册表/);
         expect(installCalls).to.deep.equal([]);
         expect(handler.confirmCalls).to.equal(0);
     });

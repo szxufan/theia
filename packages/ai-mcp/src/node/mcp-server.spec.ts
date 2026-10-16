@@ -469,7 +469,7 @@ describe('MCPServer OAuth reconnect', () => {
         });
 
         expect(server.getStatus()).to.equal(MCPServerStatus.AuthenticationRequired);
-        expect((await server.getDescription()).error).to.contain('sign-in succeeded');
+        expect((await server.getDescription()).error).to.contain('MCP OAuth 登录已成功');
         // The flag must be observable on the post-handshake error path; sanity-check the SSE fallback ran.
         expect(server.sseTransports).to.have.length(1);
     });
@@ -536,7 +536,7 @@ describe('MCPServer OAuth reconnect', () => {
         // server to re-authenticate, so AuthenticationRequired guides that workflow instead of the
         // generic Errored status the previous implementation produced.
         expect(server.getStatus()).to.equal(MCPServerStatus.AuthenticationRequired);
-        expect((await server.getDescription()).error).to.contain('MCP OAuth authorization is required');
+        expect((await server.getDescription()).error).to.contain('需要进行 MCP OAuth 授权');
     });
 
     it('routes steady-state MCPOAuthAuthorizationRequiredError to AuthenticationRequired', async () => {
@@ -552,7 +552,7 @@ describe('MCPServer OAuth reconnect', () => {
         initialClient.onerror?.(new MCPOAuthAuthorizationRequiredError());
 
         expect(server.getStatus()).to.equal(MCPServerStatus.AuthenticationRequired);
-        expect((await server.getDescription()).error).to.contain('MCP OAuth authorization is required');
+        expect((await server.getDescription()).error).to.contain('需要进行 MCP OAuth 授权');
     });
 
     it('routes steady-state MCPOAuthAuthorizationServerError to AuthenticationRequired with the authorization server diagnostic', async () => {

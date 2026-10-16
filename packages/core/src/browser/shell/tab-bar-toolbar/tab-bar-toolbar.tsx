@@ -155,10 +155,10 @@ export class TabBarToolbar extends ReactWidget {
     protected renderMore(): React.ReactNode {
         return !!this.more.size && <div key='__more__' className={TabBarToolbar.Styles.TAB_BAR_TOOLBAR_ITEM + ' enabled'}>
             <div id='__more__' className={codicon('ellipsis', true)}
-                {...buttonKeyboardProps(nls.localizeByDefault('More Actions...'))}
+                {...buttonKeyboardProps(nls.localizeByDefault('更多操作...'))}
                 onClick={this.showMoreContextMenu}
                 onKeyDown={this.handleMoreKeyDown}
-                title={nls.localizeByDefault('More Actions...')} />
+                title={nls.localizeByDefault('更多操作...')} />
         </div>;
     }
 

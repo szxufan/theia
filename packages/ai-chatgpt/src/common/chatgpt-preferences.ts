@@ -37,8 +37,8 @@ export const CHATGPT_FALLBACK_MODELS = [
 ];
 
 const MODELS_DESCRIPTION = nls.localize('theia/ai/chatgpt/models/mdDescription',
-    'Models to serve through your ChatGPT subscription. They are only available while you are signed in. \
-Leave this empty to offer the models your ChatGPT plan actually grants, which are queried once you are signed in.');
+    '要通过您的 ChatGPT 订阅提供的模型。仅在您已登录时可用。 \
+留空即可提供您的 ChatGPT 套餐实际授予的模型，登录后会自动查询这些模型。');
 
 export const ChatGptPreferencesSchema: PreferenceSchema = {
     properties: {
@@ -46,8 +46,8 @@ export const ChatGptPreferencesSchema: PreferenceSchema = {
             type: 'boolean',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'ChatGPT' } satisfies ModelProviderTypeDetail },
             markdownDescription: nls.localize('theia/ai/chatgpt/enabled/mdDescription',
-                'Enable the ChatGPT provider. When enabled, a status bar entry appears for authentication '
-                + 'and available models are discovered from your ChatGPT subscription.'),
+                '启用 ChatGPT 提供程序。启用后，状态栏将出现用于身份验证的条目，'
+                + '并会从您的 ChatGPT 订阅中发现可用模型。'),
             tags: ['experimental'],
             title: AI_CORE_PREFERENCES_TITLE,
             default: true
@@ -56,14 +56,14 @@ export const ChatGptPreferencesSchema: PreferenceSchema = {
             type: 'string',
             enum: ['default', 'enabled', 'disabled'],
             enumDescriptions: [
-                nls.localize('theia/ai/chatgpt/compaction/default', 'Follow the global chat server-side compaction setting.'),
-                nls.localize('theia/ai/chatgpt/compaction/enabled', 'Always request server-side compaction for ChatGPT models.'),
-                nls.localize('theia/ai/chatgpt/compaction/disabled', 'Never request server-side compaction for ChatGPT models.')
+                nls.localize('theia/ai/chatgpt/compaction/default', '遵循全局聊天服务端压缩设置。'),
+                nls.localize('theia/ai/chatgpt/compaction/enabled', '始终为 ChatGPT 模型请求服务端压缩。'),
+                nls.localize('theia/ai/chatgpt/compaction/disabled', '从不为 ChatGPT 模型请求服务端压缩。')
             ],
             default: 'default',
             markdownDescription: nls.localize('theia/ai/chatgpt/compaction/description',
-                'Override provider-native server-side compaction for ChatGPT models. "default" follows the global chat setting ({0}). ' +
-                'When effectively enabled, the Response API is asked to summarize older turns once the conversation grows past the provider\'s threshold.',
+                '覆盖 ChatGPT 模型的提供程序原生服务端压缩。"default" 遵循全局聊天设置（{0}）。' +
+                '在有效启用的情况下，当对话增长超过提供程序的阈值时，将要求 Response API 总结较早的对话轮次。',
                 `\`#${PREFERENCE_NAME_SERVER_SIDE_COMPACTION}#\``),
             tags: ['experimental'],
             title: AI_CORE_PREFERENCES_TITLE
@@ -72,8 +72,8 @@ export const ChatGptPreferencesSchema: PreferenceSchema = {
             type: 'integer',
             minimum: SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM,
             markdownDescription: nls.localize('theia/ai/chatgpt/compactionTokenThreshold/description',
-                'Override the global input-token threshold for server-side compaction for ChatGPT models. When unset, the global setting or provider default applies. ' +
-                'If set, the value must be at least 50,000 tokens.'),
+                '覆盖 ChatGPT 模型服务端压缩的全局输入 Token 阈值。未设置时，将应用全局设置或提供程序默认值。' +
+                '如果设置，该值必须至少为 50,000 Token。'),
             tags: ['experimental'],
             title: AI_CORE_PREFERENCES_TITLE
         },

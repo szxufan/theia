@@ -31,7 +31,7 @@ import { nls } from '@theia/core/lib/common/nls';
 import { AbstractNavigatorTreeWidget } from './abstract-navigator-tree-widget';
 
 export const FILE_NAVIGATOR_ID = 'files';
-export const LABEL = nls.localizeByDefault('No Folder Opened');
+export const LABEL = nls.localizeByDefault('未打开文件夹');
 export const CLASS = 'theia-Files';
 
 @injectable()
@@ -58,7 +58,7 @@ export class FileNavigatorWidget extends AbstractNavigatorTreeWidget {
         super.init();
         // This ensures that the context menu command to hide this widget receives the label 'Folders'
         // regardless of the name of workspace. See ViewContainer.updateToolbarItems.
-        const dataset = { ...this.title.dataset, visibilityCommandLabel: nls.localizeByDefault('Folders') };
+        const dataset = { ...this.title.dataset, visibilityCommandLabel: nls.localizeByDefault('文件夹') };
         this.title.dataset = dataset;
         this.updateSelectionContextKeys();
         this.toDispose.pushAll([
@@ -171,7 +171,7 @@ export class FileNavigatorWidget extends AbstractNavigatorTreeWidget {
         if (sources.length === 0) {
             this.messageService.info(nls.localize(
                 'theia/navigator/nothingToPaste',
-                'The clipboard does not contain workspace files that can be pasted here.'
+                '剪贴板中不包含可粘贴到此处的工作区文件。'
             ));
             return true;
         }
@@ -237,12 +237,12 @@ export class FileNavigatorWidget extends AbstractNavigatorTreeWidget {
      */
     protected renderEmptyMultiRootWorkspace(): React.ReactNode {
         return <div className='theia-navigator-container'>
-            <div className='center'>{nls.localizeByDefault('You have not yet added a folder to the workspace.\n{0}', '')}</div>
+            <div className='center'>{nls.localizeByDefault('您尚未向工作区添加文件夹。\n{0}', '')}</div>
             <div className='open-workspace-button-container'>
-                <button className='theia-button open-workspace-button' title={nls.localizeByDefault('Add Folder to Workspace')}
+                <button className='theia-button open-workspace-button' title={nls.localizeByDefault('将文件夹添加到工作区')}
                     onClick={this.addFolder}
                     onKeyUp={this.keyUpHandler}>
-                    {nls.localizeByDefault('Open Folder')}
+                    {nls.localizeByDefault('打开文件夹')}
                 </button>
             </div>
         </div>;

@@ -46,6 +46,7 @@ export class CoderAgent extends AbstractModeAwareChatAgent {
     @inject(AgentModeConfirmationService) protected readonly agentModeConfirmation: AgentModeConfirmationService;
     id: string = CoderAgentId;
     name = CoderAgentId;
+    displayName = nls.localize('theia/ai/ide/coderAgent/displayName', '编码');
     languageModelRequirements: LanguageModelRequirement[] = [{
         purpose: 'chat',
         identifier: 'default/code',
@@ -54,23 +55,23 @@ export class CoderAgent extends AbstractModeAwareChatAgent {
     override iconClass: string = 'codicon codicon-code';
 
     override description = nls.localize('theia/ai/workspace/coderAgent/description',
-        'An AI assistant integrated into {0}, designed to assist software developers. This agent can access the users workspace, it can get a list of all available files' +
-        ' and folders and retrieve their content. Furthermore, it can suggest modifications of files to the user. It can therefore assist the user with coding tasks or other' +
-        ' tasks involving file changes.',
+        '集成于 {0} 的 AI 助手，旨在为软件开发者提供帮助。此代理可以访问用户的工作区，它可以获取所有可用文件'
+        + '和文件夹的列表并检索其内容。此外，它还可以向用户建议文件的修改。因此，它可以协助用户完成编码任务或其他'
+        + '涉及文件更改的任务。',
         FrontendApplicationConfigProvider.get().applicationName);
 
     protected readonly modeDefinitions: Omit<ChatMode, 'isDefault'>[] = [
         {
             id: CODER_EDIT_TEMPLATE_ID,
-            name: nls.localize('theia/ai/ide/coderAgent/mode/edit', 'Edit Mode')
+            name: nls.localize('theia/ai/ide/coderAgent/mode/edit', '编辑模式')
         },
         {
             id: CODER_AGENT_MODE_TEMPLATE_ID,
-            name: nls.localizeByDefault('Agent Mode')
+            name: nls.localizeByDefault('代理模式')
         },
         {
             id: CODER_AGENT_MODE_NEXT_TEMPLATE_ID,
-            name: nls.localize('theia/ai/ide/coderAgent/mode/agentNext', 'Agent Mode (Next)')
+            name: nls.localize('theia/ai/ide/coderAgent/mode/agentNext', '代理模式（下一代）')
         },
     ];
 
@@ -136,9 +137,9 @@ export class CoderAgent extends AbstractModeAwareChatAgent {
                 {
                     kind: 'callback',
                     callback: () => this.chatService.sendRequest(session.id, {
-                        text: `@Coder ${nls.localize('theia/ai/ide/coderAgent/suggestion/fixProblems/prompt', 'please look at {1} and fix any problems.', '#_f')}`
+                        text: `@Coder ${nls.localize('theia/ai/ide/coderAgent/suggestion/fixProblems/prompt', '请查看 {1} 并修复所有问题。', '#_f')}`
                     }),
-                    content: nls.localize('theia/ai/ide/coderAgent/suggestion/fixProblems/content', '[Fix problems]({0}) in the current file.', '_callback')
+                    content: nls.localize('theia/ai/ide/coderAgent/suggestion/fixProblems/content', '[修复当前文件中的问题]({0})。', '_callback')
                 },
             ]);
         } else {

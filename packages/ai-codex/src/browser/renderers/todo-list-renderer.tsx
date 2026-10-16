@@ -86,15 +86,15 @@ const TodoListComponent: React.FC<{ item: TodoListItem }> = ({ item }) => {
             <div className="codex-tool container">
                 <div className="codex-tool header">
                     <div className="codex-tool header-left">
-                        <span className="codex-tool title">{nls.localize('theia/ai/codex/todoList', 'Todo List')}</span>
+                        <span className="codex-tool title">{nls.localize('theia/ai/codex/todoList', '待办列表')}</span>
                         <span className={`${codicon('checklist')} codex-tool icon`} />
                         <span className="codex-tool progress-text">
-                            {nls.localizeByDefault('Loading...')}
+                            {nls.localizeByDefault('加载中...')}
                         </span>
                     </div>
                     <div className="codex-tool header-right">
                         <span className="codex-tool badge">
-                            {nls.localize('theia/ai/codex/noItems', 'No items')}
+                            {nls.localize('theia/ai/codex/noItems', '暂无条目')}
                         </span>
                     </div>
                 </div>
@@ -105,17 +105,17 @@ const TodoListComponent: React.FC<{ item: TodoListItem }> = ({ item }) => {
     const compactHeader = (
         <>
             <div className="codex-tool header-left">
-                <span className="codex-tool title">{nls.localize('theia/ai/codex/todoList', 'Todo List')}</span>
+                <span className="codex-tool title">{nls.localize('theia/ai/codex/todoList', '待办列表')}</span>
                 <span className={`${codicon('checklist')} codex-tool icon`} />
                 <span className="codex-tool progress-text">
-                    {nls.localize('theia/ai/codex/completedCount', '{0}/{1} completed', completedCount, totalCount)}
+                    {nls.localize('theia/ai/codex/completedCount', '{0}/{1} 已完成', completedCount, totalCount)}
                 </span>
             </div>
             <div className="codex-tool header-right">
                 <span className="codex-tool badge">
                     {totalCount === 1
-                        ? nls.localize('theia/ai/codex/oneItem', '1 item')
-                        : nls.localize('theia/ai/codex/itemCount', '{0} items', totalCount)}
+                        ? nls.localize('theia/ai/codex/oneItem', '1 项')
+                        : nls.localize('theia/ai/codex/itemCount', '{0} 项', totalCount)}
                 </span>
             </div>
         </>

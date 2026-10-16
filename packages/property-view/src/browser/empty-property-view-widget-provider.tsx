@@ -28,7 +28,7 @@ import { DefaultPropertyViewWidgetProvider } from './property-view-widget-provid
 class EmptyPropertyViewWidget extends ReactWidget implements PropertyViewContentWidget {
 
     static readonly ID = 'theia-empty-property-view';
-    static readonly LABEL = 'No Properties';
+    static readonly LABEL = '无属性';
 
     constructor() {
         super();
@@ -47,7 +47,7 @@ class EmptyPropertyViewWidget extends ReactWidget implements PropertyViewContent
         return this.emptyComponent;
     }
 
-    protected emptyComponent: React.JSX.Element = <div className={'theia-widget-noInfo'}>{nls.localize('theia/property-view/noProperties', 'No properties available.')}</div>;
+    protected emptyComponent: React.JSX.Element = <div className={'theia-widget-noInfo'}>{nls.localize('theia/property-view/noProperties', '无可用属性。')}</div>;
 
 }
 

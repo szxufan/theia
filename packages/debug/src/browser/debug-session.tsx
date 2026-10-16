@@ -904,7 +904,7 @@ export class DebugSession implements CompositeTreeElement {
 
     render(): React.ReactNode {
         let label = '';
-        const state = this.state === DebugState.Stopped ? nls.localizeByDefault('Paused') : nls.localizeByDefault('Running');
+        const state = this.state === DebugState.Stopped ? nls.localizeByDefault('已暂停') : nls.localizeByDefault('运行中');
         const child = this.getSingleChildSession();
         if (child && child.configuration.compact) {
             // Inlines the name of the child debug session

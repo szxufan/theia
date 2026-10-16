@@ -27,7 +27,7 @@ import { nls } from '@theia/core/lib/common/nls';
 
 export const SEARCH_VIEW_CONTAINER_ID = 'search-view-container';
 export const SEARCH_VIEW_CONTAINER_TITLE_OPTIONS: ViewContainerTitleOptions = {
-    label: nls.localizeByDefault('Search'),
+    label: nls.localizeByDefault('搜索'),
     iconClass: codicon('search'),
     closeable: true
 };

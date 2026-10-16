@@ -332,21 +332,21 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
             md += ` ${version}`;
         }
         if (this.disabled && this.installed) {
-            md += ` (${nls.localizeByDefault('Disabled')})`;
+            md += ` (${nls.localizeByDefault('已禁用')})`;
         }
         if (this.description) {
             md += `\n\n${this.description}`;
         }
         md += '\n_____\n\n';
         if (this.publisher) {
-            md += nls.localizeByDefault('Publisher: {0}', this.publisher);
+            md += nls.localizeByDefault('发布者：{0}', this.publisher);
         }
         if (this.license) {
-            md += `  \r${nls.localize('theia/vsx-registry/license', 'License: {0}', this.license)}`;
+            md += `  \r${nls.localize('theia/vsx-registry/license', '许可证：{0}', this.license)}`;
         }
 
         if (this.downloadCount) {
-            md += `  \r${nls.localize('theia/vsx-registry/downloadCount', 'Download count: {0}', downloadCompactFormatter.format(this.downloadCount))}`;
+            md += `  \r${nls.localize('theia/vsx-registry/downloadCount', '下载次数：{0}', downloadCompactFormatter.format(this.downloadCount))}`;
         }
 
         if (this.averageRating) {
@@ -355,7 +355,7 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
 
         if (this.disabledByTrust) {
             md += `  \r${nls.localizeByDefault(
-                'This extension has been disabled because the current workspace is not trusted.'
+                '此扩展已被禁用，因为当前工作区不受信任。'
             )}`;
         }
 
@@ -384,8 +384,8 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
     async install(options?: PluginDeployOptions): Promise<void> {
         if (!this.verified) {
             const choice = await new ConfirmDialog({
-                title: nls.localize('theia/vsx-registry/confirmDialogTitle', 'Are you sure you want to proceed with the installation?'),
-                msg: nls.localize('theia/vsx-registry/confirmDialogMessage', 'The extension "{0}" is unverified and might pose a security risk.', this.displayName)
+                title: nls.localize('theia/vsx-registry/confirmDialogTitle', '确定要继续安装吗？'),
+                msg: nls.localize('theia/vsx-registry/confirmDialogMessage', '扩展"{0}"未经验证，可能存在安全风险。', this.displayName)
             }).open();
             if (!choice) {
                 return;
@@ -394,10 +394,10 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
         const isTrusted = await this.workspaceTrustService.getWorkspaceTrust();
         if (!isTrusted) {
             const choice = await new ConfirmDialog({
-                title: nls.localizeByDefault('Restricted Mode'),
+                title: nls.localizeByDefault('受限模式'),
                 msg: nls.localize(
                     'theia/vsx-registry/restrictedModeInstallWarning',
-                    'The extension \'{0}\' may be disabled if it does not support running in Restricted Mode. Trust this workspace to ensure the extension works as expected.',
+                    '如果扩展 \'{0}\' 不支持在受限模式下运行，则可能会被禁用。信任此工作区以确保扩展正常工作。',
                     this.displayName
                 )
             }).open();
@@ -411,9 +411,9 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
     async uninstall(): Promise<void> {
         const { id, installedVersion } = this;
         if (id && installedVersion) {
-            await this.runTask(nls.localizeByDefault('Uninstalling'),
+            await this.runTask(nls.localizeByDefault('正在卸载'),
                 async () => await this.progressService.withProgress(
-                    nls.localizeByDefault('Uninstalling {0}...', this.id), 'extensions',
+                    nls.localizeByDefault('正在卸载 {0}...', this.id), 'extensions',
                     () => this.pluginServer.uninstall(PluginIdentifiers.idAndVersionToVersionedId({ id: (id as PluginIdentifiers.UnversionedId), version: installedVersion }))
                 )
             );
@@ -423,9 +423,9 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
     async disable(): Promise<void> {
         const { id, installedVersion } = this;
         if (id && installedVersion) {
-            await this.runTask(nls.localize('vsx.disabling', 'Disabling'), async () => {
+            await this.runTask(nls.localize('vsx.disabling', '正在禁用'), async () => {
                 await this.progressService.withProgress(
-                    nls.localize('vsx.disabling.extensions', 'Disabling {0}...', this.id), 'extensions',
+                    nls.localize('vsx.disabling.extensions', '正在禁用 {0}...', this.id), 'extensions',
                     () => this.pluginServer.disablePlugin(id as PluginIdentifiers.UnversionedId)
                 );
             });
@@ -435,9 +435,9 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
     async enable(): Promise<void> {
         const { id, installedVersion } = this;
         if (id && installedVersion) {
-            await this.runTask(nls.localize('vsx.enabling', 'Enabling'), async () => {
+            await this.runTask(nls.localize('vsx.enabling', '正在启用'), async () => {
                 await this.progressService.withProgress(
-                    nls.localize('vsx.enabling.extension', 'Enabling {0}...', this.id), 'extensions',
+                    nls.localize('vsx.enabling.extension', '正在启用 {0}...', this.id), 'extensions',
                     () => this.pluginServer.enablePlugin(id as PluginIdentifiers.UnversionedId)
                 );
             });
@@ -445,8 +445,8 @@ export class VSXExtension implements VSXExtensionData, TreeElement {
     }
 
     protected async doInstall(options?: PluginDeployOptions): Promise<void> {
-        await this.runTask(nls.localizeByDefault('Installing'),
-            () => this.progressService.withProgress(nls.localizeByDefault("Installing extension '{0}' v{1}...", this.id, this.version ?? 0), 'extensions', () =>
+        await this.runTask(nls.localizeByDefault('正在安装'),
+            () => this.progressService.withProgress(nls.localizeByDefault("正在安装扩展 '{0}' v{1}...", this.id, this.version ?? 0), 'extensions', () =>
                 this.pluginServer.install(this.uri.toString(), undefined, options)
             ));
     }
@@ -553,13 +553,13 @@ export abstract class AbstractVSXExtensionComponent<Props extends AbstractVSXExt
         }
         return <div>
             {
-                outOfSync && <button className="theia-button action" onClick={this.reloadWindow}>{nls.localizeByDefault('Reload Window')}</button>
+                outOfSync && <button className="theia-button action" onClick={this.reloadWindow}>{nls.localizeByDefault('重新加载窗口')}</button>
             }
             {
-                !builtin && installed && !uninstalled && <button className="theia-button action" onClick={this.uninstall}>{nls.localizeByDefault('Uninstall')}</button>
+                !builtin && installed && !uninstalled && <button className="theia-button action" onClick={this.uninstall}>{nls.localizeByDefault('卸载')}</button>
             }
             {
-                !builtin && !installed && <button className="theia-button prominent action" onClick={this.install}>{nls.localizeByDefault('Install')}</button>
+                !builtin && !installed && <button className="theia-button prominent action" onClick={this.install}>{nls.localizeByDefault('安装')}</button>
             }
             <div className="codicon codicon-settings-gear action" tabIndex={tabIndex} onClick={this.manage}></div>
         </div>;
@@ -577,7 +577,7 @@ const downloadFormatter = new Intl.NumberFormat();
 const downloadCompactFormatter = new Intl.NumberFormat('en-US', { notation: 'compact', compactDisplay: 'short' } as any);
 const averageRatingFormatter = (averageRating: number): number => Math.round(averageRating * 2) / 2;
 const getAverageRatingTitle = (averageRating: number): string =>
-    nls.localizeByDefault('Average rating: {0} out of 5', averageRatingFormatter(averageRating));
+    nls.localizeByDefault('平均评分：{0} / 5', averageRatingFormatter(averageRating));
 
 export namespace VSXExtensionComponent {
     export interface Props extends AbstractVSXExtensionComponent.Props {
@@ -604,15 +604,15 @@ export class VSXExtensionComponent<Props extends VSXExtensionComponent.Props = V
             typeBadge={
                 <TypeBadge
                     icon={<i className='theia-extensions-type-badge-icon theia-extensions-type-badge-icon--extension' />}
-                    label={nls.localizeByDefault('Extension')}
+                    label={nls.localizeByDefault('扩展')}
                     variant='extension'
                 />
             }
             titleLabels={
                 <>
-                    {disabled && installed && <span className='disabled'>&nbsp;({nls.localizeByDefault('disabled')})</span>}
-                    {disabledByTrust && <span className='disabled' title={nls.localizeByDefault('Disabled in Restricted Mode')}>
-                        ({nls.localizeByDefault('Restricted Mode')})
+                    {disabled && installed && <span className='disabled'>&nbsp;({nls.localizeByDefault('已禁用')})</span>}
+                    {disabledByTrust && <span className='disabled' title={nls.localizeByDefault('已在受限模式下禁用')}>
+                        ({nls.localizeByDefault('受限模式')})
                     </span>}
                 </>
             }
@@ -656,15 +656,15 @@ export class VSXExtensionEditorComponent extends AbstractVSXExtensionComponent {
                     <div className='icon-container placeholder' />}
                 <div className='details'>
                     <div className='title'>
-                        <span title='Extension name' className='name' onClick={this.openExtension}>{displayName}</span>
-                        <span title='Extension identifier' className='identifier'>{id}</span>
-                        {preview && <span className='preview'>Preview</span>}
-                        {builtin && <span className='builtin'>Built-in</span>}
-                        {disabled && installed && <span className='disabled'>{nls.localizeByDefault('Disabled')}</span>}
-                        {disabledByTrust && <span className='restricted'>{nls.localizeByDefault('Restricted Mode')}</span>}
+                        <span title='扩展名称' className='name' onClick={this.openExtension}>{displayName}</span>
+                        <span title='扩展标识符' className='identifier'>{id}</span>
+                        {preview && <span className='preview'>预览</span>}
+                        {builtin && <span className='builtin'>内置</span>}
+                        {disabled && installed && <span className='disabled'>{nls.localizeByDefault('已禁用')}</span>}
+                        {disabledByTrust && <span className='restricted'>{nls.localizeByDefault('受限模式')}</span>}
                     </div>
                     <div className='subtitle'>
-                        <span title='Publisher name' className='publisher' onClick={this.searchPublisher}>
+                        <span title='发布者名称' className='publisher' onClick={this.searchPublisher}>
                             {this.renderNamespaceAccess()}
                             {publisher}
                         </span>
@@ -674,14 +674,14 @@ export class VSXExtensionEditorComponent extends AbstractVSXExtensionComponent {
                             averageRating !== undefined &&
                             <span className='average-rating' title={getAverageRatingTitle(averageRating)} onClick={this.openAverageRating}>{this.renderStars()}</span>
                         }
-                        {repository && <span className='repository' onClick={this.openRepository}>Repository</span>}
+                        {repository && <span className='repository' onClick={this.openRepository}>仓库</span>}
                         {license && <span className='license' onClick={this.openLicense}>{license}</span>}
                         {version && <span className='version'>{VSXExtension.formatVersion(version)}</span>}
                     </div>
                     <div className='description noWrapInfo'>{description}</div>
                     {disabledByTrust && <div className='theia-vsx-extension-restricted-notice'>
                         {nls.localizeByDefault(
-                            'This extension has been disabled because the current workspace is not trusted.'
+                            '此扩展已被禁用，因为当前工作区不受信任。'
                         )}
                     </div>}
                     {this.renderAction()}
@@ -707,14 +707,14 @@ export class VSXExtensionEditorComponent extends AbstractVSXExtensionComponent {
         if (namespaceAccess === undefined) {
             return undefined;
         }
-        let tooltip = publishedBy ? ` Published by "${publishedBy.loginName}".` : '';
+        let tooltip = publishedBy ? ` 由 "${publishedBy.loginName}" 发布。` : '';
         let icon;
         if (namespaceAccess === 'public') {
             icon = 'globe';
-            tooltip = `Everyone can publish to "${publisher}" namespace.` + tooltip;
+            tooltip = `所有人都可以发布到 "${publisher}" 命名空间。` + tooltip;
         } else {
             icon = 'shield';
-            tooltip = `Only verified owners can publish to "${publisher}" namespace.` + tooltip;
+            tooltip = `只有经过验证的所有者才能发布到 "${publisher}" 命名空间。` + tooltip;
         }
         return <i className={`${codicon(icon)} namespace-access`} title={tooltip} onClick={this.openPublishedBy} />;
     }

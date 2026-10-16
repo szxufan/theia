@@ -74,7 +74,7 @@ export class BrowserOnlyTerminalFrontendContribution extends TerminalFrontendCon
 
     protected showNotSupportedMessage(): void {
         this.messageService.error(
-            nls.localize('theia/terminal/notSupportedInBrowserOnly', 'Terminals are not supported in a browser-only application.')
+            nls.localize('theia/terminal/notSupportedInBrowserOnly', '纯浏览器应用不支持终端。')
         );
     }
 }

@@ -219,7 +219,7 @@ export const AiConfigurationValueRow: React.FC<AiConfigurationValueRowProps> = (
             clearTimeout(timeout.current);
         }
     }, []);
-    const copyLabel = nls.localizeByDefault('Copy');
+    const copyLabel = nls.localizeByDefault('复制');
     return <div className='ai-configuration-value-row'>
         {label !== undefined && <span className='ai-configuration-value-row-label'>{label}</span>}
         {/* Value and button share a wrapper so the button is always immediately beside the box it copies,
@@ -240,7 +240,7 @@ export const AiConfigurationValueRow: React.FC<AiConfigurationValueRowProps> = (
             />}
         </span>
         {/* Always present so assistive tech announces the change rather than a new element. */}
-        <span className='ai-configuration-visually-hidden' aria-live='polite'>{copied ? nls.localizeByDefault('Copied') : ''}</span>
+        <span className='ai-configuration-visually-hidden' aria-live='polite'>{copied ? nls.localizeByDefault('已复制') : ''}</span>
     </div>;
 };
 
@@ -341,7 +341,7 @@ export const AiConfigurationFilterInput: React.FC<AiConfigurationFilterInputProp
             onChange('');
         }
     }, [value, onChange]);
-    const clearLabel = nls.localizeByDefault('Clear');
+    const clearLabel = nls.localizeByDefault('清除');
     const actionCount = (toggles?.length ?? 0) + (value.length > 0 ? 1 : 0);
     return <div className={`ai-configuration-filter-input${actionCount > 1 ? ' with-toggles' : ''}`}>
         <span className={`ai-configuration-filter-input-icon ${codicon('filter')}`}></span>
@@ -350,7 +350,7 @@ export const AiConfigurationFilterInput: React.FC<AiConfigurationFilterInputProp
             type='text'
             spellCheck={false}
             value={value}
-            placeholder={placeholder ?? nls.localizeByDefault('Filter')}
+            placeholder={placeholder ?? nls.localizeByDefault('筛选')}
             onChange={e => onChange(e.target.value)}
             onKeyDown={onKeyDown}
         />

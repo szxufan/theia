@@ -217,7 +217,7 @@ function renderActions(
         case 'not-installed':
             return registryEntry && (
                 <button className="theia-button prominent action" onClick={() => handlers.install(registryEntry)}>
-                    {nls.localizeByDefault('Install')}
+                    {nls.localizeByDefault('安装')}
                 </button>
             );
         case 'installed-from-registry':
@@ -230,19 +230,19 @@ function renderActions(
                                 registryEntry.version && registryEntry.version !== localVersion
                                     ? nls.localize(
                                         'theia/ai-registry/action/updateTooltip',
-                                        'Update from {0} to {1}',
+                                        '从 {0} 更新到 {1}',
                                         localVersion ?? '?',
                                         registryEntry.version
                                     )
-                                    : nls.localizeByDefault('Update')
+                                    : nls.localizeByDefault('更新')
                             }
                             onClick={() => handlers.update(registryEntry)}
                         >
-                            {nls.localizeByDefault('Update')}
+                            {nls.localizeByDefault('更新')}
                         </button>
                     )}
                     <button className="theia-button action" onClick={() => handlers.uninstall(localName)}>
-                        {nls.localizeByDefault('Uninstall')}
+                        {nls.localizeByDefault('卸载')}
                     </button>
                 </>
             );
@@ -251,7 +251,7 @@ function renderActions(
             // the existing local server to the registry so future updates are tracked.
             return registryEntry && (
                 <button className="theia-button action" onClick={() => handlers.link(registryEntry)}>
-                    {nls.localize('theia/ai-registry/action/link', 'Link to registry')}
+                    {nls.localize('theia/ai-registry/action/link', '链接到注册表')}
                 </button>
             );
         case 'fix-config':
@@ -261,16 +261,16 @@ function renderActions(
                         className="codicon codicon-warning theia-mcp-extension-warning"
                         title={nls.localize(
                             'theia/ai-registry/warning/fixConfig',
-                            "This server's configuration differs from the registry. Click 'Fix config' to restore it."
+                            '此服务器的配置与注册表不一致。点击“修复配置”以恢复它。'
                         )}
                     />
                     {registryEntry && (
                         <button className="theia-button prominent action" onClick={() => handlers.fixConfig(registryEntry)}>
-                            {nls.localize('theia/ai-registry/action/fix', 'Fix config')}
+                            {nls.localize('theia/ai-registry/action/fix', '修复配置')}
                         </button>
                     )}
                     <button className="theia-button action" onClick={() => handlers.uninstall(localName)}>
-                        {nls.localizeByDefault('Uninstall')}
+                        {nls.localizeByDefault('卸载')}
                     </button>
                 </>
             );
@@ -282,25 +282,25 @@ function renderActions(
             // we let the user decide.
             const tooltip = nls.localize(
                 'theia/ai-registry/warning/linkStale',
-                'This server was installed from the registry, but the registry no longer lists it. '
-                + 'If you are sure you want to keep it and it still works for you, click Unlink to drop '
-                + 'the registry link. Otherwise click Uninstall to remove the server.'
+                '此服务器是从注册表安装的，但注册表不再列出它。'
+                + '如果你确定要保留它且它仍可正常工作，请点击“取消链接”以移除'
+                + '注册表链接。否则请点击“卸载”以移除该服务器。'
             );
             return (
                 <>
                     <span className="theia-mcp-extension-link-stale-message" title={tooltip}>
                         <i className="codicon codicon-warning theia-mcp-extension-warning" />
-                        {nls.localize('theia/ai-registry/warning/notInRegistry', 'Not in registry')}
+                        {nls.localize('theia/ai-registry/warning/notInRegistry', '不在注册表中')}
                     </span>
                     <button
                         className="theia-button action"
                         title={tooltip}
                         onClick={() => handlers.unlink(localName)}
                     >
-                        {nls.localize('theia/ai-registry/action/unlink', 'Unlink')}
+                        {nls.localize('theia/ai-registry/action/unlink', '取消链接')}
                     </button>
                     <button className="theia-button action" onClick={() => handlers.uninstall(localName)}>
-                        {nls.localizeByDefault('Uninstall')}
+                        {nls.localizeByDefault('卸载')}
                     </button>
                 </>
             );

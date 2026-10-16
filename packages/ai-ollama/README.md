@@ -4,28 +4,28 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - OLLAMA EXTENSION</h2>
+<h2>ECLIPSE THEIA - OLLAMA 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/ai-ollama` integrates Ollama's models with Theia AI.
+`@theia/ai-ollama` 将 Ollama 的模型与 Theia AI 集成。
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
-- [API documentation for `@theia/ai-ollama`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-ollama.html)
+- [`@theia/ai-ollama` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-ollama.html)
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [(Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

@@ -72,11 +72,11 @@ export class DevContainerSuggestionContribution implements FrontendApplicationCo
         try {
             const devcontainerFiles = await this.connectionProvider.getDevContainerFiles(workspace.resource.path.toString());
             if (devcontainerFiles.length > 0) {
-                const reopenAction = nls.localize('theia/remote/dev-container/reopenInContainer', 'Reopen in Container');
-                const dontShowAgainAction = nls.localizeByDefault("Don't Show Again");
+                const reopenAction = nls.localize('theia/remote/dev-container/reopenInContainer', '在容器中重新打开');
+                const dontShowAgainAction = nls.localizeByDefault("不再显示");
                 const result = await this.messageService.info(
                     nls.localize('theia/remote/dev-container/suggestion',
-                        'This workspace has a dev container configuration. Would you like to reopen it in a container?'),
+                        '此工作区具有开发容器配置。是否要在容器中重新打开它？'),
                     reopenAction,
                     dontShowAgainAction
                 );

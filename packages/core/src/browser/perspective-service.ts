@@ -172,13 +172,13 @@ export class PerspectiveServiceImpl implements FrontendApplicationContribution, 
     static readonly SWITCH_PERSPECTIVE_COMMAND = Command.toLocalizedCommand({
         id: 'perspective.switch',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Switch Perspective (Experimental)'
+        label: '切换视角（实验性）'
     }, 'theia/core/perspective/switchPerspective', CommonCommands.VIEW_CATEGORY_KEY);
 
     static readonly RESET_PERSPECTIVE_COMMAND = Command.toLocalizedCommand({
         id: 'perspective.reset',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Reset Perspective (Experimental)'
+        label: '重置视角（实验性）'
     }, 'theia/core/perspective/resetPerspective', CommonCommands.VIEW_CATEGORY_KEY);
 
     @inject(ApplicationShell)
@@ -225,7 +225,7 @@ export class PerspectiveServiceImpl implements FrontendApplicationContribution, 
     initialize(): void {
         this.registerPerspective({
             id: PerspectiveServiceImpl.DEFAULT_PERSPECTIVE_ID,
-            label: nls.localizeByDefault('Default'),
+            label: nls.localizeByDefault('默认'),
             viewPlacements: new Map()
         });
         this.activePerspectiveId = PerspectiveServiceImpl.DEFAULT_PERSPECTIVE_ID;
@@ -611,11 +611,11 @@ export class PerspectiveServiceImpl implements FrontendApplicationContribution, 
         const items: QuickPickItem[] = this.getRegisteredPerspectives().map(p => ({
             label: p.label,
             id: p.id,
-            description: this.activePerspectiveId === p.id ? nls.localizeByDefault('Active') : undefined
+            description: this.activePerspectiveId === p.id ? nls.localizeByDefault('活动') : undefined
         }));
 
         const selected = await this.quickInputService.showQuickPick(items, {
-            placeholder: nls.localize('theia/core/perspective/selectPerspective', 'Select a perspective')
+            placeholder: nls.localize('theia/core/perspective/selectPerspective', '选择一个视角')
         });
 
         if (selected?.id) {

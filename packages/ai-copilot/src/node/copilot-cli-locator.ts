@@ -93,7 +93,7 @@ export class CopilotCliLocator {
             const configured = await this.resolveConfiguredPath(this.configuredPath);
             if (!configured) {
                 throw new Error(nls.localize('theia/ai/copilot/cliNotFoundAt',
-                    'The configured GitHub Copilot CLI does not exist or is not executable: {0}', this.configuredPath));
+                    '配置的 GitHub Copilot CLI 不存在或不可执行：{0}', this.configuredPath));
             }
             return configured;
         }
@@ -123,9 +123,9 @@ export class CopilotCliLocator {
 
         this.logger.warn(`Copilot: no Copilot CLI found, searched:\n${attempted.join('\n')}`);
         throw new Error(nls.localize('theia/ai/copilot/cliNotFound',
-            'Could not find the GitHub Copilot CLI on the machine running the backend. Install it with '
-            + '`npm install -g @github/copilot`, or set the `ai-features.copilot.executablePath` preference to the location of '
-            + 'its executable. {0} locations were searched, see the backend log for the full list.', attempted.length));
+            '在运行后端的机器上找不到 GitHub Copilot CLI。请使用 '
+            + '`npm install -g @github/copilot` 安装，或将 `ai-features.copilot.executablePath` 偏好设置'
+            + '为其可执行文件的位置。共搜索了 {0} 个位置，完整列表请查看后端日志。', attempted.length));
     }
 
     /**

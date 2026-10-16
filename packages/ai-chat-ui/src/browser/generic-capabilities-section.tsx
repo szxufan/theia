@@ -73,7 +73,7 @@ export const GenericCapabilitiesSection: React.FunctionComponent<GenericCapabili
     return (
         <div className="theia-ChatInput-GenericCapabilitiesSection">
             <div className="theia-ChatInput-GenericCapabilitiesSection-heading">
-                {nls.localize('theia/ai/chat-ui/genericCapabilities', 'Generic Capabilities')}
+                {nls.localize('theia/ai/chat-ui/genericCapabilities', '通用能力')}
             </div>
             <GenericCapabilitiesTree
                 genericCapabilities={genericCapabilities}

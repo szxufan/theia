@@ -127,12 +127,12 @@ export const workspaceSchemaId = 'vscode://schemas/workspace';
 export const workspaceSchema: IJSONSchema = {
     $id: workspaceSchemaId,
     type: 'object',
-    title: nls.localize('theia/workspace/schema/title', 'Workspace File'),
+    title: nls.localize('theia/workspace/schema/title', '工作区文件'),
     required: ['folders'],
     default: { folders: [{ path: '' }], settings: {} },
     properties: {
         folders: {
-            description: nls.localize('theia/workspace/schema/folders/description', 'Root folders in the workspace'),
+            description: nls.localize('theia/workspace/schema/folders/description', '工作区中的根文件夹'),
             type: 'array',
             items: {
                 type: 'object',

@@ -29,7 +29,7 @@ export const WebviewConfigSchema: PreferenceSchema = {
         'webview.trace': {
             type: 'string',
             enum: ['off', 'on', 'verbose'],
-            description: nls.localize('theia/plugin-ext/webviewTrace', 'Controls communication tracing with webviews.'),
+            description: nls.localize('theia/plugin-ext/webviewTrace', '控制与 Web 视图的通信跟踪。'),
             default: 'off'
         }
     }

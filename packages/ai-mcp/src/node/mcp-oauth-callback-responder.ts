@@ -50,26 +50,26 @@ export class MCPOAuthCallbackResponder {
     renderResponse(query: MCPOAuthCallbackQuery): MCPOAuthCallbackResponse {
         const { state } = query;
         if (!state) {
-            return this.failedPage(nls.localize('theia/ai/mcp/oauth/missingState', 'Missing OAuth state.'));
+            return this.failedPage(nls.localize('theia/ai/mcp/oauth/missingState', '缺少 OAuth state。'));
         }
         const callback: MCPOAuthCallback = { state, code: query.code, error: query.error, errorDescription: query.errorDescription };
         if (!callback.code && !callback.error) {
-            return this.failedPage(nls.localize('theia/ai/mcp/oauth/missingCode', 'Missing OAuth authorization code.'));
+            return this.failedPage(nls.localize('theia/ai/mcp/oauth/missingCode', '缺少 OAuth 授权码。'));
         }
         if (!this.callbackService.acceptCallback(callback)) {
             // Only cancel/timeout/eviction paths populate the rejected-callback cache, so bogus-state floods cannot grow it.
             return this.failedPage(this.callbackService.consumeRejectedCallbackMessage(state)
-                ?? nls.localize('theia/ai/mcp/oauth/unknownState', 'Unknown or expired OAuth state.'));
+                ?? nls.localize('theia/ai/mcp/oauth/unknownState', '未知或已过期的 OAuth state。'));
         }
         if (callback.error) {
             return this.failedPage(this.authorizationServerErrorMessage(callback));
         }
-        return this.page(200, nls.localize('theia/ai/mcp/oauth/signInComplete', 'MCP sign-in complete'),
-            nls.localizeByDefault('All done. You can close this tab now.'));
+        return this.page(200, nls.localize('theia/ai/mcp/oauth/signInComplete', 'MCP 登录完成'),
+            nls.localizeByDefault('全部完成。你现在可以关闭此标签页了。'));
     }
 
     protected failedPage(message: string): MCPOAuthCallbackResponse {
-        return this.page(400, nls.localize('theia/ai/mcp/oauth/signInFailed', 'MCP sign-in failed'), message);
+        return this.page(400, nls.localize('theia/ai/mcp/oauth/signInFailed', 'MCP 登录失败'), message);
     }
 
     protected page(status: number, title: string, message: string): MCPOAuthCallbackResponse {
@@ -93,7 +93,7 @@ export class MCPOAuthCallbackResponder {
         const truncated = codePoints.length > MAX_OAUTH_ERROR_MESSAGE_LENGTH
             ? `${codePoints.slice(0, MAX_OAUTH_ERROR_MESSAGE_LENGTH).join('')}…`
             : message;
-        return nls.localize('theia/ai/mcp/oauth/authorizationServerError', 'Authorization server reported: {0}', truncated);
+        return nls.localize('theia/ai/mcp/oauth/authorizationServerError', '授权服务器报告：{0}', truncated);
     }
 
     protected renderPage(title: string, message: string): string {

@@ -311,7 +311,7 @@ export default new ContainerModule((bind, unbind, isBound, rebind) => {
                 }
                 return [{
                     label: nls.localize('theia/plugin-ext/extensionsRestrictedMode',
-                        'Some extensions are disabled in Restricted Mode'),
+                        '某些扩展已在受限模式下禁用'),
                     details: Array.from(hostedPlugin.disabledByTrust)
                 }];
             },

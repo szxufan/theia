@@ -69,7 +69,7 @@ export class EditToolRenderer implements ChatResponsePartRenderer<ToolCallChatRe
             />;
         } catch (error) {
             this.logger.warn('Failed to parse Edit tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseEditToolData', 'Failed to parse Edit tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseEditToolData', '解析 Edit 工具数据失败')}</div>;
         }
     }
 }
@@ -125,12 +125,12 @@ const EditToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/editing', 'Editing')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/editing', '正在编辑')}</span>
                 <span className={`${getIcon(input.file_path)} claude-code-tool icon`} />
                 <span
                     className="claude-code-tool file-name clickable-element"
                     onClick={handleOpenFile}
-                    title={nls.localize('theia/ai/claude-code/openFileTooltip', 'Click to open file in editor')}
+                    title={nls.localize('theia/ai/claude-code/openFileTooltip', '点击在编辑器中打开文件')}
                 >
                     {getFileName(input.file_path)}
                 </span>
@@ -140,7 +140,7 @@ const EditToolComponent: React.FC<{
                 <span className="claude-code-tool badge deleted">-{getChangeInfo().oldLines}</span>
                 <span className="claude-code-tool badge added">+{getChangeInfo().newLines}</span>
                 {input.replace_all && (
-                    <span className="claude-code-tool badge">{nls.localizeByDefault('Replace All')}</span>
+                    <span className="claude-code-tool badge">{nls.localizeByDefault('全部替换')}</span>
                 )}
             </div>
         </>
@@ -149,11 +149,11 @@ const EditToolComponent: React.FC<{
     const expandedContent = (
         <div className="claude-code-tool details">
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', 'File Path')}</span>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', '文件路径')}</span>
                 <code className="claude-code-tool detail-value">{input.file_path}</code>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('From')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('原内容')}</span>
                 <pre className="claude-code-tool detail-value code-preview">
                     {input.old_string.length > 200
                         ? input.old_string.substring(0, 200) + '...'
@@ -161,7 +161,7 @@ const EditToolComponent: React.FC<{
                 </pre>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('To')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('新内容')}</span>
                 <pre className="claude-code-tool detail-value code-preview">
                     {input.new_string.length > 200
                         ? input.new_string.substring(0, 200) + '...'
@@ -170,8 +170,8 @@ const EditToolComponent: React.FC<{
             </div>
             {input.replace_all && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localizeByDefault('Mode')}</span>
-                    <span className="claude-code-tool detail-value">{nls.localize('theia/ai/claude-code/replaceAllOccurrences', 'Replace all occurrences')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localizeByDefault('模式')}</span>
+                    <span className="claude-code-tool detail-value">{nls.localize('theia/ai/claude-code/replaceAllOccurrences', '替换所有出现')}</span>
                 </div>
             )}
         </div>

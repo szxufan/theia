@@ -23,7 +23,7 @@ export class MCPOAuthAuthorizationRequiredError extends Error {
      */
     constructor(options?: { cause?: unknown }) {
         super(
-            nls.localize('theia/ai/mcp/oauth/authorizationRequiredFromUi', 'MCP OAuth authorization is required. Start the server from the UI to sign in.'),
+            nls.localize('theia/ai/mcp/oauth/authorizationRequiredFromUi', '需要进行 MCP OAuth 授权。请从 UI 启动服务器以完成登录。'),
             options
         );
         this.name = 'MCPOAuthAuthorizationRequiredError';

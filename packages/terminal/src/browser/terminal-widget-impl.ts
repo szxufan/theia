@@ -121,7 +121,7 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
     secondaryWindow: Window | undefined;
     location: TerminalLocationOptions;
 
-    static LABEL = nls.localizeByDefault('Terminal');
+    static LABEL = nls.localizeByDefault('终端');
 
     exitStatus: TerminalExitStatus | undefined;
 
@@ -681,7 +681,7 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
     }
 
     protected linkHoverMessage(message?: string): string {
-        return message ?? nls.localizeByDefault('Follow link');
+        return message ?? nls.localizeByDefault('跟踪链接');
     }
 
     hideLinkHover(): void {
@@ -1266,13 +1266,13 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
                 const processInfo = values[2];
 
                 const markdown = new MarkdownStringImpl();
-                markdown.appendMarkdown(nls.localizeByDefault('Process ID ({0}): {1}', 'PID', processId) + '\\\n');
-                markdown.appendMarkdown(nls.localizeByDefault('Command line: {0}',
+                markdown.appendMarkdown(nls.localizeByDefault('进程 ID ({0}): {1}', 'PID', processId) + '\\\n');
+                markdown.appendMarkdown(nls.localizeByDefault('命令行: {0}',
                     processInfo.executable +
                     ' ' +
                     processInfo.arguments.join(' ') +
                     '\n\n---\n\n'));
-                markdown.appendMarkdown(nls.localizeByDefault("The following extensions have contributed to this terminal's environment:") + '\n');
+                markdown.appendMarkdown(nls.localizeByDefault('以下扩展为此终端的环境做出了贡献：') + '\n');
                 extensions.forEach((arr, key) => {
                     arr.forEach(value => {
                         if (value === undefined) {

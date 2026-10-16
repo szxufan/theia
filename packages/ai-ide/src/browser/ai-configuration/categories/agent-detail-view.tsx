@@ -22,7 +22,7 @@ import {
     GenericCapabilitySelections,
 } from '@theia/ai-core/lib/common';
 import { LanguageModelAlias } from '@theia/ai-core/lib/common/language-model-alias';
-import { isChatAgent } from '@theia/ai-chat/lib/common';
+import { getAgentDisplayName, isChatAgent } from '@theia/ai-chat/lib/common';
 import { nls } from '@theia/core';
 import { codicon } from '@theia/core/lib/browser';
 import { OPEN_AI_CONFIG_VIEW } from '../ai-configuration-view-contribution';
@@ -103,9 +103,9 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
     }, [commandService]);
 
     const header = <AiConfigurationItemDetailHeader
-        title={agent.name}
+        title={getAgentDisplayName(agent)}
         iconClass={getAgentIconClass(agent)}
-        subtitle={nls.localizeByDefault('Id: {0}', agent.id)}
+        subtitle={nls.localizeByDefault('ID: {0}', agent.id)}
         actions={<AgentDetailToggles
             enabled={enabled}
             showInChat={state?.showInChat ?? true}
@@ -118,7 +118,7 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
     if (!state) {
         return <>
             {header}
-            <div className='ai-agent-detail-loading'>{nls.localizeByDefault('Loading...')}</div>
+            <div className='ai-agent-detail-loading'>{nls.localizeByDefault('加载中...')}</div>
         </>;
     }
 
@@ -142,14 +142,14 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
         const notUsed = !state.parsed.agentSpecificVariables.includes(name) && declared?.usedInPrompt === true;
         const status: AiConfigurationItemStatus | undefined = undeclared
             ? {
-                kind: 'warn', label: nls.localize('theia/ai/core/agentConfiguration/undeclared', 'Undeclared'),
-                tooltip: nls.localize('theia/ai/core/agentConfiguration/undeclaredTooltip', 'This variable is used in the prompt but has no description declared by the agent.')
+                kind: 'warn', label: nls.localize('theia/ai/core/agentConfiguration/undeclared', '未声明'),
+                tooltip: nls.localize('theia/ai/core/agentConfiguration/undeclaredTooltip', '此变量在提示词中使用，但代理未声明其描述。')
             }
             : notUsed
                 ? {
-                    kind: 'warn', label: nls.localize('theia/ai/core/agentConfiguration/notUsedInPrompt', 'Not used in prompt'),
+                    kind: 'warn', label: nls.localize('theia/ai/core/agentConfiguration/notUsedInPrompt', '未在提示词中使用'),
                     tooltip: nls.localize('theia/ai/core/agentConfiguration/notUsedInPromptTooltip',
-                        'This variable is declared by the agent but not referenced in the current prompt template.')
+                        '此变量已由代理声明，但未在当前提示词模板中引用。')
                 }
                 : undefined;
         return { id: name, label: name, description: undeclared ? undefined : declared?.description || undefined, status };
@@ -170,7 +170,7 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
 
         {agent.prompts.length > 0 && <>
             <div className='settings-section-subcategory-title ai-settings-section-subcategory-title'>
-                {nls.localizeByDefault('Prompts')}
+                {nls.localizeByDefault('提示词')}
             </div>
             <div className='ai-configuration-item-list'>
                 {agent.prompts.map(prompt => <VariantSetCard
@@ -197,7 +197,7 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
 
         {isChatAgent(agent) && <>
             <div className='settings-section-subcategory-title ai-settings-section-subcategory-title'>
-                {nls.localize('theia/ai/core/agentConfiguration/notificationSettings', 'Notification Settings')}
+                {nls.localize('theia/ai/core/agentConfiguration/notificationSettings', '通知设置')}
             </div>
             <AgentNotificationSettings
                 agentId={agent.id}
@@ -238,7 +238,7 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
         />}
 
         {globalVariableRows.length > 0 && <CollapsibleSubsection
-            title={nls.localize('theia/ai/core/agentConfiguration/usedGlobalVariables', 'Used Global Variables')}
+            title={nls.localize('theia/ai/core/agentConfiguration/usedGlobalVariables', '使用的全局变量')}
             count={globalVariableRows.length}>
             <div className='ai-configuration-item-list'>
                 {globalVariableRows.map(row => <AiConfigurationItemRow key={row.id} label={row.label} description={row.description} />)}
@@ -246,7 +246,7 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
         </CollapsibleSubsection>}
 
         {agentSpecificRows.length > 0 && <CollapsibleSubsection
-            title={nls.localize('theia/ai/core/agentConfiguration/usedAgentSpecificVariables', 'Used Agent-Specific Variables')}
+            title={nls.localize('theia/ai/core/agentConfiguration/usedAgentSpecificVariables', '使用的代理专属变量')}
             count={agentSpecificRows.length}>
             <div className='ai-configuration-item-list'>
                 {agentSpecificRows.map(row => <AiConfigurationItemRow key={row.id} label={row.label} description={row.description} status={row.status} />)}
@@ -254,7 +254,7 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
         </CollapsibleSubsection>}
 
         {functionRows.length > 0 && <CollapsibleSubsection
-            title={nls.localize('theia/ai/core/agentConfiguration/usedTools', 'Used Tools')}
+            title={nls.localize('theia/ai/core/agentConfiguration/usedTools', '使用的工具')}
             count={functionRows.length}>
             <div className='ai-configuration-item-list'>
                 {/* The label links to the Tools page, where the tool's confirmation mode is configured. */}
@@ -263,7 +263,7 @@ export const AgentDetailView: React.FC<AgentDetailViewProps> = ({
                     label={row.label}
                     description={row.description}
                     onActivateLabel={() => onOpenTool(row.id)}
-                    labelTooltip={nls.localize('theia/ai/ide/agentConfiguration/showToolSettings', 'Show tool')}
+                    labelTooltip={nls.localize('theia/ai/ide/agentConfiguration/showToolSettings', '显示工具')}
                 />)}
             </div>
         </CollapsibleSubsection>}
@@ -309,22 +309,22 @@ interface AgentDetailTogglesProps {
 }
 const AgentDetailToggles = ({ enabled, showInChat, showInChatVisible, onToggleEnabled, onToggleShowInChat }: AgentDetailTogglesProps) => (
     <div className='agent-toggles'>
-        <div className='agent-enable-toggle' title={nls.localize('theia/ai/core/agentConfiguration/enableAgent', 'Enable Agent')}>
-            <span className='toggle-label'>{nls.localize('theia/ai/core/agentConfiguration/enableAgent', 'Enable Agent')}</span>
+        <div className='agent-enable-toggle' title={nls.localize('theia/ai/core/agentConfiguration/enableAgent', '启用代理')}>
+            <span className='toggle-label'>{nls.localize('theia/ai/core/agentConfiguration/enableAgent', '启用代理')}</span>
             <AiToggleSwitch
                 checked={enabled}
-                ariaLabel={nls.localize('theia/ai/core/agentConfiguration/enableAgent', 'Enable Agent')}
+                ariaLabel={nls.localize('theia/ai/core/agentConfiguration/enableAgent', '启用代理')}
                 onChange={onToggleEnabled}
             />
         </div>
         {showInChatVisible && <div
             className={`agent-enable-toggle${enabled ? '' : ' disabled'}`}
-            title={nls.localize('theia/ai/core/agentConfiguration/showInChat', 'Show in Chat')}>
-            <span className='toggle-label'>{nls.localize('theia/ai/core/agentConfiguration/showInChat', 'Show in Chat')}</span>
+            title={nls.localize('theia/ai/core/agentConfiguration/showInChat', '在聊天中显示')}>
+            <span className='toggle-label'>{nls.localize('theia/ai/core/agentConfiguration/showInChat', '在聊天中显示')}</span>
             <AiToggleSwitch
                 checked={showInChat}
                 disabled={!enabled}
-                ariaLabel={nls.localize('theia/ai/core/agentConfiguration/showInChat', 'Show in Chat')}
+                ariaLabel={nls.localize('theia/ai/core/agentConfiguration/showInChat', '在聊天中显示')}
                 onChange={onToggleShowInChat}
             />
         </div>}

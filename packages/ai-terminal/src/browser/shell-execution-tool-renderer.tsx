@@ -408,7 +408,7 @@ const ConfirmationUI: React.FC<ConfirmationUIProps> = ({
             <div className="shell-execution-tool confirmation-header">
                 <span className={codicon('shield')} />
                 <span className="shell-execution-tool confirmation-title">
-                    {nls.localize('theia/ai-terminal/confirmExecution', 'Confirm Shell Command')}
+                    {nls.localize('theia/ai-terminal/confirmExecution', '确认 Shell 命令')}
                 </span>
             </div>
 
@@ -426,7 +426,7 @@ const ConfirmationUI: React.FC<ConfirmationUIProps> = ({
                 {input.cwd && (
                     <span
                         className="shell-execution-tool meta-item"
-                        title={nls.localize('theia/ai-terminal/workingDirectory', 'Working directory')}
+                        title={nls.localize('theia/ai-terminal/workingDirectory', '工作目录')}
                     >
                         <span className={codicon('folder')} />
                         {input.cwd}
@@ -435,7 +435,7 @@ const ConfirmationUI: React.FC<ConfirmationUIProps> = ({
                 {input.timeout && (
                     <span
                         className="shell-execution-tool meta-item"
-                        title={nls.localize('theia/ai-terminal/timeout', 'Timeout')}
+                        title={nls.localize('theia/ai-terminal/timeout', '超时')}
                     >
                         <span className={codicon('clock')} />
                         {formatDuration(input.timeout)}
@@ -542,13 +542,13 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
         const allowAllGroup = new GroupImpl('allow-all', '2');
         allowAllGroup.addNode(new InlineActionMenuNode(
             'allow-all-session',
-            nls.localize('theia/ai-terminal/allowAllSession', 'Allow all shell commands for this chat...'),
+            nls.localize('theia/ai-terminal/allowAllSession', '在此聊天中允许所有 shell 命令...'),
             () => setUiState({ kind: 'allow-all-session' }),
             '0'
         ));
         allowAllGroup.addNode(new InlineActionMenuNode(
             'allow-all-forever',
-            nls.localize('theia/ai-terminal/allowAllForever', 'Always allow all shell commands...'),
+            nls.localize('theia/ai-terminal/allowAllForever', '始终允许所有 shell 命令...'),
             () => setUiState({ kind: 'allow-all-forever' }),
             '1'
         ));
@@ -589,7 +589,7 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
         const reasonGroup = new GroupImpl('reason', '2');
         reasonGroup.addNode(new InlineActionMenuNode(
             'deny-with-reason',
-            nls.localize('theia/ai/chat-ui/toolconfirmation/deny-with-reason', 'Deny with reason...'),
+            nls.localize('theia/ai/chat-ui/toolconfirmation/deny-with-reason', '拒绝并填写原因...'),
             () => setUiState({ kind: 'deny-reason', denyReason: '' }),
             '0'
         ));
@@ -614,23 +614,23 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
                     <div className="theia-tool-confirmation-header">
                         <span className={codicon('warning')}></span>
                         {isSession
-                            ? nls.localize('theia/ai-terminal/allowAllSessionTitle', 'Allow ALL Shell Commands for This Chat?')
-                            : nls.localize('theia/ai-terminal/allowAllTitle', 'Allow ALL Shell Commands?')
+                            ? nls.localize('theia/ai-terminal/allowAllSessionTitle', '允许此聊天中的所有 Shell 命令？')
+                            : nls.localize('theia/ai-terminal/allowAllTitle', '允许所有 Shell 命令？')
                         }
                     </div>
                     <div className="theia-tool-confirmation-warning">
                         {isSession
                             ? nls.localize('theia/ai-terminal/allowAllSessionWarning',
-                                'This will allow the AI to execute any shell command without confirmation for the remainder of this chat session. ' +
-                                'Shell commands have full system access and can execute any command, ' +
-                                'modify files outside the workspace, and access network resources. ' +
-                                'Commands on the deny list will still be blocked.'
+                                '这将允许 AI 在本次聊天会话的剩余时间内无需确认即可执行任何 shell 命令。' +
+                                'Shell 命令拥有完整的系统访问权限，可以执行任何命令、' +
+                                '修改工作区之外的文件并访问网络资源。' +
+                                '拒绝列表中的命令仍将被阻止。'
                             )
                             : nls.localize('theia/ai-terminal/allowAllWarning',
-                                'This will allow the AI to execute any shell command without confirmation. ' +
-                                'Shell commands have full system access and can execute any command, ' +
-                                'modify files outside the workspace, and access network resources. ' +
-                                'Commands on the deny list will still be blocked.'
+                                '这将允许 AI 无需确认即可执行任何 shell 命令。' +
+                                'Shell 命令拥有完整的系统访问权限，可以执行任何命令、' +
+                                '修改工作区之外的文件并访问网络资源。' +
+                                '拒绝列表中的命令仍将被阻止。'
                             )
                         }
                     </div>
@@ -639,7 +639,7 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
                             className="theia-button secondary"
                             onClick={handleCancelSecondaryState}
                         >
-                            {nls.localizeByDefault('Cancel')}
+                            {nls.localizeByDefault('取消')}
                         </button>
                         <button
                             className="theia-button main"
@@ -653,8 +653,8 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
                             }}
                         >
                             {isSession
-                                ? nls.localize('theia/ai-terminal/allowAllSessionConfirm', 'I understand, allow all for this chat')
-                                : nls.localize('theia/ai-terminal/allowAllConfirm', 'I understand, allow all')
+                                ? nls.localize('theia/ai-terminal/allowAllSessionConfirm', '我已了解，允许此聊天中的所有命令')
+                                : nls.localize('theia/ai-terminal/allowAllConfirm', '我已了解，允许所有命令')
                             }
                         </button>
                     </div>
@@ -672,7 +672,7 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
                         autoFocus
                         type="text"
                         className="theia-input theia-tool-confirmation-deny-reason-input"
-                        placeholder={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-reason-placeholder', 'Enter reason for denial...')}
+                        placeholder={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-reason-placeholder', '输入拒绝原因...')}
                         value={uiState.denyReason}
                         onChange={e => setUiState({ kind: 'deny-reason', denyReason: e.target.value })}
                         onKeyDown={handleDenyReasonKeyDown}
@@ -682,13 +682,13 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
                             className="theia-button secondary"
                             onClick={handleCancelSecondaryState}
                         >
-                            {nls.localizeByDefault('Cancel')}
+                            {nls.localizeByDefault('取消')}
                         </button>
                         <button
                             className="theia-button main"
                             onClick={handleSubmitDenyReason}
                         >
-                            {nls.localizeByDefault('Deny')}
+                            {nls.localizeByDefault('拒绝')}
                         </button>
                     </div>
                 </div>
@@ -707,15 +707,15 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
                         className="theia-button secondary theia-tool-confirmation-main-btn"
                         onClick={() => onDeny()}
                     >
-                        {nls.localizeByDefault('Deny')}
+                        {nls.localizeByDefault('拒绝')}
                     </button>
                     <button
                         className="theia-button secondary theia-tool-confirmation-chevron-btn"
                         onClick={showDenyDropdown}
                         aria-haspopup="true"
-                        aria-label={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-options-dropdown-tooltip', 'More Deny Options')}
+                        aria-label={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-options-dropdown-tooltip', '更多拒绝选项')}
                         tabIndex={0}
-                        title={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-options-dropdown-tooltip', 'More Deny Options')}
+                        title={nls.localize('theia/ai/chat-ui/toolconfirmation/deny-options-dropdown-tooltip', '更多拒绝选项')}
                     >
                         <span className={codicon('chevron-down')}></span>
                     </button>
@@ -728,15 +728,15 @@ const ShellExecutionConfirmationActions: React.FC<ShellExecutionConfirmationActi
                         className="theia-button main theia-tool-confirmation-main-btn"
                         onClick={() => onAllow()}
                     >
-                        {nls.localizeByDefault('Allow')}
+                        {nls.localizeByDefault('允许')}
                     </button>
                     <button
                         className="theia-button main theia-tool-confirmation-chevron-btn"
                         onClick={showAllowDropdown}
                         aria-haspopup="true"
-                        aria-label={nls.localize('theia/ai/chat-ui/toolconfirmation/allow-options-dropdown-tooltip', 'More Allow Options')}
+                        aria-label={nls.localize('theia/ai/chat-ui/toolconfirmation/allow-options-dropdown-tooltip', '更多允许选项')}
                         tabIndex={0}
-                        title={nls.localize('theia/ai/chat-ui/toolconfirmation/allow-options-dropdown-tooltip', 'More Allow Options')}
+                        title={nls.localize('theia/ai/chat-ui/toolconfirmation/allow-options-dropdown-tooltip', '更多允许选项')}
                     >
                         <span className={codicon('chevron-down')}></span>
                     </button>
@@ -761,7 +761,7 @@ const ConfigurationLink: React.FC<{ openPermissionsConfiguration?: () => void }>
                 onKeyDown={e => { if (e.key === 'Enter') { openPermissionsConfiguration(); } }}
             >
                 <span className={codicon('gear')} />
-                {nls.localize('theia/ai-terminal/configurePermissions', 'Configure shell command permissions')}
+                {nls.localize('theia/ai-terminal/configurePermissions', '配置 shell 命令权限')}
             </a>
         </div>
     );
@@ -784,7 +784,7 @@ const RunningUI: React.FC<RunningUIProps> = ({
                 <button
                     className="shell-execution-tool cancel-button"
                     onClick={onCancel}
-                    title={nls.localize('theia/ai-terminal/cancelExecution', 'Cancel command execution')}
+                    title={nls.localize('theia/ai-terminal/cancelExecution', '取消命令执行')}
                 >
                     <span className={codicon('debug-stop')} />
                 </button>
@@ -806,7 +806,7 @@ const CancelingUI: React.FC<CancelingUIProps> = ({ input }) => (
             <span className="shell-execution-tool meta-badges">
                 <span className="shell-execution-tool status-label canceling">
                     <span className={`${codicon('loading')} theia-animation-spin`} />
-                    {nls.localize('theia/ai-terminal/canceling', 'Canceling...')}
+                    {nls.localize('theia/ai-terminal/canceling', '正在取消...')}
                 </span>
             </span>
         </div>
@@ -830,11 +830,11 @@ const DeniedUI: React.FC<DeniedUIProps> = ({
 
     const getStatusLabel = (): string => {
         if (confirmationState === 'rejected') {
-            return nls.localizeByDefault('Canceled');
+            return nls.localizeByDefault('已取消');
         }
         return denialReason
-            ? nls.localize('theia/ai-terminal/executionDeniedWithReason', 'Denied with reason')
-            : nls.localize('theia/ai-terminal/executionDenied', 'Denied');
+            ? nls.localize('theia/ai-terminal/executionDeniedWithReason', '已拒绝（附原因）')
+            : nls.localize('theia/ai-terminal/executionDenied', '已拒绝');
     };
 
     return (
@@ -860,7 +860,7 @@ const DeniedUI: React.FC<DeniedUIProps> = ({
                     )}
                     <CommandDisplay command={input.command} clipboardService={clipboardService} />
                     {input.cwd && (
-                        <MetaRow icon="folder" label={nls.localize('theia/ai-terminal/workingDirectory', 'Working directory')}>
+                        <MetaRow icon="folder" label={nls.localize('theia/ai-terminal/workingDirectory', '工作目录')}>
                             {input.cwd}
                         </MetaRow>
                     )}
@@ -868,7 +868,7 @@ const DeniedUI: React.FC<DeniedUIProps> = ({
                         <div className="shell-execution-tool denial-reason">
                             <div className="shell-execution-tool denial-reason-header">
                                 <span className={codicon('comment')} />
-                                {nls.localize('theia/ai-terminal/denialReason', 'Reason')}
+                                {nls.localize('theia/ai-terminal/denialReason', '原因')}
                             </div>
                             <div className="shell-execution-tool denial-reason-content">
                                 {denialReason}
@@ -907,7 +907,7 @@ const CanceledUI: React.FC<CanceledUIProps> = ({
                         <span className="shell-execution-tool duration">{formatDuration(canceledResult.duration)}</span>
                     )}
                     <span className="shell-execution-tool status-label canceled">
-                        {nls.localizeByDefault('Canceled')}
+                        {nls.localizeByDefault('已取消')}
                     </span>
                 </span>
             </div>
@@ -920,13 +920,13 @@ const CanceledUI: React.FC<CanceledUIProps> = ({
                     )}
                     <CommandDisplay command={input.command} clipboardService={clipboardService} />
                     {input.cwd && (
-                        <MetaRow icon="folder" label={nls.localize('theia/ai-terminal/workingDirectory', 'Working directory')}>
+                        <MetaRow icon="folder" label={nls.localize('theia/ai-terminal/workingDirectory', '工作目录')}>
                             {input.cwd}
                         </MetaRow>
                     )}
                     {canceledResult?.output && (
                         <OutputBox
-                            title={nls.localize('theia/ai-terminal/partialOutput', 'Partial Output')}
+                            title={nls.localize('theia/ai-terminal/partialOutput', '部分输出')}
                             output={canceledResult.output}
                             clipboardService={clipboardService}
                         />
@@ -978,7 +978,7 @@ const FinishedUI: React.FC<FinishedUIProps> = ({
                     )}
                     <CommandDisplay command={input.command} clipboardService={clipboardService} />
                     {(result?.cwd || input.cwd) && (
-                        <MetaRow icon="folder" label={nls.localize('theia/ai-terminal/workingDirectory', 'Working directory')}>
+                        <MetaRow icon="folder" label={nls.localize('theia/ai-terminal/workingDirectory', '工作目录')}>
                             {result?.cwd || input.cwd}
                         </MetaRow>
                     )}
@@ -988,7 +988,7 @@ const FinishedUI: React.FC<FinishedUIProps> = ({
                         </div>
                     )}
                     <OutputBox
-                        title={nls.localizeByDefault('Output')}
+                        title={nls.localizeByDefault('输出')}
                         output={result?.output}
                         clipboardService={clipboardService}
                     />
@@ -1017,18 +1017,18 @@ function formatSuggestionLabel(suggestion: PatternSuggestion, action: 'allow' | 
     const quoted = suggestion.patterns.map(p => `"${truncatePattern(p)}"`);
     if (quoted.length === 2) {
         return action === 'allow'
-            ? nls.localize('theia/ai-terminal/alwaysAllowPatterns', 'Always allow {0} and {1}', quoted[0], quoted[1])
-            : nls.localize('theia/ai-terminal/alwaysDenyPatterns', 'Always deny {0} and {1}', quoted[0], quoted[1]);
+            ? nls.localize('theia/ai-terminal/alwaysAllowPatterns', '始终允许 {0} 和 {1}', quoted[0], quoted[1])
+            : nls.localize('theia/ai-terminal/alwaysDenyPatterns', '始终拒绝 {0} 和 {1}', quoted[0], quoted[1]);
     }
     if (quoted.length > 2) {
         const list = quoted.join(', ');
         return action === 'allow'
-            ? nls.localize('theia/ai-terminal/alwaysAllowPatternsList', 'Always allow {0}', list)
-            : nls.localize('theia/ai-terminal/alwaysDenyPatternsList', 'Always deny {0}', list);
+            ? nls.localize('theia/ai-terminal/alwaysAllowPatternsList', '始终允许 {0}', list)
+            : nls.localize('theia/ai-terminal/alwaysDenyPatternsList', '始终拒绝 {0}', list);
     }
     return action === 'allow'
-        ? nls.localize('theia/ai-terminal/alwaysAllowPattern', 'Always allow {0}', quoted[0] ?? '')
-        : nls.localize('theia/ai-terminal/alwaysDenyPattern', 'Always deny {0}', quoted[0] ?? '');
+        ? nls.localize('theia/ai-terminal/alwaysAllowPattern', '始终允许 {0}', quoted[0] ?? '')
+        : nls.localize('theia/ai-terminal/alwaysDenyPattern', '始终拒绝 {0}', quoted[0] ?? '');
 }
 
 function truncateCommand(command: string): string {

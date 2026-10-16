@@ -64,7 +64,7 @@ import { isHttpOrHttpsUrl } from '../common/mcp-server-preference-validator';
 export class McpServersConfigurationCategory extends CollectionCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.MCP_SERVERS;
-    readonly label = nls.localizeByDefault('MCP Servers');
+    readonly label = nls.localizeByDefault('MCP 服务器');
     readonly iconClass = codicon('mcp');
     readonly order = AiConfigurationCategoryOrder.MCP_SERVERS;
     readonly kind = 'collection' as const;
@@ -193,12 +193,12 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
     /** Overview subtitle: the server type (Local/Remote) and, once known, its tool count — not the raw command/URL. */
     protected getServerSummary(server: MCPServerDescription): string | undefined {
         const type = isLocalMCPServerDescription(server)
-            ? nls.localizeByDefault('Local')
+            ? nls.localizeByDefault('本地')
             : isRemoteMCPServerDescription(server)
-                ? nls.localizeByDefault('Remote')
+                ? nls.localizeByDefault('远程')
                 : undefined;
         const toolCount = server.tools?.length ?? 0;
-        const tools = toolCount > 0 ? nls.localizeByDefault('{0} tools', toolCount) : undefined;
+        const tools = toolCount > 0 ? nls.localizeByDefault('{0} 个工具', toolCount) : undefined;
         return [type, tools].filter(entry => entry !== undefined).join(' · ') || undefined;
     }
 
@@ -221,7 +221,7 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
 
     protected override renderCategorySettings(ctx: AiConfigurationRenderContext): React.ReactNode {
         return <>
-            <AiConfigurationSection title={nls.localizeByDefault('Settings')}>
+            <AiConfigurationSection title={nls.localizeByDefault('设置')}>
                 <AiSettingsRow
                     service={this.settingsRowService}
                     preferenceId={MCP_USE_WORKSPACE_AS_ROOT_PREF}
@@ -233,11 +233,11 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
             {this.registryBridge && <div className='mcp-header-actions'>
                 <button
                     className='theia-button secondary'
-                    title={nls.localize('theia/ai/mcpConfiguration/browseAIRegistryTooltip', 'Open the Extensions view to browse AI registry entries')}
+                    title={nls.localize('theia/ai/mcpConfiguration/browseAIRegistryTooltip', '打开扩展视图以浏览 AI 注册表条目')}
                     onClick={() => this.registryBridge?.openRegistry()}
                 >
                     <i className={codicon('link-external')}></i>
-                    {nls.localize('theia/ai/mcpConfiguration/browseAIRegistry', 'Browse AI registry')}
+                    {nls.localize('theia/ai/mcpConfiguration/browseAIRegistry', '浏览 AI 注册表')}
                 </button>
             </div>}
         </>;
@@ -245,18 +245,18 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
 
     override getAddAction(): AiConfigurationAddDescriptor {
         return {
-            label: nls.localizeByDefault('Add MCP Server'),
+            label: nls.localizeByDefault('添加 MCP 服务器'),
             iconClass: codicon('add'),
             run: () => { this.serverEditor.openAddServer(); }
         };
     }
 
     protected override get overviewListTitle(): string {
-        return nls.localize('theia/ai/mcpConfiguration/serversListTitle', 'Servers');
+        return nls.localize('theia/ai/mcpConfiguration/serversListTitle', '服务器');
     }
 
     protected override getEmptyMessage(): string {
-        return nls.localize('theia/ai/mcpConfiguration/noServersConfigured', 'No MCP servers configured');
+        return nls.localize('theia/ai/mcpConfiguration/noServersConfigured', '尚未配置任何 MCP 服务器');
     }
 
     protected override renderItemHeader(item: AiConfigurationTreeItem): React.ReactNode {
@@ -303,24 +303,24 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
         const isOAuthEnabled = isRemote && !!server.oauth;
         const startIcon = isRemote ? 'plug' : 'play';
         const stopIcon = isRemote ? 'debug-disconnect' : 'debug-stop';
-        const startLabel = isRemote ? nls.localizeByDefault('Connect') : nls.localizeByDefault('Start Server');
-        const startingLabel = isRemote ? nls.localizeByDefault('Connecting...') : nls.localizeByDefault('Starting...');
-        const stopLabel = isRemote ? nls.localizeByDefault('Disconnect') : nls.localizeByDefault('Stop Server');
+        const startLabel = isRemote ? nls.localizeByDefault('连接') : nls.localizeByDefault('启动服务器');
+        const startingLabel = isRemote ? nls.localizeByDefault('正在连接...') : nls.localizeByDefault('正在启动...');
+        const stopLabel = isRemote ? nls.localizeByDefault('断开连接') : nls.localizeByDefault('停止服务器');
         return <>
             {isStartable && <button className={`mcp-action-button ${codicon(startIcon)}`} onClick={() => this.handleStartServer(server)} title={startLabel} />}
             {isStarting && <button className={`mcp-action-button ${codicon('loading')} theia-animation-spin`} disabled title={startingLabel} />}
             {isStoppable && <button className={`mcp-action-button ${codicon(stopIcon)}`} onClick={() => this.handleStopServer(server.name)} title={stopLabel} />}
             {isOAuthEnabled && isStartable &&
-                <button className={`mcp-action-button ${codicon('sign-in')}`} onClick={() => this.handleSignInServer(server.name)} title={nls.localizeByDefault('Sign In')} />}
+                <button className={`mcp-action-button ${codicon('sign-in')}`} onClick={() => this.handleSignInServer(server.name)} title={nls.localizeByDefault('登录')} />}
             {isOAuthEnabled && this.oauthCredentialStates[server.name] && <button
                 className={`mcp-action-button ${codicon('sign-out')}`}
                 onClick={() => this.handleSignOutServer(server.name)}
-                title={nls.localizeByDefault('Sign Out')}
+                title={nls.localizeByDefault('登出')}
             />}
             <button
                 className={`mcp-action-button mcp-delete-button ${codicon('trash')}`}
                 onClick={() => this.handleDeleteServer(server.name)}
-                title={nls.localize('theia/ai/mcpConfiguration/deleteServer', 'Delete Server')}
+                title={nls.localize('theia/ai/mcpConfiguration/deleteServer', '删除服务器')}
             />
         </>;
     }
@@ -336,53 +336,53 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
         const remote = isRemoteMCPServerDescription(server);
         const oauth = remote ? server.oauth : undefined;
         return <>
-            {this.renderFieldRow(nls.localizeByDefault('Server Type'),
+            {this.renderFieldRow(nls.localizeByDefault('服务器类型'),
                 <span className='mcp-field-static'>{this.getServerTypeLabel(server)}</span>)}
-            {local && this.renderTextField(nls.localizeByDefault('Command'), server.command, false, false,
+            {local && this.renderTextField(nls.localizeByDefault('命令'), server.command, false, false,
                 value => this.updateServer(server, { command: value }),
-                server.command.trim() ? undefined : nls.localize('theia/ai/mcpConfiguration/form/commandRequired', 'Command is required for local servers'))}
-            {local && this.renderArrayField(nls.localizeByDefault('Arguments'), server.args ?? [],
-                nls.localize('theia/ai/mcpConfiguration/addArgument', 'Add argument…'),
+                server.command.trim() ? undefined : nls.localize('theia/ai/mcpConfiguration/form/commandRequired', '本地服务器必须提供命令'))}
+            {local && this.renderArrayField(nls.localizeByDefault('参数'), server.args ?? [],
+                nls.localize('theia/ai/mcpConfiguration/addArgument', '添加参数…'),
                 values => this.updateServer(server, { args: values }))}
-            {local && this.renderKeyValueField(nls.localize('theia/ai/mcpConfiguration/environmentVariables', 'Environment Variables'), server.env ?? {},
+            {local && this.renderKeyValueField(nls.localize('theia/ai/mcpConfiguration/environmentVariables', '环境变量'), server.env ?? {},
                 lines => this.updateServer(server, { env: lines }))}
             {local && this.renderPluginPathsSection(server)}
-            {remote && this.renderTextField(nls.localize('theia/ai/mcpConfiguration/serverUrl', 'Server URL'), server.serverUrl, false, false,
+            {remote && this.renderTextField(nls.localize('theia/ai/mcpConfiguration/serverUrl', '服务器 URL'), server.serverUrl, false, false,
                 value => this.updateServer(server, { serverUrl: value }),
-                server.serverUrl.trim() ? undefined : nls.localize('theia/ai/mcpConfiguration/form/serverUrlRequired', 'Server URL is required for remote servers'))}
+                server.serverUrl.trim() ? undefined : nls.localize('theia/ai/mcpConfiguration/form/serverUrlRequired', '远程服务器必须提供服务器 URL'))}
             {remote && !oauth && this.renderTextField(
-                nls.localize('theia/ai/mcpConfiguration/serverAuthTokenHeader', 'Auth Header Name'), server.serverAuthTokenHeader ?? '', false, false,
+                nls.localize('theia/ai/mcpConfiguration/serverAuthTokenHeader', '认证头名称'), server.serverAuthTokenHeader ?? '', false, false,
                 value => this.updateServer(server, { serverAuthTokenHeader: value }))}
-            {remote && !oauth && this.renderTextField(nls.localize('theia/ai/mcpConfiguration/serverAuthToken', 'Auth Token'), server.serverAuthToken ?? '', false, true,
+            {remote && !oauth && this.renderTextField(nls.localize('theia/ai/mcpConfiguration/serverAuthToken', '认证令牌'), server.serverAuthToken ?? '', false, true,
                 value => this.updateServer(server, { serverAuthToken: value }))}
-            {remote && this.renderKeyValueField(nls.localizeByDefault('Headers'), server.headers ?? {},
+            {remote && this.renderKeyValueField(nls.localizeByDefault('请求头'), server.headers ?? {},
                 lines => this.updateServer(server, { headers: lines }))}
             {oauth && this.renderOAuthFields(server, oauth)}
-            {this.renderToggleField(nls.localize('theia/ai/mcpConfiguration/autostart', 'Autostart'), server.autostart ?? false,
+            {this.renderToggleField(nls.localize('theia/ai/mcpConfiguration/autostart', '自动启动'), server.autostart ?? false,
                 value => this.updateServer(server, { autostart: value }))}
-            {this.renderToggleField(nls.localize('theia/ai/mcpConfiguration/deferLoading', 'Defer tool loading'), server.deferLoading ?? false,
+            {this.renderToggleField(nls.localize('theia/ai/mcpConfiguration/deferLoading', '延迟加载工具'), server.deferLoading ?? false,
                 value => this.updateServer(server, { deferLoading: value }))}
         </>;
     }
 
     protected renderOAuthFields(server: MCPServerDescription, oauth: MCPOAuthConfig): React.ReactNode {
         return <>
-            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthClientId', 'OAuth Client ID'), oauth.clientId ?? '', false, false,
+            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthClientId', 'OAuth 客户端 ID'), oauth.clientId ?? '', false, false,
                 value => this.updateServer(server, { oauthClientId: value }))}
-            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthClientSecret', 'OAuth Client Secret'), oauth.clientSecret ?? '', false, true,
+            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthClientSecret', 'OAuth 客户端密钥'), oauth.clientSecret ?? '', false, true,
                 value => this.updateServer(server, { oauthClientSecret: value }))}
-            {this.renderArrayField(nls.localize('theia/ai/mcpConfiguration/oauthScopes', 'OAuth Scopes'), oauth.scopes ?? [],
-                nls.localize('theia/ai/mcpConfiguration/addScope', 'Add scope…'),
+            {this.renderArrayField(nls.localize('theia/ai/mcpConfiguration/oauthScopes', 'OAuth 作用域'), oauth.scopes ?? [],
+                nls.localize('theia/ai/mcpConfiguration/addScope', '添加作用域…'),
                 values => this.updateServer(server, { oauthScopes: values.join(' ') }))}
-            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthAuthorizationServer', 'Authorization Server'), oauth.authorizationServer ?? '', false, false,
+            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthAuthorizationServer', '授权服务器'), oauth.authorizationServer ?? '', false, false,
                 value => this.updateServer(server, { oauthAuthorizationServer: value }),
                 oauth.authorizationServer && !isHttpOrHttpsUrl(oauth.authorizationServer)
-                    ? nls.localize('theia/ai/mcpConfiguration/form/oauthAuthorizationServerInvalid', 'OAuth Authorization Server must be a valid http(s) URL')
+                    ? nls.localize('theia/ai/mcpConfiguration/form/oauthAuthorizationServerInvalid', 'OAuth 授权服务器必须是有效的 http(s) URL')
                     : undefined)}
-            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthResource', 'OAuth Resource'), oauth.resource ?? '', false, false,
+            {this.renderTextField(nls.localize('theia/ai/mcpConfiguration/oauthResource', 'OAuth 资源'), oauth.resource ?? '', false, false,
                 value => this.updateServer(server, { oauthResource: value }),
                 oauth.resource && !isHttpOrHttpsUrl(oauth.resource)
-                    ? nls.localize('theia/ai/mcpConfiguration/form/oauthResourceInvalid', 'OAuth Resource must be a valid http(s) URL')
+                    ? nls.localize('theia/ai/mcpConfiguration/form/oauthResourceInvalid', 'OAuth 资源必须是有效的 http(s) URL')
                     : undefined)}
         </>;
     }
@@ -394,17 +394,17 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
             return;
         }
         this.serverEditor.save({ ...form, ...patch }).catch(error =>
-            this.messageService.error(nls.localize('theia/ai/mcpConfiguration/saveServerError', 'Failed to save MCP server configuration: {0}', String(error))));
+            this.messageService.error(nls.localize('theia/ai/mcpConfiguration/saveServerError', '保存 MCP 服务器配置失败：{0}', String(error))));
     }
 
     protected getServerTypeLabel(server: MCPServerDescription): string {
         if (isLocalMCPServerDescription(server)) {
-            return nls.localizeByDefault('Local');
+            return nls.localizeByDefault('本地');
         }
         if (isRemoteMCPServerDescription(server)) {
-            return server.oauth ? nls.localize('theia/ai/mcpConfiguration/typeRemoteOAuth', 'Remote (OAuth)') : nls.localizeByDefault('Remote');
+            return server.oauth ? nls.localize('theia/ai/mcpConfiguration/typeRemoteOAuth', '远程（OAuth）') : nls.localizeByDefault('远程');
         }
-        return nls.localizeByDefault('Unknown');
+        return nls.localizeByDefault('未知');
     }
 
     /**
@@ -417,9 +417,9 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
             return undefined;
         }
         return <>
-            {this.renderReadOnlyPath(nls.localizeByDefault('Working Directory'), server.cwd)}
-            {this.renderReadOnlyPath(nls.localize('theia/ai/mcpConfiguration/pluginRoot', 'Plugin Root'), server.pluginRoot, 'PLUGIN_ROOT')}
-            {this.renderReadOnlyPath(nls.localize('theia/ai/mcpConfiguration/pluginData', 'Plugin Data'), server.pluginData, 'PLUGIN_DATA')}
+            {this.renderReadOnlyPath(nls.localizeByDefault('工作目录'), server.cwd)}
+            {this.renderReadOnlyPath(nls.localize('theia/ai/mcpConfiguration/pluginRoot', '插件根目录'), server.pluginRoot, 'PLUGIN_ROOT')}
+            {this.renderReadOnlyPath(nls.localize('theia/ai/mcpConfiguration/pluginData', '插件数据'), server.pluginData, 'PLUGIN_DATA')}
         </>;
     }
 
@@ -458,7 +458,7 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
         return this.renderFieldRow(label, <AiArrayInput
             values={lines}
             ariaLabel={label}
-            addPlaceholder={nls.localize('theia/ai/mcpConfiguration/addKeyValue', 'Add KEY=value…')}
+            addPlaceholder={nls.localize('theia/ai/mcpConfiguration/addKeyValue', '添加 KEY=value…')}
             onChange={next => onChange(next.join('\n'))}
         />);
     }
@@ -481,25 +481,25 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
             navigator.clipboard.writeText(text);
             this.messageService.info(info);
         };
-        return <AiConfigurationSection title={nls.localizeByDefault('Tools')} actions={<div className='mcp-tools-actions'>
+        return <AiConfigurationSection title={nls.localizeByDefault('工具')} actions={<div className='mcp-tools-actions'>
             <button
                 className='mcp-copy-tool-button'
-                title={nls.localize('theia/ai/mcpConfiguration/copyAllList', 'Copy all (list of all tools)')}
+                title={nls.localize('theia/ai/mcpConfiguration/copyAllList', '复制全部（所有工具列表）')}
                 onClick={() => copy(tools.map(tool => `~{mcp_${server.name}_${tool.name}}`).join('\n'),
-                    nls.localize('theia/ai/mcpConfiguration/copiedAllList', 'Copied all tools to clipboard (list of all tools)'))}
+                    nls.localize('theia/ai/mcpConfiguration/copiedAllList', '已将所有工具复制到剪贴板（所有工具列表）'))}
             ><i className={codicon('versions')}></i></button>
             <button
                 className='mcp-copy-tool-button'
-                title={nls.localize('theia/ai/mcpConfiguration/copyForPromptTemplate', 'Copy all for prompt template (single prompt fragment with all tools)')}
+                title={nls.localize('theia/ai/mcpConfiguration/copyForPromptTemplate', '为提示词模板复制全部（包含所有工具的单个提示词片段）')}
                 onClick={() => copy(`{{${PROMPT_VARIABLE.name}:${this.mcpFrontendService.getPromptTemplateId(server.name)}}}`,
                     nls.localize('theia/ai/mcpConfiguration/copiedForPromptTemplate',
-                        'Copied all tools to clipboard for prompt template (single prompt fragment with all tools)'))}
+                        '已将所有工具复制到剪贴板（用于提示词模板，包含所有工具的单个提示词片段）'))}
             ><i className={codicon('bracket')}></i></button>
             <button
                 className='mcp-copy-tool-button'
-                title={nls.localize('theia/ai/mcpConfiguration/copyAllSingle', 'Copy all for chat (single prompt fragment with all tools)')}
+                title={nls.localize('theia/ai/mcpConfiguration/copyAllSingle', '为聊天复制全部（包含所有工具的单个提示词片段）')}
                 onClick={() => copy(`#${PROMPT_VARIABLE.name}:${this.mcpFrontendService.getPromptTemplateId(server.name)}`,
-                    nls.localize('theia/ai/mcpConfiguration/copiedAllSingle', 'Copied all tools to clipboard (single prompt fragment with all tools)'))}
+                    nls.localize('theia/ai/mcpConfiguration/copiedAllSingle', '已将所有工具复制到剪贴板（包含所有工具的单个提示词片段）'))}
             ><i className={codicon('copy')}></i></button>
         </div>}>
             <div className='ai-configuration-item-list'>
@@ -511,12 +511,12 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
                         description={tool.description}
                         // The registry prefixes an MCP tool with its server, which is how the Tools page lists it.
                         onActivateLabel={() => ctx.navigate(AiConfigurationTools.selectionFor(`mcp_${server.name}_${tool.name}`))}
-                        labelTooltip={nls.localize('theia/ai/mcpConfiguration/showToolSettings', 'Show tool')}
+                        labelTooltip={nls.localize('theia/ai/mcpConfiguration/showToolSettings', '显示工具')}
                         trailing={<button
                             className='mcp-copy-tool-button'
-                            title={nls.localize('theia/ai/mcpConfiguration/copyForPrompt', 'Copy tool (for chat or prompt template)')}
+                            title={nls.localize('theia/ai/mcpConfiguration/copyForPrompt', '复制工具（用于聊天或提示词模板）')}
                             onClick={() => copy(token,
-                                nls.localize('theia/ai/mcpConfiguration/copiedForPrompt', 'Copied {0} to clipboard (for chat or prompt template)', token))}
+                                nls.localize('theia/ai/mcpConfiguration/copiedForPrompt', '已将 {0} 复制到剪贴板（用于聊天或提示词模板）', token))}
                         ><i className={codicon('copy')}></i></button>}
                     />;
                 })}
@@ -532,7 +532,7 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
             await this.mcpFrontendService.startServerInteractive(server.name);
         } catch (error) {
             this.logger.error(`Failed to start MCP server "${server.name}"`, error);
-            this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/startServerFailed', 'Failed to start MCP server "{0}".', server.name));
+            this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/startServerFailed', '启动 MCP 服务器“{0}”失败。', server.name));
         }
     }
 
@@ -541,7 +541,7 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
             await this.mcpFrontendService.stopServer(serverName);
         } catch (error) {
             this.logger.error(`Failed to stop MCP server "${serverName}"`, error);
-            this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/stopServerFailed', 'Failed to stop MCP server "{0}".', serverName));
+            this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/stopServerFailed', '停止 MCP 服务器“{0}”失败。', serverName));
         }
     }
 
@@ -549,40 +549,40 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
         try {
             const signedIn = await this.mcpFrontendService.signIn(serverName);
             if (signedIn) {
-                this.messageService.info(nls.localize('theia/ai/mcpConfiguration/signInServerSucceeded', 'Signed in to MCP server "{0}".', serverName));
+                this.messageService.info(nls.localize('theia/ai/mcpConfiguration/signInServerSucceeded', '已登录 MCP 服务器“{0}”。', serverName));
             } else {
-                this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/signInServerNotCompleted', 'Sign-in to MCP server "{0}" was not completed.', serverName));
+                this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/signInServerNotCompleted', '对 MCP 服务器“{0}”的登录未完成。', serverName));
             }
         } catch (error) {
             this.logger.error(`Failed to sign in to MCP server "${serverName}"`, error);
-            this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/signInServerFailed', 'Failed to sign in to MCP server "{0}".', serverName));
+            this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/signInServerFailed', '登录 MCP 服务器“{0}”失败。', serverName));
         }
     }
 
     protected async handleSignOutServer(serverName: string): Promise<void> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai/mcpConfiguration/signOutServerDialogTitle', 'Sign Out from MCP Server'),
+            title: nls.localize('theia/ai/mcpConfiguration/signOutServerDialogTitle', '从 MCP 服务器登出'),
             msg: nls.localize('theia/ai/mcpConfiguration/signOutServerDialogMsg',
-                'Are you sure you want to sign out from the server "{0}"? This deletes the stored OAuth tokens for this server.', serverName),
-            ok: nls.localizeByDefault('Sign Out'),
-            cancel: nls.localizeByDefault('Cancel')
+                '确定要从服务器“{0}”登出吗？这将删除为该服务器存储的 OAuth 令牌。', serverName),
+            ok: nls.localizeByDefault('登出'),
+            cancel: nls.localizeByDefault('取消')
         });
         if ((await dialog.open()) === true) {
             try {
                 await this.mcpFrontendService.signOut(serverName);
             } catch (error) {
                 this.logger.error(`Failed to sign out from MCP server "${serverName}"`, error);
-                this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/signOutServerFailed', 'Failed to sign out from MCP server "{0}".', serverName));
+                this.messageService.warn(nls.localize('theia/ai/mcpConfiguration/signOutServerFailed', '从 MCP 服务器“{0}”登出失败。', serverName));
             }
         }
     }
 
     protected async handleDeleteServer(serverName: string): Promise<void> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai/mcpConfiguration/deleteServerDialogTitle', 'Delete MCP Server'),
-            msg: nls.localize('theia/ai/mcpConfiguration/deleteServerDialogMsg', 'Are you sure you want to delete the server "{0}"?', serverName),
-            ok: nls.localizeByDefault('Delete'),
-            cancel: nls.localizeByDefault('Cancel')
+            title: nls.localize('theia/ai/mcpConfiguration/deleteServerDialogTitle', '删除 MCP 服务器'),
+            msg: nls.localize('theia/ai/mcpConfiguration/deleteServerDialogMsg', '确定要删除服务器“{0}”吗？', serverName),
+            ok: nls.localizeByDefault('删除'),
+            cancel: nls.localizeByDefault('取消')
         });
         if (await dialog.open()) {
             try {
@@ -591,14 +591,14 @@ export class McpServersConfigurationCategory extends CollectionCategoryRenderer 
                 delete newServers[serverName];
                 await this.aiConfigurationService.set(MCP_SERVERS_PREF, newServers, PreferenceScope.User);
             } catch (error) {
-                this.messageService.error(nls.localize('theia/ai/mcpConfiguration/deleteServerError', 'Failed to delete MCP server: {0}', String(error)));
+                this.messageService.error(nls.localize('theia/ai/mcpConfiguration/deleteServerError', '删除 MCP 服务器失败：{0}', String(error)));
             }
         }
     }
 
     getSearchItems(): AiConfigurationSearchItem[] {
-        const serverTypeLabel = nls.localize('theia/ai/mcpConfiguration/serverTypeLabel', 'MCP server');
-        const toolTypeLabel = nls.localizeByDefault('Tool');
+        const serverTypeLabel = nls.localize('theia/ai/mcpConfiguration/serverTypeLabel', 'MCP 服务器');
+        const toolTypeLabel = nls.localizeByDefault('工具');
         const items: AiConfigurationSearchItem[] = [];
         for (const server of this.servers) {
             items.push({

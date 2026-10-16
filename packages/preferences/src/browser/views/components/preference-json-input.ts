@@ -26,7 +26,7 @@ export class PreferenceJSONLinkRenderer extends PreferenceLeafNodeRenderer<JSONV
     @inject(CommandService) protected readonly commandService: CommandService;
 
     protected createInteractable(parent: HTMLElement): void {
-        const message = nls.localizeByDefault('Edit in settings.json');
+        const message = nls.localizeByDefault('在 settings.json 中编辑');
         const interactable = document.createElement('a');
         this.interactable = interactable;
         interactable.classList.add('theia-json-input');

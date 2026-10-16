@@ -44,7 +44,7 @@ export class AdditionalViewsMenuWidget extends SidebarMenuWidget {
             this.removeMenu(AdditionalViewsMenuWidget.ID);
         } else {
             this.addMenu({
-                title: nls.localizeByDefault('Additional Views'),
+                title: nls.localizeByDefault('其他视图'),
                 iconClass: codicon('ellipsis'),
                 id: AdditionalViewsMenuWidget.ID,
                 menuPath: this.menuPath,

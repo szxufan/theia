@@ -75,7 +75,7 @@ export class VSXExtensionsSearchBar extends ReactWidget {
                 defaultValue={this.searchModel.query}
                 spellCheck={false}
                 className='theia-input'
-                placeholder={nls.localize('theia/vsx-registry/searchPlaceholder', 'Search Open VSX Registry')}
+                placeholder={nls.localize('theia/vsx-registry/searchPlaceholder', '在 Open VSX 市场中搜索')}
                 onChange={this.updateQuery}>
             </input>
             {this.renderOptionContainer()}
@@ -108,7 +108,7 @@ export class VSXExtensionsSearchBar extends ReactWidget {
         const active = this.searchModel.parseQuery().typeTokens.size > 0;
         return <span
             className={`${codicon(active ? 'filter-filled' : 'filter')} option action-label ${active ? 'enabled' : ''}`}
-            title={nls.localizeByDefault('Filter Extensions...')}
+            title={nls.localizeByDefault('筛选扩展...')}
             onClick={this.handleFilterByTypeClick}>
         </span>;
     }
@@ -128,7 +128,7 @@ export class VSXExtensionsSearchBar extends ReactWidget {
     protected renderShowVerifiedExtensions(): React.ReactNode {
         return <span
             className={`${codicon('verified')} option action-label ${this.onlyShowVerifiedExtensions ? 'enabled' : ''}`}
-            title={nls.localize('theia/vsx-registry/onlyShowVerifiedExtensionsTitle', 'Only Show Verified Extensions')}
+            title={nls.localize('theia/vsx-registry/onlyShowVerifiedExtensionsTitle', '仅显示已验证的扩展')}
             onClick={() => this.handleShowVerifiedExtensionsClick()}>
         </span>;
     }

@@ -18,10 +18,10 @@ import 'reflect-metadata';
 
 import { expect } from 'chai';
 import {
-    getTextOfResponse, LanguageModel, LanguageModelMessage, LanguageModelRegistry, LanguageModelRequirement, LanguageModelResponse,
+    Agent, getTextOfResponse, LanguageModel, LanguageModelMessage, LanguageModelRegistry, LanguageModelRequirement, LanguageModelResponse,
     LanguageModelSelector, LanguageModelService, LanguageModelStreamResponsePart, ServerToolDescriptor, UserRequest
 } from '@theia/ai-core';
-import { AbstractChatAgent, AbstractStreamParsingChatAgent, ChatAgentLocation } from './chat-agents';
+import { AbstractChatAgent, AbstractStreamParsingChatAgent, ChatAgentLocation, getAgentDisplayName } from './chat-agents';
 import {
     ChatResponseContent,
     ErrorChatResponseContent,
@@ -86,6 +86,18 @@ function createParsedRequest(text: string, request?: Partial<ChatRequest>): Pars
         variables: []
     };
 }
+
+describe('getAgentDisplayName', () => {
+    it('returns the display name when set', () => {
+        const agent = { id: 'Coder', name: 'Coder', displayName: '编码' } as unknown as Agent;
+        expect(getAgentDisplayName(agent)).to.equal('编码');
+    });
+
+    it('falls back to the technical name when no display name is set', () => {
+        const agent = { id: 'custom-agent', name: 'My Custom Agent' } as unknown as Agent;
+        expect(getAgentDisplayName(agent)).to.equal('My Custom Agent');
+    });
+});
 
 describe('AbstractChatAgent.getMessages', () => {
 

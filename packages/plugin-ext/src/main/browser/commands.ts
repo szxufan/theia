@@ -71,7 +71,7 @@ class OpenNewTabDialog extends AbstractDialog<string> {
 
     constructor(windowService: WindowService) {
         super({
-            title: nls.localize('theia/plugin/blockNewTab', 'Your browser prevented opening of a new tab')
+            title: nls.localize('theia/plugin/blockNewTab', '您的浏览器阻止了新标签页的打开')
         });
         this.windowService = windowService;
 
@@ -81,12 +81,12 @@ class OpenNewTabDialog extends AbstractDialog<string> {
         this.contentNode.appendChild(this.linkNode);
 
         const messageNode = document.createElement('div');
-        messageNode.innerText = 'You are going to open: ';
+        messageNode.innerText = '您将要打开：';
         messageNode.appendChild(this.linkNode);
         this.contentNode.appendChild(messageNode);
 
         this.appendCloseButton();
-        this.openButton = this.appendAcceptButton(nls.localizeByDefault('Open'));
+        this.openButton = this.appendAcceptButton(nls.localizeByDefault('打开'));
     }
 
     showOpenNewTabDialog(uri: string): void {

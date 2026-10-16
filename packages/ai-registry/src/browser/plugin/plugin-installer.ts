@@ -63,7 +63,7 @@ export class PluginInstallerImpl implements PluginInstaller {
         // Downloading a repository tarball is slow enough that silence reads as a hang. The progress
         // is closed around the mismatch dialog so it never sits behind a modal waiting on the user.
         const staged = await this.withProgress(entry,
-            nls.localizeByDefault('Downloading...'),
+            nls.localizeByDefault('正在下载...'),
             () => this.installService.stage(entry));
         // Nothing is in the plugins root yet, so the user can still decide.
         if (staged.mismatch && !await this.confirmMismatch(entry, staged)) {
@@ -71,7 +71,7 @@ export class PluginInstallerImpl implements PluginInstaller {
             return false;
         }
         await this.withProgress(entry,
-            nls.localizeByDefault('Installing...'),
+            nls.localizeByDefault('正在安装...'),
             async () => {
                 const installed = await this.installService.commit(staged.stagingId, options.replaceExisting);
                 // Only the MCP servers; the skill root is picked up by `PluginSkillDirectoryContribution`.
@@ -91,7 +91,7 @@ export class PluginInstallerImpl implements PluginInstaller {
 
     protected startProgress(entry: ResolvedPluginEntry, message: string): Promise<Progress> {
         return this.messageService.showProgress({
-            text: nls.localize('theia/ai-registry/plugin/progress/text', 'Agent Plugin "{0}": {1}', entry.name, message)
+            text: nls.localize('theia/ai-registry/plugin/progress/text', '代理插件“{0}”：{1}', entry.name, message)
         });
     }
 
@@ -107,8 +107,8 @@ export class PluginInstallerImpl implements PluginInstaller {
             // Extensions view renders no Update button to point the user at.
             throw new Error(nls.localize(
                 'theia/ai-registry/plugin/registrationFailed',
-                'Agent Plugin "{0}" was installed, but its MCP servers could not be registered: {1}. '
-                + 'Uninstall and install it again to retry.',
+                '代理插件“{0}”已安装，但其 MCP 服务器无法注册：{1}。'
+                + '请卸载并重新安装以重试。',
                 entry.name,
                 error instanceof Error ? error.message : String(error)
             ));

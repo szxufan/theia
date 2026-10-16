@@ -266,7 +266,7 @@ describe('ChatTokenUsageIndicator', () => {
             const usage = { inputTokens: 30, outputTokens: 20 };
             const tooltip = buildBarTooltip(usage, 50, THRESHOLD, CONTEXT_WINDOW, model);
             expect(tooltip).to.not.equal(undefined);
-            expect(tooltip!.value).to.contain('Cumulative:');
+            expect(tooltip!.value).to.contain('累计：');
         });
 
         it('includes compaction line when model has a compaction content part', () => {
@@ -276,7 +276,7 @@ describe('ChatTokenUsageIndicator', () => {
             const usage = { inputTokens: 50, outputTokens: 50 };
             const tooltip = buildBarTooltip(usage, 100, THRESHOLD, CONTEXT_WINDOW, model);
             expect(tooltip).to.not.equal(undefined);
-            expect(tooltip!.value).to.contain('Compacted');
+            expect(tooltip!.value).to.contain('已压缩');
         });
     });
 

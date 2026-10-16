@@ -670,7 +670,7 @@ export class KeybindingRegistry {
             event.stopPropagation();
 
             this.statusBar.setElement('keybinding-status', {
-                text: nls.localize('theia/core/keybindingStatus', '{0} was pressed, waiting for more keys', `(${this.acceleratorForSequence(this.keySequence, '+')})`),
+                text: nls.localize('theia/core/keybindingStatus', '已按下 {0}，正在等待更多按键', `(${this.acceleratorForSequence(this.keySequence, '+')})`),
                 alignment: StatusBarAlignment.LEFT,
                 priority: 2
             });

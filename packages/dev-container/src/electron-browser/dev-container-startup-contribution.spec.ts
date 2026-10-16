@@ -190,7 +190,7 @@ describe('DevContainerStartupContribution#runStartupAttach', () => {
 
         expect(harness.openRemoteCalls).to.have.lengthOf(0);
         expect(harness.errors).to.have.lengthOf(1);
-        expect(harness.errors[0].message).to.match(/not found/i);
+        expect(harness.errors[0].message).to.match(/未找到/);
     });
 
     it('retry re-runs the attach; close dismisses the screen', async () => {

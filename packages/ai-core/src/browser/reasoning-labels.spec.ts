@@ -19,10 +19,10 @@ import { reasoningLevelDescription, reasoningLevelLabel } from './reasoning-labe
 
 describe('Reasoning selector wording', () => {
     it('labels max and distinguishes provider-specific off behavior from explicit no reasoning', () => {
-        expect(reasoningLevelLabel('max')).to.equal('Max');
+        expect(reasoningLevelLabel('max')).to.equal('最大');
         expect(reasoningLevelDescription('off')).to.equal(
-            'Omits explicit reasoning effort, allowing provider defaults or raw request settings to apply; on Ollama, disables thinking.');
-        expect(reasoningLevelDescription('none')).to.equal('Explicitly requests no reasoning.');
+            '省略显式推理力度，允许使用提供商默认值或原始请求设置；在 Ollama 上则禁用思考。');
+        expect(reasoningLevelDescription('none')).to.equal('明确请求不进行推理。');
         expect(reasoningLevelDescription('high')).to.equal(undefined);
     });
 });

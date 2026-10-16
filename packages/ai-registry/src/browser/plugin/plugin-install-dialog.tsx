@@ -38,7 +38,7 @@ export type PluginHashMismatchDialogFactory = (options: PluginHashMismatchDialog
 function renderEndorsement(endorsement: PluginEndorsement): string {
     const base = nls.localizeByDefault('{0} · {1}', endorsement.organizationId, endorsement.date);
     return endorsement.viaTrust
-        ? nls.localizeByDefault('{0} ({1})', base, nls.localize('theia/ai-registry/plugin/dialog/viaTrust', 'via {0}', endorsement.viaTrust))
+        ? nls.localizeByDefault('{0}（{1}）', base, nls.localize('theia/ai-registry/plugin/dialog/viaTrust', '经由 {0}', endorsement.viaTrust))
         : base;
 }
 
@@ -52,11 +52,11 @@ export class PluginInstallDialog extends ReactDialog<boolean> {
 
     constructor(protected readonly options: PluginInstallDialogOptions) {
         super({
-            title: nls.localize('theia/ai-registry/plugin/dialog/install/title', 'Install Agent Plugin "{0}"', options.entry.name),
+            title: nls.localize('theia/ai-registry/plugin/dialog/install/title', '安装代理插件“{0}”', options.entry.name),
             maxWidth: 520
         });
-        this.appendCloseButton(nls.localizeByDefault('Cancel'));
-        this.appendAcceptButton(nls.localizeByDefault('Install'));
+        this.appendCloseButton(nls.localizeByDefault('取消'));
+        this.appendAcceptButton(nls.localizeByDefault('安装'));
     }
 
     get value(): boolean {
@@ -68,20 +68,20 @@ export class PluginInstallDialog extends ReactDialog<boolean> {
         return (
             <div className="theia-plugin-dialog">
                 <div className="theia-plugin-dialog-field">
-                    <label>{nls.localizeByDefault('From')}:</label>
+                    <label>{nls.localizeByDefault('来源')}:</label>
                     <span className="theia-plugin-dialog-value">{this.renderSource(entry)}</span>
                 </div>
                 <div className="theia-plugin-dialog-field">
-                    <label>{nls.localize('theia/ai-registry/plugin/dialog/endorsedBy', 'Endorsed by')}:</label>
+                    <label>{nls.localize('theia/ai-registry/plugin/dialog/endorsedBy', '背书方')}:</label>
                     <span className="theia-plugin-dialog-value">
                         {entry.endorsements.length > 0
                             ? entry.endorsements.map(renderEndorsement).join(', ')
-                            : nls.localize('theia/ai-registry/plugin/dialog/noEndorsements', 'No endorsing organization')}
+                            : nls.localize('theia/ai-registry/plugin/dialog/noEndorsements', '无背书组织')}
                     </span>
                 </div>
                 {entry.version !== undefined && (
                     <div className="theia-plugin-dialog-field">
-                        <label>{nls.localizeByDefault('Version')}:</label>
+                        <label>{nls.localizeByDefault('版本')}:</label>
                         <span className="theia-plugin-dialog-value">{entry.version}</span>
                     </div>
                 )}
@@ -105,17 +105,17 @@ export class PluginInstallDialog extends ReactDialog<boolean> {
         return (
             <div className="theia-plugin-dialog-section">
                 <div className="theia-plugin-dialog-section-title">
-                    {nls.localizeByDefault('Contains')}
+                    {nls.localizeByDefault('包含')}
                 </div>
                 {containedSkills.length > 0 && (
                     <div className="theia-plugin-dialog-field">
-                        <label>{nls.localizeByDefault('Skills')}:</label>
+                        <label>{nls.localizeByDefault('技能')}:</label>
                         <span className="theia-plugin-dialog-value">{containedSkills.map(skill => skill.name).join(', ')}</span>
                     </div>
                 )}
                 {containedMcpServers.length > 0 && (
                     <div className="theia-plugin-dialog-field">
-                        <label>{nls.localizeByDefault('MCP Servers')}:</label>
+                        <label>{nls.localizeByDefault('MCP 服务器')}:</label>
                         <span className="theia-plugin-dialog-value">
                             {containedMcpServers.map(server => server.transport
                                 ? nls.localizeByDefault('{0} ({1})', server.name, server.transport)
@@ -134,8 +134,8 @@ export class PluginInstallDialog extends ReactDialog<boolean> {
                 <span>
                     {nls.localize(
                         'theia/ai-registry/plugin/dialog/mcpWarning',
-                        "This plugin's MCP servers can run arbitrary commands on your machine. The endorsement covers the plugin as a whole - "
-                        + 'no contained server is endorsed on its own. The servers start automatically after the install.'
+                        '此插件的 MCP 服务器可以在你的机器上运行任意命令。背书覆盖的是插件整体——'
+                        + '其中包含的任何服务器都不会被单独背书。服务器将在安装后自动启动。'
                     )}
                 </span>
             </div>
@@ -157,11 +157,11 @@ export class PluginHashMismatchDialog extends ReactDialog<boolean> {
 
     constructor(protected readonly options: PluginHashMismatchDialogOptions) {
         super({
-            title: nls.localize('theia/ai-registry/plugin/dialog/mismatch/title', 'Source has changed'),
+            title: nls.localize('theia/ai-registry/plugin/dialog/mismatch/title', '源已更改'),
             maxWidth: 520
         });
-        this.appendCloseButton(nls.localizeByDefault('Cancel'));
-        this.appendAcceptButton(nls.localize('theia/ai-registry/plugin/dialog/mismatch/installAnyway', 'Install anyway'));
+        this.appendCloseButton(nls.localizeByDefault('取消'));
+        this.appendAcceptButton(nls.localize('theia/ai-registry/plugin/dialog/mismatch/installAnyway', '仍然安装'));
     }
 
     get value(): boolean {
@@ -177,31 +177,30 @@ export class PluginHashMismatchDialog extends ReactDialog<boolean> {
                     {endorsement
                         ? nls.localize(
                             'theia/ai-registry/plugin/dialog/mismatch/endorsed',
-                            'The files downloaded for "{0}" do not match what {1} endorsed on {2}.',
+                            '为“{0}”下载的文件与 {1} 在 {2} 背书的内容不一致。',
                             entry.name,
                             endorsement.organizationId,
                             endorsement.date
                         )
                         : nls.localize(
                             'theia/ai-registry/plugin/dialog/mismatch/unendorsed',
-                            'The files downloaded for "{0}" do not match the content hash the registry publishes.',
+                            '为“{0}”下载的文件与注册表发布的内容哈希不一致。',
                             entry.name
                         )}
                 </div>
                 <div className="theia-plugin-dialog-paragraph">
                     {nls.localize(
                         'theia/ai-registry/plugin/dialog/mismatch/explanation',
-                        "This is expected for up to a day after the plugin's authors commit, because the registry re-reads sources daily and "
-                        + 'pins no commit, and a repository that excludes files from its archives produces it permanently. It is also what a '
-                        + 'compromised source looks like.'
+                        '在插件作者提交后的最多一天内出现这种情况是正常的，因为注册表每天重新读取源码且不锁定提交；'
+                        + '从压缩包中排除文件的仓库则会永久出现这种情况。它也是源被入侵时的表现。'
                     )}
                 </div>
                 <div className="theia-plugin-dialog-field">
-                    <label>{nls.localize('theia/ai-registry/plugin/dialog/mismatch/expected', 'endorsed')}:</label>
+                    <label>{nls.localize('theia/ai-registry/plugin/dialog/mismatch/expected', '已背书')}:</label>
                     <span className="theia-plugin-dialog-hash">{mismatch.expected}</span>
                 </div>
                 <div className="theia-plugin-dialog-field">
-                    <label>{nls.localize('theia/ai-registry/plugin/dialog/mismatch/actual', 'received')}:</label>
+                    <label>{nls.localize('theia/ai-registry/plugin/dialog/mismatch/actual', '已接收')}:</label>
                     <span className="theia-plugin-dialog-hash">{mismatch.actual}</span>
                 </div>
             </div>

@@ -17,6 +17,7 @@
 import {
     ChatAgentService, ChatService, ChatSession, ChatSessionMetadata, ChatSessionStatus
 } from '@theia/ai-chat';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { DisposableCollection, Event } from '@theia/core';
 import { buttonKeyboardProps, codicon, HoverService, isActivationKey } from '@theia/core/lib/browser';
 import { MarkdownRenderer } from '@theia/core/lib/browser/markdown-rendering/markdown-renderer';
@@ -129,9 +130,9 @@ export function ChatSessionItem(props: ChatSessionItemComponentProps): React.Rea
 
     const agent = session.pinnedAgentId ? chatAgentService.getAgent(session.pinnedAgentId) : undefined;
     const agentIcon = agent?.iconClass ?? codicon('comment-discussion');
-    const agentLabel = agent ? `@${agent.name}` : undefined;
+    const agentLabel = agent ? `@${getAgentDisplayName(agent)}` : undefined;
     const subtitle = agentLabel ? `${agentLabel} · ${timeAgo}` : timeAgo;
-    const title = session.title || nls.localizeByDefault('Untitled Chat');
+    const title = session.title || nls.localizeByDefault('未命名聊天');
 
     React.useEffect(() => {
         const trash = new DisposableCollection();
@@ -214,9 +215,9 @@ export function ChatSessionItem(props: ChatSessionItemComponentProps): React.Rea
     const showUnread = hasUnread && !isWorking && !hasError && !isWaitingForInput;
     const attentionLabel = ownWaitingForInput
         ? (status === 'awaitingApproval'
-            ? nls.localize('theia/ai/ide/requiresApproval', 'Requires your approval')
-            : nls.localize('theia/ai/ide/waitingForInput', 'Waiting for your input'))
-        : nls.localize('theia/ai/ide/childInteractionNeeded', 'A delegated session needs your attention');
+            ? nls.localize('theia/ai/ide/requiresApproval', '需要您的批准')
+            : nls.localize('theia/ai/ide/waitingForInput', '等待您的输入'))
+        : nls.localize('theia/ai/ide/childInteractionNeeded', '一个委派的会话需要您的关注');
     const itemClasses = [
         'theia-chat-session-item',
         isChildSession && 'theia-chat-session-item-child',
@@ -262,8 +263,8 @@ export function ChatSessionItem(props: ChatSessionItemComponentProps): React.Rea
                         tabIndex={0}
                         aria-expanded={isExpanded}
                         aria-label={isExpanded
-                            ? nls.localizeByDefault('Collapse {0}', title)
-                            : nls.localizeByDefault('Expand {0}', title)}>
+                            ? nls.localizeByDefault('折叠 {0}', title)
+                            : nls.localizeByDefault('展开 {0}', title)}>
                         <span className={`codicon ${isExpanded ? 'codicon-chevron-down' : 'codicon-chevron-right'}`} />
                     </span>
                 ) : (
@@ -272,14 +273,14 @@ export function ChatSessionItem(props: ChatSessionItemComponentProps): React.Rea
                 <span className="theia-chat-session-item-status-icon">
                     {isRestored && !isWaitingForInput ? (
                         <span className={`${codicon('archive')} theia-chat-session-item-archive-icon`}
-                            title={nls.localize('theia/ai/ide/restoredSession', 'Restored session')} />
+                            title={nls.localize('theia/ai/ide/restoredSession', '已恢复的会话')} />
                     ) : (
                         <span className={`theia-chat-session-item-agent-icon ${iconClass}`}
                             title={isWaitingForInput ? attentionLabel : undefined} />
                     )}
                     {showUnread && (
                         <span className="theia-chat-session-item-unread-dot"
-                            aria-label={nls.localize('theia/ai/ide/tooltip/unread', 'Unread')} />
+                            aria-label={nls.localize('theia/ai/ide/tooltip/unread', '未读')} />
                     )}
                     {isWaitingForInput && (
                         <span className="theia-chat-session-item-attention-dot"

@@ -24,7 +24,7 @@ FrontendApplicationConfigProvider.set({});
 
 import { expect } from 'chai';
 import { Container } from '@theia/core/shared/inversify';
-import { Emitter, ILogger, PreferenceSchemaService, PreferenceScope, PreferenceService } from '@theia/core';
+import { Emitter, ILogger, PreferenceDataProperty, PreferenceSchemaService, PreferenceScope, PreferenceService } from '@theia/core';
 import { MockLogger } from '@theia/core/lib/common/test/mock-logger';
 import { CompositeTreeNode, createTreeContainer, LabelProvider } from '@theia/core/lib/browser';
 import { PreferenceTreeModel } from './preference-tree-model';
@@ -69,16 +69,26 @@ describe('PreferenceTreeModel', () => {
         return node;
     }
 
-    function createLeaf(group: string, preferenceId: string, parent: Preference.CompositeTreeNode, depth: number): Preference.LeafNode {
+    function createLeaf(group: string, preferenceId: string, parent: Preference.CompositeTreeNode, depth: number, data: Partial<PreferenceDataProperty> = {}): Preference.LeafNode {
         const node: Preference.LeafNode = {
             id: `${group}@${preferenceId}`,
             preferenceId,
             parent,
-            preference: { data: {} },
+            preference: { data: data as PreferenceDataProperty },
             depth,
         };
         CompositeTreeNode.addChild(parent, node);
         return node;
+    }
+
+    function visiblePreferenceIds(model: PreferenceTreeModel): string[] {
+        const ids: string[] = [];
+        for (const row of model.currentRows.values()) {
+            if (!CompositeTreeNode.is(row.node)) {
+                ids.push((row.node as Preference.LeafNode).preferenceId);
+            }
+        }
+        return ids;
     }
 
     function createFixture(withCommonlyUsed: boolean = true): TreeFixture {
@@ -334,6 +344,73 @@ describe('PreferenceTreeModel', () => {
             searchbarEmitter.fire('');
             expect(model.selectedNodes[0]?.id).to.equal(fixture.commonlyUsed!.id);
             expect(model.categoryFilterId).to.equal(fixture.commonlyUsed!.id);
+        });
+    });
+
+    describe('search matching', () => {
+
+        it('filters on short queries of two characters', async () => {
+            const fixture = createFixture();
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('fo');
+            expect(model.isFiltered).to.be.true;
+            expect(visiblePreferenceIds(model)).to.deep.equal(['editor.fontSize']);
+        });
+
+        it('matches a single CJK character against localized descriptions', async () => {
+            const fixture = createFixture();
+            createLeaf('editor', 'editor.fontLigatures', fixture.editor, 1, { description: '启用字体连字。' });
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('字');
+            expect(model.isFiltered).to.be.true;
+            expect(visiblePreferenceIds(model)).to.deep.equal(['editor.fontLigatures']);
+        });
+
+        it('matches descriptions case-insensitively', async () => {
+            const fixture = createFixture();
+            createLeaf('editor', 'editor.fontLigatures', fixture.editor, 1, { description: 'Enables the typography HINTS.' });
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('hints');
+            expect(visiblePreferenceIds(model)).to.deep.equal(['editor.fontLigatures']);
+        });
+
+        it('matches markdown descriptions', async () => {
+            const fixture = createFixture();
+            createLeaf('editor', 'editor.stickyScroll', fixture.editor, 1, { markdownDescription: 'Shows the **nested** current scopes.' });
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('nested');
+            expect(visiblePreferenceIds(model)).to.deep.equal(['editor.stickyScroll']);
+        });
+
+        it('matches tokens in any order', async () => {
+            const fixture = createFixture();
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('size font');
+            expect(visiblePreferenceIds(model)).to.deep.equal(['editor.fontSize']);
+        });
+
+        it('requires every token to match', async () => {
+            const fixture = createFixture();
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('font nosuchtoken');
+            expect(visiblePreferenceIds(model)).to.be.empty;
+            expect(model.totalVisibleLeaves).to.equal(0);
+        });
+
+        it('does not let @tag syntax pollute the remaining query', async () => {
+            const fixture = createFixture();
+            createLeaf('editor', 'editor.cursorBlinking', fixture.editorCursor, 2, { tags: ['cursor'], description: 'Animation style of the cursor.' });
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('@tag:cursor animation');
+            expect(visiblePreferenceIds(model)).to.deep.equal(['editor.cursorBlinking']);
+        });
+
+        it('supports tag-only searches', async () => {
+            const fixture = createFixture();
+            createLeaf('editor', 'editor.cursorBlinking', fixture.editorCursor, 2, { tags: ['cursor'] });
+            const model = await createModel(fixture);
+            searchbarEmitter.fire('@tag:cursor');
+            expect(visiblePreferenceIds(model)).to.deep.equal(['editor.cursorBlinking']);
         });
     });
 

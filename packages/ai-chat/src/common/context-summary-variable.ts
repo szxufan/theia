@@ -23,7 +23,7 @@ import { ChatSessionContext } from './chat-agents';
 export const CONTEXT_SUMMARY_VARIABLE: AIVariable = {
     id: 'contextSummary',
     description: nls.localize('theia/ai/chat/contextSummaryVariable/description',
-        'A JSON summary of every element in the current chat session context, listing each element\'s type and identifiers.'),
+        '当前聊天会话上下文中每个元素的 JSON 摘要，列出每个元素的类型和标识符。'),
     name: 'contextSummary',
 };
 

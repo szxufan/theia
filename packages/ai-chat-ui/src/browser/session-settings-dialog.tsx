@@ -43,11 +43,11 @@ const ConfirmationTimeoutSection: React.FC<ConfirmationTimeoutSectionProps> = ({
 }) => (
     <div className="session-settings-confirmation-timeout">
         <div className="session-settings-section-header">
-            {nls.localize('theia/ai/session-settings-dialog/confirmationTimeout', 'Confirmation Timeout')}
+            {nls.localize('theia/ai/session-settings-dialog/confirmationTimeout', '确认超时')}
         </div>
         <div className="session-settings-section-note">
             {nls.localize('theia/ai/session-settings-dialog/confirmationTimeoutNote',
-                'Automatically deny tool confirmations after the specified time. Overrides the global preference for this session.')}
+                '超过指定时间后自动拒绝工具确认。此设置将覆盖该会话的全局偏好设置。')}
         </div>
         <div className="session-settings-checkbox-container">
             <input
@@ -57,7 +57,7 @@ const ConfirmationTimeoutSection: React.FC<ConfirmationTimeoutSectionProps> = ({
                 onChange={e => onEnabledChange(e.target.checked)}
             />
             <label htmlFor="confirmation-timeout-enabled">
-                {nls.localize('theia/ai/session-settings-dialog/enableConfirmationTimeout', 'Enable confirmation timeout')}
+                {nls.localize('theia/ai/session-settings-dialog/enableConfirmationTimeout', '启用确认超时')}
             </label>
         </div>
         <div className="session-settings-timeout-container">
@@ -65,7 +65,7 @@ const ConfirmationTimeoutSection: React.FC<ConfirmationTimeoutSectionProps> = ({
                 htmlFor="confirmation-timeout-seconds"
                 className={!enabled ? 'disabled' : ''}
             >
-                {nls.localize('theia/ai/session-settings-dialog/timeoutSeconds', 'Timeout (seconds):')}
+                {nls.localize('theia/ai/session-settings-dialog/timeoutSeconds', '超时（秒）：')}
             </label>
             <input
                 type="number"
@@ -113,18 +113,18 @@ const ServerSideCompactionSection: React.FC<ServerSideCompactionSectionProps> = 
     return (
         <div className="session-settings-server-side-compaction">
             <div className="session-settings-section-header">
-                {nls.localize('theia/ai/session-settings-dialog/compactionHeader', 'Server-Side Compaction')}
+                {nls.localize('theia/ai/session-settings-dialog/compactionHeader', '服务端压缩')}
             </div>
             <div className="session-settings-section-note">
                 {nls.localize(
                     'theia/ai/session-settings-dialog/compactionNote',
-                    'Overrides the global and per-provider compaction setting for this session. ' +
-                    'Applies only to providers that support server-side compaction.'
+                    '覆盖此会话的全局及按提供程序的压缩设置。' +
+                    '仅适用于支持服务端压缩的提供程序。'
                 )}
             </div>
             <div className="session-settings-select-container">
                 <label htmlFor="compaction-override">
-                    {nls.localize('theia/ai/session-settings-dialog/compactionLabel', 'Compaction:')}
+                    {nls.localize('theia/ai/session-settings-dialog/compactionLabel', '压缩：')}
                 </label>
                 <select
                     id="compaction-override"
@@ -132,20 +132,20 @@ const ServerSideCompactionSection: React.FC<ServerSideCompactionSectionProps> = 
                     onChange={handleChange}
                 >
                     <option value="default">
-                        {nls.localizeByDefault('Default')}
+                        {nls.localizeByDefault('默认')}
                     </option>
                     <option value="enabled">
-                        {nls.localizeByDefault('Enabled')}
+                        {nls.localizeByDefault('启用')}
                     </option>
                     <option value="disabled">
-                        {nls.localizeByDefault('Disabled')}
+                        {nls.localizeByDefault('禁用')}
                     </option>
                 </select>
             </div>
             {compactionOverride !== false && (
                 <div className="session-settings-compaction-threshold-container">
                     <label htmlFor="compaction-token-threshold">
-                        {nls.localize('theia/ai/session-settings-dialog/compactionTokenThreshold', 'Token threshold:')}
+                        {nls.localize('theia/ai/session-settings-dialog/compactionTokenThreshold', 'Token 阈值：')}
                     </label>
                     <input
                         type="number"
@@ -153,7 +153,7 @@ const ServerSideCompactionSection: React.FC<ServerSideCompactionSectionProps> = 
                         min={SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM}
                         step={1}
                         value={compactionTokenThreshold ?? ''}
-                        placeholder={nls.localizeByDefault('Default')}
+                        placeholder={nls.localizeByDefault('默认')}
                         onChange={e => {
                             const value = Number(e.target.value);
                             onCompactionTokenThresholdChange(
@@ -225,7 +225,7 @@ const DialogContent: React.FC<DialogContentProps> = ({
             onCompactionTokenThresholdChange={onCompactionTokenThresholdChange}
         />
         <AdvancedSettingsSection
-            sectionHeader={nls.localize('theia/ai/session-settings-dialog/advancedSettings', 'Advanced Settings (JSON)')}
+            sectionHeader={nls.localize('theia/ai/session-settings-dialog/advancedSettings', '高级设置（JSON）')}
         />
         <ErrorMessage message={errorMessage} />
     </div>
@@ -257,7 +257,7 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
         protected readonly options: SessionSettingsDialogProps
     ) {
         super({
-            title: nls.localize('theia/ai/session-settings-dialog/title', 'Set Session Settings')
+            title: nls.localize('theia/ai/session-settings-dialog/title', '设置会话参数')
         });
 
         const initialSettings = options.initialSettings;
@@ -291,8 +291,8 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
         this.editorContainerNode = document.createElement('div');
         this.editorContainerNode.className = 'session-settings-editor-container';
 
-        this.appendCloseButton(nls.localizeByDefault('Cancel'));
-        this.appendAcceptButton(nls.localizeByDefault('Apply'));
+        this.appendCloseButton(nls.localizeByDefault('取消'));
+        this.appendAcceptButton(nls.localizeByDefault('应用'));
     }
 
     protected override onAfterAttach(msg: Message): void {

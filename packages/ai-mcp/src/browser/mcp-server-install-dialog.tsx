@@ -91,12 +91,12 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
         protected readonly redirectUrlProvider?: () => Promise<string>
     ) {
         super({
-            title: nls.localize('theia/ai-mcp/installDialog/title', 'Install MCP Server'),
+            title: nls.localize('theia/ai-mcp/installDialog/title', '安装 MCP 服务器'),
             maxWidth: 460
         });
         this.autostart = options.autostart ?? true;
-        this.appendCloseButton(nls.localizeByDefault('Cancel'));
-        this.appendAcceptButton(nls.localizeByDefault('Install'));
+        this.appendCloseButton(nls.localizeByDefault('取消'));
+        this.appendAcceptButton(nls.localizeByDefault('安装'));
         // Kick off the OAuth redirect URL resolution lazily after construction (rather than from
         // `render()`, which must stay free of state-mutating side effects).
         if (this.options.requireOAuth) {
@@ -129,13 +129,13 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
         if (this.options.requireAuthToken && !this.serverAuthToken.trim()) {
             return nls.localize(
                 'theia/ai-mcp/installDialog/authTokenRequired',
-                'An auth token is required to install this server.'
+                '安装此服务器需要认证令牌。'
             );
         }
         if (this.options.requireOAuth && (!this.oauthClientId.trim() || !this.oauthClientSecret.trim())) {
             return nls.localize(
                 'theia/ai-mcp/installDialog/oauthCredentialsRequired',
-                'An OAuth client ID and client secret are required to install this server.'
+                '安装此服务器需要 OAuth 客户端 ID 和客户端密钥。'
             );
         }
         return '';
@@ -224,7 +224,7 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                         <span>
                             {nls.localize(
                                 'theia/ai-mcp/installDialog/trust/verified',
-                                'Approved by your AI registry ({0}).',
+                                '已由你的 AI 注册表批准（{0}）。',
                                 trust.serverId
                             )}
                         </span>
@@ -237,7 +237,7 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                         <span>
                             {nls.localize(
                                 'theia/ai-mcp/installDialog/trust/unverified',
-                                'This server is not listed in your AI registry ({0}). Install at your own risk.',
+                                '此服务器未列在你的 AI 注册表中（{0}）。安装风险自负。',
                                 trust.serverId
                             )}
                         </span>
@@ -250,7 +250,7 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                         <span>
                             {nls.localize(
                                 'theia/ai-mcp/installDialog/trust/unknown',
-                                'No AI registry is configured - trust cannot be verified.'
+                                '未配置 AI 注册表——无法验证信任。'
                             )}
                         </span>
                     </div>
@@ -270,19 +270,19 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                 <div className="mcp-form-description">
                     {nls.localize(
                         'theia/ai-mcp/installDialog/oauthDescription',
-                        'This server uses OAuth with a pre-registered confidential client. Provide the client ID and secret from your OAuth provider.'
+                        '此服务器使用带预注册机密客户端的 OAuth。请提供来自你的 OAuth 提供商的客户端 ID 和密钥。'
                     )}
                 </div>
 
                 {this.oauthRedirectUrl && (
                     <div className="mcp-form-field">
-                        <label>{nls.localize('theia/ai/mcpConfiguration/oauthRedirectUrl', 'Redirect URL')}:</label>
+                        <label>{nls.localize('theia/ai/mcpConfiguration/oauthRedirectUrl', '重定向 URL')}:</label>
                         <div className="mcp-oauth-redirect-url-row">
                             <span className="mcp-form-static-value">{this.oauthRedirectUrl}</span>
                             <button
                                 type="button"
                                 className="mcp-icon-button"
-                                title={nls.localizeByDefault('Copy')}
+                                title={nls.localizeByDefault('复制')}
                                 onClick={this.handleCopyRedirectUrl}
                             >
                                 <i className={this.redirectUrlCopied ? 'codicon codicon-check' : 'codicon codicon-copy'}></i>
@@ -291,20 +291,20 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                         <div className="mcp-form-description">
                             {nls.localize(
                                 'theia/ai/mcpConfiguration/form/oauthRedirectUrlDescription',
-                                'Authorization callbacks are delivered to this URL. With a static client ID, register it as a redirect URI with your OAuth provider.'
+                                '授权回调会发送到此 URL。使用静态客户端 ID 时，请将其注册为 OAuth 提供商的重定向 URI。'
                             )}
                         </div>
                     </div>
                 )}
 
                 <div className="mcp-form-field">
-                    <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientId', 'OAuth Client ID')}:</label>
+                    <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientId', 'OAuth 客户端 ID')}:</label>
                     <input
                         type="text"
                         className="theia-input"
                         value={this.oauthClientId}
                         onChange={this.handleClientIdChange}
-                        placeholder={nls.localize('theia/ai-mcp/installDialog/oauthClientIdPlaceholder', 'Required by this server to connect')}
+                        placeholder={nls.localize('theia/ai-mcp/installDialog/oauthClientIdPlaceholder', '此服务器连接所需')}
                         spellCheck={false}
                         // Only autofocus when the auth-token field above isn't present; otherwise two
                         // inputs would carry `autoFocus` and browser behaviour is undefined.
@@ -313,13 +313,13 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                 </div>
 
                 <div className="mcp-form-field">
-                    <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientSecret', 'OAuth Client Secret')}:</label>
+                    <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientSecret', 'OAuth 客户端密钥')}:</label>
                     <input
                         type="password"
                         className="theia-input"
                         value={this.oauthClientSecret}
                         onChange={this.handleClientSecretChange}
-                        placeholder={nls.localize('theia/ai-mcp/installDialog/oauthClientSecretPlaceholder', 'Required by this server to connect')}
+                        placeholder={nls.localize('theia/ai-mcp/installDialog/oauthClientSecretPlaceholder', '此服务器连接所需')}
                         spellCheck={false}
                     />
                 </div>
@@ -332,13 +332,13 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
             <div className="mcp-dialog-form">
                 {this.renderTrustBanner()}
                 <div className="mcp-form-field">
-                    <label>{nls.localize('theia/ai/mcpConfiguration/form/serverName', 'Server Name')}:</label>
+                    <label>{nls.localize('theia/ai/mcpConfiguration/form/serverName', '服务器名称')}:</label>
                     <span className="mcp-form-static-value">{this.options.name}</span>
                 </div>
 
                 {this.options.requireAuthToken && (
                     <div className="mcp-form-field">
-                        <label>{nls.localize('theia/ai/mcpConfiguration/serverAuthToken', 'Auth Token')}:</label>
+                        <label>{nls.localize('theia/ai/mcpConfiguration/serverAuthToken', '认证令牌')}:</label>
                         <input
                             type="password"
                             className="theia-input"
@@ -346,7 +346,7 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                             onChange={this.handleAuthTokenChange}
                             placeholder={nls.localize(
                                 'theia/ai-mcp/installDialog/authTokenPlaceholder',
-                                'Required by this server to connect'
+                                '此服务器连接所需'
                             )}
                             spellCheck={false}
                             autoFocus
@@ -364,7 +364,7 @@ export class MCPServerInstallDialog extends ReactDialog<MCPServerInstallParamete
                             checked={this.autostart}
                             onChange={this.handleAutostartChange}
                         />
-                        {nls.localize('theia/ai/mcpConfiguration/form/autostart', 'Autostart')}
+                        {nls.localize('theia/ai/mcpConfiguration/form/autostart', '自动启动')}
                     </label>
                 </div>
             </div>

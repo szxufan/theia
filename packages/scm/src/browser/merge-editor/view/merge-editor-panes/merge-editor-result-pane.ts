@@ -70,8 +70,8 @@ export class MergeEditorResultPane extends MergeEditorPane {
 
     reset(): void {
         new ConfirmDialog({
-            title: nls.localize('theia/scm/mergeEditor/resetConfirmationTitle', 'Do you really want to reset the merge result in this editor?'),
-            msg: nls.localizeByDefault('This action cannot be undone.'),
+            title: nls.localize('theia/scm/mergeEditor/resetConfirmationTitle', '是否确实要重置此编辑器中的合并结果？'),
+            msg: nls.localizeByDefault('此操作无法撤销。'),
             ok: Dialog.YES,
             cancel: Dialog.NO,
         }).open().then(async confirmed => {
@@ -92,11 +92,11 @@ export class MergeEditorResultPane extends MergeEditorPane {
             {
                 id: 'nextConflict',
                 label: unhandledMergeRangesCount === 1 ?
-                    nls.localizeByDefault('{0} Conflict Remaining', unhandledMergeRangesCount) :
-                    nls.localizeByDefault('{0} Conflicts Remaining ', unhandledMergeRangesCount),
+                    nls.localizeByDefault('剩余 {0} 个冲突', unhandledMergeRangesCount) :
+                    nls.localizeByDefault('剩余 {0} 个冲突 ', unhandledMergeRangesCount),
                 tooltip: unhandledMergeRangesCount ?
-                    nls.localizeByDefault('Go to next conflict') :
-                    nls.localizeByDefault('All conflicts handled, the merge can be completed now.'),
+                    nls.localizeByDefault('转到下一个冲突') :
+                    nls.localizeByDefault('所有冲突已处理，现在可以完成合并。'),
                 className: ACTION_ITEM + (unhandledMergeRangesCount ? '' : ' ' + DISABLED_CLASS),
                 onClick: unhandledMergeRangesCount ?
                     () => this.goToNextUnhandledMergeRange() :
@@ -104,7 +104,7 @@ export class MergeEditorResultPane extends MergeEditorPane {
             },
             {
                 id: 'reset',
-                tooltip: nls.localizeByDefault('Reset'),
+                tooltip: nls.localizeByDefault('重置'),
                 className: codicon('discard', true),
                 onClick: () => this.reset()
             }

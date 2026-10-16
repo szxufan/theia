@@ -95,7 +95,7 @@ namespace CustomAgentFrontmatter {
 const newCustomAgentEntry = {
     id: 'my_agent',
     name: 'My Agent',
-    description: nls.localize('theia/ai/core/customAgentTemplate/description', 'This is an example agent. Please adapt the properties to fit your needs.'),
+    description: nls.localize('theia/ai/core/customAgentTemplate/description', '这是一个示例代理。请根据你的需要调整属性。'),
     prompt: `{{!-- Note: The context section below will resolve all context elements (e.g. files) to their full content
 in the system prompt. Context elements can be added by the user in the default chat view (e.g. via DnD or the "+" button).
 If you want a more fine-grained, on demand resolvement of context elements, you can also resolve files to their paths only

@@ -27,8 +27,8 @@ import { TabBarToolbarContribution, TabBarToolbarRegistry } from '@theia/core/li
 export namespace TestRunViewCommands {
     export const SHOW_OUTPUT: Command = Command.toLocalizedCommand({
         id: 'testing.showTestOutput',
-        label: 'Show Test Output',
-        category: 'Test',
+        label: '显示测试输出',
+        category: '测试',
         iconClass: codicon('symbol-keyword')
     }, 'theia/test/showTestOutput', nls.getDefaultKey('Test'));
 }
@@ -47,7 +47,7 @@ export class TestRunViewContribution extends AbstractViewContribution<TestRunTre
         super({
             viewContainerId: TEST_VIEW_CONTAINER_ID,
             widgetId: TestRunTreeWidget.ID,
-            widgetName: nls.localize('theia/test/testRuns', 'Test Runs'),
+            widgetName: nls.localize('theia/test/testRuns', '测试运行'),
             defaultWidgetOptions: {
                 area: 'left',
                 rank: 200,

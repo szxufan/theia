@@ -73,7 +73,7 @@ export class MultiEditToolRenderer implements ChatResponsePartRenderer<ToolCallC
             />;
         } catch (error) {
             this.logger.warn('Failed to parse MultiEdit tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseMultiEditToolData', 'Failed to parse MultiEdit tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseMultiEditToolData', '解析 MultiEdit 工具数据失败')}</div>;
         }
     }
 }
@@ -138,12 +138,12 @@ const MultiEditToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/multiEditing', 'Multi-editing')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/multiEditing', '正在多重编辑')}</span>
                 <span className={`${getIcon(input.file_path)} claude-code-tool icon`} />
                 <span
                     className="claude-code-tool file-name clickable-element"
                     onClick={handleOpenFile}
-                    title={nls.localize('theia/ai/claude-code/openFileTooltip', 'Click to open file in editor')}
+                    title={nls.localize('theia/ai/claude-code/openFileTooltip', '点击在编辑器中打开文件')}
                 >
                     {getFileName(input.file_path)}
                 </span>
@@ -153,10 +153,10 @@ const MultiEditToolComponent: React.FC<{
                 <span className="claude-code-tool badge deleted">-{getChangeInfo().totalOldLines}</span>
                 <span className="claude-code-tool badge added">+{getChangeInfo().totalNewLines}</span>
                 <span className="claude-code-tool badge">{totalEdits === 1
-                    ? nls.localize('theia/ai/claude-code/oneEdit', '1 edit')
-                    : nls.localize('theia/ai/claude-code/editsCount', '{0} edits', totalEdits)}</span>
+                    ? nls.localize('theia/ai/claude-code/oneEdit', '1 处编辑')
+                    : nls.localize('theia/ai/claude-code/editsCount', '{0} 处编辑', totalEdits)}</span>
                 {replaceAllCount > 0 && (
-                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/replaceAllCount', '{0} replace-all', replaceAllCount)}</span>
+                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/replaceAllCount', '{0} 处全部替换', replaceAllCount)}</span>
                 )}
             </div>
         </>
@@ -165,25 +165,25 @@ const MultiEditToolComponent: React.FC<{
     const expandedContent = (
         <div className="claude-code-tool details">
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', 'File Path')}</span>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', '文件路径')}</span>
                 <code className="claude-code-tool detail-value">{input.file_path}</code>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/totalEdits', 'Total Edits')}</span>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/totalEdits', '编辑总数')}</span>
                 <span className="claude-code-tool detail-value">{totalEdits}</span>
             </div>
             {input.edits.map((edit, index) => (
                 <div key={index} className="claude-code-tool edit-preview">
                     <div className="claude-code-tool edit-preview-header">
-                        <span className="claude-code-tool edit-preview-title">{nls.localizeByDefault('Edit {0}', index + 1)}</span>
+                        <span className="claude-code-tool edit-preview-title">{nls.localizeByDefault('编辑 {0}', index + 1)}</span>
                         {edit.replace_all && (
                             <span className="claude-code-tool edit-preview-badge">
-                                {nls.localizeByDefault('Replace All')}
+                                {nls.localizeByDefault('全部替换')}
                             </span>
                         )}
                     </div>
                     <div className="claude-code-tool detail-row">
-                        <span className="claude-code-tool detail-label">{nls.localizeByDefault('From')}</span>
+                        <span className="claude-code-tool detail-label">{nls.localizeByDefault('原内容')}</span>
                         <pre className="claude-code-tool detail-value code-preview">
                             {edit.old_string.length > 100
                                 ? edit.old_string.substring(0, 100) + '...'
@@ -191,7 +191,7 @@ const MultiEditToolComponent: React.FC<{
                         </pre>
                     </div>
                     <div className="claude-code-tool detail-row">
-                        <span className="claude-code-tool detail-label">{nls.localizeByDefault('To')}</span>
+                        <span className="claude-code-tool detail-label">{nls.localizeByDefault('新内容')}</span>
                         <pre className="claude-code-tool detail-value code-preview">
                             {edit.new_string.length > 100
                                 ? edit.new_string.substring(0, 100) + '...'

@@ -87,8 +87,8 @@ export const ProviderModelDiscoverySection: React.FC<ProviderModelDiscoverySecti
         [rows, filter, favoritesOnly]
     );
     const favoritesOnlyLabel = favoritesOnly
-        ? nls.localize('theia/ai/ide/modelsConfiguration/showAllModels', 'Show all discovered models')
-        : nls.localize('theia/ai/ide/modelsConfiguration/showCheckedModels', 'Show only the models the AI chat input\'s model picker shows');
+        ? nls.localize('theia/ai/ide/modelsConfiguration/showAllModels', '显示所有已发现的模型')
+        : nls.localize('theia/ai/ide/modelsConfiguration/showCheckedModels', '仅显示 AI 聊天输入框的模型选择器所显示的模型');
     const filterToggles: AiConfigurationFilterToggle[] = [{
         iconClass: codicon('pass'),
         title: favoritesOnlyLabel,
@@ -96,7 +96,7 @@ export const ProviderModelDiscoverySection: React.FC<ProviderModelDiscoverySecti
         onToggle: () => setFavoritesOnly(!favoritesOnly)
     }];
     return <AiConfigurationSection
-        title={nls.localize('theia/ai/ide/modelsConfiguration/discovery', 'Model Discovery')}
+        title={nls.localize('theia/ai/ide/modelsConfiguration/discovery', '模型发现')}
         count={rows.length > 0 ? rows.length : undefined}
         subtitle={sectionSubtitle(status, rows.length, rows.filter(row => row.favorite).length)}
         actions={<>
@@ -104,8 +104,8 @@ export const ProviderModelDiscoverySection: React.FC<ProviderModelDiscoverySecti
             <AiConfigurationIconButton
                 iconClass={codicon(fetching ? 'sync' : 'refresh')}
                 title={refreshable
-                    ? nls.localize('theia/ai/ide/modelsConfiguration/refresh', 'Refresh the model list')
-                    : status.message ?? nls.localize('theia/ai/ide/modelsConfiguration/refreshUnavailable', 'Nothing to refresh until the provider has a credential')}
+                    ? nls.localize('theia/ai/ide/modelsConfiguration/refresh', '刷新模型列表')
+                    : status.message ?? nls.localize('theia/ai/ide/modelsConfiguration/refreshUnavailable', '在提供程序拥有凭据之前没有可刷新的内容')}
                 busy={fetching}
                 disabled={fetching || !refreshable}
                 onClick={onRefresh}
@@ -113,8 +113,8 @@ export const ProviderModelDiscoverySection: React.FC<ProviderModelDiscoverySecti
             <AiConfigurationIconButton
                 iconClass={codicon('discard')}
                 title={overridden
-                    ? nls.localize('theia/ai/ide/modelsConfiguration/resetShown', 'Reset to defaults')
-                    : nls.localize('theia/ai/ide/modelsConfiguration/resetShownUnavailable', 'Already at the defaults')}
+                    ? nls.localize('theia/ai/ide/modelsConfiguration/resetShown', '重置为默认值')
+                    : nls.localize('theia/ai/ide/modelsConfiguration/resetShownUnavailable', '已是默认值')}
                 disabled={!overridden}
                 onClick={() => favorites.resetToDefaults(modelIdPrefix)}
             />
@@ -147,7 +147,7 @@ function sectionSubtitle(status: ModelDiscoveryStatus, rowCount: number, shownCo
     // The ratio is the overview a list this long cannot give by itself, and it says what the checks mean.
     return rowCount > 0
         ? nls.localize('theia/ai/ide/modelsConfiguration/shownExplanation',
-            '{0} of {1} shown in the AI chat input\'s model picker', shownCount, rowCount)
+            'AI 聊天输入框的模型选择器中显示 {1} 个中的 {0} 个', shownCount, rowCount)
         : undefined;
 }
 
@@ -214,8 +214,8 @@ const DiscoveryBody: React.FC<DiscoveryBodyProps> = ({ status, rows, matches, fi
             action={status.action && <button className='theia-button main' onClick={() => onAction(status.action!)}>{status.action.label}</button>}
         />;
     }
-    const retry = <button className='theia-button main' onClick={onRefresh}>{nls.localizeByDefault('Retry')}</button>;
-    const refresh = <button className='theia-button main' onClick={onRefresh}>{nls.localizeByDefault('Refresh')}</button>;
+    const retry = <button className='theia-button main' onClick={onRefresh}>{nls.localizeByDefault('重试')}</button>;
+    const refresh = <button className='theia-button main' onClick={onRefresh}>{nls.localizeByDefault('刷新')}</button>;
     return <>
         {/* A failed refresh does not unregister what an earlier one found, so the models stay listed
             below the failure rather than being replaced by it. */}
@@ -223,18 +223,18 @@ const DiscoveryBody: React.FC<DiscoveryBodyProps> = ({ status, rows, matches, fi
         {status.state === 'ready' && status.fromCache && status.message && <AiConfigurationCallout message={status.message} action={refresh} />}
         {rows.length === 0
             ? <AiConfigurationEmptyState
-                message={nls.localize('theia/ai/ide/modelsConfiguration/noModels', 'No models discovered yet.')}
+                message={nls.localize('theia/ai/ide/modelsConfiguration/noModels', '尚未发现任何模型。')}
                 iconClass={codicon('cloud')}
             />
             : <>
                 {rows.length > FILTER_THRESHOLD && <AiConfigurationFilterInput
                     value={filter}
                     onChange={onFilterChange}
-                    placeholder={nls.localize('theia/ai/ide/modelsConfiguration/filterModels', 'Filter models')}
+                    placeholder={nls.localize('theia/ai/ide/modelsConfiguration/filterModels', '筛选模型')}
                     toggles={filterToggles}
                 />}
                 {matches.length === 0
-                    ? <AiConfigurationEmptyState message={nls.localizeByDefault('No results found')} />
+                    ? <AiConfigurationEmptyState message={nls.localizeByDefault('未找到结果')} />
                     : <ModelRows rows={matches} favorites={favorites} />}
             </>}
     </>;
@@ -252,9 +252,9 @@ const ModelRows: React.FC<{ rows: ModelRow[]; favorites: FavoriteModelsService }
         // someone unchecks it.
         tags={row.featured
             ? [{
-                label: nls.localizeByDefault('Default'),
+                label: nls.localizeByDefault('默认'),
                 title: nls.localize('theia/ai/ide/modelsConfiguration/defaultModel',
-                    'One of the newest models of this provider, which the AI chat input\'s model picker shows unless it is hidden here')
+                    '此提供程序最新的模型之一，除非在此处隐藏，否则 AI 聊天输入框的模型选择器会显示它')
             }]
             : undefined}
         description={modelRowDescription(row)}
@@ -264,7 +264,7 @@ const ModelRows: React.FC<{ rows: ModelRow[]; favorites: FavoriteModelsService }
         trailing={<>
             {/* Names the order the list is in, which is otherwise a claim the user cannot check. */}
             {row.released !== undefined && <span className='ai-configuration-item-row-detail'>
-                {nls.localize('theia/ai/ide/modelsConfiguration/released', 'released {0}',
+                {nls.localize('theia/ai/ide/modelsConfiguration/released', '发布于 {0}',
                     formatTimeAgo(row.released))}
             </span>}
             <ShowInChatButton row={row} favorites={favorites} />
@@ -282,8 +282,8 @@ const ModelRows: React.FC<{ rows: ModelRow[]; favorites: FavoriteModelsService }
  */
 const ShowInChatButton: React.FC<{ row: ModelRow; favorites: FavoriteModelsService }> = ({ row, favorites }) => {
     const title = row.favorite
-        ? nls.localize('theia/ai/ide/modelsConfiguration/hideModel', 'Hide this model from the AI chat input\'s model picker')
-        : nls.localize('theia/ai/ide/modelsConfiguration/showModel', 'Show this model in the AI chat input\'s model picker');
+        ? nls.localize('theia/ai/ide/modelsConfiguration/hideModel', '在 AI 聊天输入框的模型选择器中隐藏此模型')
+        : nls.localize('theia/ai/ide/modelsConfiguration/showModel', '在 AI 聊天输入框的模型选择器中显示此模型');
     return <AiConfigurationIconButton
         iconClass={codicon(row.favorite ? 'pass' : 'circle-large')}
         title={title}
@@ -300,7 +300,7 @@ function modelRowDescription(row: ModelRow): string | undefined {
 function notReadyBadge(row: ModelRow): AiConfigurationItemStatus {
     return {
         kind: 'warn',
-        label: nls.localize('theia/ai/ide/modelsConfiguration/modelNotReady', 'Not ready'),
+        label: nls.localize('theia/ai/ide/modelsConfiguration/modelNotReady', '未就绪'),
         tooltip: row.statusMessage
     };
 }
@@ -315,27 +315,27 @@ function discoveryStatusBadge(status: ModelDiscoveryStatus): AiConfigurationItem
 function genericStatusBadge(status: ModelDiscoveryStatus): AiConfigurationItemStatus {
     switch (status.state) {
         case 'no-credentials':
-            return { kind: 'warn', label: nls.localize('theia/ai/ide/modelsConfiguration/noKey', 'No API key'), tooltip: status.message };
+            return { kind: 'warn', label: nls.localize('theia/ai/ide/modelsConfiguration/noKey', '无 API 密钥'), tooltip: status.message };
         case 'awaiting-consent':
-            return { kind: 'warn', label: nls.localize('theia/ai/ide/modelsConfiguration/awaitingConsent', 'Awaiting consent'), tooltip: status.message };
+            return { kind: 'warn', label: nls.localize('theia/ai/ide/modelsConfiguration/awaitingConsent', '等待授权'), tooltip: status.message };
         case 'fetching':
-            return { kind: 'off', label: nls.localize('theia/ai/ide/modelsConfiguration/fetching', 'Fetching…'), tooltip: status.message };
+            return { kind: 'off', label: nls.localize('theia/ai/ide/modelsConfiguration/fetching', '正在获取…'), tooltip: status.message };
         case 'error':
-            return { kind: 'error', label: nls.localizeByDefault('Error'), tooltip: status.message };
+            return { kind: 'error', label: nls.localizeByDefault('错误'), tooltip: status.message };
         case 'overridden':
-            return { kind: 'off', label: nls.localizeByDefault('Manual'), tooltip: status.message };
+            return { kind: 'off', label: nls.localizeByDefault('手动'), tooltip: status.message };
         case 'ready':
             if (status.fromCache) {
-                return { kind: 'warn', label: nls.localizeByDefault('Cached'), tooltip: status.message };
+                return { kind: 'warn', label: nls.localizeByDefault('已缓存'), tooltip: status.message };
             }
             return {
                 kind: 'on',
                 label: status.lastFetch
-                    ? nls.localize('theia/ai/ide/modelsConfiguration/updated', 'Updated {0}', formatTimeAgo(status.lastFetch))
-                    : nls.localize('theia/ai/ide/modelsConfiguration/ready', 'Ready'),
+                    ? nls.localize('theia/ai/ide/modelsConfiguration/updated', '已于 {0} 更新', formatTimeAgo(status.lastFetch))
+                    : nls.localize('theia/ai/ide/modelsConfiguration/ready', '就绪'),
                 tooltip: status.message
             };
         default:
-            return { kind: 'off', label: nls.localizeByDefault('Idle'), tooltip: status.message };
+            return { kind: 'off', label: nls.localizeByDefault('空闲'), tooltip: status.message };
     }
 }

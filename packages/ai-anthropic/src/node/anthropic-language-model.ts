@@ -625,11 +625,11 @@ export class AnthropicModel implements LanguageModel {
                                 if (searchContent.type === 'tool_search_tool_search_result') {
                                     const found = searchContent.tool_references.length;
                                     const text = found === 1
-                                        ? nls.localize('theia/ai/anthropic/toolSearch/foundOne', 'Found 1 tool.')
-                                        : nls.localize('theia/ai/anthropic/toolSearch/found', 'Found {0} tools.', found);
+                                        ? nls.localize('theia/ai/anthropic/toolSearch/foundOne', '找到 1 个工具。')
+                                        : nls.localize('theia/ai/anthropic/toolSearch/found', '找到 {0} 个工具。', found);
                                     result = { content: [{ type: 'text', text }] };
                                 } else {
-                                    result = createToolCallError(nls.localize('theia/ai/anthropic/toolSearch/failed', 'Tool search failed: {0}', searchContent.error_code));
+                                    result = createToolCallError(nls.localize('theia/ai/anthropic/toolSearch/failed', '工具搜索失败：{0}', searchContent.error_code));
                                 }
                                 yield buildServerToolResultPart(serverToolCalls, contentBlock.tool_use_id, ANTHROPIC_TOOL_SEARCH, result, searchContent);
                             }

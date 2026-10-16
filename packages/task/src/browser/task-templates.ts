@@ -37,7 +37,7 @@ const dotnetBuild: TaskTemplateEntry = {
     label: '.NET Core',
     sort: 'NET Core',
     autoDetect: false, // not supported in Theia
-    description: nls.localizeByDefault('Executes .NET Core build command'),
+    description: nls.localizeByDefault('执行 .NET Core 生成命令'),
     content: [
         '{',
         '\t// See https://go.microsoft.com/fwlink/?LinkId=733558',
@@ -70,7 +70,7 @@ const msbuild: TaskTemplateEntry = {
     id: 'msbuild',
     label: 'MSBuild',
     autoDetect: false, // not supported in Theia
-    description: nls.localizeByDefault('Executes the build target'),
+    description: nls.localizeByDefault('执行生成目标'),
     content: [
         '{',
         '\t// See https://go.microsoft.com/fwlink/?LinkId=733558',
@@ -106,7 +106,7 @@ const maven: TaskTemplateEntry = {
     label: 'maven',
     sort: 'MVN',
     autoDetect: false, // not supported in Theia
-    description: nls.localizeByDefault('Executes common maven commands'),
+    description: nls.localizeByDefault('执行常用的 Maven 命令'),
     content: [
         '{',
         '\t// See https://go.microsoft.com/fwlink/?LinkId=733558',
@@ -134,7 +134,7 @@ const command: TaskTemplateEntry = {
     id: 'externalCommand',
     label: 'Others',
     autoDetect: false, // not supported in Theia
-    description: nls.localizeByDefault('Example to run an arbitrary external command'),
+    description: nls.localizeByDefault('运行任意外部命令的示例'),
     content: [
         '{',
         '\t// See https://go.microsoft.com/fwlink/?LinkId=733558',

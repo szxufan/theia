@@ -86,7 +86,8 @@ export class ProblemTree extends MarkerTree<Diagnostic> {
         this.doInsertNodesWithMarkers();
     }
 
-    protected doInsertNodesWithMarkers = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected doInsertNodesWithMarkers: any = debounce(() => {
         const root = this.root;
         // Sanity check; This should always be of type `MarkerRootNode`
         if (!MarkerRootNode.is(root)) {

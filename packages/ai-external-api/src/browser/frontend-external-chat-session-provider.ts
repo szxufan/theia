@@ -16,7 +16,7 @@
 
 import { SESSION_STORAGE_PREF, SessionStorageScope } from '@theia/ai-chat/lib/common/ai-chat-preferences';
 import { ChatAgentService } from '@theia/ai-chat/lib/common/chat-agent-service';
-import { ChatAgent, ChatAgentLocation } from '@theia/ai-chat/lib/common/chat-agents';
+import { ChatAgent, ChatAgentLocation, getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { ChatSessionStatus } from '@theia/ai-chat/lib/common/chat-model';
 import { ChatService, ChatSession, NoChatAgentError } from '@theia/ai-chat/lib/common/chat-service';
 import { ChatSessionMetadata } from '@theia/ai-chat/lib/common/chat-session-store';
@@ -207,7 +207,7 @@ export class FrontendExternalChatSessionProvider implements ExternalChatSessionP
             workspace,
             preview: this.toPreview(session),
             agentId: session.pinnedAgent?.id,
-            agentName: session.pinnedAgent?.name,
+            agentName: session.pinnedAgent ? getAgentDisplayName(session.pinnedAgent) : undefined,
             parentSessionId: session.parentSessionId,
             rootSessionId: session.rootSessionId,
             restored: true
@@ -216,6 +216,7 @@ export class FrontendExternalChatSessionProvider implements ExternalChatSessionP
 
     /** Reduces the metadata of a persisted session that is not restored to a summary. */
     protected toPersistedSummary(metadata: ChatSessionMetadata, workspace: string | undefined): ExternalChatSessionSummary {
+        const agent = metadata.pinnedAgentId ? this.agentService.getAgent(metadata.pinnedAgentId, true) : undefined;
         return {
             id: metadata.sessionId,
             title: metadata.title || undefined,
@@ -223,7 +224,7 @@ export class FrontendExternalChatSessionProvider implements ExternalChatSessionP
             lastInteraction: metadata.saveDate,
             workspace,
             agentId: metadata.pinnedAgentId,
-            agentName: metadata.pinnedAgentId ? this.agentService.getAgent(metadata.pinnedAgentId, true)?.name : undefined,
+            agentName: agent ? getAgentDisplayName(agent) : undefined,
             parentSessionId: metadata.parentSessionId,
             rootSessionId: metadata.rootSessionId,
             restored: false

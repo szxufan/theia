@@ -91,7 +91,7 @@ describe('buildHtmlTooltip', () => {
         let opened = 0;
         const actions: HistoryTooltipActions = { openCommit: () => { opened++; } };
         const tooltip = buildHtmlTooltip(makeEntry({ displayId: '1a56ba9' }), markdownRenderer, undefined, actions);
-        const action = tooltip.querySelector('[title="Open Commit"]') as HTMLElement;
+        const action = tooltip.querySelector('[title="打开提交"]') as HTMLElement;
         expect(action, 'open commit action').to.not.be.null;
         expect(action.textContent).to.contain('1a56ba9');
         action.click();
@@ -102,7 +102,7 @@ describe('buildHtmlTooltip', () => {
         let copied = 0;
         const actions: HistoryTooltipActions = { copyCommitHash: () => { copied++; } };
         const tooltip = buildHtmlTooltip(makeEntry({}), markdownRenderer, undefined, actions);
-        const action = tooltip.querySelector('[title="Copy Commit Hash"]') as HTMLElement;
+        const action = tooltip.querySelector('[title="复制提交哈希"]') as HTMLElement;
         expect(action, 'copy hash action').to.not.be.null;
         action.click();
         expect(copied).to.equal(1);
@@ -110,8 +110,8 @@ describe('buildHtmlTooltip', () => {
 
     it('shows the short hash as plain text when no actions are given', () => {
         const tooltip = buildHtmlTooltip(makeEntry({ displayId: '1a56ba9' }), markdownRenderer);
-        expect(tooltip.querySelector('[title="Open Commit"]')).to.be.null;
-        expect(tooltip.querySelector('[title="Copy Commit Hash"]')).to.be.null;
+        expect(tooltip.querySelector('[title="打开提交"]')).to.be.null;
+        expect(tooltip.querySelector('[title="复制提交哈希"]')).to.be.null;
         expect(tooltip.textContent).to.contain('1a56ba9');
     });
 });

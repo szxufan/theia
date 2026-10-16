@@ -69,14 +69,14 @@ export class MonacoStatusBarContribution implements WidgetStatusBarContribution<
         const tabSize = modelOptions.tabSize;
         const indentSize = modelOptions.indentSize;
         const spaceOrTabSizeMessage = modelOptions.insertSpaces
-            ? nls.localizeByDefault('Spaces: {0}', indentSize)
-            : nls.localizeByDefault('Tab Size: {0}', tabSize);
+            ? nls.localizeByDefault('空格数: {0}', indentSize)
+            : nls.localizeByDefault('制表符大小: {0}', tabSize);
         statusBar.setElement(EDITOR_STATUS_TABBING_CONFIG, {
             text: spaceOrTabSizeMessage,
             alignment: StatusBarAlignment.RIGHT,
             priority: 10,
             command: EditorCommands.CONFIG_INDENTATION.id,
-            tooltip: nls.localizeByDefault('Select Indentation')
+            tooltip: nls.localizeByDefault('选择缩进')
         });
     }
 
@@ -92,7 +92,7 @@ export class MonacoStatusBarContribution implements WidgetStatusBarContribution<
             alignment: StatusBarAlignment.RIGHT,
             priority: 11,
             command: EditorCommands.CONFIG_EOL.id,
-            tooltip: nls.localizeByDefault('Select End of Line Sequence')
+            tooltip: nls.localizeByDefault('选择行尾序列')
         });
     }
 

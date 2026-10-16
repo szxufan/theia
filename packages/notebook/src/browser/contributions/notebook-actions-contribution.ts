@@ -40,13 +40,13 @@ export namespace NotebookCommands {
     export const ADD_NEW_MARKDOWN_CELL_COMMAND = Command.toDefaultLocalizedCommand({
         id: 'notebook.add-new-markdown-cell',
         iconClass: codicon('add'),
-        tooltip: nls.localizeByDefault('Add Markdown Cell')
+        tooltip: nls.localizeByDefault('添加 Markdown 单元格')
     } as NotebookCommand);
 
     export const ADD_NEW_CODE_CELL_COMMAND = Command.toDefaultLocalizedCommand({
         id: 'notebook.add-new-code-cell',
         iconClass: codicon('add'),
-        tooltip: nls.localizeByDefault('Add Code Cell')
+        tooltip: nls.localizeByDefault('添加代码单元格')
     } as NotebookCommand);
 
     export const SELECT_KERNEL_COMMAND = Command.toDefaultLocalizedCommand({
@@ -304,7 +304,7 @@ export class NotebookActionsContribution implements CommandContribution, MenuCon
         // Add Notebook Cell items
         menus.registerMenuAction(NotebookMenus.NOTEBOOK_MAIN_TOOLBAR_CELL_ADD_GROUP, {
             commandId: NotebookCommands.ADD_NEW_CODE_CELL_COMMAND.id,
-            label: nls.localizeByDefault('Code'),
+            label: nls.localizeByDefault('代码'),
             icon: codicon('add'),
         });
         menus.registerMenuAction(NotebookMenus.NOTEBOOK_MAIN_TOOLBAR_CELL_ADD_GROUP, {
@@ -316,13 +316,13 @@ export class NotebookActionsContribution implements CommandContribution, MenuCon
         // Execution related items
         menus.registerMenuAction(NotebookMenus.NOTEBOOK_MAIN_TOOLBAR_EXECUTION_GROUP, {
             commandId: NotebookCommands.EXECUTE_NOTEBOOK_COMMAND.id,
-            label: nls.localizeByDefault('Run All'),
+            label: nls.localizeByDefault('全部运行'),
             icon: codicon('run-all'),
             order: '10'
         });
         menus.registerMenuAction(NotebookMenus.NOTEBOOK_MAIN_TOOLBAR_EXECUTION_GROUP, {
             commandId: NotebookCommands.CLEAR_ALL_OUTPUTS_COMMAND.id,
-            label: nls.localizeByDefault('Clear All Outputs'),
+            label: nls.localizeByDefault('清除所有输出'),
             icon: codicon('clear-all'),
             order: '30',
             when: NOTEBOOK_HAS_OUTPUTS

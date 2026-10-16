@@ -60,7 +60,7 @@ export class TerminalQuickOpenService implements QuickAccessProvider {
         }
         // Append a quick open item to create a new terminal.
         items.push({
-            label: nls.localizeByDefault('Create New Terminal'),
+            label: nls.localizeByDefault('新建终端'),
             iconClasses: codiconArray('add'),
             execute: () => this.doCreateNewTerminal()
         });
@@ -73,7 +73,7 @@ export class TerminalQuickOpenService implements QuickAccessProvider {
             getInstance: () => this,
             prefix: TerminalQuickOpenService.PREFIX,
             placeholder: '',
-            helpEntries: [{ description: nls.localizeByDefault('Show All Opened Terminals'), needsEditor: false }]
+            helpEntries: [{ description: nls.localizeByDefault('显示所有打开的终端'), needsEditor: false }]
         });
     }
 

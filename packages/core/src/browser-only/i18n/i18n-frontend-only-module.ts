@@ -16,11 +16,11 @@
 
 import { ContainerModule } from 'inversify';
 import { AsyncLocalizationProvider, LanguageInfo, Localization } from '../../common/i18n/localization';
-import { LanguageQuickPickService } from '../../browser/i18n/language-quick-pick-service';
 
 export default new ContainerModule(bind => {
+    // Fork customization: this build is Chinese-only (zh-cn).
     const i18nMock: AsyncLocalizationProvider = {
-        getCurrentLanguage: async (): Promise<string> => 'en',
+        getCurrentLanguage: async (): Promise<string> => 'zh-cn',
         setCurrentLanguage: async (_languageId: string): Promise<void> => {
 
         },
@@ -29,9 +29,8 @@ export default new ContainerModule(bind => {
         ,
         loadLocalization: async (_languageId: string): Promise<Localization> => ({
             translations: {},
-            languageId: 'en'
+            languageId: 'zh-cn'
         })
     };
     bind(AsyncLocalizationProvider).toConstantValue(i18nMock);
-    bind(LanguageQuickPickService).toSelf().inSingletonScope();
 });

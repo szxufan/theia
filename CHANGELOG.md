@@ -1,8 +1,15 @@
-# Changelog
+# 变更日志
+
+> 本文件包含按发布日期倒序排列的变更记录。由于历史条目数量庞大（共 1579 行、涵盖 22 个版本的发布记录），遵循务实的折中处理：仅在文件头部提供中文说明；各版本章节标题保持原文（版本号 + 日期本身即为信息）；条目正文保留英文原文存档，不做逐条翻译。
+>
+> - 完整版本发布页：<https://github.com/eclipse-theia/theia/releases>
+> - 历史变更日志（2018–2024）：<https://github.com/eclipse-theia/theia/tree/master/doc/changelogs/>
 
 ## History
 
 - [Previous Changelogs](https://github.com/eclipse-theia/theia/tree/master/doc/changelogs/)
+
+以下为历史变更记录的英文原文存档（Each release section below is kept as the original English archive; section headers carry the version and date）。
 
 ## 1.77.0 - tbd
 

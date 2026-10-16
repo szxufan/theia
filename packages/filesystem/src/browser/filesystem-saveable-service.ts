@@ -140,8 +140,8 @@ export class FilesystemSaveableService extends SaveableService {
         }
         // Prompt users for confirmation before overwriting.
         const confirmed = await new ConfirmDialog({
-            title: nls.localizeByDefault('Overwrite'),
-            msg: nls.localizeByDefault('{0} already exists. Are you sure you want to overwrite it?', this.labelProvider.getName(uri))
+            title: nls.localizeByDefault('覆盖'),
+            msg: nls.localizeByDefault('{0} 已存在。是否确定要覆盖它？', this.labelProvider.getName(uri))
         }).open();
         return !!confirmed;
     }

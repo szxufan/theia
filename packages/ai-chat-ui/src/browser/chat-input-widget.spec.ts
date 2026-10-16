@@ -322,7 +322,7 @@ describe('AIChatInputWidget', () => {
                 readOnly: true,
                 domReadOnly: true,
                 tabIndex: -1,
-                readOnlyMessage: { value: 'AI features are disabled' }
+                readOnlyMessage: { value: 'AI 功能已禁用' }
             }]);
         });
 

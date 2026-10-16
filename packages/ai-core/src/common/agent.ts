@@ -53,6 +53,12 @@ export interface Agent {
      */
     readonly name: string;
 
+    /**
+     * Optional localized display name shown in the UI instead of `name`.
+     * `name` remains the technical identifier used for @mentions, preferences and persistence.
+     */
+    readonly displayName?: string;
+
     /** A markdown description of its functionality and its privacy-relevant requirements, including function call handlers that access some data autonomously. */
     readonly description: string;
 

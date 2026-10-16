@@ -4,34 +4,34 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - ELECTRON EXTENSION</h2>
+<h2>ECLIPSE THEIA - ELECTRON 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/electron` extension bundles all Electron-specific dependencies and core functionalities.
+`@theia/electron` 扩展打包了所有 Electron 专属的依赖和核心功能。
 
-## Re-Exports
+## 重导出
 
 - `@theia/electron/shared/...`
-  - `native-keymap` (from [`native-keymap@^2.5.0`](https://www.npmjs.com/package/native-keymap))
-  - `electron` (from [`electron@44.4.5`](https://www.npmjs.com/package/electron/v/44.4.5))
-  - `electron-store` (from [`electron-store@^8.2.0`](https://www.npmjs.com/package/electron-store))
+  - `native-keymap`（来自 [`native-keymap@^2.5.0`](https://www.npmjs.com/package/native-keymap)）
+  - `electron`（来自 [`electron@44.4.5`](https://www.npmjs.com/package/electron/v/44.4.5)）
+  - `electron-store`（来自 [`electron-store@^8.2.0`](https://www.npmjs.com/package/electron-store)）
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

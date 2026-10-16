@@ -1650,7 +1650,7 @@ export class ApplicationShell extends Widget {
      * and refers to the command `core.toggle.bottom.panel`.
      */
     protected refreshBottomPanelToggleButton(): void {
-        const label = nls.localize('theia/core/common/collapseBottomPanel', 'Toggle Bottom Panel');
+        const label = nls.localize('theia/core/common/collapseBottomPanel', '切换底部面板');
         const element: StatusBarEntry = {
             name: label,
             text: '$(codicon-window)',
@@ -2248,12 +2248,12 @@ export namespace ApplicationShell {
     export type Area = 'main' | 'top' | 'left' | 'right' | 'bottom' | 'secondaryWindow';
 
     export const areaLabels: Record<Area, string> = {
-        main: nls.localizeByDefault('Main'),
-        top: nls.localizeByDefault('Top'),
-        left: nls.localizeByDefault('Left'),
-        right: nls.localizeByDefault('Right'),
-        bottom: nls.localizeByDefault('Bottom'),
-        secondaryWindow: nls.localize('theia/shell-area/secondary', 'Secondary Window'),
+        main: nls.localizeByDefault('主区域'),
+        top: nls.localizeByDefault('顶部'),
+        left: nls.localizeByDefault('左侧'),
+        right: nls.localizeByDefault('右侧'),
+        bottom: nls.localizeByDefault('底部'),
+        secondaryWindow: nls.localize('theia/shell-area/secondary', '辅助窗口'),
     };
 
     /**

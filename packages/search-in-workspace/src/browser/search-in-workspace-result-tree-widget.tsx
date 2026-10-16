@@ -112,7 +112,8 @@ export class SearchInWorkspaceResultTreeWidget extends TreeWidget {
     protected searchTerm = '';
     protected searchOptions: SearchInWorkspaceOptions;
 
-    protected readonly startSearchOnModification = (activeEditor: EditorWidget) => debounce(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly startSearchOnModification: any = (activeEditor: EditorWidget) => debounce(
         () => this.searchActiveEditor(activeEditor, this.searchTerm, this.searchOptions),
         this.searchOnEditorModificationDelay
     );
@@ -121,7 +122,7 @@ export class SearchInWorkspaceResultTreeWidget extends TreeWidget {
     protected readonly toDisposeOnActiveEditorChanged = new DisposableCollection();
 
     // The default root name to add external search results in the case that a workspace is opened.
-    protected readonly defaultRootName = nls.localizeByDefault('Other files');
+    protected readonly defaultRootName = nls.localizeByDefault('其他文件');
     protected forceVisibleRootNode = false;
 
     protected appliedDecorations = new Map<string, string[]>();
@@ -837,8 +838,8 @@ export class SearchInWorkspaceResultTreeWidget extends TreeWidget {
         return <span className={isResultLineNode ? codicon('replace') : codicon('replace-all')}
             onClick={e => this.doReplace(node, e)}
             title={isResultLineNode
-                ? nls.localizeByDefault('Replace')
-                : nls.localizeByDefault('Replace All')
+                ? nls.localizeByDefault('替换')
+                : nls.localizeByDefault('全部替换')
             }></span>;
     }
 
@@ -884,7 +885,7 @@ export class SearchInWorkspaceResultTreeWidget extends TreeWidget {
 
     protected confirmReplaceAll(resultNumber: number, fileNumber: number, replacementText: string): Promise<boolean | undefined> {
         return new ConfirmDialog({
-            title: nls.localizeByDefault('Replace All'),
+            title: nls.localizeByDefault('全部替换'),
             msg: this.buildReplaceAllConfirmationMessage(resultNumber, fileNumber, replacementText)
         }).open();
     }
@@ -894,39 +895,39 @@ export class SearchInWorkspaceResultTreeWidget extends TreeWidget {
             if (fileCount === 1) {
                 if (replaceValue) {
                     return nls.localizeByDefault(
-                        "Replace {0} occurrence across {1} file with '{2}'?", occurrences, fileCount, replaceValue);
+                        "是否用 '{2}' 替换 {1} 个文件中的 {0} 处匹配项？", occurrences, fileCount, replaceValue);
                 }
 
                 return nls.localizeByDefault(
-                    'Replace {0} occurrence across {1} file?', occurrences, fileCount);
+                    '是否替换 {1} 个文件中的 {0} 处匹配项？', occurrences, fileCount);
             }
 
             if (replaceValue) {
                 return nls.localizeByDefault(
-                    "Replace {0} occurrence across {1} files with '{2}'?", occurrences, fileCount, replaceValue);
+                    "是否用 '{2}' 替换 {1} 个文件中的 {0} 处匹配项？", occurrences, fileCount, replaceValue);
             }
 
             return nls.localizeByDefault(
-                'Replace {0} occurrence across {1} files?', occurrences, fileCount);
+                '是否替换 {1} 个文件中的 {0} 处匹配项？', occurrences, fileCount);
         }
 
         if (fileCount === 1) {
             if (replaceValue) {
                 return nls.localizeByDefault(
-                    "Replace {0} occurrences across {1} file with '{2}'?", occurrences, fileCount, replaceValue);
+                    "是否用 '{2}' 替换 {1} 个文件中的 {0} 处匹配项？", occurrences, fileCount, replaceValue);
             }
 
             return nls.localizeByDefault(
-                'Replace {0} occurrences across {1} file?', occurrences, fileCount);
+                '是否替换 {1} 个文件中的 {0} 处匹配项？', occurrences, fileCount);
         }
 
         if (replaceValue) {
             return nls.localizeByDefault(
-                "Replace {0} occurrences across {1} files with '{2}'?", occurrences, fileCount, replaceValue);
+                "是否用 '{2}' 替换 {1} 个文件中的 {0} 处匹配项？", occurrences, fileCount, replaceValue);
         }
 
         return nls.localizeByDefault(
-            'Replace {0} occurrences across {1} files?', occurrences, fileCount);
+            '是否替换 {1} 个文件中的 {0} 处匹配项？', occurrences, fileCount);
     }
 
     protected updateRightResults(node: SearchInWorkspaceResultLineNode): void {

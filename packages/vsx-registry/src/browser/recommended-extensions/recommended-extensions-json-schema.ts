@@ -28,22 +28,22 @@ export const extensionsConfigurationSchema: IJSONSchema = {
 
     properties: {
         recommendations: {
-            title: 'A list of extensions recommended for users of this workspace. Should use the form "<publisher>.<extension name>"',
+            title: '推荐给此工作区用户的扩展列表。应使用 "<publisher>.<extension name>" 的形式',
             type: 'array',
             items: {
                 type: 'string',
                 pattern: '^\\w[\\w-]+\\.\\w[\\w-]+$',
-                patternErrorMessage: "Expected format '${publisher}.${name}'. Example: 'eclipse.theia'."
+                patternErrorMessage: "预期格式为 '${publisher}.${name}'。示例：'eclipse.theia'。"
             },
             default: [],
         },
         unwantedRecommendations: {
-            title: 'A list of extensions recommended by default that should not be recommended to users of this workspace. Should use the form "<publisher>.<extension name>"',
+            title: '默认推荐、但不应推荐为此工作区用户的扩展列表。应使用 "<publisher>.<extension name>" 的形式',
             type: 'array',
             items: {
                 type: 'string',
                 pattern: '^\\w[\\w-]+\\.\\w[\\w-]+$',
-                patternErrorMessage: "Expected format '${publisher}.${name}'. Example: 'eclipse.theia'."
+                patternErrorMessage: "预期格式为 '${publisher}.${name}'。示例：'eclipse.theia'。"
             },
             default: [],
         }

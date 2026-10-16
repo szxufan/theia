@@ -77,7 +77,7 @@ export class AddOrEditDataBreakpointAddress implements CommandHandler {
 
         const info = await session.sendRequest('dataBreakpointInfo', { asAddress: true, name: range.address, bytes: range.bytes })
             .then(({ body }) => body)
-            .catch(e => { this.messageService.error(nls.localizeByDefault('Failed to set data breakpoint at {0}: {1}', range.address, e.message)); });
+            .catch(e => { this.messageService.error(nls.localizeByDefault('无法在 {0} 处设置数据断点: {1}', range.address, e.message)); });
         if (!info?.dataId) {
             return;
         }
@@ -85,7 +85,7 @@ export class AddOrEditDataBreakpointAddress implements CommandHandler {
         let accessType: DebugProtocol.DataBreakpointAccessType = 'write';
         if (info.accessTypes && info.accessTypes?.length > 1) {
             const accessTypes = info.accessTypes.map(type => ({ label: type }));
-            const selectedAccessType = await quickInput.pick(accessTypes, { placeHolder: nls.localizeByDefault('Select the access type to monitor') });
+            const selectedAccessType = await quickInput.pick(accessTypes, { placeHolder: nls.localizeByDefault('选择要监视的访问类型') });
             if (!selectedAccessType) {
                 return;
             }
@@ -109,8 +109,8 @@ export class AddOrEditDataBreakpointAddress implements CommandHandler {
                 return disposable;
             };
             const input = addDisposable(this.quickInputService.createInputBox());
-            input.prompt = nls.localizeByDefault('Enter a memory range in which to break');
-            input.placeholder = nls.localizeByDefault('Absolute range (0x1234 - 0x1300) or range of bytes after an address (0x1234 + 0xff)');
+            input.prompt = nls.localizeByDefault('输入要在其中中断的内存范围');
+            input.placeholder = nls.localizeByDefault('绝对范围（0x1234 - 0x1300）或某地址之后的字节范围（0x1234 + 0xff）');
             if (defaultValue) {
                 input.value = defaultValue;
                 input.valueSelection = [0, defaultValue.length];
@@ -142,7 +142,7 @@ export class AddOrEditDataBreakpointAddress implements CommandHandler {
     private parseAddress(range: string, isFinal: boolean): { error: string } | { address: string; bytes: number } | undefined {
         const parts = /^(\S+)\s*(?:([+-])\s*(\S+))?/.exec(range);
         if (!parts) {
-            return { error: nls.localizeByDefault('Address should be a range of numbers the form "[Start] - [End]" or "[Start] + [Bytes]"') };
+            return { error: nls.localizeByDefault('地址应为 "[起始] - [结束]" 或 "[起始] + [字节数]" 形式的数字范围') };
         }
 
         const isNum = (e: string) => isFinal ? /^0x[0-9a-f]*|[0-9]*$/i.test(e) : /^0x[0-9a-f]+|[0-9]+$/i.test(e);
@@ -150,7 +150,7 @@ export class AddOrEditDataBreakpointAddress implements CommandHandler {
 
         for (const n of [startStr, endStr]) {
             if (!isNum(n)) {
-                return { error: nls.localizeByDefault('Number must be a decimal integer or hex value starting with \"0x\", got {0}', n) };
+                return { error: nls.localizeByDefault('数字必须是十进制整数或以 \"0x\" 开头的十六进制值，但得到 {0}', n) };
             }
         }
 

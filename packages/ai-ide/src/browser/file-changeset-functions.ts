@@ -823,6 +823,6 @@ export class WriteFileReplacements implements ToolProvider {
 @injectable()
 export class DefaultFileChangeSetTitleProvider implements FileChangeSetTitleProvider {
     getChangeSetTitle(_ctx: ChatToolContext): string {
-        return nls.localize('theia/ai-chat/fileChangeSetTitle', 'Changes proposed');
+        return nls.localize('theia/ai-chat/fileChangeSetTitle', '建议的更改');
     }
 }

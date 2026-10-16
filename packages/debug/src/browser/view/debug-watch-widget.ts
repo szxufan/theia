@@ -53,7 +53,7 @@ export class DebugWatchWidget extends SourceTreeWidget {
     protected override init(): void {
         super.init();
         this.id = DebugWatchWidget.FACTORY_ID + ':' + this.viewModel.id;
-        this.title.label = nls.localizeByDefault('Watch');
+        this.title.label = nls.localizeByDefault('监视');
         this.toDispose.push(this.variables);
         this.source = this.variables;
     }

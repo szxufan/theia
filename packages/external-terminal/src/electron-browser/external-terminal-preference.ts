@@ -88,17 +88,17 @@ export async function getExternalTerminalSchema(externalTerminalService: Externa
             'terminal.external.windowsExec': {
                 type: 'string',
                 typeDetails: { isFilepath: true },
-                description: nls.localizeByDefault('Customizes which terminal to run on Windows.'),
+                description: nls.localizeByDefault('自定义在 Windows 上运行的终端。'),
                 default: `${isWindows ? hostExec : 'C:\\WINDOWS\\System32\\cmd.exe'}`
             },
             'terminal.external.osxExec': {
                 type: 'string',
-                description: nls.localizeByDefault('Customizes which terminal application to run on macOS.'),
+                description: nls.localizeByDefault('自定义在 macOS 上运行的终端应用程序。'),
                 default: `${isOSX ? hostExec : 'Terminal.app'}`
             },
             'terminal.external.linuxExec': {
                 type: 'string',
-                description: nls.localizeByDefault('Customizes which terminal to run on Linux.'),
+                description: nls.localizeByDefault('自定义在 Linux 上运行的终端。'),
                 default: `${!(isWindows || isOSX) ? hostExec : 'xterm'}`
             }
         }

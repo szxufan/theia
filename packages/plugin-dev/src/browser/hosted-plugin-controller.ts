@@ -136,7 +136,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
         this.pluginState = HostedInstanceState.STOPPED;
 
         this.entry = {
-            text: `${nls.localize('theia/plugin-dev/hostedPluginStopped', 'Hosted Plugin: Stopped')} $(angle-up)`,
+            text: `${nls.localize('theia/plugin-dev/hostedPluginStopped', '托管插件: 已停止')} $(angle-up)`,
             alignment: StatusBarAlignment.LEFT,
             priority: 100,
             onclick: e => {
@@ -157,7 +157,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
         this.hostedPluginLogViewer.showLogConsole();
 
         this.entry = {
-            text: `$(cog~spin) ${nls.localize('theia/plugin-dev/hostedPluginStarting', 'Hosted Plugin: Starting')}`,
+            text: `$(cog~spin) ${nls.localize('theia/plugin-dev/hostedPluginStarting', '托管插件: 正在启动')}`,
             alignment: StatusBarAlignment.LEFT,
             priority: 100
         };
@@ -174,9 +174,9 @@ export class HostedPluginController implements FrontendApplicationContribution {
 
         let entryText: string;
         if (this.hostedPluginPreferences['hosted-plugin.watchMode'] && this.watcherSuccess) {
-            entryText = `$(cog~spin) ${nls.localize('theia/plugin-dev/hostedPluginWatching', 'Hosted Plugin: Watching')}$(angle-up)`;
+            entryText = `$(cog~spin) ${nls.localize('theia/plugin-dev/hostedPluginWatching', '托管插件: 正在监视')}$(angle-up)`;
         } else {
-            entryText = `$(cog~spin) ${nls.localize('theia/plugin-dev/hostedPluginRunning', 'Hosted Plugin: Running')} $(angle-up)`;
+            entryText = `$(cog~spin) ${nls.localize('theia/plugin-dev/hostedPluginRunning', '托管插件: 正在运行')} $(angle-up)`;
         }
 
         this.entry = {
@@ -199,7 +199,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
         this.pluginState = HostedInstanceState.FAILED;
 
         this.entry = {
-            text: `${nls.localize('theia/plugin-dev/hostedPluginStopped', 'Hosted Plugin: Stopped')} $(angle-up)`,
+            text: `${nls.localize('theia/plugin-dev/hostedPluginStopped', '托管插件: 已停止')} $(angle-up)`,
             alignment: StatusBarAlignment.LEFT,
             priority: 100,
             onclick: e => {
@@ -280,7 +280,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
             // Re-set the element only if it's visible on status bar
             if (this.entry) {
                 const offlineElement = {
-                    text: nls.localize('theia/plugin-dev/hostedPluginStopped', 'Hosted Plugin: Stopped'),
+                    text: nls.localize('theia/plugin-dev/hostedPluginStopped', '托管插件: 已停止'),
                     alignment: StatusBarAlignment.LEFT,
                     priority: 100
                 };
@@ -325,7 +325,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
      */
     protected addCommandsForRunningPlugin(commands: CommandRegistry, menu: Menu): void {
         commands.addCommand(HostedPluginCommands.STOP.id, {
-            label: nls.localize('theia/plugin-dev/stopInstance', 'Stop Instance'),
+            label: nls.localize('theia/plugin-dev/stopInstance', '停止实例'),
             iconClass: codicon('debug-stop'),
             execute: () => setTimeout(() => this.hostedPluginManagerClient.stop(), 100)
         });
@@ -336,7 +336,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
         });
 
         commands.addCommand(HostedPluginCommands.RESTART.id, {
-            label: nls.localize('theia/plugin-dev/restartInstance', 'Restart Instance'),
+            label: nls.localize('theia/plugin-dev/restartInstance', '重新启动实例'),
             iconClass: codicon('debug-restart'),
             execute: () => setTimeout(() => this.hostedPluginManagerClient.restart(), 100)
         });
@@ -352,7 +352,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
      */
     protected addCommandsForStoppedPlugin(commands: CommandRegistry, menu: Menu): void {
         commands.addCommand(HostedPluginCommands.START.id, {
-            label: nls.localize('theia/plugin-dev/startInstance', 'Start Instance'),
+            label: nls.localize('theia/plugin-dev/startInstance', '启动实例'),
             iconClass: codicon('play'),
             execute: () => setTimeout(() => this.hostedPluginManagerClient.start(), 100)
         });
@@ -363,7 +363,7 @@ export class HostedPluginController implements FrontendApplicationContribution {
         });
 
         commands.addCommand(HostedPluginCommands.DEBUG.id, {
-            label: nls.localize('theia/plugin-dev/debugInstance', 'Debug Instance'),
+            label: nls.localize('theia/plugin-dev/debugInstance', '调试实例'),
             iconClass: codicon('debug'),
             execute: () => setTimeout(() => this.hostedPluginManagerClient.debug(), 100)
         });

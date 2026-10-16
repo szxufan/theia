@@ -28,7 +28,7 @@ export const COMMONLY_USED_SECTION_PREFIX = 'commonly-used';
 
 export const COMMONLY_USED_LAYOUT = {
     id: COMMONLY_USED_SECTION_PREFIX,
-    label: nls.localizeByDefault('Commonly Used'),
+    label: nls.localizeByDefault('常用'),
     settings: [
         'files.autoSave',
         'editor.fontSize',
@@ -47,64 +47,64 @@ export const COMMONLY_USED_LAYOUT = {
 export const DEFAULT_LAYOUT: PreferenceLayout[] = [
     {
         id: 'editor',
-        label: nls.localizeByDefault('Text Editor'),
+        label: nls.localizeByDefault('文本编辑器'),
         settings: ['editor.*'],
         children: [
             {
                 id: 'editor.cursor',
-                label: nls.localizeByDefault('Cursor'),
+                label: nls.localizeByDefault('光标'),
                 settings: ['editor.cursor*']
             },
             {
                 id: 'editor.find',
-                label: nls.localizeByDefault('Find'),
+                label: nls.localizeByDefault('查找'),
                 settings: ['editor.find.*']
             },
             {
                 id: 'editor.font',
-                label: nls.localizeByDefault('Font'),
+                label: nls.localizeByDefault('字体'),
                 settings: ['editor.font*']
             },
             {
                 id: 'editor.format',
-                label: nls.localizeByDefault('Formatting'),
+                label: nls.localizeByDefault('格式化'),
                 settings: ['editor.format*']
             },
             {
                 id: 'editor.diffEditor',
-                label: nls.localizeByDefault('Diff Editor'),
+                label: nls.localizeByDefault('差异编辑器'),
                 settings: ['diffEditor.*']
             },
             {
                 id: 'editor.multiDiffEditor',
-                label: nls.localizeByDefault('Multi-File Diff Editor'),
+                label: nls.localizeByDefault('多文件差异编辑器'),
                 settings: ['multiDiffEditor.*']
             },
             {
                 id: 'editor.minimap',
-                label: nls.localizeByDefault('Minimap'),
+                label: nls.localizeByDefault('小地图'),
                 settings: ['editor.minimap.*']
             },
             {
                 id: 'editor.suggestions',
-                label: nls.localizeByDefault('Suggestions'),
+                label: nls.localizeByDefault('建议'),
                 settings: ['editor.*suggest*']
             },
             {
                 id: 'editor.files',
-                label: nls.localizeByDefault('Files'),
+                label: nls.localizeByDefault('文件'),
                 settings: ['files.*']
             }
         ]
     },
     {
         id: 'workbench',
-        label: nls.localizeByDefault('Workbench'),
+        label: nls.localizeByDefault('工作台'),
         settings: ['workbench.*', 'workspace.*'],
         children: [
             {
                 id: 'workbench.appearance',
-                label: nls.localizeByDefault('Appearance'),
+                label: nls.localizeByDefault('外观'),
                 settings: [
                     'workbench.activityBar.*', 'workbench.*color*', 'workbench.fontAliasing', 'workbench.iconTheme', 'workbench.sidebar.location',
                     'workbench.*.visible', 'workbench.tips.enabled', 'workbench.tree.*', 'workbench.view.*'
@@ -112,147 +112,147 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'workbench.breadcrumbs',
-                label: nls.localizeByDefault('Breadcrumbs'),
+                label: nls.localizeByDefault('痕迹导航'),
                 settings: ['breadcrumbs.*']
             },
             {
                 id: 'workbench.editor',
-                label: nls.localizeByDefault('Editor Management'),
+                label: nls.localizeByDefault('编辑器管理'),
                 settings: ['workbench.editor.*']
             },
             {
                 id: 'workbench.settings',
-                label: nls.localizeByDefault('Settings Editor'),
+                label: nls.localizeByDefault('设置编辑器'),
                 settings: ['workbench.settings.*']
             },
             {
                 id: 'workbench.zenmode',
-                label: nls.localizeByDefault('Zen Mode'),
+                label: nls.localizeByDefault('禅模式'),
                 settings: ['zenmode.*']
             },
             {
                 id: 'workbench.screencastmode',
-                label: nls.localizeByDefault('Screencast Mode'),
+                label: nls.localizeByDefault('屏幕演示模式'),
                 settings: ['screencastMode.*']
             }
         ]
     },
     {
         id: 'window',
-        label: nls.localizeByDefault('Window'),
+        label: nls.localizeByDefault('窗口'),
         settings: ['window.*'],
         children: [
             {
                 id: 'window.newWindow',
-                label: nls.localizeByDefault('New Window'),
+                label: nls.localizeByDefault('新建窗口'),
                 settings: ['window.*newwindow*']
             }
         ]
     },
     {
         id: 'features',
-        label: nls.localizeByDefault('Features'),
+        label: nls.localizeByDefault('功能'),
         children: [
             {
                 id: 'features.accessibilitySignals',
-                label: nls.localizeByDefault('Accessibility Signals'),
+                label: nls.localizeByDefault('辅助功能信号'),
                 settings: ['accessibility.signal*']
             },
             {
                 id: 'features.accessibility',
-                label: nls.localizeByDefault('Accessibility'),
+                label: nls.localizeByDefault('辅助功能'),
                 settings: ['accessibility.*']
             },
             {
                 id: 'features.explorer',
-                label: nls.localizeByDefault('Explorer'),
+                label: nls.localizeByDefault('资源管理器'),
                 settings: ['explorer.*', 'outline.*']
             },
             {
                 id: 'features.search',
-                label: nls.localizeByDefault('Search'),
+                label: nls.localizeByDefault('搜索'),
                 settings: ['search.*']
             },
             {
                 id: 'features.debug',
-                label: nls.localizeByDefault('Debug'),
+                label: nls.localizeByDefault('调试'),
                 settings: ['debug.*', 'launch']
             },
             {
                 id: 'features.testing',
-                label: nls.localizeByDefault('Testing'),
+                label: nls.localizeByDefault('测试'),
                 settings: ['testing.*']
             },
             {
                 id: 'features.scm',
-                label: nls.localizeByDefault('Source Control'),
+                label: nls.localizeByDefault('源代码管理'),
                 settings: ['scm.*']
             },
             {
                 id: 'features.extensions',
-                label: nls.localizeByDefault('Extensions'),
+                label: nls.localizeByDefault('扩展'),
                 settings: ['extensions.*']
             },
             {
                 id: 'features.terminal',
-                label: nls.localizeByDefault('Terminal'),
+                label: nls.localizeByDefault('终端'),
                 settings: ['terminal.*']
             },
             {
                 id: 'features.task',
-                label: nls.localizeByDefault('Task'),
+                label: nls.localizeByDefault('任务'),
                 settings: ['task.*']
             },
             {
                 id: 'features.problems',
-                label: nls.localizeByDefault('Problems'),
+                label: nls.localizeByDefault('问题'),
                 settings: ['problems.*']
             },
             {
                 id: 'features.output',
-                label: nls.localizeByDefault('Output'),
+                label: nls.localizeByDefault('输出'),
                 settings: ['output.*']
             },
             {
                 id: 'features.comments',
-                label: nls.localizeByDefault('Comments'),
+                label: nls.localizeByDefault('评论'),
                 settings: ['comments.*']
             },
             {
                 id: 'features.remote',
-                label: nls.localizeByDefault('Remote'),
+                label: nls.localizeByDefault('远程'),
                 settings: ['remote.*']
             },
             {
                 id: 'features.timeline',
-                label: nls.localizeByDefault('Timeline'),
+                label: nls.localizeByDefault('时间线'),
                 settings: ['timeline.*']
             },
             {
                 id: 'features.toolbar',
-                label: nls.localize('theia/preferences/toolbar', 'Toolbar'),
+                label: nls.localize('theia/preferences/toolbar', '工具栏'),
                 settings: ['toolbar.*']
             },
             {
                 id: 'features.notebook',
-                label: nls.localizeByDefault('Notebook'),
+                label: nls.localizeByDefault('笔记本'),
                 settings: ['notebook.*', 'interactiveWindow.*']
             },
             {
                 id: 'features.mergeEditor',
-                label: nls.localizeByDefault('Merge Editor'),
+                label: nls.localizeByDefault('合并编辑器'),
                 settings: ['mergeEditor.*']
             },
             {
                 id: 'features.chat',
-                label: nls.localizeByDefault('Chat'),
+                label: nls.localizeByDefault('聊天'),
                 settings: ['chat.*', 'inlineChat.*']
             }
         ]
     },
     {
         id: 'application',
-        label: nls.localizeByDefault('Application'),
+        label: nls.localizeByDefault('应用程序'),
         children: [
             {
                 id: 'application.http',
@@ -261,55 +261,55 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'application.keyboard',
-                label: nls.localizeByDefault('Keyboard'),
+                label: nls.localizeByDefault('键盘'),
                 settings: ['keyboard.*']
             },
             {
                 id: 'application.update',
-                label: nls.localizeByDefault('Update'),
+                label: nls.localizeByDefault('更新'),
                 settings: ['update.*']
             },
             {
                 id: 'application.telemetry',
-                label: nls.localizeByDefault('Telemetry'),
+                label: nls.localizeByDefault('遥测'),
                 settings: ['telemetry.*']
             },
             {
                 id: 'application.settingsSync',
-                label: nls.localizeByDefault('Settings Sync'),
+                label: nls.localizeByDefault('设置同步'),
                 settings: ['settingsSync.*']
             },
             {
                 id: 'application.experimental',
-                label: nls.localizeByDefault('Experimental'),
+                label: nls.localizeByDefault('实验性'),
                 settings: ['application.experimental.*']
             },
             {
                 id: 'application.other',
-                label: nls.localizeByDefault('Other'),
+                label: nls.localizeByDefault('其他'),
                 settings: ['application.*']
             }
         ]
     },
     {
         id: 'security',
-        label: nls.localizeByDefault('Security'),
+        label: nls.localizeByDefault('安全性'),
         settings: ['security.*'],
         children: [
             {
                 id: 'security.workspace',
-                label: nls.localizeByDefault('Workspace'),
+                label: nls.localizeByDefault('工作区'),
                 settings: ['security.workspace.*']
             }
         ]
     },
     {
         id: 'ai-features',
-        label: nls.localize('theia/preferences/ai-features', 'AI Features'),
+        label: nls.localize('theia/preferences/ai-features', 'AI 功能'),
         children: [
             {
                 id: 'ai-features.aiEnablement',
-                label: nls.localize('theia/preferences/ai-features/ai-enable', 'AI Enablement'),
+                label: nls.localize('theia/preferences/ai-features/ai-enable', 'AI 启用'),
                 settings: ['ai-features.AiEnable.*']
             },
             {
@@ -319,7 +319,7 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'ai-features.chat',
-                label: nls.localizeByDefault('Chat'),
+                label: nls.localizeByDefault('聊天'),
                 settings: ['ai-features.chat.*']
             },
             {
@@ -334,7 +334,7 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'ai-features.codeCompletion',
-                label: nls.localize('theia/preferences/ai-features/code-completion', 'Code Completion'),
+                label: nls.localize('theia/preferences/ai-features/code-completion', '代码补全'),
                 settings: ['ai-features.codeCompletion.*']
             },
             {
@@ -349,7 +349,7 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'ai-features.modelSettings',
-                label: nls.localize('theia/preferences/ai-features/model-settings', 'Model Settings'),
+                label: nls.localize('theia/preferences/ai-features/model-settings', '模型设置'),
                 settings: ['ai-features.modelSettings.*', 'ai-features.languageModelAliases']
             },
             {
@@ -374,7 +374,7 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'ai-features.promptTemplates',
-                label: nls.localize('theia/preferences/ai-features/promptTemplates', 'Prompt Templates'),
+                label: nls.localize('theia/preferences/ai-features/promptTemplates', '提示词模板'),
                 settings: ['ai-features.promptTemplates.*']
             },
             {
@@ -384,7 +384,7 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'ai-features.workspaceFunctions',
-                label: nls.localize('theia/preferences/ai-features/workspace-functions', 'Workspace Functions'),
+                label: nls.localize('theia/preferences/ai-features/workspace-functions', '工作区函数'),
                 settings: ['ai-features.workspaceFunctions.*']
             }
         ]
@@ -392,11 +392,11 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
     },
     {
         id: 'extensions',
-        label: nls.localizeByDefault('Extensions'),
+        label: nls.localizeByDefault('扩展'),
         children: [
             {
                 id: 'extensions.hosted-plugin',
-                label: nls.localize('theia/preferences/hostedPlugin', 'Hosted Plugin'),
+                label: nls.localize('theia/preferences/hostedPlugin', '托管插件'),
                 settings: ['hosted-plugin.*']
             }
         ]

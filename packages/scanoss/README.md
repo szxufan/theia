@@ -4,31 +4,31 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - SCAN OSS EXTENSION</h2>
+<h2>ECLIPSE THEIA - SCAN OSS 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-Offers a `ScanOSSService` on the backend and frontend for scanning code snippets.
+在后端和前端提供 `ScanOSSService`，用于扫描代码片段。
 
-If needed, an API key can be handed over via preference or environment variable (`SCANOSS_API_KEY`).
+如有需要，可以通过首选项或环境变量（`SCANOSS_API_KEY`）提供 API 密钥。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/scanoss`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_scanoss.html)
+- [`@theia/scanoss` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_scanoss.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
-- [SCAN OSS Website](https://www.scanoss.com/)
+- [SCAN OSS 网站](https://www.scanoss.com/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

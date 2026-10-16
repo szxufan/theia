@@ -140,11 +140,11 @@ export class CopilotFrontendApplicationContribution implements FrontendApplicati
      * version cannot be carried over: it belonged to an OAuth application that is no longer used.
      */
     protected async notifySignInRequired(): Promise<void> {
-        const signIn = nls.localize('theia/ai/copilot/commands/signIn', 'Sign in to GitHub Copilot');
+        const signIn = nls.localize('theia/ai/copilot/commands/signIn', '登录 GitHub Copilot');
         const action = await this.messageService.info(
             nls.localize('theia/ai/copilot/signInAgain',
-                'GitHub Copilot now signs in through the GitHub Copilot CLI. Your previous sign-in could not be carried over and has been '
-                + 'removed, please sign in again to use Copilot models.'),
+                'GitHub Copilot 现在通过 GitHub Copilot CLI 登录。您之前的登录无法迁移并已被移除，'
+                + '请重新登录以使用 Copilot 模型。'),
             signIn
         );
         if (action === signIn) {
@@ -161,10 +161,10 @@ export class CopilotFrontendApplicationContribution implements FrontendApplicati
         if (!authState.isAuthenticated) {
             return;
         }
-        const signIn = nls.localize('theia/ai/copilot/commands/signIn', 'Sign in to GitHub Copilot');
+        const signIn = nls.localize('theia/ai/copilot/commands/signIn', '登录 GitHub Copilot');
         const action = await this.messageService.info(
             nls.localize('theia/ai/copilot/enterpriseUrlChanged',
-                'The GitHub Copilot domain changed. Sign in again for it to take effect.'),
+                'GitHub Copilot 域名已更改。请重新登录以使其生效。'),
             signIn
         );
         if (action === signIn) {
@@ -178,9 +178,9 @@ export class CopilotFrontendApplicationContribution implements FrontendApplicati
             state: 'no-credentials',
             // What Copilot lacks is a sign-in, not an API key, so it says so rather than letting the
             // state speak for it.
-            stateLabel: nls.localizeByDefault('Not signed in'),
+            stateLabel: nls.localizeByDefault('未登录'),
             message: nls.localize('theia/ai/copilot/discovery/signedOut',
-                'Not signed in to GitHub Copilot. Sign in to discover the models it offers.'),
+                '未登录 GitHub Copilot。登录后即可发现其提供的模型。'),
             action: { label: CopilotCommands.SIGN_IN.label!, commandId: CopilotCommands.SIGN_IN.id }
         });
     }
@@ -189,8 +189,8 @@ export class CopilotFrontendApplicationContribution implements FrontendApplicati
         if (!this.isCopilotEnabled()) {
             this.discoveryStatus.updateStatus(COPILOT_PROVIDER_ID, {
                 state: 'no-credentials',
-                stateLabel: nls.localizeByDefault('Disabled'),
-                message: nls.localize('theia/ai/copilot/discovery/disabled', 'The GitHub Copilot provider is disabled. Enable it to discover models.'),
+                stateLabel: nls.localizeByDefault('已禁用'),
+                message: nls.localize('theia/ai/copilot/discovery/disabled', 'GitHub Copilot 提供程序已禁用。启用后即可发现模型。'),
                 action: undefined
             });
             return;
@@ -202,7 +202,7 @@ export class CopilotFrontendApplicationContribution implements FrontendApplicati
                 stateLabel: undefined,
                 discovered: configuredModels.map(id => ({ id })),
                 message: nls.localize('theia/ai/copilot/discovery/overridden',
-                    'The model list is configured manually. Clear the model overrides to discover the models from GitHub Copilot again.'),
+                    '模型列表已手动配置。清除模型覆盖后即可重新从 GitHub Copilot 发现模型。'),
                 lastFetch: undefined,
                 fromCache: false,
                 action: undefined

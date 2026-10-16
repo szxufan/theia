@@ -54,9 +54,9 @@ import { AiSettingsControl, AiSettingsRowService } from '@theia/ai-core-ui/lib/b
 // UI labels for the modes (the schema has no `enumItemLabels`); the values and per-option descriptions
 // come straight from the preference definition so the descriptions are not duplicated here.
 const TOOL_OPTION_LABELS: Record<ToolConfirmationMode, string> = {
-    [ToolConfirmationMode.DISABLED]: nls.localizeByDefault('Disabled'),
-    [ToolConfirmationMode.CONFIRM]: nls.localize('theia/ai/ide/toolsConfiguration/toolOptions/confirm/label', 'Confirm'),
-    [ToolConfirmationMode.ALWAYS_ALLOW]: nls.localizeByDefault('Always Allow')
+    [ToolConfirmationMode.DISABLED]: nls.localizeByDefault('禁用'),
+    [ToolConfirmationMode.CONFIRM]: nls.localize('theia/ai/ide/toolsConfiguration/toolOptions/confirm/label', '确认'),
+    [ToolConfirmationMode.ALWAYS_ALLOW]: nls.localizeByDefault('始终允许')
 };
 
 const TOOL_OPTIONS: { value: ToolConfirmationMode; label: string; title: string }[] = TOOL_CONFIRMATION_MODE_VALUES.map((value, index) => ({
@@ -73,9 +73,9 @@ const TOOL_OPTIONS: { value: ToolConfirmationMode; label: string; title: string 
 export class ToolsConfigurationCategory extends SinglePageCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.TOOLS;
-    readonly label = nls.localizeByDefault('Tools');
+    readonly label = nls.localizeByDefault('工具');
     readonly description = nls.localize('theia/ai/ide/toolsConfiguration/description',
-        'Choose which tools agents may call and whether each one needs confirmation before it runs.');
+        '选择代理可以调用哪些工具，以及每个工具在运行前是否需要确认。');
     readonly iconClass = codicon('tools');
     readonly order = AiConfigurationCategoryOrder.TOOLS;
     readonly kind = 'single-page' as const;
@@ -186,7 +186,7 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
     /** Title of the default-confirmation-mode row, shared by the header and the search index. */
     protected defaultModeLabel(): string {
         return this.settingsRowService.describe(DEFAULT_TOOL_CONFIRMATION_PREFERENCE).label
-            ?? nls.localize('theia/ai/ide/toolsConfiguration/default/rowLabel', 'Default Tool Confirmation Mode');
+            ?? nls.localize('theia/ai/ide/toolsConfiguration/default/rowLabel', '默认工具确认模式');
     }
 
     protected override renderHeader(ctx: AiConfigurationRenderContext): React.ReactNode {
@@ -212,10 +212,10 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
                 />}
                 actions={<button
                     className='theia-button secondary'
-                    title={nls.localize('theia/ai/ide/toolsConfiguration/resetAllTooltip', 'Reset all tools to default')}
+                    title={nls.localize('theia/ai/ide/toolsConfiguration/resetAllTooltip', '将所有工具重置为默认值')}
                     onClick={() => this.resetAllToolsToDefault()}
                 >
-                    {nls.localize('theia/ai/ide/toolsConfiguration/resetAll', 'Reset All')}
+                    {nls.localize('theia/ai/ide/toolsConfiguration/resetAll', '全部重置')}
                 </button>}
             />
             {this.renderRecommendedDefaultsBanner()}
@@ -228,11 +228,11 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
         }
         return <AiConfigurationCallout
             message={nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/message',
-                'Tool calls currently require approval. Auto-allow all built-in tools at once.'
-                + ' Tools that require extra confirmation (e.g. shell execution), MCP tools,'
-                + ' and any tools added later will still ask before running.')}
+                '当前工具调用需要批准。一次性自动允许所有内置工具。'
+                + '需要额外确认的工具（例如 Shell 执行）、MCP 工具'
+                + '以及之后添加的任何工具在运行前仍会询问。')}
             action={<button className='theia-button main' onClick={() => this.allowCurrentTools()}>
-                {nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/apply', 'Allow Default Tools')}
+                {nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/apply', '允许默认工具')}
             </button>}
         />;
     }
@@ -252,7 +252,7 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
                 unchecked one silently misbehaves ("*" would auto-approve everything, "git log*" would also
                 match "git logfoo"). The row still writes the preference itself, so it keeps honouring the
                 page's scope; only the rules come from the service. */}
-            <AiConfigurationSection title={nls.localize('theia/ai/ide/toolsConfiguration/shellExecution', 'Shell Command Execution')}>
+            <AiConfigurationSection title={nls.localize('theia/ai/ide/toolsConfiguration/shellExecution', 'Shell 命令执行')}>
                 <AiSettingsRow
                     service={this.settingsRowService}
                     preferenceId={SHELL_COMMAND_ALLOWLIST_PREFERENCE}
@@ -287,25 +287,25 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
         const warningMessage = typeof toolRequest.confirmAlwaysAllow === 'string'
             ? toolRequest.confirmAlwaysAllow
             : nls.localize('theia/ai/ide/toolsConfiguration/confirmAlwaysAllow/genericWarning',
-                'This tool requires confirmation before auto-approval can be enabled. '
-                + 'Once enabled, all future invocations will execute without confirmation. '
-                + 'Only enable this if you trust this tool and understand the potential risks.');
+                '此工具需要确认后才能启用自动批准。'
+                + '启用后，所有后续调用都将无需确认直接执行。'
+                + '仅当您信任此工具并了解潜在风险时才启用此功能。');
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai/ide/toolsConfiguration/confirmAlwaysAllow/title', 'Enable Auto-Approval for "{0}"?', toolName),
+            title: nls.localize('theia/ai/ide/toolsConfiguration/confirmAlwaysAllow/title', '启用“{0}”的自动批准？', toolName),
             msg: warningMessage,
-            ok: nls.localize('theia/ai/ide/toolsConfiguration/confirmAlwaysAllow/confirm', 'I understand, enable auto-approval'),
-            cancel: nls.localizeByDefault('Cancel')
+            ok: nls.localize('theia/ai/ide/toolsConfiguration/confirmAlwaysAllow/confirm', '我已了解，启用自动批准'),
+            cancel: nls.localizeByDefault('取消')
         });
         return !!await dialog.open();
     }
 
     protected async resetAllToolsToDefault(): Promise<void> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai/ide/toolsConfiguration/resetAllConfirmDialog/title', 'Reset All Tool Confirmation Modes'),
+            title: nls.localize('theia/ai/ide/toolsConfiguration/resetAllConfirmDialog/title', '重置所有工具确认模式'),
             msg: nls.localize('theia/ai/ide/toolsConfiguration/resetAllConfirmDialog/msg',
-                'Are you sure you want to reset all tool confirmation modes to the default? This will remove all custom settings.'),
-            ok: nls.localize('theia/ai/ide/toolsConfiguration/resetAll', 'Reset All'),
-            cancel: nls.localizeByDefault('Cancel')
+                '确定要将所有工具确认模式重置为默认值吗？这将移除所有自定义设置。'),
+            ok: nls.localize('theia/ai/ide/toolsConfiguration/resetAll', '全部重置'),
+            cancel: nls.localizeByDefault('取消')
         });
         if (await dialog.open()) {
             await this.confirmationManager.resetAllConfirmationModeSettings();
@@ -314,10 +314,10 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
 
     protected async allowCurrentTools(): Promise<void> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/dialogTitle', 'Allow Default Tools?'),
+            title: nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/dialogTitle', '允许默认工具？'),
             msg: this.buildAllowCurrentToolsMessage(),
-            ok: nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/dialogConfirm', 'I understand, allow'),
-            cancel: nls.localizeByDefault('Cancel')
+            ok: nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/dialogConfirm', '我已了解，允许'),
+            cancel: nls.localizeByDefault('取消')
         });
         if (!await dialog.open()) {
             return;
@@ -335,13 +335,13 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
     protected buildAllowCurrentToolsMessage(): HTMLElement {
         const container = document.createElement('div');
         const lines = [
-            nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line1', 'This sets all currently registered built-in tools to "Always Allow".'),
+            nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line1', '这会将所有当前注册的内置工具设为“始终允许”。'),
             nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line2',
-                'Tools that require extra confirmation (such as shell execution) will still ask before running.'),
+                '需要额外确认的工具（例如 Shell 执行）在运行前仍会询问。'),
             nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line3',
-                'MCP tools are third-party and are not included. You can allow them individually in this view.'),
-            nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line4', 'Tools added later will still default to "Confirm" so you can review them.'),
-            nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line5', 'You can change this later in this view.')
+                'MCP 工具属于第三方工具，不包含在内。您可以在此视图中单独允许它们。'),
+            nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line4', '之后添加的工具仍默认为“确认”，以便您进行审查。'),
+            nls.localize('theia/ai/ide/toolsConfiguration/recommendedDefaults/msg/line5', '您可以稍后在此视图中更改此设置。')
         ];
         for (const line of lines) {
             const paragraph = document.createElement('p');
@@ -364,10 +364,10 @@ export class ToolsConfigurationCategory extends SinglePageCategoryRenderer imple
     }
 
     getSearchItems(): AiConfigurationSearchItem[] {
-        const toolTypeLabel = nls.localizeByDefault('Tool');
+        const toolTypeLabel = nls.localizeByDefault('工具');
         const items: AiConfigurationSearchItem[] = [{
             label: this.defaultModeLabel(),
-            typeLabel: nls.localizeByDefault('Setting'),
+            typeLabel: nls.localizeByDefault('设置'),
             categoryId: this.id,
             target: { categoryId: this.id },
             keywords: `${DEFAULT_TOOL_CONFIRMATION_PREFERENCE} ${TOOL_CONFIRMATION_PREFERENCE} ${SHELL_COMMAND_ALLOWLIST_PREFERENCE} ${SHELL_COMMAND_DENYLIST_PREFERENCE}`
@@ -395,12 +395,12 @@ const ToolConfirmationTable: React.FC<{
     const [filter, setFilter] = React.useState('');
     const term = filter.trim().toLowerCase();
     const filtered = term ? toolNames.filter(name => name.toLowerCase().includes(term)) : toolNames;
-    const modeLabel = nls.localize('theia/ai/ide/toolsConfiguration/confirmationMode/label', 'Confirmation Mode');
+    const modeLabel = nls.localize('theia/ai/ide/toolsConfiguration/confirmationMode/label', '确认模式');
     return <>
         <AiConfigurationFilterInput
             value={filter}
             onChange={setFilter}
-            placeholder={nls.localize('theia/ai/ide/toolsConfiguration/filterPlaceholder', 'Filter tools')}
+            placeholder={nls.localize('theia/ai/ide/toolsConfiguration/filterPlaceholder', '筛选工具')}
         />
         <div className='ai-configuration-item-list'>
             {filtered.map(name => <AiConfigurationItemRow

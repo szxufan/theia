@@ -160,7 +160,7 @@ describe('ProviderModelDiscoverySection', () => {
             const { container, dispose } = mount(manyModels(), status(), favorites);
             try {
                 expect(labels(container)[0]).to.equal('claude-c');
-                expect(badges(container)[0]).to.deep.equal(['Default']);
+                expect(badges(container)[0]).to.deep.equal(['默认']);
                 // The badge says where a model stands, not whether it is shown: it survives unchecking.
                 const shown = container.querySelectorAll<HTMLButtonElement>('.ai-configuration-item-row-trailing .ai-configuration-icon-button')[0];
                 expect(shown.querySelector('.codicon-circle-large')).to.not.equal(null); // eslint-disable-line no-null/no-null
@@ -184,9 +184,9 @@ describe('ProviderModelDiscoverySection', () => {
             const { container, dispose } = mount(manyModels(), status(), favorites);
             try {
                 expect(container.querySelector('.ai-configuration-kind-badge')?.getAttribute('title'))
-                    .to.contain('newest models of this provider');
+                    .to.contain('此提供程序最新的模型之一');
                 const shown = container.querySelectorAll<HTMLButtonElement>('.ai-configuration-item-row-trailing .ai-configuration-icon-button')[0];
-                expect(shown.title).to.equal('Hide this model from the AI chat input\'s model picker');
+                expect(shown.title).to.equal('在 AI 聊天输入框的模型选择器中隐藏此模型');
             } finally {
                 dispose();
             }
@@ -198,7 +198,7 @@ describe('ProviderModelDiscoverySection', () => {
             try {
                 const reset = sectionActions(first.container)[1];
                 expect(reset.disabled).to.equal(true);
-                expect(reset.title).to.equal('Already at the defaults');
+                expect(reset.title).to.equal('已是默认值');
             } finally {
                 first.dispose();
             }
@@ -221,7 +221,7 @@ describe('ProviderModelDiscoverySection', () => {
             const { container, dispose } = mount(manyModels(), status(), favorites);
             try {
                 expect(container.querySelector('.ai-configuration-section-subtitle')?.textContent)
-                    .to.equal('2 of 10 shown in the AI chat input\'s model picker');
+                    .to.equal('AI 聊天输入框的模型选择器中显示 10 个中的 2 个');
             } finally {
                 dispose();
             }
@@ -266,7 +266,7 @@ describe('ProviderModelDiscoverySection', () => {
         const { container, dispose } = mount([model('anthropic/claude-opus-5'), model('anthropic/claude-haiku-4-5', false)]);
         try {
             const badges = [...container.querySelectorAll('.ai-configuration-item-row .ai-configuration-status-badge-label')];
-            expect(badges.map(badge => badge.textContent)).to.deep.equal(['Not ready']);
+            expect(badges.map(badge => badge.textContent)).to.deep.equal(['未就绪']);
         } finally {
             dispose();
         }
@@ -315,7 +315,7 @@ describe('ProviderModelDiscoverySection', () => {
             expect(container.querySelector('.ai-configuration-section-subtitle')?.textContent).to.equal('The model list is configured manually.');
             expect(labels(container)).to.deep.equal(['claude-opus-5']);
             const badges = [...container.querySelectorAll('.ai-configuration-status-badge-label')].map(badge => badge.textContent);
-            expect(badges).to.include('Manual');
+            expect(badges).to.include('手动');
         } finally {
             dispose();
         }
@@ -330,7 +330,7 @@ describe('ProviderModelDiscoverySection', () => {
             const details = [...container.querySelectorAll('.ai-configuration-item-row-detail')];
             // Only the model with a reported date carries one; the other row simply has no trailing detail.
             expect(details).to.have.lengthOf(1);
-            expect(details[0].textContent).to.match(/^released /);
+            expect(details[0].textContent).to.match(/^发布于 /);
         } finally {
             dispose();
         }
@@ -344,7 +344,7 @@ describe('ProviderModelDiscoverySection', () => {
             expect(shown.querySelector('.codicon-pass')).to.not.equal(null); // eslint-disable-line no-null/no-null
             expect(shown.disabled).to.equal(false);
             // The check says what it does; what a default is belongs to the badge on the row.
-            expect(shown.title).to.equal('Hide this model from the AI chat input\'s model picker');
+            expect(shown.title).to.equal('在 AI 聊天输入框的模型选择器中隐藏此模型');
             flushSync(() => shown.click());
             expect((favorites as unknown as { toggled: string[] }).toggled).to.deep.equal(['anthropic/claude-opus-5']);
         } finally {
@@ -358,7 +358,7 @@ describe('ProviderModelDiscoverySection', () => {
         try {
             const shown = container.querySelector<HTMLButtonElement>('.ai-configuration-item-row-trailing .ai-configuration-icon-button')!;
             expect(shown.querySelector('.codicon-circle-large')).to.not.equal(null); // eslint-disable-line no-null/no-null
-            expect(shown.title).to.contain('AI chat input');
+            expect(shown.title).to.contain('AI 聊天输入框');
             expect(shown.disabled).to.equal(false);
             flushSync(() => shown.click());
             expect((favorites as unknown as { toggled: string[] }).toggled).to.deep.equal(['anthropic/claude-opus-5-20260401']);
@@ -370,7 +370,7 @@ describe('ProviderModelDiscoverySection', () => {
     it('states once, above the list, that this is about the chat input', () => {
         const { container, dispose } = mount([model('anthropic/claude-opus-5')]);
         try {
-            expect(container.querySelector('.ai-configuration-section-subtitle')?.textContent).to.contain('AI chat input');
+            expect(container.querySelector('.ai-configuration-section-subtitle')?.textContent).to.contain('AI 聊天输入框');
         } finally {
             dispose();
         }

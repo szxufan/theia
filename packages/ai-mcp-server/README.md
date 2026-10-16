@@ -4,47 +4,47 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - AI MCP SERVER EXTENSION</h2>
+<h2>ECLIPSE THEIA - AI MCP SERVER 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-This package provides Model Context Protocol (MCP) server functionality for Theia, enabling AI tools to access Theia services and workspace information.
+本包为 Theia 提供 Model Context Protocol（MCP）服务器功能，使 AI 工具能够访问 Theia 的服务和工作区信息。
 
-### Features
+### 功能特性
 
-- **HTTP Transport**: RESTful HTTP API for MCP communication using the StreamableHTTPServerTransport
-- **Backend MCP Contributions**: Register backend-only tools, resources, and prompts
-- **Frontend MCP Contributions**: Register frontend-only tools, resources, and prompts that can access frontend services
-- **Frontend-Backend Delegation**: Allows frontend contributions to be exposed through the backend MCP server
+- **HTTP 传输**：使用 StreamableHTTPServerTransport 的 RESTful HTTP API 进行 MCP 通信
+- **后端 MCP 贡献**：注册仅后端可用的工具、资源和提示词
+- **前端 MCP 贡献**：注册可访问前端服务的、仅前端可用的工具、资源和提示词
+- **前端-后端委托**：允许通过后端 MCP 服务器暴露前端贡献
 
-### Development Setup
+### 开发设置
 
-#### Starting the MCP Server
+#### 启动 MCP 服务器
 
-1. Start Theia application
-2. The MCP server will automatically start and be available at `/mcp` e.g. `http://localhost:3000/mcp`
+1. 启动 Theia 应用程序
+2. MCP 服务器将自动启动，并可在 `/mcp` 路径访问，例如 `http://localhost:3000/mcp`
 
-### API Endpoints
+### API 端点
 
-- `POST /mcp` - MCP protocol endpoint (for all MCP protocol operations)
+- `POST /mcp` - MCP 协议端点（用于所有 MCP 协议操作）
 
-### Architecture
+### 架构
 
-The MCP server architecture consists of:
+MCP 服务器架构由以下部分组成：
 
-1. **HTTP Transport Layer**: Manages HTTP connections using StreamableHTTPServerTransport
-2. **MCP Server**: Core server implementation that handles MCP protocol messages
-3. **Backend Contributions**: Extensions that run on the Node.js backend
-4. **Frontend Contributions**: Extensions that run in the browser frontend
-5. **Frontend-Backend Bridge**: RPC mechanism to connect frontend and backend
+1. **HTTP 传输层**：使用 StreamableHTTPServerTransport 管理 HTTP 连接
+2. **MCP 服务器**：处理 MCP 协议消息的核心服务器实现
+3. **后端贡献**：在 Node.js 后端上运行的扩展
+4. **前端贡献**：在浏览器前端中运行的扩展
+5. **前端-后端桥接**：连接前端和后端的 RPC 机制
 
-### Creating Backend Contributions
+### 创建后端贡献
 
-Backend contributions run in the Node.js backend and have access to backend services:
+后端贡献运行在 Node.js 后端中，可以访问后端服务：
 
 ```typescript
 @injectable()
@@ -95,16 +95,16 @@ export class MyBackendContribution implements MCPBackendContribution {
 }
 ```
 
-Register the contribution in your backend module:
+在后端模块中注册该贡献：
 
 ```typescript
 bind(MyBackendContribution).toSelf().inSingletonScope();
 bind(MCPBackendContribution).toService(MyBackendContribution);
 ```
 
-### Creating Frontend Contributions
+### 创建前端贡献
 
-Frontend contributions run in the browser and have access to frontend services:
+前端贡献运行在浏览器中，可以访问前端服务：
 
 ```typescript
 @injectable()
@@ -172,32 +172,32 @@ export class MyFrontendContribution implements MCPFrontendContribution {
 }
 ```
 
-Register the contribution in your frontend module:
+在前端模块中注册该贡献：
 
 ```typescript
 bind(MyFrontendContribution).toSelf().inSingletonScope();
 bind(MCPFrontendContribution).toService(MyFrontendContribution);
 ```
 
-### Security Considerations
+### 安全注意事项
 
-- The MCP server exposes Theia functionality over HTTP
-- Only enable the server in trusted environments
-- Consider adding authentication and authorization for production use
-- Restrict access to sensitive operations in your contributions
+- MCP 服务器通过 HTTP 暴露 Theia 的功能
+- 仅在受信任的环境中启用该服务器
+- 在生产环境中考虑增加身份验证和授权
+- 在你的贡献中限制对敏感操作的访问
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/ai-mcp-server`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-mcp-server.html)
+- [`@theia/ai-mcp-server` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-mcp-server.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

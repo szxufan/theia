@@ -41,9 +41,9 @@ const DEFAULT_VALUE = 'default';
 const NOTIFICATION_SELECT_OPTIONS: SelectOption[] = [
     {
         value: DEFAULT_VALUE,
-        label: nls.localizeByDefault('Default'),
+        label: nls.localizeByDefault('默认'),
         description: nls.localize('theia/ai/core/agentConfiguration/defaultNotificationDescription',
-            'Uses the global AI notification setting'),
+            '使用全局 AI 通知设置'),
     },
     ...NOTIFICATION_TYPES.map(type => ({
         value: type,
@@ -62,19 +62,19 @@ export const AgentNotificationSettings = ({
     };
     const isOverridden = currentNotificationType !== undefined;
     return <AiConfigurationSettingRow
-        title={nls.localizeByDefault('Notifications')}
+        title={nls.localizeByDefault('通知')}
         description={<>
             {/* Own key: the shipped `completionNotificationDescriptionPrefix` is translated with the older,
                 longer wording, and a translation wins over a changed default. */}
             {nls.localize('theia/ai/core/agentConfiguration/completionNotificationIntro',
-                'How you want to be notified when this agent needs your attention (it completes its task or requests input). "Default" uses the global ')}
+                '当此代理需要您的注意（完成任务或请求输入）时，您希望如何收到通知。“默认”使用全局 ')}
             <a href='#' onClick={event => { event.preventDefault(); onOpenNotificationSettings(); }}>
-                {nls.localize('theia/ai/core/agentConfiguration/notificationSettingsLink', 'AI notification setting')}
-            </a>.
+                {nls.localize('theia/ai/core/agentConfiguration/notificationSettingsLink', 'AI 通知设置')}
+            </a>。
         </>}
         modified={isOverridden}
         below={<AiEnumSelect
-            ariaLabel={nls.localizeByDefault('Notifications')}
+            ariaLabel={nls.localizeByDefault('通知')}
             options={NOTIFICATION_SELECT_OPTIONS.map(option => ({
                 value: String(option.value ?? ''),
                 label: option.label ?? String(option.value ?? ''),

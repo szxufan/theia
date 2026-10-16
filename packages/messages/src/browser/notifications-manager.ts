@@ -65,7 +65,8 @@ export class NotificationManager extends MessageClient {
 
     protected readonly onUpdatedEmitter = new Emitter<NotificationUpdateEvent>();
     readonly onUpdated = this.onUpdatedEmitter.event;
-    protected readonly fireUpdatedEvent = throttle(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly fireUpdatedEvent: any = throttle(() => {
         const notifications = deepClone(Array.from(this.notifications.values()).filter((notification: Notification) =>
             notification.message
         ));

@@ -34,7 +34,7 @@ initializeProtocol({
     cryptoModule: window.crypto
 });
 
-export const COLLABORATION_CATEGORY = 'Collaboration';
+export const COLLABORATION_CATEGORY = '协作';
 
 export namespace CollaborationCommands {
     export const CREATE_ROOM: Command = {
@@ -45,7 +45,7 @@ export namespace CollaborationCommands {
     };
     export const SIGN_OUT: Command = {
         id: 'collaboration.sign-out',
-        label: nls.localizeByDefault('Sign Out'),
+        label: nls.localizeByDefault('注销'),
         category: COLLABORATION_CATEGORY,
     };
 }
@@ -116,7 +116,7 @@ export class CollaborationFrontendContribution implements CommandContribution {
                 this.windowService.openNewWindow(metaData.loginPageUrl, { external: true });
                 return true;
             } else {
-                this.messageService.error(nls.localize('theia/collaboration/noAuth', 'No authentication method provided by the server.'));
+                this.messageService.error(nls.localize('theia/collaboration/noAuth', '服务器未提供任何身份验证方法。'));
                 return false;
             }
         }
@@ -129,7 +129,7 @@ export class CollaborationFrontendContribution implements CommandContribution {
             provider
         }));
         const item = await this.quickInputService.pick(quickPickItems, {
-            title: nls.localize('theia/collaboration/selectAuth', 'Select Authentication Method'),
+            title: nls.localize('theia/collaboration/selectAuth', '选择身份验证方法'),
         });
         if (item) {
             switch (item.provider.type) {
@@ -155,7 +155,7 @@ export class CollaborationFrontendContribution implements CommandContribution {
             } else {
                 placeHolder = field.label.message;
             }
-            placeHolder += field.required ? '' : ` (${nls.localize('theia/collaboration/optional', 'optional')})`;
+            placeHolder += field.required ? '' : `（${nls.localize('theia/collaboration/optional', '可选')}）`;
             const value = await this.quickInputService!.input({
                 prompt: field.label.message,
                 placeHolder,
@@ -164,7 +164,7 @@ export class CollaborationFrontendContribution implements CommandContribution {
             if (value) {
                 values[field.name] = value;
             } else if (field.required) {
-                this.messageService.error(nls.localize('theia/collaboration/fieldRequired', 'The {0} field is required. Login aborted.', field.label.message));
+                this.messageService.error(nls.localize('theia/collaboration/fieldRequired', '{0} 字段为必填项。登录已中止。', field.label.message));
                 return false;
             }
         }
@@ -177,9 +177,9 @@ export class CollaborationFrontendContribution implements CommandContribution {
             }
         });
         if (response.ok) {
-            this.messageService.info(nls.localize('theia/collaboration/loginSuccessful', 'Login successful.'));
+            this.messageService.info(nls.localize('theia/collaboration/loginSuccessful', '登录成功。'));
         } else {
-            this.messageService.error(nls.localize('theia/collaboration/loginFailed', 'Login failed.'));
+            this.messageService.error(nls.localize('theia/collaboration/loginFailed', '登录失败。'));
         }
         return response.ok;
     }
@@ -194,25 +194,25 @@ export class CollaborationFrontendContribution implements CommandContribution {
         const items: QuickPickItem[] = [];
         if (this.workspaceService.opened) {
             items.push({
-                label: nls.localize('theia/collaboration/createRoom', 'Create New Collaboration Session'),
+                label: nls.localize('theia/collaboration/createRoom', '创建新的协作会话'),
                 iconClasses: codiconArray('add'),
                 execute: () => this.commands.executeCommand(CollaborationCommands.CREATE_ROOM.id)
             });
         }
         items.push({
-            label: nls.localize('theia/collaboration/joinRoom', 'Join Collaboration Session'),
+            label: nls.localize('theia/collaboration/joinRoom', '加入协作会话'),
             iconClasses: codiconArray('vm-connect'),
             execute: () => this.commands.executeCommand(CollaborationCommands.JOIN_ROOM.id)
         });
         await this.quickInputService?.showQuickPick(items, {
-            placeholder: nls.localize('theia/collaboration/selectCollaboration', 'Select collaboration option')
+            placeholder: nls.localize('theia/collaboration/selectCollaboration', '选择协作选项')
         });
     }
 
     protected async onStatusSharedClick(code: string): Promise<void> {
         const items: QuickPickItem[] = [{
-            label: nls.localize('theia/collaboration/invite', 'Invite Others'),
-            detail: nls.localize('theia/collaboration/inviteDetail', 'Copy the invitation code for sharing it with others to join the session.'),
+            label: nls.localize('theia/collaboration/invite', '邀请他人'),
+            detail: nls.localize('theia/collaboration/inviteDetail', '复制邀请代码，与他人共享以加入会话。'),
             iconClasses: codiconArray('clippy'),
             execute: () => this.displayCopyNotification(code)
         }];
@@ -243,54 +243,54 @@ export class CollaborationFrontendContribution implements CommandContribution {
             // }
         }
         items.push({
-            label: nls.localize('theia/collaboration/end', 'End Collaboration Session'),
-            detail: nls.localize('theia/collaboration/endDetail', 'Terminate the session, cease content sharing, and revoke access for others.'),
+            label: nls.localize('theia/collaboration/end', '结束协作会话'),
+            detail: nls.localize('theia/collaboration/endDetail', '终止会话，停止内容共享，并撤销他人的访问权限。'),
             iconClasses: codiconArray('circle-slash'),
             execute: () => this.currentInstance?.dispose()
         });
         await this.quickInputService?.showQuickPick(items, {
-            placeholder: nls.localize('theia/collaboration/whatToDo', 'What would you like to do with other collaborators?')
+            placeholder: nls.localize('theia/collaboration/whatToDo', '您想与其他协作者一起做什么？')
         });
     }
 
     protected async onStatusConnectedClick(code: string): Promise<void> {
         const items: QuickPickItem[] = [{
-            label: nls.localize('theia/collaboration/invite', 'Invite Others'),
-            detail: nls.localize('theia/collaboration/inviteDetail', 'Copy the invitation code for sharing it with others to join the session.'),
+            label: nls.localize('theia/collaboration/invite', '邀请他人'),
+            detail: nls.localize('theia/collaboration/inviteDetail', '复制邀请代码，与他人共享以加入会话。'),
             iconClasses: codiconArray('clippy'),
             execute: () => this.displayCopyNotification(code)
         }];
         items.push({
-            label: nls.localize('theia/collaboration/leave', 'Leave Collaboration Session'),
-            detail: nls.localize('theia/collaboration/leaveDetail', 'Disconnect from the current collaboration session and close the workspace.'),
+            label: nls.localize('theia/collaboration/leave', '离开协作会话'),
+            detail: nls.localize('theia/collaboration/leaveDetail', '断开与当前协作会话的连接并关闭工作区。'),
             iconClasses: codiconArray('circle-slash'),
             execute: () => this.currentInstance?.dispose()
         });
         await this.quickInputService?.showQuickPick(items, {
-            placeholder: nls.localize('theia/collaboration/whatToDo', 'What would you like to do with other collaborators?')
+            placeholder: nls.localize('theia/collaboration/whatToDo', '您想与其他协作者一起做什么？')
         });
     }
 
     protected async setStatusBarEntryDefault(): Promise<void> {
         await this.setStatusBarEntry({
-            text: '$(codicon-live-share) ' + nls.localize('theia/collaboration/collaborate', 'Collaborate'),
-            tooltip: nls.localize('theia/collaboration/startSession', 'Start or join collaboration session'),
+            text: '$(codicon-live-share) ' + nls.localize('theia/collaboration/collaborate', '协作'),
+            tooltip: nls.localize('theia/collaboration/startSession', '启动或加入协作会话'),
             onclick: () => this.onStatusDefaultClick()
         });
     }
 
     protected async setStatusBarEntryShared(code: string): Promise<void> {
         await this.setStatusBarEntry({
-            text: '$(codicon-broadcast) ' + nls.localizeByDefault('Shared'),
-            tooltip: nls.localize('theia/collaboration/sharedSession', 'Shared a collaboration session'),
+            text: '$(codicon-broadcast) ' + nls.localizeByDefault('已共享'),
+            tooltip: nls.localize('theia/collaboration/sharedSession', '已共享协作会话'),
             onclick: () => this.onStatusSharedClick(code)
         });
     }
 
     protected async setStatusBarEntryConnected(code: string): Promise<void> {
         await this.setStatusBarEntry({
-            text: '$(codicon-broadcast) ' + nls.localizeByDefault('Connected'),
-            tooltip: nls.localize('theia/collaboration/connectedSession', 'Connected to a collaboration session'),
+            text: '$(codicon-broadcast) ' + nls.localizeByDefault('已连接'),
+            tooltip: nls.localize('theia/collaboration/connectedSession', '已连接到协作会话'),
             onclick: () => this.onStatusConnectedClick(code)
         });
     }
@@ -314,7 +314,7 @@ export class CollaborationFrontendContribution implements CommandContribution {
             execute: async () => {
                 const cancelTokenSource = new CancellationTokenSource();
                 const progress = await this.messageService.showProgress({
-                    text: nls.localize('theia/collaboration/creatingRoom', 'Creating Session'),
+                    text: nls.localize('theia/collaboration/creatingRoom', '正在创建会话'),
                     options: {
                         cancelable: true
                     }
@@ -341,7 +341,7 @@ export class CollaborationFrontendContribution implements CommandContribution {
                     this.setStatusBarEntryShared(roomCode);
                     this.displayCopyNotification(roomCode, true);
                 } catch (err) {
-                    await this.messageService.error(nls.localize('theia/collaboration/failedCreate', 'Failed to create room: {0}', err.message));
+                    await this.messageService.error(nls.localize('theia/collaboration/failedCreate', '创建房间失败：{0}', err.message));
                 } finally {
                     progress.cancel();
                 }
@@ -354,13 +354,13 @@ export class CollaborationFrontendContribution implements CommandContribution {
                 try {
                     const authHandler = await this.createConnectionProvider();
                     const id = await this.quickInputService?.input({
-                        placeHolder: nls.localize('theia/collaboration/enterCode', 'Enter collaboration session code')
+                        placeHolder: nls.localize('theia/collaboration/enterCode', '输入协作会话代码')
                     });
                     if (!id) {
                         return;
                     }
                     joinRoomProgress = await this.messageService.showProgress({
-                        text: nls.localize('theia/collaboration/joiningRoom', 'Joining Session'),
+                        text: nls.localize('theia/collaboration/joiningRoom', '正在加入会话'),
                         options: {
                             cancelable: true
                         }
@@ -386,7 +386,7 @@ export class CollaborationFrontendContribution implements CommandContribution {
                     this.setStatusBarEntryConnected(roomClaim.roomId);
                 } catch (err) {
                     joinRoomProgress?.cancel();
-                    await this.messageService.error(nls.localize('theia/collaboration/failedJoin', 'Failed to join room: {0}', err.message));
+                    await this.messageService.error(nls.localize('theia/collaboration/failedJoin', '加入房间失败：{0}', err.message));
                 }
             }
         });
@@ -405,10 +405,10 @@ export class CollaborationFrontendContribution implements CommandContribution {
 
     protected async displayCopyNotification(code: string, firstTime = false): Promise<void> {
         navigator.clipboard.writeText(code);
-        const notification = nls.localize('theia/collaboration/copiedInvitation', 'Invitation code copied to clipboard.');
+        const notification = nls.localize('theia/collaboration/copiedInvitation', '邀请代码已复制到剪贴板。');
         if (firstTime) {
             // const makeReadonly = nls.localize('theia/collaboration/makeReadonly', 'Make readonly');
-            const copyAgain = nls.localize('theia/collaboration/copyAgain', 'Copy Again');
+            const copyAgain = nls.localize('theia/collaboration/copyAgain', '再次复制');
             const copyResult = await this.messageService.info(
                 notification,
                 // makeReadonly,

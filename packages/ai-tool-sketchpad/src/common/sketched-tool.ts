@@ -93,14 +93,14 @@ export namespace SketchedToolDefinition {
     export function validateName(name: string, existingTools: SketchedToolDefinition[], selfId?: string): string | undefined {
         const trimmed = name.trim();
         if (!trimmed) {
-            return nls.localize('theia/ai-tool-sketchpad/nameEmpty', 'Tool name must not be empty.');
+            return nls.localize('theia/ai-tool-sketchpad/nameEmpty', '工具名称不能为空。');
         }
         if (!NAME_PATTERN.test(trimmed)) {
             return nls.localize('theia/ai-tool-sketchpad/nameInvalid',
-                'Tool name may only contain letters, digits, underscores and hyphens (1-128 characters).');
+                '工具名称只能包含字母、数字、下划线和连字符（1-128 个字符）。');
         }
         if (existingTools.some(tool => tool.id !== selfId && tool.name.trim() === trimmed)) {
-            return nls.localize('theia/ai-tool-sketchpad/nameDuplicate', 'A tool with this name already exists.');
+            return nls.localize('theia/ai-tool-sketchpad/nameDuplicate', '同名工具已存在。');
         }
         return undefined;
     }

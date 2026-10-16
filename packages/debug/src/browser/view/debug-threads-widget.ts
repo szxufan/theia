@@ -62,7 +62,7 @@ export class DebugThreadsWidget extends SourceTreeWidget {
     protected override init(): void {
         super.init();
         this.id = DebugThreadsWidget.FACTORY_ID + ':' + this.viewModel.id;
-        this.title.label = nls.localize('theia/debug/threads', 'Threads');
+        this.title.label = nls.localize('theia/debug/threads', '线程');
         this.toDispose.push(this.threads);
         this.source = this.threads;
 

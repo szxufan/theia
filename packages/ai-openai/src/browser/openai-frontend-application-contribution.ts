@@ -57,15 +57,15 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
 
     protected get discoveryMessages(): ModelDiscoveryMessages {
         return {
-            noCredentials: nls.localize('theia/ai/openai/discovery/noKey', 'No OpenAI API key set. Add a key to discover models.'),
+            noCredentials: nls.localize('theia/ai/openai/discovery/noKey', '未设置 OpenAI API 密钥。添加密钥后即可发现模型。'),
             consentRequired: nls.localize('theia/ai/openai/discovery/consentRequired',
-                'An OpenAI API key was found in the environment. Confirm its use to discover models.'),
+                '在环境中发现了 OpenAI API 密钥。确认使用它以发现模型。'),
             consentPrompt: nls.localize('theia/ai/openai/discovery/consentPrompt',
-                'An OpenAI API key was found in the environment (OPENAI_API_KEY). Allow Theia to use it to discover and call OpenAI models?'),
-            useEnvironmentKey: nls.localize('theia/ai/openai/discovery/useEnvKey', 'Use key'),
+                '在环境中发现了 OpenAI API 密钥（OPENAI_API_KEY）。允许 Theia 使用它来发现和调用 OpenAI 模型吗？'),
+            useEnvironmentKey: nls.localize('theia/ai/openai/discovery/useEnvKey', '使用密钥'),
             overridden: nls.localize('theia/ai/openai/discovery/overridden',
-                'The model list is configured manually. Clear the model overrides to discover the models from the provider again.'),
-            cached: error => nls.localize('theia/ai/openai/discovery/cached', 'Showing cached models; last refresh failed: {0}', error)
+                '模型列表已手动配置。清除模型覆盖后即可重新从提供程序发现模型。'),
+            cached: error => nls.localize('theia/ai/openai/discovery/cached', '正在显示缓存的模型；上次刷新失败：{0}', error)
         };
     }
 

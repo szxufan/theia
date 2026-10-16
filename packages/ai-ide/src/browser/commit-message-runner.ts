@@ -86,7 +86,7 @@ export class CommitMessageRunner {
                 // Deliberately not awaited: a dismissed toast never resolves, which would leave
                 // the button spinning forever.
                 this.messageService.warn(
-                    nls.localize('theia/ai-ide/commit-message/no-repository', 'No source-control repository is selected.')
+                    nls.localize('theia/ai-ide/commit-message/no-repository', '未选择源代码管理仓库。')
                 );
                 return;
             }
@@ -97,7 +97,7 @@ export class CommitMessageRunner {
             }
             if (!changes.trim()) {
                 this.messageService.warn(
-                    nls.localize('theia/ai-ide/commit-message/no-changes', 'There are no staged changes to generate a commit message from.')
+                    nls.localize('theia/ai-ide/commit-message/no-changes', '没有可用于生成提交消息的暂存更改。')
                 );
                 return;
             }
@@ -115,7 +115,7 @@ export class CommitMessageRunner {
             }
             if (!message) {
                 this.messageService.warn(
-                    nls.localize('theia/ai-ide/commit-message/empty', 'The model returned an empty commit message.')
+                    nls.localize('theia/ai-ide/commit-message/empty', '模型返回了空的提交消息。')
                 );
                 return;
             }
@@ -139,7 +139,7 @@ export class CommitMessageRunner {
         this.messageService.error(
             nls.localize(
                 'theia/ai-ide/commit-message/failed',
-                'Failed to generate commit message: {0}',
+                '生成提交消息失败：{0}',
                 reason
             )
         );
@@ -151,12 +151,12 @@ export class CommitMessageRunner {
             return true;
         }
         return !!await new ConfirmDialog({
-            title: nls.localize('theia/ai-ide/commit-message/replace-title', 'Replace Commit Message'),
+            title: nls.localize('theia/ai-ide/commit-message/replace-title', '替换提交消息'),
             msg: nls.localize(
                 'theia/ai-ide/commit-message/replace-prompt',
-                'The commit message field is not empty. Replace its content with the generated message?'
+                '提交消息输入框不为空。要用生成的消息替换其内容吗？'
             ),
-            ok: nls.localizeByDefault('Replace'),
+            ok: nls.localizeByDefault('替换'),
             cancel: Dialog.CANCEL
         }).open();
     }

@@ -95,8 +95,8 @@ export const AiConfigurationSettingRow: React.FC<AiConfigurationSettingRowProps>
 
 /** Badge text for a preference tag, matching the Settings UI (experimental/preview localized; else the raw tag). */
 function tagLabel(tag: string): string {
-    return tag === 'experimental' ? nls.localizeByDefault('Experimental')
-        : tag === 'preview' ? nls.localizeByDefault('Preview')
+    return tag === 'experimental' ? nls.localizeByDefault('实验性')
+        : tag === 'preview' ? nls.localizeByDefault('预览')
             : tag;
 }
 
@@ -104,11 +104,11 @@ function tagLabel(tag: string): string {
 function tagTooltip(tag: string): string {
     if (tag === 'experimental') {
         return nls.localizeByDefault(
-            'Experimental setting: this setting controls a new feature that is actively being developed and may be unstable. It is subject to change or removal.');
+            '实验性设置：此设置控制一个正在积极开发中且可能不稳定的新功能。它可能会被更改或移除。');
     }
     if (tag === 'preview') {
         return nls.localizeByDefault(
-            'Preview setting: this setting controls a new feature that is still under refinement yet ready to use. Feedback is welcome.');
+            '预览设置：此设置控制一个仍在完善中但已可使用的新功能。欢迎提供反馈。');
     }
     return tag;
 }
@@ -142,7 +142,7 @@ export const AiSettingGearButton: React.FC<{
     const open = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         onOpenMenu(event.currentTarget);
     }, [onOpenMenu]);
-    const label = nls.localizeByDefault('More Actions...');
+    const label = nls.localizeByDefault('更多操作...');
     return <button
         type='button'
         className={`ai-settings-row-gear ${codicon('settings-gear')}`}

@@ -39,9 +39,9 @@ export class QuickCommandFrontendContribution implements CommandContribution, Ke
         commands.registerCommand(CLEAR_COMMAND_HISTORY, {
             execute: async () => {
                 const shouldClear = await new ConfirmDialog({
-                    title: nls.localizeByDefault('Clear Command History'),
-                    msg: nls.localizeByDefault('Do you want to clear the history of recently used commands?'),
-                    ok: nls.localizeByDefault('Clear'),
+                    title: nls.localizeByDefault('清除命令历史记录'),
+                    msg: nls.localizeByDefault('是否要清除最近使用的命令历史记录？'),
+                    ok: nls.localizeByDefault('清除'),
                     cancel: Dialog.CANCEL,
                 }).open();
                 if (shouldClear) {
@@ -57,11 +57,11 @@ export class QuickCommandFrontendContribution implements CommandContribution, Ke
     registerMenus(menus: MenuModelRegistry): void {
         menus.registerMenuAction(CommonMenus.VIEW_PRIMARY, {
             commandId: quickCommand.id,
-            label: nls.localizeByDefault('Command Palette...')
+            label: nls.localizeByDefault('命令面板...')
         });
         menus.registerMenuAction(CommonMenus.MANAGE_GENERAL, {
             commandId: quickCommand.id,
-            label: nls.localizeByDefault('Command Palette...'),
+            label: nls.localizeByDefault('命令面板...'),
             order: '0'
         });
     }

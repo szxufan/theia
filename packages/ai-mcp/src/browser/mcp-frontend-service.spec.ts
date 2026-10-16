@@ -169,7 +169,7 @@ describe('MCPFrontendServiceImpl', () => {
             expect(result).to.be.false;
             expect(captures.startServerCalls).to.deep.equal([]);
             expect(errorMessages).to.have.length(1);
-            expect(errorMessages[0]).to.contain('trusted workspace');
+            expect(errorMessages[0]).to.contain('受信任的工作区');
         });
     });
 
@@ -224,7 +224,7 @@ describe('MCPFrontendServiceImpl', () => {
             expect(await target.signIn('asana')).to.be.false;
             expect(calls).to.deep.equal([]);
             expect(errorMessages).to.have.length(1);
-            expect(errorMessages[0]).to.contain('trusted workspace');
+            expect(errorMessages[0]).to.contain('受信任的工作区');
         });
 
         it('stops, starts interactively, and stops again when the sign-in connects', async () => {

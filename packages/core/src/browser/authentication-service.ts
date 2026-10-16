@@ -250,7 +250,7 @@ export class AuthenticationServiceImpl implements AuthenticationService {
         }));
         this.menus.registerSubmenu(providerAccountSubmenu, `${session.account.label} (${providerLabel})`);
         disposables.push(this.menus.registerMenuAction(providerAccountSubmenu, {
-            label: nls.localizeByDefault('Sign Out'),
+            label: nls.localizeByDefault('注销'),
             commandId: providerAccountId
         }));
         return disposables;
@@ -395,7 +395,7 @@ export class AuthenticationServiceImpl implements AuthenticationService {
             }
 
             const menuItem = this.menus.registerMenuAction(ACCOUNTS_SUBMENU, {
-                label: nls.localizeByDefault('Sign in with {0} to use {1} (1)', provider.label, extensionName),
+                label: nls.localizeByDefault('使用 {0} 登录以使用 {1} (1)', provider.label, extensionName),
                 order: '1',
                 commandId: `${extensionId}signIn`,
             });

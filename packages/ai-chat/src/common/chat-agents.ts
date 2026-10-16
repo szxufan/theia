@@ -185,6 +185,14 @@ export function isChatAgent(agent: Agent): agent is ChatAgent {
     return 'locations' in agent && Array.isArray((agent as ChatAgent).locations) && 'invoke' in agent;
 }
 
+/**
+ * Returns the localized display name of the given agent, falling back to its technical `name`.
+ * Use this for all user-facing rendering; `name`/`id` remain the identifiers for mentions, preferences and persistence.
+ */
+export function getAgentDisplayName(agent: Agent): string {
+    return agent.displayName ?? agent.name;
+}
+
 @injectable()
 export abstract class AbstractChatAgent implements ChatAgent {
     @inject(LanguageModelRegistry) protected languageModelRegistry: LanguageModelRegistry;
@@ -211,7 +219,7 @@ export abstract class AbstractChatAgent implements ChatAgent {
     readonly abstract languageModelRequirements: LanguageModelRequirement[];
     iconClass: string = 'codicon codicon-copilot';
     locations: ChatAgentLocation[] = ChatAgentLocation.ALL;
-    tags: string[] = [nls.localizeByDefault('Chat')];
+    tags: string[] = [nls.localizeByDefault('聊天')];
     description: string = '';
     variables: string[] = [];
     prompts: PromptVariantSet[] = [];
@@ -236,7 +244,7 @@ export abstract class AbstractChatAgent implements ChatAgent {
         try {
             const languageModel = await this.getLanguageModelForRequest(request, this.defaultLanguageModelPurpose);
             if (!languageModel) {
-                throw new Error(nls.localize('theia/ai/chat/couldNotFindMatchingLM', 'Couldn\'t find a matching language model. Please check your setup!'));
+                throw new Error(nls.localize('theia/ai/chat/couldNotFindMatchingLM', '找不到匹配的语言模型。请检查您的设置！'));
             }
             // Record the model that actually handled this request so the chat thread can show it.
             request.response.setLanguageModel(languageModel.id);
@@ -379,7 +387,7 @@ export abstract class AbstractChatAgent implements ChatAgent {
     protected async selectLanguageModel(selector: LanguageModelRequirement): Promise<LanguageModel> {
         const languageModel = await this.languageModelRegistry.selectLanguageModel({ agent: this.id, ...selector });
         if (!languageModel) {
-            throw new Error(nls.localize('theia/ai/chat/couldNotFindReadyLMforAgent', 'Couldn\'t find a ready language model for agent {0}. Please check your setup!', this.id));
+            throw new Error(nls.localize('theia/ai/chat/couldNotFindReadyLMforAgent', '找不到代理 {0} 可用的语言模型。请检查您的设置！', this.id));
         }
         return languageModel;
     }

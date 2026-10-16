@@ -247,9 +247,9 @@ export class DebugBreakpointWidget implements Disposable {
         this.selectNodeRoot.render(<SelectComponent
             defaultValue={this.context} onChange={this.updateInput}
             options={[
-                { value: 'condition', label: nls.localizeByDefault('Expression') },
-                { value: 'hitCondition', label: nls.localizeByDefault('Hit Count') },
-                { value: 'logMessage', label: nls.localizeByDefault('Log Message') },
+                { value: 'condition', label: nls.localizeByDefault('表达式') },
+                { value: 'hitCondition', label: nls.localizeByDefault('命中次数') },
+                { value: 'logMessage', label: nls.localizeByDefault('日志消息') },
             ]}
             ref={this.selectComponentRef}
         />);

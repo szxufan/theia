@@ -191,8 +191,8 @@ export class PluginViewRegistry implements FrontendApplicationContribution {
                 disposable.push(this.registerViewWelcome({
                     view: 'explorer',
                     content: nls.localizeByDefault(
-                        'You have not yet opened a folder.\n{0}',
-                        `[${nls.localizeByDefault('Open Folder')}](command:workbench.action.files.openFolder)`
+                        '您尚未打开文件夹。\n{0}',
+                        `[${nls.localizeByDefault('打开文件夹')}](command:workbench.action.files.openFolder)`
                     ),
                     order: 0
                 }));
@@ -202,8 +202,8 @@ export class PluginViewRegistry implements FrontendApplicationContribution {
                 const disposable = new DisposableCollection();
                 disposable.push(this.registerViewWelcome({
                     view: 'scm',
-                    content: nls.localizeByDefault('None of the registered source control providers work in Restricted Mode.')
-                        + `\n[${nls.localizeByDefault('Manage Workspace Trust')}](command:workspace:manageTrust)`,
+                    content: nls.localizeByDefault('已注册的源代码控制提供程序均无法在受限模式下工作。')
+                        + `\n[${nls.localizeByDefault('管理工作区信任')}](command:workspace:manageTrust)`,
                     when: '!isWorkspaceTrusted',
                     order: 0
                 }));
@@ -391,8 +391,8 @@ export class PluginViewRegistry implements FrontendApplicationContribution {
             // Like VS Code, use the container's id, e.g. `workbench.view.extension.${id}`, as the command id
             toDispose.push(this.commands.registerCommand({
                 id,
-                category: nls.localizeByDefault('View'),
-                label: nls.localizeByDefault('Toggle {0}', options.label)
+                category: nls.localizeByDefault('视图'),
+                label: nls.localizeByDefault('切换 {0}', options.label)
             }, {
                 execute: () => this.toggleViewContainer(id)
             }));
@@ -433,9 +433,9 @@ export class PluginViewRegistry implements FrontendApplicationContribution {
 
     protected getLocationDescription(location: string | undefined): string | undefined {
         switch (location) {
-            case 'left': return nls.localizeByDefault('Side Bar');
-            case 'right': return nls.localizeByDefault('Secondary Side Bar');
-            case 'bottom': return nls.localizeByDefault('Panel');
+            case 'left': return nls.localizeByDefault('侧边栏');
+            case 'right': return nls.localizeByDefault('辅助侧边栏');
+            case 'bottom': return nls.localizeByDefault('面板');
             default: return undefined;
         }
     }
@@ -583,7 +583,7 @@ export class PluginViewRegistry implements FrontendApplicationContribution {
         toDispose.push(this.commands.registerCommand({
             id: `${view.id}.focus`,
             category: this.viewContainers.get(viewContainerId)?.options.label,
-            label: nls.localizeByDefault('Focus on {0} View', view.name)
+            label: nls.localizeByDefault('聚焦 {0} 视图', view.name)
         }, {
             execute: async (options?: { preserveFocus?: boolean }) => { await this.openView(view.id, this.toOpenViewOptions(options)); },
             isVisible: () => this.isViewVisible(view.id)

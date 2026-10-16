@@ -170,19 +170,19 @@ export class OSNotificationService {
     ): Promise<OSNotificationResult> {
         const inputNeeded = kind === AGENT_NOTIFICATION_KIND_INPUT_NEEDED;
         const title = inputNeeded
-            ? nls.localize('theia/ai-core/agentInputNeededTitle', 'Agent "{0}" Needs Your Input', agentName)
-            : nls.localize('theia/ai-core/agentCompletionTitle', 'Agent "{0}" Task Completed', agentName);
+            ? nls.localize('theia/ai-core/agentInputNeededTitle', '代理“{0}”需要你的输入', agentName)
+            : nls.localize('theia/ai-core/agentCompletionTitle', '代理“{0}”的任务已完成', agentName);
         const body = inputNeeded
             ? (sessionTitle
                 ? nls.localize('theia/ai-core/agentInputNeededMessageWithSession',
-                    'Agent "{0}" needs your input in "{1}".', agentName, sessionTitle)
+                    '代理“{0}”在“{1}”中需要你的输入。', agentName, sessionTitle)
                 : nls.localize('theia/ai-core/agentInputNeededMessage',
-                    'Agent "{0}" needs your input.', agentName))
+                    '代理“{0}”需要你的输入。', agentName))
             : (sessionTitle
                 ? nls.localize('theia/ai-core/agentCompletionMessageWithSession',
-                    'Agent "{0}" has completed its task in "{1}".', agentName, sessionTitle)
+                    '代理“{0}”已在“{1}”中完成其任务。', agentName, sessionTitle)
                 : nls.localize('theia/ai-core/agentCompletionMessage',
-                    'Agent "{0}" has completed its task.', agentName));
+                    '代理“{0}”已完成其任务。', agentName));
 
         return this.showNotification(title, {
             body,

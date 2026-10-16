@@ -42,8 +42,8 @@ export class MergeEditorBasePane extends MergeEditorPane {
         super.onAfterMergeEditorSet();
         this.toDispose.push(Autorun.create(() => {
             const { currentPane, side1Pane, side1Title, side2Pane, side2Title } = this.mergeEditor;
-            this.header.description = currentPane === this ? '' : nls.localizeByDefault('Comparing with {0}',
-                currentPane === side1Pane ? side1Title : currentPane === side2Pane ? side2Title : nls.localizeByDefault('Result')
+            this.header.description = currentPane === this ? '' : nls.localizeByDefault('与 {0} 比较',
+                currentPane === side1Pane ? side1Title : currentPane === side2Pane ? side2Title : nls.localizeByDefault('结果')
             );
         }));
     }

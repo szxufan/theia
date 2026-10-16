@@ -51,14 +51,14 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
     protected readonly logger: ILogger;
 
     static ID = 'memory-view-options-widget';
-    static LABEL = nls.localize('theia/memory-inspector/memoryTitle', 'Memory');
+    static LABEL = nls.localize('theia/memory-inspector/memoryTitle', '内存');
     iconClass = 'memory-view-icon';
     lockIconClass = 'memory-lock-icon';
 
     static WIDGET_H2_CLASS = 'memory-widget-header';
     static WIDGET_HEADER_INPUT_CLASS = 'memory-widget-header-input';
 
-    protected additionalColumnSelectLabel = nls.localize('theia/memory-inspector/extraColumn', 'Extra Column');
+    protected additionalColumnSelectLabel = nls.localize('theia/memory-inspector/extraColumn', '额外列');
 
     protected sessionListeners = new DisposableCollection();
 
@@ -71,15 +71,15 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
     protected memoryReadResult: Interfaces.MemoryReadResult = EMPTY_MEMORY;
     protected columnsDisplayed: Interfaces.ColumnsDisplayed = {
         address: {
-            label: nls.localizeByDefault('Address'),
+            label: nls.localizeByDefault('地址'),
             doRender: true
         },
         data: {
-            label: nls.localize('theia/memory-inspector/data', 'Data'),
+            label: nls.localize('theia/memory-inspector/data', '数据'),
             doRender: true
         },
         variables: {
-            label: nls.localizeByDefault('Variables'),
+            label: nls.localizeByDefault('变量'),
             doRender: true
         },
         ascii: {
@@ -95,7 +95,7 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
     protected variables: VariableRange[] = [];
     protected endianness: Interfaces.Endianness = Interfaces.Endianness.Little;
 
-    protected memoryReadError = nls.localize('theia/memory-inspector/memory/readError/noContents', 'No memory contents currently available.');
+    protected memoryReadError = nls.localize('theia/memory-inspector/memory/readError/noContents', '当前没有可用的内存内容。');
 
     protected address: string | number = 0;
     protected offset = 0;
@@ -131,8 +131,8 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
     protected init(): void {
         this.addClass(MemoryOptionsWidget.ID);
 
-        this.title.label = nls.localize('theia/memory-inspector/memory', 'Memory ({0})', this.memoryWidgetOptions.displayId);
-        this.title.caption = nls.localize('theia/memory-inspector/memory', 'Memory ({0})', this.memoryWidgetOptions.displayId);
+        this.title.label = nls.localize('theia/memory-inspector/memory', '内存 ({0})', this.memoryWidgetOptions.displayId);
+        this.title.caption = nls.localize('theia/memory-inspector/memory', '内存 ({0})', this.memoryWidgetOptions.displayId);
         this.title.iconClass = this.iconClass;
         this.title.closable = true;
 
@@ -190,7 +190,7 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                 const resultLength = result.bytes.length * 8 / this.byteSize;
                 const lengthFieldValue = parseInt(this.readLengthField.value);
                 if (lengthFieldValue !== resultLength) {
-                    this.memoryReadError = nls.localize('theia/memory-inspector/memory/readError/bounds', 'Memory bounds exceeded, result will be truncated.');
+                    this.memoryReadError = nls.localize('theia/memory-inspector/memory/readError/bounds', '超出内存边界，结果将被截断。');
                     this.doShowMemoryErrors();
                     this.readLengthField.value = resultLength.toString();
                     if (direction === 'above') {
@@ -320,35 +320,35 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
             <div className='t-mv-group settings-group'>
                 <MWSelect
                     id='byte-size-select'
-                    label={nls.localize('theia/memory-inspector/byteSize', 'Byte Size')}
+                    label={nls.localize('theia/memory-inspector/byteSize', '字节大小')}
                     value={this.byteSize.toString()}
                     onChange={this.onByteSizeChange}
                     options={['8', '16', '32', '64']}
                 />
                 <MWSelect
                     id={BYTES_PER_GROUP_FIELD_ID}
-                    label={nls.localize('theia/memory-inspector/bytesPerGroup', 'Bytes Per Group')}
+                    label={nls.localize('theia/memory-inspector/bytesPerGroup', '每组字节数')}
                     value={this.bytesPerGroup.toString()}
                     onChange={this.onBytesPerGroupChange}
                     options={['1', '2', '4', '8', '16']}
                 />
                 <MWSelect
                     id={BYTES_PER_ROW_FIELD_ID}
-                    label={nls.localize('theia/memory-inspector/groupsPerRow', 'Groups Per Row')}
+                    label={nls.localize('theia/memory-inspector/groupsPerRow', '每行组数')}
                     value={this.groupsPerRow.toString()}
                     onChange={this.onGroupsPerRowChange}
                     options={['1', '2', '4', '8', '16', '32']}
                 />
                 <MWSelect
                     id={ENDIAN_SELECT_ID}
-                    label={nls.localize('theia/memory-inspector/endianness', 'Endianness')}
+                    label={nls.localize('theia/memory-inspector/endianness', '字节序')}
                     value={this.endianness}
                     onChange={this.onEndiannessChange}
                     options={[Interfaces.Endianness.Little, Interfaces.Endianness.Big]}
                 />
                 <MWMultiSelect
                     id={ASCII_TOGGLE_ID}
-                    label={nls.localize('theia/memory-inspector/columns', 'Columns')}
+                    label={nls.localize('theia/memory-inspector/columns', '列')}
                     items={this.getOptionalColumns()}
                     onSelectionChanged={this.handleColumnSelectionChange}
                 />
@@ -395,8 +395,8 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                 <div className='t-mv-group view-group'>
                     <MWInputWithSelect
                         id={LOCATION_FIELD_ID}
-                        label={nls.localizeByDefault('Address')}
-                        title={nls.localize('theia/memory-inspector/addressTooltip', 'Memory location to display, an address or expression evaluating to an address')}
+                        label={nls.localizeByDefault('地址')}
+                        title={nls.localize('theia/memory-inspector/addressTooltip', '要显示的内存位置，可以是地址或计算结果为地址的表达式')}
                         defaultValue={`${this.address}`}
                         onSelectChange={this.setAddressFromSelect}
                         passRef={this.assignLocationRef}
@@ -406,8 +406,8 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                     />
                     <MWInput
                         id={LOCATION_OFFSET_FIELD_ID}
-                        label={nls.localize('theia/memory-inspector/offset', 'Offset')}
-                        title={nls.localize('theia/memory-inspector/offsetTooltip', 'Offset to be added to the current memory location, when navigating')}
+                        label={nls.localize('theia/memory-inspector/offset', '偏移量')}
+                        title={nls.localize('theia/memory-inspector/offsetTooltip', '导航时将添加到当前内存位置的偏移量')}
                         defaultValue='0'
                         passRef={this.assignOffsetRef}
                         onKeyDown={this.doRefresh}
@@ -415,8 +415,8 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                     />
                     <MWInput
                         id={LENGTH_FIELD_ID}
-                        label={nls.localize('theia/memory-inspector/length', 'Length')}
-                        title={nls.localize('theia/memory-inspector/lengthTooltip', 'Number of bytes to fetch, in decimal or hexadecimal')}
+                        label={nls.localize('theia/memory-inspector/length', '长度')}
+                        title={nls.localize('theia/memory-inspector/lengthTooltip', '要获取的字节数，十进制或十六进制')}
                         defaultValue={this.readLength.toString()}
                         passRef={this.assignReadLengthRef}
                         onChange={Utils.validateNumericalInputs}
@@ -428,9 +428,9 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                         className='theia-button main view-group-go-button'
                         onClick={this.doRefresh}
                         disabled={!this.doUpdateAutomatically}
-                        title={nls.localizeByDefault('Go')}
+                        title={nls.localizeByDefault('跳转')}
                     >
-                        {nls.localizeByDefault('Go')}
+                        {nls.localizeByDefault('跳转')}
                     </button>
                 </div>
                 <div className={`t-mv-memory-fetch-error${this.showMemoryError ? ' show' : ' hide'}`}>
@@ -500,18 +500,18 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                 className='toggle-settings-click-zone no-select'
                 tabIndex={0}
                 aria-label={this.doDisplaySettings ?
-                    nls.localize('theia/memory-inspector/memory/hideSettings', 'Hide Settings Panel') :
-                    nls.localize('theia/memory-inspector/memory/showSettings', 'Show Settings Panel')}
+                    nls.localize('theia/memory-inspector/memory/hideSettings', '隐藏设置面板') :
+                    nls.localize('theia/memory-inspector/memory/showSettings', '显示设置面板')}
                 role='button'
                 onClick={this.toggleDoShowSettings}
                 onKeyDown={this.toggleDoShowSettings}
                 title={this.doDisplaySettings ?
-                    nls.localize('theia/memory-inspector/memory/hideSettings', 'Hide Settings Panel') :
-                    nls.localize('theia/memory-inspector/memory/showSettings', 'Show Settings Panel')}>
+                    nls.localize('theia/memory-inspector/memory/hideSettings', '隐藏设置面板') :
+                    nls.localize('theia/memory-inspector/memory/showSettings', '显示设置面板')}>
                 <i className='codicon codicon-settings-gear' />
                 <span>{this.doDisplaySettings ?
-                    nls.localize('theia/memory-inspector/closeSettings', 'Close Settings') :
-                    nls.localizeByDefault('Settings')}
+                    nls.localize('theia/memory-inspector/closeSettings', '关闭设置') :
+                    nls.localizeByDefault('设置')}
                 </span>
             </div>
         </div>;
@@ -524,8 +524,8 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                     className={`fa fa-${this.doUpdateAutomatically ? 'unlock' : 'lock'}`}
                     id={AUTO_UPDATE_TOGGLE_ID}
                     title={this.doUpdateAutomatically ?
-                        nls.localize('theia/memory-inspector/memory/freeze', 'Freeze Memory View') :
-                        nls.localize('theia/memory-inspector/memory/unfreeze', 'Unfreeze Memory View')}
+                        nls.localize('theia/memory-inspector/memory/freeze', '冻结内存视图') :
+                        nls.localize('theia/memory-inspector/memory/unfreeze', '解冻内存视图')}
                     onClick={this.toggleAutoUpdate}
                     onKeyDown={this.toggleAutoUpdate}
                     role='button'
@@ -567,7 +567,7 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
                         onKeyDown={this.saveHeaderInputValue}
                         role='button'
                         tabIndex={0}
-                        title={nls.localizeByDefault('Save')}
+                        title={nls.localizeByDefault('保存')}
                     />
                 )}
             </div>
@@ -636,18 +636,19 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
         this.updateMemoryView();
     };
 
-    protected updateMemoryView = debounce(this.doUpdateMemoryView.bind(this), Constants.DEBOUNCE_TIME, { trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateMemoryView: any = debounce(this.doUpdateMemoryView.bind(this), Constants.DEBOUNCE_TIME, { trailing: true });
 
     protected async doUpdateMemoryView(): Promise<void> {
         if (!(this.addressField && this.readLengthField)) { return; }
 
         if (this.addressField?.value.trim().length === 0) {
-            this.memoryReadError = nls.localize('theia/memory-inspector/memory/addressField/memoryReadError', 'Enter an address or expression in the Location field.');
+            this.memoryReadError = nls.localize('theia/memory-inspector/memory/addressField/memoryReadError', '请在“位置”字段中输入地址或表达式。');
             this.doShowMemoryErrors();
             return;
         }
         if (this.readLengthField.value.trim().length === 0) {
-            this.memoryReadError = nls.localize('theia/memory-inspector/memory/readLength/memoryReadError', 'Enter a length (decimal or hexadecimal number) in the Length field.');
+            this.memoryReadError = nls.localize('theia/memory-inspector/memory/readLength/memoryReadError', '请在“长度”字段中输入长度（十进制或十六进制数）。');
             this.doShowMemoryErrors();
             return;
         }
@@ -677,7 +678,7 @@ export class MemoryOptionsWidget extends ReactWidget implements StatefulWidget {
     }
 
     protected getUserError(err: unknown): string {
-        return err instanceof Error ? err.message : nls.localize('theia/memory-inspector/memory/userError', 'There was an error fetching memory.');
+        return err instanceof Error ? err.message : nls.localize('theia/memory-inspector/memory/userError', '读取内存时发生错误。');
     }
 
     protected async getMemory(memoryReference: string, count: number, offset: number): Promise<Interfaces.MemoryReadResult> {

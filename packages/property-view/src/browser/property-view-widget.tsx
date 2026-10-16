@@ -32,7 +32,7 @@ import { nls } from '@theia/core/lib/common/nls';
 export class PropertyViewWidget extends BaseWidget {
 
     static readonly ID = 'property-view';
-    static readonly LABEL = nls.localize('theia/property-view/properties', 'Properties');
+    static readonly LABEL = nls.localize('theia/property-view/properties', '属性');
 
     protected contentWidget: PropertyViewContentWidget;
 

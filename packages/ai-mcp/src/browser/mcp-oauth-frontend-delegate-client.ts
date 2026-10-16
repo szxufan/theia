@@ -54,10 +54,10 @@ export class MCPOAuthFrontendDelegateClientImpl implements MCPOAuthFrontendDeleg
         // consumed the user activation of the original click. The notification's 'Open' action carries
         // fresh activation as a manual fallback; not awaited so the flow proceeds to the callback wait.
         this.pendingBrowserPrompt?.cancel();
-        const openAction = nls.localizeByDefault('Open');
+        const openAction = nls.localizeByDefault('打开');
         this.messageService.showProgress({
             text: nls.localize('theia/ai/mcp/oauth/completeSignInInBrowser',
-                'Complete the MCP OAuth sign-in in your browser. If no sign-in tab opened, your browser may have blocked the popup.'),
+                '请在你的浏览器中完成 MCP OAuth 登录。如果没有打开登录标签页，可能是浏览器拦截了弹窗。'),
             actions: [openAction],
             options: { cancelable: true }
         }).then(progress => {

@@ -76,8 +76,8 @@ export class AiGettingStartedWalkthroughProvider implements WalkthroughProvider 
         return {
             id: AI_GETTING_STARTED_WALKTHROUGH_ID,
             icon: 'sparkle',
-            title: nls.localize('theia/ai/ide/walkthrough/title', 'Get started with AI'),
-            description: nls.localize('theia/ai/ide/walkthrough/description', 'Set up the AI features of {0} and learn how to work with them.', this.applicationName),
+            title: nls.localize('theia/ai/ide/walkthrough/title', '开始使用 AI'),
+            description: nls.localize('theia/ai/ide/walkthrough/description', '设置 {0} 的 AI 功能并学习如何使用它们。', this.applicationName),
             steps: [
                 this.createAiSupportStep(),
                 this.createEnableStep(),
@@ -97,19 +97,19 @@ export class AiGettingStartedWalkthroughProvider implements WalkthroughProvider 
     protected createAiSupportStep(): WalkthroughStepDefinition {
         return {
             id: 'ai-support',
-            title: nls.localize('theia/ai/ide/walkthrough/aiSupport/title', 'AI support in {0}', this.applicationName),
+            title: nls.localize('theia/ai/ide/walkthrough/aiSupport/title', '{0} 中的 AI 支持', this.applicationName),
             description: nls.localize('theia/ai/ide/walkthrough/aiSupport/description', `
-{0} comes with AI support: chat with specialized agents about your project, let them change code and run tasks, complete code as you type and get help in the terminal.
+{0} 内置 AI 支持：与专门的代理聊天讨论您的项目、让它们修改代码并运行任务、在您输入时自动补全代码，以及在终端中获得帮助。
 
-These features are disabled by default, so that you can opt in at your own discretion.
+这些功能默认处于禁用状态，以便您可以自行决定是否启用。
 
-Once enabled, they may generate continuous requests to the language models you provide access to. This might incur costs that you need to monitor closely.
+启用后，它们可能会持续向您授权的语言模型发送请求。这可能产生需要您密切关注的费用。
 
-[Read the documentation]({1}).
+[阅读文档]({1})。
 
-We welcome your feedback, contributions and sponsorship! Visit the [GitHub project]({2}) to support the ongoing development. Thank you for being part of our community!
+我们欢迎您的反馈、贡献与赞助！访问 [GitHub 项目]({2}) 支持持续开发。感谢您成为我们社区的一员！
 
-All of this is built on Theia AI, the framework for AI-powered tools and IDEs, published as a stable release. [Read the framework documentation]({3}).
+所有这些都构建于 Theia AI 之上——已发布稳定版本的 AI 驱动工具与 IDE 框架。[阅读框架文档]({3})。
 `, this.applicationName, AI_DOC_URL, FEEDBACK_URL, THEIA_AI_DOC_URL).trim(),
             // Reading it is done once the user acts on it, either by following a link or by turning the features on.
             completionEvents: [`onContext:${ENABLE_AI_CONTEXT_KEY}`, `onLink:${AI_DOC_URL}`]
@@ -119,11 +119,11 @@ All of this is built on Theia AI, the framework for AI-powered tools and IDEs, p
     protected createEnableStep(): WalkthroughStepDefinition {
         return {
             id: 'enable-ai',
-            title: nls.localize('theia/ai/ide/walkthrough/enableAi/title', 'Turn on the AI features'),
+            title: nls.localize('theia/ai/ide/walkthrough/enableAi/title', '开启 AI 功能'),
             description: nls.localize('theia/ai/ide/walkthrough/enableAi/description', `
-Nothing is sent anywhere until you switch the AI features on, and you can switch them off again at any time.
+在您开启 AI 功能之前，不会向任何地方发送任何内容，并且您可以随时再次关闭它们。
 
-[Open the AI Configuration]({0}) and enable them there.
+[打开 AI 配置]({0}) 并在其中启用它们。
 `, this.aiConfiguration(ENABLE_AI_CONTEXT_KEY)).trim(),
             completionEvents: [`onContext:${ENABLE_AI_CONTEXT_KEY}`]
         };
@@ -132,17 +132,17 @@ Nothing is sent anywhere until you switch the AI features on, and you can switch
     protected createModelStep(): WalkthroughStepDefinition {
         return {
             id: 'connect-model',
-            title: nls.localize('theia/ai/ide/walkthrough/connectModel/title', 'Connect a language model'),
+            title: nls.localize('theia/ai/ide/walkthrough/connectModel/title', '连接语言模型'),
             description: nls.localize('theia/ai/ide/walkthrough/connectModel/description', `
-Add an API key for a hosted provider:
+为托管提供程序添加 API 密钥：
 
 - [OpenAI]({0})
 - [Anthropic]({1})
 - [Google]({2})
 
-Prefer to stay local or use another service? Ollama, llamafile and any OpenAI-compatible endpoint can be set up in the [Models]({3}) page.
+更愿意保持本地运行或使用其他服务？Ollama、llamafile 以及任何 OpenAI 兼容的端点都可以在[模型]({3})页面中设置。
 
-Some agents bring their own model, for example Claude Code, and work without a provider.
+某些代理自带模型（例如 Claude Code），无需提供程序即可工作。
 `, this.aiConfiguration('ai-features.openAiOfficial.openAiApiKey'),
                 this.aiConfiguration('ai-features.anthropic.AnthropicApiKey'),
                 this.aiConfiguration('ai-features.google.apiKey'),
@@ -153,17 +153,17 @@ Some agents bring their own model, for example Claude Code, and work without a p
 
     protected createAgentStep(): WalkthroughStepDefinition {
         const intro = nls.localize('theia/ai/ide/walkthrough/chooseAgent/intro', `
-Every chat request goes to an agent, and one of them answers whenever you do not name one yourself.
+每个聊天请求都会发送给一个代理，当您没有亲自指定时，会由其中一个代理来回答。
 
-**Set your default agent:**
+**设置您的默认代理：**
 `).trim();
         const outro = nls.localize('theia/ai/ide/walkthrough/chooseAgent/outro', `
-You can also [choose the default agent]({0}) in the settings, and address another one for a single message by starting it with *@AgentName*.
-The [Agents]({1}) page lists them all.
+您还可以在设置中[选择默认代理]({0})，并通过以 *@代理名称* 开头的单条消息来指定另一个代理。
+[代理]({1})页面列出了所有代理。
 `, this.aiConfiguration(DEFAULT_CHAT_AGENT_PREF), this.aiConfiguration(AiConfigurationCategoryId.AGENTS)).trim();
         return {
             id: 'choose-agent',
-            title: nls.localize('theia/ai/ide/walkthrough/chooseAgent/title', 'Choose your default agent'),
+            title: nls.localize('theia/ai/ide/walkthrough/chooseAgent/title', '选择您的默认代理'),
             description: [intro, this.renderAgentChoices(), outro].filter(part => !!part).join('\n\n'),
             completionEvents: [`onContext:${AI_DEFAULT_AGENT_CONTEXT_KEY}`]
         };
@@ -190,16 +190,16 @@ The [Agents]({1}) page lists them all.
     protected createFirstQuestionStep(): WalkthroughStepDefinition {
         return {
             id: 'first-question',
-            title: nls.localize('theia/ai/ide/walkthrough/firstQuestion/title', 'Ask your first question'),
+            title: nls.localize('theia/ai/ide/walkthrough/firstQuestion/title', '提出您的第一个问题'),
             description: nls.localize('theia/ai/ide/walkthrough/firstQuestion/description', `
-[Open the AI Chat]({0}) and ask something about your project.
+[打开 AI 聊天]({0}) 并询问有关您项目的问题。
 
-Two things make the answers a lot better:
+有两点可以让回答质量大幅提升：
 
-- *@AgentName* picks the agent for this message, for example *@Coder*.
-- *#* attaches context, for example *#file* or *#selectedText*. The paperclip button next to the input does the same.
+- *@代理名称* 会为这条消息选择代理，例如 *@Coder*。
+- *#* 用于附加上下文，例如 *#file* 或 *#selectedText*。输入框旁边的回形针按钮具有相同的作用。
 
-The chat remembers your sessions, so you can pick a conversation up later.
+聊天会记住您的会话，因此您可以稍后继续之前的对话。
 `, `command:${AI_CHAT_TOGGLE_COMMAND_ID}`).trim(),
             completionEvents: [`onContext:${AI_CHAT_USED_CONTEXT_KEY}`]
         };
@@ -208,13 +208,13 @@ The chat remembers your sessions, so you can pick a conversation up later.
     protected createToolConfirmationStep(): WalkthroughStepDefinition {
         return {
             id: 'tool-confirmation',
-            title: nls.localize('theia/ai/ide/walkthrough/toolConfirmation/title', 'Stay in control of what agents do'),
+            title: nls.localize('theia/ai/ide/walkthrough/toolConfirmation/title', '掌控代理的操作'),
             description: nls.localize('theia/ai/ide/walkthrough/toolConfirmation/description', `
-Agents act on your workspace through tools: they read files, run terminal commands or edit code.
+代理通过工具对您的工作区执行操作：读取文件、运行终端命令或编辑代码。
 
-Every tool call asks for your confirmation first. In the [Tools]({0}) page you can change that default or pre-approve the tools you trust.
+每次工具调用都会先请求您的确认。在[工具]({0})页面中，您可以更改该默认行为或预先批准您信任的工具。
 
-AI features stay off entirely while a workspace is not trusted. [Manage workspace trust]({1}) to decide per project.
+当工作区不受信任时，AI 功能将完全保持关闭。[管理工作区信任]({1})以按项目决定。
 `, `command:${OPEN_AI_CONFIG_VIEW_TOOLS.id}`, `command:${WorkspaceCommands.MANAGE_WORKSPACE_TRUST.id}`).trim(),
             completionEvents: [
                 `onContext:${AI_TOOL_CONFIRMATION_CONFIGURED_CONTEXT_KEY}`,
@@ -226,18 +226,18 @@ AI features stay off entirely while a workspace is not trusted. [Manage workspac
     protected createGoFurtherStep(): WalkthroughStepDefinition {
         return {
             id: 'go-further',
-            title: nls.localize('theia/ai/ide/walkthrough/goFurther/title', 'Go further'),
+            title: nls.localize('theia/ai/ide/walkthrough/goFurther/title', '更进一步'),
             description: nls.localize('theia/ai/ide/walkthrough/goFurther/description', `
-The chat is only the beginning. AI also completes code as you type and assists in the terminal with *Ctrl+I*.
+聊天只是一个开始。AI 还可以在您输入时自动补全代码，并通过 *Ctrl+I* 在终端中提供协助。
 
-- [Prompts and skills]({0}): read and adapt the instructions the agents work with.
-- [MCP servers]({1}): add tools beyond the ones {3} ships with.
-- [Token usage]({2}): see what your requests consume.
-- [Switch Perspective]({5}) (experimental): the *AI First* layout moves the chat into the main area, with the explorer and source control on the right.
+- [提示词与技能]({0})：阅读并调整代理所使用的指令。
+- [MCP 服务器]({1})：在 {3} 自带工具之外添加更多工具。
+- [Token 用量]({2})：查看您的请求消耗了什么。
+- [切换视角]({5})（实验性）：*AI 优先* 布局将聊天移动到主区域，资源管理器和源代码管理位于右侧。
 
-The AI History view, where available, shows what was actually sent to the model.
+AI 历史视图（如果可用）会显示实际发送给模型的内容。
 
-There is more in [the documentation]({4}) - and your feedback is always welcome.
+[文档]({4})中还有更多内容——并且始终欢迎您的反馈。
 `, this.aiConfiguration(AiConfigurationCategoryId.PROMPTS_AND_SKILLS),
                 this.aiConfiguration(AiConfigurationCategoryId.MCP_SERVERS),
                 this.aiConfiguration(AiConfigurationCategoryId.TOKEN_USAGE),

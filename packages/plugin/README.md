@@ -4,24 +4,21 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - PLUGIN EXTENSION</h2>
+<h2>ECLIPSE THEIA - PLUGIN 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/plugin` extension contributes the plugin API to the application.
+`@theia/plugin` 扩展为应用程序贡献插件 API。
 
-### Plugin API
+### 插件 API
 
-Namespace for dealing with installed plug-ins. Plug-ins are represented
-by a Plugin-interface which enables reflection on them.
-Plug-in writers can provide APIs to other plug-ins by returning their API public
-surface from the `start`-call.
+用于处理已安装插件的命名空间。插件由一个 Plugin 接口表示，可以对它进行反射。插件作者可以通过在 `start` 调用中返回其 API 公共表面，向其他插件提供 API。
 
-For example some plugin exports it's API:
+例如，某个插件导出它的 API：
 
 ```javascript
 export function start() {
@@ -38,7 +35,7 @@ export function start() {
 }
 ```
 
-Another plugin can use that API:
+另一个插件可以使用该 API：
 
 ```javascript
 let mathExt = theia.plugins.getPlugin('genius.math');
@@ -46,9 +43,9 @@ let importedApi = mathExt.exports;
 console.log(importedApi.mul(42, 1));
 ```
 
-Also plugin API allows access to plugin `package.json` content.
+此外，插件 API 还允许访问插件的 `package.json` 内容。
 
-Example:
+示例：
 
 ```javascript
 const fooPlugin = plugins.getPlugin('publisher.plugin_name');
@@ -56,19 +53,17 @@ const fooPluginPackageJson = fooPlugin.packageJSON;
 console.log(fooPluginPackageJson.someField);
 ```
 
-### Command API
+### 命令 API
 
- A command is a unique identifier of a function which
- can be executed by a user via a keyboard shortcut, a
- menu action or directly.
+ 命令是某个函数的唯一标识符，用户可以通过键盘快捷键、菜单操作或直接调用来执行它。
 
-Commands can be added using the [registerCommand](#commands.registerCommand) and
-[registerTextEditorCommand](#commands.registerTextEditorCommand) functions.
-Registration can be split in two step: first register command without handler, second register handler by command id.
+可以使用 [registerCommand](#commandsregistercommand) 和
+[registerTextEditorCommand](#commandsregistertexteditorcommand) 函数添加命令。
+注册可以分为两步：第一步注册不带处理器的命令，第二步按命令 ID 注册处理器。
 
-Any contributed command are available to any plugin, command can be invoked by [executeCommand](#commands.executeCommand) function.
+任何已贡献的命令都可供任何插件使用，可以通过 [executeCommand](#commandsexecutecommand) 函数调用命令。
 
-Simple example that register command:
+注册命令的简单示例：
 
 ```typescript
 theia.commands.registerCommand({id:'say.hello.command'}, ()=>{
@@ -76,21 +71,21 @@ theia.commands.registerCommand({id:'say.hello.command'}, ()=>{
 });
 ```
 
-Simple example that invoke command:
+调用命令的简单示例：
 
 ```typescript
 theia.commands.executeCommand('core.about');
 ```
 
-### Window
+### 窗口
 
-Common namespace for dealing with window and editor, showing messages and user input.
+用于处理窗口和编辑器、显示消息和获取用户输入的通用命名空间。
 
-#### Quick Pick
+#### Quick Pick（快速选择）
 
-Function to ask user select some value from the list.
+用于让用户从列表中选择某个值的函数。
 
-Example of using:
+使用示例：
 
 ```typescript
 //configure quick pick options
@@ -107,11 +102,11 @@ theia.window.showQuickPick(["foo", "bar", "foobar"], option).then((val: string[]
     });
 ```
 
-#### Input Box
+#### Input Box（输入框）
 
-Function to ask user for input.
+用于获取用户输入的函数。
 
-Example of using:
+使用示例：
 
 ```typescript
 const option: theia.InputBoxOptions = {
@@ -126,21 +121,21 @@ theia.window.showInputBox(option).then((s: string | undefined) => {
 });
 ```
 
-#### Notification API
+#### 通知 API
 
- A notification shows an information message to users.
- Optionally provide an array of items which will be presented as clickable buttons.
+ 通知用于向用户显示信息消息。
+ 可选地提供一组条目，它们将作为可点击的按钮呈现。
 
- Notifications can be shown using the [showInformationMessage](#window.showInformationMessage),
- [showWarningMessage](#window.showWarningMessage) and [showErrorMessage](#window.showErrorMessage) functions.
+可以使用 [showInformationMessage](#windowshowinformationmessage)、
+[showWarningMessage](#windowshowwarningmessage) 和 [showErrorMessage](#windowshowerrormessage) 函数显示通知。
 
-Simple example that show an information message:
+显示信息消息的简单示例：
 
 ```typescript
 theia.window.showInformationMessage('Information message');
 ```
 
-Simple example that show an information message with buttons:
+显示带按钮的信息消息的简单示例：
 
 ```typescript
 theia.window.showInformationMessage('Information message', 'Btn1', 'Btn2').then(result => {
@@ -148,9 +143,9 @@ theia.window.showInformationMessage('Information message', 'Btn1', 'Btn2').then(
 });
 ```
 
-#### Window State API
+#### 窗口状态 API
 
-It is possible to track state of the IDE window inside a plugin. Window state is defined as:
+可以在插件中跟踪 IDE 窗口的状态。窗口状态定义如下：
 
 ```typescript
 interface WindowState {
@@ -158,13 +153,13 @@ interface WindowState {
 }
 ```
 
-To read a state on demand one can use readonly variable:
+要按需读取状态，可以使用只读变量：
 
 ```typescript
 theia.window.state
 ```
 
-To track window activity subscribe on `onDidChangeWindowState` event:
+要跟踪窗口活动，请订阅 `onDidChangeWindowState` 事件：
 
 ```typescript
 const disposable = theia.window.onDidChangeWindowState((windowState: theia.WindowState) => {
@@ -172,20 +167,20 @@ const disposable = theia.window.onDidChangeWindowState((windowState: theia.Windo
 });
 ```
 
-#### Status Bar API
+#### 状态栏 API
 
- A status bar shows a message to users and supports icon substitution.
+ 状态栏向用户显示消息，并支持图标替换。
 
- Status bar message can be shown using the [setStatusBarMessage](#window.setStatusBarMessage) and
- [createStatusBarItem](#window.createStatusBarItem) functions.
+可以使用 [setStatusBarMessage](#windowsetstatusbarmessage) 和
+[createStatusBarItem](#windowcreatestatusbaritem) 函数显示状态栏消息。
 
-Simple example that show a status bar message:
+显示状态栏消息的简单示例：
 
 ```typescript
 theia.window.setStatusBarMessage('test status bar item');
 ```
 
-Simple example that show a status bar message with statusBarItem:
+使用 statusBarItem 显示状态栏消息的简单示例：
 
 ```typescript
   const item = theia.window.createStatusBarItem(theia.StatusBarAlignment.Right, 99);
@@ -193,9 +188,9 @@ Simple example that show a status bar message with statusBarItem:
         item.show();
 ```
 
-#### Output channel API
+#### 输出通道 API
 
- It is possible to show a container for readonly textual information:
+ 可以显示一个用于展示只读文本信息的容器：
 
 ```typescript
    const channel = theia.window.createOutputChannel('test channel');
@@ -203,11 +198,11 @@ Simple example that show a status bar message with statusBarItem:
 
 ```
 
-#### Environment API
+#### 环境 API
 
-Environment API allows reading of environment variables and query parameters of the IDE.
+环境 API 允许读取 IDE 的环境变量和查询参数。
 
-To get an environment variable by name one can use:
+按名称获取环境变量可以使用：
 
 ```typescript
 theia.env.getEnvVariable('NAME_OF_ENV_VARIABLE').then(value => {
@@ -215,39 +210,39 @@ theia.env.getEnvVariable('NAME_OF_ENV_VARIABLE').then(value => {
 }
 ```
 
-In case if environment variable doesn't exist `undefined` will be returned.
+如果环境变量不存在，将返回 `undefined`。
 
-Also this part of API exposes all query parameters (already URI decoded) with which IDE page is loaded. One can get a query parameter by name:
+API 的这一部分还公开了加载 IDE 页面时所用的全部查询参数（已经过 URI 解码）。可以按名称获取查询参数：
 
 ```typescript
 theia.env.getQueryParameter('NAME_OF_QUERY_PARAMETER');
 ```
 
-In case if query parameter doesn't exist `undefined` will be returned.
+如果查询参数不存在，将返回 `undefined`。
 
-Or it is possible to get a map of all query parameters:
+也可以获取所有查询参数的映射：
 
 ```typescript
 theia.env.getQueryParameters();
 ```
 
-Note, that it is possible to have an array of values for single name, because it could be specified more than one time (for example `localhost:3000?foo=bar&foo=baz`).
+注意，同一个名称可能对应一个值数组，因为它可能被指定了不止一次（例如 `localhost:3000?foo=bar&foo=baz`）。
 
-### Terminal
+### 终端
 
-Function to create new terminal with specific arguments:
+使用指定参数创建新终端的函数：
 
 ```typescript
 const terminal = theia.window.createTerminal("Bash terminal", "/bin/bash", ["-l"]);
 ```
 
-Where are:
+其中：
 
-- first argument - terminal's name.
-- second argument - path to the executable shell.
-- third argument - arguments to configure executable shell.
+- 第一个参数 - 终端的名称。
+- 第二个参数 - 可执行 shell 的路径。
+- 第三个参数 - 用于配置可执行 shell 的参数。
 
-You can create terminal with specific options:
+也可以使用特定选项创建终端：
 
 ```typescript
 const options: theia.TerminalOptions {
@@ -259,49 +254,49 @@ const options: theia.TerminalOptions {
 };
 ```
 
-Where are:
+其中：
 
-- "shellPath" - path to the executable shell, for example "/bin/bash", "bash", "sh" or so on.
-- "shellArgs" - shell command arguments, for example without login: "-l". If you defined shell command "/bin/bash" and set up shell arguments "-l" than will be created terminal process with command "/bin/bash -l". And client side will connect to stdin/stdout of this process to interaction with user.
-- "cwd" - current working directory;
-- "env"- environment variables for terminal process, for example TERM - identifier terminal window capabilities.
+- "shellPath" - 可执行 shell 的路径，例如 "/bin/bash"、"bash"、"sh" 等。
+- "shellArgs" - shell 命令参数，例如不带登录："-l"。如果你定义了 shell 命令 "/bin/bash" 并设置 shell 参数 "-l"，则会创建命令为 "/bin/bash -l" 的终端进程。客户端将连接到该进程的 stdin/stdout 与用户交互。
+- "cwd" - 当前工作目录；
+- "env" - 终端进程的环境变量，例如 TERM - 终端窗口能力的标识符。
 
-Function to create new terminal with defined theia.TerminalOptions described above:
+使用上文定义的 theia.TerminalOptions 创建新终端的函数：
 
 ```typescript
 const terminal = theia.window.createTerminal(options);
 ```
 
-Created terminal is not attached to the panel. To apply created terminal to the panel use method "show":
+创建的终端不会附加到面板。要将创建的终端应用到面板，请使用 "show" 方法：
 
 ```typescript
 terminal.show();
 ```
 
-To hide panel with created terminal use method "hide";
+要隐藏带有已创建终端的面板，请使用 "hide" 方法：
 
 ```typescript
 terminal.hide();
 ```
 
-Send text to the terminal:
+向终端发送文本：
 
 ```typescript
 terminal.sendText("Hello, Theia!", false);
 ```
 
-Where are:
+其中：
 
-- first argument - text content.
-- second argument - in case true, terminal will apply new line after the text, otherwise will send only the text.
+- 第一个参数 - 文本内容。
+- 第二个参数 - 如果为 true，终端会在文本后应用换行符，否则只发送文本。
 
-Destroy terminal:
+销毁终端：
 
 ```typescript
 terminal.dispose();
 ```
 
-Subscribe to close terminal event:
+订阅终端关闭事件：
 
 ```typescript
 theia.window.onDidCloseTerminal((term) => {
@@ -309,7 +304,7 @@ theia.window.onDidCloseTerminal((term) => {
 });
 ```
 
-Detect destroying terminal by Id:
+按 Id 检测终端销毁：
 
 ```typescript
 terminal.processId.then(id => {
@@ -322,11 +317,11 @@ terminal.processId.then(id => {
 });
 ```
 
-#### Preference API
+#### 首选项 API
 
-Preference API allows one to read or update User's and Workspace's preferences.
+首选项 API 允许读取或更新用户和工作区的首选项。
 
-To get preferences:
+获取首选项：
 
 ```typescript
 // editor preferences
@@ -336,7 +331,7 @@ const preferences = theia.workspace.getConfiguration('editor');
 const fontSize = preferences.get('tabSize');
 ```
 
-To change preference:
+修改首选项：
 
 ```typescript
 preferences.onDidChangeConfiguration(e => {
@@ -348,33 +343,33 @@ preferences.onDidChangeConfiguration(e => {
 preferences.update('tabSize', 2);
 ```
 
-### Languages API
+### 语言 API
 
-#### Diagnostics
+#### 诊断
 
-To get all existing diagnostics one should use `getDiagnostics` call. If diagnostics are needed for specific URI they could be obtain with following call:
+要获取所有现有的诊断，应使用 `getDiagnostics` 调用。如果需要特定 URI 的诊断，可以通过以下调用获取：
 
 ```typescript
 const diagnostics = theia.languages.getDiagnostics(uriToResource)
 ```
 
-To get all diagnostics use:
+要获取所有诊断，请使用：
 
 ```typescript
 const diagnostics =  theia.languages.getDiagnostics()
 ```
 
-For example, following code will get diagnostics for current file in the editor (supposed one is already opened):
+例如，以下代码将获取编辑器中当前文件的诊断（假设文件已经打开）：
 
 ```typescript
 const diagnosticsForCurrentFile = theia.languages.getDiagnostics(theia.window.activeTextEditor.document.uri)
 ```
 
-If no diagnostics found empty array will be returned.
+如果未找到任何诊断，将返回空数组。
 
-Note, that returned array from `getDiagnostics` call are readonly.
+注意，`getDiagnostics` 调用返回的数组是只读的。
 
-To tracks changes in diagnostics `onDidChangeDiagnostics` event should be used. Within event handler list of uris with changed diagnostics is available. Example:
+要跟踪诊断的变更，应使用 `onDidChangeDiagnostics` 事件。在事件处理器中可以获取诊断发生变更的 URI 列表。示例：
 
 ```typescript
 disposables.push(
@@ -384,26 +379,26 @@ disposables.push(
 );
 ```
 
-Also it is possible to add own diagnostics. To do this, one should create diagnostics collection first:
+此外，还可以添加自己的诊断。为此，应先创建诊断集合：
 
 ```typescript
 const diagnosticsCollection = theia.languages.createDiagnosticCollection(collectionName);
 ```
 
-Collection name can be omitted. In such case the name will be auto-generated.
+集合名称可以省略。在这种情况下，名称将自动生成。
 
-When collection is created, one could operate with diagnostics. The collection object exposes all needed methods: `get`, `set`, `has`, `delete`, `clear`, `forEach` and `dispose`.
+创建集合后，就可以操作诊断了。集合对象暴露了所有需要的方法：`get`、`set`、`has`、`delete`、`clear`、`forEach` 和 `dispose`。
 
-`get`, `has` and `delete` performs corresponding operation by given resource uri. `clear` removes all diagnostics for all uris in the collection.
+`get`、`has` 和 `delete` 按给定的资源 URI 执行相应操作。`clear` 移除集合中所有 URI 的全部诊断。
 
-Behavior of `set` is more complicated. To replace all diagnostics for given uri the following call should be used:
+`set` 的行为更复杂。要替换给定 URI 的所有诊断，应使用以下调用：
 
 ```typescript
 diagnosticsCollection.set(uri, newDiagnostics)
 ```
 
-if `undefined` is passed instead of diagnostics array the call will clear diagnostics for given uri in this collection (the same as `delete`).
-Also it is possible to set all diagnostics at once (it will replace existed ones). To do this, array of tuples in format `[uri, diagnostics]` should be passed as argument for `set`:
+如果传入 `undefined` 而非诊断数组，该调用将清除此集合中给定 URI 的诊断（与 `delete` 相同）。
+还可以一次性设置所有诊断（将替换已有的诊断）。为此，应将格式为 `[uri, diagnostics]` 的元组数组作为 `set` 的参数传入：
 
 ```typescript
 const changes: [Uri, Diagnostic[] | undefined][] = [];
@@ -416,9 +411,9 @@ changes.push([uri1, diagnostics4]); // uri1 again
 diagnosticsCollection.set(changes);
 ```
 
-If the same uri is used a few times, corresponding diagnostics will be merged. In case of `undefined` all previous, but not following, diagnostics will be cleared. If `undefined` is given instead of tuples array the whole collection will be cleared.
+如果同一个 URI 使用了多次，相应的诊断将被合并。遇到 `undefined` 时，之前的（而非之后的）诊断会被清除。如果传入 `undefined` 而非元组数组，则整个集合将被清空。
 
-To iterate over all diagnostics within the collection `forEach` method could be used:
+要遍历集合中的所有诊断，可以使用 `forEach` 方法：
 
 ```typescript
 diagnosticsCollection.forEach((uri, diagnostics) => {
@@ -426,17 +421,17 @@ diagnosticsCollection.forEach((uri, diagnostics) => {
 }
 ```
 
-`dispose` method should be used when the collection is not needed any more. In case of attempt to do an operation after disposing an error will be thrown.
+当不再需要该集合时，应使用 `dispose` 方法。如果在销毁之后尝试进行任何操作，将抛出错误。
 
-#### Signature help
+#### 签名帮助
 
-To provide signature help form plugin it is required to register provider. For registration 3 items are needed:
+要通过插件提供签名帮助，需要注册提供方。注册需要 3 项内容：
 
-- Documents selector to describe for which files it should be applied
-- Handler which will do the work
-- Trigger characters after typing of which the handler should be invoked. Often symbols `(` and `,` are used.
+- 文档选择器，描述应将其应用于哪些文件
+- 完成实际工作的处理器
+- 触发字符，输入这些字符后应调用处理器。通常使用符号 `(` 和 `,`。
 
-Example of signature help provider registration:
+注册签名帮助提供方的示例：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -452,7 +447,7 @@ function signatureHelpHandler(document: theia.TextDocument, position: theia.Posi
 }
 ```
 
-Example of signature information:
+签名信息的示例：
 
 ```typescript
 {
@@ -481,24 +476,24 @@ Example of signature information:
 }
 ```
 
-Note, that:
+注意：
 
-- `activeSignature` and `activeParameter` are zero based.
-- label is usually full method signature.
-- for documentation fields markdown partially supported (Tags aren't supported).
-- label of a parameter should be substring of the signature label. In such case the substring will be highlighted in main label when parameter is active. Otherwise has no effect.
+- `activeSignature` 和 `activeParameter` 从零开始计数。
+- label 通常是完整的方法签名。
+- 对于 documentation 字段，markdown 仅部分支持（不支持标签）。
+- 参数的 label 应当是签名 label 的子串。在这种情况下，当参数处于活动状态时，该子串会在主 label 中高亮显示。否则没有任何效果。
 
-When signature help popup is shown then the handler will be invoked on each parameter edit or even cursor moving inside signature. If you have large objects it would be wise to cache them of at least reuse some parts.
+当签名帮助弹窗显示时，每次参数编辑甚至光标在签名内移动时都会调用处理器。如果你有较大的对象，明智的做法是缓存它们，或至少复用其中的一部分。
 
-To hide your popup just return `undefined` from provider.
+要从提供方隐藏弹窗，只需返回 `undefined`。
 
-In case if a few providers are registered the chain will be executed until one of the providers returns result. Next providers will be ignored for the call.
+如果注册了多个提供方，链条会一直执行，直到某个提供方返回结果。对本次调用而言，后续的提供方将被忽略。
 
-#### Hover Message
+#### 悬停消息
 
-To contribute a hover it is only needed to provide a function that can be called with a `TextDocument` and a `Position` returning hover info. Registration is done using a document selector which either a language id ('typescript', 'javascript' etc.) or a more complex filter like `{scheme: 'file', language: 'typescript'}`.
+要贡献悬停提示，只需要提供一个可以用 `TextDocument` 和 `Position` 调用并返回悬停信息的函数。注册时使用文档选择器，它可以是一个语言 ID（'typescript'、'javascript' 等），也可以是更复杂的过滤器，例如 `{scheme: 'file', language: 'typescript'}`。
 
-For example,
+例如，
 
 ```typescript
 theia.languages.registerHoverProvider('typescript', {
@@ -508,9 +503,9 @@ theia.languages.registerHoverProvider('typescript', {
 });
 ```
 
-will show the hover message for all `typescript` files.
+将为所有 `typescript` 文件显示悬停消息。
 
-The code below puts word under cursor into hover message:
+下面的代码将光标下的单词放入悬停消息：
 
 ```typescript
 theia.languages.registerHoverProvider({scheme: 'file'}, {
@@ -522,10 +517,10 @@ theia.languages.registerHoverProvider({scheme: 'file'}, {
 });
 ```
 
-#### Document Highlight provider
+#### 文档高亮提供方
 
-It is possible to provide document highlight source for a symbol from within plugin.
-To do this one should register corresponding provider. For example:
+可以在插件中为符号提供文档高亮来源。
+为此应注册相应的提供方。例如：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -540,12 +535,12 @@ function provideDocumentHighlightsHandler(document: theia.TextDocument, position
 }
 ```
 
-It is possible to return a few sources, but for most cases only one is enough. Return `undefined` to provide nothing.
+可以返回多个来源，但对大多数情况而言一个就足够了。返回 `undefined` 表示不提供任何内容。
 
-#### Definition provider
+#### 定义提供方
 
-It is possible to provide definition source for a symbol from within plugin.
-To do this one should register corresponding provider. For example:
+可以在插件中为符号提供定义来源。
+为此应注册相应的提供方。例如：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -560,13 +555,13 @@ function provideDefinitionHandler(document: theia.TextDocument, position: theia.
 }
 ```
 
-The handler will be invoked each time when a user executes `Go To Definition` command.
-It is possible to return a few sources, but for most cases only one is enough. Return `undefined` to provide nothing.
+每当用户执行 `Go To Definition`（转到定义）命令时，都会调用该处理器。
+可以返回多个来源，但对大多数情况而言一个就足够了。返回 `undefined` 表示不提供任何内容。
 
-#### Declaration provider
+#### 声明提供方
 
-It is possible to provide a declaration for a symbol from within a plugin.
-To do this one may register corresponding provider. For example:
+可以在插件中为符号提供声明。
+为此可以注册相应的提供方。例如：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -581,13 +576,13 @@ function provideDeclarationHandler(document: theia.TextDocument, position: theia
 }
 ```
 
-The handler will be invoked each time when a user executes `Go To Declaration` command.
-It is possible to return a few sources, but for most cases only one is enough. Return `undefined` to provide nothing.
+每当用户执行 `Go To Declaration`（转到声明）命令时，都会调用该处理器。
+可以返回多个来源，但对大多数情况而言一个就足够了。返回 `undefined` 表示不提供任何内容。
 
-#### Implementation provider
+#### 实现提供方
 
-It is possible to provide implementation source for a symbol from within plugin.
-To do this one should register corresponding provider. For example:
+可以在插件中为符号提供实现来源。
+为此应注册相应的提供方。例如：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -602,12 +597,12 @@ function provideImplementationHandler(document: theia.TextDocument, position: th
 }
 ```
 
-It is possible to return a few sources, but for most cases only one is enough. Return `undefined` to provide nothing.
+可以返回多个来源，但对大多数情况而言一个就足够了。返回 `undefined` 表示不提供任何内容。
 
-#### Type Definition provider
+#### 类型定义提供方
 
-It is possible to provide type definition source for a symbol from within plugin.
-To do this one should register corresponding provider. For example:
+可以在插件中为符号提供类型定义来源。
+为此应注册相应的提供方。例如：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -622,13 +617,13 @@ function provideTypeDefinitionHandler(document: theia.TextDocument, position: th
 }
 ```
 
-The handler will be invoked each time when a user executes `Go To Type Definition` command.
-It is possible to return a few sources, but for most cases only one is enough. Return `undefined` to provide nothing.
+每当用户执行 `Go To Type Definition`（转到类型定义）命令时，都会调用该处理器。
+可以返回多个来源，但对大多数情况而言一个就足够了。返回 `undefined` 表示不提供任何内容。
 
-#### Reference provider
+#### 引用提供方
 
-It is possible to provide reference sources for a symbol from within plugin.
-To do this one should register corresponding provider. For example:
+可以在插件中为符号提供引用来源。
+为此应注册相应的提供方。例如：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -643,14 +638,14 @@ function provideReferencesHandler(document: theia.TextDocument, position: theia.
 }
 ```
 
-The handler will be invoked each time when a user executes `Find All References` command.
-It is possible to return a few sources. Return `undefined` to provide nothing.
+每当用户执行 `Find All References`（查找所有引用）命令时，都会调用该处理器。
+可以返回多个来源。返回 `undefined` 表示不提供任何内容。
 
-#### Document Link Provider
+#### 文档链接提供方
 
-A document link provider allows to add a custom link detection logic.
+文档链接提供方允许添加自定义的链接检测逻辑。
 
-Example of document link provider registration:
+注册文档链接提供方的示例：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -665,11 +660,11 @@ function provideLinks(document: theia.TextDocument): theia.ProviderResult<theia.
 }
 ```
 
-#### Code Lens Provider
+#### Code Lens 提供方
 
-A code lens provider allows to add a custom lens detection logic.
+Code Lens 提供方允许添加自定义的透镜检测逻辑。
 
-Example of code lens provider registration:
+注册 Code Lens 提供方的示例：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -684,11 +679,11 @@ function provideLenses(document: theia.TextDocument): theia.ProviderResult<theia
 }
 ```
 
-#### Code Symbol Provider
+#### 代码符号提供方
 
-A document symbol provider allows to add a custom logic for symbols detection.
+文档符号提供方允许添加自定义的符号检测逻辑。
 
-Example of code symbol provider registration:
+注册代码符号提供方的示例：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -704,15 +699,13 @@ function provideSymbols(document: theia.TextDocument): theia.ProviderResult<thei
 }
 ```
 
-#### Workspace Symbol Provider
+#### 工作区符号提供方
 
-A workspace symbol provider allows you register symbols for the symbol search feature.
+工作区符号提供方允许你为符号搜索功能注册符号。
 
-resolveWorkspaceSymbol is not needed if all SymbolInformation's returned from
-provideWorkspaceSymbols have a location. Otherwise resolveWorkspaceSymbol is needed
-in order to resolve the location of the SymbolInformation.
+如果从 provideWorkspaceSymbols 返回的所有 SymbolInformation 都带有 location，则不需要 resolveWorkspaceSymbol。否则，需要 resolveWorkspaceSymbol 来解析 SymbolInformation 的 location。
 
-Example of workspace symbol provider registration:
+注册工作区符号提供方的示例：
 
 ```typescript
 theia.languages.registerWorkspaceSymbolProvider({
@@ -722,8 +715,7 @@ theia.languages.registerWorkspaceSymbolProvider({
 } as theia.WorkspaceSymbolProvider);
 ```
 
-In this case resolveWorkspaceSymbol is not needed because we have provided the location for every
-symbol returned from provideWorkspaceSymbols
+在这种情况下不需要 resolveWorkspaceSymbol，因为我们为 provideWorkspaceSymbols 返回的每个符号都提供了 location。
 
 ```typescript
 theia.languages.registerWorkspaceSymbolProvider({
@@ -737,14 +729,13 @@ theia.languages.registerWorkspaceSymbolProvider({
 } as theia.WorkspaceSymbolProvider);
 ```
 
-resolveWorkspaceSymbol is needed here because we have not provided the location for every
-symbol return from provideWorkspaceSymbol
+这里需要 resolveWorkspaceSymbol，因为我们没有为 provideWorkspaceSymbol 返回的每个符号都提供 location。
 
-#### Folding
+#### 折叠
 
-A folding range provider allows you to add logic to fold and unfold custom regions of source code.
+折叠范围提供方允许你添加逻辑，以折叠和展开源代码的自定义区域。
 
-Example of folding range provider registration:
+注册折叠范围提供方的示例：
 
 ```typescript
 const documentsSelector: theia.DocumentSelector = { scheme: 'file', language: 'typescript' };
@@ -759,18 +750,18 @@ function provideRanges(document: theia.TextDocument): theia.ProviderResult<theia
 }
 ```
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/plugin`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin.html)
+- [`@theia/plugin` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

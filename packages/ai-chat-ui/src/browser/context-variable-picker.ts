@@ -38,7 +38,7 @@ export class ContextVariablePicker {
                 variable: v,
                 iconClasses: v.iconClasses,
             })),
-            { placeholder: nls.localize('theia/ai/chat-ui/selectContextVariableQuickPickPlaceholder', 'Select a context variable to be attached to the message'), }
+            { placeholder: nls.localize('theia/ai/chat-ui/selectContextVariableQuickPickPlaceholder', '选择要附加到消息的上下文变量'), }
         );
         if (!selection) {
             return undefined;

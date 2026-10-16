@@ -134,8 +134,8 @@ export class RegistryAutoUpdateService {
                 kind: 'skill',
                 label: entry.name,
                 mode,
-                promptMessage: nls.localize('theia/ai-registry/autoUpdate/skillAvailable', 'Skill "{0}" has an update available.', entry.name),
-                successMessage: nls.localize('theia/ai-registry/skill/updated', 'Updated skill "{0}".', entry.name),
+                promptMessage: nls.localize('theia/ai-registry/autoUpdate/skillAvailable', '技能“{0}”有可用更新。', entry.name),
+                successMessage: nls.localize('theia/ai-registry/skill/updated', '已更新技能“{0}”。', entry.name),
                 apply: () => this.skillInstallService.update(entry)
             });
         }
@@ -157,8 +157,8 @@ export class RegistryAutoUpdateService {
                 kind: 'mcp',
                 label: entry.name,
                 mode,
-                promptMessage: nls.localize('theia/ai-registry/autoUpdate/mcpAvailable', 'MCP server "{0}" has an update available.', entry.name),
-                successMessage: nls.localize('theia/ai-registry/mcp/updated', 'Updated MCP server "{0}".', entry.name),
+                promptMessage: nls.localize('theia/ai-registry/autoUpdate/mcpAvailable', 'MCP 服务器“{0}”有可用更新。', entry.name),
+                successMessage: nls.localize('theia/ai-registry/mcp/updated', '已更新 MCP 服务器“{0}”。', entry.name),
                 apply: () => this.mcpInstallService.update(entry)
             });
         }
@@ -180,8 +180,8 @@ export class RegistryAutoUpdateService {
                 kind: 'plugin',
                 label: entry.name,
                 mode,
-                promptMessage: nls.localize('theia/ai-registry/autoUpdate/pluginAvailable', 'Agent Plugin "{0}" has an update available.', entry.name),
-                successMessage: nls.localize('theia/ai-registry/plugin/updated', 'Updated Agent Plugin "{0}".', entry.name),
+                promptMessage: nls.localize('theia/ai-registry/autoUpdate/pluginAvailable', '代理插件“{0}”有可用更新。', entry.name),
+                successMessage: nls.localize('theia/ai-registry/plugin/updated', '已更新代理插件“{0}”。', entry.name),
                 // The same call the Update button makes, so the download is verified against the
                 // endorsed hash and the plugin's MCP servers are re-registered afterwards. A hash
                 // mismatch still opens its dialog: replacing content the registry cannot vouch for
@@ -211,14 +211,14 @@ export class RegistryAutoUpdateService {
         if (succeeded.length === 1) {
             this.messageService.info(succeeded[0].successMessage);
         } else if (succeeded.length > 1) {
-            this.messageService.info(nls.localize('theia/ai-registry/autoUpdate/updatedMany', 'Updated {0} AI registry items.', succeeded.length));
+            this.messageService.info(nls.localize('theia/ai-registry/autoUpdate/updatedMany', '已更新 {0} 个 AI 注册表条目。', succeeded.length));
         }
         if (failed > 0) {
-            const show = nls.localizeByDefault('Show');
+            const show = nls.localizeByDefault('显示');
             // Deliberately not awaited: a notification with an action stays until the user acts
             // on it, and waiting here would hold back a pending "ask" prompt indefinitely.
             this.messageService.warn(
-                nls.localize('theia/ai-registry/autoUpdate/updateFailed', 'Could not auto-update {0} AI registry items.', failed),
+                nls.localize('theia/ai-registry/autoUpdate/updateFailed', '无法自动更新 {0} 个 AI 注册表条目。', failed),
                 show
             ).then(
                 answer => answer === show ? this.showInstalled() : undefined,
@@ -235,12 +235,12 @@ export class RegistryAutoUpdateService {
      */
     protected async promptPending(updates: PendingUpdate[]): Promise<boolean> {
         const doUpdate = updates.length === 1
-            ? nls.localizeByDefault('Update')
-            : nls.localize('theia/ai-registry/autoUpdate/updateAll', 'Update All');
-        const show = nls.localizeByDefault('Show');
+            ? nls.localizeByDefault('更新')
+            : nls.localize('theia/ai-registry/autoUpdate/updateAll', '全部更新');
+        const show = nls.localizeByDefault('显示');
         const message = updates.length === 1
             ? updates[0].promptMessage
-            : nls.localize('theia/ai-registry/autoUpdate/summary', '{0} AI registry updates are available.', updates.length);
+            : nls.localize('theia/ai-registry/autoUpdate/summary', '有 {0} 个 AI 注册表更新可用。', updates.length);
         const answer = await this.messageService.info(`${message} ${this.settingsHint()}`, doUpdate, show);
         if (answer === doUpdate) {
             await this.applyAll(updates);
@@ -266,13 +266,13 @@ export class RegistryAutoUpdateService {
         if (this.policy.hasExplicitDefault()) {
             return;
         }
-        const enable = nls.localize('theia/ai-registry/autoUpdate/enableDefault', 'Enable Auto Update');
-        const keepAsking = nls.localize('theia/ai-registry/autoUpdate/keepAsking', 'Keep Asking');
-        const never = nls.localizeByDefault('Never');
+        const enable = nls.localize('theia/ai-registry/autoUpdate/enableDefault', '启用自动更新');
+        const keepAsking = nls.localize('theia/ai-registry/autoUpdate/keepAsking', '继续询问');
+        const never = nls.localizeByDefault('从不');
         const answer = await this.messageService.info(
             `${nls.localize(
                 'theia/ai-registry/autoUpdate/defaultPrompt',
-                'Update skills, MCP servers and Agent Plugins from the AI registry automatically from now on?'
+                '从现在起自动更新来自 AI 注册表的技能、MCP 服务器和代理插件吗？'
             )} ${this.settingsChangeHint()}`,
             enable, keepAsking, never
         );
@@ -294,11 +294,11 @@ export class RegistryAutoUpdateService {
     }
 
     protected settingsHint(): string {
-        return nls.localize('theia/ai-registry/autoUpdate/configureDefault', 'Configure the default in {0}.', this.settingsLink());
+        return nls.localize('theia/ai-registry/autoUpdate/configureDefault', '在 {0} 中配置默认值。', this.settingsLink());
     }
 
     protected settingsChangeHint(): string {
-        return nls.localize('theia/ai-registry/autoUpdate/changeLater', 'You can change this later in {0}.', this.settingsLink());
+        return nls.localize('theia/ai-registry/autoUpdate/changeLater', '你可以稍后在 {0} 中更改此设置。', this.settingsLink());
     }
 
     /**
@@ -314,6 +314,6 @@ export class RegistryAutoUpdateService {
      */
     protected settingsLink(): string {
         const args = encodeURIComponent(JSON.stringify([AUTO_UPDATE_PREF]));
-        return `[${nls.localize('theia/ai-registry/autoUpdate/aiSettings', 'AI Settings')}](command:${AI_SHOW_SETTINGS_COMMAND.id}?${args})`;
+        return `[${nls.localize('theia/ai-registry/autoUpdate/aiSettings', 'AI 设置')}](command:${AI_SHOW_SETTINGS_COMMAND.id}?${args})`;
     }
 }

@@ -45,7 +45,7 @@ describe('MCPCommandContribution', () => {
         onError?: (message: string) => void;
         onInfo?: (message: string) => void;
         onWarn?: (message: string) => void;
-        /** Action returned by the faked `messageService.info`, e.g. 'Copy'. */
+        /** Action returned by the faked `messageService.info`, e.g. '复制'. */
         infoResult?: string;
         effectiveRedirectUrl?: string;
         hasStoredOAuthCredentials?: (serverName: string) => boolean;
@@ -119,7 +119,7 @@ describe('MCPCommandContribution', () => {
 
         await handlers.get(SignOutMCPServer.id)!.execute();
 
-        expect(infoMessage).to.equal('No OAuth-enabled MCP servers configured.');
+        expect(infoMessage).to.equal('未配置启用 OAuth 的 MCP 服务器。');
     });
 
     it('lists OAuth-enabled servers without filtering by current-scope credentials so stale-scope cleanup is reachable', async () => {
@@ -191,7 +191,7 @@ describe('MCPCommandContribution', () => {
 
         await handlers.get(SignInMCPServer.id)!.execute();
 
-        expect(infoMessage).to.equal('No OAuth-enabled MCP servers configured.');
+        expect(infoMessage).to.equal('未配置启用 OAuth 的 MCP 服务器。');
     });
 
     it('offers stop for a server awaiting OAuth authorization so an abandoned sign-in can be dismissed', async () => {
@@ -224,7 +224,7 @@ describe('MCPCommandContribution', () => {
 
         await handlers.get(StopMCPServer.id)!.execute();
 
-        expect(errorMessage).to.equal('No MCP servers running.');
+        expect(errorMessage).to.equal('没有正在运行的 MCP 服务器。');
     });
 
     describe('GetMCPOAuthRedirectUrl', () => {
@@ -253,7 +253,7 @@ describe('MCPCommandContribution', () => {
                 const { handlers } = createContribution({
                     descriptions: {},
                     effectiveRedirectUrl: 'https://theia.example.com/mcp/oauth/callback',
-                    infoResult: 'Copy'
+                    infoResult: '复制'
                 });
 
                 await handlers.get(GetMCPOAuthRedirectUrl.id)!.execute();
@@ -279,7 +279,7 @@ describe('MCPCommandContribution', () => {
                 console.error = originalConsoleError;
             }
 
-            expect(errorMessage).to.contain('redirect URL');
+            expect(errorMessage).to.contain('重定向 URL');
         });
     });
 
@@ -317,7 +317,7 @@ describe('MCPCommandContribution', () => {
                 status: MCPServerStatus.NotConnected, error: undefined
             }, captures);
             expect(captures.error).to.be.undefined;
-            expect(captures.info).to.contain('sign-in was cancelled');
+            expect(captures.info).to.contain('登录已取消');
         });
 
         it('surfaces the authorization-server diagnostic when the server is AuthenticationRequired with an error', () => {
@@ -338,7 +338,7 @@ describe('MCPCommandContribution', () => {
                 status: MCPServerStatus.AuthenticationRequired
             }, captures);
             expect(captures.info).to.be.undefined;
-            expect(captures.error).to.contain('requires authentication');
+            expect(captures.error).to.contain('需要身份验证');
         });
 
         it('keeps the generic failure toast for unexpected error states', () => {
@@ -348,7 +348,7 @@ describe('MCPCommandContribution', () => {
                 status: MCPServerStatus.Errored, error: 'transport refused'
             }, captures);
             expect(captures.info).to.be.undefined;
-            expect(captures.error).to.contain('error occurred');
+            expect(captures.error).to.contain('发生错误');
         });
 
         it('suppresses the generic failure toast when the server is still Starting/Connecting on return', () => {

@@ -127,7 +127,7 @@ export class DebugThread extends DebugThreadData implements TreeElement {
         const response: DebugProtocol.GotoTargetsResponse = await this.session.sendRequest('gotoTargets', { source, line: position.lineNumber, column: position.column });
 
         if (response && response.body.targets.length === 0) {
-            this.session.showMessage(MessageType.Warning, nls.localizeByDefault('No executable code is associated at the current cursor position.'));
+            this.session.showMessage(MessageType.Warning, nls.localizeByDefault('当前光标位置没有关联的可执行代码。'));
             return;
         }
 
@@ -265,7 +265,7 @@ export class DebugThread extends DebugThreadData implements TreeElement {
 
     render(): React.ReactNode {
         return (
-            <div className="theia-debug-thread" title={nls.localizeByDefault('Session')}>
+            <div className="theia-debug-thread" title={nls.localizeByDefault('会话')}>
                 <span className="label">{this.raw.name}</span>
                 <span className="status">{this.threadStatus()}</span>
             </div>
@@ -275,7 +275,7 @@ export class DebugThread extends DebugThreadData implements TreeElement {
     protected threadStatus(): string {
 
         if (!this.stoppedDetails) {
-            return nls.localizeByDefault('Running');
+            return nls.localizeByDefault('运行中');
         }
 
         const description = this.stoppedDetails.description;
@@ -289,30 +289,30 @@ export class DebugThread extends DebugThreadData implements TreeElement {
         const localizedReason = this.getLocalizedReason(reason);
 
         return reason
-            ? nls.localizeByDefault('Paused on {0}', localizedReason)
-            : nls.localizeByDefault('Paused');
+            ? nls.localizeByDefault('因 {0} 暂停', localizedReason)
+            : nls.localizeByDefault('已暂停');
     }
 
     protected getLocalizedReason(reason: string | undefined): string {
         switch (reason) {
             case 'step':
-                return nls.localize('theia/debug/step', 'step');
+                return nls.localize('theia/debug/step', '单步');
             case 'breakpoint':
-                return nls.localize('theia/debug/breakpoint', 'breakpoint');
+                return nls.localize('theia/debug/breakpoint', '断点');
             case 'exception':
-                return nls.localize('theia/debug/exception', 'exception');
+                return nls.localize('theia/debug/exception', '异常');
             case 'pause':
-                return nls.localize('theia/debug/pause', 'pause');
+                return nls.localize('theia/debug/pause', '暂停');
             case 'entry':
-                return nls.localize('theia/debug/entry', 'entry');
+                return nls.localize('theia/debug/entry', '入口');
             case 'goto':
-                return nls.localize('theia/debug/goto', 'goto');
+                return nls.localize('theia/debug/goto', '跳转');
             case 'function breakpoint':
-                return nls.localize('theia/debug/functionBreakpoint', 'function breakpoint');
+                return nls.localize('theia/debug/functionBreakpoint', '函数断点');
             case 'data breakpoint':
-                return nls.localize('theia/debug/dataBreakpoint', 'data breakpoint');
+                return nls.localize('theia/debug/dataBreakpoint', '数据断点');
             case 'instruction breakpoint':
-                return nls.localize('theia/debug/instructionBreakpoint', 'instruction breakpoint');
+                return nls.localize('theia/debug/instructionBreakpoint', '指令断点');
             default:
                 return '';
         }

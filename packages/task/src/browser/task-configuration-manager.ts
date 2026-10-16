@@ -211,7 +211,7 @@ export class TaskConfigurationManager {
 
     protected async getInitialConfigurationContent(): Promise<string | undefined> {
         const selected = await this.quickPickService.show(this.taskTemplateSelector.selectTemplates(), {
-            placeholder: nls.localizeByDefault('Select a Task Template')
+            placeholder: nls.localizeByDefault('选择任务模板')
         });
         if (selected) {
             return selected.value?.content;

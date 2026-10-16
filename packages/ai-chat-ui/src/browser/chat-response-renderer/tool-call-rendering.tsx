@@ -33,7 +33,7 @@ export const CopyButton: React.FC<CopyButtonProps> = ({ text, clipboardService }
         <button
             className="tool-call copy-button"
             onClick={handleCopy}
-            title={nls.localizeByDefault('Copy')}
+            title={nls.localizeByDefault('复制')}
         >
             <span className={codicon('copy')} />
         </button>
@@ -70,7 +70,7 @@ export const OutputBox: React.FC<OutputBoxProps> = ({ title, output, clipboardSe
             <pre className="tool-call output">{output}</pre>
         ) : (
             <div className="tool-call no-output">
-                {nls.localize('theia/ai-chat-ui/noOutput', 'No output')}
+                {nls.localize('theia/ai-chat-ui/noOutput', '无输出')}
             </div>
         )}
     </div>

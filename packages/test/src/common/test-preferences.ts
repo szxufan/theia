@@ -27,10 +27,10 @@ export const TestConfigSchema: PreferenceSchema = {
             type: 'string',
             enum: ['neverOpen', 'openOnTestStart'],
             enumDescriptions: [
-                nls.localizeByDefault('Never automatically open the testing views'),
-                nls.localizeByDefault('Open the test results view when tests start'),
+                nls.localizeByDefault('从不自动打开测试视图'),
+                nls.localizeByDefault('测试开始时打开测试结果视图'),
             ],
-            description: nls.localizeByDefault('Controls when the testing view should open.'),
+            description: nls.localizeByDefault('控制何时打开测试视图。'),
             default: 'neverOpen',
             scope: PreferenceScope.Folder,
         }

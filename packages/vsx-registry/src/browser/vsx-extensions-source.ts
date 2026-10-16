@@ -69,7 +69,8 @@ export class VSXExtensionsSource extends TreeSource {
         this.toDispose.push(this.searchModel.onDidChangeQuery(() => this.scheduleFireDidChange()));
     }
 
-    protected scheduleFireDidChange = debounce(() => this.fireDidChange(), 100, { leading: false, trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected scheduleFireDidChange: any = debounce(() => this.fireDidChange(), 100, { leading: false, trailing: true });
 
     getModel(): VSXExtensionsModel {
         return this.model;

@@ -103,7 +103,7 @@ export class ChangeSetImpl implements ChangeSet {
 
     protected hasBeenSet = false;
     protected _elements = new Map<string, ChangeSetElement | undefined>();
-    protected _title = nls.localize('theia/ai/chat/changeSetDefaultTitle', 'Suggested Changes');
+    protected _title = nls.localize('theia/ai/chat/changeSetDefaultTitle', '建议的更改');
     get title(): string {
         return this._title;
     }

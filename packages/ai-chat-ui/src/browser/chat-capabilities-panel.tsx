@@ -76,13 +76,13 @@ export const CapabilityChipsRow: React.FunctionComponent<CapabilityChipsRowProps
     return (
         <div className="theia-ChatInput-CapabilitiesSection">
             <div className="theia-ChatInput-CapabilitiesSection-heading">
-                {nls.localizeByDefault('Capabilities')}
+                {nls.localizeByDefault('能力')}
             </div>
             <div
                 ref={containerRef}
                 className="theia-ChatInput-CapabilityChips"
                 role="group"
-                aria-label={nls.localizeByDefault('Capabilities')}
+                aria-label={nls.localizeByDefault('能力')}
                 onKeyDown={handleKeyDown}
             >
                 {capabilities.map((capability, index) => {

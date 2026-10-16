@@ -90,8 +90,8 @@ export class EditorNavigationContribution implements Disposable, FrontendApplica
         this.commandRegistry.registerHandler(EditorCommands.CLEAR_EDITOR_HISTORY.id, {
             execute: async () => {
                 const shouldClear = await new ConfirmDialog({
-                    title: nls.localizeByDefault('Clear Editor History'),
-                    msg: nls.localizeByDefault('Do you want to clear the history of recently opened editors?'),
+                    title: nls.localizeByDefault('清除编辑器历史记录'),
+                    msg: nls.localizeByDefault('要清除最近打开的编辑器的历史记录吗？'),
                     ok: Dialog.YES,
                     cancel: Dialog.NO
                 }).open();

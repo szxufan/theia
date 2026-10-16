@@ -31,7 +31,7 @@ import { nls } from '@theia/core/lib/common/nls';
 import { ResourceEdit, ResourceFileEdit, ResourceTextEdit } from '@theia/monaco-editor-core/esm/vs/editor/browser/services/bulkEditService';
 
 export const BULK_EDIT_TREE_WIDGET_ID = 'bulkedit';
-export const BULK_EDIT_WIDGET_NAME = nls.localizeByDefault('Refactor Preview');
+export const BULK_EDIT_WIDGET_NAME = nls.localizeByDefault('重构预览');
 
 @injectable()
 export class BulkEditTreeWidget extends TreeWidget {
@@ -96,7 +96,7 @@ export class BulkEditTreeWidget extends TreeWidget {
         if (CompositeTreeNode.is(model.root) && model.root.children.length > 0) {
             return super.renderTree(model);
         }
-        return <div className='theia-widget-noInfo noEdits'>{nls.localizeByDefault('Made no edits')}</div>;
+        return <div className='theia-widget-noInfo noEdits'>{nls.localizeByDefault('未做任何编辑')}</div>;
     }
 
     protected override renderCaption(node: TreeNode, props: NodeProps): React.ReactNode {

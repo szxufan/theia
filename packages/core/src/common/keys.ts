@@ -253,7 +253,7 @@ export class KeyCode {
         }
         /* If duplicates i.e ctrl+ctrl+a or alt+alt+b or b+alt+b it is invalid */
         if (keys.length !== new Set(keys).size) {
-            throw new Error(nls.localize('theia/core/keybinding/duplicateModifierError', "Can't parse keybinding {0} Duplicate modifiers", keybinding));
+            throw new Error(nls.localize('theia/core/keybinding/duplicateModifierError', '无法解析快捷键 {0} 存在重复的修饰键', keybinding));
         }
 
         for (let keyString of keys) {
@@ -267,7 +267,7 @@ export class KeyCode {
                 if (isOSX) {
                     schema.meta = true;
                 } else {
-                    throw new Error(nls.localize('theia/core/keybinding/metaError', "Can't parse keybinding {0} meta is for OSX only", keybinding));
+                    throw new Error(nls.localize('theia/core/keybinding/metaError', '无法解析快捷键 {0} meta 仅适用于 OSX', keybinding));
                 }
                 /* ctrlcmd for M1 keybindings that work on both macOS and other platforms */
             } else if (keyString === SpecialCases.CTRLCMD) {
@@ -289,7 +289,7 @@ export class KeyCode {
                     schema.key = key;
                 }
             } else {
-                throw new Error(nls.localize('theia/core/keybinding/unrecognizedKeyError', 'Unrecognized key {0} in {1}', keyString, keybinding));
+                throw new Error(nls.localize('theia/core/keybinding/unrecognizedKeyError', '{1} 中存在无法识别的键 {0}', keyString, keybinding));
             }
         }
 

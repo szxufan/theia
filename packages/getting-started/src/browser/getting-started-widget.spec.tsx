@@ -71,8 +71,8 @@ describe('GettingStartedWidget', () => {
 
             (widget as any).updateTitle();
 
-            assert.strictEqual(widget.title.label, 'Walkthrough: Get Started with Python');
-            assert.strictEqual(widget.title.caption, 'Walkthrough: Get Started with Python');
+            assert.strictEqual(widget.title.label, '向导：Get Started with Python');
+            assert.strictEqual(widget.title.caption, '向导：Get Started with Python');
         });
 
         it('should return to the welcome label once the walkthrough is closed', () => {

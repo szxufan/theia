@@ -157,7 +157,7 @@ export class EditorLanguageStatusService {
             alignment: StatusBarAlignment.RIGHT,
             priority: 1,
             command: EditorCommands.CHANGE_LANGUAGE.id,
-            tooltip: nls.localizeByDefault('Select Language Mode')
+            tooltip: nls.localizeByDefault('选择语言模式')
         });
     }
 
@@ -360,8 +360,8 @@ export class EditorLanguageStatusService {
             this.hoverService.cancelHover();
             this.formatterStatusContribution?.showFormatterQuickPick(editor);
         };
-        link.textContent = nls.localizeByDefault('Configure');
-        link.title = nls.localizeByDefault('Configure Default Formatter');
+        link.textContent = nls.localizeByDefault('配置');
+        link.title = nls.localizeByDefault('配置默认格式化程序');
         link.ariaRoleDescription = 'button';
         link.ariaDisabled = 'false';
         return link;
@@ -376,8 +376,8 @@ export class EditorLanguageStatusService {
             const tooltip = this.formatterStatusContribution?.getTooltip(editor) ?? '';
             this.messageService.info(tooltip);
         };
-        link.textContent = nls.localizeByDefault('Info');
-        link.title = nls.localize('theia/editor/showFormatterInfo', 'Show Formatter Info');
+        link.textContent = nls.localizeByDefault('信息');
+        link.title = nls.localize('theia/editor/showFormatterInfo', '显示格式化程序信息');
         link.ariaRoleDescription = 'button';
         link.ariaDisabled = 'false';
         return link;
@@ -425,8 +425,8 @@ export class EditorLanguageStatusService {
         pin.className = this.pinnedCommands.has(id) ? codicon('pinned', true) : codicon('pin', true);
         pin.ariaRoleDescription = 'button';
         const pinText = this.pinnedCommands.has(id)
-            ? nls.localizeByDefault('Remove from Status Bar')
-            : nls.localizeByDefault('Add to Status Bar');
+            ? nls.localizeByDefault('从状态栏移除')
+            : nls.localizeByDefault('添加到状态栏');
         pin.ariaLabel = pinText;
         pin.title = pinText;
     }

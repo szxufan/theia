@@ -28,6 +28,7 @@ import {
     type ChatRequest,
     type ChatHierarchyBranch,
 } from '@theia/ai-chat';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { AIVariableService } from '@theia/ai-core';
 import { AIActivationService } from '@theia/ai-core/lib/browser';
 import { CommandRegistry, ContributionProvider, Disposable, DisposableCollection, Emitter, Event, ILogger } from '@theia/core';
@@ -218,7 +219,7 @@ export class ChatViewTreeWidget extends TreeWidget {
 
         this.chatResponseFocusKey = this.contextKeyService.createKey<boolean>('chatResponseFocus', false);
         this.node.setAttribute('tabindex', '0');
-        this.node.setAttribute('aria-label', nls.localize('theia/ai/chat-ui/chatResponses', 'Chat responses'));
+        this.node.setAttribute('aria-label', nls.localize('theia/ai/chat-ui/chatResponses', '聊天回复'));
 
         this.findWidget.fallbackFocusTarget = this.node;
         this.toDispose.pushAll([
@@ -382,7 +383,7 @@ export class ChatViewTreeWidget extends TreeWidget {
         // Down-arrow, Theia codicon, fixed overlay on widget
         return <button
             className="theia-ChatTree-ScrollToBottom codicon codicon-arrow-down"
-            title={nls.localize('theia/ai/chat-ui/chat-view-tree-widget/scrollToBottom', 'Jump to latest message')}
+            title={nls.localize('theia/ai/chat-ui/chat-view-tree-widget/scrollToBottom', '跳转到最新消息')}
             onClick={() => this.handleScrollToBottomButtonClick()}
         />;
     }
@@ -567,8 +568,8 @@ export class ChatViewTreeWidget extends TreeWidget {
             return super.renderNode(node, props);
         }
         const ariaLabel = isRequestNode(node)
-            ? nls.localize('theia/ai/chat-ui/yourMessage', 'Your message')
-            : nls.localize('theia/ai/chat-ui/responseFrom', 'Response from {0}', this.getAgentLabel(node));
+            ? nls.localize('theia/ai/chat-ui/yourMessage', '您的消息')
+            : nls.localize('theia/ai/chat-ui/responseFrom', '来自 {0} 的回复', this.getAgentLabel(node));
         return <React.Fragment key={node.id}>
             <div
                 className='theia-ChatNode'
@@ -608,9 +609,9 @@ export class ChatViewTreeWidget extends TreeWidget {
                         const tokenUsage = isResponseNode(node) ? node.response.tokenUsage : undefined;
                         const hasTokenInfo = tokenUsage && (tokenUsage.inputTokens > 0 || tokenUsage.outputTokens > 0);
                         const tokenInfo = hasTokenInfo
-                            ? `${nls.localize('theia/ai/chat-ui/tokenUsageLabel', 'Token Usage')}: ${nls.localizeByDefault(
-                                'Input: {0}', formatTokenCount(tokenUsage.inputTokens))} | ${nls.localizeByDefault(
-                                    'Output: {0}', formatTokenCount(tokenUsage.outputTokens))}`
+                            ? `${nls.localize('theia/ai/chat-ui/tokenUsageLabel', 'Token 用量')}: ${nls.localizeByDefault(
+                                '输入：{0}', formatTokenCount(tokenUsage.inputTokens))} | ${nls.localizeByDefault(
+                                    '输出：{0}', formatTokenCount(tokenUsage.outputTokens))}`
                             : undefined;
                         if (agentDescription || tokenInfo) {
                             const md = new MarkdownStringImpl();
@@ -648,12 +649,12 @@ export class ChatViewTreeWidget extends TreeWidget {
                 {inProgress && !waitingForInput &&
                     <span className='theia-ChatContentInProgress' role='status' aria-live='polite'>
                         <span className={`${codicon('loading')} codicon-modifier-spin`} aria-hidden={true}></span>
-                        {nls.localize('theia/ai/chat-ui/chat-view-tree-widget/generating', 'Generating')}
+                        {nls.localize('theia/ai/chat-ui/chat-view-tree-widget/generating', '生成中')}
                     </span>}
                 {inProgress && waitingForInput &&
                     <span className='theia-ChatContentInProgress' role='status' aria-live='polite'>
                         <span className={`${codicon('loading')} codicon-modifier-spin`} aria-hidden={true}></span>
-                        {nls.localize('theia/ai/chat-ui/chat-view-tree-widget/waitingForInput', 'Waiting for input')}
+                        {nls.localize('theia/ai/chat-ui/chat-view-tree-widget/waitingForInput', '等待输入')}
                     </span>}
                 {!inProgress &&
                     <div className='theia-ChatNodeToolbar'>
@@ -686,9 +687,10 @@ export class ChatViewTreeWidget extends TreeWidget {
     protected getAgentLabel(node: RequestNode | ResponseNode): string {
         if (isRequestNode(node)) {
             // TODO find user name
-            return nls.localize('theia/ai/chat-ui/chat-view-tree-widget/you', 'You');
+            return nls.localize('theia/ai/chat-ui/chat-view-tree-widget/you', '您');
         }
-        return this.getAgent(node)?.name ?? nls.localize('theia/ai/chat-ui/chat-view-tree-widget/ai', 'AI');
+        const agent = this.getAgent(node);
+        return agent ? getAgentDisplayName(agent) : nls.localize('theia/ai/chat-ui/chat-view-tree-widget/ai', 'AI');
     }
 
     protected getAgent(node: RequestNode | ResponseNode): ChatAgent | undefined {
@@ -797,7 +799,7 @@ export class ChatViewTreeWidget extends TreeWidget {
             [-1, undefined])[1];
         if (!renderer) {
             this.logger.error('No renderer found for content', content);
-            return <div>{nls.localize('theia/ai/chat-ui/chat-view-tree-widget/noRenderer', 'Error: No renderer found')}</div>;
+            return <div>{nls.localize('theia/ai/chat-ui/chat-view-tree-widget/noRenderer', '错误：未找到渲染器')}</div>;
         }
         return renderer.render(content, node);
     }
@@ -954,8 +956,12 @@ export const ChatRequestRender = (
                     if (part instanceof ParsedChatRequestAgentPart || part instanceof ParsedChatRequestVariablePart || part instanceof ParsedChatRequestFunctionPart) {
                         let description = undefined;
                         let className = '';
+                        let text = part.text;
                         if (part instanceof ParsedChatRequestAgentPart) {
-                            description = chatAgentService.getAgent(part.agentId)?.description;
+                            const agent = chatAgentService.getAgent(part.agentId);
+                            description = agent?.description;
+                            // Fork customization: render the localized display name while the stored text keeps the technical agent name.
+                            text = agent ? `@${getAgentDisplayName(agent)}` : part.text;
                             className = 'theia-RequestNode-AgentLabel';
                         } else if (part instanceof ParsedChatRequestVariablePart) {
                             description = variableService.getVariable(part.variableName)?.description;
@@ -967,7 +973,7 @@ export const ChatRequestRender = (
                         return (
                             <HoverableLabel
                                 key={index}
-                                text={part.text}
+                                text={text}
                                 description={description}
                                 hoverService={hoverService}
                                 className={className}

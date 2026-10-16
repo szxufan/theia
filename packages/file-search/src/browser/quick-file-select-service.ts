@@ -106,7 +106,7 @@ export class QuickFileSelectService {
                     if (recentlyUsedItems.length === 0) {
                         recentlyUsedItems.push({
                             type: 'separator',
-                            label: nls.localizeByDefault('recently opened')
+                            label: nls.localizeByDefault('最近打开')
                         });
                     }
                     const item = this.toItem(fileFilter, location.uri, options.onSelect);
@@ -140,7 +140,7 @@ export class QuickFileSelectService {
                 if (sortedResults.length > 0) {
                     result.push({
                         type: 'separator',
-                        label: nls.localizeByDefault('file results')
+                        label: nls.localizeByDefault('文件结果')
                     });
                     result.push(...sortedResults);
                 }

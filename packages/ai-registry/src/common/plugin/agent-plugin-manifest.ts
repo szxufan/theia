@@ -132,33 +132,33 @@ export class AgentPluginManifestReader {
         try {
             parsed = this.parseJson(pluginJsonText);
         } catch (error) {
-            throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestNotJson', '"plugin.json" is not valid JSON.'));
+            throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestNotJson', '"plugin.json" 不是有效的 JSON。'));
         }
         if (!this.isRecord(parsed)) {
             throw new AgentPluginRejectedError(
-                nls.localize('theia/ai-registry/plugin/manifestNotObject', '"plugin.json" must contain a top-level JSON object.'));
+                nls.localize('theia/ai-registry/plugin/manifestNotObject', '"plugin.json" 必须包含一个顶层 JSON 对象。'));
         }
         const warnings: string[] = [];
         for (const field of Object.keys(parsed)) {
             if (!MANIFEST_FIELDS.includes(field)) {
                 warnings.push(nls.localize('theia/ai-registry/plugin/unknownManifestField',
-                    'Ignoring the unknown "plugin.json" field "{0}".', field));
+                    '忽略 "plugin.json" 中的未知字段“{0}”。', field));
             }
         }
         const schema = this.requiredString(parsed, '$schema');
         if (this.pluginSchemaVersion(schema) === undefined) {
             throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestUnsupportedVersion',
-                '"plugin.json" targets the unsupported Agent Plugins schema "{0}".', schema));
+                '"plugin.json" 针对的是不受支持的代理插件架构“{0}”。', schema));
         }
         const name = this.requiredString(parsed, 'name');
         if (name.length > 64 || !MANIFEST_NAME_PATTERN.test(name)) {
             throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestInvalidName',
-                'The plugin name "{0}" is invalid: it must be 1 to 64 lowercase alphanumeric characters, hyphens or periods, '
-                + 'must start and end with an alphanumeric character and must not contain "--" or "..".', name));
+                '插件名称“{0}”无效：必须为 1 到 64 个小写字母数字字符、连字符或句点，'
+                + '必须以字母数字字符开头和结尾，且不得包含 "--" 或 ".."。', name));
         }
         if ('extensions' in parsed && !this.isRecord(parsed.extensions)) {
             warnings.push(nls.localize('theia/ai-registry/plugin/nonObjectExtensions',
-                'Ignoring the "extensions" field of "plugin.json" because it is not an object.'));
+                '忽略 "plugin.json" 的 "extensions" 字段，因为它不是对象。'));
         }
         return {
             name,
@@ -188,10 +188,10 @@ export class AgentPluginManifestReader {
         try {
             parsed = this.parseJson(options.mcpJsonText);
         } catch (error) {
-            return this.mcpDisabled(nls.localize('theia/ai-registry/plugin/mcpNotJson', '"mcp.json" is not valid JSON.'));
+            return this.mcpDisabled(nls.localize('theia/ai-registry/plugin/mcpNotJson', '"mcp.json" 不是有效的 JSON。'));
         }
         const invalidDocument = nls.localize('theia/ai-registry/plugin/mcpInvalidDocument',
-            '"mcp.json" must contain a top-level JSON object with exactly the required "$schema" and "mcpServers" fields.');
+            '"mcp.json" 必须包含一个顶层 JSON 对象，且恰好包含必需的 "$schema" 和 "mcpServers" 字段。');
         if (!this.isRecord(parsed) || !this.isRecord(parsed.mcpServers) || typeof parsed.$schema !== 'string'
             || Object.keys(parsed).some(field => field !== '$schema' && field !== 'mcpServers')) {
             return this.mcpDisabled(invalidDocument);
@@ -199,12 +199,12 @@ export class AgentPluginManifestReader {
         const mcpVersion = this.mcpSchemaVersion(parsed.$schema);
         if (mcpVersion === undefined) {
             return this.mcpDisabled(nls.localize('theia/ai-registry/plugin/mcpUnsupportedVersion',
-                '"mcp.json" targets the unsupported Agent Plugins schema "{0}".', parsed.$schema));
+                '"mcp.json" 针对的是不受支持的代理插件架构“{0}”。', parsed.$schema));
         }
         const manifestVersion = this.pluginSchemaVersion(options.manifestSchema);
         if (manifestVersion === undefined || manifestVersion !== mcpVersion) {
             return this.mcpDisabled(nls.localize('theia/ai-registry/plugin/mcpVersionMismatch',
-                '"mcp.json" targets Agent Plugins version "{0}" but "plugin.json" targets "{1}".', mcpVersion, manifestVersion ?? options.manifestSchema));
+                '"mcp.json" 针对的是代理插件版本“{0}”，而 "plugin.json" 针对的是“{1}”。', mcpVersion, manifestVersion ?? options.manifestSchema));
         }
         const servers: ResolvedPluginServer[] = [];
         const skipped: SkippedPluginComponent[] = [];
@@ -220,17 +220,17 @@ export class AgentPluginManifestReader {
 
     protected resolveServer(name: string, entry: unknown, pluginRoot: string, pluginData: string): ResolvedPluginServer {
         if (!this.isRecord(entry)) {
-            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverNotObject', 'The server configuration is not a JSON object.'));
+            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverNotObject', '服务器配置不是 JSON 对象。'));
         }
         const type = entry.type;
         if (typeof type !== 'string') {
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverMissingField',
-                'The server configuration is missing the required "{0}" field.', 'type'));
+                '服务器配置缺少必需的“{0}”字段。', 'type'));
         }
         if (type === 'sse') {
             // `sse` support is OPTIONAL; Theia supports `stdio` and `streamable-http`.
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverUnsupportedTransport',
-                'The MCP transport "{0}" is not supported.', type));
+                '不支持 MCP 传输方式“{0}”。', type));
         }
         if (type === 'stdio') {
             return this.resolveStdioServer(name, entry, pluginRoot, pluginData);
@@ -239,7 +239,7 @@ export class AgentPluginManifestReader {
             return this.resolveHttpServer(name, entry);
         }
         throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverUnknownType',
-            'The server configuration declares the unknown transport type "{0}".', type));
+            '服务器配置声明了未知的传输类型“{0}”。', type));
     }
 
     protected resolveStdioServer(name: string, entry: Record<string, unknown>, pluginRoot: string, pluginData: string): ResolvedStdioServer {
@@ -275,7 +275,7 @@ export class AgentPluginManifestReader {
         // A bare name is a single token, so it can neither be a path nor a shell command string.
         if (command.includes('/') || command.includes('\\') || /\s/.test(command)) {
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidCommand',
-                'The "command" value "{0}" must be a bare executable name or a plugin-relative path beginning with "./".', command));
+                '“command”值“{0}”必须是裸可执行文件名称或以 "./" 开头的插件相对路径。', command));
         }
         return command;
     }
@@ -294,7 +294,7 @@ export class AgentPluginManifestReader {
         const dataRelative = cwd === '${PLUGIN_DATA}' || cwd.startsWith('${PLUGIN_DATA}/');
         if (!relative && !rootRelative && !dataRelative) {
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidCwd',
-                'The "cwd" value "{0}" must begin with "./", "${PLUGIN_ROOT}" or "${PLUGIN_DATA}".', cwd));
+                '“cwd”值“{0}”必须以 "./"、"${PLUGIN_ROOT}" 或 "${PLUGIN_DATA}" 开头。', cwd));
         }
         const expanded = this.expand(cwd, pluginRoot, pluginData);
         const containmentRoot = dataRelative ? pluginData : pluginRoot;
@@ -308,7 +308,7 @@ export class AgentPluginManifestReader {
             : this.normalizePath(new Path(base).join(value).toString());
         if (!new Path(containmentRoot).isEqualOrParent(new Path(resolved))) {
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverPathEscapes',
-                'The "{0}" value "{1}" resolves outside "{2}".', field, value, containmentRoot));
+                '“{0}”值“{1}”解析到了“{2}”之外。', field, value, containmentRoot));
         }
         return resolved;
     }
@@ -326,7 +326,7 @@ export class AgentPluginManifestReader {
             return undefined;
         }
         if (!Array.isArray(entry.args) || entry.args.some(element => typeof element !== 'string')) {
-            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidArgs', 'The "args" field must be an array of strings.'));
+            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidArgs', '“args”字段必须是字符串数组。'));
         }
         // `args` are opaque strings and are never containment-checked.
         return entry.args.map(element => this.expand(element as string, nativeRoot, nativeData));
@@ -337,7 +337,7 @@ export class AgentPluginManifestReader {
             return undefined;
         }
         if (!this.isRecord(entry.env)) {
-            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidEnv', 'The "env" field must be an object of strings.'));
+            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidEnv', '“env”字段必须是字符串对象。'));
         }
         const env: Record<string, string> = {};
         for (const [key, value] of Object.entries(entry.env)) {
@@ -346,10 +346,10 @@ export class AgentPluginManifestReader {
             // one platform and failing on another.
             if (RESERVED_ENV_NAMES.includes(key.toUpperCase())) {
                 throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverReservedEnv',
-                    'The "env" entry "{0}" is reserved and must not be declared by a plugin.', key));
+                    '“env”条目“{0}”是保留名称，插件不得声明它。', key));
             }
             if (typeof value !== 'string') {
-                throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidEnv', 'The "env" field must be an object of strings.'));
+                throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidEnv', '“env”字段必须是字符串对象。'));
             }
             env[key] = this.expand(value, nativeRoot, nativeData);
         }
@@ -361,19 +361,19 @@ export class AgentPluginManifestReader {
             return undefined;
         }
         if (!this.isRecord(entry.headers)) {
-            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidHeaders', 'The "headers" field must be an object of strings.'));
+            throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidHeaders', '“headers”字段必须是字符串对象。'));
         }
         const headers: Record<string, string> = {};
         const seen = new Set<string>();
         for (const [key, value] of Object.entries(entry.headers)) {
             if (typeof value !== 'string' || !HEADER_NAME_PATTERN.test(key) || !this.isValidHeaderValue(value)) {
                 throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidHeader',
-                    'The header "{0}" is not a valid HTTP header field.', key));
+                    '请求头“{0}”不是有效的 HTTP 头字段。', key));
             }
             // Header names are case-insensitive, so a repeat under different casing is a duplicate.
             if (seen.has(key.toLowerCase())) {
                 throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverDuplicateHeader',
-                    'The header name "{0}" is declared more than once.', key));
+                    '请求头名称“{0}”被声明了多次。', key));
             }
             seen.add(key.toLowerCase());
             headers[key] = value;
@@ -391,8 +391,8 @@ export class AgentPluginManifestReader {
      */
     protected checkUrl(serverUrl: string): void {
         const invalid = (): ServerEntryInvalid => this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverInvalidUrl',
-            'The "url" value "{0}" must be an absolute http or https URL without user information and without a fragment, '
-            + 'and a non-loopback URL must use https.', serverUrl));
+            '“url”值“{0}”必须是不含用户信息和片段的绝对 http 或 https URL，'
+            + '且非环回 URL 必须使用 https。', serverUrl));
         let url: URL;
         try {
             url = new URL(serverUrl);
@@ -434,7 +434,7 @@ export class AgentPluginManifestReader {
         for (const field of Object.keys(entry)) {
             if (!allowed.includes(field)) {
                 throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverUnknownField',
-                    'The server configuration declares the field "{0}", which is not permitted for its transport type.', field));
+                    '服务器配置声明了字段“{0}”，该字段不适用于其传输类型。', field));
             }
         }
     }
@@ -442,12 +442,12 @@ export class AgentPluginManifestReader {
     protected requiredEntryString(entry: Record<string, unknown>, field: string): string {
         if (entry[field] === undefined) {
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverMissingField',
-                'The server configuration is missing the required "{0}" field.', field));
+                '服务器配置缺少必需的“{0}”字段。', field));
         }
         const value = this.entryString(entry, field);
         if (!value) {
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverEmptyField',
-                'The server configuration field "{0}" must not be empty.', field));
+                '服务器配置字段“{0}”不能为空。', field));
         }
         return value;
     }
@@ -456,7 +456,7 @@ export class AgentPluginManifestReader {
         const value = entry[field];
         if (typeof value !== 'string') {
             throw this.entryInvalid(nls.localize('theia/ai-registry/plugin/serverFieldNotString',
-                'The server configuration field "{0}" must be a string.', field));
+                '服务器配置字段“{0}”必须是字符串。', field));
         }
         return value;
     }
@@ -465,7 +465,7 @@ export class AgentPluginManifestReader {
         const value = manifest[field];
         if (typeof value !== 'string' || value.length === 0) {
             throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestRequiredField',
-                'The "plugin.json" field "{0}" is required and must be a non-empty string.', field));
+                '"plugin.json" 的字段“{0}”是必需的，且必须是非空字符串。', field));
         }
         return value;
     }
@@ -477,7 +477,7 @@ export class AgentPluginManifestReader {
         }
         if (typeof value !== 'string') {
             throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestFieldNotString',
-                'The "plugin.json" field "{0}" must be a string.', field));
+                '"plugin.json" 的字段“{0}”必须是字符串。', field));
         }
         return value;
     }
@@ -490,7 +490,7 @@ export class AgentPluginManifestReader {
         if (!this.isRecord(author) || Object.keys(author).some(field => !AUTHOR_FIELDS.includes(field))
             || Object.values(author).some(value => typeof value !== 'string')) {
             throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestInvalidAuthor',
-                'The "plugin.json" field "author" must be an object with the optional string fields "name", "email" and "url".'));
+                '"plugin.json" 的 "author" 字段必须是包含可选字符串字段 "name"、"email" 和 "url" 的对象。'));
         }
         return typeof author.name === 'string' ? author.name : undefined;
     }
@@ -502,7 +502,7 @@ export class AgentPluginManifestReader {
         }
         if (!Array.isArray(keywords) || keywords.some(keyword => typeof keyword !== 'string')) {
             throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestInvalidKeywords',
-                'The "plugin.json" field "keywords" must be an array of strings.'));
+                '"plugin.json" 的 "keywords" 字段必须是字符串数组。'));
         }
         return keywords as string[];
     }
@@ -522,7 +522,7 @@ export class AgentPluginManifestReader {
     protected skipReason(error: unknown): string {
         return error instanceof Error && error.message
             ? error.message
-            : nls.localize('theia/ai-registry/plugin/serverInvalid', 'The server configuration is invalid.');
+            : nls.localize('theia/ai-registry/plugin/serverInvalid', '服务器配置无效。');
     }
 
     /**

@@ -61,7 +61,7 @@ export class GlobToolRenderer implements ChatResponsePartRenderer<ToolCallChatRe
             />;
         } catch (error) {
             this.logger.warn('Failed to parse Glob tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseGlobToolData', 'Failed to parse Glob tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseGlobToolData', '解析 Glob 工具数据失败')}</div>;
         }
     }
 }
@@ -75,7 +75,7 @@ const GlobToolComponent: React.FC<{
         if (input.path) {
             return input.path.split('/').pop() || input.path;
         }
-        return nls.localize('theia/ai/claude-code/project', 'project');
+        return nls.localize('theia/ai/claude-code/project', '项目');
     };
 
     const getWorkspaceRelativePath = async (filePath: string): Promise<string> => {
@@ -99,14 +99,14 @@ const GlobToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/finding', 'Finding')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/finding', '正在查找')}</span>
                 <span className={`${codicon('files')} claude-code-tool icon`} />
                 <span className="claude-code-tool glob-pattern">{input.pattern}</span>
-                <span className="claude-code-tool scope">{nls.localizeByDefault('in {0}', getSearchScope())}</span>
+                <span className="claude-code-tool scope">{nls.localizeByDefault('在 {0} 中', getSearchScope())}</span>
                 {relativePath && <span className="claude-code-tool relative-path">{relativePath}</span>}
             </div>
             <div className="claude-code-tool header-right">
-                <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/globPattern', 'glob pattern')}</span>
+                <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/globPattern', 'glob 模式')}</span>
             </div>
         </>
     );
@@ -114,19 +114,19 @@ const GlobToolComponent: React.FC<{
     const expandedContent = (
         <div className="claude-code-tool details">
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Pattern')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('模式')}</span>
                 <code className="claude-code-tool detail-value">{input.pattern}</code>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/searchPath', 'Search Path')}</span>
-                <code className="claude-code-tool detail-value">{input.path || nls.localize('theia/ai/claude-code/currentDirectory', 'current directory')}</code>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/searchPath', '搜索路径')}</span>
+                <code className="claude-code-tool detail-value">{input.path || nls.localize('theia/ai/claude-code/currentDirectory', '当前目录')}</code>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Description')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('描述')}</span>
                 <span className="claude-code-tool detail-value">
                     {input.path
-                        ? nls.localize('theia/ai/claude-code/findMatchingFilesWithPath', 'Find files matching the glob pattern "{0}" within {1}', input.pattern, input.path)
-                        : nls.localize('theia/ai/claude-code/findMatchingFiles', 'Find files matching the glob pattern "{0}" in the current directory', input.pattern)}
+                        ? nls.localize('theia/ai/claude-code/findMatchingFilesWithPath', '在 {1} 中查找匹配 glob 模式"{0}"的文件', input.pattern, input.path)
+                        : nls.localize('theia/ai/claude-code/findMatchingFiles', '在当前目录中查找匹配 glob 模式"{0}"的文件', input.pattern)}
                 </span>
             </div>
         </div>

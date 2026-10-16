@@ -471,9 +471,9 @@ export class WorkspaceTrustService {
 
     protected async confirmRestart(): Promise<boolean> {
         const shouldRestart = await new ConfirmDialog({
-            title: nls.localizeByDefault('A setting has changed that requires a restart to take effect.'),
-            msg: nls.localizeByDefault('Press the restart button to restart {0} and enable the setting.', FrontendApplicationConfigProvider.get().applicationName),
-            ok: nls.localizeByDefault('Restart'),
+            title: nls.localizeByDefault('某项设置已更改，需要重启才能生效。'),
+            msg: nls.localizeByDefault('按重启按钮重启 {0} 以启用该设置。', FrontendApplicationConfigProvider.get().applicationName),
+            ok: nls.localizeByDefault('重启'),
             cancel: Dialog.CANCEL,
         }).open();
         return shouldRestart === true;
@@ -489,7 +489,7 @@ export class WorkspaceTrustService {
 
     protected showRestrictedModeStatusBarItem(): void {
         this.statusBar.setElement(WORKSPACE_TRUST_STATUS_BAR_ID, {
-            text: '$(shield) ' + nls.localizeByDefault('Restricted Mode'),
+            text: '$(shield) ' + nls.localizeByDefault('受限模式'),
             alignment: StatusBarAlignment.LEFT,
             backgroundColor: 'var(--theia-statusBarItem-prominentBackground)',
             color: 'var(--theia-statusBarItem-prominentForeground)',
@@ -501,20 +501,20 @@ export class WorkspaceTrustService {
 
     protected createRestrictedModeTooltip(): MarkdownString {
         const manageTrustLink = `[${WorkspaceCommands.MANAGE_WORKSPACE_TRUST.label}](command:${WorkspaceCommands.MANAGE_WORKSPACE_TRUST.id})`;
-        const docsLink = `[${nls.localize('theia/workspace/trustLearnMore', "Learn more about Theia's Workspace Trust")}](https://theia-ide.org/docs/workspace_trust/)`;
+        const docsLink = `[${nls.localize('theia/workspace/trustLearnMore', '详细了解 Theia 的工作区信任机制')}](https://theia-ide.org/docs/workspace_trust/)`;
 
         const md = new MarkdownStringImpl('', {
             supportThemeIcons: true,
             isTrusted: { enabledCommands: [WorkspaceCommands.MANAGE_WORKSPACE_TRUST.id] }
         });
 
-        md.appendMarkdown(`**${nls.localizeByDefault('Restricted Mode')}**\n\n`);
+        md.appendMarkdown(`**${nls.localizeByDefault('受限模式')}**\n\n`);
 
         md.appendMarkdown(nls.localize('theia/workspace/restrictedModeDescription',
-            'Some features are disabled because this workspace is not trusted.'));
+            '由于此工作区不受信任，某些功能已被禁用。'));
         md.appendMarkdown('\n\n');
         md.appendMarkdown(nls.localize('theia/workspace/restrictedModeFeatures',
-            'Features like task execution, debugging, extensions, and AI are disabled to protect against potentially harmful code.'));
+            '任务执行、调试、扩展和 AI 等功能已被禁用，以防范潜在的有害代码。'));
         md.appendMarkdown('\n\n');
         md.appendMarkdown(manageTrustLink);
 

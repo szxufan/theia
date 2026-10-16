@@ -67,7 +67,7 @@ export class WriteToolRenderer implements ChatResponsePartRenderer<ToolCallChatR
             />;
         } catch (error) {
             this.logger.warn('Failed to parse Write tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseWriteToolData', 'Failed to parse Write tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseWriteToolData', '解析 Write 工具数据失败')}</div>;
         }
     }
 }
@@ -114,12 +114,12 @@ const WriteToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/writing', 'Writing')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/writing', '正在写入')}</span>
                 <span className={`${codicon('edit')} claude-code-tool icon`} />
                 <span
                     className="claude-code-tool file-name clickable-element"
                     onClick={handleOpenFile}
-                    title={nls.localize('theia/ai/claude-code/openFileTooltip', 'Click to open file in editor')}
+                    title={nls.localize('theia/ai/claude-code/openFileTooltip', '点击在编辑器中打开文件')}
                 >
                     {getFileName(input.file_path)}
                 </span>
@@ -134,11 +134,11 @@ const WriteToolComponent: React.FC<{
     const expandedContent = (
         <div className="claude-code-tool details">
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', 'File Path')}</span>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', '文件路径')}</span>
                 <code className="claude-code-tool detail-value">{input.file_path}</code>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Preview')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('预览')}</span>
                 <pre className="claude-code-tool detail-value code-preview">
                     {input.content.length > 500
                         ? input.content.substring(0, 500) + '...'
@@ -146,7 +146,7 @@ const WriteToolComponent: React.FC<{
                 </pre>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/lines', 'Lines')}</span>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/lines', '行数')}</span>
                 <span className="claude-code-tool detail-value">{input.content.split('\n').length}</span>
             </div>
         </div>

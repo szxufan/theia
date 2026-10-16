@@ -57,7 +57,7 @@ function menuAnchor(event: RegistryEntryMenuEvent, target: HTMLElement): Anchor 
 
 /** The gear that opens {@link showEntryMenu}. */
 export const RegistryEntryGear: React.FC<{ className: string; onManage: (event: RegistryEntryMenuEvent) => void }> = props => {
-    const label = nls.localizeByDefault('Manage');
+    const label = nls.localizeByDefault('管理');
     return (
         <div
             className={`codicon codicon-settings-gear action ${props.className}`}

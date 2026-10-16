@@ -222,7 +222,7 @@ describe('ScmRepositoriesWidget', () => {
     });
 
     it('should have title label "Repositories"', () => {
-        expect(widget.title.label).to.equal('Repositories');
+        expect(widget.title.label).to.equal('存储库');
     });
 
     // --- Rendering ---

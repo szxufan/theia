@@ -51,7 +51,7 @@ export class MemoryDiffOptionsWidget extends MemoryOptionsWidget {
         const { identifier, beforeBytes, afterBytes } = this.memoryWidgetOptions;
 
         this.id = `${MemoryDiffOptionsWidget.ID}-${identifier}`;
-        this.title.label = nls.localize('theia/memory-inspector/diff/label', 'Diff: {0}', identifier);
+        this.title.label = nls.localize('theia/memory-inspector/diff/label', '差异: {0}', identifier);
         this.title.caption = this.title.label;
         this.title.iconClass = this.iconClass;
         this.title.closable = true;
@@ -63,7 +63,7 @@ export class MemoryDiffOptionsWidget extends MemoryOptionsWidget {
 
         this.columnsDisplayed = {
             beforeAddress: {
-                label: nls.localizeByDefault('Address'),
+                label: nls.localizeByDefault('地址'),
                 doRender: true
             },
             beforeData: {
@@ -71,7 +71,7 @@ export class MemoryDiffOptionsWidget extends MemoryOptionsWidget {
                 doRender: true
             },
             afterAddress: {
-                label: nls.localizeByDefault('Address'),
+                label: nls.localizeByDefault('地址'),
                 doRender: true
             },
             afterData: {
@@ -79,7 +79,7 @@ export class MemoryDiffOptionsWidget extends MemoryOptionsWidget {
                 doRender: true
             },
             variables: {
-                label: nls.localizeByDefault('Variables'),
+                label: nls.localizeByDefault('变量'),
                 doRender: false
             },
             ascii: {
@@ -103,7 +103,7 @@ export class MemoryDiffOptionsWidget extends MemoryOptionsWidget {
                 <MWInput
                     id={LOCATION_OFFSET_FIELD_ID}
                     label={nls.localize('theia/memory-inspector/diff-widget/offset-label', '{0} Offset', beforeTitle)}
-                    title={nls.localize('theia/memory-inspector/diff-widget/offset-title', 'Bytes to offset the memory from {0}', beforeTitle)}
+                    title={nls.localize('theia/memory-inspector/diff-widget/offset-title', '相对 {0} 的内存偏移字节数', beforeTitle)}
                     defaultValue='0'
                     passRef={this.assignOffsetRef}
                     onChange={Utils.validateNumericalInputs}
@@ -112,7 +112,7 @@ export class MemoryDiffOptionsWidget extends MemoryOptionsWidget {
                 <MWInput
                     id={LENGTH_FIELD_ID}
                     label={nls.localize('theia/memory-inspector/diff-widget/offset-label', '{0} Offset', afterTitle)}
-                    title={nls.localize('theia/memory-inspector/diff-widget/offset-title', 'Bytes to offset the memory from {0}', afterTitle)}
+                    title={nls.localize('theia/memory-inspector/diff-widget/offset-title', '相对 {0} 的内存偏移字节数', afterTitle)}
                     defaultValue='0'
                     passRef={this.assignReadLengthRef}
                     onChange={Utils.validateNumericalInputs}
@@ -121,10 +121,10 @@ export class MemoryDiffOptionsWidget extends MemoryOptionsWidget {
                 <button
                     type='button'
                     className='theia-button main view-group-go-button'
-                    title={nls.localizeByDefault('Go')}
+                    title={nls.localizeByDefault('跳转')}
                     onClick={this.doRefresh}
                 >
-                    {nls.localizeByDefault('Go')}
+                    {nls.localizeByDefault('跳转')}
                 </button>
             </div>
         );

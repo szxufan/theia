@@ -240,7 +240,7 @@ export class DebugVariable extends ExpressionContainer {
         const { type, value, name, lazy } = this;
         return <div className={this.variableClassName}>
             <span title={type || name} className='name' ref={this.setNameRef}>{name}{(value || lazy) && ': '}</span>
-            {lazy && <span title={nls.localizeByDefault('Click to expand')} className={codicon('eye') + ' lazy-button'} onClick={this.handleLazyButtonClick} />}
+            {lazy && <span title={nls.localizeByDefault('点击展开')} className={codicon('eye') + ' lazy-button'} onClick={this.handleLazyButtonClick} />}
             <span title={value} className='value'>{value}</span>
         </div>;
     }
@@ -315,9 +315,9 @@ export class DebugVariable extends ExpressionContainer {
             return;
         }
         const input = new SingleTextInputDialog({
-            title: nls.localize('theia/debug/debugVariableInput', 'Set {0} Value', this.name),
+            title: nls.localize('theia/debug/debugVariableInput', '设置 {0} 的值', this.name),
             initialValue: this.value,
-            placeholder: nls.localizeByDefault('Value'),
+            placeholder: nls.localizeByDefault('值'),
             validate: async (value, mode) => {
                 if (!value) {
                     return false;
@@ -364,7 +364,7 @@ export namespace VirtualVariableItem {
 export class ExpressionItem extends ExpressionContainer {
 
     severity?: Severity;
-    static notAvailable = nls.localizeByDefault('not available');
+    static notAvailable = nls.localizeByDefault('不可用');
 
     protected _value = ExpressionItem.notAvailable;
     get value(): string {

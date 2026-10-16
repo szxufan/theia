@@ -25,48 +25,48 @@ import { ChatViewWidget } from '@theia/ai-chat-ui/lib/browser/chat-view-widget';
 export const AI_HISTORY_TOGGLE_COMMAND_ID = 'aiHistory:toggle';
 export const OPEN_AI_HISTORY_VIEW = Command.toLocalizedCommand({
     id: 'aiHistory:open',
-    label: 'Open AI History view',
+    label: '打开 AI 历史视图',
 });
 
 export const AI_HISTORY_VIEW_SORT_CHRONOLOGICALLY = Command.toLocalizedCommand({
     id: 'aiHistory:sortChronologically',
-    label: 'AI History: Sort chronologically',
+    label: 'AI 历史：按时间顺序排序',
     iconClass: codicon('arrow-down')
 });
 
 export const AI_HISTORY_VIEW_SORT_REVERSE_CHRONOLOGICALLY = Command.toLocalizedCommand({
     id: 'aiHistory:sortReverseChronologically',
-    label: 'AI History: Sort reverse chronologically',
+    label: 'AI 历史：按时间倒序排序',
     iconClass: codicon('arrow-up')
 });
 
 export const AI_HISTORY_VIEW_TOGGLE_COMPACT = Command.toLocalizedCommand({
     id: 'aiHistory:toggleCompact',
-    label: 'AI History: Toggle compact view',
+    label: 'AI 历史：切换紧凑视图',
     iconClass: codicon('list-flat')
 });
 
 export const AI_HISTORY_VIEW_TOGGLE_RAW = Command.toLocalizedCommand({
     id: 'aiHistory:toggleRaw',
-    label: 'AI History: Toggle raw view',
+    label: 'AI 历史：切换原始视图',
     iconClass: codicon('list-tree')
 });
 
 export const AI_HISTORY_VIEW_TOGGLE_RENDER_NEWLINES = Command.toLocalizedCommand({
     id: 'aiHistory:toggleRenderNewlines',
-    label: 'AI History: Interpret newlines',
+    label: 'AI 历史：解析换行符',
     iconClass: codicon('newline')
 });
 
 export const AI_HISTORY_VIEW_TOGGLE_HIDE_NEWLINES = Command.toLocalizedCommand({
     id: 'aiHistory:toggleHideNewlines',
-    label: 'AI History: Stop interpreting newlines',
+    label: 'AI 历史：停止解析换行符',
     iconClass: codicon('no-newline')
 });
 
 export const AI_HISTORY_VIEW_CLEAR = Command.toLocalizedCommand({
     id: 'aiHistory:clear',
-    label: 'AI History: Clear History',
+    label: 'AI 历史：清除历史',
     iconClass: codicon('clear-all')
 });
 
@@ -182,56 +182,56 @@ export class AIHistoryViewContribution extends AIViewContribution<AIHistoryView>
         registry.registerItem({
             id: AI_HISTORY_VIEW_SORT_CHRONOLOGICALLY.id,
             command: AI_HISTORY_VIEW_SORT_CHRONOLOGICALLY.id,
-            tooltip: nls.localize('theia/ai/history/sortChronologically/tooltip', 'Sort chronologically'),
+            tooltip: nls.localize('theia/ai/history/sortChronologically/tooltip', '按时间顺序排序'),
             isVisible: widget => this.withHistoryWidget(widget),
             onDidChange: this.chronologicalStateChanged
         });
         registry.registerItem({
             id: AI_HISTORY_VIEW_SORT_REVERSE_CHRONOLOGICALLY.id,
             command: AI_HISTORY_VIEW_SORT_REVERSE_CHRONOLOGICALLY.id,
-            tooltip: nls.localize('theia/ai/history/sortReverseChronologically/tooltip', 'Sort reverse chronologically'),
+            tooltip: nls.localize('theia/ai/history/sortReverseChronologically/tooltip', '按时间倒序排序'),
             isVisible: widget => this.withHistoryWidget(widget),
             onDidChange: this.chronologicalStateChanged
         });
         registry.registerItem({
             id: AI_HISTORY_VIEW_TOGGLE_COMPACT.id,
             command: AI_HISTORY_VIEW_TOGGLE_COMPACT.id,
-            tooltip: nls.localize('theia/ai/history/toggleCompact/tooltip', 'Show compact view'),
+            tooltip: nls.localize('theia/ai/history/toggleCompact/tooltip', '显示紧凑视图'),
             isVisible: widget => this.withHistoryWidget(widget, historyView => !historyView.isCompactView),
             onDidChange: this.compactViewStateChanged
         });
         registry.registerItem({
             id: AI_HISTORY_VIEW_TOGGLE_RAW.id,
             command: AI_HISTORY_VIEW_TOGGLE_RAW.id,
-            tooltip: nls.localize('theia/ai/history/toggleRaw/tooltip', 'Show raw view'),
+            tooltip: nls.localize('theia/ai/history/toggleRaw/tooltip', '显示原始视图'),
             isVisible: widget => this.withHistoryWidget(widget, historyView => historyView.isCompactView),
             onDidChange: this.compactViewStateChanged
         });
         registry.registerItem({
             id: AI_HISTORY_VIEW_TOGGLE_RENDER_NEWLINES.id,
             command: AI_HISTORY_VIEW_TOGGLE_RENDER_NEWLINES.id,
-            tooltip: nls.localize('theia/ai/history/toggleRenderNewlines/tooltip', 'Interpret newlines'),
+            tooltip: nls.localize('theia/ai/history/toggleRenderNewlines/tooltip', '解析换行符'),
             isVisible: widget => this.withHistoryWidget(widget, historyView => !historyView.isRenderNewlines),
             onDidChange: this.renderNewlinesStateChanged
         });
         registry.registerItem({
             id: AI_HISTORY_VIEW_TOGGLE_HIDE_NEWLINES.id,
             command: AI_HISTORY_VIEW_TOGGLE_HIDE_NEWLINES.id,
-            tooltip: nls.localize('theia/ai/history/toggleHideNewlines/tooltip', 'Stop interpreting newlines'),
+            tooltip: nls.localize('theia/ai/history/toggleHideNewlines/tooltip', '停止解析换行符'),
             isVisible: widget => this.withHistoryWidget(widget, historyView => historyView.isRenderNewlines),
             onDidChange: this.renderNewlinesStateChanged
         });
         registry.registerItem({
             id: AI_HISTORY_VIEW_CLEAR.id,
             command: AI_HISTORY_VIEW_CLEAR.id,
-            tooltip: nls.localize('theia/ai/history/clear/tooltip', 'Clear History of all agents'),
+            tooltip: nls.localize('theia/ai/history/clear/tooltip', '清除所有代理的历史'),
             isVisible: widget => this.withHistoryWidget(widget)
         });
         // Register the AI History view command for the chat view
         registry.registerItem({
             id: 'chat-view.' + OPEN_AI_HISTORY_VIEW.id,
             command: OPEN_AI_HISTORY_VIEW.id,
-            tooltip: nls.localize('theia/ai/history/open-history-tooltip', 'Open AI Agent History'),
+            tooltip: nls.localize('theia/ai/history/open-history-tooltip', '打开 AI 代理历史'),
             group: 'ai-settings',
             priority: 1,
             isVisible: widget => this.activationService.isActive && widget instanceof ChatViewWidget

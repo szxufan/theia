@@ -32,7 +32,7 @@ export class PluginApiFrontendContribution implements CommandContribution, TabBa
     static readonly COLLAPSE_ALL_COMMAND = Command.toDefaultLocalizedCommand({
         id: 'treeviews.collapseAll',
         iconClass: codicon('collapse-all'),
-        label: 'Collapse All'
+        label: '全部折叠'
     });
 
     registerCommands(commands: CommandRegistry): void {

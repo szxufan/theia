@@ -72,13 +72,13 @@ export class ThinkingPartRenderer implements ChatResponsePartRenderer<ThinkingCh
 const ThinkingContent: React.FC<{ response: ThinkingChatResponseContent, active: boolean }> = ({ response, active }) => active
     ? <div className='theia-thinking active'>
         <div className='theia-thinking-status'>
-            <Spinner /> {nls.localizeByDefault('Thinking')}
+            <Spinner /> {nls.localizeByDefault('思考中')}
         </div>
         <ThinkingPreview content={response.content} />
     </div>
     : <div className='theia-thinking'>
         <details>
-            <summary>{nls.localizeByDefault('Thinking')}</summary>
+            <summary>{nls.localizeByDefault('思考中')}</summary>
             <pre>{response.content}</pre>
         </details>
     </div>;

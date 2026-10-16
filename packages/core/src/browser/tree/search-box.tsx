@@ -232,27 +232,27 @@ export class SearchBox extends ReactWidget {
                         <div
                             className={`theia-search-button action-label ${this.isFiltering ? codicon('list-filter') : codicon('list-selection')}`}
                             title={this.isFiltering ?
-                                nls.localize('theia/core/searchbox/showAll', 'Show all items') :
-                                nls.localize('theia/core/searchbox/showOnlyMatching', 'Show only matching items')}
+                                nls.localize('theia/core/searchbox/showAll', '显示所有项') :
+                                nls.localize('theia/core/searchbox/showOnlyMatching', '仅显示匹配项')}
                             onClick={() => this.fireFilterToggle()}
                         />}
                     {this.props.showButtons &&
                         <>
                             <div
                                 className={`theia-search-button ${this.hasMatch ? 'action-label' : 'no-match'} ${codicon('find-previous-match')}`}
-                                title={nls.localize('theia/core/searchbox/previous', 'Previous (Up)')}
+                                title={nls.localize('theia/core/searchbox/previous', '上一个 (向上)')}
                                 onClick={() => this.hasMatch && this.firePrevious()}
                             />
                             <div
                                 className={`theia-search-button ${this.hasMatch ? 'action-label' : 'no-match'} ${codicon('find-next-match')}`}
-                                title={nls.localize('theia/core/searchbox/next', 'Next (Down)')}
+                                title={nls.localize('theia/core/searchbox/next', '下一个 (向下)')}
                                 onClick={() => this.hasMatch && this.fireNext()}
                             />
                         </>}
                     {(this.props.showButtons || this.props.showFilter) &&
                         <div
                             className={`theia-search-button action-label ${codicon('widget-close')}`}
-                            title={nls.localize('theia/core/searchbox/close', 'Close (Escape)')}
+                            title={nls.localize('theia/core/searchbox/close', '关闭 (Escape)')}
                             onClick={() => this.hide()}
                         />}
                 </div>

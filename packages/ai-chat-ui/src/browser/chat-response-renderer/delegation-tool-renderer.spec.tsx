@@ -88,7 +88,7 @@ describe('DelegationToolRenderer cancel button', () => {
         await renderDelegation();
         const button = container.querySelector<HTMLButtonElement>('.delegation-cancel-button')!;
 
-        expect(button.title).to.equal('Cancel delegation');
+        expect(button.title).to.equal('取消委派');
         expect(button.getAttribute('aria-label')).to.equal(button.title);
         expect(button.querySelectorAll('.codicon-stop-circle')).to.have.lengthOf(1);
         expect(button.previousElementSibling?.className).to.equal('delegation-status');

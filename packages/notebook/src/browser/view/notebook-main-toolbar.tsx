@@ -157,7 +157,7 @@ export class NotebookMainToolbar extends React.Component<NotebookMainToolbarProp
                 onClick={() => this.props.commandRegistry.executeCommand(NotebookCommands.SELECT_KERNEL_COMMAND.id, this.props.notebookModel)}>
                 <span className={codicon('server-environment')} />
                 <span className=' theia-notebook-main-toolbar-item-text' id='kernel-text'>
-                    {this.state.selectedKernelLabel ?? nls.localizeByDefault('Select Kernel')}
+                    {this.state.selectedKernelLabel ?? nls.localizeByDefault('选择内核')}
                 </span>
             </div>
         </div >;

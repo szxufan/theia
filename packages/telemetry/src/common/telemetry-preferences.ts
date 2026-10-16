@@ -44,13 +44,13 @@ export const TelemetryPreferenceSchema: PreferenceSchema = {
             type: 'string',
             enum: ['off', 'crash', 'error', 'all'],
             enumDescriptions: [
-                nls.localizeByDefault('Disables all product telemetry.'),
-                nls.localizeByDefault('Sends OS level crash reports.'),
-                nls.localizeByDefault('Sends general error telemetry and crash reports.'),
-                nls.localizeByDefault('Sends usage data, errors, and crash reports.')
+                nls.localizeByDefault('禁用所有产品遥测。'),
+                nls.localizeByDefault('发送操作系统级别的崩溃报告。'),
+                nls.localizeByDefault('发送一般错误遥测和崩溃报告。'),
+                nls.localizeByDefault('发送使用数据、错误和崩溃报告。')
             ],
             default: 'off',
-            description: nls.localizeByDefault('Controls the level of telemetry.')
+            description: nls.localizeByDefault('控制遥测级别。')
         },
         [TELEMETRY_FILTERS]: {
             type: 'object',
@@ -62,7 +62,7 @@ export const TelemetryPreferenceSchema: PreferenceSchema = {
             },
             default: {},
             description: nls.localize('theia/telemetry/filters',
-                'Restrict the topic patterns delivered to each telemetry sink. Missing entries allow all sink interests; empty arrays disable a sink.')
+                '限制传递给每个遥测接收器（sink）的主题模式。缺少的条目表示允许所有该接收器感兴趣的内容；空数组则禁用该接收器。')
         }
     }
 };

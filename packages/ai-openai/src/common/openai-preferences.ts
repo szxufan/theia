@@ -34,8 +34,8 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
             type: 'string',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'OpenAI' } satisfies ModelProviderTypeDetail },
             markdownDescription: nls.localize('theia/ai/openai/apiKey/mdDescription',
-                'Enter an API Key of your official OpenAI Account. **Please note:** By using this preference the Open AI API key will be stored in clear text \
-on the machine running Theia. Use the environment variable `OPENAI_API_KEY` to set the key securely.') + LINUX_ENV_HINT,
+                '输入您官方 OpenAI 账户的 API 密钥。**请注意：**使用此偏好设置后，Open AI API 密钥将以明文形式存储 \
+在运行 Theia 的机器上。请使用环境变量 `OPENAI_API_KEY` 安全地设置密钥。') + LINUX_ENV_HINT,
             title: AI_CORE_PREFERENCES_TITLE,
         },
         [ALLOW_ENV_API_KEY_PREF]: {
@@ -43,8 +43,8 @@ on the machine running Theia. Use the environment variable `OPENAI_API_KEY` to s
             default: false,
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/openai/allowEnvApiKey/description',
-                'Allow Theia to use an OpenAI API key found in the environment (`OPENAI_API_KEY`). '
-                + 'You are asked to confirm this once before the key is used; set it back to `false` to revoke consent.'),
+                '允许 Theia 使用在环境中找到的 OpenAI API 密钥（`OPENAI_API_KEY`）。'
+                + '在密钥被使用之前，系统会要求您确认一次；将其重新设置为 `false` 可撤销授权。'),
         },
         [MODEL_OVERRIDES_PREF]: {
             type: 'array',
@@ -54,30 +54,30 @@ on the machine running Theia. Use the environment variable `OPENAI_API_KEY` to s
             },
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/openai/modelOverrides/description',
-                'Override the models discovered from OpenAI. When empty (default), the available models are discovered from the provider. '
-                + 'Set explicit model ids to use exactly those instead; discovery is then not used at all.')
+                '覆盖从 OpenAI 发现的模型。为空时（默认），将从提供程序发现可用模型。'
+                + '设置显式的模型 ID 可精确使用这些模型；此时将完全不使用发现功能。')
         },
         [USE_RESPONSE_API_PREF]: {
             type: 'boolean',
             default: true,
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/openai/useResponseApi/mdDescription',
-                'Use the newer OpenAI Response API instead of the Chat Completion API for official OpenAI models. ' +
-                'This setting only applies to official OpenAI models - custom providers must configure this individually.')
+                '对官方 OpenAI 模型使用较新的 OpenAI Response API 而不是 Chat Completion API。' +
+                '此设置仅适用于官方 OpenAI 模型——自定义提供程序必须单独配置此项。')
         },
         [SERVER_SIDE_COMPACTION_PREF]: {
             type: 'string',
             enum: ['default', 'enabled', 'disabled'],
             enumDescriptions: [
-                nls.localize('theia/ai/openai/compaction/default', 'Follow the global chat server-side compaction setting.'),
-                nls.localize('theia/ai/openai/compaction/enabled', 'Always request server-side compaction for official OpenAI models.'),
-                nls.localize('theia/ai/openai/compaction/disabled', 'Never request server-side compaction for official OpenAI models.')
+                nls.localize('theia/ai/openai/compaction/default', '遵循全局聊天服务端压缩设置。'),
+                nls.localize('theia/ai/openai/compaction/enabled', '始终为官方 OpenAI 模型请求服务端压缩。'),
+                nls.localize('theia/ai/openai/compaction/disabled', '从不为官方 OpenAI 模型请求服务端压缩。')
             ],
             default: 'default',
             markdownDescription: nls.localize('theia/ai/openai/compaction/description',
-                'Override provider-native server-side compaction for official OpenAI models. This applies to the OpenAI Response API only; ' +
-                'the Chat Completions API ignores it. "default" follows the global chat setting ({0}). When effectively ' +
-                'enabled, the Response API is asked to summarize older turns once the conversation grows past the provider\'s threshold.',
+                '覆盖官方 OpenAI 模型的提供程序原生服务端压缩。此设置仅适用于 OpenAI Response API；' +
+                'Chat Completions API 会忽略它。"default" 遵循全局聊天设置（{0}）。在有效启用的情况下，' +
+                '当对话增长超过提供程序的阈值时，将要求 Response API 总结较早的对话轮次。',
                 `\`#${PREFERENCE_NAME_SERVER_SIDE_COMPACTION}#\``),
             title: AI_CORE_PREFERENCES_TITLE,
         },
@@ -85,108 +85,109 @@ on the machine running Theia. Use the environment variable `OPENAI_API_KEY` to s
             type: 'integer',
             minimum: SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM,
             markdownDescription: nls.localize('theia/ai/openai/compactionTokenThreshold/description',
-                'Override the global input-token threshold for server-side compaction for official OpenAI models. When unset, the global setting or provider default applies. ' +
-                'If set, the value must be at least 50,000 tokens.'),
+                '覆盖官方 OpenAI 模型服务端压缩的全局输入 Token 阈值。未设置时，将应用全局设置或提供程序默认值。' +
+                '如果设置，该值必须至少为 50,000 Token。'),
             title: AI_CORE_PREFERENCES_TITLE,
         },
         [CUSTOM_ENDPOINTS_PREF]: {
             type: 'array',
             typeDetails: {
-                [MODEL_PROVIDER_TYPE_DETAIL]: { label: nls.localize('theia/ai/openai/customProvider/label', '{0} (Custom)', 'OpenAI') } satisfies ModelProviderTypeDetail
+                [MODEL_PROVIDER_TYPE_DETAIL]: { label: nls.localize('theia/ai/openai/customProvider/label', '{0}（自定义）', 'OpenAI') } satisfies ModelProviderTypeDetail
             },
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/openai/customEndpoints/mdDescription',
-                'Integrate custom models compatible with the OpenAI API, for example via `vllm`. The required attributes are `model` and `url`.\
+                '集成与 OpenAI API 兼容的自定义模型，例如通过 `vllm`。必需的属性是 `model` 和 `url`。\
             \n\
-            Optionally, you can\
+            可选地，您可以\
             \n\
-            - specify a unique `id` to identify the custom model in the UI. If none is given `model` will be used as `id`.\
+            - 指定唯一的 `id` 以在 UI 中标识该自定义模型。如果不提供，将使用 `model` 作为 `id`。\
             \n\
-            - provide an `apiKey` to access the API served at the given url. Use `true` to indicate the use of the global OpenAI API key.\
+            - 提供 `apiKey` 以访问给定 URL 上的 API。使用 `true` 表示使用全局 OpenAI API 密钥。\
             \n\
-            - provide an `apiVersion` to access the API served at the given url in Azure. Use `true` to indicate the use of the global OpenAI API version.\
+            - 提供 `apiVersion` 以在 Azure 中访问给定 URL 上的 API。使用 `true` 表示使用全局 OpenAI API 版本。\
             \n\
-            - provide a `deployment` name for your Azure deployment.\
+            - 为您的 Azure 部署提供 `deployment` 名称。\
             \n\
-            - set `developerMessageSettings` to one of `user`, `system`, `developer`, `mergeWithFollowingUserMessage`, or `skip` to control how the developer message is\
-            included (where `user`, `system`, and `developer` will be used as a role, `mergeWithFollowingUserMessage` will prefix the following user message with the system\
-            message or convert the system message to user message if the next message is not a user message. `skip` will just remove the system message).\
-            Defaulting to `developer`.\
+            - 将 `developerMessageSettings` 设置为 `user`、`system`、`developer`、`mergeWithFollowingUserMessage` 或 `skip`，以控制 developer 消息的\
+            包含方式（其中 `user`、`system` 和 `developer` 将用作角色；`mergeWithFollowingUserMessage` 会将系统消息作为后续用户消息的前缀，\
+            或在下一条消息不是用户消息时将系统消息转换为用户消息；`skip` 将直接移除系统消息）。\
+            默认为 `developer`。\
             \n\
-            - specify `supportsStructuredOutput: false` to indicate that structured output shall not be used.\
+            - 指定 `supportsStructuredOutput: false` 表示不使用结构化输出。\
             \n\
-            - specify `enableStreaming: false` to indicate that streaming shall not be used.\
+            - 指定 `enableStreaming: false` 表示不使用流式传输。\
             \n\
-            - specify `useResponseApi: true` to use the newer OpenAI Response API instead of the Chat Completion API (requires compatible endpoint).\
+            - 指定 `useResponseApi: true` 以使用较新的 OpenAI Response API 而不是 Chat Completion API（需要兼容的端点）。\
             \n\
-            - specify `reasoningSupport` to opt in to the chat reasoning selector. Provide an object with\
-            `supportedLevels` (choices: `off`, `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, `auto`) and an optional `defaultLevel`.\
-            `none` sends an explicit no-reasoning effort; `off` omits generated reasoning settings; `auto` uses the provider default effort.\
-            Only declare levels supported by your endpoint.\
+            - 指定 `reasoningSupport` 以启用聊天推理选择器。提供一个包含\
+            `supportedLevels`（可选值：`off`、`none`、`minimal`、`low`、`medium`、`high`、`xhigh`、`max`、`auto`）和可选 `defaultLevel` 的对象。\
+            `none` 发送显式的无推理指令；`off` 省略生成的推理设置；`auto` 使用提供程序的默认推理力度。\
+            仅声明您的端点支持的级别。\
             \n\
-            - specify `headers` to send additional HTTP headers with every request to the endpoint, e.g. headers required by a gateway in front of the API.\
+            - 指定 `headers` 以随每个发送到端点的请求附加额外的 HTTP 头，例如 API 前置网关所需的头。\
             \n\
-            Refer to [our documentation](https://theia-ide.org/docs/user_ai/#openai-compatible-models-eg-via-vllm) for more information.'),
+            有关更多信息，请参阅[我们的文档](https://theia-ide.org/docs/user_ai/#openai-compatible-models-eg-via-vllm)。'),
             default: [],
             items: {
                 type: 'object',
+                required: ['model', 'url'],
                 properties: {
                     model: {
                         type: 'string',
-                        title: nls.localize('theia/ai/openai/customEndpoints/modelId/title', 'Model ID')
+                        title: nls.localize('theia/ai/openai/customEndpoints/modelId/title', '模型 ID')
                     },
                     url: {
                         type: 'string',
-                        title: nls.localize('theia/ai/openai/customEndpoints/url/title', 'The Open AI API compatible endpoint where the model is hosted')
+                        title: nls.localize('theia/ai/openai/customEndpoints/url/title', '托管该模型的 Open AI API 兼容端点')
                     },
                     id: {
                         type: 'string',
-                        title: nls.localize('theia/ai/openai/customEndpoints/id/title', 'A unique identifier which is used in the UI to identify the custom model'),
+                        title: nls.localize('theia/ai/openai/customEndpoints/id/title', '用于在 UI 中标识自定义模型的唯一标识符'),
                     },
                     apiKey: {
                         type: ['string', 'boolean'],
                         title: nls.localize('theia/ai/openai/customEndpoints/apiKey/title',
-                            'Either the key to access the API served at the given url or `true` to use the global OpenAI API key'),
+                            '访问给定 URL 上 API 的密钥，或使用 `true` 表示使用全局 OpenAI API 密钥'),
                     },
                     apiVersion: {
                         type: ['string', 'boolean'],
                         title: nls.localize('theia/ai/openai/customEndpoints/apiVersion/title',
-                            'Either the version to access the API served at the given url in Azure or `true` to use the global OpenAI API version'),
+                            '在 Azure 中访问给定 URL 上 API 的版本，或使用 `true` 表示使用全局 OpenAI API 版本'),
                     },
                     deployment: {
                         type: 'string',
                         title: nls.localize('theia/ai/openai/customEndpoints/deployment/title',
-                            'The deployment name to access the API served at the given url in Azure'),
+                            '在 Azure 中访问给定 URL 上 API 的部署名称'),
                     },
                     developerMessageSettings: {
                         type: 'string',
                         enum: ['user', 'system', 'developer', 'mergeWithFollowingUserMessage', 'skip'],
                         default: 'developer',
                         title: nls.localize('theia/ai/openai/customEndpoints/developerMessageSettings/title',
-                            'Controls the handling of system messages: `user`, `system`, and `developer` will be used as a role, `mergeWithFollowingUserMessage` will prefix\
-                         the following user message with the system message or convert the system message to user message if the next message is not a user message.\
-                         `skip` will just remove the system message), defaulting to `developer`.')
+                            '控制系统消息的处理方式：`user`、`system` 和 `developer` 将用作角色；`mergeWithFollowingUserMessage` 会将系统消息作为后续用户消息的前缀，\
+                         或在下一条消息不是用户消息时将系统消息转换为用户消息。\
+                         `skip` 将直接移除系统消息。默认为 `developer`。')
                     },
                     supportsStructuredOutput: {
                         type: 'boolean',
                         title: nls.localize('theia/ai/openai/customEndpoints/supportsStructuredOutput/title',
-                            'Indicates whether the model supports structured output. `true` by default.'),
+                            '指示模型是否支持结构化输出。默认为 `true`。'),
                     },
                     enableStreaming: {
                         type: 'boolean',
                         title: nls.localize('theia/ai/openai/customEndpoints/enableStreaming/title',
-                            'Indicates whether the streaming API shall be used. `true` by default.'),
+                            '指示是否使用流式 API。默认为 `true`。'),
                     },
                     useResponseApi: {
                         type: 'boolean',
                         title: nls.localize('theia/ai/openai/customEndpoints/useResponseApi/title',
-                            'Use the newer OpenAI Response API instead of the Chat Completion API. `false` by default for custom providers.'
-                            + 'Note: Will automatically fall back to Chat Completions API when tools are used.'),
+                            '使用较新的 OpenAI Response API 而不是 Chat Completion API。对于自定义提供程序默认为 `false`。'
+                            + '注意：使用工具时会自动回退到 Chat Completions API。'),
                     },
                     reasoningSupport: {
                         type: 'object',
                         title: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/title',
-                            'Declares the model\'s reasoning capabilities. When set the chat shows a reasoning selector for this model.'),
+                            '声明模型的推理能力。设置后，聊天界面将为此模型显示推理选择器。'),
                         properties: {
                             supportedLevels: {
                                 type: 'array',
@@ -205,7 +206,7 @@ on the machine running Theia. Use the environment variable `OPENAI_API_KEY` to s
                         type: 'object',
                         additionalProperties: { type: 'string' },
                         title: nls.localize('theia/ai/openai/customEndpoints/headers/title',
-                            'Additional HTTP headers sent with every request to the endpoint'),
+                            '随每个发送到端点的请求一起发送的额外 HTTP 头'),
                     }
                 }
             }

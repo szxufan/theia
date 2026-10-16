@@ -31,8 +31,8 @@ export class WorkspaceTrustDialog extends ReactDialog<boolean> {
 
         this.node.classList.add('workspace-trust-dialog');
 
-        this.appendCloseButton(nls.localizeByDefault("No, I don't trust the authors"));
-        this.appendAcceptButton(nls.localizeByDefault('Yes, I trust the authors'));
+        this.appendCloseButton(nls.localizeByDefault('不，我不信任这些作者'));
+        this.appendAcceptButton(nls.localizeByDefault('是，我信任这些作者'));
         this.controlPanel.removeChild(this.errorMessageNode);
     }
 
@@ -56,19 +56,19 @@ export class WorkspaceTrustDialog extends ReactDialog<boolean> {
                 <div className="workspace-trust-header">
                     <i className={codicon('shield')}></i>
                     <div className="workspace-trust-title">
-                        {nls.localizeByDefault('Do you trust the authors of the files in this folder?')}
+                        {nls.localizeByDefault('是否信任此文件夹中文件的作者？')}
                     </div>
                 </div>
                 <div className="workspace-trust-description">
                     {nls.localize(
                         'theia/workspace/trustDialogMessage',
-                        'If you trust the authors, code in this folder may be executed, including tasks, debug configurations, extensions, and AI features.'
+                        '如果您信任这些作者，此文件夹中的代码可能会被执行，包括任务、调试配置、扩展和 AI 功能。'
                     )}
                 </div>
                 <div className="workspace-trust-description">
                     {nls.localize(
                         'theia/workspace/trustDialogRestricted',
-                        "If you don't trust the authors, the workspace will open in Restricted Mode, which disables these features to protect against potentially harmful code."
+                        '如果您不信任这些作者，工作区将以受限模式打开，该模式会禁用这些功能，以防范潜在的有害代码。'
                     )}
                 </div>
                 <div className="workspace-trust-description">
@@ -76,7 +76,7 @@ export class WorkspaceTrustDialog extends ReactDialog<boolean> {
                         title="https://theia-ide.org/docs/workspace_trust/"
                         target="_blank"
                         rel="noopener noreferrer">
-                        {nls.localize('theia/workspace/trustLearnMore', "Learn more about Theia's Workspace Trust")}
+                        {nls.localize('theia/workspace/trustLearnMore', '详细了解 Theia 的工作区信任机制')}
                     </a>
                 </div>
                 {this.folderUris.length > 0 && (

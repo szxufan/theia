@@ -137,7 +137,7 @@ export const AiNumberStepper: React.FC<{
             <button
                 type='button'
                 className='ai-config-stepper-button'
-                aria-label={nls.localize('theia/ai/core/aiConfiguration/decrease', 'Decrease')}
+                aria-label={nls.localize('theia/ai/core/aiConfiguration/decrease', '减小')}
                 disabled={disabled || (min !== undefined && value <= min)}
                 onClick={() => step(-1)}
             >−</button>
@@ -154,7 +154,7 @@ export const AiNumberStepper: React.FC<{
             <button
                 type='button'
                 className='ai-config-stepper-button'
-                aria-label={nls.localize('theia/ai/core/aiConfiguration/increase', 'Increase')}
+                aria-label={nls.localize('theia/ai/core/aiConfiguration/increase', '增大')}
                 disabled={disabled || (max !== undefined && value >= max)}
                 onClick={() => step(1)}
             >+</button>
@@ -207,7 +207,7 @@ export const AiArrayInput: React.FC<{
                     className='preference-array-element-btn remove-btn'
                     role='button'
                     tabIndex={0}
-                    title={nls.localizeByDefault('Remove')}
+                    title={nls.localizeByDefault('移除')}
                     onClick={() => { if (!disabled) { removeAt(index); } }}
                 >
                     <i className={codicon('close')}></i>
@@ -230,7 +230,7 @@ export const AiArrayInput: React.FC<{
                 className={`preference-array-element-btn ${codicon('add')}`}
                 role='button'
                 tabIndex={0}
-                title={nls.localizeByDefault('Add')}
+                title={nls.localizeByDefault('添加')}
                 onClick={() => { if (!disabled) { addItem(); } }}
             ></span>
         </li>

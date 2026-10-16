@@ -16,8 +16,10 @@
 
 import { inject, injectable, named } from '@theia/core/shared/inversify';
 import { ILogger } from '@theia/core/lib/common/logger';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { MCPBackendContribution } from '@theia/ai-mcp-server/lib/node/mcp-theia-server';
+
+/** Derived from the contribution interface so that we do not pin a second `@modelcontextprotocol/sdk` instance. */
+type McpServer = Parameters<MCPBackendContribution['configure']>[0];
 
 @injectable()
 export class MCPTestContribution implements MCPBackendContribution {

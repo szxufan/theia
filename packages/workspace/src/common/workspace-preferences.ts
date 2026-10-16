@@ -21,7 +21,7 @@ import { nls } from '@theia/core/lib/common/nls';
 export const workspacePreferenceSchema: PreferenceSchema = {
     properties: {
         'workspace.preserveWindow': {
-            description: nls.localize('theia/workspace/preserveWindow', 'Enable opening workspaces in current window.'),
+            description: nls.localize('theia/workspace/preserveWindow', '允许在当前窗口中打开工作区。'),
             type: 'boolean',
             default: false
         },

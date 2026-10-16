@@ -38,7 +38,7 @@ export class FileDownloadServiceImpl implements FileDownloadService {
         if (downloadUrl && event.clipboardData) {
             event.clipboardData.setData('text/plain', downloadUrl);
             event.preventDefault();
-            this.messageService.info(nls.localize('theia/filesystem/copiedToClipboard', 'Copied the download link to the clipboard.'));
+            this.messageService.info(nls.localize('theia/filesystem/copiedToClipboard', '已将下载链接复制到剪贴板。'));
         }
     }
 
@@ -57,8 +57,8 @@ export class FileDownloadServiceImpl implements FileDownloadService {
 
         try {
             const text: string = copyLink ?
-                nls.localize('theia/filesystem/prepareDownloadLink', 'Preparing download link...') :
-                nls.localize('theia/filesystem/prepareDownload', 'Preparing download...');
+                nls.localize('theia/filesystem/prepareDownloadLink', '正在准备下载链接...') :
+                nls.localize('theia/filesystem/prepareDownload', '正在准备下载...');
             const [progress, result] = await Promise.all([
                 this.messageService.showProgress({
                     text: text,

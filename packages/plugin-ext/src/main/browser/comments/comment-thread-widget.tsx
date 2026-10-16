@@ -239,10 +239,10 @@ export class CommentThreadWidget extends BaseWidget {
             if (this._commentThread.comments && this._commentThread.comments.length) {
                 const onlyUnique = (value: Comment, index: number, self: Comment[]) => self.indexOf(value) === index;
                 const participantsList = this._commentThread.comments.filter(onlyUnique).map(comment => `@${comment.userName}`).join(', ');
-                const resolutionState = this._commentThread.state === CommentThreadState.Resolved ? '(Resolved)' : '(Unresolved)';
-                label = `Participants: ${participantsList} ${resolutionState}`;
+                const resolutionState = this._commentThread.state === CommentThreadState.Resolved ? '（已解决）' : '（未解决）';
+                label = `参与者：${participantsList} ${resolutionState}`;
             } else {
-                label = 'Start discussion';
+                label = '开始讨论';
             }
         }
 

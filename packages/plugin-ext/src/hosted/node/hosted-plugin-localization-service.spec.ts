@@ -30,7 +30,7 @@ class TestHostedPluginLocalizationService extends HostedPluginLocalizationServic
     readonly warnings: string[] = [];
     readonly errors: string[] = [];
 
-    constructor(configDir: string, currentLanguage = 'en') {
+    constructor(configDir: string, currentLanguage = 'zh-cn') {
         super();
         Object.assign(this, {
             envVariables: <EnvVariablesServer>{

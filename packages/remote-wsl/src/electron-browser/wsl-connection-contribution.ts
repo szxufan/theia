@@ -132,7 +132,7 @@ export class WslConnectionContribution extends AbstractRemoteRegistryContributio
         const distributions = await this.connectionProvider.getWslDistributions();
 
         if (distributions.length === 0) {
-            this.messageService.error(nls.localize('theia/remote/wsl/noWslDistroFound', 'No WSL distributions found. Please install a WSL distribution first.'));
+            this.messageService.error(nls.localize('theia/remote/wsl/noWslDistroFound', '未找到 WSL 发行版。请先安装一个 WSL 发行版。'));
             return undefined;
         }
 
@@ -143,10 +143,10 @@ export class WslConnectionContribution extends AbstractRemoteRegistryContributio
         return (await this.quickInputService.pick(distributions.map(dist => ({
             type: 'item',
             label: dist.name,
-            description: dist.default ? nls.localizeByDefault('Default') : dist.version,
+            description: dist.default ? nls.localizeByDefault('默认') : dist.version,
             distribution: dist,
         })), {
-            title: nls.localize('theia/remote/wsl/selectWSLDistro', 'Select a WSL distribution')
+            title: nls.localize('theia/remote/wsl/selectWSLDistro', '选择一个 WSL 发行版')
         }))?.distribution;
     }
 

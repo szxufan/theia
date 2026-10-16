@@ -4,30 +4,30 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - ANTHROPIC EXTENSION</h2>
+<h2>ECLIPSE THEIA - ANTHROPIC 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/anthropic` integrates Anthropic's models with Theia AI.
-The Anthropic API key and the models to use can be configured via preferences.
-Alternatively the API key can also be handed in via the `ANTHROPIC_API_KEY` environment variable.
+`@theia/anthropic` 将 Anthropic 的模型与 Theia AI 集成。
+Anthropic API 密钥和要使用的模型可以通过首选项进行配置。
+或者，也可以通过 `ANTHROPIC_API_KEY` 环境变量提供 API 密钥。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/ai-anthropic`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-anthropic.html)
+- [`@theia/ai-anthropic` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-anthropic.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

@@ -1,5 +1,7 @@
 # Changelog 2021
 
+> 以下为历史变更记录的英文原文存档（按发布日期倒序）。本文件超过 500 行，遵循务实的折中处理：仅在文件头部添加中文说明，条目正文保留英文原文，链接与 PR 编号保持不变。
+
 ## v1.21.0 - 12/16/2021
 
 [1.21.0 Milestone](https://github.com/eclipse-theia/theia/milestone/29)

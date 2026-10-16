@@ -50,7 +50,8 @@ export class AIExternalApiFrontendContribution implements FrontendApplicationCon
     /** Status listeners per tracked session, disposed when the session is deleted. */
     protected readonly sessionListeners = new Map<string, Disposable>();
 
-    protected readonly notifyBackend = debounce(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly notifyBackend: any = debounce(
         () => this.backendService.notifySessionsChanged(),
         this.notifyDelay,
         { maxWait: this.notifyMaxDelay }

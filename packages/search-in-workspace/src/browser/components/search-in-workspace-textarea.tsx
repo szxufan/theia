@@ -125,7 +125,8 @@ export class SearchInWorkspaceTextArea extends React.Component<TextareaAttribute
     /**
      * Add a nonempty current value to the history, if not already present. (Debounced, 1 second delay.)
      */
-    readonly addToHistory = debounce(this.doAddToHistory, 1000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    readonly addToHistory: any = debounce(this.doAddToHistory, 1000);
 
     private doAddToHistory(): void {
         if (!this.value) {

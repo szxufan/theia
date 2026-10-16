@@ -593,6 +593,82 @@
   white-space: nowrap;
 }
 
+/* Object list (array-of-objects) editor: one card per entry (e.g. a provider's custom endpoints),
+   with a per-property field inside. */
+.ai-config-object-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--theia-ui-padding);
+  max-width: 640px;
+}
+
+.ai-config-object-card {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--theia-ui-padding) / 1.5);
+  padding: var(--theia-ui-padding);
+  border: 1px solid var(--theia-dropdown-border);
+  border-radius: 4px;
+}
+
+.ai-config-object-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-config-object-card-title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Same look as the list editors' hover-revealed remove button, but scoped to the card. */
+.ai-config-object-card-remove {
+  width: 1.5em;
+  height: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ai-config-object-card:hover .ai-config-object-card-remove,
+.ai-config-object-card-remove:focus {
+  opacity: 1;
+}
+
+.ai-config-object-card-remove:hover {
+  background-color: var(--theia-list-hoverBackground);
+}
+
+.ai-config-object-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ai-config-object-field-label {
+  color: var(--theia-descriptionForeground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ai-config-object-field-required {
+  color: var(--theia-errorForeground);
+}
+
+.ai-config-object-add {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--theia-ui-padding) / 2);
+}
+
 /* Status dot */
 .ai-configuration-status {
   display: inline-block;
@@ -1458,6 +1534,7 @@
 .ai-config-stepper-button:hover:not(:disabled),
 .ai-config-array .preference-array-element:hover,
 .ai-config-array .preference-array-element-btn:hover,
+.ai-config-object-card-remove:hover,
 .ai-configuration-icon-button:hover:not(:disabled),
 .ai-config-collapsible-row-header:hover,
 .ai-config-collapsible-row-action:hover {

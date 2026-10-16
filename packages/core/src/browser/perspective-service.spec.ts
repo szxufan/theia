@@ -291,7 +291,7 @@ describe('PerspectiveService', () => {
         const perspectives = service.getRegisteredPerspectives();
         const defaultPerspective = perspectives.find(p => p.id === PerspectiveServiceImpl.DEFAULT_PERSPECTIVE_ID);
         expect(defaultPerspective).to.not.be.undefined;
-        expect(defaultPerspective!.label).to.equal('Default');
+        expect(defaultPerspective!.label).to.equal('默认');
         expect(defaultPerspective!.viewPlacements.size).to.equal(0);
     });
 

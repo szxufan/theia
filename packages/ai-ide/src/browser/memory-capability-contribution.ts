@@ -36,10 +36,10 @@ export class MemoryCapabilityContribution implements FrontendApplicationContribu
   }
 
   protected buildTemplate(): string {
-    const name = nls.localize('theia/ai/ide/memoryCapability/name', 'Memory');
+    const name = nls.localize('theia/ai/ide/memoryCapability/name', '记忆');
     const description = nls.localize('theia/ai/ide/memoryCapability/description',
-      'Lets the agent maintain a persistent, wiki-style knowledge base for the workspace, so this and future sessions '
-      + 'build on what came before instead of starting from scratch.');
+      '让代理为工作区维护一个持久的、类似 wiki 的知识库，使本次及未来的会话'
+      + '能在已有积累的基础上继续，而不是从零开始。');
     const dir = `{{${MEMORY_DIRECTORY_VARIABLE.name}}}`;
 
     return `---

@@ -20,7 +20,7 @@ const schema: PreferenceSchema = {
         'webview.warnIfUnsecure': {
             scope: PreferenceScope.Default,
             type: 'boolean',
-            description: nls.localize('theia/plugin-ext/webviewWarnIfUnsecure', 'Warns users that webviews are currently deployed insecurely.'),
+            description: nls.localize('theia/plugin-ext/webviewWarnIfUnsecure', '警告用户 Web 视图当前以不安全的方式部署。'),
             default: true,
 
         }

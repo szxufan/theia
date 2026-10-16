@@ -19,8 +19,8 @@ import { nls } from '@theia/core/lib/common/nls';
 export namespace WalkthroughCommands {
     export const OPEN_WALKTHROUGH = Command.toDefaultLocalizedCommand({
         id: 'walkthrough.open',
-        category: 'Help',
-        label: 'Open Walkthrough...'
+        category: '帮助',
+        label: '打开向导...'
     });
     /**
      * VS Code's id for opening a walkthrough, registered as an alias of {@link OPEN_WALKTHROUGH}.
@@ -31,7 +31,7 @@ export namespace WalkthroughCommands {
     };
     export const RESET_WALKTHROUGH_PROGRESS = Command.toLocalizedCommand({
         id: 'walkthrough.resetProgress',
-        category: 'Help',
-        label: 'Reset Walkthrough Progress'
-    }, 'theia/getting-started/resetWalkthroughProgress', nls.getDefaultKey('Help'));
+        category: '帮助',
+        label: '重置向导进度'
+    }, 'theia/getting-started/resetWalkthroughProgress', nls.getDefaultKey('帮助'));
 }

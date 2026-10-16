@@ -30,7 +30,7 @@ export interface ModelBadgeProps {
 export const ModelBadge: React.FC<ModelBadgeProps> = ({ modelId, hoverService }) => {
     // eslint-disable-next-line no-null/no-null
     const badgeRef = React.useRef<HTMLSpanElement>(null);
-    const tooltip = nls.localize('theia/ai/chat-ui/modelBadgeTooltip', 'Language model used for this response: {0}', modelId);
+    const tooltip = nls.localize('theia/ai/chat-ui/modelBadgeTooltip', '此回复使用的语言模型：{0}', modelId);
 
     return (
         <span

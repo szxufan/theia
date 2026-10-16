@@ -31,8 +31,8 @@ export class ErrorPartRenderer implements ChatResponsePartRenderer<ErrorChatResp
     render(response: ErrorChatResponseContent): ReactNode {
         const formattedError = formatProviderError(response.error.message);
         const prefix = formattedError.status
-            ? `${nls.localizeByDefault('Error')} ${formattedError.status}:`
-            : `${nls.localizeByDefault('Error')}:`;
+            ? `${nls.localizeByDefault('错误')} ${formattedError.status}:`
+            : `${nls.localizeByDefault('错误')}:`;
         return (
             <div className='theia-ChatPart-Error'>
                 <div className='theia-ChatPart-Error-headline'>
@@ -41,7 +41,7 @@ export class ErrorPartRenderer implements ChatResponsePartRenderer<ErrorChatResp
                 </div>
                 {formattedError.details && (
                     <details>
-                        <summary>{nls.localizeByDefault('Details')}</summary>
+                        <summary>{nls.localizeByDefault('详情')}</summary>
                         <pre>{formattedError.details}</pre>
                     </details>
                 )}

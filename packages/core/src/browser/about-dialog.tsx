@@ -69,11 +69,11 @@ export class AboutDialog extends ReactDialog<void> {
         const applicationInfo = this.applicationInfo;
         const compatibilityUrl = 'https://eclipse-theia.github.io/vscode-theia-comparator/status.html';
 
-        const detailsLabel = nls.localizeByDefault('Details');
-        const versionLabel = nls.localizeByDefault('Version');
-        const defaultApiLabel = nls.localize('theia/core/about/defaultApi', 'Default {0} API', 'VS Code');
-        const compatibilityLabel = nls.localize('theia/core/about/compatibility', '{0} Compatibility', 'VS Code');
-        const monacoLabel = nls.localize('theia/core/about/monacoEditor', 'Monaco Editor Version');
+        const detailsLabel = nls.localizeByDefault('详细信息');
+        const versionLabel = nls.localizeByDefault('版本');
+        const defaultApiLabel = nls.localize('theia/core/about/defaultApi', '默认 {0} API', 'VS Code');
+        const compatibilityLabel = nls.localize('theia/core/about/compatibility', '{0} 兼容性', 'VS Code');
+        const monacoLabel = nls.localize('theia/core/about/monacoEditor', 'Monaco 编辑器版本');
 
         return <>
             <h3>{detailsLabel}</h3>
@@ -96,7 +96,7 @@ export class AboutDialog extends ReactDialog<void> {
 
     protected renderExtensions(): React.ReactNode {
         const extensionsInfos = this.extensionsInfos;
-        const listOfExtensions = nls.localize('theia/core/about/listOfExtensions', 'List of extensions');
+        const listOfExtensions = nls.localize('theia/core/about/listOfExtensions', '扩展列表');
         return <>
             <h3>{listOfExtensions}</h3>
             <ul className={ABOUT_EXTENSIONS_CLASS}>

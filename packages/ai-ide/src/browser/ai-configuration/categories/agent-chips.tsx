@@ -15,13 +15,14 @@
 // *****************************************************************************
 
 import { Agent } from '@theia/ai-core';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { nls } from '@theia/core';
 import * as React from '@theia/core/shared/react';
 import { getAgentIconClass } from '../agent-icon';
 
 /** A single navigable agent chip (icon + name); shared by the Variables, Skills and Slash Command surfaces. */
 export const AgentChip: React.FC<{ agent: Agent; onOpenAgent: (agentId: string) => void }> = ({ agent, onOpenAgent }) => {
-    const label = nls.localizeByDefault('Open agent {0}', agent.name);
+    const label = nls.localizeByDefault('打开代理 {0}', getAgentDisplayName(agent));
     return <button
         type='button'
         className='agent-chip'
@@ -33,7 +34,7 @@ export const AgentChip: React.FC<{ agent: Agent; onOpenAgent: (agentId: string) 
         }}
     >
         <span aria-hidden='true' className={getAgentIconClass(agent)}></span>
-        {agent.name}
+        {getAgentDisplayName(agent)}
     </button>;
 };
 

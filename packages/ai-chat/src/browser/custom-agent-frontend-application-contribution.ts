@@ -150,9 +150,9 @@ export class AICustomAgentsFrontendApplicationContribution implements FrontendAp
         if (!this.customizationService || !this.messageService) {
             return;
         }
-        const migrate = nls.localizeByDefault('Migrate');
-        const notNow = nls.localizeByDefault('Not Now');
-        const dontShowAgain = nls.localizeByDefault("Don't Show Again");
+        const migrate = nls.localizeByDefault('迁移');
+        const notNow = nls.localizeByDefault('暂不');
+        const dontShowAgain = nls.localizeByDefault('不再显示');
         const message = nls.localize(
             'theia/ai/chat/customAgents/migratePrompt/message',
             'Your custom agents still use the older `customAgents.yml` format. '
@@ -180,7 +180,7 @@ export class AICustomAgentsFrontendApplicationContribution implements FrontendAp
 
     protected showMigrationSummary(reports: CustomAgentMigrationReports): void {
         if (reports.length === 0) {
-            this.messageService?.info(nls.localize('theia/ai/chat/customAgents/migrationResult/empty', 'Custom-agent migration: nothing to migrate.'));
+            this.messageService?.info(nls.localize('theia/ai/chat/customAgents/migrationResult/empty', '自定义代理迁移：没有需要迁移的内容。'));
             return;
         }
         const migrated = reports.reduce((sum, r) => sum + r.migrated, 0);

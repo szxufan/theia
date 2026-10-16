@@ -18,6 +18,7 @@ import {
     ChatAgentService, ChatRequestModel, ChatResponseContent, ChatSession, ChatSessionMetadata,
     ChatSessionStatus, ErrorChatResponseContent, FormattedProviderError, formatProviderError, ThinkingChatResponseContent
 } from '@theia/ai-chat';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { MarkdownRenderer } from '@theia/core/lib/browser/markdown-rendering/markdown-renderer';
 import { nls } from '@theia/core/lib/common/nls';
 import { Disposable, DisposableCollection } from '@theia/core';
@@ -53,8 +54,8 @@ function renderFormattedProviderError(error: FormattedProviderError): HTMLElemen
     const prefix = document.createElement('span');
     prefix.className = 'theia-chat-session-tooltip-error-prefix';
     prefix.textContent = error.status
-        ? `${nls.localizeByDefault('Error')} ${error.status}:`
-        : `${nls.localizeByDefault('Error')}:`;
+        ? `${nls.localizeByDefault('错误')} ${error.status}:`
+        : `${nls.localizeByDefault('错误')}:`;
     wrapper.appendChild(prefix);
     const headline = error.message.length > TOOLTIP_SNIPPET_MAX_LENGTH
         ? error.message.substring(0, TOOLTIP_SNIPPET_MAX_LENGTH) + '…'
@@ -104,34 +105,34 @@ export function buildSessionTooltip(
     if (status === 'awaitingApproval') {
         const badge = document.createElement('div');
         badge.className = 'theia-chat-session-badge-attention-tooltip';
-        badge.textContent = nls.localize('theia/ai/ide/requiresApproval', 'Requires your approval');
+        badge.textContent = nls.localize('theia/ai/ide/requiresApproval', '需要您的批准');
         container.appendChild(badge);
     } else if (status === 'awaitingInput') {
         const badge = document.createElement('div');
         badge.className = 'theia-chat-session-badge-attention-tooltip';
-        badge.textContent = nls.localize('theia/ai/ide/waitingForInput', 'Waiting for your input');
+        badge.textContent = nls.localize('theia/ai/ide/waitingForInput', '等待您的输入');
         container.appendChild(badge);
     } else if (descendantNeedsAttention) {
         // The session itself is not awaiting the user, but one of its delegated children is;
         // surface that instead of the generic running badge so the reason is clear.
         const badge = document.createElement('div');
         badge.className = 'theia-chat-session-badge-attention-tooltip';
-        badge.textContent = nls.localize('theia/ai/ide/childInteractionNeeded', 'A delegated session needs your attention');
+        badge.textContent = nls.localize('theia/ai/ide/childInteractionNeeded', '一个委派的会话需要您的关注');
         container.appendChild(badge);
     } else if (ChatSessionStatus.isInProgress(status)) {
         const badge = document.createElement('div');
         badge.className = 'theia-chat-session-badge-running-tooltip';
-        badge.textContent = nls.localizeByDefault('Running');
+        badge.textContent = nls.localizeByDefault('运行中');
         container.appendChild(badge);
     } else if (status === 'failed') {
         const badge = document.createElement('div');
         badge.className = 'theia-chat-session-badge-error-tooltip';
-        badge.textContent = nls.localizeByDefault('Error');
+        badge.textContent = nls.localizeByDefault('错误');
         container.appendChild(badge);
     } else if (isUnread) {
         const badge = document.createElement('div');
         badge.className = 'theia-chat-session-badge-unread-tooltip';
-        badge.textContent = nls.localize('theia/ai/ide/tooltip/unread', 'Unread');
+        badge.textContent = nls.localize('theia/ai/ide/tooltip/unread', '未读');
         container.appendChild(badge);
     }
 
@@ -142,7 +143,7 @@ export function buildSessionTooltip(
         if (errorText) {
             const label = document.createElement('div');
             label.className = 'theia-chat-session-tooltip-label';
-            label.textContent = nls.localize('theia/ai/ide/tooltip/errorMessage', 'Error message');
+            label.textContent = nls.localize('theia/ai/ide/tooltip/errorMessage', '错误消息');
             container.appendChild(label);
             container.appendChild(renderFormattedProviderError(formatProviderError(errorText)));
 
@@ -159,7 +160,7 @@ export function buildSessionTooltip(
                     : messageText;
                 const label = document.createElement('div');
                 label.className = 'theia-chat-session-tooltip-label';
-                label.textContent = nls.localize('theia/ai/ide/tooltip/lastMessage', 'Last message');
+                label.textContent = nls.localize('theia/ai/ide/tooltip/lastMessage', '最后一条消息');
                 container.appendChild(label);
 
                 const snippetElement = document.createElement('div');
@@ -181,18 +182,18 @@ export function buildSessionTooltip(
         const agentId = lastRequest.response.agentId ?? requests.findLast(r => r.response.agentId)?.response.agentId;
         if (agentId) {
             const agentName = agentService.getAgent(agentId)?.name ?? agentId;
-            addDefinitionEntry(definitionList, nls.localizeByDefault('Agent'), '@' + agentName);
+            addDefinitionEntry(definitionList, nls.localizeByDefault('代理'), '@' + agentName);
         }
     }
 
     const count = requests.length;
     const exchangeLabel = count === 1
-        ? nls.localize('theia/ai/ide/tooltip/oneExchange', '1 exchange')
-        : nls.localize('theia/ai/ide/tooltip/multipleExchanges', '{0} exchanges', count);
-    addDefinitionEntry(definitionList, nls.localizeByDefault('Messages'), exchangeLabel);
+        ? nls.localize('theia/ai/ide/tooltip/oneExchange', '1 次交互')
+        : nls.localize('theia/ai/ide/tooltip/multipleExchanges', '{0} 次交互', count);
+    addDefinitionEntry(definitionList, nls.localizeByDefault('消息'), exchangeLabel);
 
     const date = session.lastInteraction ?? new Date(metadata.saveDate);
-    addDefinitionEntry(definitionList, nls.localize('theia/ai/ide/tooltip/lastActivity', 'Last activity'), date.toLocaleString());
+    addDefinitionEntry(definitionList, nls.localize('theia/ai/ide/tooltip/lastActivity', '最近活动'), date.toLocaleString());
 
     container.appendChild(definitionList);
     return { element: container, dispose: () => toDispose.dispose() };
@@ -212,22 +213,23 @@ export function buildRestoredSessionTooltip(
     if (descendantNeedsAttention) {
         // A persisted parent whose delegated child needs the user; show that rather than "Restored".
         badge.className = 'theia-chat-session-badge-attention-tooltip';
-        badge.textContent = nls.localize('theia/ai/ide/childInteractionNeeded', 'A delegated session needs your attention');
+        badge.textContent = nls.localize('theia/ai/ide/childInteractionNeeded', '一个委派的会话需要您的关注');
     } else {
         badge.className = 'theia-chat-session-badge-restored-tooltip';
-        badge.textContent = nls.localize('theia/ai/ide/restoredSession', 'Restored session');
+        badge.textContent = nls.localize('theia/ai/ide/restoredSession', '已恢复的会话');
     }
     container.appendChild(badge);
 
     const definitionList = document.createElement('dl');
 
     if (metadata.pinnedAgentId) {
-        const agentName = agentService.getAgent(metadata.pinnedAgentId)?.name ?? metadata.pinnedAgentId;
-        addDefinitionEntry(definitionList, nls.localizeByDefault('Agent'), '@' + agentName);
+        const agent = agentService.getAgent(metadata.pinnedAgentId);
+        const agentName = agent ? getAgentDisplayName(agent) : metadata.pinnedAgentId;
+        addDefinitionEntry(definitionList, nls.localizeByDefault('代理'), '@' + agentName);
     }
 
     const date = new Date(metadata.saveDate);
-    addDefinitionEntry(definitionList, nls.localize('theia/ai/ide/tooltip/lastActivity', 'Last activity'),
+    addDefinitionEntry(definitionList, nls.localize('theia/ai/ide/tooltip/lastActivity', '最近活动'),
         `${date.toLocaleString()} (${formatTimeAgo(metadata.saveDate)})`);
 
     container.appendChild(definitionList);

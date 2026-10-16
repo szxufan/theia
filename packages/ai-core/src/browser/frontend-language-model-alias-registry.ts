@@ -33,7 +33,7 @@ export class DefaultLanguageModelAliasRegistry implements LanguageModelAliasRegi
                 'openai/gpt-5.6-sol',
                 'google/gemini-3.1-pro-preview'
             ],
-            description: nls.localize('theia/ai/core/defaultModelAliases/code/description', 'Optimized for code understanding and generation tasks.')
+            description: nls.localize('theia/ai/core/defaultModelAliases/code/description', '针对代码理解和生成任务优化。')
         },
         {
             id: 'default/universal',
@@ -42,7 +42,7 @@ export class DefaultLanguageModelAliasRegistry implements LanguageModelAliasRegi
                 'openai/gpt-5.6-sol',
                 'google/gemini-3.1-pro-preview'
             ],
-            description: nls.localize('theia/ai/core/defaultModelAliases/universal/description', 'Well-balanced for both code and general language use.')
+            description: nls.localize('theia/ai/core/defaultModelAliases/universal/description', '在代码和通用语言任务之间均衡表现。')
         },
         {
             id: 'default/code-completion',
@@ -51,7 +51,7 @@ export class DefaultLanguageModelAliasRegistry implements LanguageModelAliasRegi
                 'openai/gpt-5.6-sol',
                 'google/gemini-3.1-pro-preview'
             ],
-            description: nls.localize('theia/ai/core/defaultModelAliases/code-completion/description', 'Best suited for code autocompletion scenarios.')
+            description: nls.localize('theia/ai/core/defaultModelAliases/code-completion/description', '最适合代码自动补全场景。')
         },
         {
             id: 'default/summarize',
@@ -60,7 +60,7 @@ export class DefaultLanguageModelAliasRegistry implements LanguageModelAliasRegi
                 'openai/gpt-5.6-sol',
                 'google/gemini-3.1-pro-preview'
             ],
-            description: nls.localize('theia/ai/core/defaultModelAliases/summarize/description', 'Models prioritized for summarization and condensation of content.')
+            description: nls.localize('theia/ai/core/defaultModelAliases/summarize/description', '优先用于内容总结与压缩的模型。')
         },
         {
             id: 'default/fast',
@@ -70,7 +70,7 @@ export class DefaultLanguageModelAliasRegistry implements LanguageModelAliasRegi
                 'google/gemini-3.8-flash'
             ],
             description: nls.localize('theia/ai/core/defaultModelAliases/fast/description',
-                'Faster and cheaper models for simpler tasks like exploration or basic tool calling, where deep reasoning is not required.')
+                '更快、更便宜的模型，适用于探索或基础工具调用等无需深度推理的简单任务。')
         }
     ];
     protected readonly onDidChangeEmitter = new Emitter<void>();

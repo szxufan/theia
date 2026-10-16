@@ -162,7 +162,7 @@ export class MergeEditor extends BaseWidget implements StatefulWidget, SaveableS
         this.id = MergeEditorUri.encode({ baseUri, side1Uri, side2Uri, resultUri }).toString();
 
         const setLabels = () => {
-            this.title.label = nls.localizeByDefault('Merging: {0}', this.labelProvider.getName(resultUri));
+            this.title.label = nls.localizeByDefault('正在合并: {0}', this.labelProvider.getName(resultUri));
             this.title.iconClass = this.labelProvider.getIcon(resultUri) + ' file-icon';
             this.resultPane.header.description = this.labelProvider.getLongName(resultUri);
         };
@@ -176,10 +176,10 @@ export class MergeEditor extends BaseWidget implements StatefulWidget, SaveableS
         this.title.caption = resultUri.path.fsPath();
         this.title.closable = true;
 
-        this.basePane.header.title.label = nls.localizeByDefault('Base');
-        this.side1Pane.header.title.label = nls.localizeByDefault('Input 1');
-        this.side2Pane.header.title.label = nls.localizeByDefault('Input 2');
-        this.resultPane.header.title.label = nls.localizeByDefault('Result');
+        this.basePane.header.title.label = nls.localizeByDefault('基础版本');
+        this.side1Pane.header.title.label = nls.localizeByDefault('输入 1');
+        this.side2Pane.header.title.label = nls.localizeByDefault('输入 2');
+        this.resultPane.header.title.label = nls.localizeByDefault('结果');
 
         this.panes.forEach(pane => pane.mergeEditor = this);
 
@@ -639,7 +639,7 @@ export class MergeEditorOpenHandler extends NavigatableWidgetOpenHandler<MergeEd
 
     readonly id = MergeEditorOpenHandler.ID;
 
-    readonly label = nls.localizeByDefault('Merge Editor');
+    readonly label = nls.localizeByDefault('合并编辑器');
 
     override canHandle(uri: URI, options?: MergeEditorOpenerOptions): number {
         return MergeEditorUri.isMergeEditorUri(uri) ? 1000 : 0;

@@ -220,7 +220,7 @@ export class WorkspaceService implements FrontendApplicationContribution, Worksp
                 workspaceStat = await this.fileService.resolve(workspaceUri);
             } catch { }
             if (workspaceStat && !workspaceStat.isDirectory && !this.isWorkspaceFile(workspaceStat)) {
-                this.messageService.error(nls.localize('theia/workspace/notWorkspaceFile', 'Not a valid workspace file: {0}', this.labelProvider.getLongName(workspaceUri)));
+                this.messageService.error(nls.localize('theia/workspace/notWorkspaceFile', '不是有效的工作区文件: {0}', this.labelProvider.getLongName(workspaceUri)));
                 return undefined;
             }
             return workspaceUri.toString();
@@ -369,7 +369,7 @@ export class WorkspaceService implements FrontendApplicationContribution, Worksp
             const fullName = this._workspace.resource.path.toString();
             if (this.isWorkspaceFile(this._workspace)) {
                 if (this.isUntitledWorkspace(this._workspace.resource)) {
-                    const untitled = nls.localizeByDefault('Untitled (Workspace)');
+                    const untitled = nls.localizeByDefault('未命名（工作区）');
                     rootName = untitled;
                     rootPath = untitled;
                 } else {
@@ -490,7 +490,7 @@ export class WorkspaceService implements FrontendApplicationContribution, Worksp
         const stat = await this.toFileStat(uri);
         if (stat) {
             if (!stat.isDirectory && !this.isWorkspaceFile(stat)) {
-                const message = nls.localize('theia/workspace/notWorkspaceFile', 'Not a valid workspace file: {0}', this.labelProvider.getLongName(uri));
+                const message = nls.localize('theia/workspace/notWorkspaceFile', '不是有效的工作区文件: {0}', this.labelProvider.getLongName(uri));
                 this.messageService.error(message);
                 throw new Error(message);
             }
@@ -572,7 +572,7 @@ export class WorkspaceService implements FrontendApplicationContribution, Worksp
             uri => this.fileService.exists(uri).then(exists => !exists),
             () => this.messageService.warn(nls.localize(
                 'theia/workspace/untitled-cleanup',
-                'There appear to be many untitled workspace files. Please check {0} and remove any unused files.',
+                '似乎存在许多未命名的工作区文件。请检查 {0} 并删除不再使用的文件。',
                 configDirURI.resolve('workspaces').path.fsPath())
             ),
         );

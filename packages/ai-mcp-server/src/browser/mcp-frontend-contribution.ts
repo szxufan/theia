@@ -16,7 +16,6 @@
 
 import { ContributionProvider } from '@theia/core/lib/common/contribution-provider';
 import { Tool, Resource, Prompt, PromptMessage } from '@modelcontextprotocol/sdk/types';
-import { z } from 'zod';
 
 export const MCPFrontendContribution = Symbol('MCPFrontendContribution');
 
@@ -25,7 +24,13 @@ export const MCPFrontendContribution = Symbol('MCPFrontendContribution');
  */
 export interface ToolProvider {
     handler: (args: unknown) => Promise<unknown>;
-    inputSchema: z.ZodSchema;
+    /**
+     * Deliberately typed as `unknown` instead of a `zod` schema type: `zod` type identity
+     * would tie contributors to the exact `zod` instance resolved by this package, which
+     * breaks compilations where `zod` is instantiated more than once. The schema is never
+     * consumed at runtime here; tools are advertised via the JSON schema of `getTools()`.
+     */
+    inputSchema: unknown;
 }
 
 /**

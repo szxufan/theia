@@ -101,12 +101,12 @@ export class ConsoleContribution implements FrontendApplicationContribution, Com
         });
         menus.registerMenuAction(ConsoleContextMenu.CLIPBOARD, {
             commandId: ConsoleCommands.COLLAPSE_ALL.id,
-            label: nls.localizeByDefault('Collapse All'),
+            label: nls.localizeByDefault('全部折叠'),
             order: 'a3'
         });
         menus.registerMenuAction(ConsoleContextMenu.CLEAR, {
             commandId: ConsoleCommands.CLEAR.id,
-            label: nls.localizeByDefault('Clear Console')
+            label: nls.localizeByDefault('清空控制台')
         });
     }
 

@@ -388,7 +388,7 @@ export class NotebookCodeCellOutputs extends React.Component<NotebookCellOutputP
                 {this.props.renderSidebar()}
             </div>;
         }
-        return <div className='theia-notebook-collapsed-output-container'><i className='theia-notebook-collapsed-output'>{nls.localizeByDefault('Outputs are collapsed')}</i></div>;
+        return <div className='theia-notebook-collapsed-output-container'><i className='theia-notebook-collapsed-output'>{nls.localizeByDefault('输出已折叠')}</i></div>;
     }
 
 }

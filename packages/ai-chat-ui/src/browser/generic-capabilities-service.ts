@@ -109,7 +109,8 @@ export class GenericCapabilitiesServiceImpl implements GenericCapabilitiesServic
 
     protected availableMCPFunctions: Promise<GenericCapabilityGroup[]> | undefined;
 
-    protected readonly fireChangeDebounced = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly fireChangeDebounced: any = debounce(() => {
         this.availableMCPFunctions = undefined;
         this.onDidChangeEmitter.fire();
     }, 50);

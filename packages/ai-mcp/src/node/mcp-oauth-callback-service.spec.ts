@@ -90,7 +90,7 @@ describe('MCPOAuthCallbackService', () => {
         } catch (error) {
             expect((error as Error).message).to.equal(MCP_OAUTH_AUTHORIZATION_CANCELLED);
         }
-        expect(service.consumeRejectedCallbackMessage('state')).to.equal('OAuth authorization was cancelled. You can close this tab.');
+        expect(service.consumeRejectedCallbackMessage('state')).to.equal('OAuth 授权已取消。你可以关闭此标签页。');
         expect(service.consumeRejectedCallbackMessage('state')).to.be.undefined;
     });
 
@@ -104,7 +104,7 @@ describe('MCPOAuthCallbackService', () => {
         expect((firstResult as Error).message).to.equal(MCP_OAUTH_AUTHORIZATION_CANCELLED);
         expect(service.acceptCallback({ state: 'state-0', code: 'code' })).to.be.false;
         expect(service.consumeRejectedCallbackMessage('state-0'))
-            .to.equal('OAuth authorization was cancelled because too many authorization attempts are in progress.');
+            .to.equal('OAuth 授权已取消，因为有太多授权尝试正在进行。');
         expect(service.acceptCallback({ state: `state-${MCP_OAUTH_ACTIVE_CALLBACK_LIMIT}`, code: 'code' })).to.be.true;
     });
 
@@ -114,7 +114,7 @@ describe('MCPOAuthCallbackService', () => {
             await service.waitForCallback('state');
             throw new Error('Expected timeout');
         } catch (error) {
-            expect((error as Error).message).to.equal('Timed out waiting for MCP OAuth authorization callback.');
+            expect((error as Error).message).to.equal('等待 MCP OAuth 授权回调超时。');
         }
     });
 
@@ -127,6 +127,6 @@ describe('MCPOAuthCallbackService', () => {
 
         expect(service.consumeRejectedCallbackMessage('state-0')).to.be.undefined;
         expect(service.consumeRejectedCallbackMessage(`state-${MCP_OAUTH_REJECTED_CALLBACK_LIMIT}`))
-            .to.equal('OAuth authorization was cancelled. You can close this tab.');
+            .to.equal('OAuth 授权已取消。你可以关闭此标签页。');
     });
 });

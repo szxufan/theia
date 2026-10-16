@@ -27,7 +27,7 @@ import { InstalledPluginInfo, PluginClassificationResult, ResolvedPluginEntry } 
 import { RegistryEntryContext } from '../registry-entry-context';
 import { RegistryEntryGear, RegistryEntryMenuEvent, showEntryMenu } from '../registry-entry-menu';
 
-export const AGENT_PLUGINS_LABEL = nls.localizeByDefault('Agent Plugins');
+export const AGENT_PLUGINS_LABEL = nls.localizeByDefault('代理插件');
 
 export interface PluginLinkTarget {
     readonly entry: ResolvedPluginEntry;
@@ -178,8 +178,8 @@ function buildHoverContent(props: PluginCardProps): MarkdownStringImpl | HTMLEle
     if (props.description) {
         lines.push('', props.description);
     }
-    appendNamedList(lines, nls.localizeByDefault('Skills'), props.skills);
-    appendNamedList(lines, nls.localizeByDefault('MCP Servers'), props.servers);
+    appendNamedList(lines, nls.localizeByDefault('技能'), props.skills);
+    appendNamedList(lines, nls.localizeByDefault('MCP 服务器'), props.servers);
     lines.push('', `_${props.identifier}_`);
     const markdown = new MarkdownStringImpl(lines.join('\n'));
     if (!props.diagnostics) {
@@ -209,13 +209,13 @@ function buildStat(skills: string[], servers: string[]): string | undefined {
     const parts: string[] = [];
     if (skills.length > 0) {
         parts.push(skills.length === 1
-            ? nls.localizeByDefault('1 skill')
-            : nls.localizeByDefault('{0} skills', skills.length));
+            ? nls.localizeByDefault('1 项技能')
+            : nls.localizeByDefault('{0} 项技能', skills.length));
     }
     if (servers.length > 0) {
         parts.push(servers.length === 1
-            ? nls.localizeByDefault('1 MCP server')
-            : nls.localizeByDefault('{0} MCP servers', servers.length));
+            ? nls.localizeByDefault('1 个 MCP 服务器')
+            : nls.localizeByDefault('{0} 个 MCP 服务器', servers.length));
     }
     return parts.length > 0 ? parts.join(' · ') : undefined;
 }
@@ -231,23 +231,23 @@ function buildDiagnostics(info: InstalledPluginInfo): PluginDiagnostics | undefi
     }
     const detail = problems.join('\n');
     if (info.skipped.length === 0) {
-        return { summary: nls.localize('theia/ai-registry/plugin/diagnostics/mcpDisabled', 'MCP configuration ignored'), detail };
+        return { summary: nls.localize('theia/ai-registry/plugin/diagnostics/mcpDisabled', 'MCP 配置已被忽略'), detail };
     }
     if (info.skipped.length === 1 && info.mcpDisabledReason === undefined) {
         return {
             summary: nls.localize(
-                'theia/ai-registry/plugin/diagnostics/oneSkipped', 'Component "{0}" skipped: {1}', info.skipped[0].name, info.skipped[0].reason
+                'theia/ai-registry/plugin/diagnostics/oneSkipped', '组件“{0}”已被跳过：{1}', info.skipped[0].name, info.skipped[0].reason
             ),
             detail
         };
     }
     // Skipped components only: a rejected `mcp.json` is the whole type being unusable, so it gets
     // its own clause rather than being added to the tally.
-    const skipped = nls.localize('theia/ai-registry/plugin/diagnostics/manySkipped', '{0} components skipped', info.skipped.length);
+    const skipped = nls.localize('theia/ai-registry/plugin/diagnostics/manySkipped', '{0} 个组件被跳过', info.skipped.length);
     return {
         summary: info.mcpDisabledReason === undefined
             ? skipped
-            : nls.localize('theia/ai-registry/plugin/diagnostics/mcpDisabledAndSkipped', 'MCP configuration ignored, {0}', skipped),
+            : nls.localize('theia/ai-registry/plugin/diagnostics/mcpDisabledAndSkipped', 'MCP 配置已被忽略，{0}', skipped),
         detail
     };
 }
@@ -324,15 +324,15 @@ function renderActions(
     switch (state.kind) {
         case 'not-installed':
             return registryEntry && (
-                <ActionButton argument={registryEntry} run={handlers.install} label={nls.localizeByDefault('Install')} prominent={true} />
+                <ActionButton argument={registryEntry} run={handlers.install} label={nls.localizeByDefault('安装')} prominent={true} />
             );
         case 'installed-from-registry':
             return (
                 <>
                     {state.updateAvailable && registryEntry && (
-                        <ActionButton argument={registryEntry} run={handlers.update} label={nls.localizeByDefault('Update')} prominent={true} />
+                        <ActionButton argument={registryEntry} run={handlers.update} label={nls.localizeByDefault('更新')} prominent={true} />
                     )}
-                    <ActionButton argument={pluginId} run={handlers.uninstall} label={nls.localizeByDefault('Uninstall')} />
+                    <ActionButton argument={pluginId} run={handlers.uninstall} label={nls.localizeByDefault('卸载')} />
                 </>
             );
         case 'installed-manually':
@@ -340,17 +340,17 @@ function renderActions(
                 <ActionButton
                     argument={linkTarget}
                     run={handlers.link}
-                    label={nls.localize('theia/ai-registry/plugin/action/link', 'Link to registry')}
+                    label={nls.localize('theia/ai-registry/plugin/action/link', '链接到注册表')}
                     title={nls.localize(
                         'theia/ai-registry/plugin/warning/manual',
-                        'This directory was not installed from the registry. Linking records where it came from without changing its files.'
+                        '此目录不是从注册表安装的。链接会记录它的来源，但不会更改其文件。'
                     )}
                 />
             );
         case 'fix-plugin': {
             const tooltip = nls.localize(
                 'theia/ai-registry/plugin/warning/fix',
-                "This plugin's files differ from what was installed. Click 'Fix Plugin' to download the endorsed content again."
+                '此插件的文件与已安装的内容不同。点击“修复插件”以重新下载被背书的内容。'
             );
             return (
                 <>
@@ -359,33 +359,33 @@ function renderActions(
                         <ActionButton
                             argument={registryEntry}
                             run={handlers.fixPlugin}
-                            label={nls.localize('theia/ai-registry/plugin/action/fix', 'Fix Plugin')}
+                            label={nls.localize('theia/ai-registry/plugin/action/fix', '修复插件')}
                             prominent={true}
                         />
                     )}
-                    <ActionButton argument={pluginId} run={handlers.uninstall} label={nls.localizeByDefault('Uninstall')} />
+                    <ActionButton argument={pluginId} run={handlers.uninstall} label={nls.localizeByDefault('卸载')} />
                 </>
             );
         }
         case 'installed-link-stale': {
             const tooltip = nls.localize(
                 'theia/ai-registry/plugin/warning/linkStale',
-                'This plugin was installed from the registry, but the registry no longer lists it. Click Unlink to drop the registry link and '
-                + 'keep the files, or Uninstall to remove the plugin.'
+                '此插件是从注册表安装的，但注册表不再列出它。点击“取消链接”以移除注册表链接并保留文件，'
+                + '或点击“卸载”以移除插件。'
             );
             return (
                 <>
                     <span className="theia-agent-plugin-extension-link-stale-message" title={tooltip}>
                         <i className="codicon codicon-warning theia-agent-plugin-extension-warning" />
-                        {nls.localize('theia/ai-registry/plugin/warning/notInRegistry', 'Not in registry')}
+                        {nls.localize('theia/ai-registry/plugin/warning/notInRegistry', '不在注册表中')}
                     </span>
                     <ActionButton
                         argument={pluginId}
                         run={handlers.unlink}
-                        label={nls.localize('theia/ai-registry/plugin/action/unlink', 'Unlink')}
+                        label={nls.localize('theia/ai-registry/plugin/action/unlink', '取消链接')}
                         title={tooltip}
                     />
-                    <ActionButton argument={pluginId} run={handlers.uninstall} label={nls.localizeByDefault('Uninstall')} />
+                    <ActionButton argument={pluginId} run={handlers.uninstall} label={nls.localizeByDefault('卸载')} />
                 </>
             );
         }

@@ -30,7 +30,7 @@ export const quickCommand: Command = {
 
 export const CLEAR_COMMAND_HISTORY = Command.toDefaultLocalizedCommand({
     id: 'clear.command.history',
-    label: 'Clear Command History'
+    label: '清除命令历史记录'
 });
 
 export const CLOSE_QUICK_OPEN: Command = {
@@ -90,12 +90,12 @@ export class QuickCommandService implements QuickAccessContribution, QuickAccess
         const otherItems = filterItems(this.otherItems.slice(), filter);
 
         if (recentItems.length > 0) {
-            items.push({ type: 'separator', label: nls.localizeByDefault('recently used') }, ...recentItems);
+            items.push({ type: 'separator', label: nls.localizeByDefault('最近使用') }, ...recentItems);
         }
 
         if (otherItems.length > 0) {
             if (recentItems.length > 0) {
-                items.push({ type: 'separator', label: nls.localizeByDefault('other commands') });
+                items.push({ type: 'separator', label: nls.localizeByDefault('其他命令') });
             }
             items.push(...otherItems);
         }

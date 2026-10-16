@@ -41,20 +41,20 @@ export class CreateSkillAgent extends AbstractModeAwareChatAgent {
     override iconClass: string = 'codicon codicon-wand';
 
     override description = nls.localize('theia/ai/workspace/createSkillAgent/description',
-        'An AI assistant for creating new skills. Skills provide reusable instructions and domain knowledge for AI agents. ' +
-        'This agent helps you create well-structured skills in either the .agents/skills or .prompts/skills directory with proper YAML frontmatter and markdown content. ' +
-        'This feature is still in an early stage and may undergo changes.');
+        '用于创建新技能的 AI 助手。技能为 AI 代理提供可复用的指令与领域知识。' +
+        '此代理帮助您在 .agents/skills 或 .prompts/skills 目录中创建结构良好、带正确 YAML frontmatter 与 markdown 内容的技能。' +
+        '此功能仍处于早期阶段，可能会发生变更。');
 
     override tags: string[] = [...this.tags, 'Alpha'];
 
     protected readonly modeDefinitions: Omit<ChatMode, 'isDefault'>[] = [
         {
             id: CREATE_SKILL_SYSTEM_DEFAULT_TEMPLATE_ID,
-            name: nls.localize('theia/ai/ide/createSkillAgent/mode/edit', 'Default Mode')
+            name: nls.localize('theia/ai/ide/createSkillAgent/mode/edit', '默认模式')
         },
         {
             id: CREATE_SKILL_SYSTEM_AGENT_MODE_TEMPLATE_ID,
-            name: nls.localizeByDefault('Agent Mode')
+            name: nls.localizeByDefault('代理模式')
         }
     ];
 

@@ -28,11 +28,11 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
             type: 'boolean',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'GitHub Copilot' } satisfies ModelProviderTypeDetail },
             markdownDescription: nls.localize('theia/ai/copilot/enabled/mdDescription',
-                'Enable the GitHub Copilot provider. When enabled, a status bar entry '
-                + 'appears for authentication and available models are discovered from your Copilot subscription.\n\n'
-                + 'Requests are routed through the official GitHub Copilot CLI, which runs as a background process on the '
-                + 'machine hosting the backend. It is given the credentials of your Copilot sign-in and nothing else, so a '
-                + 'token in the environment or an existing sign-in of the GitHub CLI is not used.'),
+                '启用 GitHub Copilot 提供程序。启用后，状态栏将出现用于身份验证的条目，'
+                + '并会从您的 Copilot 订阅中发现可用模型。\n\n'
+                + '请求通过官方 GitHub Copilot CLI 路由，该 CLI 作为后台进程运行在'
+                + '托管后端的机器上。它只会获得您的 Copilot 登录凭据，不会使用其他内容，'
+                + '因此不会使用环境中的 Token 或 GitHub CLI 的现有登录。'),
             title: AI_CORE_PREFERENCES_TITLE,
             default: true,
             tags: ['experimental']
@@ -40,9 +40,9 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
         [COPILOT_MODEL_OVERRIDES_PREF]: {
             type: 'array',
             markdownDescription: nls.localize('theia/ai/copilot/modelOverrides/mdDescription',
-                'Override the automatically discovered GitHub Copilot models. '
-                + 'When empty (default), available models are discovered from your Copilot subscription. '
-                + 'Set explicit model IDs to override auto-discovery.'),
+                '覆盖自动发现的 GitHub Copilot 模型。'
+                + '为空时（默认），会从您的 Copilot 订阅中发现可用模型。'
+                + '设置显式的模型 ID 可覆盖自动发现。'),
             title: AI_CORE_PREFERENCES_TITLE,
             default: [],
             items: {
@@ -53,8 +53,8 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
         [COPILOT_ENTERPRISE_URL_PREF]: {
             type: 'string',
             markdownDescription: nls.localize('theia/ai/copilot/enterpriseUrl/mdDescription',
-                'GitHub Enterprise domain to authenticate and send requests against (e.g., `github.mycompany.com`). '
-                + 'Leave empty for GitHub.com.'),
+                '用于身份验证和发送请求的 GitHub Enterprise 域名（例如 `github.mycompany.com`）。'
+                + '留空表示 GitHub.com。'),
             title: AI_CORE_PREFERENCES_TITLE,
             default: '',
             tags: ['experimental']
@@ -62,10 +62,10 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
         [COPILOT_EXECUTABLE_PATH_PREF]: {
             type: 'string',
             markdownDescription: nls.localize('theia/ai/copilot/executablePath/mdDescription',
-                'Location of the GitHub Copilot CLI executable on the machine hosting the backend. '
-                + 'When empty (default), the CLI is searched for in the installation of the application, on the `PATH` '
-                + 'and in the global `npm` directory. Set this when the CLI is installed somewhere else.\n\n'
-                + 'The CLI is not shipped with the application, install it with `npm install -g @github/copilot`.'),
+                '托管后端的机器上 GitHub Copilot CLI 可执行文件的位置。'
+                + '为空时（默认），将在应用程序的安装目录、`PATH` 以及全局 `npm` 目录中搜索 CLI。'
+                + '当 CLI 安装在其他位置时请设置此项。\n\n'
+                + 'CLI 不随应用程序一起提供，请使用 `npm install -g @github/copilot` 安装。'),
             title: AI_CORE_PREFERENCES_TITLE,
             default: '',
             tags: ['experimental']

@@ -23,11 +23,11 @@ import { LlamafileEntry } from './llamafile-frontend-application-contribution';
 
 export const StartLlamafileCommand = {
     id: 'llamafile.start',
-    label: nls.localize('theia/ai/llamaFile/start', 'Start Llamafile'),
+    label: nls.localize('theia/ai/llamaFile/start', '启动 Llamafile'),
 };
 export const StopLlamafileCommand = {
     id: 'llamafile.stop',
-    label: nls.localize('theia/ai/llamaFile/stop', 'Stop Llamafile'),
+    label: nls.localize('theia/ai/llamaFile/stop', '停止 Llamafile'),
 };
 
 @injectable()
@@ -57,7 +57,7 @@ export class LlamafileCommandContribution implements CommandContribution {
                 try {
                     const llamaFiles = this.preferenceService.get<LlamafileEntry[]>(PREFERENCE_LLAMAFILE);
                     if (llamaFiles === undefined || llamaFiles.length === 0) {
-                        this.messageService.error(nls.localize('theia/ai/llamafile/error/noConfigured', 'No Llamafiles configured.'));
+                        this.messageService.error(nls.localize('theia/ai/llamafile/error/noConfigured', '未配置任何 Llamafile。'));
                         return;
                     }
                     const options = llamaFiles.map(llamaFile => ({ label: llamaFile.name }));
@@ -71,7 +71,7 @@ export class LlamafileCommandContribution implements CommandContribution {
                     this.messageService.error(
                         nls.localize(
                             'theia/ai/llamafile/error/startFailed',
-                            'Something went wrong during the llamafile start: {0}.\nFor more information, see the console.',
+                            'Llamafile 启动过程中出现错误：{0}。\n更多信息请查看控制台。',
                             error.message
                         ));
                 }
@@ -82,7 +82,7 @@ export class LlamafileCommandContribution implements CommandContribution {
                 try {
                     const llamaFiles = await this.llamafileManager.getStartedLlamafiles();
                     if (llamaFiles === undefined || llamaFiles.length === 0) {
-                        this.messageService.error(nls.localize('theia/ai/llamafile/error/noRunning', 'No Llamafiles running.'));
+                        this.messageService.error(nls.localize('theia/ai/llamafile/error/noRunning', '没有正在运行的 Llamafile。'));
                         return;
                     }
                     const options = llamaFiles.map(llamaFile => ({ label: llamaFile }));
@@ -96,7 +96,7 @@ export class LlamafileCommandContribution implements CommandContribution {
                     this.messageService.error(
                         nls.localize(
                             'theia/ai/llamafile/error/stopFailed',
-                            'Something went wrong during the llamafile stop: {0}.\nFor more information, see the console.',
+                            'Llamafile 停止过程中出现错误：{0}。\n更多信息请查看控制台。',
                             error.message
                         ));
                 }

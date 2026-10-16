@@ -126,7 +126,7 @@ export class AiConfigurationDetailWidget extends ReactWidget {
     protected renderScopeBanner(): React.ReactNode {
         return <div className='ai-configuration-detail-scope-banner'>
             <span className={codicon('info')}></span>
-            <span>{nls.localize('theia/ai/core/aiConfiguration/scopeBanner', 'Editing the {0} scope.', this.scope)}</span>
+            <span>{nls.localize('theia/ai/core/aiConfiguration/scopeBanner', '正在编辑 {0} 作用域。', this.scope)}</span>
         </div>;
     }
 
@@ -168,13 +168,13 @@ export class AiConfigurationDetailWidget extends ReactWidget {
 
     protected renderComingSoon(category: AiConfigurationCategory): React.ReactNode {
         return <div className='ai-configuration-detail-placeholder'>
-            {nls.localize('theia/ai/core/aiConfiguration/categoryComingSoon', '{0} configuration is not available yet.', category.label)}
+            {nls.localize('theia/ai/core/aiConfiguration/categoryComingSoon', '{0} 配置尚不可用。', category.label)}
         </div>;
     }
 
     protected renderPlaceholder(): React.ReactNode {
         return <div className='ai-configuration-detail-placeholder'>
-            {nls.localize('theia/ai/core/aiConfiguration/selectCategory', 'Select a category to configure.')}
+            {nls.localize('theia/ai/core/aiConfiguration/selectCategory', '选择要配置的类别。')}
         </div>;
     }
 

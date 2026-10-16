@@ -92,13 +92,13 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
     async initSchema(service: PreferenceSchemaService): Promise<void> {
         const property: PreferenceDataProperty = {
             enumDescriptions: [
-                nls.localizeByDefault('Start without an editor.'),
-                nls.localize('theia/getting-started/startup-editor/welcomePage', 'Open the Welcome page, with content to aid in getting started with {0} and extensions.',
+                nls.localizeByDefault('启动时不打开编辑器。'),
+                nls.localize('theia/getting-started/startup-editor/welcomePage', '打开欢迎页，其中包含帮助您开始使用 {0} 和扩展的内容。',
                     FrontendApplicationConfigProvider.get().applicationName),
                 // eslint-disable-next-line max-len
-                nls.localizeByDefault("Open the README when opening a folder that contains one, fallback to 'welcomePage' otherwise. Note: This is only observed as a global configuration, it will be ignored if set in a workspace or folder configuration."),
-                nls.localizeByDefault('Open a new untitled text file (only applies when opening an empty window).'),
-                nls.localizeByDefault('Open the Welcome page when opening an empty workbench.'),
+                nls.localizeByDefault("打开包含 README 的文件夹时打开 README，否则回退到 'welcomePage'。注意：此项仅作为全局配置生效，在工作区或文件夹配置中设置时将被忽略。"),
+                nls.localizeByDefault('打开新的无标题文本文件（仅在打开空窗口时适用）。'),
+                nls.localizeByDefault('打开空工作台时打开欢迎页。'),
             ],
         };
         service.updateSchemaProperty('workbench.startupEditor', property);
@@ -210,7 +210,7 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
     protected async pickWalkthrough(): Promise<string | undefined> {
         const walkthroughs = this.walkthroughService.getWalkthroughs();
         if (walkthroughs.length === 0) {
-            this.messageService.info(nls.localize('theia/getting-started/noWalkthroughs', 'No walkthroughs are available.'));
+            this.messageService.info(nls.localize('theia/getting-started/noWalkthroughs', '没有可用的向导。'));
             return undefined;
         }
         const items: QuickPickItem[] = walkthroughs.map(walkthrough => {
@@ -219,13 +219,13 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
                 id: walkthrough.id,
                 label: walkthrough.title,
                 description: completed === total
-                    ? nls.localizeByDefault('Completed')
-                    : nls.localizeByDefault('{0} of {1}', String(completed), String(total)),
+                    ? nls.localizeByDefault('已完成')
+                    : nls.localizeByDefault('已完成 {0} 步，共 {1} 步', String(completed), String(total)),
                 detail: walkthrough.description
             };
         });
         const picked = await this.quickInputService.showQuickPick(items, {
-            placeholder: nls.localizeByDefault('Select a walkthrough to open')
+            placeholder: nls.localizeByDefault('选择要打开的向导')
         });
         return picked?.id;
     }
@@ -248,7 +248,7 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
             {
                 id: 'walkthrough.stepTitle.foreground',
                 defaults: { dark: 'foreground', light: 'foreground', hcDark: 'foreground', hcLight: 'foreground' },
-                description: 'Foreground color of walkthrough step titles.'
+                description: '向导步骤标题的前景色。'
             },
             {
                 id: 'walkthrough.progress.foreground',
@@ -258,7 +258,7 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
                     hcDark: 'foreground',
                     hcLight: 'foreground'
                 },
-                description: 'Foreground color for walkthrough progress indicators.'
+                description: '向导进度指示器的前景色。'
             },
             {
                 id: 'walkthrough.card.background',
@@ -267,7 +267,7 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
                     dark: Color.transparent('foreground', 0.04),
                     light: Color.transparent('foreground', 0.04)
                 },
-                description: 'Background color of the walkthrough cards on the Welcome page.'
+                description: '欢迎页上向导卡片的背景色。'
             },
             {
                 id: 'walkthrough.progress.background',
@@ -277,7 +277,7 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
                 },
-                description: 'Background color of the walkthrough progress bar.'
+                description: '向导进度条的背景色。'
             },
             {
                 id: 'walkthrough.stepCompleted.foreground',
@@ -287,7 +287,7 @@ export class GettingStartedContribution extends AbstractViewContribution<Getting
                     hcDark: 'successBackground',
                     hcLight: 'successBackground'
                 },
-                description: 'Foreground color of the indicator marking a walkthrough step as completed.'
+                description: '将向导步骤标记为已完成指示器的前景色。'
             }
         );
     }

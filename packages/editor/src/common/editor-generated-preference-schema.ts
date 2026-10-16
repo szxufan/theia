@@ -148,7 +148,7 @@ export const editorGeneratedPreferenceProperties: PreferenceSchema['properties']
     "editor.experimental.treeSitterTelemetry": {
         "type": "boolean",
         "default": false,
-        "markdownDescription": nls.localizeByDefault('Controls whether tree sitter parsing should be turned on and telemetry collected. Setting `#editor.experimental.preferTreeSitter#` for specific languages will take precedence.'),
+        "markdownDescription": nls.localizeByDefault('控制是否开启 tree sitter 解析并收集遥测数据。为特定语言设置 `#editor.experimental.preferTreeSitter#` 将优先。'),
         "tags": [
             "experimental",
             "onExP"
@@ -855,7 +855,7 @@ export const editorGeneratedPreferenceProperties: PreferenceSchema['properties']
 
     },
     "editor.experimentalEditContextEnabled": {
-        "description": nls.localizeByDefault('Controls whether the workbench window should be focused when the debugger breaks.'),
+        "description": nls.localizeByDefault('控制调试器中断时工作台窗口是否获取焦点。'),
         "included": true,
         "type": "boolean",
         "default": false,
@@ -1351,7 +1351,7 @@ export const editorGeneratedPreferenceProperties: PreferenceSchema['properties']
         "type": "integer",
         "minimum": 0,
         "default": 300,
-        "description": nls.localizeByDefault('Controls the delay in milliseconds after which the hover is hidden. Requires `#editor.hover.sticky#` to be enabled.'),
+        "description": nls.localizeByDefault('控制悬停提示隐藏前的延迟时间（毫秒）。需要启用 `#editor.hover.sticky#`。'),
         "scope": PreferenceScope.Folder
 
     },
@@ -2273,7 +2273,7 @@ export const editorGeneratedPreferenceProperties: PreferenceSchema['properties']
             nls.localizeByDefault("Select a suggestion only when triggering IntelliSense as you type.")
         ],
         "default": "always",
-        "markdownDescription": nls.localizeByDefault('Controls whether a suggestion is selected when the widget shows. Note that this only applies to automatically triggered suggestions ({0} and {1}) and that a suggestion is always selected when explicitly invoked, e.g via `Ctrl+Space`.', '`#editor.quickSuggestions#`', '`#editor.suggestOnTriggerCharacters#`'),
+        "markdownDescription": nls.localizeByDefault('控制小组件显示时是否选中建议项。注意这只适用于自动触发的建议（{0} 和 {1}），显式调用时（例如通过 `Ctrl+Space`）始终会选中建议项。', '`#editor.quickSuggestions#`', '`#editor.suggestOnTriggerCharacters#`'),
         "scope": PreferenceScope.Folder
 
     },

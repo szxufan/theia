@@ -28,7 +28,7 @@ import { nls } from '@theia/core/lib/common/nls';
 export namespace ExternalTerminalCommands {
     export const OPEN_NATIVE_CONSOLE = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.terminal.openNativeConsole',
-        label: 'Open New External Terminal'
+        label: '打开新的外部终端'
     });
 }
 
@@ -110,7 +110,7 @@ export class ExternalTerminalFrontendContribution implements CommandContribution
                 description: this.labelProvider.getLongName(resource),
                 value: resource.toString()
             })
-        ), { placeholder: nls.localize('theia/external-terminal/cwd', 'Select current working directory for new external terminal') });
+        ), { placeholder: nls.localize('theia/external-terminal/cwd', '为新外部终端选择当前工作目录') });
         return selectedItem?.value;
     }
 }

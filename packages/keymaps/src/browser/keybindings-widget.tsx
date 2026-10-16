@@ -106,7 +106,7 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
     protected readonly logger: ILogger;
 
     static readonly ID = 'keybindings.view.widget';
-    static readonly LABEL = nls.localizeByDefault('Keyboard Shortcuts');
+    static readonly LABEL = nls.localizeByDefault('键盘快捷方式');
     static readonly CONTEXT_MENU = ['keybinding-context-menu'];
     static readonly COPY_MENU = [...KeybindingWidget.CONTEXT_MENU, 'a_copy'];
     static readonly EDIT_MENU = [...KeybindingWidget.CONTEXT_MENU, 'b_edit'];
@@ -179,7 +179,8 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
         this.toDispose.push(this.keybindingRegistry.onKeybindingsChanged(this.updateItemsAndRerender));
     }
 
-    protected updateItemsAndRerender = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateItemsAndRerender: any = debounce(() => {
         this.items = this.getItems();
         this.update();
         if (this.hasSearch()) {
@@ -400,7 +401,7 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
                     className={`theia-input${(this.items.length > 0) ? '' : ' no-kb'}`}
                     type='text'
                     spellCheck={false}
-                    placeholder={nls.localizeByDefault('Type to search in keybindings')}
+                    placeholder={nls.localizeByDefault('输入以搜索快捷键')}
                     autoComplete='off'
                     onKeyUp={this.searchKeybindings}
                 />
@@ -428,10 +429,10 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
                     <thead>
                         <tr>
                             <th className='th-action'></th>
-                            <th className='th-label'>{nls.localizeByDefault('Command')}</th>
-                            <th className='th-keybinding'>{nls.localizeByDefault('Keybinding')}</th>
-                            <th className='th-context'>{nls.localizeByDefault('When')}</th>
-                            <th className='th-source'>{nls.localizeByDefault('Source')}</th>
+                            <th className='th-label'>{nls.localizeByDefault('命令')}</th>
+                            <th className='th-keybinding'>{nls.localizeByDefault('快捷键')}</th>
+                            <th className='th-context'>{nls.localizeByDefault('条件')}</th>
+                            <th className='th-source'>{nls.localizeByDefault('来源')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -700,7 +701,7 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
         const command = item.command.id;
         const oldKeybinding = item.keybinding;
         const dialog = new EditKeybindingDialog({
-            title: nls.localize('theia/keymaps/editKeybindingTitle', 'Edit Keybinding for {0}', item.labels.command.value),
+            title: nls.localize('theia/keymaps/editKeybindingTitle', '编辑 {0} 的快捷键', item.labels.command.value),
             maxWidth: 400,
             initialValue: oldKeybinding?.keybinding,
             validate: (newKeybinding, mode) => mode === 'preview' && !newKeybinding ? '' : this.validateKeybinding(command, oldKeybinding?.keybinding, newKeybinding),
@@ -726,7 +727,7 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
             return;
         }
         const dialog = new SingleTextInputDialog({
-            title: nls.localize('theia/keymaps/editWhenExpressionTitle', 'Edit When Expression for {0}', item.labels.command.value),
+            title: nls.localize('theia/keymaps/editWhenExpressionTitle', '编辑 {0} 的何时表达式', item.labels.command.value),
             maxWidth: 400,
             initialValue: keybinding.when
         });
@@ -753,7 +754,7 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
     addKeybinding(item: KeybindingItem): void {
         const command = item.command.id;
         const dialog = new EditKeybindingDialog({
-            title: nls.localize('theia/keymaps/addKeybindingTitle', 'Add Keybinding for {0}', item.labels.command.value),
+            title: nls.localize('theia/keymaps/addKeybindingTitle', '为 {0} 添加快捷键', item.labels.command.value),
             maxWidth: 400,
             validate: (newKeybinding, mode) => mode === 'preview' && !newKeybinding ? '' : this.validateKeybinding(command, undefined, newKeybinding),
         }, this.keymapsService, item, false);
@@ -777,14 +778,14 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
     protected async confirmResetKeybinding(item: KeybindingItem): Promise<boolean> {
         const message = document.createElement('div');
         const question = document.createElement('p');
-        question.textContent = nls.localize('theia/keymaps/resetKeybindingConfirmation', 'Do you really want to reset this keybinding to its default value?');
+        question.textContent = nls.localize('theia/keymaps/resetKeybindingConfirmation', '是否确实要将此快捷键重置为其默认值？');
         message.append(question);
         const info = document.createElement('p');
-        info.textContent = nls.localize('theia/keymaps/resetMultipleKeybindingsWarning', 'If multiple keybindings exist for this command, all of them will be reset.');
+        info.textContent = nls.localize('theia/keymaps/resetMultipleKeybindingsWarning', '如果此命令存在多个快捷键，将全部重置。');
         message.append(info);
 
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/keymaps/resetKeybindingTitle', 'Reset keybinding for {0}', this.getCommandLabel(item.command)),
+            title: nls.localize('theia/keymaps/resetKeybindingTitle', '重置 {0} 的快捷键', this.getCommandLabel(item.command)),
             msg: message
         });
         return !!await dialog.open();
@@ -819,7 +820,7 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
      */
     protected validateKeybinding(command: string, oldKeybinding: string | undefined, keybinding: string): string {
         if (!keybinding) {
-            return nls.localize('theia/keymaps/requiredKeybindingValidation', 'keybinding value is required');
+            return nls.localize('theia/keymaps/requiredKeybindingValidation', '快捷键值是必需的');
         }
         try {
             const binding = { command, keybinding };
@@ -828,7 +829,7 @@ export class KeybindingWidget extends ReactWidget implements StatefulWidget {
                 return ''; // if old and new keybindings match, quietly reject update
             }
             if (this.keybindingRegistry.containsKeybindingInScope(binding)) {
-                return nls.localize('theia/keymaps/keybindingCollidesValidation', 'keybinding currently collides');
+                return nls.localize('theia/keymaps/keybindingCollidesValidation', '快捷键当前存在冲突');
             }
             return '';
         } catch (error) {
@@ -958,7 +959,7 @@ class EditKeybindingDialog extends SingleTextInputDialog {
         setTimeout(() => {
             const inputField = this.node.querySelector('input');
             if (inputField) {
-                inputField.placeholder = nls.localizeByDefault('Press desired key combination and then press ENTER.');
+                inputField.placeholder = nls.localizeByDefault('按下所需的组合键，然后按 ENTER。');
             }
         }, 100);
     }
@@ -1043,11 +1044,11 @@ class EditKeybindingDialog extends SingleTextInputDialog {
      */
     protected appendResetButton(): HTMLButtonElement {
         // Create the `Reset` button.
-        const resetButtonTitle = nls.localizeByDefault('Reset');
+        const resetButtonTitle = nls.localizeByDefault('重置');
         this.resetButton = this.createButton(resetButtonTitle);
         // Add the `Reset` button to the dialog control panel, before the `Accept` button.
         this.controlPanel.insertBefore(this.resetButton, this.acceptButton!);
-        this.resetButton.title = nls.localizeByDefault('Reset Keybinding');
+        this.resetButton.title = nls.localizeByDefault('重置快捷键');
         this.resetButton.classList.add('secondary');
         return this.resetButton;
     }

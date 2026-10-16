@@ -1,34 +1,34 @@
-# Lockfile maintenance
+# 锁文件维护
 
-Regenerate `package-lock.json` with a plain install:
+用一次普通安装重新生成 `package-lock.json`：
 
 ```sh
 npm install
 ```
 
-Then check the result:
+然后检查结果：
 
 ```sh
 git diff --stat package-lock.json
 node scripts/verify-lockfile-platforms.js
 ```
 
-The verifier also runs in CI, so a lockfile that fails the checks below cannot be merged.
+该校验器同样在 CI 中运行，因此无法通过以下检查的锁文件无法合并。
 
-## Keeping `allowScripts` in sync
+## 保持 `allowScripts` 同步
 
-npm consults the `allowScripts` allowlist in the root `package.json` before running a dependency's install scripts. Adding, removing, or updating dependencies can therefore require an `allowScripts` change:
+npm 在运行依赖的安装脚本之前，会先查阅根 `package.json` 中的 `allowScripts` 允许列表。因此添加、移除或更新依赖可能需要修改 `allowScripts`：
 
-- A new dependency with an install script must be added with `true` if the script is required (native bindings, downloaded binaries) or `false` if it is cosmetic or unused. Recording it as `false` also keeps `npm install` free of notices.
-- A dependency that no longer has an install script must be removed from the list.
+- 带有安装脚本的新依赖：脚本必需（本地绑定、下载的二进制）则添加为 `true`；脚本只是装饰性或未使用则添加为 `false`。记录为 `false` 还能让 `npm install` 不再出现提示。
+- 不再有安装脚本的依赖必须从列表中移除。
 
-npm 11 only prints a notice for an unlisted dependency and still runs its script, so an omission is easy to miss. `--strict-allow-scripts` turns that notice into a hard error and npm 12 is expected to make it the default, at which point a missing `true` entry stops a native module from building. The verifier cross-checks the allowlist against every lockfile entry with `hasInstallScript` and fails on unlisted or stale entries, so run it after changing dependencies.
+npm 11 对未列出的依赖只打印一条提示并仍然运行其脚本，因此遗漏很容易被忽略。`--strict-allow-scripts` 会把该提示变为硬错误，npm 12 预期将把它作为默认行为——届时缺失 `true` 条目会阻止本地模块构建。校验器会用 `hasInstallScript` 把允许列表与锁文件中的每个条目交叉核对，未列出或过期的条目会导致失败，因此在改动依赖后请运行它。
 
-## Platform-specific entries
+## 平台相关条目
 
-The lockfile has to describe every platform CI builds on, not just the host that regenerated it:
+锁文件必须描述 CI 构建所用的每个平台，而不只是重新生成它的那台主机：
 
-1. **Platform-specific optional deps** such as `@esbuild/darwin-arm64`, `@parcel/watcher-linux-x64-musl` or `@nx/nx-win32-x64-msvc`. If missing, `npm ci` on the affected platform cannot resolve the package.
-2. **`libc` fields** on Linux entries (`"libc": ["glibc"]` or `"libc": ["musl"]`). Without them, `npm ci` on Alpine or other musl-based images cannot pick the right binary.
+1. **平台相关的可选依赖**，如 `@esbuild/darwin-arm64`、`@parcel/watcher-linux-x64-musl` 或 `@nx/nx-win32-x64-msvc`。如果缺失，受影响平台上的 `npm ci` 无法解析该包。
+2. Linux 条目上的 **`libc` 字段**（`"libc": ["glibc"]` 或 `"libc": ["musl"]`）。没有它们，Alpine 或其他基于 musl 的镜像上的 `npm ci` 无法选择正确的二进制。
 
-npm 11.19, bundled with both Node 24 and Node 26, writes all of these regardless of the host. npm 10, which shipped with the no longer supported Node 22, pruned them instead and broke CI on the affected platforms even when it was green before. No supported Node version prunes anymore, but a globally installed older npm can still be used with a supported Node, so the verifier keeps asserting that the committed lockfile carries the `libc` fields. If that check fails, regenerate the lockfile with the npm bundled with a supported Node version.
+与 Node 24 和 Node 26 捆绑的 npm 11.19 无论如何都会写入这些条目。随不再受支持的 Node 22 发布的 npm 10 则会裁剪它们，即使此前 CI 是绿的，也会在受影响平台上弄坏 CI。当前没有受支持的 Node 版本会再裁剪，但全局安装的较旧 npm 仍可能与受支持的 Node 搭配使用，因此校验器持续断言提交的锁文件携带 `libc` 字段。如果该检查失败，请用受支持的 Node 版本捆绑的 npm 重新生成锁文件。

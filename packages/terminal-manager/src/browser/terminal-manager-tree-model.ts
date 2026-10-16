@@ -78,8 +78,8 @@ export class TerminalManagerTreeModel extends TreeModelImpl {
      * add, remove, or replace entries before the model is used.
      */
     protected configureSpecialPages(): void {
-        this.registerSpecialPage('task', { pageId: 'page-tasks' as TerminalManagerTreeTypes.PageId, label: nls.localizeByDefault('Tasks'), icon: 'tasklist' });
-        this.registerSpecialPage('debug', { pageId: 'page-debug' as TerminalManagerTreeTypes.PageId, label: nls.localizeByDefault('Debug'), icon: 'debug-alt' });
+        this.registerSpecialPage('task', { pageId: 'page-tasks' as TerminalManagerTreeTypes.PageId, label: nls.localizeByDefault('任务'), icon: 'tasklist' });
+        this.registerSpecialPage('debug', { pageId: 'page-debug' as TerminalManagerTreeTypes.PageId, label: nls.localizeByDefault('调试'), icon: 'debug-alt' });
     }
 
     registerSpecialPage(kind: string, config: SpecialPageConfig): void {
@@ -120,7 +120,7 @@ export class TerminalManagerTreeModel extends TreeModelImpl {
         const currentPageNumber = this.getNextPageCounter();
         return {
             id: pageId,
-            label: `${nls.localize('theia/terminal-manager/page', 'Page')} (${currentPageNumber})`,
+            label: `${nls.localize('theia/terminal-manager/page', '页面')} (${currentPageNumber})`,
             parent: undefined,
             selected: false,
             children: [],
@@ -172,7 +172,7 @@ export class TerminalManagerTreeModel extends TreeModelImpl {
         const currentGroupNum = this.getNextGroupCounterForPage(pageId);
         return {
             id: groupId,
-            label: `${nls.localizeByDefault('Group')} (${currentGroupNum})`,
+            label: `${nls.localizeByDefault('分组')} (${currentGroupNum})`,
             parent: undefined,
             selected: false,
             children: [],
@@ -231,7 +231,7 @@ export class TerminalManagerTreeModel extends TreeModelImpl {
     ): TerminalManagerTreeTypes.TerminalNode {
         return {
             id: terminalId,
-            label: label || nls.localizeByDefault('Terminal'),
+            label: label || nls.localizeByDefault('终端'),
             parent: undefined,
             children: [],
             selected: false,

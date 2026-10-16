@@ -301,7 +301,7 @@ export class PromptTemplateContribution implements LanguageGrammarDefinitionCont
         registry.registerItem({
             id: DISCARD_PROMPT_TEMPLATE_CUSTOMIZATIONS.id,
             command: DISCARD_PROMPT_TEMPLATE_CUSTOMIZATIONS.id,
-            tooltip: nls.localize('theia/ai/core/discardCustomPrompt/tooltip', 'Discard Customizations')
+            tooltip: nls.localize('theia/ai/core/discardCustomPrompt/tooltip', '放弃自定义')
         });
     }
 }

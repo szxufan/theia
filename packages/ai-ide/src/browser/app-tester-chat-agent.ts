@@ -41,13 +41,14 @@ export class AppTesterChatAgent extends AbstractStreamParsingChatAgent {
 
     id: string = AppTesterChatAgentId;
     name = AppTesterChatAgentId;
+    displayName = nls.localize('theia/ai/chat/app-tester/displayName', '应用测试');
     languageModelRequirements: LanguageModelRequirement[] = [{
         purpose: 'chat',
         identifier: 'default/fast',
     }];
     protected defaultLanguageModelPurpose: string = 'chat';
-    override description = nls.localize('theia/ai/chat/app-tester/description', 'This agent tests your application user interface to verify user-specified test scenarios through browser automation. '
-        + 'It can automate testing workflows and provide detailed feedback on application functionality.');
+    override description = nls.localize('theia/ai/chat/app-tester/description', '此代理通过浏览器自动化测试您的应用程序用户界面，以验证用户指定的测试场景。 '
+        + '它可以自动化测试工作流，并就应用程序功能提供详细反馈。');
 
     override iconClass: string = 'codicon codicon-beaker';
     protected override systemPromptId: string = 'app-tester-system';
@@ -65,12 +66,12 @@ export class AppTesterChatAgent extends AbstractStreamParsingChatAgent {
                 request.response.response.addContent(new QuestionResponseContentImpl(
                     isPlaywrightVariant
                         ? nls.localize('theia/ai/ide/app-tester/startPlaywrightServers/question',
-                            'The Playwright MCP servers are not running. Would you like to start them now? This may install the Playwright MCP servers.')
+                            'Playwright MCP 服务器尚未运行。要立即启动它们吗？这可能会安装 Playwright MCP 服务器。')
                         : nls.localize('theia/ai/ide/app-tester/startChromeDevToolsMcpServers/question',
-                            'The Chrome DevTools MCP server is not running. Would you like to start it now? This may install the Chrome DevTools MCP server.'),
+                            'Chrome DevTools MCP 服务器尚未运行。要立即启动它吗？这可能会安装 Chrome DevTools MCP 服务器。'),
                     [
-                        { text: nls.localize('theia/ai/ide/app-tester/startMcpServers/yes', 'Yes, start the servers'), value: 'yes' },
-                        { text: nls.localize('theia/ai/ide/app-tester/startMcpServers/no', 'No, cancel'), value: 'no' }
+                        { text: nls.localize('theia/ai/ide/app-tester/startMcpServers/yes', '是，启动服务器'), value: 'yes' },
+                        { text: nls.localize('theia/ai/ide/app-tester/startMcpServers/no', '否，取消'), value: 'no' }
                     ],
                     request,
                     async selectedOption => {
@@ -78,8 +79,8 @@ export class AppTesterChatAgent extends AbstractStreamParsingChatAgent {
                         if (selectedOption.value === 'yes') {
                             const progress = request.response.addProgressMessage({
                                 content: isPlaywrightVariant
-                                    ? nls.localize('theia/ai/ide/app-tester/startPlaywrightServers/progress', 'Starting Playwright MCP servers.')
-                                    : nls.localize('theia/ai/ide/app-tester/startChromeDevToolsMcpServers/progress', 'Starting Chrome DevTools MCP server.'),
+                                    ? nls.localize('theia/ai/ide/app-tester/startPlaywrightServers/progress', '正在启动 Playwright MCP 服务器。')
+                                    : nls.localize('theia/ai/ide/app-tester/startChromeDevToolsMcpServers/progress', '正在启动 Chrome DevTools MCP 服务器。'),
                                 show: 'whileIncomplete'
                             });
                             try {
@@ -89,9 +90,9 @@ export class AppTesterChatAgent extends AbstractStreamParsingChatAgent {
                             } catch (error) {
                                 request.response.response.addContent(new ErrorChatResponseContentImpl(
                                     new Error(isPlaywrightVariant
-                                        ? nls.localize('theia/ai/ide/app-tester/startPlaywrightServers/error', 'Failed to start Playwright MCP servers: {0}',
+                                        ? nls.localize('theia/ai/ide/app-tester/startPlaywrightServers/error', '启动 Playwright MCP 服务器失败：{0}',
                                             error instanceof Error ? error.message : String(error))
-                                        : nls.localize('theia/ai/ide/app-tester/startChromeDevToolsMcpServers/error', 'Failed to start Chrome DevTools MCP server: {0}',
+                                        : nls.localize('theia/ai/ide/app-tester/startChromeDevToolsMcpServers/error', '启动 Chrome DevTools MCP 服务器失败：{0}',
                                             error instanceof Error ? error.message : String(error)))
                                 ));
                                 request.response.complete();
@@ -99,8 +100,8 @@ export class AppTesterChatAgent extends AbstractStreamParsingChatAgent {
                         } else {
                             request.response.response.addContent(new MarkdownChatResponseContentImpl(
                                 isPlaywrightVariant
-                                    ? nls.localize('theia/ai/ide/app-tester/startPlaywrightServers/canceled', 'Please setup the Playwright MCP servers.')
-                                    : nls.localize('theia/ai/ide/app-tester/startChromeDevToolsMcpServers/canceled', 'Please setup the Chrome DevTools MCP server.')
+                                    ? nls.localize('theia/ai/ide/app-tester/startPlaywrightServers/canceled', '请设置 Playwright MCP 服务器。')
+                                    : nls.localize('theia/ai/ide/app-tester/startChromeDevToolsMcpServers/canceled', '请设置 Chrome DevTools MCP 服务器。')
                             ));
                             request.response.complete();
                         }
@@ -113,9 +114,9 @@ export class AppTesterChatAgent extends AbstractStreamParsingChatAgent {
         } catch (error) {
             request.response.response.addContent(new ErrorChatResponseContentImpl(
                 isPlaywrightVariant ?
-                    new Error(nls.localize('theia/ai/ide/app-tester/errorCheckingPlaywrightServerStatus', 'Error checking Playwright MCP server status: {0}',
+                    new Error(nls.localize('theia/ai/ide/app-tester/errorCheckingPlaywrightServerStatus', '检查 Playwright MCP 服务器状态时出错：{0}',
                         error instanceof Error ? error.message : String(error)))
-                    : new Error(nls.localize('theia/ai/ide/app-tester/errorCheckingDevToolsServerStatus', 'Error checking DevTools MCP server status: {0}',
+                    : new Error(nls.localize('theia/ai/ide/app-tester/errorCheckingDevToolsServerStatus', '检查 DevTools MCP 服务器状态时出错：{0}',
                         error instanceof Error ? error.message : String(error)))
             ));
             request.response.complete();

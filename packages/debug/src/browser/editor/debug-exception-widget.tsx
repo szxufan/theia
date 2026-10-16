@@ -97,12 +97,12 @@ export class DebugExceptionWidget implements Disposable {
     protected render(info: DebugExceptionInfo, cb: () => void): void {
         const stackTrace = info.details && info.details.stackTrace;
         const exceptionTitle = info.id ?
-            nls.localizeByDefault('Exception has occurred: {0}', info.id) :
-            nls.localizeByDefault('Exception has occurred.');
+            nls.localizeByDefault('发生异常: {0}', info.id) :
+            nls.localizeByDefault('发生异常。');
         this.containerNodeRoot.render(<>
             <div className='title' ref={cb}>
                 {exceptionTitle}
-                <span id="exception-close" className={codicon('close', true)} onClick={() => this.hide()} title={nls.localizeByDefault('Close')}></span>
+                <span id="exception-close" className={codicon('close', true)} onClick={() => this.hide()} title={nls.localizeByDefault('关闭')}></span>
             </div>
             {info.description && <div className='description'>{info.description}</div>}
             {stackTrace && <div className='stack-trace'>{stackTrace}</div>}

@@ -23,52 +23,52 @@ export const searchInWorkspacePreferencesSchema: PreferenceSchema = {
     scope: PreferenceScope.Folder,
     properties: {
         'search.lineNumbers': {
-            description: nls.localizeByDefault('Controls whether to show line numbers for search results.'),
+            description: nls.localizeByDefault('控制是否显示搜索结果的行号。'),
             default: false,
             type: 'boolean',
         },
         'search.collapseResults': {
-            description: nls.localizeByDefault('Controls whether the search results will be collapsed or expanded.'),
+            description: nls.localizeByDefault('控制搜索结果是折叠还是展开。'),
             default: 'auto',
             type: 'string',
             enum: ['auto', 'alwaysCollapse', 'alwaysExpand'],
         },
         'search.quickOpen.includeHistory': {
-            description: nls.localizeByDefault('Whether to include results from recently opened files in the file results for Quick Open.'),
+            description: nls.localizeByDefault('控制是否在 Quick Open 的文件结果中包含最近打开文件的结果。'),
             default: true,
             type: 'boolean',
         },
         'search.searchOnType': {
-            description: nls.localizeByDefault('Search all files as you type.'),
+            description: nls.localizeByDefault('在键入时搜索所有文件。'),
             default: true,
             type: 'boolean',
         },
         'search.searchOnTypeDebouncePeriod': {
             // eslint-disable-next-line max-len
-            markdownDescription: nls.localizeByDefault('When {0} is enabled, controls the timeout in milliseconds between a character being typed and the search starting. Has no effect when {0} is disabled.', '`#search.searchOnType#`'),
+            markdownDescription: nls.localizeByDefault('启用 {0} 时，控制从键入字符到开始搜索之间的超时时间（毫秒）。禁用 {0} 时此设置无效。', '`#search.searchOnType#`'),
             default: 300,
             type: 'number',
         },
         'search.searchOnEditorModification': {
-            description: nls.localize('theia/search-in-workspace/searchOnEditorModification', 'Search the active editor when modified.'),
+            description: nls.localize('theia/search-in-workspace/searchOnEditorModification', '在活动编辑器被修改时进行搜索。'),
             default: true,
             type: 'boolean',
         },
         'search.smartCase': {
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault('Search case-insensitively if the pattern is all lowercase, otherwise, search case-sensitively.'),
+            description: nls.localizeByDefault('如果模式全部为小写，则按不区分大小写的方式搜索，否则按区分大小写的方式搜索。'),
             default: false,
             type: 'boolean',
         },
         'search.followSymlinks': {
-            description: nls.localizeByDefault('Controls whether to follow symlinks while searching.'),
+            description: nls.localizeByDefault('控制搜索时是否跟随符号链接。'),
             default: true,
             type: 'boolean',
         },
         'search.exclude': {
             type: 'object',
             // eslint-disable-next-line max-len
-            markdownDescription: nls.localize('theia/search-in-workspace/searchExclude', 'Configure [glob patterns](https://aka.ms/vscode-glob-patterns) for excluding files and folders in full-text searches and file search in quick open. Inherits all glob patterns from the `#files.exclude#` setting.'),
+            markdownDescription: nls.localize('theia/search-in-workspace/searchExclude', '配置 [glob 模式](https://aka.ms/vscode-glob-patterns)，用于在全文搜索和 quick open 文件搜索中排除文件和文件夹。继承 `#files.exclude#` 设置中的所有 glob 模式。'),
             default: {
                 '**/node_modules': true
             }

@@ -54,7 +54,7 @@ export class NotebookStatusBarContribution implements WidgetStatusBarContributio
         const selectedCellIndex = model.cells.indexOf(editor.viewModel.selectedCell) + 1;
 
         statusBar.setElement(NOTEBOOK_CELL_SELECTION_STATUS_BAR_ID, {
-            text: nls.localizeByDefault('Cell {0} of {1}', selectedCellIndex, model.cells.length),
+            text: nls.localizeByDefault('第 {0} 个单元格，共 {1} 个', selectedCellIndex, model.cells.length),
             alignment: StatusBarAlignment.RIGHT,
             priority: 100,
             command: NotebookCommands.CENTER_ACTIVE_CELL.id,

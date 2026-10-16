@@ -30,34 +30,34 @@ export const scmPreferenceSchema: PreferenceSchema = {
             type: 'string',
             enum: ['tree', 'list'],
             enumDescriptions: [
-                nls.localizeByDefault('Show the repository changes as a tree.'),
-                nls.localizeByDefault('Show the repository changes as a list.')
+                nls.localizeByDefault('以树形结构显示存储库更改。'),
+                nls.localizeByDefault('以列表形式显示存储库更改。')
             ],
-            description: nls.localizeByDefault('Controls the default Source Control repository view mode.'),
+            description: nls.localizeByDefault('控制源代码管理存储库视图的默认模式。'),
             default: 'list'
         },
         'scm.graph.badges': {
             type: 'string',
             enum: ['all', 'filter'],
             enumDescriptions: [
-                nls.localizeByDefault('Show badges of all history item groups in the Source Control Graph view.'),
-                nls.localizeByDefault('Show only the badges of history item groups used as a filter in the Source Control Graph view.')
+                nls.localizeByDefault('在源代码管理关系图视图中显示所有历史项目组的其他指示。'),
+                nls.localizeByDefault('仅在源代码管理关系图视图中显示用作筛选器的历史项目组的指示。')
             ],
             description: nls.localizeByDefault(
                 // eslint-disable-next-line max-len
-                'Controls which badges are shown in the Source Control Graph view. The badges are shown on the right side of the graph indicating the names of history item groups.'),
+                '控制源代码管理关系图视图中显示哪些指示。指示显示在关系图右侧，指示历史项目组的名称。'),
             default: 'filter'
         },
         'scm.graph.pageOnScroll': {
             type: 'boolean',
-            description: nls.localizeByDefault('Controls whether the Source Control Graph view will load the next page of items when you scroll to the end of the list.'),
+            description: nls.localizeByDefault('控制当滚动到列表末尾时，源代码管理关系图视图是否加载下一页项目。'),
             default: true
         },
         'scm.graph.pageSize': {
             type: 'number',
             minimum: 1,
             maximum: 1000,
-            description: nls.localizeByDefault('The number of items to show in the Source Control Graph view by default and when loading more items.'),
+            description: nls.localizeByDefault('源代码管理关系图视图默认以及加载更多项目时显示的项目数。'),
             default: 50
         }
     }

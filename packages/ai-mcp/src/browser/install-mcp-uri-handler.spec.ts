@@ -161,7 +161,7 @@ describe('InstallMcpUriHandler.open', () => {
 
         expect(windowService.focusCount).to.equal(1);
         expect(messages.errors).to.have.length(1);
-        expect(messages.errors[0]).to.match(/missing the required "id"/i);
+        expect(messages.errors[0]).to.equal('安装链接缺少必需的 "id" 参数。');
         expect(prefs.get(MCP_SERVERS_PREF)).to.be.undefined;
     });
 
@@ -171,7 +171,7 @@ describe('InstallMcpUriHandler.open', () => {
         await handler.open(new URI('theia://install-mcp?id=io.example/foo'));
 
         expect(messages.errors).to.have.length(1);
-        expect(messages.errors[0]).to.match(/no AI registry is configured/i);
+        expect(messages.errors[0]).to.equal('无法安装 MCP 服务器“io.example/foo”——此产品未配置 AI 注册表。');
     });
 
     it('reports an error when the registry has no entry for the given id', async () => {
@@ -182,7 +182,7 @@ describe('InstallMcpUriHandler.open', () => {
         await handler.open(new URI('theia://install-mcp?id=io.example/unknown'));
 
         expect(messages.errors).to.have.length(1);
-        expect(messages.errors[0]).to.match(/is not listed in your AI registry/i);
+        expect(messages.errors[0]).to.equal('MCP 服务器“io.example/unknown”未列在你的 AI 注册表中。');
         expect(bridge.openedServerIds).to.be.empty;
     });
 
@@ -191,7 +191,7 @@ describe('InstallMcpUriHandler.open', () => {
 
         await handler.open(new URI('theia://install-mcp?id=%20%20'));
 
-        expect(messages.errors[0]).to.match(/missing the required "id"/i);
+        expect(messages.errors[0]).to.equal('安装链接缺少必需的 "id" 参数。');
     });
 
     it('focuses the window, reveals the registry search for the id, then opens the install dialog for a known id', async () => {

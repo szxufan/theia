@@ -65,26 +65,26 @@ export class OutputToolbarContribution implements TabBarToolbarContribution {
         toolbarRegistry.registerItem({
             id: OutputCommands.CLEAR__WIDGET.id,
             command: OutputCommands.CLEAR__WIDGET.id,
-            tooltip: nls.localizeByDefault('Clear Output'),
+            tooltip: nls.localizeByDefault('清空输出'),
             priority: 1,
         });
         toolbarRegistry.registerItem({
             id: OutputCommands.LOCK__WIDGET.id,
             command: OutputCommands.LOCK__WIDGET.id,
-            tooltip: nls.localizeByDefault('Turn Auto Scrolling Off'),
+            tooltip: nls.localizeByDefault('关闭自动滚动'),
             onDidChange: this.onOutputWidgetStateChanged,
             priority: 2
         });
         toolbarRegistry.registerItem({
             id: OutputCommands.UNLOCK__WIDGET.id,
             command: OutputCommands.UNLOCK__WIDGET.id,
-            tooltip: nls.localizeByDefault('Turn Auto Scrolling On'),
+            tooltip: nls.localizeByDefault('开启自动滚动'),
             onDidChange: this.onOutputWidgetStateChanged,
             priority: 2
         });
     }
 
-    protected readonly NONE = '<no channels>';
+    protected readonly NONE = '<无通道>';
     protected readonly OUTPUT_CHANNEL_LIST_ID = 'outputChannelList';
 
     protected renderChannelSelector(): React.ReactNode {

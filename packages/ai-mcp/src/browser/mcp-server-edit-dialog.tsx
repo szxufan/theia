@@ -96,10 +96,10 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
         this.existingServerNames = existingServerNames;
         this.isEditing = isEditing;
         this.redirectUrlProvider = redirectUrlProvider;
-        this.appendCloseButton(nls.localizeByDefault('Cancel'));
+        this.appendCloseButton(nls.localizeByDefault('取消'));
         this.appendAcceptButton(isEditing
-            ? nls.localize('theia/ai/mcpConfiguration/form/saveChanges', 'Save Changes')
-            : nls.localizeByDefault('Add Server'));
+            ? nls.localize('theia/ai/mcpConfiguration/form/saveChanges', '保存更改')
+            : nls.localizeByDefault('添加服务器'));
     }
 
     get value(): MCPServerFormData | undefined {
@@ -109,26 +109,26 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
     protected override isValid(): string {
         const errors: string[] = [];
         if (!this.formData.name.trim()) {
-            errors.push(nls.localize('theia/ai/mcpConfiguration/form/nameRequired', 'Server name is required'));
+            errors.push(nls.localize('theia/ai/mcpConfiguration/form/nameRequired', '必须提供服务器名称'));
         } else if (!this.isEditing && this.existingServerNames.includes(this.formData.name.trim())) {
-            errors.push(nls.localize('theia/ai/mcpConfiguration/form/nameExists', 'A server with this name already exists'));
+            errors.push(nls.localize('theia/ai/mcpConfiguration/form/nameExists', '同名服务器已存在'));
         }
         if (this.formData.serverType === 'local') {
             if (!this.formData.command.trim()) {
-                errors.push(nls.localize('theia/ai/mcpConfiguration/form/commandRequired', 'Command is required for local servers'));
+                errors.push(nls.localize('theia/ai/mcpConfiguration/form/commandRequired', '本地服务器必须提供命令'));
             }
         } else if (!this.formData.serverUrl.trim()) {
-            errors.push(nls.localize('theia/ai/mcpConfiguration/form/serverUrlRequired', 'Server URL is required for remote servers'));
+            errors.push(nls.localize('theia/ai/mcpConfiguration/form/serverUrlRequired', '远程服务器必须提供服务器 URL'));
         } else if (this.formData.serverType === 'remote-oauth') {
             const authorizationServer = this.formData.oauthAuthorizationServer.trim();
             if (authorizationServer && !isHttpOrHttpsUrl(authorizationServer)) {
                 errors.push(nls.localize('theia/ai/mcpConfiguration/form/oauthAuthorizationServerInvalid',
-                    'OAuth Authorization Server must be a valid http(s) URL'));
+                    'OAuth 授权服务器必须是有效的 http(s) URL'));
             }
             const resource = this.formData.oauthResource.trim();
             if (resource && !isHttpOrHttpsUrl(resource)) {
                 errors.push(nls.localize('theia/ai/mcpConfiguration/form/oauthResourceInvalid',
-                    'OAuth Resource must be a valid http(s) URL'));
+                    'OAuth 资源必须是有效的 http(s) URL'));
             }
         }
         return errors.join('. ');
@@ -162,27 +162,27 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
         return (
             <div className="mcp-dialog-form">
                 <div className="mcp-form-field">
-                    <label>{nls.localize('theia/ai/mcpConfiguration/form/serverName', 'Server Name')}:</label>
+                    <label>{nls.localize('theia/ai/mcpConfiguration/form/serverName', '服务器名称')}:</label>
                     <input
                         type="text"
                         className="theia-input"
                         defaultValue={this.formData.name}
                         onChange={e => this.handleFormChange('name', e.target.value)}
-                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/serverNamePlaceholder', 'e.g., my-mcp-server')}
+                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/serverNamePlaceholder', '例如 my-mcp-server')}
                         disabled={this.isEditing}
                         spellCheck={false}
                     />
                 </div>
 
                 <div className="mcp-form-field">
-                    <label>{nls.localizeByDefault('Server Type')}:</label>
+                    <label>{nls.localizeByDefault('服务器类型')}:</label>
                     <SelectComponent
                         className="theia-select"
                         defaultValue={this.formData.serverType}
                         options={[
-                            { value: 'local', label: nls.localize('theia/ai/mcpConfiguration/form/localServer', 'Local (Command)') },
-                            { value: 'remote', label: nls.localize('theia/ai/mcpConfiguration/form/remoteServer', 'Remote (URL)') },
-                            { value: 'remote-oauth', label: nls.localize('theia/ai/mcpConfiguration/form/remoteOAuthServer', 'Remote (OAuth)') }
+                            { value: 'local', label: nls.localize('theia/ai/mcpConfiguration/form/localServer', '本地（命令）') },
+                            { value: 'remote', label: nls.localize('theia/ai/mcpConfiguration/form/remoteServer', '远程（URL）') },
+                            { value: 'remote-oauth', label: nls.localize('theia/ai/mcpConfiguration/form/remoteOAuthServer', '远程（OAuth）') }
                         ]}
                         onChange={option => this.handleFormChange('serverType', option.value as MCPServerType)}
                     />
@@ -198,7 +198,7 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
                             defaultChecked={this.formData.autostart}
                             onChange={e => this.handleFormChange('autostart', e.target.checked)}
                         />
-                        {nls.localize('theia/ai/mcpConfiguration/form/autostart', 'Autostart')}
+                        {nls.localize('theia/ai/mcpConfiguration/form/autostart', '自动启动')}
                     </label>
                 </div>
                 <div className="mcp-form-field mcp-form-checkbox">
@@ -209,7 +209,7 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
                             defaultChecked={this.formData.deferLoading}
                             onChange={e => this.handleFormChange('deferLoading', e.target.checked)}
                         />
-                        {nls.localize('theia/ai/mcpConfiguration/form/deferLoading', 'Defer tool loading (discover tools on demand via the provider tool search)')}
+                        {nls.localize('theia/ai/mcpConfiguration/form/deferLoading', '延迟加载工具（通过提供商工具搜索按需发现工具）')}
                     </label>
                 </div>
             </div>
@@ -220,36 +220,36 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
         return (
             <>
                 <div className="mcp-form-field">
-                    <label>{nls.localizeByDefault('Command')}:</label>
+                    <label>{nls.localizeByDefault('命令')}:</label>
                     <input
                         type="text"
                         className="theia-input"
                         defaultValue={this.formData.command}
                         onChange={e => this.handleFormChange('command', e.target.value)}
-                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/commandPlaceholder', 'e.g., npx or uvx')}
+                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/commandPlaceholder', '例如 npx 或 uvx')}
                         spellCheck={false}
                     />
                 </div>
 
                 <div className="mcp-form-field">
-                    <label>{nls.localizeByDefault('Arguments')}:</label>
+                    <label>{nls.localizeByDefault('参数')}:</label>
                     <input
                         type="text"
                         className="theia-input"
                         defaultValue={this.formData.args.join(' ')}
                         onChange={e => this.handleFormChange('args', this.splitArguments(e.target.value))}
-                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/argsPlaceholder', 'Space-separated, e.g., -y @modelcontextprotocol/server-brave-search')}
+                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/argsPlaceholder', '以空格分隔，例如 -y @modelcontextprotocol/server-brave-search')}
                         spellCheck={false}
                     />
                 </div>
 
                 <div className="mcp-form-field">
-                    <label>{nls.localize('theia/ai/mcpConfiguration/environmentVariables', 'Environment Variables')}:</label>
+                    <label>{nls.localize('theia/ai/mcpConfiguration/environmentVariables', '环境变量')}:</label>
                     <textarea
                         className="theia-input"
                         defaultValue={this.formData.env}
                         onChange={e => this.handleFormChange('env', e.target.value)}
-                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/envPlaceholder', 'KEY=value (one per line)')}
+                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/envPlaceholder', 'KEY=value（每行一条）')}
                         rows={3}
                         spellCheck={false}
                     />
@@ -297,13 +297,13 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
         return (
             <>
                 <div className="mcp-form-field">
-                    <label>{nls.localize('theia/ai/mcpConfiguration/serverUrl', 'Server URL')}:</label>
+                    <label>{nls.localize('theia/ai/mcpConfiguration/serverUrl', '服务器 URL')}:</label>
                     <input
                         type="text"
                         className="theia-input"
                         defaultValue={this.formData.serverUrl}
                         onChange={e => this.handleFormChange('serverUrl', e.target.value)}
-                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/serverUrlPlaceholder', 'e.g., https://mcp.example.com')}
+                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/serverUrlPlaceholder', '例如 https://mcp.example.com')}
                         spellCheck={false}
                     />
                 </div>
@@ -311,25 +311,25 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
                 {this.formData.serverType === 'remote' && (
                     <>
                         <div className="mcp-form-field">
-                            <label>{nls.localize('theia/ai/mcpConfiguration/serverAuthToken', 'Auth Token')}:</label>
+                            <label>{nls.localize('theia/ai/mcpConfiguration/serverAuthToken', '认证令牌')}:</label>
                             <input
                                 type="password"
                                 className="theia-input"
                                 defaultValue={this.formData.serverAuthToken}
                                 onChange={e => this.handleFormChange('serverAuthToken', e.target.value)}
-                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/authTokenPlaceholder', 'Optional authentication token')}
+                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/authTokenPlaceholder', '可选的认证令牌')}
                                 spellCheck={false}
                             />
                         </div>
 
                         <div className="mcp-form-field">
-                            <label>{nls.localize('theia/ai/mcpConfiguration/serverAuthTokenHeader', 'Auth Header Name')}:</label>
+                            <label>{nls.localize('theia/ai/mcpConfiguration/serverAuthTokenHeader', '认证头名称')}:</label>
                             <input
                                 type="text"
                                 className="theia-input"
                                 defaultValue={this.formData.serverAuthTokenHeader}
                                 onChange={e => this.handleFormChange('serverAuthTokenHeader', e.target.value)}
-                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/authHeaderPlaceholder', 'Default: Authorization with Bearer')}
+                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/authHeaderPlaceholder', '默认：Authorization 配合 Bearer')}
                                 spellCheck={false}
                             />
                         </div>
@@ -337,12 +337,12 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
                 )}
 
                 <div className="mcp-form-field">
-                    <label>{nls.localizeByDefault('Headers')}:</label>
+                    <label>{nls.localizeByDefault('请求头')}:</label>
                     <textarea
                         className="theia-input"
                         defaultValue={this.formData.headers}
                         onChange={e => this.handleFormChange('headers', e.target.value)}
-                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/headersPlaceholder', 'Header-Name=value (one per line)')}
+                        placeholder={nls.localize('theia/ai/mcpConfiguration/form/headersPlaceholder', '头名称=value（每行一条）')}
                         rows={3}
                         spellCheck={false}
                     />
@@ -356,22 +356,22 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
 
                         <div className="mcp-form-description">
                             {nls.localize('theia/ai/mcpConfiguration/form/oauthPublicClientDescription',
-                                'Theia uses public OAuth clients with PKCE by default. Provide a client secret only if the server requires a pre-registered confidential client.')}
+                                'Theia 默认使用支持 PKCE 的公共 OAuth 客户端。仅当服务器要求使用预注册的机密客户端时才需要提供客户端密钥。')}
                         </div>
                         <div className="mcp-form-description">
                             {nls.localize('theia/ai/mcpConfiguration/form/oauthSharedCredentialsDescription',
-                                'Stored OAuth sessions are shared across workspaces that use the same server name and URL (or resource).')}
+                                '已存储的 OAuth 会话在使用相同服务器名称和 URL（或资源）的工作区之间共享。')}
                         </div>
 
                         {this.oauthRedirectUrl && (
                             <div className="mcp-form-field">
-                                <label>{nls.localize('theia/ai/mcpConfiguration/oauthRedirectUrl', 'Redirect URL')}:</label>
+                                <label>{nls.localize('theia/ai/mcpConfiguration/oauthRedirectUrl', '重定向 URL')}:</label>
                                 <div className="mcp-oauth-redirect-url-row">
                                     <span className="mcp-form-static-value">{this.oauthRedirectUrl}</span>
                                     <button
                                         type="button"
                                         className="mcp-icon-button"
-                                        title={nls.localizeByDefault('Copy')}
+                                        title={nls.localizeByDefault('复制')}
                                         onClick={this.handleCopyRedirectUrl}
                                     >
                                         <i className={this.redirectUrlCopied ? 'codicon codicon-check' : 'codicon codicon-copy'}></i>
@@ -379,68 +379,68 @@ export class MCPServerEditDialog extends ReactDialog<MCPServerFormData | undefin
                                 </div>
                                 <div className="mcp-form-description">
                                     {nls.localize('theia/ai/mcpConfiguration/form/oauthRedirectUrlDescription',
-                                        'Authorization callbacks are delivered to this URL. With a static client ID, register it as a redirect URI with your OAuth provider.')}
+                                        '授权回调会发送到此 URL。使用静态客户端 ID 时，请将其注册为 OAuth 提供商的重定向 URI。')}
                                 </div>
                             </div>
                         )}
 
                         <div className="mcp-form-field">
-                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientId', 'OAuth Client ID')}:</label>
+                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientId', 'OAuth 客户端 ID')}:</label>
                             <input
                                 type="text"
                                 className="theia-input"
                                 defaultValue={this.formData.oauthClientId}
                                 onChange={e => this.handleFormChange('oauthClientId', e.target.value)}
-                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthClientIdPlaceholder', 'Optional static client ID')}
+                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthClientIdPlaceholder', '可选的静态客户端 ID')}
                                 spellCheck={false}
                             />
                         </div>
 
                         <div className="mcp-form-field">
-                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientSecret', 'OAuth Client Secret')}:</label>
+                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthClientSecret', 'OAuth 客户端密钥')}:</label>
                             <input
                                 type="password"
                                 className="theia-input"
                                 defaultValue={this.formData.oauthClientSecret}
                                 onChange={e => this.handleFormChange('oauthClientSecret', e.target.value)}
                                 placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthClientSecretPlaceholder',
-                                    'Only for servers requiring a confidential client')}
+                                    '仅适用于要求机密客户端的服务器')}
                                 spellCheck={false}
                             />
                         </div>
 
                         <div className="mcp-form-field">
-                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthScopes', 'OAuth Scopes')}:</label>
+                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthScopes', 'OAuth 作用域')}:</label>
                             <input
                                 type="text"
                                 className="theia-input"
                                 defaultValue={this.formData.oauthScopes}
                                 onChange={e => this.handleFormChange('oauthScopes', e.target.value)}
-                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthScopesPlaceholder', 'Space-separated scopes')}
+                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthScopesPlaceholder', '以空格分隔的作用域')}
                                 spellCheck={false}
                             />
                         </div>
 
                         <div className="mcp-form-field">
-                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthAuthorizationServer', 'Authorization Server')}:</label>
+                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthAuthorizationServer', '授权服务器')}:</label>
                             <input
                                 type="text"
                                 className="theia-input"
                                 defaultValue={this.formData.oauthAuthorizationServer}
                                 onChange={e => this.handleFormChange('oauthAuthorizationServer', e.target.value)}
-                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthAuthorizationServerPlaceholder', 'Optional authorization server URL')}
+                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthAuthorizationServerPlaceholder', '可选的授权服务器 URL')}
                                 spellCheck={false}
                             />
                         </div>
 
                         <div className="mcp-form-field">
-                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthResource', 'OAuth Resource')}:</label>
+                            <label>{nls.localize('theia/ai/mcpConfiguration/oauthResource', 'OAuth 资源')}:</label>
                             <input
                                 type="text"
                                 className="theia-input"
                                 defaultValue={this.formData.oauthResource}
                                 onChange={e => this.handleFormChange('oauthResource', e.target.value)}
-                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthResourcePlaceholder', 'Optional resource URI')}
+                                placeholder={nls.localize('theia/ai/mcpConfiguration/form/oauthResourcePlaceholder', '可选的资源 URI')}
                                 spellCheck={false}
                             />
                         </div>

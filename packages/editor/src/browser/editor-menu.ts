@@ -103,7 +103,7 @@ export class EditorMenuContribution implements MenuContribution {
         });
 
         // Editor navigation. Go > Back and Go > Forward.
-        registry.registerSubmenu(EditorMainMenu.GO, nls.localizeByDefault('Go'));
+        registry.registerSubmenu(EditorMainMenu.GO, nls.localizeByDefault('转到'));
         registry.registerMenuAction(EditorMainMenu.NAVIGATION_GROUP, {
             commandId: EditorCommands.GO_BACK.id,
             label: EditorCommands.GO_BACK.label,
@@ -116,41 +116,41 @@ export class EditorMenuContribution implements MenuContribution {
         });
         registry.registerMenuAction(EditorMainMenu.NAVIGATION_GROUP, {
             commandId: EditorCommands.GO_LAST_EDIT.id,
-            label: nls.localizeByDefault('Last Edit Location'),
+            label: nls.localizeByDefault('上次编辑位置'),
             order: '3'
         });
 
-        registry.registerSubmenu(EditorMainMenu.PANE_GROUP, nls.localizeByDefault('Switch Group'));
+        registry.registerSubmenu(EditorMainMenu.PANE_GROUP, nls.localizeByDefault('切换分组'));
 
         registry.registerMenuAction(EditorMainMenu.BY_NUMBER, {
             commandId: 'workbench.action.focusFirstEditorGroup',
-            label: nls.localizeByDefault('Group 1'),
+            label: nls.localizeByDefault('组 1'),
         });
         registry.registerMenuAction(EditorMainMenu.BY_NUMBER, {
             commandId: 'workbench.action.focusSecondEditorGroup',
-            label: nls.localizeByDefault('Group 2'),
+            label: nls.localizeByDefault('组 2'),
         });
         registry.registerMenuAction(EditorMainMenu.BY_NUMBER, {
             commandId: 'workbench.action.focusThirdEditorGroup',
-            label: nls.localizeByDefault('Group 3'),
+            label: nls.localizeByDefault('组 3'),
         });
         registry.registerMenuAction(EditorMainMenu.BY_NUMBER, {
             commandId: 'workbench.action.focusFourthEditorGroup',
-            label: nls.localizeByDefault('Group 4'),
+            label: nls.localizeByDefault('组 4'),
         });
         registry.registerMenuAction(EditorMainMenu.BY_NUMBER, {
             commandId: 'workbench.action.focusFifthEditorGroup',
-            label: nls.localizeByDefault('Group 5'),
+            label: nls.localizeByDefault('组 5'),
         });
 
         registry.registerMenuAction(EditorMainMenu.NEXT_PREVIOUS, {
             commandId: CommonCommands.NEXT_TAB_GROUP.id,
-            label: nls.localizeByDefault('Next Group'),
+            label: nls.localizeByDefault('下一组'),
             order: '1'
         });
         registry.registerMenuAction(EditorMainMenu.NEXT_PREVIOUS, {
             commandId: CommonCommands.PREVIOUS_TAB_GROUP.id,
-            label: nls.localizeByDefault('Previous Group'),
+            label: nls.localizeByDefault('上一组'),
             order: '2'
         });
 
@@ -182,46 +182,46 @@ export class EditorMenuContribution implements MenuContribution {
         });
         registry.registerMenuAction(CommonMenus.FILE_CLOSE, {
             commandId: CommonCommands.CLOSE_MAIN_TAB.id,
-            label: nls.localizeByDefault('Close Editor'),
+            label: nls.localizeByDefault('关闭编辑器'),
             order: '1'
         });
         registry.registerMenuAction(CommonMenus.VIEW_EDITOR_SUBMENU_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_RIGHT.id,
-            label: nls.localizeByDefault('Split Editor Right'),
+            label: nls.localizeByDefault('向右拆分编辑器'),
             order: '0'
         });
 
         registry.registerMenuAction(CommonMenus.VIEW_EDITOR_SUBMENU_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_LEFT.id,
-            label: nls.localizeByDefault('Split Editor Left'),
+            label: nls.localizeByDefault('向左拆分编辑器'),
             order: '1'
         });
 
         registry.registerMenuAction(CommonMenus.VIEW_EDITOR_SUBMENU_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_UP.id,
-            label: nls.localizeByDefault('Split Editor Up'),
+            label: nls.localizeByDefault('向上拆分编辑器'),
             order: '2'
         });
 
         registry.registerMenuAction(CommonMenus.VIEW_EDITOR_SUBMENU_SPLIT, {
             commandId: EditorCommands.SPLIT_EDITOR_DOWN.id,
-            label: nls.localizeByDefault('Split Editor Down'),
+            label: nls.localizeByDefault('向下拆分编辑器'),
             order: '3'
         });
 
         registry.registerMenuAction(CommonMenus.VIEW_EDITOR_SUBMENU_ORTHO, {
             commandId: EditorCommands.SPLIT_EDITOR_HORIZONTAL.id,
-            label: nls.localize('theia/editor/splitHorizontal', 'Split Editor Horizontal'),
+            label: nls.localize('theia/editor/splitHorizontal', '水平拆分编辑器'),
             order: '1'
         });
 
         registry.registerMenuAction(CommonMenus.VIEW_EDITOR_SUBMENU_ORTHO, {
             commandId: EditorCommands.SPLIT_EDITOR_VERTICAL.id,
-            label: nls.localize('theia/editor/splitVertical', 'Split Editor Vertical'),
+            label: nls.localize('theia/editor/splitVertical', '垂直拆分编辑器'),
             order: '2'
         });
 
-        registry.registerSubmenu(CommonMenus.VIEW_EDITOR_SUBMENU, nls.localizeByDefault('Editor Layout'));
+        registry.registerSubmenu(CommonMenus.VIEW_EDITOR_SUBMENU, nls.localizeByDefault('编辑器布局'));
     }
 
 }

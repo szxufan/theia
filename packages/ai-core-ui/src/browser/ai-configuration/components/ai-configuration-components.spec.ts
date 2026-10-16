@@ -34,6 +34,8 @@ import { AiConfigurationCallout, AiConfigurationEmptyState, AiConfigurationItemD
 import { AiConfigurationOrigin, AiConfigurationOriginBadge, AiConfigurationOriginBadges } from './ai-configuration-origin-badge';
 import { AiConfigurationSettingRow } from './ai-configuration-setting-row';
 import { AiArrayInput, AiEnumSelect, AiNumberStepper } from './ai-configuration-controls';
+import { AiObjectListInput } from './ai-object-list-input';
+import { PreferenceDataProperty } from '@theia/core/lib/common/preferences/preference-schema';
 import { ConfirmDialog } from '@theia/core/lib/browser';
 import { PromptCustomizationDialogs } from './prompt-customization-dialogs';
 import { VariantSetCard } from './variant-set-card';
@@ -358,12 +360,13 @@ describe('AI Configuration primitives', () => {
 
     it('AiConfigurationOrigin builds the same registry and Agent Plugin badges for every page to use', () => {
         const registry = AiConfigurationOrigin.registry('io.github.acme/validator', () => { });
-        expect(registry.label).to.equal('From registry');
+        // 本 fork 仅保留简体中文：默认文案即为中文。
+        expect(registry.label).to.equal('来自注册表');
         expect(registry.iconClass).to.contain('codicon-link-external');
         expect(registry.tooltip).to.contain('io.github.acme/validator');
 
         const plugin = AiConfigurationOrigin.agentPlugin({ pluginId: 'io.github.acme/devtools', name: 'Acme Devtools' }, () => { });
-        expect(plugin.label).to.equal('via Acme Devtools');
+        expect(plugin.label).to.equal('来自 Acme Devtools');
         expect(plugin.iconClass).to.contain('codicon-package');
         expect(plugin.tooltip).to.contain('Acme Devtools');
     });
@@ -672,6 +675,130 @@ describe('AiArrayInput', () => {
 
             typeInto(container, 'npm test');
             expect(container.textContent).to.not.include('not allowed');
+        } finally {
+            dispose();
+        }
+    });
+});
+
+describe('AiObjectListInput', () => {
+
+    before(() => disableJSDOM = enableJSDOM());
+    after(() => disableJSDOM());
+
+    /** Mirrors a provider's custom-endpoints schema (OpenAI/Anthropic): required `model`/`url` plus optional fields. */
+    const itemSchema = {
+        type: 'object',
+        required: ['model', 'url'],
+        properties: {
+            model: { type: 'string', title: 'Model ID' },
+            url: { type: 'string', title: 'Endpoint URL' },
+            maxRetries: { type: 'number', title: 'Max Retries' },
+            headers: { type: 'object', title: 'Headers' }
+        }
+    } as PreferenceDataProperty;
+
+    function mountList(values: Record<string, unknown>[]): { container: HTMLElement; changes: Record<string, unknown>[][]; dispose: () => void } {
+        const changes: Record<string, unknown>[][] = [];
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+        const root = createRoot(container);
+        flushSync(() => root.render(React.createElement(AiObjectListInput, {
+            values,
+            itemSchema,
+            ariaLabel: 'Custom models',
+            onChange: (next: Record<string, unknown>[]) => { changes.push(next); }
+        })));
+        return { container, changes, dispose: () => { flushSync(() => root.unmount()); container.remove(); } };
+    }
+
+    /** Types into the `field`-th input of the `card`-th card, as a keystroke would. */
+    function typeIntoField(container: HTMLElement, card: number, field: number, value: string): HTMLInputElement {
+        const input = container.querySelectorAll('.ai-config-object-card')[card].querySelectorAll<HTMLInputElement>('input')[field];
+        const view = container.ownerDocument.defaultView as unknown as { Event: typeof Event; HTMLInputElement: typeof HTMLInputElement };
+        const nativeSetter = Object.getOwnPropertyDescriptor(view.HTMLInputElement.prototype, 'value')!.set!;
+        flushSync(() => {
+            nativeSetter.call(input, value);
+            input.dispatchEvent(new view.Event('input', { bubbles: true }));
+        });
+        return input;
+    }
+
+    /** React listens for `focusout`, not `blur`, so that is what a real focus loss delivers to it. */
+    function commitByBlur(container: HTMLElement, input: HTMLInputElement): void {
+        const view = container.ownerDocument.defaultView as unknown as { FocusEvent: typeof FocusEvent };
+        flushSync(() => input.dispatchEvent(new view.FocusEvent('focusout', { bubbles: true })));
+    }
+
+    it('renders one card per entry, titled by the entry and marking required fields', () => {
+        const { container, dispose } = mountList([{ model: 'my-model', url: 'http://localhost:8000' }]);
+        try {
+            const cards = container.querySelectorAll('.ai-config-object-card');
+            expect(cards.length).to.equal(1);
+            expect(cards[0].querySelector('.ai-config-object-card-title')?.textContent).to.equal('my-model');
+            // `model` and `url` are required, the optional `maxRetries`/`headers` are not.
+            expect(cards[0].querySelectorAll('.ai-config-object-field-required').length).to.equal(2);
+            expect(cards[0].textContent).to.include('Model ID').and.to.include('Endpoint URL')
+                .and.to.include('Max Retries').and.to.include('Headers');
+        } finally {
+            dispose();
+        }
+    });
+
+    it('commits an edited field as a new array, leaving the other entries untouched', () => {
+        const { container, changes, dispose } = mountList([{ model: 'a', url: 'http://a' }, { model: 'b', url: 'http://b' }]);
+        try {
+            const input = typeIntoField(container, 1, 0, 'c');
+            commitByBlur(container, input);
+            expect(changes).to.deep.equal([[{ model: 'a', url: 'http://a' }, { model: 'c', url: 'http://b' }]]);
+        } finally {
+            dispose();
+        }
+    });
+
+    it('removes the property when a field is cleared, so the default applies again', () => {
+        const { container, changes, dispose } = mountList([{ model: 'a', url: 'http://a', maxRetries: 5 }]);
+        try {
+            const input = typeIntoField(container, 0, 2, '');
+            commitByBlur(container, input);
+            expect(changes).to.deep.equal([[{ model: 'a', url: 'http://a' }]]);
+        } finally {
+            dispose();
+        }
+    });
+
+    it('keeps properties the schema does not declare when editing another field', () => {
+        const { container, changes, dispose } = mountList([{ model: 'a', url: 'http://a', futureFlag: true }]);
+        try {
+            const input = typeIntoField(container, 0, 1, 'http://b');
+            commitByBlur(container, input);
+            expect(changes).to.deep.equal([[{ model: 'a', url: 'http://b', futureFlag: true }]]);
+        } finally {
+            dispose();
+        }
+    });
+
+    it('rejects invalid JSON for a nested object field, keeping the text for correction', () => {
+        const { container, changes, dispose } = mountList([{ model: 'a', url: 'http://a' }]);
+        try {
+            const input = typeIntoField(container, 0, 3, '{not json');
+            commitByBlur(container, input);
+            expect(changes).to.be.empty;
+            expect(container.textContent).to.include('不是有效的 JSON');
+            expect(input.value).to.equal('{not json');
+        } finally {
+            dispose();
+        }
+    });
+
+    it('appends an empty entry on add and drops an entry on remove', () => {
+        const { container, changes, dispose } = mountList([{ model: 'a', url: 'http://a' }]);
+        try {
+            flushSync(() => container.querySelector<HTMLElement>('.ai-config-object-add')!.click());
+            expect(changes[0]).to.deep.equal([{ model: 'a', url: 'http://a' }, {}]);
+
+            flushSync(() => container.querySelector<HTMLElement>('.ai-config-object-card-remove')!.click());
+            expect(changes[1]).to.deep.equal([]);
         } finally {
             dispose();
         }

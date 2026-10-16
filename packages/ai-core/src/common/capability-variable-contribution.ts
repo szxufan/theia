@@ -32,13 +32,13 @@ import { CapabilityAwareContext, parseCapabilityArgument } from './capability-ut
 
 export const CAPABILITY_VARIABLE: AIVariable = {
     id: 'capability-provider',
-    description: nls.localize('theia/ai/core/capabilityVariable/description', 'Conditionally resolves prompt fragments based on default on/off setting'),
+    description: nls.localize('theia/ai/core/capabilityVariable/description', '根据默认开/关设置有条件地解析提示词片段'),
     name: 'capability',
     args: [
         {
             name: 'fragment-id [default on/off]',
             description: nls.localize('theia/ai/core/capabilityVariable/argDescription',
-                'The prompt fragment id, optionally followed by "default on" or "default off" (defaults to off)')
+                '提示词片段 ID，可选地后跟 "default on" 或 "default off"（默认为 off）')
         }
     ]
 };
@@ -159,7 +159,7 @@ export class CapabilityVariableContribution implements AIVariableContribution, A
                     kind: isCustomizedPromptFragment(prompt) ? monaco.languages.CompletionItemKind.Enum : monaco.languages.CompletionItemKind.Variable,
                     insertText: `${prompt.id} default on`,
                     range,
-                    detail: nls.localize('theia/ai/core/capabilityVariable/completions/detail/on', 'Capability enabled by default'),
+                    detail: nls.localize('theia/ai/core/capabilityVariable/completions/detail/on', '能力默认启用'),
                     sortText: `${prompt.id}0`
                 });
 
@@ -169,7 +169,7 @@ export class CapabilityVariableContribution implements AIVariableContribution, A
                     kind: isCustomizedPromptFragment(prompt) ? monaco.languages.CompletionItemKind.Enum : monaco.languages.CompletionItemKind.Variable,
                     insertText: `${prompt.id} default off`,
                     range,
-                    detail: nls.localize('theia/ai/core/capabilityVariable/completions/detail/off', 'Capability disabled by default'),
+                    detail: nls.localize('theia/ai/core/capabilityVariable/completions/detail/off', '能力默认禁用'),
                     sortText: `${prompt.id}1`
                 });
             });

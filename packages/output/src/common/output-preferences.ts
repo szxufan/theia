@@ -28,7 +28,7 @@ export const OutputConfigSchema: PreferenceSchema = {
     'properties': {
         'output.maxChannelHistory': {
             'type': 'number',
-            'description': nls.localize('theia/output/maxChannelHistory', 'The maximum number of entries in an output channel.'),
+            'description': nls.localize('theia/output/maxChannelHistory', '输出通道中条目的最大数量。'),
             'default': 1000
         }
     }

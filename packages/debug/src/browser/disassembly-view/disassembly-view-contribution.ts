@@ -28,7 +28,7 @@ import { DebugStackFramesWidget } from '../view/debug-stack-frames-widget';
 
 export const OPEN_DISASSEMBLY_VIEW_COMMAND: Command = {
     id: 'open-disassembly-view',
-    label: nls.localizeByDefault('Open Disassembly View')
+    label: nls.localizeByDefault('打开反汇编视图')
 };
 
 export const LANGUAGE_SUPPORTS_DISASSEMBLE_REQUEST = 'languageSupportsDisassembleRequest';
@@ -46,7 +46,7 @@ export class DisassemblyViewContribution extends AbstractViewContribution<Disass
     constructor() {
         super({
             widgetId: DisassemblyViewWidget.ID,
-            widgetName: nls.localizeByDefault('Disassembly View'),
+            widgetName: nls.localizeByDefault('反汇编视图'),
             defaultWidgetOptions: { area: 'main' }
         });
     }

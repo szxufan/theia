@@ -45,10 +45,10 @@ export class MiniBrowserFrontendSecurityWarnings implements FrontendApplicationC
         }
         const hostPattern = await this.miniBrowserEnvironment.hostPatternPromise;
         if (hostPattern !== MiniBrowserEndpoint.HOST_PATTERN_DEFAULT) {
-            const goToReadme = nls.localize('theia/webview/goToReadme', 'Go To README');
+            const goToReadme = nls.localize('theia/webview/goToReadme', '转到 README');
             const message = nls.localize('theia/webview/messageWarning', '\
-            The {0} endpoint\'s host pattern has been changed to `{1}`; changing the pattern can lead to security vulnerabilities. \
-            See `{2}` for more information.', 'mini-browser', hostPattern, '@theia/mini-browser/README.md');
+            {0} 端点的主机模式已被更改为 `{1}`；更改该模式可能导致安全漏洞。\
+            详情请参阅 `{2}`。', 'mini-browser', hostPattern, '@theia/mini-browser/README.md');
             this.messageService.warn(message, Dialog.OK, goToReadme).then(action => {
                 if (action === goToReadme) {
                     this.windowService.openNewWindow('https://www.npmjs.com/package/@theia/mini-browser', { external: true });

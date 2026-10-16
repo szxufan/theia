@@ -23,43 +23,43 @@ export namespace ToolbarCommands {
     export const TOGGLE_TOOLBAR = Command.toLocalizedCommand({
         id: 'toolbar.view.toggle',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Toggle Toolbar',
+        label: '切换工具栏',
     }, 'theia/toolbar/toggleToolbar', nls.getDefaultKey(CommonCommands.VIEW_CATEGORY));
 
     export const REMOVE_COMMAND_FROM_TOOLBAR = Command.toLocalizedCommand({
         id: 'toolbar.remove.command',
-        category: 'Toolbar',
-        label: 'Remove Command From Toolbar',
+        category: '工具栏',
+        label: '从工具栏移除命令',
     }, 'theia/toolbar/removeCommand');
 
     export const INSERT_GROUP_LEFT = Command.toLocalizedCommand({
         id: 'toolbar.insert.group.left',
-        category: 'Toolbar',
-        label: 'Insert Group Separator (Left)',
+        category: '工具栏',
+        label: '插入分组分隔符（左侧）',
     }, 'theia/toolbar/insertGroupLeft');
 
     export const INSERT_GROUP_RIGHT = Command.toLocalizedCommand({
         id: 'toolbar.insert.group.right',
-        category: 'Toolbar',
-        label: 'Insert Group Separator (Right)',
+        category: '工具栏',
+        label: '插入分组分隔符（右侧）',
     }, 'theia/toolbar/insertGroupRight');
 
     export const ADD_COMMAND_TO_TOOLBAR = Command.toLocalizedCommand({
         id: 'toolbar.add.command',
-        category: 'Toolbar',
-        label: 'Add Command to Toolbar',
+        category: '工具栏',
+        label: '将命令添加到工具栏',
     }, 'theia/toolbar/addCommand');
 
     export const RESET_TOOLBAR = Command.toLocalizedCommand({
         id: 'toolbar.restore.defaults',
-        category: 'Toolbar',
-        label: 'Restore Toolbar Defaults',
+        category: '工具栏',
+        label: '恢复工具栏默认值',
     }, 'theia/toolbar/restoreDefaults');
 
     export const CUSTOMIZE_TOOLBAR = Command.toLocalizedCommand({
         id: 'toolbar.customize',
-        category: 'Toolbar',
-        label: 'Customize Toolbar (Open JSON)',
+        category: '工具栏',
+        label: '自定义工具栏（打开 JSON）',
     }, 'theia/toolbar/openJSON');
 }
 

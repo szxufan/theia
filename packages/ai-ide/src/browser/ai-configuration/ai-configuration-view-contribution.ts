@@ -33,12 +33,12 @@ const AI_PREFERENCE_PREFIX = 'ai-features.';
 export const AI_CONFIGURATION_TOGGLE_COMMAND_ID = 'aiConfiguration:toggle';
 export const OPEN_AI_CONFIG_VIEW = Command.toLocalizedCommand({
     id: 'aiConfiguration:open',
-    label: 'Open the AI Configuration view',
+    label: '打开 AI 配置视图',
 });
 
 export const OPEN_AI_CONFIG_VIEW_TOOLS = Command.toLocalizedCommand({
     id: 'aiConfiguration:openTools',
-    label: 'Open the AI Tools Configuration',
+    label: '打开 AI 工具配置',
 });
 
 @injectable()
@@ -180,7 +180,7 @@ export class AIConfigurationViewContribution extends AIViewContribution<AIConfig
         // Bottom-left Manage menu, directly below "Settings" (order 'a10').
         menus.registerMenuAction(CommonMenus.MANAGE_SETTINGS, {
             commandId: OPEN_AI_CONFIG_VIEW.id,
-            label: nls.localize('theia/ai/ide/aiConfiguration/manageMenu', 'AI Configuration'),
+            label: nls.localize('theia/ai/ide/aiConfiguration/manageMenu', 'AI 配置'),
             order: 'a11'
         });
     }
@@ -202,7 +202,7 @@ export class AIConfigurationViewContribution extends AIViewContribution<AIConfig
         registry.registerItem({
             id: 'chat-view.' + OPEN_AI_CONFIG_VIEW.id,
             command: OPEN_AI_CONFIG_VIEW.id,
-            tooltip: nls.localize('theia/ai-ide/open-ai-configuration-tooltip', 'Open the AI Configuration'),
+            tooltip: nls.localize('theia/ai-ide/open-ai-configuration-tooltip', '打开 AI 配置'),
             group: 'ai-settings',
             priority: 2,
             isVisible: widget => this.activationService.isActive && widget instanceof ChatViewWidget
@@ -214,7 +214,7 @@ export class AIConfigurationViewContribution extends AIViewContribution<AIConfig
             id: 'ai-configuration.open-settings-ui',
             command: CommonCommands.OPEN_PREFERENCES.id,
             icon: codicon('settings'),
-            tooltip: nls.localizeByDefault('Open Settings (UI)'),
+            tooltip: nls.localizeByDefault('打开设置 (UI)'),
             isVisible: widget => widget instanceof AIConfigurationContainerWidget
         });
         // Expand/Collapse All are a single contextual toggle below the search box, owned by the search

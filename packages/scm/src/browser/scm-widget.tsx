@@ -82,7 +82,7 @@ export class ScmWidget extends BaseWidget implements StatefulWidget {
             const totalChanges = this.scmService.repositories.reduce((repoAcc, repo) =>
                 repoAcc + repo.provider.groups.reduce((groupAcc, group) => groupAcc + group.resources.length, 0), 0
             );
-            this.badgeService.showBadge(this, totalChanges ? { value: totalChanges, tooltip: nls.localizeByDefault('{0} pending changes', totalChanges) } : undefined);
+            this.badgeService.showBadge(this, totalChanges ? { value: totalChanges, tooltip: nls.localizeByDefault('{0} 个待定更改', totalChanges) } : undefined);
         }));
 
         this.refresh();
@@ -122,7 +122,7 @@ export class ScmWidget extends BaseWidget implements StatefulWidget {
         this.toDisposeOnRefresh.dispose();
         this.toDispose.push(this.toDisposeOnRefresh);
         const repository = this.scmService.selectedRepository;
-        this.title.label = nls.localizeByDefault('Changes');
+        this.title.label = nls.localizeByDefault('更改');
         this.title.caption = this.title.label;
         this.update();
         if (repository) {

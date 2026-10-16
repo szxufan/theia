@@ -90,7 +90,7 @@ export function WalkthroughSection(props: WalkthroughSectionProps): React.ReactE
         <div className='gs-section'>
             <h3 className='gs-section-header'>
                 <i className={codicon('compass')}></i>
-                {nls.localizeByDefault('Walkthroughs')}
+                {nls.localizeByDefault('向导')}
             </h3>
             <div className='gs-walkthrough-cards'>
                 {listed.map(walkthrough => (
@@ -113,7 +113,7 @@ export function WalkthroughSection(props: WalkthroughSectionProps): React.ReactE
                         }
                     }}
                 >
-                    {nls.localizeByDefault('More...')}
+                    {nls.localizeByDefault('更多...')}
                 </a>
             )}
         </div>

@@ -133,7 +133,8 @@ export class DebugHoverWidget extends SourceTreeWidget implements monaco.editor.
         this.schedule(() => this.doHide(), options && options.immediate);
     }
 
-    protected readonly doSchedule = debounce((fn: () => void) => fn(), 300);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly doSchedule: any = debounce((fn: () => void) => fn(), 300);
     protected schedule(fn: () => void, immediate: boolean = true): void {
         if (immediate) {
             this.doSchedule.cancel();

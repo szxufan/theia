@@ -166,7 +166,7 @@ function MarkdownCell({
     if (markdownContent.length === 0) {
         const italic = document.createElement('i');
         italic.className = 'theia-notebook-empty-markdown';
-        italic.innerText = nls.localizeByDefault('Empty markdown cell, double-click or press enter to edit.');
+        italic.innerText = nls.localizeByDefault('空的 Markdown 单元格，双击或按回车键进行编辑。');
         italic.style.pointerEvents = 'none';
         markdownContent = [italic];
         empty = true;

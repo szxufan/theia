@@ -132,7 +132,7 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
             const manifestText = await this.readTextFile(path.join(stagingDirectory, PLUGIN_MANIFEST));
             if (manifestText === undefined) {
                 throw new AgentPluginRejectedError(nls.localize('theia/ai-registry/plugin/manifestMissing',
-                    'The plugin "{0}" has no "{1}" at {2}.', entry.name, PLUGIN_MANIFEST, entry.sourcePath ?? 'the repository root'));
+                    '插件“{0}”在 {2} 处没有“{1}”。', entry.name, PLUGIN_MANIFEST, entry.sourcePath ?? '仓库根目录'));
             }
             this.manifestReader.parseManifest(manifestText);
             const contentHash = await this.computeTreeHash(stagingDirectory);
@@ -163,7 +163,7 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
         const staged = this.staged.get(stagingId);
         if (!staged) {
             throw new Error(nls.localize('theia/ai-registry/plugin/stagingGone',
-                'The staged plugin download is no longer available. Please install the plugin again.'));
+                '暂存的插件下载已不再可用。请重新安装该插件。'));
         }
         const target = path.join(this.pluginsRoot(), staged.directoryName);
         try {
@@ -179,7 +179,7 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
                 // `rename` onto a non-empty directory fails with a raw ENOTEMPTY naming the user's home
                 // directory. Say what actually happened instead, and what to do about it.
                 throw new Error(nls.localize('theia/ai-registry/plugin/alreadyInstalled',
-                    'The Agent Plugin "{0}" is already installed at "{1}". Use Update on the installed plugin to replace it.',
+                    '代理插件“{0}”已安装在“{1}”。请对已安装的插件使用更新操作来替换它。',
                     staged.entry.name, staged.directoryName));
             }
             await fs.rename(staged.stagingDirectory, target);
@@ -224,12 +224,12 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
         const expected = this.directoryNaming.directoryName(entry.pluginId);
         if (directoryName !== expected) {
             throw new Error(nls.localize('theia/ai-registry/plugin/linkNameMismatch',
-                'The Agent Plugin "{0}" can only be linked to a directory named "{1}", not to "{2}".', entry.name, expected, directoryName));
+                '代理插件“{0}”只能链接到名为“{1}”的目录，而不能链接到“{2}”。', entry.name, expected, directoryName));
         }
         const target = path.join(this.pluginsRoot(), expected);
         if (!await this.exists(target)) {
             throw new Error(nls.localize('theia/ai-registry/plugin/linkTargetMissing',
-                'There is no local plugin directory named "{0}" to link.', directoryName));
+                '没有名为“{0}”的本地插件目录可供链接。', directoryName));
         }
         await this.writeRegistryMetadataFile(path.join(target, REGISTRY_METADATA_FILE), {
             pluginId: entry.pluginId,
@@ -330,7 +330,7 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
         if (manifestText === undefined) {
             skipped.push({
                 name: PLUGIN_MANIFEST,
-                reason: nls.localize('theia/ai-registry/plugin/manifestUnreadable', 'The plugin has no readable "{0}".', PLUGIN_MANIFEST)
+                reason: nls.localize('theia/ai-registry/plugin/manifestUnreadable', '插件没有可读取的“{0}”。', PLUGIN_MANIFEST)
             });
             return undefined;
         }
@@ -356,17 +356,17 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
             return {};
         }
         if (!stat.isFile()) {
-            return { mcpDisabledReason: nls.localize('theia/ai-registry/plugin/mcpNotAFile', '"{0}" is not a regular file.', MCP_CONFIG) };
+            return { mcpDisabledReason: nls.localize('theia/ai-registry/plugin/mcpNotAFile', '“{0}”不是常规文件。', MCP_CONFIG) };
         }
         if (!await this.resolvesInside(mcpPath, root)) {
             return {
                 mcpDisabledReason: nls.localize('theia/ai-registry/plugin/mcpEscapesRoot',
-                    '"{0}" resolves outside the plugin directory.', MCP_CONFIG)
+                    '“{0}”解析到了插件目录之外。', MCP_CONFIG)
             };
         }
         const mcpJsonText = await this.readTextFile(mcpPath);
         return mcpJsonText === undefined
-            ? { mcpDisabledReason: nls.localize('theia/ai-registry/plugin/mcpUnreadable', '"{0}" could not be read.', MCP_CONFIG) }
+            ? { mcpDisabledReason: nls.localize('theia/ai-registry/plugin/mcpUnreadable', '“{0}”无法读取。', MCP_CONFIG) }
             : { mcpJsonText };
     }
 
@@ -385,14 +385,14 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
         if (!stat.isDirectory()) {
             skipped.push({
                 name: SKILLS_DIRECTORY,
-                reason: nls.localize('theia/ai-registry/plugin/skillsNotADirectory', '"{0}" is not a directory.', SKILLS_DIRECTORY)
+                reason: nls.localize('theia/ai-registry/plugin/skillsNotADirectory', '“{0}”不是目录。', SKILLS_DIRECTORY)
             });
             return [];
         }
         if (!await this.resolvesInside(skillsPath, root)) {
             skipped.push({
                 name: SKILLS_DIRECTORY,
-                reason: nls.localize('theia/ai-registry/plugin/skillsEscapeRoot', '"{0}" resolves outside the plugin directory.', SKILLS_DIRECTORY)
+                reason: nls.localize('theia/ai-registry/plugin/skillsEscapeRoot', '“{0}”解析到了插件目录之外。', SKILLS_DIRECTORY)
             });
             return [];
         }
@@ -411,7 +411,7 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
                 skipped.push({
                     name: dirent.name,
                     reason: nls.localize('theia/ai-registry/plugin/skillEscapesRoot',
-                        'The skill\'s "{0}" resolves outside the plugin directory.', SKILL_MANIFEST)
+                        '技能的“{0}”解析到了插件目录之外。', SKILL_MANIFEST)
                 });
                 continue;
             }
@@ -700,7 +700,7 @@ export class PluginInstallBackendServiceImpl implements PluginInstallBackendServ
     protected reason(error: unknown): string {
         return error instanceof Error && error.message
             ? error.message
-            : nls.localize('theia/ai-registry/plugin/manifestInvalid', 'The plugin manifest is invalid.');
+            : nls.localize('theia/ai-registry/plugin/manifestInvalid', '插件清单无效。');
     }
 
     /**

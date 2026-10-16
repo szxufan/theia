@@ -49,7 +49,7 @@ export class RemoteElectronFileDialogService extends ElectronFileDialogService {
 
     protected addLocalFilesButton(props: OpenFileDialogProps): void {
         const localFilesButton: AdditionalButtonDefinition<{ uri: URI }> = {
-            label: nls.localizeByDefault('Show Local'),
+            label: nls.localizeByDefault('显示本地'),
             onClick: async resolve => {
                 const localFile = await super.showOpenDialog({ ...props, fileScheme: LOCAL_FILE_SCHEME });
                 if (localFile) {

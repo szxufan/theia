@@ -10,41 +10,41 @@
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/api-provider-sample` extension is a programming example showing how to define and provide a custom API object for _plugins_ to use.
-The purpose of the extension is to:
+`@theia/api-provider-sample` 扩展是一个编程示例，展示如何为_插件_定义并提供自定义的 API 对象供其使用。
+该扩展的目的是：
 
-- provide developers with realistic coding examples of providing custom API objects
-- provide easy-to-use and test examples for features when reviewing pull requests
+- 为开发者提供提供自定义 API 对象的真实编码示例
+- 在评审拉取请求时提供易于使用和测试的功能示例
 
-The extension is for reference and test purposes only and is not published on `npm` (`private: true`).
+该扩展仅用于参考和测试目的，不发布到 `npm`（`private: true`）。
 
-### Greeting of the Day
+### 每日问候（Greeting of the Day）
 
-The sample defines a `gotd` API that plugins can import and use to obtain tailored messages with which to greet the world, for example in their activation function.
+该示例定义了一个 `gotd` API，插件可以导入并使用它来获取量身定制的问候消息，例如在它们的激活函数中使用。
 
-The source code is laid out in the `src/` tree as follows:
+源代码在 `src/` 目录树中的布局如下：
 
-- `gotd.d.ts` — the TypeScript definition of the `gotd` API object that plugins import to interact with the "Greeting of the Day" service
-- `plugin/` — the API initialization script and the implementation of the API objects (`GreetingExt` and similar interfaces).
-  All code in this directory runs exclusively in the separate plugin-host Node process, isolated from the main Theia process, together with either headless plugins or the backend of VS Code plugins.
-  The `GreetingExtImpl` and similar classes communicate with the actual API implementation (`GreetingMainImpl` etc.) classes in the main Theia process via RPC
-- `node/` — the API classes implementing `GreetingMain` and similar interfaces and the Inversify bindings that register the API provider.
-  All code in this directory runs in the main Theia Node process
-- `common/` — the RPC API Ext/Main interface definitions corresponding to the backend of the `gotd` plugin API
+- `gotd.d.ts` — `gotd` API 对象的 TypeScript 定义，插件导入它以与"每日问候"服务交互
+- `plugin/` — API 初始化脚本以及 API 对象的实现（`GreetingExt` 及类似接口）。
+  此目录中的所有代码都只在独立的插件宿主 Node 进程中运行（与主 Theia 进程隔离），与无头插件或 VS Code 插件的后端一起运行。
+  `GreetingExtImpl` 及类似类通过 RPC 与主 Theia 进程中的实际 API 实现（`GreetingMainImpl` 等）类通信
+- `node/` — 实现 `GreetingMain` 及类似接口的 API 类，以及注册 API 提供方的 Inversify 绑定。
+  此目录中的所有代码都在主 Theia Node 进程中运行
+- `common/` — 与 `gotd` 插件 API 的后端相对应的 RPC API Ext/Main 接口定义
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

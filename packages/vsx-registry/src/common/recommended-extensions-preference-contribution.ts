@@ -28,7 +28,7 @@ export const recommendedExtensionsPreferencesSchema: PreferenceSchema = {
     properties: {
         extensions: {
             $ref: extensionsSchemaID,
-            description: nls.localize('theia/vsx-registry/recommendedExtensions', 'A list of the names of extensions recommended for use in this workspace.'),
+            description: nls.localize('theia/vsx-registry/recommendedExtensions', '建议在此工作区中使用的扩展名称列表。'),
             default: { recommendations: [] },
         },
     },
@@ -40,7 +40,7 @@ export const recommendedExtensionNotificationPreferencesSchema: PreferenceSchema
     scope: PreferenceScope.Folder,
     properties: {
         [IGNORE_RECOMMENDATIONS_ID]: {
-            description: nls.localize('theia/vsx-registry/showRecommendedExtensions', 'Controls whether notifications are shown for extension recommendations.'),
+            description: nls.localize('theia/vsx-registry/showRecommendedExtensions', '控制是否显示扩展推荐通知。'),
             default: false,
             type: 'boolean'
         }

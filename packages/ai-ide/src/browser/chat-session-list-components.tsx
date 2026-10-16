@@ -103,7 +103,7 @@ export function SessionsList({ rows, maxSessions = Number.MAX_SAFE_INTEGER, rend
             {activeVisible.length > 0 && (
                 <div className="theia-WelcomeMessage-SessionsGroup">
                     <div className="theia-WelcomeMessage-SessionsHeader">
-                        {nls.localizeByDefault('Active')}
+                        {nls.localizeByDefault('活动')}
                     </div>
                     {activeVisible.map(row => renderRow(row))}
                 </div>
@@ -111,7 +111,7 @@ export function SessionsList({ rows, maxSessions = Number.MAX_SAFE_INTEGER, rend
             {restoredVisible.length > 0 && (
                 <div className="theia-WelcomeMessage-SessionsGroup">
                     <div className="theia-WelcomeMessage-SessionsHeader">
-                        {nls.localize('theia/ai/ide/sectionRestored', 'Restored')}
+                        {nls.localize('theia/ai/ide/sectionRestored', '已恢复')}
                     </div>
                     {restoredVisible.map(row => renderRow(row))}
                 </div>
@@ -119,7 +119,7 @@ export function SessionsList({ rows, maxSessions = Number.MAX_SAFE_INTEGER, rend
             {hiddenCount > 0 && onBrowseAll && (
                 <div className="theia-WelcomeMessage-SessionsFooter">
                     <a className="theia-WelcomeMessage-FooterLink"
-                        {...buttonKeyboardProps(nls.localize('theia/ai/ide/browseAllChats', 'Browse all chats...'))}
+                        {...buttonKeyboardProps(nls.localize('theia/ai/ide/browseAllChats', '浏览所有聊天...'))}
                         onClick={onBrowseAll}
                         onKeyDown={e => {
                             if (isActivationKey(e)) {
@@ -127,7 +127,7 @@ export function SessionsList({ rows, maxSessions = Number.MAX_SAFE_INTEGER, rend
                                 onBrowseAll();
                             }
                         }}>
-                        {nls.localize('theia/ai/ide/browseAllChats', 'Browse all chats...')}
+                        {nls.localize('theia/ai/ide/browseAllChats', '浏览所有聊天...')}
                     </a>
                 </div>
             )}

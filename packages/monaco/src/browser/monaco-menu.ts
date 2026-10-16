@@ -58,7 +58,7 @@ export class MonacoEditorMenuContribution implements MenuContribution {
 
         this.registerPeekSubmenu(registry);
 
-        registry.registerSubmenu(MonacoMenus.SELECTION, nls.localizeByDefault('Selection'));
+        registry.registerSubmenu(MonacoMenus.SELECTION, nls.localizeByDefault('选择'));
         for (const item of MenuRegistry.getMenuItems(MenuId.MenubarSelectionMenu)) {
             if (!isIMenuItem(item)) {
                 continue;
@@ -73,56 +73,56 @@ export class MonacoEditorMenuContribution implements MenuContribution {
         // Builtin monaco language features commands.
         registry.registerMenuAction(EditorMainMenu.LANGUAGE_FEATURES_GROUP, {
             commandId: 'editor.action.quickOutline',
-            label: nls.localizeByDefault('Go to Symbol in Editor...'),
+            label: nls.localizeByDefault('转到编辑器中的符号...'),
             order: '1'
         });
         registry.registerMenuAction(EditorMainMenu.LANGUAGE_FEATURES_GROUP, {
             commandId: 'editor.action.revealDefinition',
-            label: nls.localizeByDefault('Go to Definition'),
+            label: nls.localizeByDefault('转到定义'),
             order: '2'
         });
         registry.registerMenuAction(EditorMainMenu.LANGUAGE_FEATURES_GROUP, {
             commandId: 'editor.action.revealDeclaration',
-            label: nls.localizeByDefault('Go to Declaration'),
+            label: nls.localizeByDefault('转到声明'),
             order: '3'
         });
         registry.registerMenuAction(EditorMainMenu.LANGUAGE_FEATURES_GROUP, {
             commandId: 'editor.action.goToTypeDefinition',
-            label: nls.localizeByDefault('Go to Type Definition'),
+            label: nls.localizeByDefault('转到类型定义'),
             order: '4'
         });
         registry.registerMenuAction(EditorMainMenu.LANGUAGE_FEATURES_GROUP, {
             commandId: 'editor.action.goToImplementation',
-            label: nls.localizeByDefault('Go to Implementations'),
+            label: nls.localizeByDefault('转到实现'),
             order: '5'
         });
         registry.registerMenuAction(EditorMainMenu.LANGUAGE_FEATURES_GROUP, {
             commandId: 'editor.action.goToReferences',
-            label: nls.localizeByDefault('Go to References'),
+            label: nls.localizeByDefault('转到引用'),
             order: '6'
         });
 
         registry.registerMenuAction(EditorMainMenu.LOCATION_GROUP, {
             commandId: 'editor.action.jumpToBracket',
-            label: nls.localizeByDefault('Go to Bracket'),
+            label: nls.localizeByDefault('转到括号'),
             order: '2'
         });
 
         // Builtin monaco problem commands.
         registry.registerMenuAction(MonacoMenus.MARKERS_GROUP, {
             commandId: 'editor.action.marker.nextInFiles',
-            label: nls.localizeByDefault('Next Problem'),
+            label: nls.localizeByDefault('下一个问题'),
             order: '1'
         });
         registry.registerMenuAction(MonacoMenus.MARKERS_GROUP, {
             commandId: 'editor.action.marker.prevInFiles',
-            label: nls.localizeByDefault('Previous Problem'),
+            label: nls.localizeByDefault('上一个问题'),
             order: '2'
         });
     }
 
     protected registerPeekSubmenu(registry: MenuModelRegistry): void {
-        registry.registerSubmenu(MonacoMenus.PEEK_CONTEXT_SUBMENU, nls.localizeByDefault('Peek'));
+        registry.registerSubmenu(MonacoMenus.PEEK_CONTEXT_SUBMENU, nls.localizeByDefault('速览'));
 
         for (const item of MenuRegistry.getMenuItems(MenuId.EditorContextPeek)) {
             if (!isIMenuItem(item)) {

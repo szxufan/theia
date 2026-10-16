@@ -78,7 +78,7 @@ export class WorkspaceSymbolCommand implements QuickAccessProvider, CommandContr
             getInstance: () => this,
             prefix: WorkspaceSymbolCommand.PREFIX,
             placeholder: '',
-            helpEntries: [{ description: nls.localizeByDefault('Go to Symbol in Workspace'), needsEditor: false }]
+            helpEntries: [{ description: nls.localizeByDefault('转到工作区中的符号'), needsEditor: false }]
         });
     }
 
@@ -107,8 +107,8 @@ export class WorkspaceSymbolCommand implements QuickAccessProvider, CommandContr
                     if (filteredSymbols.length === 0) {
                         items.push({
                             label: filter.length === 0
-                                ? nls.localize('theia/monaco/typeToSearchForSymbols', 'Type to search for symbols')
-                                : nls.localize('theia/monaco/noSymbolsMatching', 'No symbols matching'),
+                                ? nls.localize('theia/monaco/typeToSearchForSymbols', '输入以搜索符号')
+                                : nls.localize('theia/monaco/noSymbolsMatching', '没有匹配的符号'),
                         });
                     }
                 }).catch();

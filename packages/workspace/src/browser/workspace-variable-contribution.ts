@@ -98,7 +98,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
 
         variables.registerVariable({
             name: 'file',
-            description: nls.localize('theia/workspace/variables/file/description', 'The path of the currently opened file'),
+            description: nls.localize('theia/workspace/variables/file/description', '当前打开文件的路径'),
             resolve: () => {
                 const uri = this.getResourceUri();
                 return uri && this.fileService.fsPath(uri);
@@ -106,7 +106,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         });
         variables.registerVariable({
             name: 'fileBasename',
-            description: nls.localize('theia/workspace/variables/fileBasename/description', 'The basename of the currently opened file'),
+            description: nls.localize('theia/workspace/variables/fileBasename/description', '当前打开文件的基本名称'),
             resolve: () => {
                 const uri = this.getResourceUri();
                 return uri && uri.path.base;
@@ -114,7 +114,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         });
         variables.registerVariable({
             name: 'fileBasenameNoExtension',
-            description: nls.localize('theia/workspace/variables/fileBasenameNoExtension/description', "The currently opened file's name without extension"),
+            description: nls.localize('theia/workspace/variables/fileBasenameNoExtension/description', '当前打开文件的不含扩展名的名称'),
             resolve: () => {
                 const uri = this.getResourceUri();
                 return uri && uri.path.name;
@@ -122,7 +122,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         });
         variables.registerVariable({
             name: 'fileDirname',
-            description: nls.localize('theia/workspace/variables/fileDirname/description', "The name of the currently opened file's directory"),
+            description: nls.localize('theia/workspace/variables/fileDirname/description', '当前打开文件所在目录的名称'),
             resolve: () => {
                 const uri = this.getResourceUri();
                 return uri && uri.path.dir.toString();
@@ -130,7 +130,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         });
         variables.registerVariable({
             name: 'fileExtname',
-            description: nls.localize('theia/workspace/variables/fileExtname/description', 'The extension of the currently opened file'),
+            description: nls.localize('theia/workspace/variables/fileExtname/description', '当前打开文件的扩展名'),
             resolve: () => {
                 const uri = this.getResourceUri();
                 return uri && uri.path.ext;
@@ -149,7 +149,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         });
         variables.registerVariable(scoped({
             name: 'workspaceRoot',
-            description: nls.localize('theia/workspace/variables/workspaceRoot/description', 'The path of the workspace root folder'),
+            description: nls.localize('theia/workspace/variables/workspaceRoot/description', '工作区根文件夹的路径'),
             resolve: (context?: URI) => {
                 const uri = this.getWorkspaceRootUri(context);
                 return uri && this.fileService.fsPath(uri);
@@ -157,7 +157,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         }));
         variables.registerVariable(scoped({
             name: 'workspaceFolder',
-            description: nls.localize('theia/workspace/variables/workspaceFolder/description', 'The path of the workspace root folder'),
+            description: nls.localize('theia/workspace/variables/workspaceFolder/description', '工作区根文件夹的路径'),
             resolve: (context?: URI) => {
                 const uri = this.getWorkspaceRootUri(context);
                 return uri && this.fileService.fsPath(uri);
@@ -165,7 +165,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         }));
         variables.registerVariable(scoped({
             name: 'workspaceRootFolderName',
-            description: nls.localize('theia/workspace/variables/workspaceRootFolderName/description', 'The name of the workspace root folder'),
+            description: nls.localize('theia/workspace/variables/workspaceRootFolderName/description', '工作区根文件夹的名称'),
             resolve: (context?: URI) => {
                 const uri = this.getWorkspaceRootUri(context);
                 return uri && uri.displayName;
@@ -173,7 +173,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         }));
         variables.registerVariable(scoped({
             name: 'workspaceFolderBasename',
-            description: nls.localize('theia/workspace/variables/workspaceFolderBasename/description', 'The name of the workspace root folder'),
+            description: nls.localize('theia/workspace/variables/workspaceFolderBasename/description', '工作区根文件夹的名称'),
             resolve: (context?: URI) => {
                 const uri = this.getWorkspaceRootUri(context);
                 return uri && uri.displayName;
@@ -181,7 +181,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         }));
         variables.registerVariable(scoped({
             name: 'cwd',
-            description: nls.localize('theia/workspace/variables/cwd/description', "The task runner's current working directory on startup"),
+            description: nls.localize('theia/workspace/variables/cwd/description', '任务运行器启动时的当前工作目录'),
             resolve: (context?: URI) => {
                 const uri = this.getWorkspaceRootUri(context);
                 return (uri && this.fileService.fsPath(uri)) || '';
@@ -189,7 +189,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         }));
         variables.registerVariable(scoped({
             name: 'relativeFile',
-            description: nls.localize('theia/workspace/variables/relativeFile/description', "The currently opened file's path relative to the workspace root"),
+            description: nls.localize('theia/workspace/variables/relativeFile/description', '当前打开文件相对于工作区根目录的路径'),
             resolve: (context?: URI) => {
                 const uri = this.getResourceUri();
                 return uri && this.getWorkspaceRelativePath(uri, context);
@@ -197,7 +197,7 @@ export class WorkspaceVariableContribution implements VariableContribution {
         }));
         variables.registerVariable(scoped({
             name: 'relativeFileDirname',
-            description: nls.localize('theia/workspace/variables/relativeFileDirname/description', "The current opened file's dirname relative to ${workspaceFolder}"),
+            description: nls.localize('theia/workspace/variables/relativeFileDirname/description', '当前打开文件相对于 ${workspaceFolder} 的目录名'),
             resolve: (context?: URI) => {
                 const uri = this.getResourceUri();
                 const relativePath = uri && this.getWorkspaceRelativePath(uri, context);

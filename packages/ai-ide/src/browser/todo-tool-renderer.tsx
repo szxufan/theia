@@ -40,7 +40,7 @@ const TodoListComponent: React.FC<TodoListComponentProps> = ({ todos }) => {
     const header = (
         <div className='todo-tool-header'>
             <i className={codicon('checklist')} />
-            <span className='todo-tool-title'>{nls.localizeByDefault('Todos')}</span>
+            <span className='todo-tool-title'>{nls.localizeByDefault('待办事项')}</span>
         </div>
     );
 
@@ -48,7 +48,7 @@ const TodoListComponent: React.FC<TodoListComponentProps> = ({ todos }) => {
         return (
             <div className='todo-tool-container'>
                 {header}
-                <div className='todo-tool-empty'>{nls.localize('theia/ai-ide/todoTool/noTasks', 'No tasks')}</div>
+                <div className='todo-tool-empty'>{nls.localize('theia/ai-ide/todoTool/noTasks', '没有任务')}</div>
             </div>
         );
     }

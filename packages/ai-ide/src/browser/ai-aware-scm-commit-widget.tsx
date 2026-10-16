@@ -104,16 +104,16 @@ export class AiAwareScmCommitWidget extends ScmCommitWidget {
 
         let title: string;
         if (running) {
-            title = nls.localize('theia/ai-ide/commit-message/cancel-tooltip', 'Cancel commit-message generation');
+            title = nls.localize('theia/ai-ide/commit-message/cancel-tooltip', '取消提交消息生成');
         } else if (!agentEnabled) {
             title = nls.localize(
                 'theia/ai-ide/commit-message/agent-disabled-tooltip',
-                'The Commit Message agent is disabled. Enable it in the AI Configuration view.'
+                '提交消息代理已禁用。请在 AI 配置视图中启用它。'
             );
         } else {
             title = nls.localize(
                 'theia/ai-ide/commit-message/staged-tooltip',
-                'Generate commit message from staged changes'
+                '从暂存的更改生成提交消息'
             );
         }
         const iconClass = running ? `${codicon('loading')} codicon-modifier-spin` : codicon('sparkle');

@@ -59,7 +59,7 @@ export class DebugDataBreakpoint extends DebugBreakpoint<DataBreakpoint> {
 
     protected renderActions(): React.ReactNode {
         return <div className='theia-debug-breakpoint-actions'>
-            <div className={codicon('close', true)} title={nls.localizeByDefault('Remove Breakpoint')} onClick={this.onRemove} />
+            <div className={codicon('close', true)} title={nls.localizeByDefault('移除断点')} onClick={this.onRemove} />
         </div>;
     }
 
@@ -80,18 +80,18 @@ export class DebugDataBreakpoint extends DebugBreakpoint<DataBreakpoint> {
         if (!this.isSupported()) {
             return {
                 className: 'codicon-debug-breakpoint-unsupported',
-                message: message ?? [nls.localizeByDefault('Data Breakpoint')],
+                message: message ?? [nls.localizeByDefault('数据断点')],
             };
         }
         if (this.origin.raw.condition || this.origin.raw.hitCondition) {
             return {
                 className: 'codicon-debug-breakpoint-conditional',
-                message: message || [nls.localize('theia/debug/conditionalBreakpoint', 'Conditional Breakpoint')]
+                message: message || [nls.localize('theia/debug/conditionalBreakpoint', '条件断点')]
             };
         }
         return {
             className: 'codicon-debug-breakpoint-data',
-            message: message || [nls.localizeByDefault('Data Breakpoint')]
+            message: message || [nls.localizeByDefault('数据断点')]
         };
     }
 }

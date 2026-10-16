@@ -28,77 +28,77 @@ import { TerminalWidgetFactoryOptions, TerminalWidgetImpl } from '@theia/termina
 export namespace TerminalManagerCommands {
     export const MANAGER_NEW_TERMINAL_GROUP = Command.toLocalizedCommand({
         id: 'terminal:new-in-manager-toolbar',
-        category: 'Terminal Manager',
-        label: 'Create New Terminal Group',
+        category: '终端管理器',
+        label: '新建终端分组',
         iconClass: codicon('split-horizontal'),
     }, 'theia/terminal-manager/createNewTerminalGroup');
     export const MANAGER_DELETE_TERMINAL = Command.toLocalizedCommand({
         id: 'terminal:delete-terminal',
-        category: 'Terminal Manager',
-        label: 'Delete Terminal',
+        category: '终端管理器',
+        label: '删除终端',
         iconClass: codicon('trash'),
     }, 'theia/terminal-manager/deleteTerminal');
     export const MANAGER_RENAME_TERMINAL = Command.toLocalizedCommand({
         id: 'terminal: rename-terminal',
-        category: 'Terminal Manager',
-        label: 'Rename',
+        category: '终端管理器',
+        label: '重命名',
         iconClass: codicon('edit'),
     }, 'theia/terminal-manager/rename');
     export const MANAGER_NEW_PAGE_BOTTOM_TOOLBAR = Command.toLocalizedCommand({
         id: 'terminal:new-manager-page',
-        category: 'Terminal Manager',
-        label: 'Create New Terminal Page',
+        category: '终端管理器',
+        label: '新建终端页面',
         iconClass: codicon('new-file'),
     }, 'theia/terminal-manager/createNewTerminalPage');
     export const MANAGER_DELETE_PAGE = Command.toLocalizedCommand({
         id: 'terminal:delete-page',
-        category: 'Terminal Manager',
-        label: 'Delete Page',
+        category: '终端管理器',
+        label: '删除页面',
         iconClass: codicon('trash'),
     }, 'theia/terminal-manager/deletePage');
     export const MANAGER_ADD_TERMINAL_TO_GROUP = Command.toLocalizedCommand({
         id: 'terminal:manager-split-horizontal',
-        category: 'Terminal Manager',
-        label: 'Add terminal to group',
+        category: '终端管理器',
+        label: '将终端添加到分组',
         iconClass: codicon('split-vertical'),
     }, 'theia/terminal-manager/addTerminalToGroup');
     export const MANAGER_DELETE_GROUP = Command.toLocalizedCommand({
         id: 'terminal:manager-delete-group',
-        category: 'Terminal Manager',
-        label: 'Delete Group',
+        category: '终端管理器',
+        label: '删除分组',
         iconClass: codicon('trash'),
     }, 'theia/terminal-manager/deleteGroup');
     export const MANAGER_SHOW_TREE_TOOLBAR = Command.toLocalizedCommand({
         id: 'terminal:manager-toggle-tree',
-        category: 'Terminal Manager',
-        label: 'Toggle Tree View',
+        category: '终端管理器',
+        label: '切换树视图',
         iconClass: codicon('list-tree'),
     }, 'theia/terminal-manager/toggleTreeView');
     export const MANAGER_MAXIMIZE_BOTTOM_PANEL_TOOLBAR = Command.toLocalizedCommand({
         id: 'terminal:manager-maximize-bottom-panel',
-        category: 'Terminal Manager',
-        label: 'Maximize Bottom Panel',
+        category: '终端管理器',
+        label: '最大化底部面板',
     }, 'theia/terminal-manager/maximizeBottomPanel');
     export const MANAGER_MINIMIZE_BOTTOM_PANEL_TOOLBAR = Command.toLocalizedCommand({
         id: 'terminal:manager-minimize-bottom-panel',
-        category: 'Terminal Manager',
-        label: 'Minimize Bottom Panel',
+        category: '终端管理器',
+        label: '最小化底部面板',
     }, 'theia/terminal-manager/minimizeBottomPanel');
     export const MANAGER_CLEAR_ALL = Command.toLocalizedCommand({
         id: 'terminal:manager-clear-all',
-        category: 'Terminal Manager',
-        label: 'Reset Terminal Manager Layout',
+        category: '终端管理器',
+        label: '重置终端管理器布局',
         iconClass: codicon('trash'),
     }, 'theia/terminal-manager/resetTerminalManagerLayout');
     export const MANAGER_OPEN_VIEW = Command.toLocalizedCommand({
         id: 'terminal:open-manager',
-        category: 'View',
-        label: 'Open Terminal Manager',
+        category: '视图',
+        label: '打开终端管理器',
     }, 'theia/terminal-manager/openTerminalManager');
     export const MANAGER_CLOSE_VIEW = Command.toLocalizedCommand({
         id: 'terminal:close-manager',
-        category: 'View',
-        label: 'Close Terminal Manager',
+        category: '视图',
+        label: '关闭终端管理器',
     }, 'theia/terminal-manager/closeTerminalManager');
 }
 

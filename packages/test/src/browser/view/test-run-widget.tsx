@@ -30,7 +30,7 @@ class TestRunNode implements TreeNode, SelectableTreeNode {
     constructor(readonly counter: number, readonly id: string, readonly run: TestRun, readonly parent: CompositeTreeNode) { }
 
     get name(): string {
-        return this.run.name || nls.localize('theia/test/testRunDefaultName', '{0} run {1}', this.run.controller.label, this.counter);
+        return this.run.name || nls.localize('theia/test/testRunDefaultName', '{0} 运行 {1}', this.run.controller.label, this.counter);
     };
 
     expanded?: boolean;
@@ -191,8 +191,8 @@ export class TestRunTreeWidget extends TreeWidget {
     ) {
         super(props, model, contextMenuRenderer);
         this.id = TestRunTreeWidget.ID;
-        this.title.label = nls.localize('theia/test/testRuns', 'Test Runs');
-        this.title.caption = nls.localize('theia/test/testRuns', 'Test Runs');
+        this.title.label = nls.localize('theia/test/testRuns', '测试运行');
+        this.title.caption = nls.localize('theia/test/testRuns', '测试运行');
         this.title.iconClass = codicon('run');
         this.title.closable = true;
     }
@@ -232,7 +232,7 @@ export class TestRunTreeWidget extends TreeWidget {
                     onDidAddTestOutput: Event.map(run.onDidChangeTestOutput, evt =>
                         evt.filter(output => output[0] === item).map(output => output[1])
                     ),
-                    noOutputMessage: nls.localizeByDefault('The test case did not report any output.')
+                    noOutputMessage: nls.localizeByDefault('该测试用例未报告任何输出。')
                 };
                 this.uiModel.selectedTestState = run.getTestState(item);
                 // Keep selectedTestState (and its derived context key) in sync while this item stays selected.
@@ -250,7 +250,7 @@ export class TestRunTreeWidget extends TreeWidget {
         if (CompositeTreeNode.is(this.model.root) && this.model.root.children.length > 0) {
             return super.renderTree(model);
         }
-        return <div className='theia-widget-noInfo noMarkers'>{nls.localizeByDefault('No tests have been found in this workspace yet.')}</div>;
+        return <div className='theia-widget-noInfo noMarkers'>{nls.localizeByDefault('尚未在此工作区中找到任何测试。')}</div>;
     }
 
     protected getTestStateClass(state: TestExecutionState | undefined): string {

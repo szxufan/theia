@@ -26,16 +26,16 @@ export const HuggingFacePreferencesSchema: PreferenceSchema = {
             type: 'string',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'Hugging Face' } satisfies ModelProviderTypeDetail },
             markdownDescription: nls.localize('theia/ai/huggingFace/apiKey/mdDescription',
-                'Enter an API Key for your Hugging Face Account. **Please note:** By using this preference the Hugging Face API key will be stored in clear text\
-            on the machine running Theia. Use the environment variable `HUGGINGFACE_API_KEY` to set the key securely.') + LINUX_ENV_HINT,
+                '输入您的 Hugging Face 账户的 API 密钥。**请注意：**使用此偏好设置后，Hugging Face API 密钥将以明文形式存储\
+            在运行 Theia 的机器上。请使用环境变量 `HUGGINGFACE_API_KEY` 安全地设置密钥。') + LINUX_ENV_HINT,
             title: AI_CORE_PREFERENCES_TITLE,
             tags: ['experimental']
         },
         [MODELS_PREF]: {
             type: 'array',
             markdownDescription: nls.localize('theia/ai/huggingFace/models/mdDescription',
-                'Hugging Face models to use. **Please note:** Only models supporting the chat completion API are supported \
-            (instruction-tuned models like `*-Instruct`) currently. Some models may require accepting license terms on the Hugging Face website.'),
+                '要使用的 Hugging Face 模型。**请注意：**目前仅支持支持聊天补全 API 的模型\
+            （如 `*-Instruct` 等指令微调模型）。部分模型可能需要先在 Hugging Face 网站上接受许可条款。'),
             title: AI_CORE_PREFERENCES_TITLE,
             default: ['meta-llama/Llama-3.2-3B-Instruct', 'meta-llama/Llama-3.1-8B-Instruct'],
             items: {

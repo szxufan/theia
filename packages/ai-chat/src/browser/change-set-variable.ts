@@ -22,7 +22,7 @@ import { CHANGE_SET_SUMMARY_VARIABLE_ID, ChatSessionContext } from '../common';
 
 export const CHANGE_SET_SUMMARY_VARIABLE: AIVariable = {
     id: CHANGE_SET_SUMMARY_VARIABLE_ID,
-    description: nls.localize('theia/ai/core/changeSetSummaryVariable/description', 'Provides a summary of the files in a change set and their contents.'),
+    description: nls.localize('theia/ai/core/changeSetSummaryVariable/description', '提供更改集中文件及其内容的摘要。'),
 
     name: CHANGE_SET_SUMMARY_VARIABLE_ID,
 };

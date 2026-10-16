@@ -21,23 +21,23 @@ import { isRemoteMCPServerDescription, MCPFrontendService, MCPOAuthFrontendDeleg
 
 export const StartMCPServer = {
     id: 'mcp.startserver',
-    label: nls.localize('theia/ai/mcp/start/label', 'MCP: Start MCP Server'),
+    label: nls.localize('theia/ai/mcp/start/label', 'MCP: 启动 MCP 服务器'),
 };
 export const StopMCPServer = {
     id: 'mcp.stopserver',
-    label: nls.localize('theia/ai/mcp/stop/label', 'MCP: Stop MCP Server'),
+    label: nls.localize('theia/ai/mcp/stop/label', 'MCP: 停止 MCP 服务器'),
 };
 export const SignOutMCPServer = {
     id: 'mcp.signout',
-    label: nls.localize('theia/ai/mcp/signout/label', 'MCP: Sign Out from MCP Server'),
+    label: nls.localize('theia/ai/mcp/signout/label', 'MCP: 从 MCP 服务器登出'),
 };
 export const SignInMCPServer = {
     id: 'mcp.signin',
-    label: nls.localize('theia/ai/mcp/signin/label', 'MCP: Sign In to MCP Server'),
+    label: nls.localize('theia/ai/mcp/signin/label', 'MCP: 登录 MCP 服务器'),
 };
 export const GetMCPOAuthRedirectUrl = {
     id: 'mcp.oauth.getRedirectUrl',
-    label: nls.localize('theia/ai/mcp/getRedirectUrl/label', 'MCP: Get MCP OAuth Redirect URL'),
+    label: nls.localize('theia/ai/mcp/getRedirectUrl/label', 'MCP: 获取 MCP OAuth 重定向 URL'),
 };
 
 @injectable()
@@ -81,7 +81,7 @@ export class MCPCommandContribution implements CommandContribution {
                         .filter((description): description is MCPServerDescription => !!description && this.isStoppableStatus(description.status))
                         .map(description => description.name);
                     if (stoppableServers.length === 0) {
-                        this.messageService.error(nls.localize('theia/ai/mcp/error/noRunningServers', 'No MCP servers running.'));
+                        this.messageService.error(nls.localize('theia/ai/mcp/error/noRunningServers', '没有正在运行的 MCP 服务器。'));
                         return;
                     }
                     const selection = await this.getMCPServerSelection(stoppableServers);
@@ -90,7 +90,7 @@ export class MCPCommandContribution implements CommandContribution {
                     }
                     await this.mcpFrontendService.stopServer(selection);
                 } catch (error) {
-                    this.messageService.error(nls.localize('theia/ai/mcp/error/stopFailed', 'An error occurred while stopping the MCP server.'));
+                    this.messageService.error(nls.localize('theia/ai/mcp/error/stopFailed', '停止 MCP 服务器时发生错误。'));
                     this.logger.error('Error while stopping MCP server:', error);
                 }
             }
@@ -104,7 +104,7 @@ export class MCPCommandContribution implements CommandContribution {
                     // with no stored credentials is a harmless no-op.
                     const oauthEnabledServers = await this.getOAuthEnabledServerNames();
                     if (oauthEnabledServers.length === 0) {
-                        this.messageService.info(nls.localize('theia/ai/mcp/error/noOAuthServersConfigured', 'No OAuth-enabled MCP servers configured.'));
+                        this.messageService.info(nls.localize('theia/ai/mcp/error/noOAuthServersConfigured', '未配置启用 OAuth 的 MCP 服务器。'));
                         return;
                     }
                     const selection = await this.getMCPServerSelection(oauthEnabledServers);
@@ -112,9 +112,9 @@ export class MCPCommandContribution implements CommandContribution {
                         return;
                     }
                     await this.mcpFrontendService.signOut(selection);
-                    this.messageService.info(nls.localize('theia/ai/mcp/info/serverSignedOut', 'Signed out from MCP server "{0}".', selection));
+                    this.messageService.info(nls.localize('theia/ai/mcp/info/serverSignedOut', '已从 MCP 服务器“{0}”登出。', selection));
                 } catch (error) {
-                    this.messageService.error(nls.localize('theia/ai/mcp/error/signOutFailed', 'An error occurred while signing out from the MCP server.'));
+                    this.messageService.error(nls.localize('theia/ai/mcp/error/signOutFailed', '从 MCP 服务器登出时发生错误。'));
                     this.logger.error('Error while signing out from MCP server:', error);
                 }
             }
@@ -125,7 +125,7 @@ export class MCPCommandContribution implements CommandContribution {
                 try {
                     const oauthEnabledServers = await this.getOAuthEnabledServerNames();
                     if (oauthEnabledServers.length === 0) {
-                        this.messageService.info(nls.localize('theia/ai/mcp/error/noOAuthServersConfigured', 'No OAuth-enabled MCP servers configured.'));
+                        this.messageService.info(nls.localize('theia/ai/mcp/error/noOAuthServersConfigured', '未配置启用 OAuth 的 MCP 服务器。'));
                         return;
                     }
                     const selection = await this.getMCPServerSelection(oauthEnabledServers);
@@ -134,12 +134,12 @@ export class MCPCommandContribution implements CommandContribution {
                     }
                     const signedIn = await this.mcpFrontendService.signIn(selection);
                     if (signedIn) {
-                        this.messageService.info(nls.localize('theia/ai/mcp/info/serverSignedIn', 'Signed in to MCP server "{0}".', selection));
+                        this.messageService.info(nls.localize('theia/ai/mcp/info/serverSignedIn', '已登录 MCP 服务器“{0}”。', selection));
                     } else {
-                        this.messageService.warn(nls.localize('theia/ai/mcp/warn/signInNotCompleted', 'Sign-in to MCP server "{0}" was not completed.', selection));
+                        this.messageService.warn(nls.localize('theia/ai/mcp/warn/signInNotCompleted', '对 MCP 服务器“{0}”的登录未完成。', selection));
                     }
                 } catch (error) {
-                    this.messageService.error(nls.localize('theia/ai/mcp/error/signInFailed', 'An error occurred while signing in to the MCP server.'));
+                    this.messageService.error(nls.localize('theia/ai/mcp/error/signInFailed', '登录 MCP 服务器时发生错误。'));
                     this.logger.error('Error while signing in to MCP server:', error);
                 }
             }
@@ -149,14 +149,14 @@ export class MCPCommandContribution implements CommandContribution {
             execute: async () => {
                 try {
                     const redirectUrl = await this.oauthFrontendDelegate.getEffectiveRedirectUrl();
-                    const copyAction = nls.localizeByDefault('Copy');
+                    const copyAction = nls.localizeByDefault('复制');
                     const action = await this.messageService.info(
-                        nls.localize('theia/ai/mcp/info/oauthRedirectUrl', 'MCP OAuth redirect URL: {0}', redirectUrl), copyAction);
+                        nls.localize('theia/ai/mcp/info/oauthRedirectUrl', 'MCP OAuth 重定向 URL：{0}', redirectUrl), copyAction);
                     if (action === copyAction) {
                         await navigator.clipboard.writeText(redirectUrl);
                     }
                 } catch (error) {
-                    this.messageService.error(nls.localize('theia/ai/mcp/error/getRedirectUrlFailed', 'An error occurred while determining the MCP OAuth redirect URL.'));
+                    this.messageService.error(nls.localize('theia/ai/mcp/error/getRedirectUrlFailed', '确定 MCP OAuth 重定向 URL 时发生错误。'));
                     this.logger.error('Error while determining the MCP OAuth redirect URL:', error);
                 }
             }
@@ -170,9 +170,9 @@ export class MCPCommandContribution implements CommandContribution {
                     const startableServers = servers.filter(server => !startedServers.includes(server));
                     if (!startableServers || startableServers.length === 0) {
                         if (startedServers && startedServers.length > 0) {
-                            this.messageService.error(nls.localize('theia/ai/mcp/error/allServersRunning', 'All MCP servers are already running.'));
+                            this.messageService.error(nls.localize('theia/ai/mcp/error/allServersRunning', '所有 MCP 服务器都已在运行中。'));
                         } else {
-                            this.messageService.error(nls.localize('theia/ai/mcp/error/noServersConfigured', 'No MCP servers configured.'));
+                            this.messageService.error(nls.localize('theia/ai/mcp/error/noServersConfigured', '尚未配置任何 MCP 服务器。'));
                         }
                         return;
                     }
@@ -200,7 +200,7 @@ export class MCPCommandContribution implements CommandContribution {
                     const serverDescription = await this.mcpFrontendService.getServerDescription(selection);
                     this.reportStartOutcome(selection, serverDescription);
                 } catch (error) {
-                    this.messageService.error(nls.localize('theia/ai/mcp/error/startFailed', 'An error occurred while starting the MCP server.'));
+                    this.messageService.error(nls.localize('theia/ai/mcp/error/startFailed', '启动 MCP 服务器时发生错误。'));
                     this.logger.error('Error while starting MCP server:', error);
                 }
             }
@@ -230,16 +230,16 @@ export class MCPCommandContribution implements CommandContribution {
      */
     protected reportStartOutcome(serverName: string, serverDescription: MCPServerDescription | undefined): void {
         if (!serverDescription || !serverDescription.status) {
-            this.messageService.error(nls.localize('theia/ai/mcp/error/startFailed', 'An error occurred while starting the MCP server.'));
+            this.messageService.error(nls.localize('theia/ai/mcp/error/startFailed', '启动 MCP 服务器时发生错误。'));
             return;
         }
         const { status, error, tools } = serverDescription;
         if (status === MCPServerStatus.Running || status === MCPServerStatus.Connected) {
             const toolNames = tools && tools.length > 0
                 ? tools.map(tool => tool.name).join(',')
-                : nls.localize('theia/ai/mcp/info/noToolsAvailable', 'No tools available.');
+                : nls.localize('theia/ai/mcp/info/noToolsAvailable', '没有可用的工具。');
             this.messageService.info(
-                nls.localize('theia/ai/mcp/info/serverStarted', 'MCP server "{0}" successfully started. Registered tools: {1}', serverName, toolNames)
+                nls.localize('theia/ai/mcp/info/serverStarted', 'MCP 服务器“{0}”已成功启动。已注册的工具：{1}', serverName, toolNames)
             );
             return;
         }
@@ -247,7 +247,7 @@ export class MCPCommandContribution implements CommandContribution {
             // `handleStartupError` clears `error` on the cancel path; a generic failure toast would
             // contradict the user's cancellation. Surface as info so the command flow has a positive signal.
             this.messageService.info(
-                nls.localize('theia/ai/mcp/info/signInCancelled', 'MCP server "{0}" sign-in was cancelled.', serverName)
+                nls.localize('theia/ai/mcp/info/signInCancelled', 'MCP 服务器“{0}”的登录已取消。', serverName)
             );
             return;
         }
@@ -255,7 +255,7 @@ export class MCPCommandContribution implements CommandContribution {
             // Authorization-server denial populates `error` with the localized diagnostic; reuse it so the
             // toast matches the status-badge hover. Fall back to a re-auth prompt when missing.
             this.messageService.error(error ?? nls.localize('theia/ai/mcp/error/authenticationRequired',
-                'MCP server "{0}" requires authentication. Start the server again to sign in.', serverName));
+                'MCP 服务器“{0}”需要身份验证。请再次启动服务器以登录。', serverName));
             return;
         }
         if (status === MCPServerStatus.Starting || status === MCPServerStatus.Connecting) {
@@ -268,6 +268,6 @@ export class MCPCommandContribution implements CommandContribution {
         if (error) {
             this.logger.error('Error while starting MCP server:', error);
         }
-        this.messageService.error(nls.localize('theia/ai/mcp/error/startFailed', 'An error occurred while starting the MCP server.'));
+        this.messageService.error(nls.localize('theia/ai/mcp/error/startFailed', '启动 MCP 服务器时发生错误。'));
     }
 }

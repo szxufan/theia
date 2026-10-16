@@ -353,7 +353,7 @@ export class HostedPluginSupport extends AbstractHostedPluginSupport<PluginManag
                 workspaceState,
                 env: {
                     queryParams: getQueryParameters(),
-                    language: nls.locale || nls.defaultLocale,
+                    language: nls.locale,
                     shell: defaultShell,
                     uiKind: isElectron ? UIKind.Desktop : UIKind.Web,
                     appName: FrontendApplicationConfigProvider.get().applicationName,

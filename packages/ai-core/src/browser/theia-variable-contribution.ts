@@ -52,39 +52,39 @@ export class TheiaVariableContribution implements AIVariableContribution, AIVari
             {
                 name: 'currentAbsoluteFilePath',
                 description: nls.localize('theia/ai/core/variable-contribution/currentAbsoluteFilePath',
-                    'The absolute path of the currently opened file.')
+                    '当前打开文件的绝对路径。')
             }
         ]],
         ['selectedText', [
             {
                 description: nls.localize('theia/ai/core/variable-contribution/currentSelectedText',
-                    'The plain text that is currently selected in the opened file. This excludes the information where the content is coming from.')
+                    '当前在打开文件中选中的纯文本。不包含内容的来源信息。')
             }
         ]],
         ['currentText', [
             {
                 name: 'currentFileContent',
                 description: nls.localize('theia/ai/core/variable-contribution/currentFileContent',
-                    'The plain content of the currently opened file. This excludes the information where the content is coming from.')
+                    '当前打开文件的纯文本内容。不包含内容的来源信息。')
             }
         ]],
         ['relativeFile', [
             {
                 name: 'currentRelativeFilePath',
                 description: nls.localize('theia/ai/core/variable-contribution/currentRelativeFilePath',
-                    'The workspace-relative path of the currently opened file (e.g., my-project/src/index.ts).')
+                    '当前打开文件的工作区相对路径（例如 my-project/src/index.ts）。')
             },
             {
                 name: '_f',
                 description: nls.localize('theia/ai/core/variable-contribution/dotRelativePath',
-                    'Short reference to the workspace-relative path of the currently opened file (\'currentRelativeFilePath\').')
+                    '当前打开文件工作区相对路径的简短引用（\'currentRelativeFilePath\'）。')
             }
         ]],
         ['relativeFileDirname', [
             {
                 name: 'currentRelativeDirPath',
                 description: nls.localize('theia/ai/core/variable-contribution/currentRelativeDirPath',
-                    'The workspace-relative path of the directory containing the currently opened file (e.g., my-project/src).')
+                    '包含当前打开文件的目录的工作区相对路径（例如 my-project/src）。')
             }
         ]],
         ['lineNumber', [{}]],
@@ -108,7 +108,7 @@ export class TheiaVariableContribution implements AIVariableContribution, AIVari
                     const newDescription = (mapping.description && mapping.description.trim() !== '') ? mapping.description
                         : (variable.description && variable.description.trim() !== '' ? variable.description
                             : nls.localize('theia/ai/core/variable-contribution/builtInVariable',
-                            '{0} Built-in Variable',
+                            '{0} 内置变量',
                             FrontendApplicationConfigProvider.get().applicationName));
 
                     // For multiple mappings of the same variable, add a suffix to the ID to make it unique

@@ -54,7 +54,7 @@ export function WalkthroughCard(props: WalkthroughCardProps): React.ReactElement
                     ></div>
                 </div>
                 <span className='gs-walkthrough-progress-text'>
-                    {nls.localizeByDefault('{0} of {1}', String(completedSteps), String(totalSteps))}
+                    {nls.localizeByDefault('已完成 {0} 步，共 {1} 步', String(completedSteps), String(totalSteps))}
                 </span>
             </div>
         </div>

@@ -160,7 +160,7 @@ export namespace AiConfigurationTree {
         return {
             type: 'separator',
             id: CONTRIBUTED_SEPARATOR_ID,
-            name: nls.localize('theia/ai/core/aiConfiguration/contributedByExtensions', 'Contributed by extensions'),
+            name: nls.localize('theia/ai/core/aiConfiguration/contributedByExtensions', '由扩展贡献'),
             parent: undefined
         };
     }

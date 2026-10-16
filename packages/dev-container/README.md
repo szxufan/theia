@@ -4,19 +4,19 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - DEV-CONTAINER EXTENSION</h2>
+<h2>ECLIPSE THEIA - DEV-CONTAINER 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/dev-container` extension provides functionality to create, start and connect to development containers similiar to the
-[vscode Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+`@theia/dev-container` 扩展提供创建、启动和连接开发容器的功能，类似于
+[vscode Dev Containers 扩展](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)。
 
-The full devcontainer.json Schema can be found [here](https://containers.dev/implementors/json_reference/).
-Currently not all of the configuration file properties are implemented. The following are implemented:
+完整的 devcontainer.json Schema 可在[这里](https://containers.dev/implementors/json_reference/)找到。
+目前尚未实现配置文件的全部属性。以下是已实现的属性：
 
 - name
 - Image
@@ -32,23 +32,23 @@ Currently not all of the configuration file properties are implemented. The foll
 - postCreateCommand
 - postStartCommand
 
-see `main-container-creation-contributions.ts` for how to implementations or how to implement additional ones.
+实现方式或如何实现更多属性请参见 `main-container-creation-contributions.ts`。
 
-Additionally adds support for `composeUpArgs` devcontainer.json property to apply additional arguments for the `docker compose up` call.
-Usage: `"composeUpArgs": ["--force-recreate"]`
+此外，还增加了对 `composeUpArgs` devcontainer.json 属性的支持，用于为 `docker compose up` 调用附加额外参数。
+用法：`"composeUpArgs": ["--force-recreate"]`
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/dev-container`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_dev-container.html)
+- [`@theia/dev-container` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_dev-container.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

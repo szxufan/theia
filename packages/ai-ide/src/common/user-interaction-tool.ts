@@ -52,11 +52,11 @@ export function resolveContentRef(ref: ContentRef): PathContentRef | EmptyConten
 const SHA_PREFIX_LENGTH = 7;
 
 function workingCopyLabel(): string {
-    return nls.localize('theia/ai-ide/userInteractionWorkingCopy', 'Working Copy');
+    return nls.localize('theia/ai-ide/userInteractionWorkingCopy', '工作副本');
 }
 
 function emptyLabel(): string {
-    return nls.localize('theia/ai-ide/userInteractionEmpty', 'Empty');
+    return nls.localize('theia/ai-ide/userInteractionEmpty', '空');
 }
 
 function gitRefTag(ref: PathContentRef): string {

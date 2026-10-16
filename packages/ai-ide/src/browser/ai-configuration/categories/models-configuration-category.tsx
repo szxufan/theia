@@ -66,9 +66,9 @@ interface ModelsSection {
 export class ModelsConfigurationCategory extends CollectionCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.MODELS;
-    readonly label = nls.localize('theia/ai/core/aiConfiguration/models/label', 'Providers & Models');
+    readonly label = nls.localize('theia/ai/core/aiConfiguration/models/label', '提供程序与模型');
     readonly description = nls.localize('theia/ai/ide/modelsConfiguration/description',
-        'Configure language-model providers and the models available to agents.');
+        '配置语言模型提供程序以及代理可用的模型。');
     readonly iconClass = codicon('cloud');
     readonly order = AiConfigurationCategoryOrder.MODELS;
     readonly kind = 'collection' as const;
@@ -141,11 +141,11 @@ export class ModelsConfigurationCategory extends CollectionCategoryRenderer impl
     }
 
     protected override get overviewListTitle(): string {
-        return nls.localize('theia/ai/ide/modelsConfiguration/providers', 'Providers');
+        return nls.localize('theia/ai/ide/modelsConfiguration/providers', '提供程序');
     }
 
     protected override getEmptyMessage(): string {
-        return nls.localize('theia/ai/ide/modelsConfiguration/noProviders', 'No language-model providers are installed.');
+        return nls.localize('theia/ai/ide/modelsConfiguration/noProviders', '未安装任何语言模型提供程序。');
     }
 
     /** Shown above the provider cards: the cross-provider model settings, when any are registered. */
@@ -163,7 +163,7 @@ export class ModelsConfigurationCategory extends CollectionCategoryRenderer impl
             return undefined;
         }
         return <>
-            <AiConfigurationSection title={nls.localizeByDefault('Settings')}>
+            <AiConfigurationSection title={nls.localizeByDefault('设置')}>
                 {section.preferenceIds.map(preferenceId => this.renderPreferenceRow(ctx, preferenceId))}
             </AiConfigurationSection>
             {this.renderModelDiscovery(item.id)}
@@ -232,7 +232,7 @@ export class ModelsConfigurationCategory extends CollectionCategoryRenderer impl
         if (modelSettings.length > 0) {
             sections.push({
                 id: MODEL_SETTINGS_ID,
-                title: nls.localize('theia/ai/ide/modelsConfiguration/modelSettings', 'Model Settings'),
+                title: nls.localize('theia/ai/ide/modelsConfiguration/modelSettings', '模型设置'),
                 preferenceIds: modelSettings
             });
         }
@@ -288,7 +288,7 @@ export class ModelsConfigurationCategory extends CollectionCategoryRenderer impl
     }
 
     getSearchItems(): AiConfigurationSearchItem[] {
-        const settingLabel = nls.localizeByDefault('Setting');
+        const settingLabel = nls.localizeByDefault('设置');
         return this.getSections().flatMap(section => {
             // Provider settings live in the provider's node; model settings live in the overview.
             const isProvider = section.id !== MODEL_SETTINGS_ID;

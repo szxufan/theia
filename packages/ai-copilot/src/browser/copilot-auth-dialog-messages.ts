@@ -38,20 +38,20 @@ export interface CopilotAuthDialogMessages {
  */
 export const DEFAULT_COPILOT_AUTH_DIALOG_MESSAGES: CopilotAuthDialogMessages = {
     get title(): string {
-        return nls.localize('theia/ai/copilot/commands/signIn', 'Sign in to GitHub Copilot');
+        return nls.localize('theia/ai/copilot/commands/signIn', '登录 GitHub Copilot');
     },
     get instructions(): string {
         return nls.localize(
             'theia/ai/copilot/auth/instructions',
-            'To authorize {0} to use GitHub Copilot, visit the URL below and enter the code:',
+            '要授权 {0} 使用 GitHub Copilot，请访问下方 URL 并输入代码：',
             FrontendApplicationConfigProvider.get().applicationName
         );
     },
     get privacyNotice(): string {
         return nls.localize(
             'theia/ai/copilot/auth/privacy',
-            'Theia is an open-source project. We only request access to your GitHub username ' +
-            'to connect to GitHub Copilot services — no other data is accessed or stored.'
+            'Theia 是一个开源项目。我们仅请求访问您的 GitHub 用户名' +
+            '以连接 GitHub Copilot 服务——不会访问或存储任何其他数据。'
         );
     }
 };

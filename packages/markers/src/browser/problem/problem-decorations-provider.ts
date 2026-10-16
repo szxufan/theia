@@ -39,7 +39,8 @@ export class ProblemDecorationsProvider implements DecorationsProvider {
         this.problemManager.onDidChangeMarkers(() => this.fireDidDecorationsChanged());
     }
 
-    protected fireDidDecorationsChanged = debounce(() => this.doFireDidDecorationsChanged(), 50);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected fireDidDecorationsChanged: any = debounce(() => this.doFireDidDecorationsChanged(), 50);
 
     protected doFireDidDecorationsChanged(): void {
         const newUris = Array.from(this.problemManager.getUris(), stringified => new URI(stringified));
@@ -55,7 +56,7 @@ export class ProblemDecorationsProvider implements DecorationsProvider {
                 letter: markers.length.toString(),
                 weight: ProblemUtils.getPriority(markers[0]),
                 colorId: ProblemUtils.getColor(markers[0]),
-                tooltip: markers.length === 1 ? nls.localizeByDefault('1 problem in this file') : nls.localizeByDefault('{0} problems in this file', markers.length),
+                tooltip: markers.length === 1 ? nls.localizeByDefault('此文件中有 1 个问题') : nls.localizeByDefault('此文件中有 {0} 个问题', markers.length),
             };
         }
     }

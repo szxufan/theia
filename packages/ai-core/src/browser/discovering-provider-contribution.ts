@@ -231,7 +231,7 @@ export abstract class DiscoveringProviderContribution<T> implements FrontendAppl
         }
         this.envConsentPrompted = true;
         const useKey = this.discoveryMessages.useEnvironmentKey;
-        const ignore = nls.localizeByDefault('Ignore');
+        const ignore = nls.localizeByDefault('忽略');
         this.messageService.info(this.discoveryMessages.consentPrompt, useKey, ignore).then(choice => {
             if (choice === useKey) {
                 this.preferenceService.set(this.allowEnvironmentApiKeyPreference, true, PreferenceScope.User);

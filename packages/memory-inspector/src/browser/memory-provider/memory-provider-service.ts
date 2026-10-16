@@ -33,7 +33,7 @@ export class MemoryProviderService {
     protected readonly contributions: ContributionProvider<MemoryProvider>;
 
     readMemory(readMemoryArguments: DebugProtocol.ReadMemoryArguments): Promise<Interfaces.MemoryReadResult> {
-        const readError = nls.localize('theia/memory-inspector/provider/readError', 'Cannot read memory. No active debug session.');
+        const readError = nls.localize('theia/memory-inspector/provider/readError', '无法读取内存。没有活动的调试会话。');
         const session = this.getSession(readError);
         if (!session.capabilities.supportsReadMemoryRequest) {
             throw new Error('Cannot read memory. The current session does not support the request.');
@@ -43,7 +43,7 @@ export class MemoryProviderService {
     }
 
     writeMemory(writeMemoryArguments: DebugProtocol.WriteMemoryArguments): Promise<DebugProtocol.WriteMemoryResponse> {
-        const writeError = nls.localize('theia/memory-inspector/provider/writeError', 'Cannot write memory. No active debug session.');
+        const writeError = nls.localize('theia/memory-inspector/provider/writeError', '无法写入内存。没有活动的调试会话。');
         const session = this.getSession(writeError);
         if (!session.capabilities.supportsWriteMemoryRequest) {
             throw new Error('Cannot write memory. The current session does not support the request.');
@@ -54,7 +54,7 @@ export class MemoryProviderService {
     }
 
     getLocals(): Promise<VariableRange[]> {
-        const localsError = nls.localize('theia/memory-inspector/provider/localsError', 'Cannot read local variables. No active debug session.');
+        const localsError = nls.localize('theia/memory-inspector/provider/localsError', '无法读取局部变量。没有活动的调试会话。');
         const session = this.getSession(localsError);
         const provider = this.getProvider(session, 'getLocals');
         return provider.getLocals(session);

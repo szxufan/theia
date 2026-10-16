@@ -351,6 +351,7 @@ export class DebugConsoleSession extends ConsoleSession {
         this.fireDidChange();
     }
 
-    protected override fireDidChange = throttle(() => super.fireDidChange(), 50);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected override fireDidChange: any = throttle(() => super.fireDidChange(), 50);
 
 }

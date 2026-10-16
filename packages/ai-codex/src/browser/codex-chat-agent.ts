@@ -66,11 +66,12 @@ type ToolInvocationItem = CommandExecutionItem | FileChangeItem | McpToolCallIte
 export class CodexChatAgent implements ChatAgent {
     id = CODEX_CHAT_AGENT_ID;
     name = 'Codex';
+    displayName = nls.localize('theia/ai/codex/displayName', 'Codex');
     description = nls.localize('theia/ai/codex/agentDescription',
-        'OpenAI\'s coding assistant powered by Codex');
+        'OpenAI 由 Codex 驱动的编码助手');
     iconClass = 'codicon codicon-robot';
     locations: ChatAgentLocation[] = ChatAgentLocation.ALL;
-    tags = [nls.localizeByDefault('Chat')];
+    tags = [nls.localizeByDefault('聊天')];
     variables: string[] = [];
     prompts: [] = [];
     languageModelRequirements: [] = [];
@@ -366,8 +367,8 @@ export class CodexChatAgent implements ChatAgent {
                 .filter(path => !!path)
                 .join(', ');
             const message = affectedPaths.length > 0
-                ? nls.localize('theia/ai/codex/fileChangeFailed', 'Codex failed to apply changes for: {0}', affectedPaths)
-                : nls.localize('theia/ai/codex/fileChangeFailedGeneric', 'Codex failed to apply file changes.');
+                ? nls.localize('theia/ai/codex/fileChangeFailed', 'Codex 未能为以下文件应用更改：{0}', affectedPaths)
+                : nls.localize('theia/ai/codex/fileChangeFailedGeneric', 'Codex 未能应用文件更改。');
             request.response.response.addContent(
                 new ErrorChatResponseContentImpl(new Error(message))
             );

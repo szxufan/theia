@@ -158,23 +158,23 @@ export function buildBarTooltip(
         return undefined;
     }
     const lines: string[] = [
-        `**${nls.localize('theia/ai/chat-ui/tokenUsageLabel', 'Token Usage')}**`
+        `**${nls.localize('theia/ai/chat-ui/tokenUsageLabel', 'Token 用量')}**`
     ];
     const colorClass = getUsageColorClass(totalTokens, threshold, contextWindowSize);
     if (colorClass === 'token-usage-yellow') {
-        lines.push(`⚠ ${nls.localize('theia/ai/chat-ui/tokenUsageWarning', 'Token usage warning threshold reached.')}`, '');
+        lines.push(`⚠ ${nls.localize('theia/ai/chat-ui/tokenUsageWarning', '已达到 Token 用量警告阈值。')}`, '');
     } else if (colorClass === 'token-usage-red') {
-        lines.push(`⚠ ${nls.localize('theia/ai/chat-ui/tokenUsageOverflow', 'Token usage well past the warning threshold. Consider compacting or starting a new session.')}`, '');
+        lines.push(`⚠ ${nls.localize('theia/ai/chat-ui/tokenUsageOverflow', 'Token 用量已远超警告阈值。建议压缩上下文或开启新会话。')}`, '');
     }
-    lines.push(`${nls.localizeByDefault('Input: {0}',
-        formatTokenCount(usage.inputTokens))} | ${nls.localizeByDefault('Output: {0}',
+    lines.push(`${nls.localizeByDefault('输入：{0}',
+        formatTokenCount(usage.inputTokens))} | ${nls.localizeByDefault('输出：{0}',
             formatTokenCount(usage.outputTokens))}`);
     const cacheParts: string[] = [];
     if (usage.cacheReadInputTokens) {
-        cacheParts.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCacheRead', 'Cache read: {0}', formatTokenCount(usage.cacheReadInputTokens)));
+        cacheParts.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCacheRead', '缓存读取：{0}', formatTokenCount(usage.cacheReadInputTokens)));
     }
     if (usage.cacheCreationInputTokens) {
-        cacheParts.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCacheCreate', 'Cache creation: {0}', formatTokenCount(usage.cacheCreationInputTokens)));
+        cacheParts.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCacheCreate', '缓存创建：{0}', formatTokenCount(usage.cacheCreationInputTokens)));
     }
     if (cacheParts.length > 0) {
         lines.push(cacheParts.join(' | '));
@@ -182,18 +182,18 @@ export function buildBarTooltip(
     const percentage = Math.round((totalTokens / contextWindowSize) * 100);
     lines.push(nls.localize(
         'theia/ai/chat-ui/tokenUsageTooltipTotal',
-        'Total: {0} / {1} ({2}%)',
+        '总计：{0} / {1}（{2}%）',
         formatTokenCount(totalTokens),
         formatTokenCount(contextWindowSize),
         percentage
     ));
     const cumulative = computeCumulativeTokenUsage(chatModel);
     if (cumulative > 0) {
-        lines.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCumulative', 'Cumulative: {0}', formatTokenCount(cumulative)));
+        lines.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCumulative', '累计：{0}', formatTokenCount(cumulative)));
     }
     const compactions = countCompactions(chatModel);
     if (compactions > 0) {
-        lines.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCompactions', 'Compacted {0}x', compactions));
+        lines.push(nls.localize('theia/ai/chat-ui/tokenUsageTooltipCompactions', '已压缩 {0} 次', compactions));
     }
     return { value: lines.join('  \n') };
 }

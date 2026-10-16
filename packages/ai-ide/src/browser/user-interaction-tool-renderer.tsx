@@ -241,10 +241,10 @@ const UserInteractionComponent: React.FC<UserInteractionComponentProps> = ({
     }
 
     const activeState = stepStates[currentStep];
-    const stepLabel = nls.localizeByDefault('Step {0} of {1}', currentStep + 1, stepCount);
+    const stepLabel = nls.localizeByDefault('第 {0} 步，共 {1} 步', currentStep + 1, stepCount);
     const advanceLabel = isLastStep
-        ? nls.localize('theia/ai-ide/userInteractionFinishStep', 'Finish')
-        : nls.localizeByDefault('Next');
+        ? nls.localize('theia/ai-ide/userInteractionFinishStep', '完成')
+        : nls.localizeByDefault('下一步');
 
     const showAdvanceRow = !isSingleStep;
 
@@ -267,7 +267,7 @@ const UserInteractionComponent: React.FC<UserInteractionComponentProps> = ({
                         return (
                             <span className='user-interaction-tool status completed'>
                                 <i className={codicon('check')} />
-                                {nls.localizeByDefault('Completed')}
+                                {nls.localizeByDefault('已完成')}
                             </span>
                         );
                     }
@@ -275,13 +275,13 @@ const UserInteractionComponent: React.FC<UserInteractionComponentProps> = ({
                         return (
                             <span className='user-interaction-tool status canceled'>
                                 <i className={codicon('close')} />
-                                {nls.localizeByDefault('Canceled')}
+                                {nls.localizeByDefault('已取消')}
                             </span>
                         );
                     }
                     return (
                         <span className='user-interaction-tool status waiting' role='status' aria-live='polite'>
-                            {nls.localize('theia/ai/chat-ui/chat-view-tree-widget/waitingForInput', 'Waiting for input')}
+                            {nls.localize('theia/ai/chat-ui/chat-view-tree-widget/waitingForInput', '等待输入')}
                         </span>
                     );
                 })()}
@@ -348,7 +348,7 @@ const UserInteractionComponent: React.FC<UserInteractionComponentProps> = ({
                             <input
                                 type='text'
                                 className='theia-input user-interaction-tool comment-input-field'
-                                placeholder={nls.localize('theia/ai-ide/userInteractionCommentPlaceholder', 'Add a comment for this step...')}
+                                placeholder={nls.localize('theia/ai-ide/userInteractionCommentPlaceholder', '为此步骤添加评论...')}
                                 value={pendingComment}
                                 onChange={e => setPendingComment(e.target.value)}
                                 onKeyDown={handleCommentKeyDown}
@@ -358,7 +358,7 @@ const UserInteractionComponent: React.FC<UserInteractionComponentProps> = ({
                                 onClick={handleAddComment}
                                 disabled={!pendingComment.trim()}
                             >
-                                {nls.localizeByDefault('Comment')}
+                                {nls.localizeByDefault('评论')}
                             </button>
                         </div>
                     )}
@@ -371,8 +371,8 @@ const UserInteractionComponent: React.FC<UserInteractionComponentProps> = ({
                                         <button
                                             className='user-interaction-tool comment-remove'
                                             onClick={() => handleRemoveComment(i)}
-                                            title={nls.localizeByDefault('Remove')}
-                                            aria-label={nls.localizeByDefault('Remove')}
+                                            title={nls.localizeByDefault('移除')}
+                                            aria-label={nls.localizeByDefault('移除')}
                                         >
                                             <i className={codicon('close')} />
                                         </button>
@@ -391,10 +391,10 @@ const UserInteractionComponent: React.FC<UserInteractionComponentProps> = ({
                                 className='theia-button secondary user-interaction-tool back-button'
                                 onClick={handleBack}
                                 disabled={currentStep === 0}
-                                title={nls.localizeByDefault('Back')}
+                                title={nls.localizeByDefault('返回')}
                             >
                                 <i className={codicon('arrow-left')} />
-                                {nls.localizeByDefault('Back')}
+                                {nls.localizeByDefault('返回')}
                             </button>
                             <span className='user-interaction-tool page-counter' aria-label={stepLabel}>
                                 {currentStep + 1} / {stepCount}
@@ -457,7 +457,7 @@ const LinkButton: React.FC<{ link: UserInteractionLink; onClick: () => void }> =
         label = buildDiffLabel(left, resolveContentRef(link.rightRef!));
     } else {
         label = isEmptyContentRef(left)
-            ? (left.label || nls.localize('theia/ai-ide/userInteractionEmpty', 'Empty'))
+            ? (left.label || nls.localize('theia/ai-ide/userInteractionEmpty', '空'))
             : left.path;
     }
 
@@ -474,11 +474,11 @@ const UserInteractionWithConfirmation = withToolCallConfirmation(UserInteraction
 const StreamingProgress: React.FC<{ title: string; stepCount: number }> = ({ title, stepCount }) => {
     let label: string;
     if (title && stepCount > 0) {
-        label = nls.localize('theia/ai-ide/userInteractionPreparingSteps', 'Preparing: {0} ({1} steps)', title, stepCount);
+        label = nls.localize('theia/ai-ide/userInteractionPreparingSteps', '正在准备：{0}（{1} 个步骤）', title, stepCount);
     } else if (title) {
-        label = nls.localize('theia/ai-ide/userInteractionPreparingTitle', 'Preparing: {0}', title);
+        label = nls.localize('theia/ai-ide/userInteractionPreparingTitle', '正在准备：{0}', title);
     } else {
-        label = nls.localize('theia/ai-ide/userInteractionPreparing', 'Preparing user interaction...');
+        label = nls.localize('theia/ai-ide/userInteractionPreparing', '正在准备用户交互...');
     }
     return (
         <div className='tool-call container'>
@@ -496,7 +496,7 @@ const MalformedInteraction: React.FC<{ message: string }> = ({ message }) => (
         <div className='tool-call header error'>
             <span className={codicon('comment-discussion')} />
             <span className='user-interaction-tool title'>
-                {nls.localize('theia/ai-ide/userInteractionMalformed', 'User interaction could not be displayed')}
+                {nls.localize('theia/ai-ide/userInteractionMalformed', '无法显示用户交互')}
             </span>
         </div>
         <div className='tool-call error-message'>{message}</div>
@@ -594,7 +594,7 @@ export class UserInteractionToolRenderer implements ChatResponsePartRenderer<Too
             // instead of a perpetual loading spinner.
             if (response.result !== undefined) {
                 const message = extractErrorMessage(response.result)
-                    ?? nls.localize('theia/ai-ide/userInteractionMalformedFallback', 'The arguments could not be parsed.');
+                    ?? nls.localize('theia/ai-ide/userInteractionMalformedFallback', '无法解析参数。');
                 return <MalformedInteraction message={message} />;
             }
             const input = parseUserInteractionInput(response.arguments);

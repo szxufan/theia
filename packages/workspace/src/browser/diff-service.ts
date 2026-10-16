@@ -42,9 +42,9 @@ export class DiffService {
                     } else {
                         const details =
                             leftStat.isDirectory && rightStat.isDirectory ?
-                                nls.localize('theia/workspace/bothAreDirectories', 'Both resources are directories.') :
-                                nls.localize('theia/workspace/isDirectory', "'{0}' is a directory.", leftStat.isDirectory ? left.path.base : right.path.base);
-                        this.messageService.warn(nls.localize('theia/workspace/directoriesCannotBeCompared', 'Directories cannot be compared. {0}', details));
+                                nls.localize('theia/workspace/bothAreDirectories', '两个资源都是目录。') :
+                                nls.localize('theia/workspace/isDirectory', "'{0}' 是目录。", leftStat.isDirectory ? left.path.base : right.path.base);
+                        this.messageService.warn(nls.localize('theia/workspace/directoriesCannotBeCompared', '目录无法比较。{0}', details));
                     }
                 }
             }

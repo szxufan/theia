@@ -4,80 +4,77 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - AI EXTERNAL API EXTENSION</h2>
+<h2>ECLIPSE THEIA - AI EXTERNAL API 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-This package exposes an HTTP API on the Theia backend that allows external tools
-(control planes, dashboards, CLIs) to inspect the AI chat sessions of a running Theia
-instance, to follow session changes as a push stream, to open or restore sessions in
-the IDE, to send prompts to sessions, and to create new sessions.
+本包在 Theia 后端上暴露一个 HTTP API，允许外部工具
+（控制平面、仪表板、CLI）检查正在运行的 Theia 实例的 AI 聊天会话、以推送流的方式跟随会话变更、在
+IDE 中打开或恢复会话、向会话发送提示词，以及创建新会话。
 
-Session data is provided live by the connected frontends: each frontend registers itself with
-the backend and is queried on demand. Sessions that are restored (in memory) in a connected
-frontend are reported with their full state; persisted sessions that have not been restored
-are reported with their persisted metadata and `"restored": false`. If no frontend is
-connected, the session list is empty. Sessions that an agent delegated to another agent are
-listed alongside top-level ones and carry `parentSessionId` and `rootSessionId`, so consumers
-can group them as the IDE's session list does.
+会话数据由已连接的前端实时提供：每个前端向
+后端注册自身，并按需被查询。在已连接前端中已恢复（驻留内存）的
+会话会连同其完整状态一起上报；尚未恢复的持久化会话则连同其持久化元数据和 `"restored": false` 一起上报。如果没有前端
+连接，会话列表为空。由某个智能体委派给另一个智能体的会话
+会与顶层会话一起列出，并带有 `parentSessionId` 和 `rootSessionId`，以便消费者
+可以像 IDE 的会话列表那样对它们进行分组。
 
-Session *status* uses the aggregated per-session status of `ChatModel.status`
-(`@theia/ai-chat`): `idle`, `running`, `awaitingApproval`, `awaitingToolCall`,
-`awaitingInput`, or `failed`. Persisted sessions that are not restored report `failed` if
-their last request ended in an error and `idle` otherwise.
+会话*状态*使用 `ChatModel.status`（`@theia/ai-chat`）的按会话聚合状态：
+`idle`、`running`、`awaitingApproval`、`awaitingToolCall`、
+`awaitingInput` 或 `failed`。未恢复的持久化会话在其最后一次请求以错误结束时报告 `failed`，否则报告 `idle`。
 
-### Enabling the API
+### 启用 API
 
-The endpoints are contributed to the external API server of `@theia/external-api`, which is
-disabled by default and configured through the `externalApi.*` user preferences (delivery
-mode, port, hostname, and bearer token). See the `@theia/external-api` README for the
-configuration and its security considerations.
+这些端点被贡献给 `@theia/external-api` 的外部 API 服务器，该服务器
+默认禁用，并通过 `externalApi.*` 用户首选项（交付
+模式、端口、主机名和 Bearer 令牌）进行配置。配置及其安全注意事项请参见
+`@theia/external-api` 的 README。
 
-### API Endpoints
+### API 端点
 
-| Endpoint | Purpose |
+| 端点 | 用途 |
 |---|---|
-| `GET /api/ai/sessions` | List the sessions, most recently used first. |
-| `POST /api/ai/sessions` | Create a session, optionally sending an initial prompt. |
-| `GET /api/ai/sessions/events` | Follow the session list as server-sent events. |
-| `GET /api/ai/sessions/:id` | Read one session including its conversation. |
-| `POST /api/ai/sessions/:id/prompt` | Send a prompt to the session. |
-| `POST /api/ai/sessions/:id/open` | Show the session in the chat view of a connected frontend. |
-| `POST /api/ai/sessions/:id/restore` | Restore the session without focusing it. |
+| `GET /api/ai/sessions` | 列出会话，最近使用的在前。 |
+| `POST /api/ai/sessions` | 创建会话，可选地发送初始提示词。 |
+| `GET /api/ai/sessions/events` | 以服务器发送事件的形式跟随会话列表。 |
+| `GET /api/ai/sessions/:id` | 读取单个会话，包括其对话。 |
+| `POST /api/ai/sessions/:id/prompt` | 向会话发送提示词。 |
+| `POST /api/ai/sessions/:id/open` | 在已连接前端的聊天视图中显示该会话。 |
+| `POST /api/ai/sessions/:id/restore` | 恢复会话但不聚焦它。 |
 
-The endpoints, their request and response bodies, and their error responses are documented in
-the [API reference](https://github.com/eclipse-theia/theia/blob/master/packages/ai-external-api/doc/api-reference.md).
-The API also describes itself: all endpoints are published, with descriptions and schemas,
-in the OpenAPI document served at `GET /api/openapi.json` (see `@theia/external-api`), e.g.
-to generate clients or MCP tool definitions.
+端点、其请求和响应体及其错误响应在
+[API 参考](https://github.com/eclipse-theia/theia/blob/master/packages/ai-external-api/doc/api-reference.md)中有文档说明。
+该 API 也是自我描述的：所有端点都连同描述和 schema 一同发布在
+`GET /api/openapi.json` 提供的 OpenAPI 文档中（见 `@theia/external-api`），例如
+可用于生成客户端或 MCP 工具定义。
 
-### Security Considerations
+### 安全注意事项
 
-- Chat histories can contain sensitive workspace content. Configure an `externalApi.token`
-  and mind the security considerations of `@theia/external-api`.
-- The creation and prompt endpoints trigger agent execution: they start language model
-  requests and, depending on the configured tool confirmation settings, tool calls in the
-  user's IDE. Do not expose them without a token.
-- The open and restore endpoints affect the IDE: opening raises the chat view in the user's
-  frontend, creating switches the active session, and restoring loads persisted session data
-  into memory.
+- 聊天历史可能包含敏感的工作区内容。请配置 `externalApi.token`
+  并留意 `@theia/external-api` 的安全注意事项。
+- 创建和提示词端点会触发智能体执行：它们启动语言模型
+  请求，并且根据所配置的工具确认设置，还会在
+  用户的 IDE 中进行工具调用。请勿在没有令牌的情况下暴露它们。
+- 打开和恢复端点会影响 IDE：打开会在用户的
+  前端中唤起聊天视图，创建会切换活动会话，而恢复会将持久化的会话数据
+  加载到内存中。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/ai-external-api`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-external-api.html)
+- [`@theia/ai-external-api` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-external-api.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

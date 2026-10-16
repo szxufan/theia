@@ -83,10 +83,10 @@ export class ChatGptStatusBarContribution implements FrontendApplicationContribu
         const accountLabel = this.authState.accountLabel ?? 'ChatGPT';
         this.statusBar.setElement(CHATGPT_STATUS_BAR_ID, {
             text: this.authState.isAuthenticated ? `$(openai) ChatGPT: ${accountLabel}`
-                : `$(openai) ${nls.localize('theia/ai/chatgpt/models/signIn', 'Sign in with ChatGPT')}`,
+                : `$(openai) ${nls.localize('theia/ai/chatgpt/models/signIn', '使用 ChatGPT 登录')}`,
             tooltip: this.authState.isAuthenticated
-                ? nls.localize('theia/ai/chatgpt/statusBar/signedIn', 'Signed in to ChatGPT as {0}. Click to sign out.', accountLabel)
-                : nls.localize('theia/ai/chatgpt/statusBar/signedOut', 'Not signed in to ChatGPT. Click to sign in.'),
+                ? nls.localize('theia/ai/chatgpt/statusBar/signedIn', '已登录 ChatGPT，账户为 {0}。点击登出。', accountLabel)
+                : nls.localize('theia/ai/chatgpt/statusBar/signedOut', '未登录 ChatGPT。点击登录。'),
             alignment: StatusBarAlignment.RIGHT,
             priority: 100,
             command: this.authState.isAuthenticated ? ChatGptCommands.SIGN_OUT.id : ChatGptCommands.SIGN_IN.id

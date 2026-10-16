@@ -164,7 +164,7 @@ export class FileUploadServiceImpl implements FileUploadService {
                     }
                 }
                 params.progress.report({
-                    message: nls.localize('theia/filesystem/processedOutOf', 'Processed {0} out of {1}', done, total),
+                    message: nls.localize('theia/filesystem/processedOutOf', '已处理 {1} 个中的 {0} 个', done, total),
                     work: { total, done }
                 });
             } else {
@@ -177,7 +177,7 @@ export class FileUploadServiceImpl implements FileUploadService {
                     done += item.done;
                 }
                 params.progress.report({
-                    message: nls.localize('theia/filesystem/uploadedOutOf', 'Uploaded {0} out of {1}', result.uploaded.length, status.size),
+                    message: nls.localize('theia/filesystem/uploadedOutOf', '已上传 {1} 个中的 {0} 个', result.uploaded.length, status.size),
                     work: { total, done }
                 });
             }
@@ -238,7 +238,7 @@ export class FileUploadServiceImpl implements FileUploadService {
         } catch (error) {
             uploadSemaphore.cancel();
             if (!isCancelled(error)) {
-                this.messageService.error(nls.localize('theia/filesystem/uploadFailed', 'An error occurred while uploading a file. {0}', error.message));
+                this.messageService.error(nls.localize('theia/filesystem/uploadFailed', '上传文件时发生错误。{0}', error.message));
                 throw error;
             }
         }
@@ -248,9 +248,9 @@ export class FileUploadServiceImpl implements FileUploadService {
 
     protected async confirmOverwrite(fileUri: URI): Promise<boolean> {
         const dialog = new ConfirmDialog({
-            title: nls.localizeByDefault('Replace'),
+            title: nls.localizeByDefault('替换'),
             msg: nls.localizeByDefault("A file or folder with the name '{0}' already exists in the destination folder. Do you want to replace it?", fileUri.path.base),
-            ok: nls.localizeByDefault('Replace'),
+            ok: nls.localizeByDefault('替换'),
             cancel: Dialog.CANCEL
         });
         return !!await dialog.open();
@@ -375,7 +375,7 @@ export class FileUploadServiceImpl implements FileUploadService {
     ): Promise<T> {
         const cancellationSource = new CancellationTokenSource();
         const { token } = cancellationSource;
-        const text = nls.localize('theia/filesystem/uploadFiles', 'Uploading Files');
+        const text = nls.localize('theia/filesystem/uploadFiles', '正在上传文件');
         const progress = await this.messageService.showProgress(
             { text, options: { cancelable: true } },
             () => cancellationSource.cancel()

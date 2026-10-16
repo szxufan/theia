@@ -29,7 +29,7 @@ import { ChatAgentService } from './chat-agent-service';
 export const CHAT_AGENTS_VARIABLE: AIVariable = {
     id: 'chatAgents',
     name: 'chatAgents',
-    description: nls.localize('theia/ai/chat/chatAgentsVariable/description', 'Returns the list of chat agents available in the system')
+    description: nls.localize('theia/ai/chat/chatAgentsVariable/description', '返回系统中可用的聊天代理列表')
 };
 
 export interface ChatAgentDescriptor {

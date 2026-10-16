@@ -71,13 +71,13 @@ export class BulkEditContribution extends AbstractViewContribution<BulkEditTreeW
         toolbarRegistry.registerItem({
             id: BulkEditCommands.APPLY.id,
             command: BulkEditCommands.APPLY.id,
-            tooltip: nls.localizeByDefault('Apply Refactoring'),
+            tooltip: nls.localizeByDefault('应用重构'),
             priority: 0,
         });
         toolbarRegistry.registerItem({
             id: BulkEditCommands.DISCARD.id,
             command: BulkEditCommands.DISCARD.id,
-            tooltip: nls.localizeByDefault('Discard Refactoring'),
+            tooltip: nls.localizeByDefault('放弃重构'),
             priority: 1,
         });
     }

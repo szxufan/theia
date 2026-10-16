@@ -42,7 +42,7 @@ export interface SearchFieldState {
 export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidget {
 
     static ID = 'search-in-workspace';
-    static LABEL = nls.localizeByDefault('Search');
+    static LABEL = nls.localizeByDefault('搜索');
 
     protected matchCaseState: SearchFieldState;
     protected wholeWordState: SearchFieldState;
@@ -128,22 +128,22 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
         this.matchCaseState = {
             className: codicon('case-sensitive'),
             enabled: false,
-            title: nls.localizeByDefault('Match Case')
+            title: nls.localizeByDefault('区分大小写')
         };
         this.wholeWordState = {
             className: codicon('whole-word'),
             enabled: false,
-            title: nls.localizeByDefault('Match Whole Word')
+            title: nls.localizeByDefault('全字匹配')
         };
         this.regExpState = {
             className: codicon('regex'),
             enabled: false,
-            title: nls.localizeByDefault('Use Regular Expression')
+            title: nls.localizeByDefault('使用正则表达式')
         };
         this.useExcludeSettingsState = {
             className: codicon('eye'),
             enabled: true,
-            title: nls.localizeByDefault('Use Exclude Settings and Ignore Files')
+            title: nls.localizeByDefault('使用排除设置和忽略文件')
         };
         this.searchInWorkspaceOptions = {
             matchCase: false,
@@ -206,7 +206,7 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
             includeIgnoredState: {
                 ...this.useExcludeSettingsState,
                 enabled: !this.useExcludeSettingsState.enabled,
-                title: nls.localize('theia/search-in-workspace/includeIgnoredFiles', 'Include Ignored Files')
+                title: nls.localize('theia/search-in-workspace/includeIgnoredFiles', '包含已忽略的文件')
             },
         };
     }
@@ -223,10 +223,10 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
             this.useExcludeSettingsState.enabled = !this.useExcludeSettingsState.enabled;
         }
         // Override the title of the restored state, as we could have changed languages in between
-        this.matchCaseState.title = nls.localizeByDefault('Match Case');
-        this.wholeWordState.title = nls.localizeByDefault('Match Whole Word');
-        this.regExpState.title = nls.localizeByDefault('Use Regular Expression');
-        this.useExcludeSettingsState.title = nls.localizeByDefault('Use Exclude Settings and Ignore Files');
+        this.matchCaseState.title = nls.localizeByDefault('区分大小写');
+        this.wholeWordState.title = nls.localizeByDefault('全字匹配');
+        this.regExpState.title = nls.localizeByDefault('使用正则表达式');
+        this.useExcludeSettingsState.title = nls.localizeByDefault('使用排除设置和忽略文件');
         this.showSearchDetails = oldState.showSearchDetails;
         this.searchInWorkspaceOptions = oldState.searchInWorkspaceOptions;
         this.searchInWorkspaceOptions.includeIgnored = !this.useExcludeSettingsState.enabled;
@@ -399,7 +399,7 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
     protected renderReplaceFieldToggle(): React.ReactNode {
         const toggle = <span className={codicon(this.showReplaceField ? 'chevron-down' : 'chevron-right')}></span>;
         return <div
-            title={nls.localizeByDefault('Toggle Replace')}
+            title={nls.localizeByDefault('切换替换')}
             className='replace-toggle'
             tabIndex={0}
             onClick={e => {
@@ -418,13 +418,13 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
     protected renderNotification(): React.ReactNode {
         if (this.workspaceService.tryGetRoots().length <= 0 && this.editorManager.all.length <= 0) {
             return <div className='search-notification show'>
-                <div>{nls.localize('theia/search-in-workspace/noFolderSpecified', 'You have not opened or specified a folder. Only open files are currently searched.')}</div>
+                <div>{nls.localize('theia/search-in-workspace/noFolderSpecified', '您尚未打开或指定文件夹。当前仅搜索已打开的文件。')}</div>
             </div>;
         }
         return <div
             className={`search-notification ${this.searchInWorkspaceOptions.maxResults && this.resultNumber >= this.searchInWorkspaceOptions.maxResults ? 'show' : ''}`}>
             <div>{nls.localize('theia/search-in-workspace/resultSubset',
-                'This is only a subset of all results. Use a more specific search term to narrow down the result list.')}</div>
+                '这仅是全部结果的一个子集。请使用更具体的搜索词以缩小结果列表。')}</div>
         </div>;
     }
 
@@ -526,7 +526,7 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
         </div>;
     }
     protected handleFocusSearchInputBox = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-        event.target.placeholder = SearchInWorkspaceWidget.LABEL + nls.localizeByDefault(' ({0} for history)', '⇅');
+        event.target.placeholder = SearchInWorkspaceWidget.LABEL + nls.localizeByDefault('（按 {0} 查看历史）', '⇅');
         this.contextKeyService.setSearchInputBoxFocus(true);
     };
     protected handleBlurSearchInputBox = (event: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -546,7 +546,7 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
 
     protected renderReplaceField(): React.ReactNode {
         const replaceAllButtonContainer = this.renderReplaceAllButtonContainer();
-        const replace = nls.localizeByDefault('Replace');
+        const replace = nls.localizeByDefault('替换');
         return <div className={`replace-field${this.showReplaceField ? '' : ' hidden'}`}>
             <SearchInWorkspaceTextArea
                 id='replace-input-field'
@@ -565,11 +565,11 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
     }
 
     protected handleFocusReplaceInputBox = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-        event.target.placeholder = nls.localizeByDefault('Replace') + nls.localizeByDefault(' ({0} for history)', '⇅');
+        event.target.placeholder = nls.localizeByDefault('替换') + nls.localizeByDefault('（按 {0} 查看历史）', '⇅');
         this.contextKeyService.setReplaceInputBoxFocus(true);
     };
     protected handleBlurReplaceInputBox = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-        event.target.placeholder = nls.localizeByDefault('Replace');
+        event.target.placeholder = nls.localizeByDefault('替换');
         this.contextKeyService.setReplaceInputBoxFocus(false);
     };
 
@@ -578,7 +578,7 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
         const enabled: boolean = this.searchTerm !== '' && this.resultNumber > 0;
         return <div className='replace-all-button-container'>
             <span
-                title={nls.localizeByDefault('Replace All')}
+                title={nls.localizeByDefault('全部替换')}
                 className={`${codicon('replace-all', true)} ${enabled ? ' ' : ' disabled'}`}
                 onClick={() => {
                     if (enabled) {
@@ -633,7 +633,7 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
     protected renderExpandGlobFieldsButton(): React.ReactNode {
         return <div className='button-container'>
             <span
-                title={nls.localizeByDefault('Toggle Search Details')}
+                title={nls.localizeByDefault('切换搜索详情')}
                 className={codicon('ellipsis')}
                 onClick={() => {
                     this.showSearchDetails = !this.showSearchDetails;
@@ -649,7 +649,7 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
             ? <div className='option-buttons'>{this.renderOptionElement(this.useExcludeSettingsState)}</div>
             : undefined;
         return <div className='glob-field'>
-            <div className='label'>{nls.localizeByDefault('files to ' + kind)}</div>
+            <div className='label'>{nls.localizeByDefault(kind === 'include' ? '包含的文件' : '排除的文件')}</div>
             <div className='glob-field-input'>
                 <SearchInWorkspaceInput
                     className='theia-input'
@@ -659,8 +659,8 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
                     autoComplete='off'
                     id={kind + '-glob-field'}
                     placeholder={kind === 'include'
-                        ? nls.localizeByDefault('e.g. *.ts, src/**/include')
-                        : nls.localizeByDefault('e.g. *.ts, src/**/exclude')
+                        ? nls.localizeByDefault('例如 *.ts, src/**/include')
+                        : nls.localizeByDefault('例如 *.ts, src/**/exclude')
                     }
                     onKeyUp={e => {
                         if (e.target) {
@@ -724,28 +724,28 @@ export class SearchInWorkspaceWidget extends BaseWidget implements StatefulWidge
 
             let message: string;
             if (isIncludesPresent && isExcludesPresent) {
-                message = nls.localizeByDefault("No results found in '{0}' excluding '{1}' - ",
+                message = nls.localizeByDefault("未在 '{0}' 中找到结果（已排除 '{1}'）- ",
                     this.searchInWorkspaceOptions.include!.toString(), this.searchInWorkspaceOptions.exclude!.toString());
             } else if (isIncludesPresent) {
-                message = nls.localizeByDefault("No results found in '{0}' - ",
+                message = nls.localizeByDefault("未在 '{0}' 中找到结果 - ",
                     this.searchInWorkspaceOptions.include!.toString());
             } else if (isExcludesPresent) {
-                message = nls.localizeByDefault("No results found excluding '{0}' - ",
+                message = nls.localizeByDefault("未找到结果（已排除 '{0}'）- ",
                     this.searchInWorkspaceOptions.exclude!.toString());
             } else {
-                message = nls.localizeByDefault('No results found') + ' - ';
+                message = nls.localizeByDefault('未找到结果') + ' - ';
             }
             // We have to trim here as vscode will always add a trailing " - " string
             return message.substring(0, message.length - 2).trim();
         } else {
             if (this.resultNumber === 1 && this.resultTreeWidget.fileNumber === 1) {
-                return nls.localizeByDefault('{0} result in {1} file',
+                return nls.localizeByDefault('{1} 个文件中有 {0} 个结果',
                     this.resultNumber.toString(), this.resultTreeWidget.fileNumber.toString());
             } else if (this.resultTreeWidget.fileNumber === 1) {
-                return nls.localizeByDefault('{0} results in {1} file',
+                return nls.localizeByDefault('{1} 个文件中有 {0} 个结果',
                     this.resultNumber.toString(), this.resultTreeWidget.fileNumber.toString());
             } else if (this.resultTreeWidget.fileNumber > 0) {
-                return nls.localizeByDefault('{0} results in {1} files',
+                return nls.localizeByDefault('{1} 个文件中有 {0} 个结果',
                     this.resultNumber.toString(), this.resultTreeWidget.fileNumber.toString());
             } else {
                 // if fileNumber === 0, return undefined so that `onUpdateRequest()` would not re-render component

@@ -26,15 +26,15 @@ export const aiLlamafilePreferencesSchema: PreferenceSchema = {
         [PREFERENCE_LLAMAFILE]: {
             title: AI_LLAMAFILE_PREFERENCES_TITLE,
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'Llamafile' } satisfies ModelProviderTypeDetail },
-            markdownDescription: nls.localize('theia/ai/llamaFile/prefs/mdDescription', 'This setting allows you to configure and manage LlamaFile models in Theia IDE.\
+            markdownDescription: nls.localize('theia/ai/llamaFile/prefs/mdDescription', '此设置允许您在 Theia IDE 中配置和管理 LlamaFile 模型。\
             \n\
-            Each entry requires a user-friendly `name`, the file `uri` pointing to your LlamaFile, and the `port` on which it will run.\
+            每个条目都需要一个易于识别的 `name`、指向您的 LlamaFile 的文件 `uri`，以及它将运行的 `port`。\
             \n\
-            To start a LlamaFile, use the "Start LlamaFile" command, which enables you to select the desired model.\
+            要启动 LlamaFile，请使用"启动 LlamaFile"命令，该命令允许您选择所需的模型。\
             \n\
-            If you edit an entry (e.g., change the port), any running instance will stop, and you will need to manually start it again.\
+            如果您编辑某个条目（例如更改端口），任何正在运行的实例都将停止，您需要手动重新启动它。\
             \n\
-            [Learn more about configuring and managing LlamaFiles in the Theia IDE documentation](https://theia-ide.org/docs/user_ai/#llamafile-models).'),
+            [在 Theia IDE 文档中了解有关配置和管理 LlamaFile 的更多信息](https://theia-ide.org/docs/user_ai/#llamafile-models)。'),
             type: 'array',
             default: [],
             items: {
@@ -42,15 +42,15 @@ export const aiLlamafilePreferencesSchema: PreferenceSchema = {
                 properties: {
                     name: {
                         type: 'string',
-                        description: nls.localize('theia/ai/llamaFile/prefs/name/description', 'The model name to use for this Llamafile.')
+                        description: nls.localize('theia/ai/llamaFile/prefs/name/description', '此 Llamafile 要使用的模型名称。')
                     },
                     uri: {
                         type: 'string',
-                        description: nls.localize('theia/ai/llamaFile/prefs/uri/description', 'The file uri to the Llamafile.')
+                        description: nls.localize('theia/ai/llamaFile/prefs/uri/description', 'Llamafile 的文件 URI。')
                     },
                     port: {
                         type: 'number',
-                        description: nls.localize('theia/ai/llamaFile/prefs/port/description', 'The port to use to start the server.')
+                        description: nls.localize('theia/ai/llamaFile/prefs/port/description', '启动服务器时使用的端口。')
                     }
                 }
             },

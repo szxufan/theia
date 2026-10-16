@@ -184,8 +184,8 @@ export class DirtyDiffWidget implements Disposable {
     protected computeSecondaryHeading(): string {
         const index = this.index + 1;
         const length = this.changes.length;
-        return length > 1 ? nls.localizeByDefault('{0} of {1} changes', index, length) :
-            nls.localizeByDefault('{0} of {1} change', index, length);
+        return length > 1 ? nls.localizeByDefault('第 {0} 处更改，共 {1} 处', index, length) :
+            nls.localizeByDefault('第 {0} 处更改，共 {1} 处', index, length);
     }
 
     protected computeHeightInLines(): number {
@@ -381,11 +381,11 @@ class DirtyDiffPeekView extends MonacoEditorPeekViewWidget {
                 }
             }
         });
-        this.addAction('dirtydiff.next', nls.localizeByDefault('Show Next Change'), codicon('arrow-down'), true,
+        this.addAction('dirtydiff.next', nls.localizeByDefault('显示下一处更改'), codicon('arrow-down'), true,
             () => this.widget.showNextChange());
-        this.addAction('dirtydiff.previous', nls.localizeByDefault('Show Previous Change'), codicon('arrow-up'), true,
+        this.addAction('dirtydiff.previous', nls.localizeByDefault('显示上一处更改'), codicon('arrow-up'), true,
             () => this.widget.showPreviousChange());
-        this.addAction('peekview.close', nls.localizeByDefault('Close'), codicon('close'), true,
+        this.addAction('peekview.close', nls.localizeByDefault('关闭'), codicon('close'), true,
             () => this.dispose());
     }
 

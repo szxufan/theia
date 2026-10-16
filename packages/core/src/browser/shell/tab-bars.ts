@@ -180,8 +180,8 @@ export class TabBarRenderer extends TabBar.Renderer {
         const className = `${this.createTabClass(data)}${tabCloseIconStart ? ' closeIcon-start' : ''}`;
         const dataset = this.createTabDataset(data);
         const closeIconTitle = data.title.className.includes(PINNED_CLASS)
-            ? nls.localizeByDefault('Unpin')
-            : nls.localizeByDefault('Close');
+            ? nls.localizeByDefault('取消固定')
+            : nls.localizeByDefault('关闭');
 
         const hover = {
             onmouseenter: this.handleMouseEnterEvent

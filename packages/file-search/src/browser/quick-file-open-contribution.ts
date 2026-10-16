@@ -55,7 +55,7 @@ export class QuickFileOpenFrontendContribution implements QuickAccessContributio
     registerMenus(menus: MenuModelRegistry): void {
         menus.registerMenuAction(EditorMainMenu.WORKSPACE_GROUP, {
             commandId: quickFileOpen.id,
-            label: nls.localizeByDefault('Go to File...'),
+            label: nls.localizeByDefault('转到文件...'),
             order: '1',
         });
     }

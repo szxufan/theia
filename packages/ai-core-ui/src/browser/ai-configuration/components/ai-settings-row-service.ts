@@ -42,6 +42,11 @@ export type AiSettingsControl =
      * are more than free text (shell command patterns, for instance, have wildcard rules).
      */
     | { readonly type: 'array'; readonly placeholder?: string; readonly validate?: (value: string) => string | undefined }
+    /**
+     * An `array` of objects with a declared item schema (e.g. a provider's custom endpoints): rendered as
+     * one card per entry with a per-property field, instead of deferring to `settings.json`.
+     */
+    | { readonly type: 'objectList'; readonly itemSchema: PreferenceDataProperty }
     | { readonly type: 'json' };
 
 /**
@@ -350,7 +355,8 @@ export class AiSettingsRowService {
     /**
      * Infers a sensible {@link AiSettingsControl} for a preference from its schema `type`
      * (a `select` when it declares an `enum`, a masked text input for secrets/API keys). An `array` of strings
-     * gets the inline list editor; more complex values — an `object` or an `array` of objects/other types —
+     * gets the inline list editor; an `array` of objects with a declared item schema gets the per-entry card
+     * editor (`objectList`); more complex values — an `object` or an `array` without an item schema —
      * cannot be edited meaningfully inline, so they resolve to a `json` control that defers to the
      * `settings.json` file. Falls back to a text input for unknown types.
      */
@@ -366,8 +372,13 @@ export class AiSettingsRowService {
                 return { type: 'number', min: property.minimum, max: property.maximum };
             case 'integer':
                 return { type: 'number', integer: true, min: property.minimum, max: property.maximum };
-            case 'array':
-                return this.isStringArray(property) ? { type: 'array' } : { type: 'json' };
+            case 'array': {
+                if (this.isStringArray(property)) {
+                    return { type: 'array' };
+                }
+                const itemSchema = this.objectItemSchema(property);
+                return itemSchema ? { type: 'objectList', itemSchema } : { type: 'json' };
+            }
             case 'object':
                 return { type: 'json' };
             default:
@@ -377,13 +388,25 @@ export class AiSettingsRowService {
 
     /**
      * Whether an `array` preference holds plain string items, so it can be edited with the inline list editor
-     * (matching the Settings UI, which only offers its array input for `string[]`); everything else defers to
-     * a `json` control.
+     * (matching the Settings UI, which only offers its array input for `string[]`). Object arrays are handled
+     * by {@link objectItemSchema}; everything else defers to a `json` control.
      */
     protected isStringArray(property: PreferenceDataProperty): boolean {
         const items = property.items;
         const itemSchema = Array.isArray(items) ? items[0] : items;
         return itemSchema?.type === 'string';
+    }
+
+    /**
+     * The item schema of an `array` preference whose entries are objects with a declared `properties`
+     * map (e.g. `ai-features.openAiCustom.customOpenAiModels`), so the view can render one editable
+     * card per entry. Returns `undefined` for arrays without an object item schema, which keep the
+     * `json` control.
+     */
+    protected objectItemSchema(property: PreferenceDataProperty): PreferenceDataProperty | undefined {
+        const items = property.items;
+        const itemSchema = Array.isArray(items) ? items[0] : items;
+        return itemSchema?.type === 'object' && itemSchema.properties ? itemSchema : undefined;
     }
 
     /**

@@ -82,7 +82,7 @@ function DismissButton({ question, disabled }: { question: QuestionResponseConte
         <button
             className={`theia-QuestionPartRenderer-dismiss ${codicon('close')}`}
             onClick={() => skipQuestion(question)}
-            title={nls.localizeByDefault('Dismiss')}
+            title={nls.localizeByDefault('关闭')}
         />
     );
 }
@@ -203,7 +203,7 @@ function MultiSelectQuestion({ question, node, openerService }: {
                     onClick={handleConfirm}
                     disabled={selectedIndices.size === 0}
                 >
-                    {nls.localize('theia/ai-chat-ui/confirm', 'Confirm')}
+                    {nls.localize('theia/ai-chat-ui/confirm', '确认')}
                 </button>
             )}
         </div>

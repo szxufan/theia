@@ -66,7 +66,7 @@ export class DebugBreakpointsWidget extends SourceTreeWidget {
     protected override init(): void {
         super.init();
         this.id = DebugBreakpointsWidget.FACTORY_ID + ':' + this.viewModel.id;
-        this.title.label = nls.localizeByDefault('Breakpoints');
+        this.title.label = nls.localizeByDefault('断点');
         this.toDispose.push(this.breakpointsSource);
         this.source = this.breakpointsSource;
     }

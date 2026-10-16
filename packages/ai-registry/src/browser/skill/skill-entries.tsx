@@ -155,7 +155,7 @@ const SkillCard: React.FC<SkillCardProps> = props => (
         typeBadge={
             <TypeBadge
                 icon={<i className="codicon codicon-mortar-board" />}
-                label={nls.localizeByDefault('Skills')}
+                label={nls.localizeByDefault('技能')}
                 variant="skill"
             />
         }
@@ -193,7 +193,7 @@ function renderActions(
         case 'not-installed':
             return registryEntry && (
                 <button className="theia-button prominent action" onClick={() => handlers.install(registryEntry)}>
-                    {nls.localizeByDefault('Install')}
+                    {nls.localizeByDefault('安装')}
                 </button>
             );
         case 'installed-from-registry':
@@ -201,18 +201,18 @@ function renderActions(
                 <>
                     {state.updateAvailable && registryEntry && (
                         <button className="theia-button prominent action" onClick={() => handlers.update(registryEntry)}>
-                            {nls.localizeByDefault('Update')}
+                            {nls.localizeByDefault('更新')}
                         </button>
                     )}
                     <button className="theia-button action" onClick={() => handlers.uninstall(name)}>
-                        {nls.localizeByDefault('Uninstall')}
+                        {nls.localizeByDefault('卸载')}
                     </button>
                 </>
             );
         case 'installed-manually':
             return registryEntry && (
                 <button className="theia-button action" onClick={() => handlers.link(registryEntry)}>
-                    {nls.localize('theia/ai-registry/skill/action/link', 'Link to registry')}
+                    {nls.localize('theia/ai-registry/skill/action/link', '链接到注册表')}
                 </button>
             );
         case 'fix-skill':
@@ -222,36 +222,36 @@ function renderActions(
                         className="codicon codicon-warning theia-skill-extension-warning"
                         title={nls.localize(
                             'theia/ai-registry/skill/warning/fix',
-                            "This skill's files differ from the registry. Click 'Fix Skill' to restore them."
+                            '此技能的文件与注册表不一致。点击“修复技能”以恢复它们。'
                         )}
                     />
                     {registryEntry && (
                         <button className="theia-button prominent action" onClick={() => handlers.fixSkill(registryEntry)}>
-                            {nls.localize('theia/ai-registry/skill/action/fix', 'Fix Skill')}
+                            {nls.localize('theia/ai-registry/skill/action/fix', '修复技能')}
                         </button>
                     )}
                     <button className="theia-button action" onClick={() => handlers.uninstall(name)}>
-                        {nls.localizeByDefault('Uninstall')}
+                        {nls.localizeByDefault('卸载')}
                     </button>
                 </>
             );
         case 'installed-link-stale': {
             const tooltip = nls.localize(
                 'theia/ai-registry/skill/warning/linkStale',
-                'This skill was installed from the registry, but the registry no longer lists it. '
-                + 'Click Unlink to drop the registry link and keep the files, or Uninstall to remove the skill.'
+                '此技能是从注册表安装的，但注册表不再列出它。'
+                + '点击“取消链接”以移除注册表链接并保留文件，或点击“卸载”以移除该技能。'
             );
             return (
                 <>
                     <span className="theia-skill-extension-link-stale-message" title={tooltip}>
                         <i className="codicon codicon-warning theia-skill-extension-warning" />
-                        {nls.localize('theia/ai-registry/skill/warning/notInRegistry', 'Not in registry')}
+                        {nls.localize('theia/ai-registry/skill/warning/notInRegistry', '不在注册表中')}
                     </span>
                     <button className="theia-button action" title={tooltip} onClick={() => handlers.unlink(name)}>
-                        {nls.localize('theia/ai-registry/skill/action/unlink', 'Unlink')}
+                        {nls.localize('theia/ai-registry/skill/action/unlink', '取消链接')}
                     </button>
                     <button className="theia-button action" onClick={() => handlers.uninstall(name)}>
-                        {nls.localizeByDefault('Uninstall')}
+                        {nls.localizeByDefault('卸载')}
                     </button>
                 </>
             );

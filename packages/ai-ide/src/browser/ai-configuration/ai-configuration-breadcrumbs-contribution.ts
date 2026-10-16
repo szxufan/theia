@@ -97,8 +97,8 @@ export class AiConfigurationBreadcrumbsContribution implements BreadcrumbsContri
             crumbs.push({
                 id: 'ai-configuration:root',
                 type: this.type,
-                label: nls.localize('theia/ai/ide/aiConfiguration/breadcrumbRoot', 'AI Configuration'),
-                longLabel: nls.localize('theia/ai/ide/aiConfiguration/breadcrumbRoot', 'AI Configuration'),
+                label: nls.localize('theia/ai/ide/aiConfiguration/breadcrumbRoot', 'AI 配置'),
+                longLabel: nls.localize('theia/ai/ide/aiConfiguration/breadcrumbRoot', 'AI 配置'),
                 iconClass: codicon('settings-gear')
             });
         }

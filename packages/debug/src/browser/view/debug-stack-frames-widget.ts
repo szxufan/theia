@@ -57,7 +57,7 @@ export class DebugStackFramesWidget extends SourceTreeWidget {
     protected override init(): void {
         super.init();
         this.id = DebugStackFramesWidget.FACTORY_ID + ':' + this.viewModel.id;
-        this.title.label = nls.localizeByDefault('Call Stack');
+        this.title.label = nls.localizeByDefault('调用堆栈');
         this.toDispose.push(this.frames);
         this.source = this.frames;
 

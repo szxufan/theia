@@ -141,7 +141,7 @@ export class FileUploadServiceImpl implements FileUploadService {
     ): Promise<T> {
         const cancellationSource = new CancellationTokenSource();
         const { token } = cancellationSource;
-        const text = nls.localize('theia/filesystem/uploadFiles', 'Saving Files');
+        const text = nls.localize('theia/filesystem/uploadFiles', '正在保存文件');
         const progress = await this.messageService.showProgress(
             { text, options: { cancelable: true } },
             () => cancellationSource.cancel()
@@ -155,9 +155,9 @@ export class FileUploadServiceImpl implements FileUploadService {
 
     protected async confirmOverwrite(fileUri: URI): Promise<boolean> {
         const dialog = new ConfirmDialog({
-            title: nls.localizeByDefault('Replace'),
+            title: nls.localizeByDefault('替换'),
             msg: nls.localizeByDefault("A file or folder with the name '{0}' already exists in the destination folder. Do you want to replace it?", fileUri.path.base),
-            ok: nls.localizeByDefault('Replace'),
+            ok: nls.localizeByDefault('替换'),
             cancel: Dialog.CANCEL
         });
         return !!await dialog.open();
@@ -175,7 +175,7 @@ export class FileUploadServiceImpl implements FileUploadService {
             const done = list.filter(item => item.uploaded).length;
 
             params.progress.report({
-                message: nls.localize('theia/filesystem/processedOutOf', 'Processed {0} out of {1}', done, total),
+                message: nls.localize('theia/filesystem/processedOutOf', '已处理 {1} 个中的 {0} 个', done, total),
                 work: { total, done }
             });
         }, 100);
@@ -231,7 +231,7 @@ export class FileUploadServiceImpl implements FileUploadService {
             uploadSemaphore.cancel();
 
             if (!isCancelled(error)) {
-                this.messageService.error(nls.localize('theia/filesystem/uploadFailed', 'An error occurred while saving a file. {0}', error.message));
+                this.messageService.error(nls.localize('theia/filesystem/uploadFailed', '保存文件时发生错误。{0}', error.message));
                 throw error;
             }
         }

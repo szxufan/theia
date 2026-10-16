@@ -19,23 +19,23 @@ import { ReasoningLevel } from '../common/language-model';
 
 export function reasoningLevelLabel(level: ReasoningLevel): string {
     switch (level) {
-        case 'off': return nls.localizeByDefault('Off');
-        case 'none': return nls.localizeByDefault('None');
-        case 'minimal': return nls.localizeByDefault('Minimal');
-        case 'low': return nls.localizeByDefault('Low');
-        case 'medium': return nls.localizeByDefault('Medium');
-        case 'high': return nls.localizeByDefault('High');
-        case 'xhigh': return nls.localizeByDefault('Extra High');
-        case 'max': return nls.localizeByDefault('Max');
-        case 'auto': return nls.localizeByDefault('Auto');
+        case 'off': return nls.localizeByDefault('关闭');
+        case 'none': return nls.localizeByDefault('无');
+        case 'minimal': return nls.localizeByDefault('极低');
+        case 'low': return nls.localizeByDefault('低');
+        case 'medium': return nls.localizeByDefault('中');
+        case 'high': return nls.localizeByDefault('高');
+        case 'xhigh': return nls.localizeByDefault('极高');
+        case 'max': return nls.localizeByDefault('最大');
+        case 'auto': return nls.localizeByDefault('自动');
     }
 }
 
 export function reasoningLevelDescription(level: ReasoningLevel): string | undefined {
     switch (level) {
         case 'off': return nls.localize('theia/ai/core/reasoning/offDescription',
-            'Omits explicit reasoning effort, allowing provider defaults or raw request settings to apply; on Ollama, disables thinking.');
-        case 'none': return nls.localize('theia/ai/core/reasoning/noneDescription', 'Explicitly requests no reasoning.');
+            '省略显式推理力度，允许使用提供商默认值或原始请求设置；在 Ollama 上则禁用思考。');
+        case 'none': return nls.localize('theia/ai/core/reasoning/noneDescription', '明确请求不进行推理。');
         default: return undefined;
     }
 }

@@ -30,7 +30,7 @@ export class ElectronWorkspaceContribution implements FrontendApplicationContrib
             // installing the listener, we miss the first event (the one that we actually want!).
             await this.workspaceService.ready;
             const recent = await this.workspaceService.recentWorkspaces();
-            window.electronTheiaCore.updateRecentWorkspaces(recent, nls.localize('theia/core/jumpListName', 'Recent Workspaces'));
+            window.electronTheiaCore.updateRecentWorkspaces(recent, nls.localize('theia/core/jumpListName', '最近打开的工作区'));
 
         });
     }

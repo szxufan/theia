@@ -28,15 +28,16 @@ export class UniversalChatAgent extends AbstractStreamParsingChatAgent {
 
    id: string = UniversalChatAgentId;
    name = UniversalChatAgentId;
+   displayName = nls.localize('theia/ai/chat/universal/displayName', '通用');
    languageModelRequirements: LanguageModelRequirement[] = [{
       purpose: 'chat',
       identifier: 'default/universal',
    }];
    protected defaultLanguageModelPurpose: string = 'chat';
-   override description = nls.localize('theia/ai/chat/universal/description', 'This agent is designed to help software developers by providing concise and accurate '
-      + 'answers to general programming and software development questions. It is also the fall-back for any generic '
-      + 'questions the user might ask. The universal agent currently does not have any context by default, i.e. it cannot '
-      + 'access the current user context or the workspace.');
+   override description = nls.localize('theia/ai/chat/universal/description', '此代理旨在通过为一般编程和软件开发问题提供简洁准确的'
+      + '回答来帮助软件开发者。它也是用户可能提出的任何通用'
+      + '问题的后备。通用代理目前默认没有任何上下文，即它无法'
+      + '访问当前的用户上下文或工作区。');
 
    override prompts = [{ id: 'universal-system', defaultVariant: universalTemplate, variants: [universalTemplateVariant] }];
    protected override systemPromptId: string = 'universal-system';

@@ -45,14 +45,12 @@ import { bindPreferenceProviderOverrides } from './recommended-extensions/prefer
 import { bindVsxExtensionsPreferences } from './vsx-extensions-preferences';
 import { VSXEnvironment, VSX_ENVIRONMENT_PATH } from '../common/vsx-environment';
 import { VSXRegistryService, VSX_REGISTRY_SERVICE_PATH } from '../common/vsx-registry-service';
-import { LanguageQuickPickService } from '@theia/core/lib/browser/i18n/language-quick-pick-service';
-import { VSXLanguageQuickPickService } from './vsx-language-quick-pick-service';
 import { VsxExtensionArgumentProcessor } from './vsx-extension-argument-processor';
 import { ArgumentProcessorContribution } from '@theia/plugin-ext/lib/main/browser/command-registry-main';
 import { ExtensionSchemaContribution } from './recommended-extensions/recommended-extensions-json-schema';
 import { JsonSchemaContribution } from '@theia/core/lib/browser/json-schema-store';
 
-export default new ContainerModule((bind, unbind, isBound, rebind) => {
+export default new ContainerModule((bind, unbind, isBound) => {
     bind(VSXEnvironment)
         .toDynamicValue(ctx => WebSocketConnectionProvider.createProxy(ctx.container, VSX_ENVIRONMENT_PATH))
         .inSingletonScope();
@@ -118,8 +116,6 @@ export default new ContainerModule((bind, unbind, isBound, rebind) => {
     bind(VSXExtensionsFilterContribution).toSelf().inSingletonScope();
     bind(CommandContribution).toService(VSXExtensionsFilterContribution);
     bind(MenuContribution).toService(VSXExtensionsFilterContribution);
-
-    rebind(LanguageQuickPickService).to(VSXLanguageQuickPickService).inSingletonScope();
 
     bindViewContribution(bind, VSXExtensionsContribution);
     bind(FrontendApplicationContribution).toService(VSXExtensionsContribution);

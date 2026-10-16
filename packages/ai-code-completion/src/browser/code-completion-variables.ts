@@ -20,23 +20,23 @@ import { nls } from '@theia/core';
 export const FILE: AIVariable = {
     id: 'codeCompletionFile',
     name: 'codeCompletionFile',
-    description: nls.localize('theia/ai/completion/fileVariable/description', 'The URI of the file being edited. Only available in code completion context.'),
+    description: nls.localize('theia/ai/completion/fileVariable/description', '正在编辑的文件的 URI。仅在代码补全上下文中可用。'),
 };
 
 export const PREFIX: AIVariable = {
     id: 'codeCompletionPrefix',
     name: 'codeCompletionPrefix',
-    description: nls.localize('theia/ai/completion/prefixVariable/description', 'The code before the current cursor position. Only available in code completion context.'),
+    description: nls.localize('theia/ai/completion/prefixVariable/description', '当前光标位置之前的代码。仅在代码补全上下文中可用。'),
 };
 
 export const SUFFIX: AIVariable = {
     id: 'codeCompletionSuffix',
     name: 'codeCompletionSuffix',
-    description: nls.localize('theia/ai/completion/suffixVariable/description', 'The code after the current cursor position. Only available in code completion context.'),
+    description: nls.localize('theia/ai/completion/suffixVariable/description', '当前光标位置之后的代码。仅在代码补全上下文中可用。'),
 };
 
 export const LANGUAGE: AIVariable = {
     id: 'codeCompletionLanguage',
     name: 'codeCompletionLanguage',
-    description: nls.localize('theia/ai/completion/languageVariable/description', 'The languageId of the file being edited. Only available in code completion context.'),
+    description: nls.localize('theia/ai/completion/languageVariable/description', '正在编辑的文件的 languageId。仅在代码补全上下文中可用。'),
 };

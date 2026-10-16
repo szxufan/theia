@@ -133,19 +133,19 @@ describe('BrowserOnlyTerminalFrontendContribution', () => {
         // widget-creating code path would throw here rather than quietly succeed.
         await (contribution as unknown as { openTerminal(): Promise<void> }).openTerminal();
 
-        expect(errorMessages).to.deep.equal(['Terminals are not supported in a browser-only application.']);
+        expect(errorMessages).to.deep.equal(['纯浏览器应用不支持终端。']);
     });
 
     it('reports the limitation when opening a terminal for the active workspace', async () => {
         await (contribution as unknown as { openActiveWorkspaceTerminal(): Promise<void> }).openActiveWorkspaceTerminal();
 
-        expect(errorMessages).to.deep.equal(['Terminals are not supported in a browser-only application.']);
+        expect(errorMessages).to.deep.equal(['纯浏览器应用不支持终端。']);
     });
 
     it('reports the limitation when opening a terminal from a file/folder context menu', async () => {
         await contribution.openInTerminal({ toString: () => 'file:///workspace' } as unknown as Parameters<TerminalFrontendContribution['openInTerminal']>[0]);
 
-        expect(errorMessages).to.deep.equal(['Terminals are not supported in a browser-only application.']);
+        expect(errorMessages).to.deep.equal(['纯浏览器应用不支持终端。']);
     });
 
     it('does not attempt to create or restore a terminal at startup', async () => {

@@ -93,15 +93,15 @@ export namespace Severity {
 
     export function toLocaleString(severity: string | Severity): string {
         if (severity === Severity.Error || severity === error) {
-            return nls.localizeByDefault('Errors');
+            return nls.localizeByDefault('错误');
         } else if (severity === Severity.Warning || severity === warning) {
-            return nls.localizeByDefault('Warnings');
+            return nls.localizeByDefault('警告');
         } else if (severity === Severity.Info || severity === info) {
-            return nls.localizeByDefault('Info');
+            return nls.localizeByDefault('信息');
         } else if (severity === Severity.Log || severity === log) {
-            return nls.localize('theia/core/severity/log', 'Log');
+            return nls.localize('theia/core/severity/log', '日志');
         } else {
-            return nls.localizeByDefault('All');
+            return nls.localizeByDefault('全部');
         }
     }
 

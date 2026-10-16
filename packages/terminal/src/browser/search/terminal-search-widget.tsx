@@ -53,37 +53,37 @@ export class TerminalSearchWidget extends ReactWidget {
         return <div className='theia-search-terminal-widget'>
             <div className='theia-search-elem-box' ref={searchBox => { this.searchBox = searchBox; }} >
                 <input
-                    title={nls.localizeByDefault('Find')}
+                    title={nls.localizeByDefault('查找')}
                     type='text'
                     spellCheck='false'
-                    placeholder={nls.localizeByDefault('Find')}
+                    placeholder={nls.localizeByDefault('查找')}
                     ref={ip => { this.searchInput = ip; }}
                     onKeyUp={this.onInputChanged}
                     onFocus={this.onSearchInputFocus}
                     onBlur={this.onSearchInputBlur}
                 />
                 <div
-                    title={nls.localizeByDefault('Match Case')}
+                    title={nls.localizeByDefault('区分大小写')}
                     tabIndex={0}
                     className={'search-elem ' + codicon('case-sensitive')}
                     onClick={this.handleCaseSensitiveOptionClicked}
                 />
                 <div
-                    title={nls.localizeByDefault('Match Whole Word')}
+                    title={nls.localizeByDefault('全字匹配')}
                     tabIndex={0}
                     className={'search-elem ' + codicon('whole-word')}
                     onClick={this.handleWholeWordOptionClicked}
                 />
                 <div
-                    title={nls.localizeByDefault('Use Regular Expression')}
+                    title={nls.localizeByDefault('使用正则表达式')}
                     tabIndex={0}
                     className={'search-elem ' + codicon('regex')}
                     onClick={this.handleRegexOptionClicked}
                 />
             </div>
-            <button title={nls.localizeByDefault('Previous Match')} className={'search-elem ' + codicon('arrow-up')} onClick={this.handlePreviousButtonClicked}></button>
-            <button title={nls.localizeByDefault('Next Match')} className={'search-elem ' + codicon('arrow-down')} onClick={this.handleNextButtonClicked}></button>
-            <button title={nls.localizeByDefault('Close')} className={'search-elem ' + codicon('close')} onClick={this.handleHide}></button>
+            <button title={nls.localizeByDefault('上一个匹配项')} className={'search-elem ' + codicon('arrow-up')} onClick={this.handlePreviousButtonClicked}></button>
+            <button title={nls.localizeByDefault('下一个匹配项')} className={'search-elem ' + codicon('arrow-down')} onClick={this.handleNextButtonClicked}></button>
+            <button title={nls.localizeByDefault('关闭')} className={'search-elem ' + codicon('close')} onClick={this.handleHide}></button>
         </div>;
     }
 

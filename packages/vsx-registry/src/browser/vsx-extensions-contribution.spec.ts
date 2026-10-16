@@ -94,6 +94,6 @@ describe('VSXExtensionsContribution: "Install Specific Version" with no availabl
         await (contribution as unknown as { installAnotherVersion(e: VSXExtension): Promise<void> }).installAnotherVersion(extension);
         expect(shownItems, 'a quick pick should be shown').to.not.equal(undefined);
         expect(shownItems!).to.have.lengthOf(1);
-        expect(shownItems![0].label).to.equal('No other versions are available.');
+        expect(shownItems![0].label).to.equal('没有其他可用版本。');
     });
 });

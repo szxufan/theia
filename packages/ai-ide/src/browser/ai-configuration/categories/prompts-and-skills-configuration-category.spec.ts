@@ -108,8 +108,8 @@ describe('PromptsAndSkillsConfigurationCategory', () => {
         const items = category.getSearchItems();
         const byType = (typeIncludes: string) => items.filter(i => i.typeLabel.toLowerCase().includes(typeIncludes));
 
-        expect(byType('skill')).to.have.lengthOf(1);
-        expect(byType('slash')).to.have.lengthOf(1);
+        expect(byType('技能')).to.have.lengthOf(1);
+        expect(byType('斜杠')).to.have.lengthOf(1);
         expect(items.find(i => i.label === 'refactor')?.target.highlight?.rowId).to.equal('skill:refactor');
         expect(items.find(i => i.label === '/go')?.target.highlight?.rowId).to.equal('cmd:cmd');
         expect(items.every(i => i.target.categoryId === AiConfigurationCategoryId.PROMPTS_AND_SKILLS)).to.equal(true);
@@ -145,7 +145,7 @@ describe('PromptsAndSkillsConfigurationCategory', () => {
         it('labels a contributed skill with the shared origin badge naming the plugin that supplied it', () => {
             const row = skillRow(categoryWithPlugins([contributed], [bigquery]), contributed);
             // The same descriptor the MCP page builds, so both pages render one badge rather than two designs.
-            expect(row.origins?.map(origin => origin.label)).to.deep.equal(['via BigQuery Data Analytics']);
+            expect(row.origins?.map(origin => origin.label)).to.deep.equal(['来自 BigQuery Data Analytics']);
             // Filterable by the plugin name too, so a plugin's skills can be listed together.
             expect(row.filterText).to.contain('bigquery data analytics');
         });
@@ -161,7 +161,7 @@ describe('PromptsAndSkillsConfigurationCategory', () => {
 
         it('keeps the provenance out of the pills, which state what the skill is rather than where it came from', () => {
             const row = skillRow(categoryWithPlugins([contributed], [bigquery]), contributed);
-            expect(row.pills?.some(pill => pill.startsWith('via '))).to.not.equal(true);
+            expect(row.pills?.some(pill => pill.startsWith('来自 '))).to.not.equal(true);
         });
 
         it('labels nothing for a skill from a built-in root, which is the common case', () => {
@@ -187,7 +187,7 @@ describe('PromptsAndSkillsConfigurationCategory', () => {
 
         it('labels a registry-installed skill with the shared "From registry" badge', () => {
             const row = skillRow(categoryWithRegistrySkills([installed], { [installed.location]: entryId }), installed);
-            expect(row.origins?.map(origin => origin.label)).to.deep.equal(['From registry']);
+            expect(row.origins?.map(origin => origin.label)).to.deep.equal(['来自注册表']);
             expect(row.origins![0].tooltip).to.contain(entryId);
         });
 
@@ -220,7 +220,7 @@ describe('PromptsAndSkillsConfigurationCategory', () => {
                 onDidChange: Event.None
             } satisfies SkillRegistryUiBridge;
 
-            expect(skillRow(category, contributed).origins?.map(origin => origin.label)).to.deep.equal(['via BigQuery']);
+            expect(skillRow(category, contributed).origins?.map(origin => origin.label)).to.deep.equal(['来自 BigQuery']);
         });
     });
 });

@@ -316,7 +316,7 @@ describe('buildDiffLabel', () => {
 
     it('formats path with gitRef vs working copy of same path', () => {
         expect(buildDiffLabel({ path: 'src/x.ts', gitRef: 'abcdef0123' }, { path: 'src/x.ts' }))
-            .to.equal('src/x.ts (abcdef0 ⟷ Working Copy)');
+            .to.equal('src/x.ts (abcdef0 ⟷ 工作副本)');
     });
 
     it('formats two different paths', () => {

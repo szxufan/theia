@@ -95,22 +95,22 @@ describe('McpServersConfigurationCategory', () => {
             server('empty', MCPServerStatus.NotRunning)
         ]);
         const children = category.getTreeChildren();
-        expect(children[0].description).to.equal('Local · 2 tools');
-        expect(children[1].description).to.equal('Local');
+        expect(children[0].description).to.equal('本地 · 2 个工具');
+        expect(children[1].description).to.equal('本地');
     });
 
     it('summarizes a remote server as Remote', () => {
         const remote = { name: 'r', serverUrl: 'https://example.com', status: MCPServerStatus.Connected, tools: [] } as unknown as MCPServerDescription;
-        expect(createCategory([remote]).getTreeChildren()[0].description).to.equal('Remote');
+        expect(createCategory([remote]).getTreeChildren()[0].description).to.equal('远程');
     });
 
     it('labels the server type (Local / Remote / Remote (OAuth))', () => {
         const category = createCategory([]);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const typeLabel = (server_: MCPServerDescription) => (category as any).getServerTypeLabel(server_) as string;
-        expect(typeLabel(server('local'))).to.equal('Local');
-        expect(typeLabel({ name: 'r', serverUrl: 'https://x' } as unknown as MCPServerDescription)).to.equal('Remote');
-        expect(typeLabel({ name: 'o', serverUrl: 'https://x', oauth: {} } as unknown as MCPServerDescription)).to.equal('Remote (OAuth)');
+        expect(typeLabel(server('local'))).to.equal('本地');
+        expect(typeLabel({ name: 'r', serverUrl: 'https://x' } as unknown as MCPServerDescription)).to.equal('远程');
+        expect(typeLabel({ name: 'o', serverUrl: 'https://x', oauth: {} } as unknown as MCPServerDescription)).to.equal('远程（OAuth）');
     });
 
     it('persists an inline field edit by patching the form and re-saving it', () => {
@@ -201,7 +201,7 @@ describe('McpServersConfigurationCategory', () => {
         const bothOrigins = { ...pluginServer, registryMetadata: { serverId: 'io.github.acme/validator', pluginId: devtools.pluginId } } as MCPServerDescription;
 
         function pluginBadge(host: HTMLElement): HTMLButtonElement | null {
-            return host.querySelector('.ai-configuration-origin-badge[title^="Open the Agent Plugin"]') as HTMLButtonElement | null;
+            return host.querySelector('.ai-configuration-origin-badge[title^="打开提供此条目的代理插件"]') as HTMLButtonElement | null;
         }
 
         function originLabels(category: McpServersConfigurationCategory): string[] | undefined {
@@ -209,12 +209,12 @@ describe('McpServersConfigurationCategory', () => {
         }
 
         it('labels a plugin-provided server in the list, so it is told apart without being opened', () => {
-            expect(originLabels(categoryWithPlugins([pluginServer], [devtools]))).to.deep.equal(['via Acme Devtools']);
+            expect(originLabels(categoryWithPlugins([pluginServer], [devtools]))).to.deep.equal(['来自 Acme Devtools']);
         });
 
         it('labels a server that carries both a registry entry and a plugin with both origins, which lead to different places', () => {
             expect(originLabels(categoryWithPlugins([bothOrigins], [devtools], { openedRegistryEntries: [] })))
-                .to.deep.equal(['From registry', 'via Acme Devtools']);
+                .to.deep.equal(['来自注册表', '来自 Acme Devtools']);
         });
 
         it('labels nothing rather than a bare identifier when the owning plugin is not installed', () => {
@@ -230,7 +230,7 @@ describe('McpServersConfigurationCategory', () => {
             // the server's own preference entry - so the fact survives even when nothing can act on it.
             const linked = { ...pluginServer, registryMetadata: { serverId: 'io.github.acme/validator' } } as MCPServerDescription;
             const origins = categoryWithPlugins([linked], undefined).getTreeChildren()[0].origins;
-            expect(origins?.map(origin => origin.label)).to.deep.equal(['From registry']);
+            expect(origins?.map(origin => origin.label)).to.deep.equal(['来自注册表']);
             expect(origins![0].activate).to.equal(undefined);
         });
 

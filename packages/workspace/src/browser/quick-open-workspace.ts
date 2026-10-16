@@ -41,7 +41,7 @@ export class QuickOpenWorkspace {
 
     protected readonly removeRecentWorkspaceButton: QuickInputButton = {
         iconClass: 'codicon-remove-close',
-        tooltip: nls.localizeByDefault('Remove from Recently Opened')
+        tooltip: nls.localizeByDefault('从最近打开中移除')
     };
 
     async open(workspaces: string[]): Promise<void> {
@@ -49,7 +49,7 @@ export class QuickOpenWorkspace {
         const home = new URI(homeDirUri).path.fsPath();
         const items: (RecentlyOpenedPick | QuickPickSeparator)[] = [{
             type: 'separator',
-            label: nls.localizeByDefault('folders & workspaces')
+            label: nls.localizeByDefault('文件夹和工作区')
         }];
 
         for (const workspace of workspaces) {
@@ -76,7 +76,7 @@ export class QuickOpenWorkspace {
         this.quickInputService?.showQuickPick(items, {
             placeholder: nls.localize(
                 'theia/workspace/openRecentPlaceholder',
-                'Type the name of the workspace you want to open'),
+                '输入要打开的工作区的名称'),
             onDidTriggerItemButton: async context => {
                 const resource = (context.item as RecentlyOpenedPick).resource;
                 if (resource) {

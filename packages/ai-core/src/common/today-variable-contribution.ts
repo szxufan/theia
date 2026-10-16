@@ -25,12 +25,12 @@ export namespace TodayVariableArgs {
 export const TODAY_VARIABLE: AIVariable = {
     id: 'today-provider',
     description: nls.localize('theia/ai/core/todayVariable/dateDescription',
-        'The current date. Resolves to a human-readable date string by default, or to ISO 8601 or Unix seconds via the format argument.'),
+        '当前日期。默认解析为人类可读的日期字符串，也可通过 format 参数解析为 ISO 8601 或 Unix 秒数。'),
     name: 'today',
     args: [
         {
             name: 'Format',
-            description: nls.localize('theia/ai/core/todayVariable/format/description', 'The format of the date'),
+            description: nls.localize('theia/ai/core/todayVariable/format/description', '日期的格式'),
             enum: [TodayVariableArgs.IN_ISO_8601, TodayVariableArgs.IN_UNIX_SECONDS],
             isOptional: true
         }

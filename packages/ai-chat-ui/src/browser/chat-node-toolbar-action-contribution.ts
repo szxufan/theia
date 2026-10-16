@@ -98,13 +98,13 @@ export class DefaultChatNodeToolbarActionContribution implements ChatNodeToolbar
                 return [{
                     commandId: ChatNodeToolbarCommands.CANCEL.id,
                     icon: codicon('close'),
-                    tooltip: nls.localizeByDefault('Cancel'),
+                    tooltip: nls.localizeByDefault('取消'),
                 }];
             }
             return [{
                 commandId: ChatNodeToolbarCommands.EDIT.id,
                 icon: codicon('edit'),
-                tooltip: nls.localizeByDefault('Edit'),
+                tooltip: nls.localizeByDefault('编辑'),
             }];
         } else {
             const shouldShowRetry = node.response.isError || node.response.isCanceled;
@@ -112,7 +112,7 @@ export class DefaultChatNodeToolbarActionContribution implements ChatNodeToolbar
                 return [{
                     commandId: ChatNodeToolbarCommands.RETRY.id,
                     icon: codicon('refresh'),
-                    tooltip: nls.localizeByDefault('Retry'),
+                    tooltip: nls.localizeByDefault('重试'),
                     priority: -1 // Higher priority to show it first
                 }];
             }

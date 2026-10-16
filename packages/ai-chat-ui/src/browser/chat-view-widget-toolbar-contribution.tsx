@@ -69,7 +69,7 @@ export class ChatViewWidgetToolbarContribution implements TabBarToolbarContribut
         registry.registerItem({
             id: ChatCommands.SCROLL_LOCK_WIDGET.id,
             command: ChatCommands.SCROLL_LOCK_WIDGET.id,
-            tooltip: nls.localizeByDefault('Turn Auto Scrolling Off'),
+            tooltip: nls.localizeByDefault('关闭自动滚动'),
             onDidChange: this.onChatWidgetStateChanged,
             priority: 2,
             when: ENABLE_AI_CONTEXT_KEY
@@ -77,7 +77,7 @@ export class ChatViewWidgetToolbarContribution implements TabBarToolbarContribut
         registry.registerItem({
             id: ChatCommands.SCROLL_UNLOCK_WIDGET.id,
             command: ChatCommands.SCROLL_UNLOCK_WIDGET.id,
-            tooltip: nls.localizeByDefault('Turn Auto Scrolling On'),
+            tooltip: nls.localizeByDefault('开启自动滚动'),
             onDidChange: this.onChatWidgetStateChanged,
             priority: 2,
             when: ENABLE_AI_CONTEXT_KEY
@@ -85,7 +85,7 @@ export class ChatViewWidgetToolbarContribution implements TabBarToolbarContribut
         registry.registerItem({
             id: ChatCommands.EDIT_SESSION_SETTINGS.id,
             command: ChatCommands.EDIT_SESSION_SETTINGS.id,
-            tooltip: nls.localize('theia/ai/session-settings-dialog/tooltip', 'Set Session Settings...'),
+            tooltip: nls.localize('theia/ai/session-settings-dialog/tooltip', '设置会话参数...'),
             priority: 3,
             group: 'chat-settings',
             when: ENABLE_AI_CONTEXT_KEY

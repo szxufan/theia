@@ -57,7 +57,7 @@ export interface OpenEditorsNodeRow extends TreeWidget.NodeRow {
 @injectable()
 export class OpenEditorsWidget extends AbstractNavigatorTreeWidget {
     static ID = 'theia-open-editors-widget';
-    static LABEL = nls.localizeByDefault('Open Editors');
+    static LABEL = nls.localizeByDefault('打开的编辑器');
 
     @inject(ApplicationShell) protected readonly applicationShell: ApplicationShell;
     @inject(CommandService) protected readonly commandService: CommandService;

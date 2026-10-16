@@ -37,15 +37,15 @@ export class ToolbarCommandQuickInputService {
 
     protected columnQuickPickItems: QuickPickItem[] = [
         {
-            label: nls.localize('theia/toolbar/leftColumn', 'Left Column'),
+            label: nls.localize('theia/toolbar/leftColumn', '左列'),
             id: ToolbarAlignment.LEFT,
         },
         {
-            label: nls.localize('theia/toolbar/centerColumn', 'Center Column'),
+            label: nls.localize('theia/toolbar/centerColumn', '中列'),
             id: ToolbarAlignment.CENTER,
         },
         {
-            label: nls.localize('theia/toolbar/rightColumn', 'Right Column'),
+            label: nls.localize('theia/toolbar/rightColumn', '右列'),
             id: ToolbarAlignment.RIGHT
         },
     ];
@@ -53,13 +53,13 @@ export class ToolbarCommandQuickInputService {
     openIconDialog(): void {
         this.quickPickItems = this.generateCommandsList();
         this.quickInputService.showQuickPick(this.quickPickItems, {
-            placeholder: nls.localize('theia/toolbar/addCommandPlaceholder', 'Find a command to add to the toolbar'),
+            placeholder: nls.localize('theia/toolbar/addCommandPlaceholder', '查找要添加到工具栏的命令'),
         });
     }
 
     protected openColumnQP(): Promise<QuickPickItem | undefined> {
         return this.quickInputService.showQuickPick(this.columnQuickPickItems, {
-            placeholder: nls.localize('theia/toolbar/toolbarLocationPlaceholder', 'Where would you like the command added?')
+            placeholder: nls.localize('theia/toolbar/toolbarLocationPlaceholder', '您希望将命令添加到哪里？')
         });
     }
 

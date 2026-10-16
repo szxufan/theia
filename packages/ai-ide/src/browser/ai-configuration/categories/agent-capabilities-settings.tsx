@@ -136,15 +136,15 @@ export const AgentCapabilitiesSettings = ({
     // Show "Name (id)" when the fragment declares a name; otherwise just the id.
     const labelFor = (capability: ParsedCapability): string =>
         capability.name ? `${capability.name} (${capability.fragmentId})` : capability.fragmentId;
-    const snippetLinkTooltip = nls.localize('theia/ai/ide/agentConfiguration/showCapabilitySnippet', 'Show snippet');
+    const snippetLinkTooltip = nls.localize('theia/ai/ide/agentConfiguration/showCapabilitySnippet', '显示代码片段');
 
     return <>
         <AgentSectionHeader
-            title={nls.localize('theia/ai/core/agentConfiguration/availableCapabilities', 'Available Capabilities')}
+            title={nls.localize('theia/ai/core/agentConfiguration/availableCapabilities', '可用能力')}
             action={hasAnyOverrides && <ResetAllButton
                 onReset={handleResetAll}
                 disabled={loading}
-                title={nls.localize('theia/ai/ide/agentConfiguration/resetAllCapabilities', 'Reset all capabilities to their default values')}
+                title={nls.localize('theia/ai/ide/agentConfiguration/resetAllCapabilities', '将所有能力重置为默认值')}
             />}
         />
         <div className='ai-configuration-item-list'>
@@ -253,23 +253,23 @@ export const AgentGenericCapabilitiesSettings = (props: AgentGenericCapabilities
     const promptIdFor = (type: keyof GenericCapabilitySelections): string =>
         CAPABILITY_TYPE_PROMPT_MAP.find(entry => entry.type === type)!.promptId;
     const getDisplayName = (type: keyof GenericCapabilitySelections): string => ({
-        skills: nls.localizeByDefault('Skills'),
-        mcpFunctions: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/mcpFunctions', 'MCP Functions'),
-        functions: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/functions', 'Functions'),
-        promptFragments: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/promptFragments', 'Prompt Fragments'),
-        agentDelegation: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/agentDelegation', 'Agent Delegation'),
-        variables: nls.localizeByDefault('Variables')
+        skills: nls.localizeByDefault('技能'),
+        mcpFunctions: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/mcpFunctions', 'MCP 函数'),
+        functions: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/functions', '函数'),
+        promptFragments: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/promptFragments', '提示词片段'),
+        agentDelegation: nls.localize('theia/ai/ide/agentConfiguration/genericCapabilityType/agentDelegation', '代理委派'),
+        variables: nls.localizeByDefault('变量')
     } as const)[type];
 
     // Only types the user has actually selected are shown; each such row is an override, so it carries the
     // modified bar. A single "Reset All" clears every selection, mirroring the Available Capabilities section.
     const shownTypes = capabilityTypes.filter(type => (selections[type]?.length ?? 0) > 0);
     const editTitle = editing
-        ? nls.localize('theia/ai/ide/agentConfiguration/closeGenericCapabilitiesEditor', 'Close the generic capabilities editor')
-        : nls.localize('theia/ai/ide/agentConfiguration/editGenericCapabilities', 'Edit generic capabilities');
+        ? nls.localize('theia/ai/ide/agentConfiguration/closeGenericCapabilitiesEditor', '关闭通用能力编辑器')
+        : nls.localize('theia/ai/ide/agentConfiguration/editGenericCapabilities', '编辑通用能力');
     return <>
         <AgentSectionHeader
-            title={nls.localize('theia/ai/ide/agentConfiguration/genericCapabilitiesSettings', 'Generic Capabilities')}
+            title={nls.localize('theia/ai/ide/agentConfiguration/genericCapabilitiesSettings', '通用能力')}
             action={<>
                 {availableCapabilities && <AiConfigurationIconButton
                     iconClass={codicon(editing ? 'close' : 'edit')}
@@ -279,7 +279,7 @@ export const AgentGenericCapabilitiesSettings = (props: AgentGenericCapabilities
                 />}
                 {shownTypes.length > 0 && <ResetAllButton
                     onReset={handleResetAll}
-                    title={nls.localize('theia/ai/ide/agentConfiguration/resetAllGenericCapabilities', 'Reset all generic capability selections')}
+                    title={nls.localize('theia/ai/ide/agentConfiguration/resetAllGenericCapabilities', '重置所有通用能力选择')}
                 />}
             </>}
         />
@@ -302,7 +302,7 @@ export const AgentGenericCapabilitiesSettings = (props: AgentGenericCapabilities
                 modified={true}
                 onOpenMenu={gear => settingsRowService.openResetMenu(gear, () => handleReset(type))}
                 onActivateLabel={() => onOpenPromptSnippet(promptIdFor(type))}
-                labelTooltip={nls.localize('theia/ai/ide/agentConfiguration/showCapabilitySnippet', 'Show snippet')}
+                labelTooltip={nls.localize('theia/ai/ide/agentConfiguration/showCapabilitySnippet', '显示代码片段')}
             />)}
         </div>
     </>;
@@ -360,11 +360,11 @@ export const AgentServerToolsSettings = ({
 
     return <>
         <AgentSectionHeader
-            title={nls.localize('theia/ai/core/languageModelRenderer/serverTools', 'Server Tools')}
+            title={nls.localize('theia/ai/core/languageModelRenderer/serverTools', '服务器工具')}
             action={enabledIds.length > 0 && <ResetAllButton
                 onReset={() => update([])}
                 disabled={loading}
-                title={nls.localize('theia/ai/ide/agentConfiguration/resetAllServerTools', 'Turn off every server tool of this provider')}
+                title={nls.localize('theia/ai/ide/agentConfiguration/resetAllServerTools', '关闭此提供程序的所有服务器工具')}
             />}
         />
         {/* Same warning the capabilities popup shows on its Server Tools group, since enabling one here has
@@ -372,7 +372,7 @@ export const AgentServerToolsSettings = ({
         <div className='ai-agent-section-warning'>
             <span aria-hidden='true' className={codicon('warning')}></span>
             <span>{nls.localize('theia/ai/chat-ui/serverToolsWarning',
-                'These tools are auto-approved when selected. They may be executed by the model at any time.')}</span>
+                '这些工具在选中后会被自动批准。模型可能随时执行它们。')}</span>
         </div>
         <div className='ai-configuration-item-list'>
             {tools.map(tool => {

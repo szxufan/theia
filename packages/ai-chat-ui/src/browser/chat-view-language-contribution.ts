@@ -14,6 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 import { ChatAgentService } from '@theia/ai-chat';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { ImageContextVariable } from '@theia/ai-chat/lib/common/image-context-variable';
 import { AIVariableService, DEFERRED_FUNCTION_MARKER } from '@theia/ai-core/lib/common';
 import { PromptText } from '@theia/ai-core/lib/common/prompt-text';
@@ -92,7 +93,7 @@ export class ChatViewLanguageContribution implements FrontendApplicationContribu
             getItems: () => this.agentService.getAgents(),
             kind: monaco.languages.CompletionItemKind.Value,
             getId: agent => `${agent.id} `,
-            getName: agent => agent.name,
+            getName: agent => getAgentDisplayName(agent),
             getDescription: agent => agent.description
         });
 
@@ -104,7 +105,7 @@ export class ChatViewLanguageContribution implements FrontendApplicationContribu
             getName: variable => variable.name,
             getDescription: variable => variable.description,
             command: {
-                title: nls.localize('theia/ai/chat-ui/selectVariableArguments', 'Select variable arguments'),
+                title: nls.localize('theia/ai/chat-ui/selectVariableArguments', '选择变量参数'),
                 id: VARIABLE_ARGUMENT_PICKER_COMMAND,
             }
         });
@@ -181,7 +182,7 @@ export class ChatViewLanguageContribution implements FrontendApplicationContribu
 
                         // If path-based, show open link
                         if (imageVariable.wsRelativePath) {
-                            const openImageLabel = nls.localize('theia/ai/chat-ui/openImage', 'Open image');
+                            const openImageLabel = nls.localize('theia/ai/chat-ui/openImage', '打开图片');
                             const commandArg = encodeURIComponent(JSON.stringify(imageVariable.wsRelativePath));
                             const openLink = `[${openImageLabel}](command:${OPEN_FILE_BY_PATH_COMMAND.id}?${commandArg})`;
                             return {
@@ -210,7 +211,7 @@ export class ChatViewLanguageContribution implements FrontendApplicationContribu
                     } else if (parsed.wsRelativePath) {
                         // Path-based reference - provide a link to open the file
                         const imageName = parsed.name ?? parsed.wsRelativePath;
-                        const openImageLabel = nls.localize('theia/ai/chat-ui/openImage', 'Open image');
+                        const openImageLabel = nls.localize('theia/ai/chat-ui/openImage', '打开图片');
                         const commandArg = encodeURIComponent(JSON.stringify(parsed.wsRelativePath));
                         const openLink = `[${openImageLabel}](command:${OPEN_FILE_BY_PATH_COMMAND.id}?${commandArg})`;
                         return {

@@ -39,31 +39,31 @@ export class AiTerminalAgent implements Agent {
 
     id = 'Terminal Assistant';
     name = 'Terminal Assistant';
-    description = nls.localize('theia/ai/terminal/agent/description', 'This agent provides assistance to write and execute arbitrary terminal commands. \
-        Based on the user\'s request, it suggests commands and allows the user to directly paste and execute them in the terminal. \
-        It accesses the current directory, environment and the recent terminal output of the terminal session to provide context-aware assistance');
+    description = nls.localize('theia/ai/terminal/agent/description', '此代理协助编写和执行任意终端命令。\
+        根据用户的请求，它会建议命令，并允许用户直接将其粘贴到终端中执行。\
+        它会访问当前目录、环境以及终端会话的最近输出，以提供具备上下文感知的协助');
     variables = [];
     functions = [];
     agentSpecificVariables = [
         {
             name: 'userRequest',
             usedInPrompt: true,
-            description: nls.localize('theia/ai/terminal/agent/vars/userRequest/description', 'The user\'s question or request.')
+            description: nls.localize('theia/ai/terminal/agent/vars/userRequest/description', '用户的问题或请求。')
         },
         {
             name: 'shell',
             usedInPrompt: true,
-            description: nls.localize('theia/ai/terminal/agent/vars/shell/description', 'The shell being used, e.g., /usr/bin/zsh.')
+            description: nls.localize('theia/ai/terminal/agent/vars/shell/description', '正在使用的 shell，例如 /usr/bin/zsh。')
         },
         {
             name: 'cwd',
             usedInPrompt: true,
-            description: nls.localize('theia/ai/terminal/agent/vars/cwd/description', 'The current working directory.')
+            description: nls.localize('theia/ai/terminal/agent/vars/cwd/description', '当前工作目录。')
         },
         {
             name: 'recentTerminalContents',
             usedInPrompt: true,
-            description: nls.localize('theia/ai/terminal/agent/vars/recentTerminalContents/description', 'The last 0 to 50 recent lines visible in the terminal.')
+            description: nls.localize('theia/ai/terminal/agent/vars/recentTerminalContents/description', '终端中可见的最近 0 到 50 行内容。')
         }
     ];
     prompts = terminalPrompts;

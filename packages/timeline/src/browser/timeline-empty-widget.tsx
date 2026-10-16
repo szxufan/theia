@@ -34,7 +34,7 @@ export class TimelineEmptyWidget extends ReactWidget {
     protected render(): React.ReactNode {
         return <AlertMessage
             type='WARNING'
-            header={nls.localizeByDefault('The active editor cannot provide timeline information.')}
+            header={nls.localizeByDefault('活动编辑器无法提供时间线信息。')}
         />;
     }
 

@@ -33,31 +33,31 @@ import { getRefBadgeClass } from './scm-history-graph-helpers';
 export namespace ScmHistoryGraphCommands {
     export const REFRESH = Command.toDefaultLocalizedCommand({
         id: 'scmHistoryGraph.refresh',
-        category: 'Source Control',
-        label: 'Refresh',
+        category: '源代码管理',
+        label: '刷新',
         iconClass: codicon('refresh')
     });
     export const PICK_HISTORY_ITEM_REFS = Command.toLocalizedCommand({
         id: 'scmHistoryGraph.pickHistoryItemRefs',
-        category: 'Source Control',
-        label: 'Pick History Item Reference...',
+        category: '源代码管理',
+        label: '选择历史项目引用...',
         iconClass: codicon('git-branch')
     }, 'theia/scm/pickHistoryItemRefs');
     export const REVEAL_CURRENT_HISTORY_ITEM = Command.toDefaultLocalizedCommand({
         id: 'scmHistoryGraph.revealCurrentHistoryItem',
-        category: 'Source Control',
-        label: 'Go to Current History Item',
+        category: '源代码管理',
+        label: '转到当前历史项目',
         iconClass: codicon('target')
     });
     export const SET_LIST_VIEW_MODE = Command.toDefaultLocalizedCommand({
         id: 'scmHistoryGraph.setListViewMode',
-        category: 'Source Control',
-        label: 'View as List'
+        category: '源代码管理',
+        label: '以列表形式查看'
     });
     export const SET_TREE_VIEW_MODE = Command.toDefaultLocalizedCommand({
         id: 'scmHistoryGraph.setTreeViewMode',
-        category: 'Source Control',
-        label: 'View as Tree'
+        category: '源代码管理',
+        label: '以树形结构查看'
     });
 }
 
@@ -165,7 +165,7 @@ export class ScmHistoryGraphContribution implements CommandContribution, MenuCon
         const picker = this.quickInputService.createQuickPick<RefPickItem>();
         const cts = new CancellationTokenSource();
         try {
-            picker.placeholder = nls.localize('theia/scm/pickHistoryItemRefsPlaceholder', 'Select one or more history item references');
+            picker.placeholder = nls.localize('theia/scm/pickHistoryItemRefsPlaceholder', '选择一个或多个历史项目引用');
             picker.canSelectMany = true;
             picker.matchOnDescription = true;
             // Show the picker right away and populate it once the refs arrive,
@@ -236,15 +236,15 @@ export class ScmHistoryGraphContribution implements CommandContribution, MenuCon
         const autoRefs = [provider.currentHistoryItemRef, provider.currentHistoryItemRemoteRef, provider.currentHistoryItemBaseRef]
             .filter((ref): ref is ScmHistoryItemRef => !!ref);
         const items: (RefPickItem | QuickPickSeparator)[] = [{
-            label: nls.localizeByDefault('Auto'),
+            label: nls.localizeByDefault('自动'),
             description: autoRefs.map(ref => ref.name).join(', '),
             auto: true
         }];
 
         const groups: { label: string; badgeClass: string }[] = [
-            { label: nls.localize('theia/scm/refPickerBranches', 'branches'), badgeClass: 'head' },
-            { label: nls.localize('theia/scm/refPickerRemoteBranches', 'remote branches'), badgeClass: 'remote' },
-            { label: nls.localize('theia/scm/refPickerTags', 'tags'), badgeClass: 'tag' }
+            { label: nls.localize('theia/scm/refPickerBranches', '分支'), badgeClass: 'head' },
+            { label: nls.localize('theia/scm/refPickerRemoteBranches', '远程分支'), badgeClass: 'remote' },
+            { label: nls.localize('theia/scm/refPickerTags', '标记'), badgeClass: 'tag' }
         ];
         const grouped = new Set<ScmHistoryItemRef>();
         for (const group of groups) {

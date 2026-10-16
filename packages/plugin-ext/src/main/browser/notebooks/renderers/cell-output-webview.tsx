@@ -481,7 +481,7 @@ export class CellOutputWebviewImpl implements CellOutputWebview, Disposable {
     async requestOutputPresentationUpdate(cellHandle: number, output: NotebookCellOutputModel): Promise<void> {
         const selectedMime = await this.quickPickService.show(
             output.outputs.map(item => ({ label: item.mime })),
-            { description: nls.localizeByDefault('Select mimetype to render for current output') });
+            { description: nls.localizeByDefault('选择要为当前输出渲染的 MIME 类型') });
         if (selectedMime) {
             this.webviewWidget.sendMessage({
                 type: 'changePreferredMimetype',

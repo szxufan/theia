@@ -77,7 +77,7 @@ export class DebugVariablesWidget extends SourceTreeWidget {
     protected override init(): void {
         super.init();
         this.id = DebugVariablesWidget.FACTORY_ID + ':' + this.viewModel.id;
-        this.title.label = nls.localizeByDefault('Variables');
+        this.title.label = nls.localizeByDefault('变量');
         this.toDispose.push(this.variables);
         this.source = this.variables;
         this.toDispose.push(this.sessionManager.onDidFocusStackFrame(stackFrame => this.handleDidFocusStackFrame(stackFrame)));

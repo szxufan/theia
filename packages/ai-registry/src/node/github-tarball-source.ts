@@ -121,7 +121,7 @@ export class GitHubTarballSourceImpl implements GitHubTarballSource {
         const context = await this.requestService.request({ url, headers: this.headers(this.resolveToken()) });
         if (!RequestContext.isSuccess(context)) {
             throw new Error(nls.localize('theia/ai-registry/plugin/tarballDownloadFailed',
-                'Could not download the plugin source from "{0}": HTTP {1}.', url, String(context.res.statusCode ?? 'unknown')));
+                '无法从“{0}”下载插件源码：HTTP {1}。', url, String(context.res.statusCode ?? 'unknown')));
         }
         const bytes = this.toBytes(context);
         // After the fact - the request service buffers the whole body - but it still bounds what gets
@@ -144,8 +144,8 @@ export class GitHubTarballSourceImpl implements GitHubTarballSource {
     /** The one message both caps report, so the user is not told two different things. */
     protected tooLarge(sourceUrl: string): string {
         return nls.localize('theia/ai-registry/plugin/tarballTooLarge',
-            'The plugin source at "{0}" is too large to install. An Agent Plugin is expected to be a small tree of '
-            + 'configuration, skills and code.', sourceUrl);
+            '“{0}”处的插件源码过大，无法安装。代理插件应为一个较小的配置、技能和代码树。',
+            sourceUrl);
     }
 
     /**
@@ -175,7 +175,7 @@ export class GitHubTarballSourceImpl implements GitHubTarballSource {
         if (state.unsafe.length > 0) {
             this.logger.warn(`Refused ${state.unsafe.length} unsafe entries in the plugin archive of ${request.sourceUrl}: ${state.unsafe.join(', ')}`);
             throw new Error(nls.localize('theia/ai-registry/plugin/tarballUnsafeEntry',
-                'The plugin archive contains the entry "{0}", which would be written outside the plugin directory.', state.unsafe[0]));
+                '插件压缩包包含条目“{0}”，该条目会被写到插件目录之外。', state.unsafe[0]));
         }
         if (state.fileCount === 0) {
             throw new Error(this.nothingToInstall(request, state));
@@ -200,15 +200,15 @@ export class GitHubTarballSourceImpl implements GitHubTarballSource {
         if (state.subtreeEntryCount > 0) {
             return request.sourcePath
                 ? nls.localize('theia/ai-registry/plugin/tarballPathNoFiles',
-                    'The plugin path "{0}" in the repository "{1}" holds no file to install, only directories or links pointing outside it.',
+                    '仓库“{1}”中的插件路径“{0}”没有可安装的文件，只有目录或指向外部的链接。',
                     request.sourcePath, request.sourceUrl)
                 : nls.localize('theia/ai-registry/plugin/tarballNoFiles',
-                    'The repository "{0}" holds no file to install, only directories or links pointing outside it.', request.sourceUrl);
+                    '仓库“{0}”没有可安装的文件，只有目录或指向外部的链接。', request.sourceUrl);
         }
         return request.sourcePath
             ? nls.localize('theia/ai-registry/plugin/tarballPathMissing',
-                'The plugin path "{0}" does not exist in the repository "{1}".', request.sourcePath, request.sourceUrl)
-            : nls.localize('theia/ai-registry/plugin/tarballEmpty', 'The repository "{0}" contains no files.', request.sourceUrl);
+                '插件路径“{0}”在仓库“{1}”中不存在。', request.sourcePath, request.sourceUrl)
+            : nls.localize('theia/ai-registry/plugin/tarballEmpty', '仓库“{0}”不包含任何文件。', request.sourceUrl);
     }
 
     /**
@@ -221,7 +221,7 @@ export class GitHubTarballSourceImpl implements GitHubTarballSource {
         if (/is not a valid path/.test(message)) {
             this.logger.warn(`Extraction of the plugin archive of ${request.sourceUrl} was refused by the archive writer: ${message}`);
             return new Error(nls.localize('theia/ai-registry/plugin/tarballRefused',
-                'The plugin archive of "{0}" could not be extracted safely: one of its entries tried to write outside the plugin directory.',
+                '无法安全地解压“{0}”的插件压缩包：其中一个条目试图写到插件目录之外。',
                 request.sourceUrl));
         }
         if (state.tooLarge) {
@@ -361,16 +361,16 @@ export class GitHubTarballSourceImpl implements GitHubTarballSource {
         try {
             url = new URL(sourceUrl);
         } catch {
-            throw new Error(nls.localize('theia/ai-registry/plugin/invalidSourceUrl', 'Invalid plugin source URL: {0}', sourceUrl));
+            throw new Error(nls.localize('theia/ai-registry/plugin/invalidSourceUrl', '无效的插件源 URL：{0}', sourceUrl));
         }
         if (url.hostname !== 'github.com' && url.hostname !== 'www.github.com') {
             throw new Error(nls.localize('theia/ai-registry/plugin/nonGitHubSource',
-                'Only GitHub plugin sources are supported; "{0}" is not GitHub.', url.hostname));
+                '仅支持 GitHub 插件源；“{0}”不是 GitHub。', url.hostname));
         }
         const segments = url.pathname.split('/').filter(Boolean);
         if (segments.length < 2) {
             throw new Error(nls.localize('theia/ai-registry/plugin/noOwnerRepo',
-                'Cannot determine owner/repo from the plugin source URL: {0}', sourceUrl));
+                '无法从插件源 URL 确定 owner/repo：{0}', sourceUrl));
         }
         return { owner: segments[0], repo: segments[1].replace(/\.git$/, '') };
     }

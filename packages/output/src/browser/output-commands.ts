@@ -19,7 +19,7 @@ import { Command, nls } from '@theia/core/lib/common';
 
 export namespace OutputCommands {
 
-    const OUTPUT_CATEGORY = 'Output';
+    const OUTPUT_CATEGORY = '输出';
     const OUTPUT_CATEGORY_KEY = nls.getDefaultKey(OUTPUT_CATEGORY);
 
     /* #region VS Code `OutputChannel` API */
@@ -71,25 +71,25 @@ export namespace OutputCommands {
 
     export const CLEAR__QUICK_PICK = Command.toLocalizedCommand({
         id: 'output:pick-clear',
-        label: 'Clear Output Channel...',
+        label: '清空输出通道...',
         category: OUTPUT_CATEGORY
     }, 'theia/output/clearOutputChannel', OUTPUT_CATEGORY_KEY);
 
     export const SHOW__QUICK_PICK = Command.toLocalizedCommand({
         id: 'output:pick-show',
-        label: 'Show Output Channel...',
+        label: '显示输出通道...',
         category: OUTPUT_CATEGORY
     }, 'theia/output/showOutputChannel', OUTPUT_CATEGORY_KEY);
 
     export const HIDE__QUICK_PICK = Command.toLocalizedCommand({
         id: 'output:pick-hide',
-        label: 'Hide Output Channel...',
+        label: '隐藏输出通道...',
         category: OUTPUT_CATEGORY
     }, 'theia/output/hideOutputChannel', OUTPUT_CATEGORY_KEY);
 
     export const DISPOSE__QUICK_PICK = Command.toLocalizedCommand({
         id: 'output:pick-dispose',
-        label: 'Close Output Channel...',
+        label: '关闭输出通道...',
         category: OUTPUT_CATEGORY
     }, 'theia/output/closeOutputChannel', OUTPUT_CATEGORY_KEY);
 

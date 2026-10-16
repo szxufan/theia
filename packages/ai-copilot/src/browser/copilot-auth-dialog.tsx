@@ -67,7 +67,7 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
     @postConstruct()
     protected init(): void {
         this.titleNode.textContent = this.props.title;
-        this.appendAcceptButton(nls.localize('theia/ai/copilot/auth/authorize', 'I have authorized'));
+        this.appendAcceptButton(nls.localize('theia/ai/copilot/auth/authorize', '我已完成授权'));
         this.appendCloseButton(Dialog.CANCEL);
     }
 
@@ -80,7 +80,7 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
             this.acceptButton.style.display = isSuccess ? 'none' : '';
         }
         if (this.closeButton) {
-            this.closeButton.textContent = isSuccess ? nls.localizeByDefault('Close') : Dialog.CANCEL;
+            this.closeButton.textContent = isSuccess ? nls.localizeByDefault('关闭') : Dialog.CANCEL;
         }
     }
 
@@ -134,7 +134,7 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
             } else {
                 this.state = 'error';
                 this.errorMessage = nls.localize('theia/ai/copilot/auth/expired',
-                    'Authorization expired or was denied. Please try again.');
+                    '授权已过期或被拒绝。请重试。');
                 this.update();
             }
         } catch (error) {
@@ -207,7 +207,7 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
                 <div className="theia-spin">
                     <span className="codicon codicon-loading"></span>
                 </div>
-                <p>{nls.localize('theia/ai/copilot/auth/initiating', 'Initiating authentication...')}</p>
+                <p>{nls.localize('theia/ai/copilot/auth/initiating', '正在启动身份验证...')}</p>
             </div>
         );
     }
@@ -227,11 +227,11 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
                             className="theia-button secondary theia-copilot-copy-button"
                             onClick={this.handleCopyCode}
                             title={this.copied
-                                ? nls.localize('theia/ai/copilot/auth/copied', 'Copied!')
-                                : nls.localize('theia/ai/copilot/auth/copyCode', 'Copy code')}
+                                ? nls.localize('theia/ai/copilot/auth/copied', '已复制！')
+                                : nls.localize('theia/ai/copilot/auth/copyCode', '复制代码')}
                         >
                             <span className={`codicon ${this.copied ? 'codicon-check' : 'codicon-copy'}`}></span>
-                            {nls.localizeByDefault('Copy')}
+                            {nls.localizeByDefault('复制')}
                         </button>
                     </div>
                 </div>
@@ -242,14 +242,14 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
                         onClick={this.handleOpenUrl}
                     >
                         <span className="codicon codicon-link-external"></span>
-                        {nls.localize('theia/ai/copilot/auth/openGitHub', 'Open GitHub')}
+                        {nls.localize('theia/ai/copilot/auth/openGitHub', '打开 GitHub')}
                     </button>
                     <span className="theia-copilot-auth-url">{response.verification_uri}</span>
                 </div>
 
                 <p className="theia-copilot-auth-hint">
                     {nls.localize('theia/ai/copilot/auth/hint',
-                        'After entering the code and authorizing, click "I have authorized" below.')}
+                        '输入代码并完成授权后，点击下方的"我已完成授权"。')}
                 </p>
 
                 <div className="theia-copilot-auth-privacy">
@@ -258,14 +258,14 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
                     </p>
                     <p className="theia-copilot-auth-tos-text">
                         {nls.localize('theia/ai/copilot/auth/tos',
-                            'By signing in, you agree to the ')}
+                            '登录即表示您同意 ')}
                         <a
                             href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service"
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={this.handleOpenTos}
                         >
-                            {nls.localize('theia/ai/copilot/auth/tosLink', 'GitHub Terms of Service')}
+                            {nls.localize('theia/ai/copilot/auth/tosLink', 'GitHub 服务条款')}
                         </a>.
                     </p>
                 </div>
@@ -284,7 +284,7 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
                 <div className="theia-spin">
                     <span className="codicon codicon-loading"></span>
                 </div>
-                <p>{nls.localize('theia/ai/copilot/auth/verifying', 'Verifying authorization...')}</p>
+                <p>{nls.localize('theia/ai/copilot/auth/verifying', '正在验证授权...')}</p>
             </div>
         );
     }
@@ -293,12 +293,12 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
         return (
             <div className="theia-copilot-auth-state theia-copilot-auth-success">
                 <span className="codicon codicon-check"></span>
-                <p>{nls.localize('theia/ai/copilot/auth/success', 'Successfully signed in to GitHub Copilot!')}</p>
+                <p>{nls.localize('theia/ai/copilot/auth/success', '已成功登录 GitHub Copilot！')}</p>
                 <p className="theia-copilot-auth-success-hint">
                     {nls.localize('theia/ai/copilot/auth/successHint',
-                        'If your GitHub account has access to Copilot, you can now configure Copilot language models in the ')}
+                        '如果您的 GitHub 账户有 Copilot 访问权限，现在可以在 ')}
                     <a href="#" onClick={this.handleOpenAIConfig}>
-                        {nls.localize('theia/ai/copilot/auth/aiConfiguration', 'AI Configuration')}
+                        {nls.localize('theia/ai/copilot/auth/aiConfiguration', 'AI 配置')}
                     </a>.
                 </p>
             </div>
@@ -323,7 +323,7 @@ export class CopilotAuthDialog extends ReactDialog<boolean> {
                     className="theia-button"
                     onClick={this.handleRetry}
                 >
-                    {nls.localizeByDefault('Try Again')}
+                    {nls.localizeByDefault('重试')}
                 </button>
             </div>
         );

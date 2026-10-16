@@ -40,9 +40,8 @@ import { UserToolbarURI } from './toolbar-constants';
 import { isToolbarPreferences } from './toolbar-preference-schema';
 import { ToolbarDefaultsFactory } from './toolbar-defaults';
 
-export const TOOLBAR_BAD_JSON_ERROR_MESSAGE = 'There was an error reading your toolbar.json file. Please check if it is corrupt'
-    + ' by right-clicking the toolbar and selecting "Customize Toolbar". You can also reset it to its defaults by selecting'
-    + ' "Restore Toolbar Defaults"';
+export const TOOLBAR_BAD_JSON_ERROR_MESSAGE = '读取 toolbar.json 文件时出错。请检查该文件是否已损坏，'
+    + '方法是右键单击工具栏并选择“自定义工具栏”。也可以通过选择“恢复工具栏默认值”将其重置为默认值';
 
 @injectable()
 export class ToolbarStorageProvider implements Disposable {
@@ -296,7 +295,7 @@ export class ToolbarStorageProvider implements Disposable {
                 await this.model.save();
                 return true;
             } catch (e) {
-                const message = nls.localize('theia/toolbar/failedUpdate', "Failed to update the value of '{0}' in '{1}'.", path.join('.'), this.USER_TOOLBAR_URI.path.toString());
+                const message = nls.localize('theia/toolbar/failedUpdate', "无法更新“{1}”中“{0}”的值。", path.join('.'), this.USER_TOOLBAR_URI.path.toString());
                 this.messageService.error(nls.localize('theia/toolbar/jsonError', TOOLBAR_BAD_JSON_ERROR_MESSAGE));
                 this.logger.error(`${message}`, e);
                 return false;

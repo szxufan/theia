@@ -109,9 +109,9 @@ export class MergeEditorContribution implements FrontendApplicationContribution,
                     let canceled = false;
                     if (editor.model.unhandledMergeRangesCount > 0) {
                         canceled = !(await new ConfirmDialog({
-                            title: nls.localizeByDefault('Do you want to complete the merge of {0}?', this.labelProvider.getName(editor.resultUri)),
-                            msg: nls.localizeByDefault('The file contains unhandled conflicts.'),
-                            ok: nls.localizeByDefault('Complete with Conflicts')
+                            title: nls.localizeByDefault('是否要完成 {0} 的合并？', this.labelProvider.getName(editor.resultUri)),
+                            msg: nls.localizeByDefault('该文件包含未处理的冲突。'),
+                            ok: nls.localizeByDefault('带冲突完成')
                         }).open());
                     }
                     if (!canceled) {

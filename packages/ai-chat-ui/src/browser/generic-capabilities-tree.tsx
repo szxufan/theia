@@ -60,14 +60,14 @@ export interface GenericCapabilitiesTreeProps {
 
 // Root node descriptions for tooltips
 const ROOT_DESCRIPTIONS: Record<string, () => string> = {
-    skills: () => nls.localize('theia/ai/chat-ui/skillsDescription', 'Reusable skill instructions that can be added to the conversation'),
-    variables: () => nls.localize('theia/ai/chat-ui/variablesDescription', 'Dynamic variables that provide context information'),
-    mcpFunctions: () => nls.localize('theia/ai/chat-ui/mcpFunctionsDescription', 'Model Context Protocol (MCP) functions from connected servers'),
+    skills: () => nls.localize('theia/ai/chat-ui/skillsDescription', '可添加到对话中的可复用技能指令'),
+    variables: () => nls.localize('theia/ai/chat-ui/variablesDescription', '提供上下文信息的动态变量'),
+    mcpFunctions: () => nls.localize('theia/ai/chat-ui/mcpFunctionsDescription', '来自已连接服务器的模型上下文协议（MCP）函数'),
     functions: () => nls.localize('theia/ai/chat-ui/functionsDescription',
-        'Built-in functions provided by {0} extensions',
+        '由 {0} 扩展提供的内置函数',
         FrontendApplicationConfigProvider.get().applicationName),
-    promptFragments: () => nls.localize('theia/ai/chat-ui/promptFragmentsDescription', 'Custom prompt fragments to include in the conversation'),
-    agentDelegation: () => nls.localize('theia/ai/chat-ui/agentDelegationDescription', 'Other AI agents that can be delegated to')
+    promptFragments: () => nls.localize('theia/ai/chat-ui/promptFragmentsDescription', '要包含在对话中的自定义提示词片段'),
+    agentDelegation: () => nls.localize('theia/ai/chat-ui/agentDelegationDescription', '可以委派任务的其他 AI 代理')
 };
 
 type CapabilityType = keyof GenericCapabilitySelections;
@@ -139,8 +139,8 @@ const ParentCheckbox: React.FC<ParentCheckboxProps> = ({ checkboxState, name, on
             onMouseEnter={e => {
                 hoverService.requestHover({
                     content: checkboxState === 'checked' || checkboxState === 'indeterminate'
-                        ? nls.localize('theia/ai/chat-ui/unselectAllInCategory', 'Unselect all in this category')
-                        : nls.localize('theia/ai/chat-ui/selectAllInCategory', 'Select all in this category'),
+                        ? nls.localize('theia/ai/chat-ui/unselectAllInCategory', '取消选择此类别中的全部')
+                        : nls.localize('theia/ai/chat-ui/selectAllInCategory', '选择此类别中的全部'),
                     target: e.currentTarget as HTMLElement,
                     position: 'bottom'
                 });
@@ -249,7 +249,7 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
             return {
                 id: 'root-serverTools',
                 type: 'root',
-                name: nls.localize('theia/ai/chat-ui/serverTools', 'Server Tools'),
+                name: nls.localize('theia/ai/chat-ui/serverTools', '服务器工具'),
                 isServerTool: true,
                 children: [{
                     id: `group-serverTools-${serverTools.vendor}`,
@@ -272,12 +272,12 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
 
         return [
             buildServerToolsRootNode(),
-            buildFlatRootNode('skills', nls.localizeByDefault('Skills'), 'skills', availableCapabilities.skills),
+            buildFlatRootNode('skills', nls.localizeByDefault('技能'), 'skills', availableCapabilities.skills),
             buildGroupedRootNode('mcp', nls.localizeByDefault('MCP'), 'mcpFunctions', availableCapabilities.mcpFunctions),
-            buildFlatRootNode('agents', nls.localizeByDefault('Agents'), 'agentDelegation', availableCapabilities.agentDelegation),
-            buildFlatRootNode('functions', nls.localize('theia/ai/chat-ui/functions', 'Functions'), 'functions', availableCapabilities.functions),
-            buildFlatRootNode('prompts', nls.localizeByDefault('Prompts'), 'promptFragments', availableCapabilities.promptFragments),
-            buildFlatRootNode('variables', nls.localizeByDefault('Variables'), 'variables', availableCapabilities.variables),
+            buildFlatRootNode('agents', nls.localizeByDefault('代理'), 'agentDelegation', availableCapabilities.agentDelegation),
+            buildFlatRootNode('functions', nls.localize('theia/ai/chat-ui/functions', '函数'), 'functions', availableCapabilities.functions),
+            buildFlatRootNode('prompts', nls.localizeByDefault('提示词'), 'promptFragments', availableCapabilities.promptFragments),
+            buildFlatRootNode('variables', nls.localizeByDefault('变量'), 'variables', availableCapabilities.variables),
         ].filter((node): node is TreeNodeData => node !== undefined);
     }, [availableCapabilities, genericCapabilities, disabledCapabilities, serverTools]);
 
@@ -661,7 +661,7 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
                     {node.isServerTool && <ServerToolWarning
                         hoverService={hoverService}
                         content={nls.localize('theia/ai/chat-ui/serverToolWarning',
-                            'This tool is auto-approved when selected. It may be executed by the model at any time.')}
+                            '选中后此工具将被自动批准。模型可能随时执行它。')}
                     />}
                     <span className="theia-GenericCapabilities-TreeItem-Name">{node.name}</span>
                 </div>
@@ -674,7 +674,7 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
         let rootNameTooltip: string | undefined;
         if (isRoot && node.isServerTool) {
             rootNameTooltip = nls.localize('theia/ai/chat-ui/serverToolsDescription',
-                "Server tools are executed server-side by the LLM on the vendor's infrastructure.");
+                '服务器工具由 LLM 在厂商的基础设施上于服务端执行。');
         } else if (isRoot && node.capabilityType) {
             rootNameTooltip = `${node.name}: ${ROOT_DESCRIPTIONS[node.capabilityType]?.() || node.name}`;
         }
@@ -700,7 +700,7 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
                     {isRoot && node.isServerTool && <ServerToolWarning
                         hoverService={hoverService}
                         content={nls.localize('theia/ai/chat-ui/serverToolsWarning',
-                            'These tools are auto-approved when selected. They may be executed by the model at any time.')}
+                            '选中后这些工具将被自动批准。模型可能随时执行它们。')}
                     />}
                     <span
                         className="theia-GenericCapabilities-TreeNode-Name"
@@ -733,20 +733,20 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
                     ref={searchInputRef}
                     type="text"
                     className="theia-input theia-GenericCapabilities-Tree-SearchInput"
-                    placeholder={nls.localize('theia/ai/chat-ui/searchCapabilities', 'Search capabilities...')}
+                    placeholder={nls.localize('theia/ai/chat-ui/searchCapabilities', '搜索能力...')}
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    aria-label={nls.localize('theia/ai/chat-ui/searchCapabilities', 'Search capabilities')}
+                    aria-label={nls.localize('theia/ai/chat-ui/searchCapabilities', '搜索能力')}
                     autoFocus
                 />
                 <div className="theia-GenericCapabilities-Tree-SearchActions">
                     <button
                         className="theia-GenericCapabilities-Tree-SearchAction"
                         onClick={handleResetAll}
-                        aria-label={nls.localize('theia/ai/chat-ui/clearAllSelections', 'Clear search string and capability selections to saved defaults')}
+                        aria-label={nls.localize('theia/ai/chat-ui/clearAllSelections', '清空搜索字符串并将能力选择恢复为已保存的默认值')}
                         onMouseEnter={e => {
                             hoverService.requestHover({
-                                content: nls.localize('theia/ai/chat-ui/clearAllSelections', 'Clear search string and capability selections to saved defaults'),
+                                content: nls.localize('theia/ai/chat-ui/clearAllSelections', '清空搜索字符串并将能力选择恢复为已保存的默认值'),
                                 target: e.currentTarget as HTMLElement,
                                 position: 'bottom'
                             });
@@ -757,10 +757,10 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
                     <button
                         className="theia-GenericCapabilities-Tree-SearchAction"
                         onClick={() => setExpandedNodes(new Set())}
-                        aria-label={nls.localize('theia/ai/chat-ui/collapseAll', 'Collapse all')}
+                        aria-label={nls.localize('theia/ai/chat-ui/collapseAll', '全部折叠')}
                         onMouseEnter={e => {
                             hoverService.requestHover({
-                                content: nls.localize('theia/ai/chat-ui/collapseAll', 'Collapse all'),
+                                content: nls.localize('theia/ai/chat-ui/collapseAll', '全部折叠'),
                                 target: e.currentTarget as HTMLElement,
                                 position: 'bottom'
                             });
@@ -774,7 +774,7 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
                 ref={treeRef}
                 className="theia-GenericCapabilities-Tree-Content"
                 role="tree"
-                aria-label={nls.localize('theia/ai/chat-ui/genericCapabilities', 'Generic Capabilities')}
+                aria-label={nls.localize('theia/ai/chat-ui/genericCapabilities', '通用能力')}
                 tabIndex={0}
                 onKeyDown={handleKeyDown}
                 onFocus={() => {
@@ -787,7 +787,7 @@ export const GenericCapabilitiesTree: React.FunctionComponent<GenericCapabilitie
                     filteredTree.map(node => renderNode(node, 0))
                 ) : (
                     <div className="theia-GenericCapabilities-Tree-Empty">
-                        {nls.localize('theia/ai/chat-ui/noMatchingCapabilities', 'No matching capabilities')}
+                        {nls.localize('theia/ai/chat-ui/noMatchingCapabilities', '没有匹配的能力')}
                     </div>
                 )}
             </div>

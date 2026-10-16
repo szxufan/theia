@@ -59,7 +59,7 @@ describe('keys api', () => {
         expect(keycodeOption.alt).to.be.true;
         expect(keycodeOption.key).is.equal(Key.KEY_B);
 
-        expect(() => KeyCode.parse('cmd+b')).to.throw(/OSX only/);
+        expect(() => KeyCode.parse('cmd+b')).to.throw(/仅适用于 OSX/);
 
         const keycodeCtrlOrCommand = KeyCode.parse('ctrlcmd+b');
         expect(keycodeCtrlOrCommand.meta).to.be.false;

@@ -1,41 +1,38 @@
 <!--
-Thank you for your Pull Request. Please provide a description and review
-the requirements below.
+感谢你提交 Pull Request。请提供描述并检查以下要求。
 
-Contributors guide: https://github.com/theia-ide/theia/blob/master/CONTRIBUTING.md
+贡献者指南：https://github.com/theia-ide/theia/blob/master/CONTRIBUTING.md
 
-Note: Security vulnerabilities should not be disclosed on GitHub, through a PR or any
-other means. See SECURITY.md at the root of this repository, to learn how to report
-vulnerabilities.
+注意：安全漏洞不应通过 GitHub 以 PR 或任何其他方式披露。请参阅本仓库根目录的 SECURITY.md，了解如何报告漏洞。
 -->
 
-#### What it does
+#### 它做了什么
 
-<!-- Include relevant issues and describe how they are addressed. -->
+<!-- 列出相关的 issue，并说明是如何解决的。 -->
 
-#### How to test
+#### 如何测试
 
-<!-- Explain how a reviewer can reproduce a bug, test new functionality or verify performance improvements. -->
+<!-- 说明审查者如何复现缺陷、测试新功能或验证性能改进。 -->
 
-#### Follow-ups
+#### 后续工作
 
-<!-- Please list potential follow-up work, including known issues, possible future work, identified technical debt, and potentially introduced technical debt. If the PR introduces technical debt, specify the reason why this is acceptable. Please create tickets and link them here. Please use the label "technical debt" for new issues when it applies. -->
+<!-- 请列出潜在的后续工作，包括已知问题、可能的未来工作、已识别的技术债，以及可能引入的技术债。如果本 PR 引入了技术债，请说明为什么这是可接受的。请创建工单并链接到这里。适用时请为新 issue 使用 "technical debt" 标签。 -->
 
-#### Breaking changes
+#### 破坏性变更
 
-- [ ] This PR introduces breaking changes and requires careful review. If yes, the breaking changes section in the [changelog](https://github.com/eclipse-theia/theia/blob/master/CHANGELOG.md) has been updated.
+- [ ] 本 PR 引入破坏性变更，需要仔细审查。如果是，[变更日志](https://github.com/eclipse-theia/theia/blob/master/CHANGELOG.md)中的破坏性变更部分已更新。
 
-<!-- Only breaking changes need a manual changelog entry. Non-breaking changes do not need an entry, they are collected at release time. See https://github.com/eclipse-theia/theia/blob/master/doc/pull-requests.md#changelog-entry -->
+<!-- 只有破坏性变更才需要手动添加变更日志条目。非破坏性变更不需要条目，它们会在发布时统一收集。参见 https://github.com/eclipse-theia/theia/blob/master/doc/pull-requests.md#changelog-entry -->
 
-#### Attribution
+#### 署名
 
-<!-- If the changelog entry for this change should contain an attribution at the end (e.g. Contributed on behalf of x) add it in this section -->
+<!-- 如果本变更的变更日志条目末尾应包含署名（例如 Contributed on behalf of x），请在本节中添加 -->
 
-#### Review checklist
+#### 审查清单
 
-- [ ] As an author, I have thoroughly tested my changes and carefully followed [the review guidelines](https://github.com/theia-ide/theia/blob/master/doc/pull-requests.md#requesting-a-review)
-- [ ] User-facing text is internationalized using the `nls` service (for details, please see the [Internationalization/Localization section](https://github.com/theia-ide/theia/blob/master/doc/coding-guidelines.md#internationalizationlocalization) in the Coding Guidelines)
+- [ ] 作为作者，我已充分测试我的改动，并严格遵循了[审查指南](https://github.com/theia-ide/theia/blob/master/doc/pull-requests.md#requesting-a-review)
+- [ ] 用户可见文案已使用 `nls` 服务完成国际化（详情请参阅编码规范中的[国际化/本地化章节](https://github.com/theia-ide/theia/blob/master/doc/coding-guidelines.md#internationalizationlocalization)）
 
-#### Reminder for reviewers
+#### 提醒审查者
 
-- As a reviewer, I agree to behave in accordance with [the review guidelines](https://github.com/theia-ide/theia/blob/master/doc/pull-requests.md#reviewing)
+- 作为审查者，我同意按照[审查指南](https://github.com/theia-ide/theia/blob/master/doc/pull-requests.md#reviewing)行事

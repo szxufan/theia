@@ -142,7 +142,7 @@ export class FileResource implements Resource {
             return stat.value;
         } catch (e) {
             if (e instanceof TextFileOperationError && e.textFileOperationResult === TextFileOperationResult.FILE_IS_BINARY) {
-                if (await this.shouldOpenAsText(nls.localize('theia/filesystem/fileResource/binaryTitle', 'The file is either binary or uses an unsupported text encoding.'))) {
+                if (await this.shouldOpenAsText(nls.localize('theia/filesystem/fileResource/binaryTitle', '该文件为二进制文件或使用了不受支持的文本编码。'))) {
                     this.acceptTextOnly = false;
                     return this.readContents(options);
                 }
@@ -187,7 +187,7 @@ export class FileResource implements Resource {
             return stat.value;
         } catch (e) {
             if (e instanceof TextFileOperationError && e.textFileOperationResult === TextFileOperationResult.FILE_IS_BINARY) {
-                if (await this.shouldOpenAsText(nls.localize('theia/filesystem/fileResource/binaryTitle', 'The file is either binary or uses an unsupported text encoding.'))) {
+                if (await this.shouldOpenAsText(nls.localize('theia/filesystem/fileResource/binaryTitle', '该文件为二进制文件或使用了不受支持的文本编码。'))) {
                     this.acceptTextOnly = false;
                     return this.readStream(options);
                 }
@@ -372,9 +372,9 @@ export class FileResourceResolver implements ResourceResolver {
 
     protected async shouldOverwrite(uri: URI): Promise<boolean> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/filesystem/fileResource/overwriteTitle', "The file '{0}' has been changed on the file system.", this.labelProvider.getName(uri)),
+            title: nls.localize('theia/filesystem/fileResource/overwriteTitle', "文件 '{0}' 已在文件系统上被更改。", this.labelProvider.getName(uri)),
             msg: nls.localize('theia/fileSystem/fileResource/overWriteBody',
-                "Do you want to overwrite the changes made to '{0}' on the file system?", this.labelProvider.getLongName(uri)),
+                "是否要覆盖对文件系统上 '{0}' 所做的更改？", this.labelProvider.getLongName(uri)),
             ok: Dialog.YES,
             cancel: Dialog.NO,
         });

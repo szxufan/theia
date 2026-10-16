@@ -66,9 +66,9 @@ const COMMAND_ROW_PREFIX = 'cmd:';
 export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.PROMPTS_AND_SKILLS;
-    readonly label = nls.localize('theia/ai/ide/promptsAndSkillsConfiguration/label', 'Skills & Slash Commands');
+    readonly label = nls.localize('theia/ai/ide/promptsAndSkillsConfiguration/label', '技能与斜杠命令');
     readonly description = nls.localize('theia/ai/ide/promptsAndSkillsConfiguration/pageSubtitle',
-        'Skills the model can use and slash commands you invoke with /. Open a skill to edit its SKILL.md, or edit a slash command’s template.');
+        '模型可以使用的技能以及您通过 / 调用的斜杠命令。打开技能以编辑其 SKILL.md，或编辑斜杠命令的模板。');
     readonly iconClass = codicon('mortar-board');
     readonly order = AiConfigurationCategoryOrder.PROMPTS_AND_SKILLS;
     readonly kind = 'single-page' as const;
@@ -190,25 +190,25 @@ export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRen
         const groups: CollapsibleGroup[] = [
             {
                 id: 'skills',
-                title: nls.localizeByDefault('Skills'),
+                title: nls.localizeByDefault('技能'),
                 description: skillAgents.length === 0
                     ? nls.localize('theia/ai/ide/skillsConfiguration/noSkillAgents',
-                        'No agent currently surfaces skills, so none of these are reached: a skill needs the {{skills}} variable '
-                        + 'or the skill usage capability in an agent\'s prompt.')
+                        '当前没有代理呈现技能，因此这些技能都不会被触达：技能需要代理提示词中的 {{skills}} 变量 '
+                        + '或技能使用能力。')
                     : nls.localize('theia/ai/ide/skillsConfiguration/skillsGroupDescription',
-                        'File-based SKILL.md units the model can choose to follow, surfaced via the {{skills}} variable and the skill usage capability.'),
+                        '基于文件的 SKILL.md 单元，模型可以选择遵循，通过 {{skills}} 变量和技能使用能力呈现。'),
                 rows: this.skills.map(skill => this.buildSkillRow(skill))
             },
             {
                 id: 'slash-commands',
-                title: nls.localize('theia/ai/ide/skillsConfiguration/slashCommandsSectionHeader', 'Slash Commands'),
+                title: nls.localize('theia/ai/ide/skillsConfiguration/slashCommandsSectionHeader', '斜杠命令'),
                 description: nls.localize('theia/ai/ide/skillsConfiguration/slashCommandsGroupDescription',
-                    'Prompt fragments you invoke by typing /name in chat, available to one or more agents.'),
+                    '在聊天中输入 /name 即可调用的提示词片段，供一个或多个代理使用。'),
                 rows: this.slashCommands.map(command => this.buildCommandRow(command, onOpenAgent))
             }
         ];
         return <>
-            <AiConfigurationSection title={nls.localizeByDefault('Settings')}>
+            <AiConfigurationSection title={nls.localizeByDefault('设置')}>
                 <AiSettingsRow
                     service={this.settingsRowService}
                     preferenceId={PREFERENCE_NAME_SKILL_DIRECTORIES}
@@ -219,9 +219,9 @@ export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRen
             </AiConfigurationSection>
             <CollapsibleList
                 groups={groups}
-                filterPlaceholder={nls.localize('theia/ai/ide/skillsConfiguration/filterPlaceholder', 'Filter skills and slash commands by name or description')}
-                emptyMessage={nls.localize('theia/ai/ide/skillsConfiguration/empty', 'No skills or slash commands are available.')}
-                filterEmptyMessage={query => nls.localize('theia/ai/ide/skillsConfiguration/noMatches', 'No skills or slash commands match "{0}".', query)}
+                filterPlaceholder={nls.localize('theia/ai/ide/skillsConfiguration/filterPlaceholder', '按名称或描述筛选技能和斜杠命令')}
+                emptyMessage={nls.localize('theia/ai/ide/skillsConfiguration/empty', '没有可用的技能或斜杠命令。')}
+                filterEmptyMessage={query => nls.localize('theia/ai/ide/skillsConfiguration/noMatches', '没有与“{0}”匹配的技能或斜杠命令。', query)}
             />
         </>;
     }
@@ -233,7 +233,7 @@ export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRen
         const origins = this.getSkillOrigins(skill);
         const pills: string[] = [];
         if (tools.length > 0) {
-            pills.push(nls.localizeByDefault('{0} tools', tools.length));
+            pills.push(nls.localizeByDefault('{0} 个工具', tools.length));
         }
         return {
             id: SKILL_ROW_PREFIX + skill.qualifiedName,
@@ -244,26 +244,26 @@ export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRen
             filterText: `${skill.qualifiedName} ${skill.description ?? ''} ${plugin?.name ?? ''}`.toLocaleLowerCase(),
             actions: <CollapsibleRowAction
                 iconClass={codicon('edit')}
-                label={nls.localize('theia/ai/ide/skillsConfiguration/openSkillFile', 'Open SKILL.md')}
+                label={nls.localize('theia/ai/ide/skillsConfiguration/openSkillFile', '打开 SKILL.md')}
                 onActivate={() => this.openSkill(skill)}
             />,
             body: <>
-                <AiConfigurationValueRow label={nls.localizeByDefault('Location')} value={skill.location} onCopy={this.copyValue} />
+                <AiConfigurationValueRow label={nls.localizeByDefault('位置')} value={skill.location} onCopy={this.copyValue} />
                 {(skill.license || skill.compatibility || metadata.length > 0) && <div className='ai-variable-section'>
-                    <div className='ai-variable-section-label'>{nls.localize('theia/ai/ide/skillsConfiguration/frontmatter', 'Frontmatter')}</div>
+                    <div className='ai-variable-section-label'>{nls.localize('theia/ai/ide/skillsConfiguration/frontmatter', '元数据（Frontmatter）')}</div>
                     {skill.license && <AiConfigurationValueRow
-                        label={nls.localizeByDefault('License')} value={skill.license} onCopy={this.copyValue} />}
+                        label={nls.localizeByDefault('许可证')} value={skill.license} onCopy={this.copyValue} />}
                     {skill.compatibility && <AiConfigurationValueRow
-                        label={nls.localize('theia/ai/ide/skillsConfiguration/compatibility', 'Compatibility')}
+                        label={nls.localize('theia/ai/ide/skillsConfiguration/compatibility', '兼容性')}
                         value={skill.compatibility} onCopy={this.copyValue} />}
                     {metadata.map(([key, value]) => <AiConfigurationValueRow key={key} label={key} value={value} onCopy={this.copyValue} />)}
                 </div>}
                 <div className='ai-variable-section'>
-                    <div className='ai-variable-section-label'>{nls.localizeByDefault('Allowed tools')}</div>
+                    <div className='ai-variable-section-label'>{nls.localizeByDefault('允许的工具')}</div>
                     {tools.length === 0
                         ? <div className='ai-variable-section-note'>
                             {nls.localize('theia/ai/ide/skillsConfiguration/noAllowedTools',
-                                'No allowed tools declared. The skill may use any tool the agent already has.')}
+                                '未声明允许的工具。该技能可以使用代理已有的任何工具。')}
                         </div>
                         : <div className='ai-configuration-chip-row'>
                             {tools.map(tool => <AiConfigurationKindBadge key={tool} label={tool} variant='outline' />)}
@@ -279,8 +279,8 @@ export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRen
         const isGlobal = !command.commandAgents || command.commandAgents.length === 0;
         const example = `/${commandName}${command.commandArgumentHint ? ' ' + command.commandArgumentHint : ''}`;
         const pills = [isGlobal
-            ? nls.localize('theia/ai/ide/skillsConfiguration/slashCommand/allAgents', 'All agents')
-            : (agents.length === 1 ? nls.localizeByDefault('1 agent') : nls.localizeByDefault('{0} agents', agents.length))];
+            ? nls.localize('theia/ai/ide/skillsConfiguration/slashCommand/allAgents', '所有代理')
+            : (agents.length === 1 ? nls.localizeByDefault('1 个代理') : nls.localizeByDefault('{0} 个代理', agents.length))];
         return {
             id: COMMAND_ROW_PREFIX + command.id,
             title: '/' + commandName,
@@ -289,22 +289,22 @@ export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRen
             filterText: `${commandName} ${command.id} ${command.commandDescription ?? ''}`.toLocaleLowerCase(),
             actions: <CollapsibleRowAction
                 iconClass={codicon('edit')}
-                label={nls.localize('theia/ai/ide/skillsConfiguration/editCommandTemplate', 'Edit prompt template')}
+                label={nls.localize('theia/ai/ide/skillsConfiguration/editCommandTemplate', '编辑提示词模板')}
                 onActivate={() => this.editCommand(command)}
             />,
             body: <>
-                <AiConfigurationValueRow label={nls.localizeByDefault('Command')} value={example} onCopy={this.copyValue} />
+                <AiConfigurationValueRow label={nls.localizeByDefault('命令')} value={example} onCopy={this.copyValue} />
                 <div className='ai-variable-section'>
-                    <div className='ai-variable-section-label'>{nls.localize('theia/ai/ide/skillsConfiguration/slashCommand/availableForAgents', 'Available for agents')}</div>
+                    <div className='ai-variable-section-label'>{nls.localize('theia/ai/ide/skillsConfiguration/slashCommand/availableForAgents', '可用的代理')}</div>
                     {/* "All agents" is a value, not an empty state: render it as a chip so it lines up with the
                         per-agent chips of a scoped command instead of being centered like a placeholder. */}
                     {isGlobal
                         ? <div className='ai-configuration-chip-row'>
                             <AiConfigurationKindBadge
-                                label={nls.localize('theia/ai/ide/skillsConfiguration/slashCommand/allAgents', 'All agents')}
+                                label={nls.localize('theia/ai/ide/skillsConfiguration/slashCommand/allAgents', '所有代理')}
                                 variant='outline'
                                 title={nls.localize('theia/ai/ide/skillsConfiguration/slashCommand/allAgentsTooltip',
-                                    'This command declares no agents, so it is available to every agent.')}
+                                    '此命令未声明代理，因此对所有代理可用。')}
                             />
                         </div>
                         : <AgentChips agents={agents} onOpenAgent={onOpenAgent} />}
@@ -392,8 +392,8 @@ export class PromptsAndSkillsConfigurationCategory extends SinglePageCategoryRen
 
     getSearchItems(): AiConfigurationSearchItem[] {
         const items: AiConfigurationSearchItem[] = [];
-        const skillLabel = nls.localizeByDefault('Skill');
-        const slashCommandLabel = nls.localize('theia/ai/ide/skillsConfiguration/slashCommandsSectionHeader', 'Slash Commands');
+        const skillLabel = nls.localizeByDefault('技能');
+        const slashCommandLabel = nls.localize('theia/ai/ide/skillsConfiguration/slashCommandsSectionHeader', '斜杠命令');
         for (const skill of this.skills) {
             items.push({
                 label: skill.qualifiedName,

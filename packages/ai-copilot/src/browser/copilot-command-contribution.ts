@@ -24,13 +24,13 @@ import { COPILOT_ENABLED_PREF, COPILOT_ENTERPRISE_URL_PREF } from '../common/cop
 
 export namespace CopilotCommands {
     export const SIGN_IN: Command = Command.toLocalizedCommand(
-        { id: 'copilot.signIn', label: 'Sign in to GitHub Copilot', category: 'Copilot' },
+        { id: 'copilot.signIn', label: '登录 GitHub Copilot', category: 'Copilot' },
         'theia/ai/copilot/commands/signIn',
         'theia/ai/copilot/category'
     );
 
     export const SIGN_OUT: Command = Command.toLocalizedCommand(
-        { id: 'copilot.signOut', label: 'Sign out of GitHub Copilot', category: 'Copilot' },
+        { id: 'copilot.signOut', label: '登出 GitHub Copilot', category: 'Copilot' },
         'theia/ai/copilot/commands/signOut',
         'theia/ai/copilot/category'
     );
@@ -92,8 +92,8 @@ export class CopilotCommandContribution implements CommandContribution, Disposab
         registry.registerCommand(CopilotCommands.SIGN_OUT, {
             execute: async () => {
                 const confirmed = await new ConfirmDialog({
-                    title: nls.localize('theia/ai/copilot/commands/signOut', 'Sign out of GitHub Copilot'),
-                    msg: nls.localize('theia/ai/copilot/signOut/confirmMessage', 'Are you sure you want to sign out of GitHub Copilot?'),
+                    title: nls.localize('theia/ai/copilot/commands/signOut', '登出 GitHub Copilot'),
+                    msg: nls.localize('theia/ai/copilot/signOut/confirmMessage', '您确定要登出 GitHub Copilot 吗？'),
                     ok: Dialog.YES,
                     cancel: Dialog.NO
                 }).open();

@@ -1486,7 +1486,8 @@ export class ChatTreeChangeSet implements Omit<ChangeSet, 'onDidChange'> {
     }
 
     protected currentElements: ChangeSetElement[] = [];
-    protected handleChangeSetChange = debounce(this.doHandleChangeSetChange.bind(this), 100, { leading: false, trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected handleChangeSetChange: any = debounce(this.doHandleChangeSetChange.bind(this), 100, { leading: false, trailing: true });
     protected doHandleChangeSetChange(): void {
         const newElements = this.computeChangeSetElements();
         this.handleElementChange(newElements);

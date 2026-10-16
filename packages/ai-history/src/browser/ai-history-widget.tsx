@@ -39,7 +39,7 @@ export class AIHistoryView extends ReactWidget implements StatefulWidget {
     protected readonly agentService: AgentService;
 
     public static ID = 'ai-history-widget';
-    static LABEL = nls.localize('theia/ai/history/view/label', 'AI Agent History');
+    static LABEL = nls.localize('theia/ai/history/view/label', 'AI 代理历史');
 
     protected _state: AIHistoryView.State = { chronological: false, compactView: true, renderNewlines: true };
 
@@ -111,7 +111,7 @@ export class AIHistoryView extends ReactWidget implements StatefulWidget {
         if (agents.length === 0) {
             return (
                 <div className='agent-history-widget'>
-                    <div className='theia-card no-content'>{nls.localize('theia/ai/history/view/noAgent', 'No agent available.')}</div>
+                    <div className='theia-card no-content'>{nls.localize('theia/ai/history/view/noAgent', '没有可用的代理。')}</div>
                 </div >);
         }
         return (
@@ -133,7 +133,7 @@ export class AIHistoryView extends ReactWidget implements StatefulWidget {
 
     protected renderHistory(): React.ReactNode {
         if (!this.state.selectedAgentId) {
-            return <div className='theia-card no-content'>{nls.localize('theia/ai/history/view/noAgentSelected', 'No agent selected.')}</div>;
+            return <div className='theia-card no-content'>{nls.localize('theia/ai/history/view/noAgentSelected', '未选择代理。')}</div>;
         }
 
         const exchanges = this.getExchangesByAgent(this.state.selectedAgentId);
@@ -141,7 +141,7 @@ export class AIHistoryView extends ReactWidget implements StatefulWidget {
         if (exchanges.length === 0) {
             const selectedAgent = this.getRelevantAgents().find(agent => agent.id === this.state.selectedAgentId);
             return <div className='theia-card no-content'>
-                {nls.localize('theia/ai/history/view/noHistoryForAgent', 'No history available for the selected agent \'{0}\'', selectedAgent?.name || this.state.selectedAgentId)}
+                {nls.localize('theia/ai/history/view/noHistoryForAgent', '所选代理“{0}”没有可用的历史', selectedAgent?.name || this.state.selectedAgentId)}
             </div>;
         }
 

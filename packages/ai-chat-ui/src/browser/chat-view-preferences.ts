@@ -32,8 +32,8 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
             default: false,
             description: nls.localize(
                 'theia/ai/chat-ui/tokenUsageIndicatorEnabled',
-                'Controls whether the experimental token usage indicator is shown in the chat view. ' +
-                'This feature is experimental and token counts may be inaccurate depending on the model and provider.'
+                '控制是否在聊天视图中显示实验性的令牌用量指示器。' +
+                '此功能仍处于实验阶段，令牌计数可能因模型和提供商的不同而不准确。'
             ),
             tags: ['experimental']
         },
@@ -42,8 +42,8 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
             default: false,
             description: nls.localize(
                 'theia/ai/chat-ui/tokenUsageWarningEnabled',
-                'Controls whether a notification is shown when a chat session\'s token usage crosses the configured threshold. ' +
-                'Requires the language model provider to report token usage.'
+                '控制当聊天会话的令牌用量超过配置的阈值时是否显示通知。' +
+                '需要语言模型提供商报告令牌用量。'
             ),
             tags: ['experimental']
         },
@@ -54,9 +54,9 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
             default: CHAT_VIEW_TOKEN_USAGE_WARNING_THRESHOLD_PERCENTAGE_DEFAULT,
             description: nls.localize(
                 'theia/ai/chat-ui/tokenUsageWarningThresholdPercentage',
-                'Percentage of the model\'s context window at which the token usage warning is triggered. ' +
-                'This value also drives the warning/error color bands of the token usage indicator. ' +
-                'Currently resolves against an assumed 200k context window; will use the real per-model context size once available.'
+                '触发令牌用量警告的模型上下文窗口百分比。' +
+                '此值同时决定令牌用量指示器的警告/错误色带。' +
+                '目前按假定的 200k 上下文窗口计算；待每个模型的真实上下文大小可用后将改用真实值。'
             ),
             tags: ['experimental']
         },
@@ -68,10 +68,9 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
             default: [],
             description: nls.localize(
                 'theia/ai/chat-ui/allowedResourceUrls',
-                'External resources (images, stylesheets, media, etc.) referenced in AI chat responses are blocked by default and ' +
-                'replaced with a placeholder until explicitly allowed. Resources whose URL starts with one of the configured prefixes ' +
-                'are rendered directly without being blocked. Include the full origin with a trailing slash (e.g. "https://example.com/") ' +
-                'to avoid unintended matches. Only add sources you fully trust.'
+                'AI 聊天回复中引用的外部资源（图片、样式表、媒体等）默认会被阻止，' +
+                '并在被明确允许之前替换为占位符。URL 以所配置前缀之一开头的资源将直接渲染而不被阻止。' +
+                '请包含以斜杠结尾的完整源（例如 "https://example.com/"），以避免意外匹配。仅添加你完全信任的来源。'
             )
         }
     }

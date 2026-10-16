@@ -20,11 +20,13 @@ export namespace nls {
 
     export let localization: Localization | undefined;
 
-    export const defaultLocale = 'en';
+    /**
+     * Fork customization: this build is Chinese-only (zh-cn). Multi-language support,
+     * including the English locale data and the display language switcher, has been removed.
+     */
+    export const defaultLocale = 'zh-cn';
 
-    export const localeId = 'localeId';
-
-    export const locale = typeof window === 'object' && window && window.localStorage.getItem(localeId) || undefined;
+    export const locale: string = defaultLocale;
 
     let keyProvider: LocalizationKeyProvider | undefined;
 
@@ -36,9 +38,9 @@ export namespace nls {
             const key = getDefaultKey(defaultValue);
             if (key) {
                 return localize(key, defaultValue, ...args);
-            } else {
-                console.warn(`Could not find translation key for default value: "${defaultValue}"`);
             }
+            // Fork customization: default values are Chinese in this build and never
+            // match the English-based nls.metadata.json keys, so no warning is emitted.
         }
         return Localization.format(defaultValue, args);
     }
@@ -59,25 +61,18 @@ export namespace nls {
     }
 
     export function isSelectedLocale(id: string): boolean {
-        if (locale === undefined && id === defaultLocale) {
-            return true;
-        }
         return locale === id;
-    }
-
-    export function setLocale(id: string): void {
-        window.localStorage.setItem(localeId, id);
     }
 
     /**
      * Sets the 'lang' attribute on the given HTML element based on the current locale.
-     * If no locale is set, defaults to 'en' (English).
+     * This build is Chinese-only, so it always defaults to 'zh-cn'.
      * Typically used with document.documentElement (the <html> tag) to set the page language.
      *
      * @param element The HTML element to set the language attribute on
      */
     export function setHtmlLang(element: HTMLElement): void {
-        const lang = locale?.split('_').at(0) || 'en';
+        const lang = locale.split('_').at(0) || 'zh-cn';
         element.setAttribute('lang', lang);
     }
 

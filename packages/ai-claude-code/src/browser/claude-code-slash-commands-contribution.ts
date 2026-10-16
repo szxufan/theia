@@ -38,31 +38,31 @@ export class ClaudeCodeSlashCommandsContribution implements FrontendApplicationC
     private readonly staticCommands: StaticSlashCommand[] = [
         {
             name: 'clear',
-            description: nls.localize('theia/ai/claude-code/clearCommand/description', 'Create a new session'),
+            description: nls.localize('theia/ai/claude-code/clearCommand/description', '创建新会话'),
         },
         {
             name: 'compact',
-            description: nls.localize('theia/ai/claude-code/compactCommand/description', 'Compact conversation with optional focus instructions'),
+            description: nls.localize('theia/ai/claude-code/compactCommand/description', '压缩对话，可选聚焦指令'),
         },
         {
             name: 'config',
-            description: nls.localize('theia/ai/claude-code/configCommand/description', 'Open Claude Code Configuration'),
+            description: nls.localize('theia/ai/claude-code/configCommand/description', '打开 Claude Code 配置'),
         },
         {
             name: 'init',
-            description: nls.localize('theia/ai/claude-code/initCommand/description', 'Initialize project with CLAUDE.md guide'),
+            description: nls.localize('theia/ai/claude-code/initCommand/description', '使用 CLAUDE.md 指南初始化项目'),
         },
         {
             name: 'memory',
-            description: nls.localize('theia/ai/claude-code/memoryCommand/description', 'Edit CLAUDE.md memory file'),
+            description: nls.localize('theia/ai/claude-code/memoryCommand/description', '编辑 CLAUDE.md 记忆文件'),
         },
         {
             name: 'review',
-            description: nls.localize('theia/ai/claude-code/reviewCommand/description', 'Request code review'),
+            description: nls.localize('theia/ai/claude-code/reviewCommand/description', '请求代码审查'),
         },
         {
             name: 'resume',
-            description: nls.localize('theia/ai/claude-code/resumeCommand/description', 'Resume a session'),
+            description: nls.localize('theia/ai/claude-code/resumeCommand/description', '恢复会话'),
         }
     ];
 

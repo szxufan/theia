@@ -95,7 +95,7 @@ export class TypeHierarchyTreeWidget extends TreeWidget {
 export namespace TypeHierarchyTreeWidget {
 
     export const WIDGET_ID = 'theia-typehierarchy';
-    export const WIDGET_LABEL = nls.localizeByDefault('Type Hierarchy');
+    export const WIDGET_LABEL = nls.localizeByDefault('类型层次结构');
 
     /**
      * CSS styles for the `Type Hierarchy` widget.

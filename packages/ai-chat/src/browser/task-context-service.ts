@@ -87,7 +87,7 @@ export class TaskContextService {
         const summaryId = generateUuid();
         const summaryDeferred = new Deferred<Summary>();
         const progress = await this.progressService.showProgress({
-            text: nls.localize('theia/ai/chat/taskContextService/summarizeProgressMessage', 'Summarize: {0}', session.title || session.id),
+            text: nls.localize('theia/ai/chat/taskContextService/summarizeProgressMessage', '总结：{0}', session.title || session.id),
             options: { location: 'ai-chat' }
         });
         this.pendingSummaries.set(session.id, summaryDeferred.promise);

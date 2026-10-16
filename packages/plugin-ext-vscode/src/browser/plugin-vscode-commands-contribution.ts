@@ -449,8 +449,8 @@ export class PluginVscodeCommandsContribution implements CommandContribution {
                 try {
                     await this.openWith(VscodeCommands.OPEN.id, resource, columnOrOptions);
                 } catch (error) {
-                    const message = nls.localizeByDefault("Unable to open '{0}'", resource.path);
-                    const reason = nls.localizeByDefault('Error: {0}', error.message);
+                    const message = nls.localizeByDefault("无法打开 '{0}'", resource.path);
+                    const reason = nls.localizeByDefault('错误: {0}', error.message);
                     this.messageService.error(`${message}\n${reason}`);
                     this.logger.warn(error);
                 }
@@ -605,7 +605,7 @@ export class PluginVscodeCommandsContribution implements CommandContribution {
         commands.registerCommand(VscodeCommands.UNINSTALL_EXTENSION, {
             execute: async (id: string) => {
                 if (!id) {
-                    throw new Error(nls.localizeByDefault('Extension id required.'));
+                    throw new Error(nls.localizeByDefault('需要扩展 ID。'));
                 }
                 const idAndVersion = PluginIdentifiers.idAndVersionFromVersionedId(id);
                 if (!idAndVersion) {
@@ -677,13 +677,13 @@ export class PluginVscodeCommandsContribution implements CommandContribution {
 
         commands.registerCommand({
             id: 'workbench.action.closeEditorsInGroup',
-            label: nls.localizeByDefault('Close All Editors in Group')
+            label: nls.localizeByDefault('关闭组中的所有编辑器')
         }, {
             execute: (uri?: monaco.Uri) => performActionOnGroup(this.shell.closeTabs, uri)
         });
         commands.registerCommand({
             id: 'workbench.files.saveAllInGroup',
-            label: nls.localizeByDefault('Save All in Group')
+            label: nls.localizeByDefault('保存组中的所有内容')
         }, {
             execute: (uri?: monaco.Uri) => performActionOnGroup(this.shell.saveTabs, uri)
         });
@@ -756,36 +756,36 @@ export class PluginVscodeCommandsContribution implements CommandContribution {
         });
         commands.registerCommand({
             id: 'workbench.action.navigateLeft',
-            label: nls.localizeByDefault('Navigate to the View on the Left'),
-            category: nls.localizeByDefault('View')
+            label: nls.localizeByDefault('导航到左侧的视图'),
+            category: nls.localizeByDefault('查看')
         }, {
             execute: () => this.navigateEditorGroup('left')
         });
         commands.registerCommand({
             id: 'workbench.action.navigateRight',
-            label: nls.localizeByDefault('Navigate to the View on the Right'),
-            category: nls.localizeByDefault('View')
+            label: nls.localizeByDefault('导航到右侧的视图'),
+            category: nls.localizeByDefault('查看')
         }, {
             execute: () => this.navigateEditorGroup('right')
         });
         commands.registerCommand({
             id: 'workbench.action.navigateUp',
-            label: nls.localizeByDefault('Navigate to the View Above'),
-            category: nls.localizeByDefault('View')
+            label: nls.localizeByDefault('导航到上方的视图'),
+            category: nls.localizeByDefault('查看')
         }, {
             execute: () => this.navigateEditorGroup('up')
         });
         commands.registerCommand({
             id: 'workbench.action.navigateDown',
-            label: nls.localizeByDefault('Navigate to the View Below'),
-            category: nls.localizeByDefault('View')
+            label: nls.localizeByDefault('导航到下方的视图'),
+            category: nls.localizeByDefault('查看')
         }, {
             execute: () => this.navigateEditorGroup('down')
         });
         commands.registerCommand({
             id: 'workbench.action.navigateEditorGroups',
-            label: nls.localizeByDefault('Navigate Between Editor Groups'),
-            category: nls.localizeByDefault('View')
+            label: nls.localizeByDefault('在编辑器组之间导航'),
+            category: nls.localizeByDefault('查看')
         }, {
             execute: () => this.navigateEditorGroups()
         });

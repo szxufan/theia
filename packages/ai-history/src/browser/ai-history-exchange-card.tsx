@@ -97,7 +97,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({ exchange, selectedAg
                 </span>
                 {exchange.metadata.agent && (
                     <span className='theia-card-agent-id'>
-                        {nls.localizeByDefault('Agent')}: {exchange.metadata.agent}
+                        {nls.localizeByDefault('代理')}: {exchange.metadata.agent}
                     </span>
                 )}
             </div>
@@ -119,7 +119,7 @@ export const ExchangeCard: React.FC<ExchangeCardProps> = ({ exchange, selectedAg
             <div className='theia-card-meta'>
                 {earliestTimestamp > 0 && (
                     <span className='theia-card-timestamp'>
-                        {nls.localize('theia/ai/history/exchange-card/timestamp', 'Started')}: {formatTimestamp(earliestTimestamp)}
+                        {nls.localize('theia/ai/history/exchange-card/timestamp', '开始时间')}: {formatTimestamp(earliestTimestamp)}
                     </span>
                 )}
             </div>
@@ -196,26 +196,26 @@ const RequestCard: React.FC<RequestCardProps> = ({ request, index, totalRequests
         <div className={`request-card ${isFromDifferentAgent ? 'different-agent-opacity' : ''}`}>
             <div className='request-header'>
                 {totalRequests > 1 && (
-                    <h3>{nls.localizeByDefault('Request')} {index + 1}</h3>
+                    <h3>{nls.localizeByDefault('请求')} {index + 1}</h3>
                 )}
                 <div className='request-info'>
                     <span className='request-id'>ID: {request.id}</span>
                     {request.metadata.agent && (
                         <span className={`request-agent ${isFromDifferentAgent ? 'different-agent-name' : ''}`}>
-                            {nls.localizeByDefault('Agent')}: {request.metadata.agent}
+                            {nls.localizeByDefault('代理')}: {request.metadata.agent}
                         </span>
                     )}
                     <span className='request-model'>
-                        {nls.localizeByDefault('Model')}: {request.languageModel}
+                        {nls.localizeByDefault('模型')}: {request.languageModel}
                     </span>
                     {!!request.metadata.promptVariantId && (
                         <span className={`request-prompt-variant ${request.metadata.isPromptVariantCustomized ? 'customized' : ''}`}>
                             {!!request.metadata.isPromptVariantCustomized && (
                                 <span className='customized-prefix'>
-                                    [{nls.localize('theia/ai/history/edited', 'edited')}]{' '}
+                                    [{nls.localize('theia/ai/history/edited', '已编辑')}]{' '}
                                 </span>
                             )}
-                            {nls.localize('theia/ai/history/request-card/promptVariant', 'Prompt Variant')}: {request.metadata.promptVariantId as string}
+                            {nls.localize('theia/ai/history/request-card/promptVariant', '提示词变体')}: {request.metadata.promptVariantId as string}
                         </span>
                     )}
                 </div>
@@ -224,7 +224,7 @@ const RequestCard: React.FC<RequestCardProps> = ({ request, index, totalRequests
             <div className='request-content-container'>
                 <details>
                     <summary>
-                        {nls.localizeByDefault('Request')}
+                        {nls.localizeByDefault('请求')}
                     </summary>
                     <div className='request-content'>
                         {getRequestContent()}
@@ -233,7 +233,7 @@ const RequestCard: React.FC<RequestCardProps> = ({ request, index, totalRequests
 
                 <details>
                     <summary>
-                        {nls.localizeByDefault('Response')}
+                        {nls.localizeByDefault('响应')}
                     </summary>
                     <div className='response-content'>
                         {getResponseContent()}
@@ -244,7 +244,7 @@ const RequestCard: React.FC<RequestCardProps> = ({ request, index, totalRequests
             <div className='request-meta'>
                 {request.metadata.timestamp && (
                     <span className='request-timestamp'>
-                        {nls.localize('theia/ai/history/request-card/timestamp', 'Timestamp')}: {formatTimestamp(request.metadata.timestamp as number)}
+                        {nls.localize('theia/ai/history/request-card/timestamp', '时间戳')}: {formatTimestamp(request.metadata.timestamp as number)}
                     </span>
                 )}
             </div>

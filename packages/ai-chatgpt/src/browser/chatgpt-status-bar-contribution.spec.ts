@@ -93,14 +93,14 @@ describe('ChatGptStatusBarContribution', () => {
     it('offers sign-in while signed out and account sign-out after sign-in', async () => {
         await start();
         expect(entry()?.command).to.equal(ChatGptCommands.SIGN_IN.id);
-        expect(entry()?.text).to.equal('$(openai) Sign in with ChatGPT');
+        expect(entry()?.text).to.equal('$(openai) 使用 ChatGPT 登录');
         expect(entry()?.alignment).to.equal(StatusBarAlignment.RIGHT);
         authEmitter.fire({ isAuthenticated: true, accountLabel: 'user@example.com' });
         expect(entry()?.text).to.equal('$(openai) ChatGPT: user@example.com');
-        expect(entry()?.tooltip).to.contain('Click to sign out');
+        expect(entry()?.tooltip).to.contain('点击登出');
         expect(entry()?.command).to.equal(ChatGptCommands.SIGN_OUT.id);
         authEmitter.fire({ isAuthenticated: false });
-        expect(entry()?.text).to.equal('$(openai) Sign in with ChatGPT');
+        expect(entry()?.text).to.equal('$(openai) 使用 ChatGPT 登录');
         expect(entry()?.command).to.equal(ChatGptCommands.SIGN_IN.id);
     });
 

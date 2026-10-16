@@ -32,7 +32,7 @@ import { TASK_CONTEXT_SUMMARY_VARIABLE_ID } from '../common/context-variables';
 
 export const TASK_CONTEXT_SUMMARY_VARIABLE: AIVariable = {
     id: TASK_CONTEXT_SUMMARY_VARIABLE_ID,
-    description: nls.localize('theia/ai/core/taskContextSummary/description', 'Resolves all task context items present in the session context.'),
+    description: nls.localize('theia/ai/core/taskContextSummary/description', '解析会话上下文中存在的所有任务上下文条目。'),
     name: TASK_CONTEXT_SUMMARY_VARIABLE_ID,
 };
 

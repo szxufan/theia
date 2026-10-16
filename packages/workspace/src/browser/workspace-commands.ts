@@ -44,7 +44,7 @@ const validFilename: (arg: string) => boolean = require('valid-filename');
 
 export namespace WorkspaceCommands {
 
-    const WORKSPACE_CATEGORY = 'Workspaces';
+    const WORKSPACE_CATEGORY = '工作区';
     const FILE_CATEGORY = CommonCommands.FILE_CATEGORY;
 
     // On Linux and Windows, both files and folders cannot be opened at the same time in electron.
@@ -55,48 +55,48 @@ export namespace WorkspaceCommands {
         ...Command.toDefaultLocalizedCommand({
             id: 'workspace:open',
             category: CommonCommands.FILE_CATEGORY,
-            label: 'Open...'
+            label: '打开...'
         }),
-        dialogLabel: nls.localizeByDefault('Open')
+        dialogLabel: nls.localizeByDefault('打开')
     };
     // No `label`. Otherwise, it shows up in the `Command Palette`.
     export const OPEN_FILE: Command & { dialogLabel: string } = {
         id: 'workspace:openFile',
         originalCategory: FILE_CATEGORY,
-        category: nls.localizeByDefault(CommonCommands.FILE_CATEGORY),
-        dialogLabel: nls.localizeByDefault('Open File')
+        category: nls.localizeByDefault('文件'),
+        dialogLabel: nls.localizeByDefault('打开文件')
     };
     export const OPEN_FOLDER: Command & { dialogLabel: string } = {
         id: 'workspace:openFolder',
-        dialogLabel: nls.localizeByDefault('Open Folder') // No `label`. Otherwise, it shows up in the `Command Palette`.
+        dialogLabel: nls.localizeByDefault('打开文件夹') // No `label`. Otherwise, it shows up in the `Command Palette`.
     };
     export const OPEN_WORKSPACE: Command & { dialogLabel: string } = {
         ...Command.toDefaultLocalizedCommand({
             id: 'workspace:openWorkspace',
             category: CommonCommands.FILE_CATEGORY,
-            label: 'Open Workspace from File...',
+            label: '从文件打开工作区...',
         }),
-        dialogLabel: nls.localizeByDefault('Open Workspace from File')
+        dialogLabel: nls.localizeByDefault('从文件打开工作区')
     };
     export const OPEN_RECENT_WORKSPACE = Command.toLocalizedCommand({
         id: 'workspace:openRecent',
         category: FILE_CATEGORY,
-        label: 'Open Recent Workspace...'
+        label: '打开最近的工作区...'
     }, 'theia/workspace/openRecentWorkspace', CommonCommands.FILE_CATEGORY_KEY);
     export const CLOSE = Command.toDefaultLocalizedCommand({
         id: 'workspace:close',
         category: WORKSPACE_CATEGORY,
-        label: 'Close Workspace'
+        label: '关闭工作区'
     });
     export const NEW_FILE = Command.toDefaultLocalizedCommand({
         id: 'file.newFile',
         category: FILE_CATEGORY,
-        label: 'New File...'
+        label: '新建文件...'
     });
     export const NEW_FOLDER = Command.toDefaultLocalizedCommand({
         id: 'file.newFolder',
         category: FILE_CATEGORY,
-        label: 'New Folder...'
+        label: '新建文件夹...'
     });
     /** @deprecated Use the `OpenWithService` instead */
     export const FILE_OPEN_WITH = (opener: OpenHandler): Command => ({
@@ -105,53 +105,53 @@ export namespace WorkspaceCommands {
     export const FILE_RENAME = Command.toDefaultLocalizedCommand({
         id: 'file.rename',
         category: FILE_CATEGORY,
-        label: 'Rename'
+        label: '重命名'
     });
     export const FILE_DELETE = Command.toDefaultLocalizedCommand({
         id: 'file.delete',
         category: FILE_CATEGORY,
-        label: 'Delete'
+        label: '删除'
     });
     export const FILE_DUPLICATE = Command.toLocalizedCommand({
         id: 'file.duplicate',
         category: FILE_CATEGORY,
-        label: 'Duplicate'
+        label: '创建副本'
     }, 'theia/workspace/duplicate', CommonCommands.FILE_CATEGORY_KEY);
     export const FILE_COMPARE = Command.toLocalizedCommand({
         id: 'file.compare',
         category: FILE_CATEGORY,
-        label: 'Compare with Each Other'
+        label: '相互比较'
     }, 'theia/workspace/compareWithEachOther', CommonCommands.FILE_CATEGORY_KEY);
     export const ADD_FOLDER = Command.toDefaultLocalizedCommand({
         id: 'workspace:addFolder',
         category: WORKSPACE_CATEGORY,
-        label: 'Add Folder to Workspace...'
+        label: '将文件夹添加到工作区...'
     });
     export const REMOVE_FOLDER = Command.toDefaultLocalizedCommand({
         id: 'workspace:removeFolder',
         category: WORKSPACE_CATEGORY,
-        label: 'Remove Folder from Workspace'
+        label: '从工作区中移除文件夹'
     });
     export const SAVE_WORKSPACE_AS = Command.toDefaultLocalizedCommand({
         id: 'workspace:saveAs',
         category: WORKSPACE_CATEGORY,
-        label: 'Save Workspace As...'
+        label: '工作区另存为...'
     });
     export const OPEN_WORKSPACE_FILE = Command.toDefaultLocalizedCommand({
         id: 'workspace:openConfigFile',
         category: WORKSPACE_CATEGORY,
-        label: 'Open Workspace Configuration File'
+        label: '打开工作区配置文件'
     });
     /** @deprecated @since 1.24.0 Use `CommonCommands.SAVE_AS` instead */
     export const SAVE_AS = CommonCommands.SAVE_AS;
     export const COPY_RELATIVE_FILE_PATH = Command.toDefaultLocalizedCommand({
         id: 'navigator.copyRelativeFilePath',
-        label: 'Copy Relative Path'
+        label: '复制相对路径'
     });
     export const MANAGE_WORKSPACE_TRUST = Command.toDefaultLocalizedCommand({
         id: 'workspace:manageTrust',
         category: WORKSPACE_CATEGORY,
-        label: 'Manage Workspace Trust'
+        label: '管理工作区信任'
     });
 }
 
@@ -239,11 +239,11 @@ export class WorkspaceCommandContribution implements CommandContribution {
                     const vacantChildUri = FileSystemUtils.generateUniqueResourceURI(parent, targetUri, false);
 
                     const dialog = new WorkspaceInputDialog({
-                        title: nls.localizeByDefault('New File...'),
+                        title: nls.localizeByDefault('新建文件...'),
                         maxWidth: 400,
                         parentUri: parentUri,
                         initialValue: vacantChildUri.path.base,
-                        placeholder: nls.localize('theia/workspace/newFilePlaceholder', 'File Name'),
+                        placeholder: nls.localize('theia/workspace/newFilePlaceholder', '文件名'),
                         validate: name => this.validateFileName(name, parent, true)
                     }, this.labelProvider);
 
@@ -265,11 +265,11 @@ export class WorkspaceCommandContribution implements CommandContribution {
                     const targetUri = parentUri.resolve('Untitled');
                     const vacantChildUri = FileSystemUtils.generateUniqueResourceURI(parent, targetUri, true);
                     const dialog = new WorkspaceInputDialog({
-                        title: nls.localizeByDefault('New Folder...'),
+                        title: nls.localizeByDefault('新建文件夹...'),
                         maxWidth: 400,
                         parentUri: parentUri,
                         initialValue: vacantChildUri.path.base,
-                        placeholder: nls.localize('theia/workspace/newFolderPlaceholder', 'Folder Name'),
+                        placeholder: nls.localize('theia/workspace/newFolderPlaceholder', '文件夹名'),
                         validate: name => this.validateFileName(name, parent, true)
                     }, this.labelProvider);
                     dialog.open().then(async name => {
@@ -291,7 +291,7 @@ export class WorkspaceCommandContribution implements CommandContribution {
                 if (parent) {
                     const oldName = uri.path.base;
                     const dialog = new SingleTextInputDialog({
-                        title: nls.localizeByDefault('Rename'),
+                        title: nls.localizeByDefault('重命名'),
                         maxWidth: 400,
                         initialValue: oldName,
                         initialSelectionRange: {
@@ -393,22 +393,22 @@ export class WorkspaceCommandContribution implements CommandContribution {
         }
         // do not allow recursive rename
         if (!allowNested && !validFilename(name)) {
-            return nls.localizeByDefault('The name **{0}** is not valid as a file or folder name. Please choose a different name.', this.trimFileName(name))
+            return nls.localizeByDefault('名称 **{0}** 不能用作文件或文件夹名称。请选择其他名称。', this.trimFileName(name))
                 .replace(/\*\*/g, '');
         }
         if (name.startsWith('/')) {
-            return nls.localizeByDefault('A file or folder name cannot start with a slash.');
+            return nls.localizeByDefault('文件或文件夹名称不能以斜杠开头。');
         } else if (name.startsWith(' ') || name.endsWith(' ')) {
-            return nls.localizeByDefault('Leading or trailing whitespace detected in file or folder name.');
+            return nls.localizeByDefault('检测到文件或文件夹名称的开头或结尾包含空白字符。');
         }
         // check and validate each sub-paths
         if (name.split(/[\\/]/).some(file => !file || !validFilename(file) || /^\s+$/.test(file))) {
-            return nls.localizeByDefault('\'{0}\' is not a valid file name', this.trimFileName(name));
+            return nls.localizeByDefault('\'{0}\' 不是有效的文件名', this.trimFileName(name));
         }
         const childUri = parent.resource.resolve(name);
         const exists = await this.fileService.exists(childUri);
         if (exists) {
-            return nls.localizeByDefault('A file or folder **{0}** already exists at this location. Please choose a different name.', this.trimFileName(name))
+            return nls.localizeByDefault('此位置已存在文件或文件夹 **{0}**。请选择其他名称。', this.trimFileName(name))
                 .replace(/\*\*/g, '');
         }
         return '';
@@ -482,12 +482,12 @@ export class WorkspaceCommandContribution implements CommandContribution {
             const messageContainer = document.createElement('div');
             if (toRemove.length > 1) {
                 messageContainer.textContent = nls.localize('theia/workspace/removeFolders',
-                    'Are you sure you want to remove the following folders from the workspace?');
+                    '是否确定要从工作区中移除以下文件夹？');
             } else {
                 messageContainer.textContent = nls.localize('theia/workspace/removeFolder',
-                    'Are you sure you want to remove the following folder from the workspace?');
+                    '是否确定要从工作区中移除以下文件夹？');
             }
-            messageContainer.title = nls.localize('theia/workspace/noErasure', 'Note: Nothing will be erased from disk');
+            messageContainer.title = nls.localize('theia/workspace/noErasure', '注意：不会从磁盘中删除任何内容');
             const list = document.createElement('div');
             list.classList.add('theia-dialog-node');
             toRemove.forEach(uri => {
@@ -505,7 +505,7 @@ export class WorkspaceCommandContribution implements CommandContribution {
             });
             messageContainer.appendChild(list);
             const dialog = new ConfirmDialog({
-                title: nls.localizeByDefault('Remove Folder from Workspace'),
+                title: nls.localizeByDefault('从工作区中移除文件夹'),
                 msg: messageContainer
             });
             if (await dialog.open()) {
@@ -517,9 +517,9 @@ export class WorkspaceCommandContribution implements CommandContribution {
     async saveWorkspaceWithPrompt(registry: CommandRegistry): Promise<void> {
         const saveCommand = registry.getCommand(WorkspaceCommands.SAVE_WORKSPACE_AS.id);
         if (saveCommand && await new ConfirmDialog({
-            title: nls.localize('theia/workspace/workspaceFolderAddedTitle', 'Folder added to Workspace'),
+            title: nls.localize('theia/workspace/workspaceFolderAddedTitle', '已将文件夹添加到工作区'),
             msg: nls.localize('theia/workspace/workspaceFolderAdded',
-                'A workspace with multiple roots was created. Do you want to save your workspace configuration as a file?'),
+                '已创建包含多个根目录的工作区。是否要将工作区配置保存为文件？'),
             ok: Dialog.YES,
             cancel: Dialog.NO
         }).open()) {

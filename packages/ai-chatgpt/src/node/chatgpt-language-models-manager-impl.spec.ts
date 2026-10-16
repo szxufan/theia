@@ -60,7 +60,7 @@ class FakeLanguageModelRegistry implements LanguageModelRegistry {
     }
 }
 
-const UNAVAILABLE = { status: 'unavailable', message: 'Not signed in with ChatGPT' };
+const UNAVAILABLE = { status: 'unavailable', message: '未登录 ChatGPT' };
 
 describe('ChatGptLanguageModelsManagerImpl', () => {
 

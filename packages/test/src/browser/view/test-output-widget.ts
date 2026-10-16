@@ -18,7 +18,7 @@ import { FitAddon } from 'xterm-addon-fit';
 
 import { BaseWidget, Message, Widget, codicon, isFirefox } from '@theia/core/lib/browser';
 import { inject, injectable, postConstruct } from '@theia/core/shared/inversify';
-import { Disposable, DisposableCollection } from '@theia/core';
+import { Disposable, DisposableCollection, nls } from '@theia/core';
 import { TerminalPreferences } from '@theia/terminal/lib/common/terminal-preferences';
 import { TerminalThemeService } from '@theia/terminal/lib/browser/terminal-theme-service';
 import { TestOutputSource, TestOutputUIModel } from './test-output-ui-model';
@@ -40,8 +40,8 @@ export class TestOutputWidget extends BaseWidget {
         super();
 
         this.id = TestOutputWidget.ID;
-        this.title.label = 'Test Output';
-        this.title.caption = 'Test Output';
+        this.title.label = nls.localizeByDefault('测试输出');
+        this.title.caption = nls.localizeByDefault('测试输出');
         this.title.iconClass = codicon('symbol-keyword');
         this.title.closable = true;
     }

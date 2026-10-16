@@ -155,7 +155,7 @@ export class TaskTerminalWidgetManager {
             if (widget.commandHistoryState) {
                 widget.write('\x1b]133;prompt_started\x07');
             }
-            widget.writeLine('\x1b[1m> ' + nls.localizeByDefault('Executing task: {0}', command) + ' <\x1b[0m\n');
+            widget.writeLine('\x1b[1m> ' + nls.localizeByDefault('正在执行任务: {0}', command) + ' <\x1b[0m\n');
         }
         return widget;
     }
@@ -216,7 +216,7 @@ export class TaskTerminalWidgetManager {
             terminal.close();
         } else if (showReuseMessage) {
             terminal.scrollToBottom();
-            terminal.writeLine('\x1b[1m\n\r' + nls.localize('theia/task/terminalWillBeReusedByTasks', 'Terminal will be reused by tasks.') + '\x1b[0m\n');
+            terminal.writeLine('\x1b[1m\n\r' + nls.localize('theia/task/terminalWillBeReusedByTasks', '终端将被任务重用。') + '\x1b[0m\n');
         }
     }
 }

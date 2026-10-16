@@ -221,28 +221,28 @@ export class AgentNotificationService {
             ? (sessionTitle
                 ? nls.localize(
                     'theia/ai-core/agentInputNeededMessageWithSession',
-                    'Agent "{0}" needs your input in "{1}".',
+                    '代理“{0}”在“{1}”中需要你的输入。',
                     agentName,
                     sessionTitle,
                 )
                 : nls.localize(
                     'theia/ai-core/agentInputNeededMessage',
-                    'Agent "{0}" needs your input.',
+                    '代理“{0}”需要你的输入。',
                     agentName,
                 ))
             : (sessionTitle
                 ? nls.localize(
                     'theia/ai-core/agentCompletionMessageWithSession',
-                    'Agent "{0}" has completed its task in "{1}".',
+                    '代理“{0}”已在“{1}”中完成其任务。',
                     agentName,
                     sessionTitle,
                 )
                 : nls.localize(
                     'theia/ai-core/agentCompletionMessage',
-                    'Agent "{0}" has completed its task.',
+                    '代理“{0}”已完成其任务。',
                     agentName,
                 ));
-        const showChatAction = nls.localize('theia/ai-core/showChat', 'Show Chat');
+        const showChatAction = nls.localize('theia/ai-core/showChat', '显示聊天');
         const action = await this.messageService.info(message, showChatAction);
         if (action === showChatAction && onActivate) {
             onActivate();

@@ -25,11 +25,11 @@ import { Preference, PreferenceMenus } from '../util/preference-types';
 import { CommandRegistry, DisposableCollection, Emitter, MenuModelRegistry, PreferenceScope } from '@theia/core/lib/common';
 import { nls } from '@theia/core/lib/common/nls';
 
-const USER_TAB_LABEL = nls.localizeByDefault('User');
+const USER_TAB_LABEL = nls.localizeByDefault('用户');
 const USER_TAB_INDEX = PreferenceScope['User'];
-const WORKSPACE_TAB_LABEL = nls.localizeByDefault('Workspace');
+const WORKSPACE_TAB_LABEL = nls.localizeByDefault('工作区');
 const WORKSPACE_TAB_INDEX = PreferenceScope['Workspace'];
-const FOLDER_TAB_LABEL = nls.localizeByDefault('Folder');
+const FOLDER_TAB_LABEL = nls.localizeByDefault('文件夹');
 const FOLDER_TAB_INDEX = PreferenceScope['Folder'];
 
 const PREFERENCE_TAB_CLASSNAME = 'preferences-scope-tab';

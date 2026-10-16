@@ -23,7 +23,7 @@ import { inject, injectable, named } from '@theia/core/shared/inversify';
 import { DeployedPlugin, Localization as PluginLocalization, PluginIdentifiers, Translation } from '../../common';
 import { EnvVariablesServer } from '@theia/core/lib/common/env-variables';
 import { BackendApplicationContribution } from '@theia/core/lib/node';
-import { Disposable, DisposableCollection, MaybePromise, nls, Path, URI, ILogger } from '@theia/core';
+import { Disposable, DisposableCollection, MaybePromise, Path, URI, ILogger } from '@theia/core';
 import { Deferred } from '@theia/core/lib/common/promise-util';
 import { LanguagePackBundle, LanguagePackService } from '../../common/language-pack-service';
 import { localizePackage } from '@theia/plugin-utils/lib/common/package-nls';
@@ -203,7 +203,9 @@ export class HostedPluginLocalizationService implements BackendApplicationContri
     getNlsConfig(): VSCodeNlsConfig {
         const locale = this.localizationProvider.getCurrentLanguage();
         const configFile = this.translationConfigFiles.get(locale);
-        if (locale === nls.defaultLocale || !configFile) {
+        // Fork customization: this build is Chinese-only. Plugins ship English source strings
+        // and must always receive the zh-cn translation config when one was built.
+        if (!configFile) {
             return { locale, availableLanguages: {} };
         }
         const cache = path.dirname(configFile);

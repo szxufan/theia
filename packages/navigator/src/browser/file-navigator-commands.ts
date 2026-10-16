@@ -21,27 +21,27 @@ import { WorkspaceCommands } from '@theia/workspace/lib/browser';
 export namespace FileNavigatorCommands {
     export const REVEAL_IN_NAVIGATOR = Command.toLocalizedCommand({
         id: 'navigator.reveal',
-        label: 'Reveal in Explorer'
+        label: '在资源管理器中显示'
     }, 'theia/navigator/reveal');
     export const TOGGLE_HIDDEN_FILES = Command.toLocalizedCommand({
         id: 'navigator.toggle.hidden.files',
-        label: 'Toggle Hidden Files'
+        label: '切换隐藏文件'
     }, 'theia/navigator/toggleHiddenFiles');
     export const TOGGLE_AUTO_REVEAL = Command.toLocalizedCommand({
         id: 'navigator.toggle.autoReveal',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Auto Reveal'
+        label: '自动显示'
     }, 'theia/navigator/autoReveal', CommonCommands.FILE_CATEGORY_KEY);
     export const REFRESH_NAVIGATOR = Command.toLocalizedCommand({
         id: 'navigator.refresh',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Refresh in Explorer',
+        label: '刷新资源管理器',
         iconClass: codicon('refresh')
     }, 'theia/navigator/refresh', CommonCommands.FILE_CATEGORY_KEY);
     export const COLLAPSE_ALL = Command.toDefaultLocalizedCommand({
         id: 'navigator.collapse.all',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Collapse Folders in Explorer',
+        label: '在资源管理器中折叠文件夹',
         iconClass: codicon('collapse-all')
     });
     export const ADD_ROOT_FOLDER: Command = {
@@ -50,7 +50,7 @@ export namespace FileNavigatorCommands {
     export const FOCUS = Command.toDefaultLocalizedCommand({
         id: 'workbench.files.action.focusFilesExplorer',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Focus on Files Explorer'
+        label: '聚焦文件资源管理器'
     });
     export const OPEN: Command = {
         id: 'navigator.open',

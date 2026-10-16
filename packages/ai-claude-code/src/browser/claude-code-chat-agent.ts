@@ -64,9 +64,9 @@ export const CLAUDE_ASK_USER_QUESTION_IDS_KEY = 'claudeAskUserQuestionIds';
 export const CLAUDE_PENDING_ASK_USER_QUESTIONS_KEY = 'claudePendingAskUserQuestions';
 
 const APPROVAL_OPTIONS = [
-    { text: nls.localizeByDefault('Allow'), value: 'allow' },
-    { text: nls.localize('theia/ai/claude-code/allowSession', 'Allow for this session'), value: 'allow-session' },
-    { text: nls.localizeByDefault('Deny'), value: 'deny' }
+    { text: nls.localizeByDefault('允许'), value: 'allow' },
+    { text: nls.localize('theia/ai/claude-code/allowSession', '在此会话中允许'), value: 'allow-session' },
+    { text: nls.localizeByDefault('拒绝'), value: 'deny' }
 ];
 
 export const systemPromptAppendixTemplate: BasePromptFragment = {
@@ -151,15 +151,16 @@ const localCommands = {
 export class ClaudeCodeChatAgent implements ChatAgent {
     id = CLAUDE_CHAT_AGENT_ID;
     name = CLAUDE_CHAT_AGENT_ID;
-    description = nls.localize('theia/ai/claude-code/agentDescription', 'Anthropic\'s coding agent');
+    displayName = nls.localize('theia/ai/claude-code/displayName', 'Claude Code');
+    description = nls.localize('theia/ai/claude-code/agentDescription', 'Anthropic 的编码代理');
     iconClass: string = 'codicon codicon-claude';
     locations: ChatAgentLocation[] = ChatAgentLocation.ALL;
-    tags = [nls.localizeByDefault('Chat')];
+    tags = [nls.localizeByDefault('聊天')];
 
     modes = [
-        { id: 'default', name: nls.localize('theia/ai/claude-code/askBeforeEdit', 'Ask before edit') },
-        { id: 'acceptEdits', name: nls.localize('theia/ai/claude-code/editAutomatically', 'Edit automatically') },
-        { id: 'plan', name: nls.localize('theia/ai/claude-code/plan', 'Plan mode') }
+        { id: 'default', name: nls.localize('theia/ai/claude-code/askBeforeEdit', '编辑前询问') },
+        { id: 'acceptEdits', name: nls.localize('theia/ai/claude-code/editAutomatically', '自动编辑') },
+        { id: 'plan', name: nls.localize('theia/ai/claude-code/plan', '计划模式') }
     ];
 
     variables = [];
@@ -168,7 +169,7 @@ export class ClaudeCodeChatAgent implements ChatAgent {
     agentSpecificVariables = [
         {
             name: 'activeEditor',
-            description: nls.localize('theia/ai/claude-code/vars/activeEditor/description', 'The URI of the currently active editor.'),
+            description: nls.localize('theia/ai/claude-code/vars/activeEditor/description', '当前活动编辑器的 URI。'),
             usedInPrompt: true
         }
     ];
@@ -218,7 +219,7 @@ export class ClaudeCodeChatAgent implements ChatAgent {
             if (command in localCommands) {
                 const commandInfo = localCommands[command as keyof typeof localCommands];
                 this.commandService.executeCommand(commandInfo.id);
-                const message = nls.localize('theia/ai/claude-code/executedCommand', 'Executed: {0}', commandInfo.label);
+                const message = nls.localize('theia/ai/claude-code/executedCommand', '已执行：{0}', commandInfo.label);
                 request.response.response.addContent(new MarkdownChatResponseContentImpl(message));
                 request.response.complete();
                 return;
@@ -285,7 +286,7 @@ export class ClaudeCodeChatAgent implements ChatAgent {
             const previousRequest = requests[requests.length - 2];
             if (previousRequest.agentId !== this.id) {
                 const warningMessage = '⚠️ ' + nls.localize('theia/ai/claude-code/differentAgentRequestWarning',
-                    'The previous chat request was handled by a different agent. Claude Code does not see those other messages.') + '\n\n';
+                    '上一个聊天请求由其他代理处理。Claude Code 看不到那些其他消息。') + '\n\n';
                 request.response.response.addContent(new MarkdownChatResponseContentImpl(warningMessage));
             }
         }
@@ -374,7 +375,7 @@ export class ClaudeCodeChatAgent implements ChatAgent {
         }
 
         // If not approved for session, prompt user
-        const question = nls.localize('theia/ai/claude-code/toolApprovalRequest', 'Claude Code wants to use the "{0}" tool. Do you want to allow this?', approvalRequest.toolName);
+        const question = nls.localize('theia/ai/claude-code/toolApprovalRequest', 'Claude Code 想要使用"{0}"工具。您要允许吗？', approvalRequest.toolName);
 
         const questionContent = new QuestionResponseContentImpl(
             question,

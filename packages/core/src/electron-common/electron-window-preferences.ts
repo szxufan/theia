@@ -44,16 +44,16 @@ export const electronWindowPreferencesSchema: PreferenceSchema = {
             maximum: ZoomLevel.MAX,
             scope: PreferenceScope.User,
             markdownDescription: nls.localize('theia/core/window/zoomLevelPref',
-                'Adjust the default zoom level for all windows.\
-                Each increment of `0.5` above `0` (e.g. `0.5`) or below (e.g. `-0.5`) represents zooming approximately `10%` larger or smaller.\
-                You can also enter other decimal values to adjust the zoom level with a finer granularity.')
+                '调整所有窗口的默认缩放级别。\
+                高于 `0`（例如 `0.5`）或低于 `0`（例如 `-0.5`）的每个 `0.5` 增量表示放大或缩小约 `10%`。\
+                你也可以输入其他小数值，以更精细的粒度调整缩放级别。')
         },
         [PREF_WINDOW_TITLE_BAR_STYLE]: {
             type: 'string',
             enum: ['native', 'custom'],
             default: isWindows ? 'custom' : 'native',
             scope: PreferenceScope.User,
-            description: nls.localizeByDefault('Adjust the appearance of the window title bar to be native by the OS or custom. Changes require a full restart to apply.'),
+            description: nls.localizeByDefault('调整窗口标题栏的外观，使其为操作系统原生样式或自定义样式。更改需要完全重启后生效。'),
             included: !isOSX
         },
     }

@@ -72,9 +72,9 @@ function toKernelQuickPick(kernel: NotebookKernel, selected: NotebookKernel | un
     };
     if (kernel.id === selected?.id) {
         if (!res.description) {
-            res.description = nls.localizeByDefault('Currently Selected');
+            res.description = nls.localizeByDefault('当前已选中');
         } else {
-            res.description = nls.localizeByDefault('{0} - Currently Selected', res.description);
+            res.description = nls.localizeByDefault('{0} - 当前已选中', res.description);
         }
     }
     return res;
@@ -230,7 +230,7 @@ export class NotebookKernelQuickPickService {
         // select another kernel quick pick
         quickPickItems.push({
             id: 'selectAnother',
-            label: nls.localizeByDefault('Select Another Kernel...'),
+            label: nls.localizeByDefault('选择其他内核...'),
             autoRun: shouldAutoRun
         });
 
@@ -291,8 +291,8 @@ export class NotebookKernelQuickPickService {
         const quickPick = this.quickInputService.createQuickPick<KernelQuickPickItem>();
         const quickPickItem = await new Promise<KernelQuickPickItem | QuickInputButton | undefined>(resolve => {
             // select from kernel sources
-            quickPick.title = kernelListEmpty ? nls.localizeByDefault('Select Kernel') : nls.localizeByDefault('Select Another Kernel');
-            quickPick.placeholder = nls.localizeByDefault('Type to choose a kernel source');
+            quickPick.title = kernelListEmpty ? nls.localizeByDefault('选择内核') : nls.localizeByDefault('选择其他内核');
+            quickPick.placeholder = nls.localizeByDefault('输入以选择内核来源');
             quickPick.busy = true;
             // quickPick.buttons = [this.quickInputService.backButton];
             quickPick.show();
@@ -441,7 +441,7 @@ export class NotebookKernelQuickPickService {
         quickPickItems.push(...validActions.map(action => {
             const buttons = action.documentation ? [{
                 iconClass: codicon('info'),
-                tooltip: nls.localizeByDefault('Learn More'),
+                tooltip: nls.localizeByDefault('了解更多'),
             }] : [];
             return {
                 id: typeof action.command! === 'string' ? action.command! : action.command!.id,
@@ -462,7 +462,7 @@ export class NotebookKernelQuickPickService {
         quickPick.items = quickPickItems;
         quickPick.canSelectMany = false;
 
-        quickPick.title = nls.localizeByDefault('Select Kernel from {0}', source);
+        quickPick.title = nls.localizeByDefault('从 {0} 选择内核', source);
 
         quickPick.onDidAccept(async () => {
             if (quickPick.selectedItems && quickPick.selectedItems.length > 0 && isKernelPick(quickPick.selectedItems[0])) {

@@ -62,8 +62,8 @@ export class DebugFunctionBreakpoint extends DebugBreakpoint<FunctionBreakpoint>
 
     protected renderActions(): React.ReactNode {
         return <div className='theia-debug-breakpoint-actions'>
-            <div className={codicon('edit', true)} title={nls.localizeByDefault('Edit Condition...')} onClick={this.onEdit} />
-            <div className={codicon('close', true)} title={nls.localizeByDefault('Remove Breakpoint')} onClick={this.onRemove} />
+            <div className={codicon('edit', true)} title={nls.localizeByDefault('编辑条件...')} onClick={this.onEdit} />
+            <div className={codicon('close', true)} title={nls.localizeByDefault('移除断点')} onClick={this.onRemove} />
         </div>;
     }
 
@@ -79,7 +79,7 @@ export class DebugFunctionBreakpoint extends DebugBreakpoint<FunctionBreakpoint>
 
     protected override doGetDecoration(): DebugBreakpointDecoration {
         if (!this.isSupported()) {
-            return this.getDisabledBreakpointDecoration(nls.localizeByDefault('Function breakpoints are not supported by this debug type'));
+            return this.getDisabledBreakpointDecoration(nls.localizeByDefault('此调试类型不支持函数断点'));
         }
         return super.doGetDecoration();
     }
@@ -87,13 +87,13 @@ export class DebugFunctionBreakpoint extends DebugBreakpoint<FunctionBreakpoint>
     protected getBreakpointDecoration(message?: string[]): DebugBreakpointDecoration {
         return {
             className: 'codicon-debug-breakpoint-function',
-            message: message || [nls.localizeByDefault('Function Breakpoint')]
+            message: message || [nls.localizeByDefault('函数断点')]
         };
     }
 
     static async editOrCreate(breakpoints: BreakpointManager, existing?: DebugFunctionBreakpoint): Promise<void> {
         const input = new SingleTextInputDialog({
-            title: nls.localizeByDefault('Add Function Breakpoint'),
+            title: nls.localizeByDefault('添加函数断点'),
             initialValue: existing?.name ?? ''
         });
         const newValue = await input.open();

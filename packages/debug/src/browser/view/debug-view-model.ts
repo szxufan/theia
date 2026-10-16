@@ -95,7 +95,7 @@ export class DebugViewModel implements Disposable {
         return this.session && this.session.id || '-1';
     }
     get label(): string {
-        return this.session && this.session.label || nls.localize('theia/debug/unknownSession', 'Unknown Session');
+        return this.session && this.session.label || nls.localize('theia/debug/unknownSession', '未知会话');
     }
 
     @postConstruct()

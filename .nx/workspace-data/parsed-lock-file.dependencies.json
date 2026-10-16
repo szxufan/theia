@@ -456,7 +456,7 @@
   },
   {
     "source": "npm:node-gyp@12.4.0",
-    "target": "npm:undici@6.28.1",
+    "target": "npm:undici@6.29.0",
     "type": "static"
   },
   {
@@ -550,18 +550,18 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -695,18 +695,18 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -1831,7 +1831,7 @@
   },
   {
     "source": "npm:@npmcli/agent",
-    "target": "npm:lru-cache@11.5.2",
+    "target": "npm:lru-cache",
     "type": "static"
   },
   {
@@ -1946,7 +1946,7 @@
   },
   {
     "source": "npm:@npmcli/arborist",
-    "target": "npm:hosted-git-info@9.0.3",
+    "target": "npm:hosted-git-info",
     "type": "static"
   },
   {
@@ -1956,7 +1956,7 @@
   },
   {
     "source": "npm:@npmcli/arborist",
-    "target": "npm:lru-cache@11.5.2",
+    "target": "npm:lru-cache",
     "type": "static"
   },
   {
@@ -2040,11 +2040,6 @@
     "type": "static"
   },
   {
-    "source": "npm:hosted-git-info@9.0.3",
-    "target": "npm:lru-cache@11.5.2",
-    "type": "static"
-  },
-  {
     "source": "npm:@npmcli/fs",
     "target": "npm:semver",
     "type": "static"
@@ -2066,7 +2061,7 @@
   },
   {
     "source": "npm:@npmcli/git",
-    "target": "npm:lru-cache@11.5.2",
+    "target": "npm:lru-cache",
     "type": "static"
   },
   {
@@ -2176,7 +2171,7 @@
   },
   {
     "source": "npm:@npmcli/package-json",
-    "target": "npm:hosted-git-info@9.0.3",
+    "target": "npm:hosted-git-info",
     "type": "static"
   },
   {
@@ -2227,11 +2222,6 @@
   {
     "source": "npm:glob@11.1.0",
     "target": "npm:path-scurry",
-    "type": "static"
-  },
-  {
-    "source": "npm:hosted-git-info@9.0.3",
-    "target": "npm:lru-cache@11.5.2",
     "type": "static"
   },
   {
@@ -2321,7 +2311,7 @@
   },
   {
     "source": "npm:node-gyp@12.4.0",
-    "target": "npm:undici@6.28.1",
+    "target": "npm:undici@6.29.0",
     "type": "static"
   },
   {
@@ -2380,13 +2370,13 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@5.0.9",
+    "source": "npm:brace-expansion@5.0.12",
     "target": "npm:balanced-match@4.0.4",
     "type": "static"
   },
   {
     "source": "npm:minimatch@10.2.5",
-    "target": "npm:brace-expansion@5.0.9",
+    "target": "npm:brace-expansion@5.0.12",
     "type": "static"
   },
   {
@@ -3956,12 +3946,7 @@
   },
   {
     "source": "npm:allure-js-commons",
-    "target": "npm:strip-ansi@5.2.0",
-    "type": "static"
-  },
-  {
-    "source": "npm:strip-ansi@5.2.0",
-    "target": "npm:ansi-regex@4.1.1",
+    "target": "npm:strip-ansi",
     "type": "static"
   },
   {
@@ -4181,7 +4166,7 @@
   },
   {
     "source": "npm:array-includes",
-    "target": "npm:get-intrinsic",
+    "target": "npm:es-shim-unscopables",
     "type": "static"
   },
   {
@@ -4716,7 +4701,7 @@
   },
   {
     "source": "npm:cacache",
-    "target": "npm:lru-cache@11.5.2",
+    "target": "npm:lru-cache",
     "type": "static"
   },
   {
@@ -4741,7 +4726,7 @@
   },
   {
     "source": "npm:cacache",
-    "target": "npm:p-map",
+    "target": "npm:p-map@7.0.8",
     "type": "static"
   },
   {
@@ -5131,7 +5116,7 @@
   },
   {
     "source": "npm:concurrently",
-    "target": "npm:commander@2.6.0",
+    "target": "npm:commander",
     "type": "static"
   },
   {
@@ -5956,7 +5941,7 @@
   },
   {
     "source": "npm:data-urls",
-    "target": "npm:whatwg-mimetype@3.0.0",
+    "target": "npm:whatwg-mimetype",
     "type": "static"
   },
   {
@@ -6231,17 +6216,7 @@
   },
   {
     "source": "npm:decompress-unzip",
-    "target": "npm:yauzl@2.10.0",
-    "type": "static"
-  },
-  {
-    "source": "npm:yauzl@2.10.0",
-    "target": "npm:buffer-crc32",
-    "type": "static"
-  },
-  {
-    "source": "npm:yauzl@2.10.0",
-    "target": "npm:fd-slicer",
+    "target": "npm:yauzl",
     "type": "static"
   },
   {
@@ -6656,7 +6631,7 @@
   },
   {
     "source": "npm:@electron/get@5.1.0",
-    "target": "npm:undici",
+    "target": "npm:undici@7.30.0",
     "type": "static"
   },
   {
@@ -6711,7 +6686,7 @@
   },
   {
     "source": "npm:engine.io",
-    "target": "npm:ws",
+    "target": "npm:ws@8.21.3",
     "type": "static"
   },
   {
@@ -6731,7 +6706,7 @@
   },
   {
     "source": "npm:engine.io-client",
-    "target": "npm:ws",
+    "target": "npm:ws@8.21.3",
     "type": "static"
   },
   {
@@ -7795,12 +7770,12 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
@@ -7816,7 +7791,7 @@
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -7925,12 +7900,12 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
@@ -7941,7 +7916,7 @@
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -7955,18 +7930,18 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -8716,7 +8691,7 @@
   },
   {
     "source": "npm:get-pkg-repo",
-    "target": "npm:hosted-git-info",
+    "target": "npm:hosted-git-info@4.1.0",
     "type": "static"
   },
   {
@@ -8742,6 +8717,16 @@
   {
     "source": "npm:cliui@7.0.4",
     "target": "npm:wrap-ansi@7.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:hosted-git-info@4.1.0",
+    "target": "npm:lru-cache@6.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:lru-cache@6.0.0",
+    "target": "npm:yallist@4.0.0",
     "type": "static"
   },
   {
@@ -8925,18 +8910,18 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -9191,12 +9176,7 @@
   },
   {
     "source": "npm:html-encoding-sniffer",
-    "target": "npm:whatwg-encoding@2.0.0",
-    "type": "static"
-  },
-  {
-    "source": "npm:whatwg-encoding@2.0.0",
-    "target": "npm:iconv-lite",
+    "target": "npm:whatwg-encoding",
     "type": "static"
   },
   {
@@ -9411,7 +9391,7 @@
   },
   {
     "source": "npm:init-package-json",
-    "target": "npm:read@4.1.0",
+    "target": "npm:read",
     "type": "static"
   },
   {
@@ -9427,11 +9407,6 @@
   {
     "source": "npm:init-package-json",
     "target": "npm:validate-npm-package-name",
-    "type": "static"
-  },
-  {
-    "source": "npm:read@4.1.0",
-    "target": "npm:mute-stream",
     "type": "static"
   },
   {
@@ -10026,12 +10001,12 @@
   },
   {
     "source": "npm:jsdom",
-    "target": "npm:whatwg-encoding@2.0.0",
+    "target": "npm:whatwg-encoding",
     "type": "static"
   },
   {
     "source": "npm:jsdom",
-    "target": "npm:whatwg-mimetype@3.0.0",
+    "target": "npm:whatwg-mimetype",
     "type": "static"
   },
   {
@@ -10047,11 +10022,6 @@
   {
     "source": "npm:jsdom",
     "target": "npm:xml-name-validator",
-    "type": "static"
-  },
-  {
-    "source": "npm:whatwg-encoding@2.0.0",
-    "target": "npm:iconv-lite",
     "type": "static"
   },
   {
@@ -10336,7 +10306,7 @@
   },
   {
     "source": "npm:lerna",
-    "target": "npm:fs-extra@11.4.0",
+    "target": "npm:fs-extra@11.4.1",
     "type": "static"
   },
   {
@@ -10441,7 +10411,7 @@
   },
   {
     "source": "npm:lerna",
-    "target": "npm:p-map@4.0.0",
+    "target": "npm:p-map",
     "type": "static"
   },
   {
@@ -10560,12 +10530,12 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
@@ -10580,28 +10550,23 @@
     "type": "static"
   },
   {
-    "source": "npm:fs-extra@11.4.0",
+    "source": "npm:fs-extra@11.4.1",
     "target": "npm:graceful-fs",
     "type": "static"
   },
   {
-    "source": "npm:fs-extra@11.4.0",
+    "source": "npm:fs-extra@11.4.1",
     "target": "npm:jsonfile",
     "type": "static"
   },
   {
-    "source": "npm:fs-extra@11.4.0",
+    "source": "npm:fs-extra@11.4.1",
     "target": "npm:universalify",
     "type": "static"
   },
   {
     "source": "npm:minimatch@3.1.4",
-    "target": "npm:brace-expansion@1.1.18",
-    "type": "static"
-  },
-  {
-    "source": "npm:p-map@4.0.0",
-    "target": "npm:aggregate-error",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -10807,11 +10772,6 @@
   {
     "source": "npm:loupe",
     "target": "npm:get-func-name",
-    "type": "static"
-  },
-  {
-    "source": "npm:lru-cache",
-    "target": "npm:yallist",
     "type": "static"
   },
   {
@@ -11061,7 +11021,7 @@
   },
   {
     "source": "npm:normalize-package-data@2.5.0",
-    "target": "npm:resolve@1.22.12",
+    "target": "npm:resolve@1.22.13",
     "type": "static"
   },
   {
@@ -11075,22 +11035,22 @@
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:es-errors",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:is-core-module",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:path-parse",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:supports-preserve-symlinks-flag",
     "type": "static"
   },
@@ -11221,11 +11181,11 @@
   },
   {
     "source": "npm:minimatch",
-    "target": "npm:brace-expansion@5.0.9",
+    "target": "npm:brace-expansion@5.0.12",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@5.0.9",
+    "source": "npm:brace-expansion@5.0.12",
     "target": "npm:balanced-match@4.0.4",
     "type": "static"
   },
@@ -11276,7 +11236,7 @@
   },
   {
     "source": "npm:minipass@3.3.6",
-    "target": "npm:yallist",
+    "target": "npm:yallist@4.0.0",
     "type": "static"
   },
   {
@@ -11286,7 +11246,7 @@
   },
   {
     "source": "npm:minipass@3.3.6",
-    "target": "npm:yallist",
+    "target": "npm:yallist@4.0.0",
     "type": "static"
   },
   {
@@ -11296,7 +11256,7 @@
   },
   {
     "source": "npm:minipass@3.3.6",
-    "target": "npm:yallist",
+    "target": "npm:yallist@4.0.0",
     "type": "static"
   },
   {
@@ -11361,7 +11321,7 @@
   },
   {
     "source": "npm:mocha",
-    "target": "npm:diff@7.0.0",
+    "target": "npm:diff",
     "type": "static"
   },
   {
@@ -11461,7 +11421,7 @@
   },
   {
     "source": "npm:@isaacs/cliui@8.0.2",
-    "target": "npm:strip-ansi",
+    "target": "npm:strip-ansi@7.2.0",
     "type": "static"
   },
   {
@@ -11546,7 +11506,12 @@
   },
   {
     "source": "npm:string-width@5.1.2",
-    "target": "npm:strip-ansi",
+    "target": "npm:strip-ansi@7.2.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:strip-ansi@7.2.0",
+    "target": "npm:ansi-regex@6.4.0",
     "type": "static"
   },
   {
@@ -11566,7 +11531,7 @@
   },
   {
     "source": "npm:wrap-ansi@8.1.0",
-    "target": "npm:strip-ansi",
+    "target": "npm:strip-ansi@7.2.0",
     "type": "static"
   },
   {
@@ -11637,11 +11602,6 @@
   {
     "source": "npm:multer",
     "target": "npm:busboy",
-    "type": "static"
-  },
-  {
-    "source": "npm:multer",
-    "target": "npm:concat-stream",
     "type": "static"
   },
   {
@@ -11786,7 +11746,7 @@
   },
   {
     "source": "npm:node-gyp",
-    "target": "npm:undici@8.10.2",
+    "target": "npm:undici",
     "type": "static"
   },
   {
@@ -11846,7 +11806,7 @@
   },
   {
     "source": "npm:normalize-package-data",
-    "target": "npm:hosted-git-info",
+    "target": "npm:hosted-git-info@4.1.0",
     "type": "static"
   },
   {
@@ -11865,6 +11825,16 @@
     "type": "static"
   },
   {
+    "source": "npm:hosted-git-info@4.1.0",
+    "target": "npm:lru-cache@6.0.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:lru-cache@6.0.0",
+    "target": "npm:yallist@4.0.0",
+    "type": "static"
+  },
+  {
     "source": "npm:npm-bundled",
     "target": "npm:npm-normalize-package-bin",
     "type": "static"
@@ -11876,7 +11846,7 @@
   },
   {
     "source": "npm:npm-package-arg",
-    "target": "npm:hosted-git-info@9.0.3",
+    "target": "npm:hosted-git-info",
     "type": "static"
   },
   {
@@ -11892,11 +11862,6 @@
   {
     "source": "npm:npm-package-arg",
     "target": "npm:validate-npm-package-name",
-    "type": "static"
-  },
-  {
-    "source": "npm:hosted-git-info@9.0.3",
-    "target": "npm:lru-cache@11.5.2",
     "type": "static"
   },
   {
@@ -12000,18 +11965,18 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
@@ -12116,7 +12081,7 @@
   },
   {
     "source": "npm:nx",
-    "target": "npm:brace-expansion@5.0.9",
+    "target": "npm:brace-expansion@5.0.12",
     "type": "static"
   },
   {
@@ -12266,7 +12231,7 @@
   },
   {
     "source": "npm:nx",
-    "target": "npm:follow-redirects",
+    "target": "npm:follow-redirects@1.16.0",
     "type": "static"
   },
   {
@@ -12441,7 +12406,7 @@
   },
   {
     "source": "npm:nx",
-    "target": "npm:open@8.4.2",
+    "target": "npm:open",
     "type": "static"
   },
   {
@@ -12645,7 +12610,7 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@5.0.9",
+    "source": "npm:brace-expansion@5.0.12",
     "target": "npm:balanced-match@4.0.3",
     "type": "static"
   },
@@ -12666,22 +12631,7 @@
   },
   {
     "source": "npm:minimatch@10.2.5",
-    "target": "npm:brace-expansion@5.0.9",
-    "type": "static"
-  },
-  {
-    "source": "npm:open@8.4.2",
-    "target": "npm:define-lazy-prop",
-    "type": "static"
-  },
-  {
-    "source": "npm:open@8.4.2",
-    "target": "npm:is-docker",
-    "type": "static"
-  },
-  {
-    "source": "npm:open@8.4.2",
-    "target": "npm:is-wsl",
+    "target": "npm:brace-expansion@5.0.12",
     "type": "static"
   },
   {
@@ -13185,6 +13135,21 @@
     "type": "static"
   },
   {
+    "source": "npm:open",
+    "target": "npm:define-lazy-prop",
+    "type": "static"
+  },
+  {
+    "source": "npm:open",
+    "target": "npm:is-docker",
+    "type": "static"
+  },
+  {
+    "source": "npm:open",
+    "target": "npm:is-wsl",
+    "type": "static"
+  },
+  {
     "source": "npm:open-collaboration-protocol",
     "target": "npm:base64-js",
     "type": "static"
@@ -13377,6 +13342,11 @@
   {
     "source": "npm:p-locate",
     "target": "npm:p-limit",
+    "type": "static"
+  },
+  {
+    "source": "npm:p-map",
+    "target": "npm:aggregate-error",
     "type": "static"
   },
   {
@@ -13701,7 +13671,7 @@
   },
   {
     "source": "npm:path-scurry",
-    "target": "npm:lru-cache@11.5.2",
+    "target": "npm:lru-cache",
     "type": "static"
   },
   {
@@ -13815,11 +13785,6 @@
     "type": "static"
   },
   {
-    "source": "npm:playwright",
-    "target": "npm:fsevents@2.3.2",
-    "type": "static"
-  },
-  {
     "source": "npm:points-on-path",
     "target": "npm:path-data-parser",
     "type": "static"
@@ -13881,7 +13846,7 @@
   },
   {
     "source": "npm:prebuild-install",
-    "target": "npm:node-abi@3.96.0",
+    "target": "npm:node-abi@3.97.0",
     "type": "static"
   },
   {
@@ -13910,7 +13875,7 @@
     "type": "static"
   },
   {
-    "source": "npm:node-abi@3.96.0",
+    "source": "npm:node-abi@3.97.0",
     "target": "npm:semver",
     "type": "static"
   },
@@ -14001,12 +13966,7 @@
   },
   {
     "source": "npm:promzard",
-    "target": "npm:read@4.1.0",
-    "type": "static"
-  },
-  {
-    "source": "npm:read@4.1.0",
-    "target": "npm:mute-stream",
+    "target": "npm:read",
     "type": "static"
   },
   {
@@ -14470,6 +14430,11 @@
     "type": "static"
   },
   {
+    "source": "npm:read",
+    "target": "npm:mute-stream",
+    "type": "static"
+  },
+  {
     "source": "npm:read-binary-file-arch",
     "target": "npm:debug",
     "type": "static"
@@ -14551,7 +14516,7 @@
   },
   {
     "source": "npm:normalize-package-data@2.5.0",
-    "target": "npm:resolve@1.22.12",
+    "target": "npm:resolve@1.22.13",
     "type": "static"
   },
   {
@@ -14580,22 +14545,22 @@
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:es-errors",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:is-core-module",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:path-parse",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:supports-preserve-symlinks-flag",
     "type": "static"
   },
@@ -14781,7 +14746,7 @@
   },
   {
     "source": "npm:@isaacs/cliui@8.0.2",
-    "target": "npm:strip-ansi",
+    "target": "npm:strip-ansi@7.2.0",
     "type": "static"
   },
   {
@@ -14866,7 +14831,12 @@
   },
   {
     "source": "npm:string-width@5.1.2",
-    "target": "npm:strip-ansi",
+    "target": "npm:strip-ansi@7.2.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:strip-ansi@7.2.0",
+    "target": "npm:ansi-regex@6.4.0",
     "type": "static"
   },
   {
@@ -14881,7 +14851,7 @@
   },
   {
     "source": "npm:wrap-ansi@8.1.0",
-    "target": "npm:strip-ansi",
+    "target": "npm:strip-ansi@7.2.0",
     "type": "static"
   },
   {
@@ -15521,7 +15491,7 @@
   },
   {
     "source": "npm:shell-env",
-    "target": "npm:strip-ansi",
+    "target": "npm:strip-ansi@7.2.0",
     "type": "static"
   },
   {
@@ -15567,6 +15537,11 @@
   {
     "source": "npm:execa@5.1.1",
     "target": "npm:strip-final-newline",
+    "type": "static"
+  },
+  {
+    "source": "npm:strip-ansi@7.2.0",
+    "target": "npm:ansi-regex@6.4.0",
     "type": "static"
   },
   {
@@ -15776,11 +15751,6 @@
   },
   {
     "source": "npm:socket.io",
-    "target": "npm:base64id",
-    "type": "static"
-  },
-  {
-    "source": "npm:socket.io",
     "target": "npm:cors",
     "type": "static"
   },
@@ -15811,7 +15781,7 @@
   },
   {
     "source": "npm:socket.io-adapter",
-    "target": "npm:ws",
+    "target": "npm:ws@8.21.3",
     "type": "static"
   },
   {
@@ -16256,7 +16226,7 @@
   },
   {
     "source": "npm:strip-ansi",
-    "target": "npm:ansi-regex@6.3.0",
+    "target": "npm:ansi-regex@4.1.1",
     "type": "static"
   },
   {
@@ -16311,7 +16281,7 @@
   },
   {
     "source": "npm:tar",
-    "target": "npm:yallist@5.0.0",
+    "target": "npm:yallist",
     "type": "static"
   },
   {
@@ -16546,7 +16516,7 @@
   },
   {
     "source": "npm:trash",
-    "target": "npm:p-map@4.0.0",
+    "target": "npm:p-map",
     "type": "static"
   },
   {
@@ -16602,11 +16572,6 @@
   {
     "source": "npm:make-dir@3.1.0",
     "target": "npm:semver@6.3.1",
-    "type": "static"
-  },
-  {
-    "source": "npm:p-map@4.0.0",
-    "target": "npm:aggregate-error",
     "type": "static"
   },
   {
@@ -16706,7 +16671,7 @@
   },
   {
     "source": "npm:tslint",
-    "target": "npm:resolve@1.22.12",
+    "target": "npm:resolve@1.22.13",
     "type": "static"
   },
   {
@@ -16730,12 +16695,12 @@
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:balanced-match",
     "type": "static"
   },
   {
-    "source": "npm:brace-expansion@1.1.18",
+    "source": "npm:brace-expansion@1.1.21",
     "target": "npm:concat-map",
     "type": "static"
   },
@@ -16761,26 +16726,26 @@
   },
   {
     "source": "npm:minimatch@3.1.5",
-    "target": "npm:brace-expansion@1.1.18",
+    "target": "npm:brace-expansion@1.1.21",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:es-errors",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:is-core-module",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:path-parse",
     "type": "static"
   },
   {
-    "source": "npm:resolve@1.22.12",
+    "source": "npm:resolve@1.22.13",
     "target": "npm:supports-preserve-symlinks-flag",
     "type": "static"
   },
@@ -16892,11 +16857,6 @@
   {
     "source": "npm:typed-array-byte-offset",
     "target": "npm:gopd",
-    "type": "static"
-  },
-  {
-    "source": "npm:typed-array-byte-offset",
-    "target": "npm:has-proto",
     "type": "static"
   },
   {
@@ -17187,6 +17147,11 @@
   {
     "source": "npm:wcwidth",
     "target": "npm:defaults",
+    "type": "static"
+  },
+  {
+    "source": "npm:whatwg-encoding",
+    "target": "npm:iconv-lite",
     "type": "static"
   },
   {
@@ -17552,6 +17517,16 @@
   {
     "source": "npm:yargs-unparser",
     "target": "npm:is-plain-obj@2.1.0",
+    "type": "static"
+  },
+  {
+    "source": "npm:yauzl",
+    "target": "npm:buffer-crc32",
+    "type": "static"
+  },
+  {
+    "source": "npm:yauzl",
+    "target": "npm:fd-slicer",
     "type": "static"
   },
   {

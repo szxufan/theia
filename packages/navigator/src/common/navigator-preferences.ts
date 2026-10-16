@@ -24,18 +24,18 @@ export const FileNavigatorConfigSchema: PreferenceSchema = {
     properties: {
         'explorer.autoReveal': {
             type: 'boolean',
-            description: nls.localizeByDefault('Controls whether the Explorer should automatically reveal and select files when opening them.'),
+            description: nls.localizeByDefault('控制资源管理器在打开文件时是否自动显示并选中该文件。'),
             default: true
         },
         'explorer.decorations.colors': {
             type: 'boolean',
-            description: nls.localizeByDefault('Controls whether file decorations should use colors.'),
+            description: nls.localizeByDefault('控制文件装饰是否使用颜色。'),
             default: true
         },
         [EXPLORER_COMPACT_FOLDERS]: {
             type: 'boolean',
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault('Controls whether the Explorer should render folders in a compact form. In such a form, single child folders will be compressed in a combined tree element. Useful for Java package structures, for example.'),
+            description: nls.localizeByDefault('控制资源管理器是否以紧凑形式显示文件夹。在紧凑形式下，只有一个子文件夹的文件夹会被压缩为一个组合树元素。例如对 Java 包结构很有用。'),
             default: true,
         }
     },

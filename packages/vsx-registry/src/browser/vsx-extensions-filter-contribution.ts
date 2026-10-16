@@ -64,9 +64,9 @@ export class VSXExtensionsFilterContribution implements CommandContribution, Men
     protected readonly searchModel: VSXExtensionsSearchModel;
 
     protected readonly modeEntries: readonly ModeFilterEntry[] = [
-        { id: 'installed', query: INSTALLED_QUERY, label: nls.localize('theia/vsx-registry/filter/showInstalled', 'Show Installed') },
-        { id: 'builtin', query: BUILTIN_QUERY, label: nls.localize('theia/vsx-registry/filter/showBuiltin', 'Show Built-in') },
-        { id: 'recommended', query: RECOMMENDED_QUERY, label: nls.localize('theia/vsx-registry/filter/showRecommended', 'Show Recommended') }
+        { id: 'installed', query: INSTALLED_QUERY, label: nls.localize('theia/vsx-registry/filter/showInstalled', '显示已安装') },
+        { id: 'builtin', query: BUILTIN_QUERY, label: nls.localize('theia/vsx-registry/filter/showBuiltin', '显示内置') },
+        { id: 'recommended', query: RECOMMENDED_QUERY, label: nls.localize('theia/vsx-registry/filter/showRecommended', '显示推荐') }
     ];
 
     registerCommands(commands: CommandRegistry): void {

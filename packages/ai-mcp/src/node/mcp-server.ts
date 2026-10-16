@@ -304,7 +304,7 @@ export class MCPServer {
         if (error instanceof MCPOAuthAuthorizationServerError) {
             // Surface the authorization server's diagnostic (e.g. "access_denied"); a re-start triggers a fresh sign-in.
             const description = error.authorizationServerErrorDescription ?? error.authorizationServerError;
-            this.error = nls.localize('theia/ai/mcp/oauth/authorizationServerError', 'Authorization server reported: {0}', description);
+            this.error = nls.localize('theia/ai/mcp/oauth/authorizationServerError', '授权服务器报告：{0}', description);
             await this.client.close();
             this.setStatus(MCPServerStatus.AuthenticationRequired);
             return;
@@ -314,7 +314,7 @@ export class MCPServer {
             // start runs a fresh authorization instead of replaying the same failing flow.
             await this.authProvider?.invalidateCredentials?.('tokens');
             await this.authProvider?.invalidateCredentials?.('discovery');
-            this.error = nls.localize('theia/ai/mcp/oauth/authorizationServerError', 'Authorization server reported: {0}', this.oauthErrorDiagnostic(error));
+            this.error = nls.localize('theia/ai/mcp/oauth/authorizationServerError', '授权服务器报告：{0}', this.oauthErrorDiagnostic(error));
             await this.client.close();
             this.setStatus(MCPServerStatus.AuthenticationRequired);
             return;
@@ -323,11 +323,11 @@ export class MCPServer {
             // If the handshake already succeeded this attempt, a later failure must not contradict the user's sign-in by re-asking for authorization.
             if (this.oauthHandshakeCompletedDuringStart && isRemoteMCPServerDescription(this.description) && this.description.oauth) {
                 this.error = nls.localize('theia/ai/mcp/oauth/postHandshakeConnectionFailed',
-                    'MCP OAuth sign-in succeeded, but the connection still failed. Start the server again to retry.');
+                    'MCP OAuth 登录已成功，但连接仍然失败。请再次启动服务器以重试。');
             } else {
                 this.error = isRemoteMCPServerDescription(this.description) && this.description.oauth
-                    ? nls.localize('theia/ai/mcp/oauth/authorizationRequired', 'MCP OAuth authorization is required.')
-                    : nls.localize('theia/ai/mcp/authenticationRequired', 'MCP server requires authentication. Configure the required authentication for this server.');
+                    ? nls.localize('theia/ai/mcp/oauth/authorizationRequired', '需要进行 MCP OAuth 授权。')
+                    : nls.localize('theia/ai/mcp/authenticationRequired', 'MCP 服务器需要身份验证。请为此服务器配置所需的身份验证。');
             }
             await this.client.close();
             this.setStatus(MCPServerStatus.AuthenticationRequired);
@@ -399,14 +399,14 @@ export class MCPServer {
     protected authenticationRequiredErrorMessage(error: Error): string {
         if (error instanceof MCPOAuthAuthorizationServerError) {
             const description = error.authorizationServerErrorDescription ?? error.authorizationServerError;
-            return nls.localize('theia/ai/mcp/oauth/authorizationServerError', 'Authorization server reported: {0}', description);
+            return nls.localize('theia/ai/mcp/oauth/authorizationServerError', '授权服务器报告：{0}', description);
         }
         if (error instanceof OAuthError) {
-            return nls.localize('theia/ai/mcp/oauth/authorizationServerError', 'Authorization server reported: {0}', this.oauthErrorDiagnostic(error));
+            return nls.localize('theia/ai/mcp/oauth/authorizationServerError', '授权服务器报告：{0}', this.oauthErrorDiagnostic(error));
         }
         return isRemoteMCPServerDescription(this.description) && this.description.oauth
-            ? nls.localize('theia/ai/mcp/oauth/authorizationRequired', 'MCP OAuth authorization is required.')
-            : nls.localize('theia/ai/mcp/authenticationRequired', 'MCP server requires authentication. Configure the required authentication for this server.');
+            ? nls.localize('theia/ai/mcp/oauth/authorizationRequired', '需要进行 MCP OAuth 授权。')
+            : nls.localize('theia/ai/mcp/authenticationRequired', 'MCP 服务器需要身份验证。请为此服务器配置所需的身份验证。');
     }
 
     protected isExpectedTransportError(error: Error): boolean {
@@ -461,7 +461,7 @@ export class MCPServer {
 
     protected async createOAuthClientProvider(interactive: boolean): Promise<MCPOAuthClientProvider> {
         if (!isRemoteMCPServerDescription(this.description) || !this.description.oauth) {
-            throw new Error(nls.localize('theia/ai/mcp/oauth/notEnabled', 'MCP OAuth is not enabled for this server.'));
+            throw new Error(nls.localize('theia/ai/mcp/oauth/notEnabled', '此服务器未启用 MCP OAuth。'));
         }
         return this.oauthClientProviderFactory.create(this.description.name, this.description.serverUrl, this.description.oauth, { interactive });
     }

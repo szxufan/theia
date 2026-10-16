@@ -34,9 +34,9 @@ export class AppTesterCapabilityContribution implements FrontendApplicationContr
     }
 
     protected buildTemplate(): string {
-        const name = nls.localize('theia/ai-ide/appTester/name', 'E2E Test');
+        const name = nls.localize('theia/ai-ide/appTester/name', 'E2E 测试');
         const description = nls.localize('theia/ai-ide/appTester/description',
-            'Delegates to AppTester agent for browser-based UI verification after implementation.');
+            '在实现完成后委派给 AppTester 代理进行基于浏览器的 UI 验证。');
 
         return `---
 name: ${name}

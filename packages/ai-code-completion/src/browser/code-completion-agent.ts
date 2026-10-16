@@ -48,7 +48,7 @@ export class CodeCompletionAgentImpl implements CodeCompletionAgent {
         token: monaco.CancellationToken
     ): Promise<monaco.languages.InlineCompletions | undefined> {
         const progress = await this.progressService.showProgress(
-            { text: nls.localize('theia/ai/code-completion/progressText', 'Calculating AI code completion...'), options: { location: 'window' } }
+            { text: nls.localize('theia/ai/code-completion/progressText', '正在计算 AI 代码补全...'), options: { location: 'window' } }
         );
         try {
             const languageModel =
@@ -150,7 +150,7 @@ export class CodeCompletionAgentImpl implements CodeCompletionAgent {
     name = 'Code Completion';
     description =
         nls.localize('theia/ai/completion/agent/description',
-            'This agent provides inline code completion in the code editor in {0}.',
+            '此代理在 {0} 的代码编辑器中提供内联代码补全。',
             FrontendApplicationConfigProvider.get().applicationName);
     prompts: PromptVariantSet[] = codeCompletionPrompts;
     languageModelRequirements: LanguageModelRequirement[] = [
@@ -162,9 +162,9 @@ export class CodeCompletionAgentImpl implements CodeCompletionAgent {
     readonly variables: string[] = [];
     readonly functions: string[] = [];
     readonly agentSpecificVariables: AgentSpecificVariables[] = [
-        { name: FILE.id, description: nls.localize('theia/ai/completion/agent/vars/file/description', 'The URI of the file being edited'), usedInPrompt: true },
-        { name: PREFIX.id, description: nls.localize('theia/ai/completion/agent/vars/prefix/description', 'The code before the current cursor position'), usedInPrompt: true },
-        { name: SUFFIX.id, description: nls.localize('theia/ai/completion/agent/vars/suffix/description', 'The code after the current cursor position'), usedInPrompt: true },
-        { name: LANGUAGE.id, description: nls.localize('theia/ai/completion/agent/vars/language/description', 'The languageId of the file being edited'), usedInPrompt: true }
+        { name: FILE.id, description: nls.localize('theia/ai/completion/agent/vars/file/description', '正在编辑的文件的 URI'), usedInPrompt: true },
+        { name: PREFIX.id, description: nls.localize('theia/ai/completion/agent/vars/prefix/description', '当前光标位置之前的代码'), usedInPrompt: true },
+        { name: SUFFIX.id, description: nls.localize('theia/ai/completion/agent/vars/suffix/description', '当前光标位置之后的代码'), usedInPrompt: true },
+        { name: LANGUAGE.id, description: nls.localize('theia/ai/completion/agent/vars/language/description', '正在编辑的文件的 languageId'), usedInPrompt: true }
     ];
 }

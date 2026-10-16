@@ -67,7 +67,7 @@ export class LSToolRenderer implements ChatResponsePartRenderer<ToolCallChatResp
             />;
         } catch (error) {
             this.logger.warn('Failed to parse LS tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseLSToolData', 'Failed to parse LS tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseLSToolData', '解析 LS 工具数据失败')}</div>;
         }
     }
 }
@@ -109,12 +109,12 @@ const LSToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/listing', 'Listing')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/listing', '正在列出')}</span>
                 <span className={`${codicon('checklist')} claude-code-tool icon`} />
                 <span
                     className="claude-code-tool file-name clickable-element"
                     onClick={handleOpenDirectory}
-                    title={nls.localize('theia/ai/claude-code/openDirectoryTooltip', 'Click to open directory')}
+                    title={nls.localize('theia/ai/claude-code/openDirectoryTooltip', '点击打开目录')}
                 >
                     {getDirectoryName(input.path)}
                 </span>
@@ -122,7 +122,7 @@ const LSToolComponent: React.FC<{
             </div>
             <div className="claude-code-tool header-right">
                 {input.ignore && input.ignore.length > 0 && (
-                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/ignoringPatterns', 'Ignoring {0} patterns', input.ignore.length)}</span>
+                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/ignoringPatterns', '忽略 {0} 个模式', input.ignore.length)}</span>
                 )}
             </div>
         </>
@@ -131,12 +131,12 @@ const LSToolComponent: React.FC<{
     const expandedContent = (
         <div className="claude-code-tool details">
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Directory')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('目录')}</span>
                 <code className="claude-code-tool detail-value">{input.path}</code>
             </div>
             {input.ignore && input.ignore.length > 0 && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/ignoredPatterns', 'Ignored Patterns')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/ignoredPatterns', '忽略的模式')}</span>
                     <div className="claude-code-tool detail-value">
                         {input.ignore.map((pattern, index) => (
                             <code key={index} className="claude-code-tool ignore-pattern">
@@ -147,12 +147,12 @@ const LSToolComponent: React.FC<{
                 </div>
             )}
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Description')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('描述')}</span>
                 <span className="claude-code-tool detail-value">
-                    {nls.localize('theia/ai/claude-code/listDirectoryContents', 'List directory contents')}{input.ignore && input.ignore.length > 0
+                    {nls.localize('theia/ai/claude-code/listDirectoryContents', '列出目录内容')}{input.ignore && input.ignore.length > 0
                         ? (input.ignore.length > 1
-                            ? nls.localize('theia/ai/claude-code/excludingPatterns', ' (excluding {0} patterns)', input.ignore.length)
-                            : nls.localize('theia/ai/claude-code/excludingOnePattern', ' (exluding 1 pattern)'))
+                            ? nls.localize('theia/ai/claude-code/excludingPatterns', '（排除 {0} 个模式）', input.ignore.length)
+                            : nls.localize('theia/ai/claude-code/excludingOnePattern', '（排除 1 个模式）'))
                         : ''}
                 </span>
             </div>

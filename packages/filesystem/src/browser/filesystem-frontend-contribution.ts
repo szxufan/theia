@@ -202,7 +202,7 @@ export class FileSystemFrontendContribution implements FrontendApplicationContri
      */
     protected async handleNewFileCommand(args: unknown[]): Promise<void> {
         const fileName = (args !== undefined && typeof args[0] === 'string') ? args[0] : undefined;
-        const title = nls.localizeByDefault('Create File');
+        const title = nls.localizeByDefault('创建文件');
         const props: SaveFileDialogProps = { title, saveLabel: title, inputValue: fileName };
 
         const dirUri = (args[1] instanceof URI) ? args[1] : await this.workingDirectory.getUserWorkingDir();
@@ -344,7 +344,7 @@ export class FileSystemFrontendContribution implements FrontendApplicationContri
         return targetUri && widget.createMoveToUri(targetUri);
     }
 
-    protected readonly deletedSuffix = `(${nls.localizeByDefault('Deleted')})`;
+    protected readonly deletedSuffix = `(${nls.localizeByDefault('已删除')})`;
     protected async updateWidgets(event: FileChangesEvent): Promise<void> {
         if (!event.gotDeleted() && !event.gotAdded()) {
             return;

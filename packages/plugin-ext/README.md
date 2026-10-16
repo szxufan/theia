@@ -4,53 +4,51 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - PLUGIN-EXT EXTENSION</h2>
+<h2>ECLIPSE THEIA - PLUGIN-EXT 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/plugin-ext` extension contributes functionality for the `plugin` API.
+`@theia/plugin-ext` 扩展为 `plugin` API 提供功能实现。
 
-## Implementation
+## 实现
 
-The implementation is inspired from: <https://blog.mattbierner.com/vscode-webview-web-learnings/>.
+实现灵感来自：<https://blog.mattbierner.com/vscode-webview-web-learnings/>。
 
-## Environment Variables
+## 环境变量
 
 - `THEIA_WEBVIEW_EXTERNAL_ENDPOINT`
 
-  A string pattern possibly containing `{{uuid}}` and `{{hostname}}` which will be replaced. This is the host for which the `webviews` will be served on.
-  It is a good practice to host the `webview` handlers on a sub-domain as it is more secure.
-  Defaults to `{{uuid}}.webview.{{hostname}}`.
+  一个字符串模式，可能包含将被替换的 `{{uuid}}` 和 `{{hostname}}`。这是 `webviews` 将被托管的主机。
+  将 `webview` 处理器托管在子域名上是一种良好的做法，因为这样更安全。
+  默认值为 `{{uuid}}.webview.{{hostname}}`。
 
-## Security Warnings
+## 安全警告
 
-- Potentially Insecure Host Pattern
+- 潜在不安全的主机模式
 
-  When you change the host pattern via the `THEIA_WEBVIEW_EXTERNAL_ENDPOINT` environment variable warning will be emitted both from the frontend and from the backend.
-  You can disable those warnings by setting `warnOnPotentiallyInsecureHostPattern: false` in the appropriate application configurations in your application's `package.json`.
+  当你通过 `THEIA_WEBVIEW_EXTERNAL_ENDPOINT` 环境变量更改主机模式时，前端和后端都会发出警告。
+  你可以在应用程序 `package.json` 的相应应用程序配置中设置 `warnOnPotentiallyInsecureHostPattern: false` 来禁用这些警告。
 
-## Naming in this package
+## 本包中的命名
 
-This package has a different folder structure than other Theia packages. Stuff in the "hosted" folder is meant to be scoped to a front end,
-whereas "main" is global to a back end instance. Code in "plugin" runs inside the plugin host process. But be aware that this is not always the case,
-for example the plugin manifest scanners (e.g. `scanner-theia.ts`) are in the `hosted` folder, even though they a global concern.
+本包的文件夹结构与其他 Theia 包不同。"hosted" 文件夹中的内容以单个前端为作用域，而 "main" 对后端实例是全局的。"plugin" 中的代码运行在插件宿主进程内。但请注意，情况并不总是如此，例如插件清单扫描器（如 `scanner-theia.ts`）位于 `hosted` 文件夹中，尽管它们是全局性的关注点。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/plugin-ext`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin-ext.html)
+- [`@theia/plugin-ext` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin-ext.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

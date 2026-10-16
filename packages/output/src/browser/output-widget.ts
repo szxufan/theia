@@ -32,7 +32,7 @@ import * as monaco from '@theia/monaco-editor-core';
 export class OutputWidget extends BaseWidget implements StatefulWidget {
 
     static readonly ID = 'outputView';
-    static readonly LABEL = nls.localizeByDefault('Output');
+    static readonly LABEL = nls.localizeByDefault('输出');
     static readonly SELECTED_CHANNEL_STORAGE_KEY = 'output-widget-selected-channel';
 
     @inject(SelectionService)

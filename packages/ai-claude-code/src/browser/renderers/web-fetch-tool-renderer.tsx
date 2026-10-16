@@ -49,7 +49,7 @@ export class WebFetchToolRenderer implements ChatResponsePartRenderer<ToolCallCh
             return <WebFetchToolComponent input={input} />;
         } catch (error) {
             this.logger.warn('Failed to parse WebFetch tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseWebFetchToolData', 'Failed to parse WebFetch tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseWebFetchToolData', '解析 WebFetch 工具数据失败')}</div>;
         }
     }
 }
@@ -73,7 +73,7 @@ const WebFetchToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/fetching', 'Fetching')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/fetching', '正在获取')}</span>
                 <span className={`${codicon('globe')} claude-code-tool icon`} />
                 <span className="claude-code-tool command">{getDomain(input.url)}</span>
                 <span className="claude-code-tool description" title={input.prompt}>
@@ -81,7 +81,7 @@ const WebFetchToolComponent: React.FC<{
                 </span>
             </div>
             <div className="claude-code-tool header-right">
-                <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/webFetch', 'Web Fetch')}</span>
+                <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/webFetch', '网页获取')}</span>
             </div>
         </>
     );
@@ -93,11 +93,11 @@ const WebFetchToolComponent: React.FC<{
                 <code className="claude-code-tool detail-value">{input.url}</code>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Domain')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('域名')}</span>
                 <span className="claude-code-tool detail-value">{getDomain(input.url)}</span>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Prompt')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('提示词')}</span>
                 <span className="claude-code-tool detail-value">{input.prompt}</span>
             </div>
         </div>

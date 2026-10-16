@@ -470,7 +470,7 @@ describe('OpenAiResponseApiUtils', () => {
         expect(finished).to.not.be.undefined;
         expect(finished!.id).to.equal('ts-1');
         expect(finished!.name).to.equal('tool_search');
-        expect(finished!.result).to.deep.equal({ content: [{ type: 'text', text: 'Found 2 tools.' }] });
+        expect(finished!.result).to.deep.equal({ content: [{ type: 'text', text: '找到 2 个工具。' }] });
     });
 
     it('surfaces web search as a running then finished server tool call', async () => {
@@ -519,7 +519,7 @@ describe('OpenAiResponseApiUtils', () => {
         expect(calls).to.have.length(2);
         expect(calls[0]).to.deep.include({ id: 'ws-1', name: OPENAI_WEB_SEARCH, finished: false });
         expect(calls[1]).to.deep.include({ id: 'ws-1', name: OPENAI_WEB_SEARCH, finished: true });
-        expect(calls[1].result).to.deep.equal({ content: [{ type: 'text', text: 'Web search failed.' }] });
+        expect(calls[1].result).to.deep.equal({ content: [{ type: 'text', text: '网页搜索失败。' }] });
         expect(calls[1].data).to.deep.equal({
             [OPENAI_WEB_SEARCH_REPLAY_DATA_KEY]: JSON.stringify([reasoningItem, searchCall])
         });

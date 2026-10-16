@@ -1,14 +1,13 @@
 ---
-name: Feature Request
-about: Propose an idea for the project
+name: 功能请求
+about: 为项目提出一个想法
 ---
 
-<!-- Please fill out the following content for a feature request. -->
+<!-- 请为功能请求填写以下内容。 -->
 
-<!-- Please provide a clear description of the feature and any relevant information. -->
-### Feature Description:
+<!-- 请清晰描述该功能以及任何相关信息。 -->
+### 功能描述：
 
 
 
-<!-- 💙 Eclipse Theia is community-supported. If you find it valuable, consider sponsoring the project: https://theia-ide.org/support/ -->
-
+<!-- 💙 Eclipse Theia 由社区支持。如果你觉得它有价值，请考虑赞助该项目：https://theia-ide.org/support/ -->

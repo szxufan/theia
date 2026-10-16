@@ -26,7 +26,7 @@ import { DisposableCollection } from '@theia/core/lib/common/disposable';
 import { codicon } from '@theia/core/lib/browser';
 import { nls } from '@theia/core/lib/common';
 
-export const PLUGINS_LABEL = nls.localizeByDefault('Plugins');
+export const PLUGINS_LABEL = nls.localizeByDefault('插件');
 
 @injectable()
 export class PluginWidget extends ReactWidget {
@@ -75,7 +75,7 @@ export class PluginWidget extends ReactWidget {
     protected doRender(): React.ReactNode {
         const plugins = this.pluginService.plugins;
         if (!plugins.length) {
-            return <AlertMessage type='INFO' header='No plugins currently available.' />;
+            return <AlertMessage type='INFO' header='当前没有可用的插件。' />;
         }
         return <React.Fragment>{this.renderPlugins(plugins)}</React.Fragment>;
     }
@@ -95,8 +95,8 @@ export class PluginWidget extends ReactWidget {
                     <div className={codicon('list-selection')}></div>
                     <div title={plugin.model.name} className='pluginName noWrapInfo'>{plugin.model.name}</div>
                     {isRestrictedByTrust && (
-                        <span className='pluginRestrictedBadge' title={nls.localizeByDefault('Disabled in Restricted Mode')}>
-                            {nls.localizeByDefault('Restricted Mode')}
+                        <span className='pluginRestrictedBadge' title={nls.localizeByDefault('已在受限模式下禁用')}>
+                            {nls.localizeByDefault('受限模式')}
                         </span>
                     )}
                 </div>

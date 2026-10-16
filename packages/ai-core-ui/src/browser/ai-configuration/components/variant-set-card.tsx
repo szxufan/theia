@@ -70,8 +70,8 @@ export const VariantSetCard: React.FC<VariantSetCardProps> = ({ agentId, promptV
         return <AiConfigurationItemRow
             label={promptVariantSetId}
             description={nls.localize('theia/ai/core/promptFragmentsConfiguration/variantSetError',
-                'The selected variant does not exist and no default could be found. Please check your configuration.')}
-            status={{ kind: 'error', label: nls.localizeByDefault('Error') }}
+                '所选变体不存在，且找不到默认变体。请检查你的配置。')}
+            status={{ kind: 'error', label: nls.localizeByDefault('错误') }}
         />;
     }
 
@@ -97,9 +97,9 @@ export const VariantSetCard: React.FC<VariantSetCardProps> = ({ agentId, promptV
         await PromptCustomizationDialogs.confirmAndReset(
             promptService,
             variantId,
-            nls.localize('theia/ai/core/promptFragmentsConfiguration/resetToBuiltInDialogTitle', 'Reset to Built-in'),
+            nls.localize('theia/ai/core/promptFragmentsConfiguration/resetToBuiltInDialogTitle', '重置为内置版本'),
             nls.localize('theia/ai/core/promptFragmentsConfiguration/resetToBuiltInDialogMsg',
-                'Are you sure you want to reset the prompt fragment "{0}" to its built-in version? This will remove all customizations.', variantId)
+                '确定要将提示词片段“{0}”重置为内置版本吗？这将移除所有自定义内容。', variantId)
         );
     };
 
@@ -110,13 +110,13 @@ export const VariantSetCard: React.FC<VariantSetCardProps> = ({ agentId, promptV
      */
     const removeVariant = async (variantId: string): Promise<void> => {
         const removed = await PromptCustomizationDialogs.confirmAndRemove(promptService, variantId, {
-            title: nls.localize('theia/ai/core/promptFragmentsConfiguration/removePromptTemplateDialogTitle', 'Remove Prompt Template'),
+            title: nls.localize('theia/ai/core/promptFragmentsConfiguration/removePromptTemplateDialogTitle', '移除提示词模板'),
             message: ({ type, description }) => description
                 ? nls.localize('theia/ai/core/promptFragmentsConfiguration/removePromptTemplateWithDescDialogMsg',
-                    'Are you sure you want to remove the {0} customization for prompt template "{1}" ({2})? It has no built-in version, so it will be gone entirely.',
+                    '确定要移除提示词模板“{1}”（{2}）的 {0} 自定义吗？它没有内置版本，移除后将完全消失。',
                     type ?? '', variantId, description)
                 : nls.localize('theia/ai/core/promptFragmentsConfiguration/removePromptTemplateDialogMsg',
-                    'Are you sure you want to remove the {0} customization for prompt template "{1}"? It has no built-in version, so it will be gone entirely.',
+                    '确定要移除提示词模板“{1}”的 {0} 自定义吗？它没有内置版本，移除后将完全消失。',
                     type ?? '', variantId)
         });
         // The agent still points at the template we just deleted, which would show up as an unavailable
@@ -136,18 +136,18 @@ export const VariantSetCard: React.FC<VariantSetCardProps> = ({ agentId, promptV
     // customized variant is a separate, global edit, surfaced by the `[edited]` marker and the reset icon.)
     const modified = defaultVariantId !== undefined && selected !== defaultVariantId;
     const variantCountLabel = variantIds.length === 1
-        ? nls.localize('theia/ai/core/variantSet/variantCountSingular', '1 variant')
-        : nls.localize('theia/ai/core/variantSet/variantCount', '{0} variants', variantIds.length);
+        ? nls.localize('theia/ai/core/variantSet/variantCountSingular', '1 个变体')
+        : nls.localize('theia/ai/core/variantSet/variantCount', '{0} 个变体', variantIds.length);
 
     // Each option shows the variant name plus `(default)`/`[edited]` markers, so the collapsed select surfaces
     // the selected variant's state and the dropdown reveals which variants are customized.
     const options: AiEnumOption[] = variantIds.map(variantId => {
         const markers = [variantName(variantId)];
         if (variantId === defaultVariantId) {
-            markers.push(`(${nls.localizeByDefault('Default')})`);
+            markers.push(`(${nls.localizeByDefault('默认')})`);
         }
         if (isVariantCustomized(variantId)) {
-            markers.push(`[${nls.localize('theia/ai/chat-ui/edited', 'edited')}]`);
+            markers.push(`[${nls.localize('theia/ai/chat-ui/edited', '已编辑')}]`);
         }
         return { value: variantId, label: markers.join(' ') };
     });
@@ -157,15 +157,15 @@ export const VariantSetCard: React.FC<VariantSetCardProps> = ({ agentId, promptV
     if (invalidSelection) {
         options.unshift({
             value: explicitSelection!,
-            label: nls.localize('theia/ai/core/variantSet/unavailableVariant', '{0} (unavailable)', explicitSelection!),
+            label: nls.localize('theia/ai/core/variantSet/unavailableVariant', '{0}（不可用）', explicitSelection!),
             disabled: true
         });
     }
 
-    const editLabel = nls.localize('theia/ai/core/promptFragmentsConfiguration/editPromptTemplate', 'Edit prompt template');
+    const editLabel = nls.localize('theia/ai/core/promptFragmentsConfiguration/editPromptTemplate', '编辑提示词模板');
     const resetLabel = selectedHasBuiltIn
-        ? nls.localize('theia/ai/core/promptFragmentsConfiguration/resetPromptTemplate', 'Reset prompt template')
-        : nls.localize('theia/ai/core/promptFragmentsConfiguration/removePromptTemplate', 'Remove prompt template');
+        ? nls.localize('theia/ai/core/promptFragmentsConfiguration/resetPromptTemplate', '重置提示词模板')
+        : nls.localize('theia/ai/core/promptFragmentsConfiguration/removePromptTemplate', '移除提示词模板');
 
     return <AiConfigurationItemRow
         label={promptVariantSetId}
@@ -177,7 +177,7 @@ export const VariantSetCard: React.FC<VariantSetCardProps> = ({ agentId, promptV
         trailing={<div className='ai-variant-controls'>
             <AiEnumSelect
                 value={invalidSelection ? explicitSelection : selected}
-                ariaLabel={nls.localizeByDefault('Template')}
+                ariaLabel={nls.localizeByDefault('模板')}
                 options={options}
                 invalid={invalidSelection}
                 onCommit={selectVariant}

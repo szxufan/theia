@@ -48,7 +48,7 @@ export const MCP_OAUTH_ACTIVE_CALLBACK_LIMIT = 32;
 /**
  * Plain-literal export so tests can match the cancelled-error message without depending on nls.
  */
-export const MCP_OAUTH_AUTHORIZATION_CANCELLED = 'MCP OAuth authorization was cancelled.';
+export const MCP_OAUTH_AUTHORIZATION_CANCELLED = 'OAuth 授权已取消。';
 
 export class MCPOAuthCancelledError extends Error {
     constructor() {
@@ -131,8 +131,8 @@ export class MCPOAuthCallbackService {
                 this.callbacks.delete(state);
                 this.timers.delete(state);
                 this.rememberRejectedCallback(state,
-                    nls.localize('theia/ai/mcp/oauth/authorizationTimedOut', 'OAuth authorization timed out. Please start sign-in again.'));
-                deferred.reject(new Error('Timed out waiting for MCP OAuth authorization callback.'));
+                    nls.localize('theia/ai/mcp/oauth/authorizationTimedOut', 'OAuth 授权已超时。请重新开始登录。'));
+                deferred.reject(new Error('等待 MCP OAuth 授权回调超时。'));
             }
         }, timeout);
         this.callbacks.set(state, entry);
@@ -161,7 +161,7 @@ export class MCPOAuthCallbackService {
                 + `${MCP_OAUTH_ACTIVE_CALLBACK_LIMIT} concurrent authorizations was reached.`
             );
             this.cancel(victimState, nls.localize('theia/ai/mcp/oauth/authorizationEvicted',
-                'OAuth authorization was cancelled because too many authorization attempts are in progress.'));
+                'OAuth 授权已取消，因为有太多授权尝试正在进行。'));
         }
     }
 
@@ -197,7 +197,7 @@ export class MCPOAuthCallbackService {
         return message;
     }
 
-    cancel(state: string, message = nls.localize('theia/ai/mcp/oauth/authorizationCancelledCloseTab', 'OAuth authorization was cancelled. You can close this tab.')): void {
+    cancel(state: string, message = nls.localize('theia/ai/mcp/oauth/authorizationCancelledCloseTab', 'OAuth 授权已取消。你可以关闭此标签页。')): void {
         const entry = this.callbacks.get(state);
         if (!entry) {
             return;

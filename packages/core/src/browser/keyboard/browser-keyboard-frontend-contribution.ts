@@ -52,9 +52,9 @@ export class BrowserKeyboardFrontendContribution implements CommandContribution 
     protected async chooseLayout(): Promise<KeyboardLayoutData | undefined> {
         const current = this.layoutProvider.currentLayoutData;
         const autodetect: QuickPickValue<'autodetect'> = {
-            label: nls.localizeByDefault('Auto Detect'),
-            description: this.layoutProvider.currentLayoutSource !== 'user-choice' ? nls.localize('theia/core/keyboard/current', '(current: {0})', current.name) : undefined,
-            detail: nls.localize('theia/core/keyboard/tryDetect', 'Try to detect the keyboard layout from browser information and pressed keys.'),
+            label: nls.localizeByDefault('自动检测'),
+            description: this.layoutProvider.currentLayoutSource !== 'user-choice' ? nls.localize('theia/core/keyboard/current', '（当前：{0}）', current.name) : undefined,
+            detail: nls.localize('theia/core/keyboard/tryDetect', '尝试根据浏览器信息和按下的按键检测键盘布局。'),
             value: 'autodetect'
         };
         const pcLayouts = this.layoutProvider.allLayoutData
@@ -66,8 +66,8 @@ export class BrowserKeyboardFrontendContribution implements CommandContribution 
             .sort((a, b) => compare(a.name, b.name))
             .map(layout => this.toQuickPickValue(layout, current === layout));
         let layouts: Array<QuickPickValue<KeyboardLayoutData | 'autodetect'> | QuickPickItemOrSeparator>;
-        const macKeyboards = nls.localize('theia/core/keyboard/mac', 'Mac Keyboards');
-        const pcKeyboards = nls.localize('theia/core/keyboard/pc', 'PC Keyboards');
+        const macKeyboards = nls.localize('theia/core/keyboard/mac', 'Mac 键盘');
+        const pcKeyboards = nls.localize('theia/core/keyboard/pc', 'PC 键盘');
         if (isOSX) {
             layouts = [
                 autodetect,
@@ -81,7 +81,7 @@ export class BrowserKeyboardFrontendContribution implements CommandContribution 
                 { type: 'separator', label: macKeyboards }, ...macLayouts
             ];
         }
-        const selectedItem = await this.quickInputService?.showQuickPick(layouts, { placeholder: nls.localize('theia/core/keyboard/chooseLayout', 'Choose a keyboard layout') });
+        const selectedItem = await this.quickInputService?.showQuickPick(layouts, { placeholder: nls.localize('theia/core/keyboard/chooseLayout', '选择键盘布局') });
         if (selectedItem && ('value' in selectedItem)) {
             return this.layoutProvider.setLayoutData(selectedItem.value);
         }
@@ -91,7 +91,7 @@ export class BrowserKeyboardFrontendContribution implements CommandContribution 
         return {
             label: layout.name,
             description:
-                `${layout.hardware === 'mac' ? 'Mac' : 'PC'} (${layout.language})${isCurrent ? nls.localize('theia/core/keyboard/currentLayout', ' - current layout') : ''}`,
+                `${layout.hardware === 'mac' ? 'Mac' : 'PC'} (${layout.language})${isCurrent ? nls.localize('theia/core/keyboard/currentLayout', ' - 当前布局') : ''}`,
             value: layout
         };
     }

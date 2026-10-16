@@ -175,7 +175,7 @@ export class ClaudeCodeServiceImpl implements ClaudeCodeService {
                     // If this is the result message, send the custom error and stop
                     if (message.type === 'result') {
                         const errorMessage = nls.localize('theia/ai/claude-code/apiKeyError',
-                            'Please set a Claude Code API key in the preferences or log into Claude Code on your machine.');
+                            '请在偏好设置中设置 Claude Code API 密钥，或在本机上登录 Claude Code。');
                         this.client.sendError(streamId, new Error(errorMessage));
                         done();
                         break;
@@ -210,7 +210,7 @@ export class ClaudeCodeServiceImpl implements ClaudeCodeService {
 
         if (customClaudeCodePath) {
             if (!existsSync(customClaudeCodePath)) {
-                throw new Error(nls.localize('theia/ai/claude-code/executableNotFoundAt', 'Specified Claude Code executable not found at: {0}', customClaudeCodePath));
+                throw new Error(nls.localize('theia/ai/claude-code/executableNotFoundAt', '未在以下位置找到指定的 Claude Code 可执行文件：{0}', customClaudeCodePath));
             }
             const realPath = realpathSync(customClaudeCodePath);
             // Use the directory containing the cli.js file
@@ -223,10 +223,10 @@ export class ClaudeCodeServiceImpl implements ClaudeCodeService {
 
         // Check if file exists before importing
         if (!existsSync(sdkPath)) {
-            throw new Error(nls.localize('theia/ai/claude-code/installationNotFoundAt', 'Claude Code installation not found. ' +
-                'Please install with: `npm install -g @anthropic-ai/claude-agent-sdk` ' +
-                'and/or specify the path to the executable in the settings. ' +
-                'We looked at {0}', sdkPath));
+            throw new Error(nls.localize('theia/ai/claude-code/installationNotFoundAt', '未找到 Claude Code 安装。' +
+                '请使用以下命令安装：`npm install -g @anthropic-ai/claude-agent-sdk`，' +
+                '和/或在设置中指定可执行文件的路径。' +
+                '我们查找了 {0}', sdkPath));
         }
 
         const importPath = `file://${sdkPath}`;
@@ -244,9 +244,9 @@ export class ClaudeCodeServiceImpl implements ClaudeCodeService {
             return path.join(globalPath, '@anthropic-ai/claude-agent-sdk');
         } catch (error) {
             this.logger.error('Failed to resolve global npm path:', error);
-            throw new Error(nls.localize('theia/ai/claude-code/installationNotFound', 'Claude Code installation not found. ' +
-                'Please install with: `npm install -g @anthropic-ai/claude-agent-sdk` ' +
-                'and/or specify the path to the executable in the settings.'));
+            throw new Error(nls.localize('theia/ai/claude-code/installationNotFound', '未找到 Claude Code 安装。' +
+                '请使用以下命令安装：`npm install -g @anthropic-ai/claude-agent-sdk`，' +
+                '和/或在设置中指定可执行文件的路径。'));
         }
     }
 

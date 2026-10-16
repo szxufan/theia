@@ -1,28 +1,28 @@
 ---
-name: Bug Report (except security vulnerabilities)
-about: Create a report to help us improve
+name: 缺陷报告（安全漏洞除外）
+about: 创建报告帮助我们改进
 ---
 
-<!-- Please provide a detailed description of the bug. -->
-<!-- Note: This template is not meant for security vulnerabilities disclosure -->
-<!-- Any such issue, created in this repo, will be deleted on sight -->
-<!-- Instead please report vulnerabilities to the Eclipse Foundation's security team -->
-<!-- For more details, please read SECURITY.md in the repository root -->
-### Bug Description:
+<!-- 请详细描述该缺陷。 -->
+<!-- 注意：本模板不用于披露安全漏洞 -->
+<!-- 在本仓库中创建的任何此类 issue 一经发现即被删除 -->
+<!-- 请改为向 Eclipse Foundation 安全团队报告漏洞 -->
+<!-- 更多详情请阅读仓库根目录的 SECURITY.md -->
+### 缺陷描述：
 
-<!-- Please provide clear steps to reproduce the bug. -->
-### Steps to Reproduce:
+<!-- 请提供清晰的重现步骤。 -->
+### 重现步骤：
 
 1.
 2.
 3.
 
-<!-- Please provide any additional information available. -->
-<!-- Additional information can be in the form of logs, screenshots, screencasts. -->
+<!-- 请提供所有可用的额外信息。 -->
+<!-- 额外信息可以是日志、截图、屏幕录像等形式。 -->
 
-### Additional Information
+### 附加信息
 
-- Operating System:
-- Theia Version:
+- 操作系统：
+- Theia 版本：
 
-<!-- 💙 Eclipse Theia is community-supported. If you find it valuable, consider sponsoring the project: https://theia-ide.org/support/ -->
+<!-- 💙 Eclipse Theia 由社区支持。如果你觉得它有价值，请考虑赞助该项目：https://theia-ide.org/support/ -->

@@ -371,7 +371,7 @@ describe('MCPOAuthClientProvider', () => {
             await provider.redirectToAuthorization(new URL('https://auth.example/authorize'));
             throw new Error('Expected redirect to be rejected');
         } catch (error) {
-            expect((error as Error).message).to.equal('MCP OAuth authorization is required. Start the server from the UI to sign in.');
+            expect((error as Error).message).to.equal('需要进行 MCP OAuth 授权。请从 UI 启动服务器以完成登录。');
         }
     });
 
@@ -420,7 +420,7 @@ describe('MCPOAuthClientProvider', () => {
         provider.cancel();
 
         expect(callbackService.consumeRejectedCallbackMessage(provider.getState()))
-            .to.equal('OAuth authorization was cancelled. You can close this tab.');
+            .to.equal('OAuth 授权已取消。你可以关闭此标签页。');
     });
 
     it('returns undefined discovery state for authorization server override without stored discovery', async () => {
@@ -457,7 +457,7 @@ describe('MCPOAuthClientProvider', () => {
             throw new Error('Expected mismatched authorization server to be rejected');
         } catch (error) {
             expect((error as Error).message).to.equal(
-                'Discovered MCP OAuth authorization server https://other.example.com does not match configured authorization server https://auth.example.com.'
+                '发现的 MCP OAuth 授权服务器 https://other.example.com 与配置的授权服务器 https://auth.example.com 不匹配。'
             );
         }
     });
@@ -544,7 +544,7 @@ describe('MCPOAuthClientProvider', () => {
             await provider.validateResourceURL('https://mcp.example.com/mcp');
             throw new Error('Expected incompatible resource to be rejected');
         } catch (error) {
-            expect((error as Error).message).to.equal('Configured MCP OAuth resource https://other.example.com does not match https://mcp.example.com/mcp.');
+            expect((error as Error).message).to.equal('配置的 MCP OAuth 资源 https://other.example.com 与 https://mcp.example.com/mcp 不匹配。');
         }
     });
 
@@ -559,7 +559,7 @@ describe('MCPOAuthClientProvider', () => {
             await provider.validateResourceURL('https://mcp.example.com/mcp', 'https://other.example.com');
             throw new Error('Expected incompatible resource metadata to be rejected');
         } catch (error) {
-            expect((error as Error).message).to.equal('Protected MCP OAuth resource https://other.example.com does not match https://mcp.example.com/mcp.');
+            expect((error as Error).message).to.equal('受保护的 MCP OAuth 资源 https://other.example.com 与 https://mcp.example.com/mcp 不匹配。');
         }
     });
 

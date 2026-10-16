@@ -36,10 +36,10 @@ describe('telemetry preferences', () => {
             type: 'string',
             enum: ['off', 'crash', 'error', 'all'],
             enumDescriptions: [
-                'Disables all product telemetry.',
-                'Sends OS level crash reports.',
-                'Sends general error telemetry and crash reports.',
-                'Sends usage data, errors, and crash reports.'
+                '禁用所有产品遥测。',
+                '发送操作系统级别的崩溃报告。',
+                '发送一般错误遥测和崩溃报告。',
+                '发送使用数据、错误和崩溃报告。'
             ],
             default: 'off'
         });

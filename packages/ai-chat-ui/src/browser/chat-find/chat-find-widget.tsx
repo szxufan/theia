@@ -366,8 +366,8 @@ export class ChatFindWidget extends ReactWidget {
         const count = this.matches.length;
         const noResults = hasQuery && count === 0;
         const label = count > 0
-            ? nls.localizeByDefault('{0} of {1}', this.currentIndex + 1, count)
-            : nls.localizeByDefault('No results');
+            ? nls.localizeByDefault('{0} / {1}', this.currentIndex + 1, count)
+            : nls.localizeByDefault('无结果');
         return <div className='theia-chat-find-bar' role='search'>
             <div className={`theia-chat-find-input-box${noResults ? ' no-results' : ''}`}>
                 <input
@@ -376,20 +376,20 @@ export class ChatFindWidget extends ReactWidget {
                     className='theia-input'
                     spellCheck={false}
                     defaultValue={this.query}
-                    placeholder={nls.localizeByDefault('Find')}
-                    title={nls.localizeByDefault('Find')}
-                    aria-label={nls.localizeByDefault('Find')}
+                    placeholder={nls.localizeByDefault('查找')}
+                    title={nls.localizeByDefault('查找')}
+                    aria-label={nls.localizeByDefault('查找')}
                     onChange={this.handleInputChange}
                     onKeyDown={this.handleInputKeyDown}
                 />
-                {this.renderToggle('matchCase', 'case-sensitive', nls.localizeByDefault('Match Case'))}
-                {this.renderToggle('wholeWord', 'whole-word', nls.localizeByDefault('Match Whole Word'))}
-                {this.renderToggle('useRegex', 'regex', nls.localizeByDefault('Use Regular Expression'))}
+                {this.renderToggle('matchCase', 'case-sensitive', nls.localizeByDefault('区分大小写'))}
+                {this.renderToggle('wholeWord', 'whole-word', nls.localizeByDefault('全字匹配'))}
+                {this.renderToggle('useRegex', 'regex', nls.localizeByDefault('使用正则表达式'))}
             </div>
             <span className={`theia-chat-find-count${noResults ? ' no-results' : ''}`} aria-live='polite'>{label}</span>
-            {this.renderButton('arrow-up', nls.localizeByDefault('Previous Match'), count > 0, this.handlePreviousClick)}
-            {this.renderButton('arrow-down', nls.localizeByDefault('Next Match'), count > 0, this.handleNextClick)}
-            {this.renderButton('close', nls.localizeByDefault('Close'), true, this.handleCloseClick)}
+            {this.renderButton('arrow-up', nls.localizeByDefault('上一个匹配项'), count > 0, this.handlePreviousClick)}
+            {this.renderButton('arrow-down', nls.localizeByDefault('下一个匹配项'), count > 0, this.handleNextClick)}
+            {this.renderButton('close', nls.localizeByDefault('关闭'), true, this.handleCloseClick)}
         </div>;
     }
 

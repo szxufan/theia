@@ -64,7 +64,7 @@ export class ProblemWidget extends TreeWidget {
         super(treeProps, model, contextMenuRenderer);
 
         this.id = PROBLEMS_WIDGET_ID;
-        this.title.label = nls.localizeByDefault('Problems');
+        this.title.label = nls.localizeByDefault('问题');
         this.title.caption = this.title.label;
         this.title.iconClass = codicon('warning');
         this.title.closable = true;
@@ -154,7 +154,7 @@ export class ProblemWidget extends TreeWidget {
         if (MarkerRootNode.is(model.root) && model.root.children.length > 0) {
             return super.renderTree(model);
         }
-        return <div className='theia-widget-noInfo noMarkers'>{nls.localize('theia/markers/noProblems', 'No problems have been detected in the workspace so far.')}</div>;
+        return <div className='theia-widget-noInfo noMarkers'>{nls.localize('theia/markers/noProblems', '目前尚未在工作区中检测到问题。')}</div>;
     }
 
     protected override renderCaption(node: TreeNode, props: NodeProps): React.ReactNode {
@@ -179,7 +179,7 @@ export class ProblemWidget extends TreeWidget {
     protected getMarkerNodeFormatData(marker: ProblemMarker): MarkerNodeFormatData {
         const line = marker.data.range.start.line + 1;
         const column = marker.data.range.start.character + 1;
-        const location = nls.localizeByDefault('Ln {0}, Col {1}', line, column);
+        const location = nls.localizeByDefault('行 {0}，列 {1}', line, column);
         const severityClass = marker.data.severity ? this.getSeverityClass(marker.data.severity) : '';
         const severityLabel = marker.data.severity ? this.getSeverityLabel(marker.data.severity) : '';
         const source = marker.data.source ? `${marker.data.source}` : '';
@@ -232,10 +232,10 @@ export class ProblemWidget extends TreeWidget {
 
     protected getSeverityLabel(severity: DiagnosticSeverity): string {
         switch (severity) {
-            case DiagnosticSeverity.Error: return nls.localizeByDefault('Error');
-            case DiagnosticSeverity.Warning: return nls.localizeByDefault('Warning');
-            case DiagnosticSeverity.Information: return nls.localizeByDefault('Info');
-            default: return nls.localizeByDefault('Hint');
+            case DiagnosticSeverity.Error: return nls.localizeByDefault('错误');
+            case DiagnosticSeverity.Warning: return nls.localizeByDefault('警告');
+            case DiagnosticSeverity.Information: return nls.localizeByDefault('信息');
+            default: return nls.localizeByDefault('提示');
         }
     }
 

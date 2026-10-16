@@ -25,7 +25,7 @@ export const launchPreferencesSchema: PreferenceSchema = {
     properties: {
         'launch': {
             $ref: launchSchemaId,
-            description: nls.localizeByDefault("Global debug launch configuration. Should be used as an alternative to 'launch.json' that is shared across workspaces."),
+            description: nls.localizeByDefault("全局调试启动配置。可作为跨工作区共享的 'launch.json' 的替代。"),
             default: { configurations: [], compounds: [] }
         }
     }

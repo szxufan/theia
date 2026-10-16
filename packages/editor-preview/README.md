@@ -4,55 +4,53 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - EDITOR-PREVIEW EXTENSION</h2>
+<h2>ECLIPSE THEIA - EDITOR-PREVIEW 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/editor-preview` extension contributes the preview editor which  supports the same functionality as a regular editor widget with the exception:
+`@theia/editor-preview` 扩展提供预览编辑器，它支持与常规编辑器组件相同的功能，唯一区别是：
 
-- if a preview editor has not "transitioned to a permanent editor" at the time an additional request to
-preview a file is received, instead of opening a new editor, it will display the contents of the
-newly requested file.
+- 如果预览编辑器在收到再次预览某个文件的请求时尚未"转换为永久编辑器"，则不会打开新的编辑器，而是显示新请求文件的内容。
 
-Events that will transition the preview to a permanent editor are as follows:
+以下事件会使预览编辑器转换为永久编辑器：
 
-- Modifying file contents being previewed
-- Double clicking the preview tab
-- Performing a drag/drop operation of the editor preview tab resulting in the tab being moved.
-- Issuing a request to open the file being previewed (e.g. double clicking the file in the
-navigator)
+- 修改正在预览的文件内容
+- 双击预览标签页
+- 对编辑器预览标签页执行拖放操作，导致标签页被移动
+- 发出打开正在预览的文件的请求（例如在
+文件资源管理器中双击该文件）
 
-The preview editor is enabled by default when the extension is included in a Theia application, but
-may be disabled by modifying the preference:
+当该扩展被包含在 Theia 应用程序中时，预览编辑器默认启用，但
+可以通过修改以下首选项将其禁用：
 
 ```json
 editor.enablePreview
 ```
 
-In addition to this value, the preference:
+除该值外，还必须将首选项：
 
 ```json
 list.openMode
 ```
 
-must be set to "singleClick" to enable opening files in preview mode.
+设置为 "singleClick"，才能启用以预览模式打开文件。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/editor-preview`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_editor-preview.html)
+- [`@theia/editor-preview` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_editor-preview.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

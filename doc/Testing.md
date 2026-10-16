@@ -1,53 +1,53 @@
-# Testing
+# 测试
 
-## Running tests
+## 运行测试
 
-Before running make sure to compile tests with `compile` or `watch` scripts.
+运行之前，请确保先用 `compile` 或 `watch` 脚本编译测试。
 
-To run tests on theia run:
+在 theia 上运行测试请执行：
 
 `npm run test`
 
-This will run all CI enabled tests.
+这会运行所有在 CI 中启用的测试。
 
-If you want to run all tests for a particular Theia extension, execute the following command from the root:
+如果你想运行某个特定 Theia 扩展的全部测试，请从根目录执行以下命令：
 
 `npx lerna run test --scope @theia/extension-name`
 
-Add the following npm script to the `package.json` of the desired Theia extension, if you would like to enable the watch mode for the tests.
+如果你想为测试启用 watch 模式，请在目标 Theia 扩展的 `package.json` 中添加如下 npm script：
 
 ```json
   "test:watch": "theiaext test:watch"
 ```
 
-After editing the `package.json` you can run the tests in watch mode with:
+编辑 `package.json` 之后，可以用以下命令以 watch 模式运行测试：
 
 `npx lerna run test:watch --scope @theia/extension-name`
 
-## Test directory structure
+## 测试目录结构
 
-The test directory structure is as follows:
+测试目录结构如下：
 
-- `src/node/foo.ts`: Code to be tested.
-- `src/node/foo.spec.ts`: Unit tests for foo.ts.
-- `src/node/test/test-helper.ts`: Any mocks, fixture or utility test code
- goes here.
-- `src/node/foo.slow-spec.ts`: Any slow running tests such as integration
- tests should be labeled as such so that they can be excluded.
-- `src/browser/foo.ui-spec.ts`: UI tests.
-- `test-resources`: Any resources needed for the tests like configuration
- files or scripts.
-- `test-resources/ui`: Resources for UI testing.
-- `test-resources/slow`: Resources for slow running tests.
+- `src/node/foo.ts`：待测试的代码。
+- `src/node/foo.spec.ts`：foo.ts 的单元测试。
+- `src/node/test/test-helper.ts`：任何 mock、fixture 或工具性测试代码
+ 放在这里。
+- `src/node/foo.slow-spec.ts`：任何运行缓慢的测试（如集成
+ 测试）都应如此命名，以便被排除。
+- `src/browser/foo.ui-spec.ts`：UI 测试。
+- `test-resources`：测试所需的任何资源，如配置
+ 文件或脚本。
+- `test-resources/ui`：UI 测试资源。
+- `test-resources/slow`：慢速测试资源。
 
-## Publishing
+## 发布
 
-### Published test files
+### 已发布的测试文件
 
-Unit tests named as `foo.spec.ts` will be published since they're also for
-documentation purposes.
+命名为 `foo.spec.ts` 的单元测试会被发布，因为它们同时也
+作为文档之用。
 
-### Unpublished
+### 不发布
 
 - `*ui-spec.ts`
 - `*slow-spec.ts`

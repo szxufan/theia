@@ -1,61 +1,55 @@
-# API Integration Testing
+# API 集成测试
 
-- [**Testing principles**](#testing-principles)
-- [**Writing tests**](#writing-tests)
-  - [**Declaring a test suite**](#declaring-a-test-suite)
-  - [**Accessing application services**](#accessing-application-services)
-  - [**Writing a test**](#writing-a-test)
-- [**Running tests**](#running-tests)
-- [**Inspecting tests**](#inspecting-tests)
-- [**Running a single test**](#running-a-single-test)
+- [**测试原则**](#testing-principles)
+- [**编写测试**](#writing-tests)
+  - [**声明测试套件**](#declaring-a-test-suite)
+  - [**访问应用服务**](#accessing-application-services)
+  - [**编写一个测试**](#writing-a-test)
+- [**运行测试**](#running-tests)
+- [**检查测试**](#inspecting-tests)
+- [**运行单个测试**](#running-a-single-test)
 
-Usually, integration tests are written against DOM/CSS
-and executed from a separate process with frameworks like Selenium.
-After experimenting with such approach we learned that
-they are slow, unstable, hard to develop, debug, maintain and
-miss actual issues.
+通常，集成测试针对 DOM/CSS 编写，并用 Selenium 之类的框架在独立进程中执行。
+在尝试过这种方式后，我们发现它们
+缓慢、不稳定、难以开发、调试与维护，并且
+会漏掉真实的问题。
 
-Theia comes with own integration testing framework which is designed
-to overcome the shortcomings of the conventional approach:
+Theia 自带一套集成测试框架，旨在克服
+常规方法的缺点：
 
-- tests are written against the application APIs
-ensuring that completeness and timing of APIs are tested;
-- tests are executed within the application process
-ensuring their speed and robustness.
+- 测试针对应用 API 编写，
+确保 API 的完整性与时序得到测试；
+- 测试在应用进程内执行，
+确保其速度与稳健性。
 
-## Testing principles
+## 测试原则
 
-- **Information Hiding**: API should provide the application object model
-hiding DOM/CSS implementation details behind.
-Test against the application API, not implementation details, like DOM/CSS.
-- **Completeness**: API should be complete, i.e. stateful service
-should provide accessor functions and events.
-Instead of introducing helper test functions, implement missing APIs.
-- **Extensibility**: API should be broken down to minimal interfaces
-with simple functions since minimal interfaces are easy to implement and
-new functionality can be developed by composing simple functions.
-Watch out for complex functions that do everything in tests and implementation.
-- **Convenience**: API should provide convenient functions
-for typical complex tasks, such functions although
-it should not be complex, but broken down to follow the extensibility principle.
-Simplify tests by extracting convenient APIs.
-- **Robustness**: API should provide reliable timing, e.g. if a test focuses the editor,
-a function should resolve when an editor focused.
-Watch out for tests which are guessing based on DOM event listeners
-instead of relying on API events and promises.
+- **信息隐藏**：API 应提供应用对象模型，
+把 DOM/CSS 实现细节隐藏在其后。针对应用 API 测试，而非 DOM/CSS 等实现细节。
+- **完整性**：API 应当完整，即有状态服务
+应提供访问器函数与事件。
+与其引入辅助测试函数，不如实现缺失的 API。
+- **可扩展性**：API 应拆分为具备简单函数的最小接口，因为最小接口易于实现，
+且新功能可以通过组合简单函数来开发。
+警惕在测试与实现中大包大揽的复杂函数。
+- **便利性**：API 应为典型的复杂任务提供便利函数，此类函数虽然
+不应复杂，但应按可扩展性原则拆分。
+通过提取便利的 API 简化测试。
+- **稳健性**：API 应提供可靠的时序，例如测试聚焦编辑器时，
+函数应在编辑器聚焦后 resolve。
+警惕基于 DOM 事件监听器去猜测、而非依赖 API 事件与 promise 的测试。
 
-## Writing tests
+## 编写测试
 
-New tests should be added in `examples/api-tests` package.
-This package is published to allow adopters to run tests against end products.
-Tests should be decomposed to different test suite files that adopters could include only some.
+新测试应添加在 `examples/api-tests` 包中。
+该包会被发布，以便采用者能针对最终产品运行测试。
+测试应拆分为不同的测试套件文件，让采用者可以选择性包含。
 
-### Declaring a test suite
+### 声明测试套件
 
-All test files are loaded one by own in the application process in the global scope.
-It means that they are sharing variables declared in the global scope.
-To avoid name conflicts each test file should start with a declaration of the test suite
-with the function scope. New variables have to be declared only within this function scope.
+所有测试文件在应用进程的全局作用域中逐一加载。
+这意味着它们共享在全局作用域中声明的变量。
+为避免命名冲突，每个测试文件应以带函数作用域的测试套件声明开头。新变量只能在该函数作用域内声明。
 
 ```js
 describe('Editors', function () {
@@ -65,19 +59,19 @@ describe('Editors', function () {
 });
 ```
 
-### Accessing application services
+### 访问应用服务
 
-The application is always bundled. Bundles exposing application modules via `theia` namespace.
-One can access a module with `window.theia.moduleName`, where `moduleName`
-is the absolute path to a module file relative to a containing package.
-For instance `editor-manager.js` can be accessed with `window.theia['@theia/editor/lib/browser/editor-manager']`.
-Testing framework as well injects `require` function to lookup modules.
-It can be useful with enabled typescript checks for js files to write statically checked code.
+应用总是被打包的。Bundle 通过 `theia` 命名空间暴露应用模块。
+可以用 `window.theia.moduleName` 访问模块，其中 `moduleName`
+是模块文件相对于所属包的绝对路径。
+例如 `editor-manager.js` 可以通过 `window.theia['@theia/editor/lib/browser/editor-manager']` 访问。
+测试框架同样注入了 `require` 函数用于查找模块。
+在为 js 文件启用 typescript 检查时，它有助于编写静态检查的代码。
 
-Importing symbols from an exposed module is not enough,
-one has to access their implementations from the application container.
-The application container is exposed via `theia` namespace as well
-and can be accessed with `window.theia.container`.
+仅从暴露的模块导入符号是不够的，
+还必须从应用容器获取它们的实现。
+应用容器同样通过 `theia` 命名空间暴露，
+可以用 `window.theia.container` 访问。
 
 ```js
 // @ts-check
@@ -97,19 +91,19 @@ describe('Editors', function () {
 });
 ```
 
-### Writing a test
+### 编写一个测试
 
-An example of the complete test suite can be found below. You can see how it follows design principles:
+完整测试套件的示例如下。可以看到它如何遵循设计原则：
 
-- **Information Hiding**: the object model (EditorManager) is provided to access editors, no DOM/CSS are used.
-- **Completeness**: API provides a way to access existing editors and open new editors,
-there are also events notifying when a new editor get created or closed. More tests can be added to test it.
-- **Extensibility**: EditorManager is not implementing everything but reuses WidgetOpenHandler and WidgetManager.
-Different specialized widget managers can be built on top of it.
-Improvements in WidgetOpenHandler and WidgetManager translate to all specialized widget managers.
-- **Convenience**: Test is not written with using `WidgetManager.open` API,
-but such logic is already encapsulated in `EditorManager.open` which allows keeping a test simple.
-- **Robustness**: Test relies on `EditorManager.open` to resolve when a widget is revealed.
+- **信息隐藏**：提供对象模型（EditorManager）来访问编辑器，不使用任何 DOM/CSS。
+- **完整性**：API 提供访问既有编辑器和打开新编辑器的途径，
+还有在新编辑器被创建或关闭时通知的事件。可以添加更多测试来验证它。
+- **可扩展性**：EditorManager 并不实现所有内容，而是复用 WidgetOpenHandler 和 WidgetManager。
+各种专用的 widget 管理器可以构建在其之上。
+WidgetOpenHandler 和 WidgetManager 的改进会惠及所有专用 widget 管理器。
+- **便利性**：测试没有使用 `WidgetManager.open` API 编写，
+而是使用已封装此类逻辑的 `EditorManager.open`，从而保持测试简单。
+- **稳健性**：测试依赖 `EditorManager.open` 在 widget 展示后 resolve。
 
 ```js
 // @ts-check
@@ -140,44 +134,43 @@ describe('Editors', function () {
 });
 ```
 
-The framework ensures that tests are executed
-only when the application is ready, workspace is initialized and all preferences are loaded.
+框架确保测试只在应用就绪、工作区已初始化且所有偏好已加载后执行。
 
-Since tests are executed within the same process,
-each test suite should take care to bring the application in the proper state.
-For instance, an example test awaits when all editors are closed before testing the open function.
+由于测试在同一进程内执行，
+每个测试套件应负责把应用带入恰当的状态。
+例如，示例测试在测试 open 函数之前会等待所有编辑器被关闭。
 
-## Running tests
+## 运行测试
 
-> See [theia CLI docs](../dev-packages/cli/README.md#testing) to learn more about how to use  `test` command.
+> 参见 [theia CLI 文档](../dev-packages/cli/README.md#testing)了解如何使用 `test` 命令。
 
-Commands below should be executed from `examples/browser`.
+以下命令应从 `examples/browser` 执行。
 
-To run tests once:
+运行一次测试：
 
     npm run test
 
-This command starts the browser example application and runs tests from `examples/api-tests` against it.
+该命令启动浏览器示例应用，并对其运行 `examples/api-tests` 中的测试。
 
-### Inspecting tests
+### 检查测试
 
-To inspect tests:
+要检查（调试）测试：
 
     npm run test:debug
 
-This command runs tests but as well
-opens the Chrome devtools that you can debug the frontend code and test files.
-After doing changes to source code or tests, reload the page to run new code and tests.
+该命令运行测试，同时
+打开 Chrome devtools，让你可以调试前端代码与测试文件。
+对源码或测试做出更改后，重新加载页面即可运行新的代码与测试。
 
-> Important! Since tests are relying on focus while running tests keep the page focused.
+> 重要！由于测试依赖焦点，运行测试时请保持页面聚焦。
 
-To inspect tests and backend code:
+要同时检查测试与后端代码：
 
     npm run test:debug --inspect
 
-Use the debug view to attach to the backend server for debugging as usual.
+像往常一样使用调试视图附加到后端服务器进行调试。
 
-### Running a single test
+### 运行单个测试
 
-Modify a test case to use `it.only` instead of `it` and reload the page.
-One can also add `?grep=foo` query to the page URL to run only matching tests.
+把某个测试用例改为使用 `it.only` 而非 `it`，然后重新加载页面。
+也可以在页面 URL 上添加 `?grep=foo` 查询参数，只运行匹配的测试。

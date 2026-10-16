@@ -95,22 +95,22 @@ export class ResourcePropertyViewTreeWidget extends TreeWidget implements Proper
     protected fillPropertiesTree(fileStatObject?: FileStat): void {
         if (fileStatObject) {
             this.propertiesTree.clear();
-            const infoNode = this.createCategoryNode('info', nls.localizeByDefault('Info'));
+            const infoNode = this.createCategoryNode('info', nls.localizeByDefault('信息'));
             this.propertiesTree.set('info', infoNode);
 
-            infoNode.children.push(this.createResultLineNode('isDirectory', nls.localizeByDefault('Directory'), fileStatObject.isDirectory, infoNode));
-            infoNode.children.push(this.createResultLineNode('isFile', nls.localizeByDefault('File'), fileStatObject.isFile, infoNode));
-            infoNode.children.push(this.createResultLineNode('isSymbolicLink', nls.localize('theia/property-view/symbolicLink', 'Symbolic link'),
+            infoNode.children.push(this.createResultLineNode('isDirectory', nls.localizeByDefault('目录'), fileStatObject.isDirectory, infoNode));
+            infoNode.children.push(this.createResultLineNode('isFile', nls.localizeByDefault('文件'), fileStatObject.isFile, infoNode));
+            infoNode.children.push(this.createResultLineNode('isSymbolicLink', nls.localize('theia/property-view/symbolicLink', '符号链接'),
                 fileStatObject.isSymbolicLink, infoNode));
-            infoNode.children.push(this.createResultLineNode('location', nls.localizeByDefault('Location'),
+            infoNode.children.push(this.createResultLineNode('location', nls.localizeByDefault('位置'),
                 this.getLocationString(fileStatObject), infoNode));
-            infoNode.children.push(this.createResultLineNode('name', nls.localizeByDefault('Name'), this.getFileName(fileStatObject), infoNode));
-            infoNode.children.push(this.createResultLineNode('path', nls.localizeByDefault('Path'), this.getFilePath(fileStatObject), infoNode));
-            infoNode.children.push(this.createResultLineNode('lastModification', nls.localize('theia/property-view/lastModified', 'Last modified'),
+            infoNode.children.push(this.createResultLineNode('name', nls.localizeByDefault('名称'), this.getFileName(fileStatObject), infoNode));
+            infoNode.children.push(this.createResultLineNode('path', nls.localizeByDefault('路径'), this.getFilePath(fileStatObject), infoNode));
+            infoNode.children.push(this.createResultLineNode('lastModification', nls.localize('theia/property-view/lastModified', '上次修改'),
                 this.getLastModificationString(fileStatObject), infoNode));
-            infoNode.children.push(this.createResultLineNode('created', nls.localizeByDefault('Created'),
+            infoNode.children.push(this.createResultLineNode('created', nls.localizeByDefault('创建时间'),
                 this.getCreationTimeString(fileStatObject), infoNode));
-            infoNode.children.push(this.createResultLineNode('size', nls.localizeByDefault('Size'), this.getSizeString(fileStatObject), infoNode));
+            infoNode.children.push(this.createResultLineNode('size', nls.localizeByDefault('大小'), this.getSizeString(fileStatObject), infoNode));
             this.refreshModelChildren();
         }
     }

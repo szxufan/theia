@@ -250,12 +250,12 @@ Use *@agent* to call a specialized agent and *#* (or {1}) to attach context. [Le
             <div className="theia-alert theia-info-alert theia-WelcomeMessage-Alert">
                 <div className="theia-message-header">
                     <span className={codicon('info')}></span>
-                    <span>{nls.localize('theia/ai/ide/noDefaultAgent/header', 'No default agent')}</span>
+                    <span>{nls.localize('theia/ai/ide/noDefaultAgent/header', '没有默认代理')}</span>
                 </div>
                 <div className="theia-message-content">
                     <LocalizedMarkdown
                         localizationKey="theia/ai/ide/noDefaultAgent"
-                        defaultMarkdown={'Address an agent with *@AgentName*, or [choose the agent]({0}) that answers when you do not name one.'}
+                        defaultMarkdown={'使用 *@代理名称* 指定一个代理，或[选择代理]({0})——当您未指定时由它来回答。'}
                         args={[`command:${OPEN_AI_CONFIG_VIEW.id}?${DEFAULT_CHAT_AGENT_PREF}`]}
                         markdownRenderer={this.markdownRenderer}
                         markdownOptions={{ isTrusted: { enabledCommands: [OPEN_AI_CONFIG_VIEW.id] } }}
@@ -291,16 +291,16 @@ Use *@agent* to call a specialized agent and *#* (or {1}) to attach context. [Le
                 <LocalizedMarkdown
                     localizationKey="theia/ai/ide/noLanguageModelProviders"
                     defaultMarkdown={`
-## No Language Model Providers Available
+## 没有可用的语言模型提供程序
 
-No language model provider packages are installed in this IDE.
+此 IDE 中未安装任何语言模型提供程序包。
 
-This typically happens in custom IDE distributions where Theia AI language model packages have been omitted.
+这通常发生在自定义 IDE 发行版中省略了 Theia AI 语言模型包的情况下。
 
-**To resolve this:**
+**解决方法：**
 
-- Install one or more language model provider packages (e.g., '@theia/ai-openai', '@theia/ai-anthropic', '@theia/ai-ollama')
-- Or use agents that don't require Theia Language Models (e.g., Claude Code)
+- 安装一个或多个语言模型提供程序包（例如 '@theia/ai-openai'、'@theia/ai-anthropic'、'@theia/ai-ollama'）
+- 或者使用不需要 Theia 语言模型的代理（例如 Claude Code）
                 `}
                     markdownRenderer={this.markdownRenderer}
                     className="theia-WelcomeMessage-Content"
@@ -309,11 +309,11 @@ This typically happens in custom IDE distributions where Theia AI language model
                     <button
                         className="theia-button main"
                         onClick={() => this.setModelRequirementBypassed(true)}>
-                        {nls.localize('theia/ai/ide/continueAnyway', 'Continue Anyway')}
+                        {nls.localize('theia/ai/ide/continueAnyway', '仍然继续')}
                     </button>
                 </div>
                 <small className="theia-WelcomeMessage-Hint">
-                    {nls.localize('theia/ai/ide/bypassHint', 'Some agents like Claude Code don\'t require Theia Language Models')}
+                    {nls.localize('theia/ai/ide/bypassHint', '某些代理（如 Claude Code）不需要 Theia 语言模型')}
                 </small>
             </div>;
         }
@@ -324,11 +324,11 @@ This typically happens in custom IDE distributions where Theia AI language model
                 key="configure-provider-hasmodels"
                 localizationKey="theia/ai/ide/configureProvider"
                 defaultMarkdown={`
-## Configure a Language Model
+## 配置语言模型
 
-Set up an API key for a provider like OpenAI, Anthropic or GoogleAI, or connect a local one such as Ollama.
+为 OpenAI、Anthropic 或 GoogleAI 等提供程序设置 API 密钥，或连接 Ollama 等本地提供程序。
 
-New here? [Get started with AI]({0}) walks you through the setup.
+第一次使用？[开始使用 AI]({0})将引导您完成设置。
 `}
                 args={[`command:${AI_OPEN_GETTING_STARTED_WALKTHROUGH.id}`]}
                 markdownRenderer={this.markdownRenderer}
@@ -342,7 +342,7 @@ New here? [Get started with AI]({0}) walks you through the setup.
                 <div className="theia-alert theia-warning-alert theia-WelcomeMessage-Alert">
                     <div className="theia-message-header">
                         <span className={codicon('warning')}></span>
-                        <span>{nls.localize('theia/ai/ide/configurationState', 'Configuration issues')}</span>
+                        <span>{nls.localize('theia/ai/ide/configurationState', '配置问题')}</span>
                     </div>
                     <div className="theia-message-content">
                         <ul className="theia-WelcomeMessage-IssuesList">
@@ -355,12 +355,12 @@ New here? [Get started with AI]({0}) walks you through the setup.
                 <button
                     className="theia-button main"
                     onClick={this.openAiConfiguration}>
-                    {nls.localize('theia/ai/ide/openAiConfiguration', 'Open the AI Configuration')}
+                    {nls.localize('theia/ai/ide/openAiConfiguration', '打开 AI 配置')}
                 </button>
                 <button
                     className="theia-button secondary"
                     onClick={() => this.setModelRequirementBypassed(true)}>
-                    {nls.localize('theia/ai/ide/continueAnyway', 'Continue Anyway')}
+                    {nls.localize('theia/ai/ide/continueAnyway', '仍然继续')}
                 </button>
             </div>
         </div>;
@@ -377,18 +377,18 @@ New here? [Get started with AI]({0}) walks you through the setup.
         return <div className={'theia-WelcomeMessage theia-WelcomeMessage-Main theia-WelcomeMessage-Disabled'} key="trust-restricted-message">
             <TheiaIdeAiLogo className="theia-WelcomeMessage-Logo" />
             <div className="theia-WelcomeMessage-Content">
-                <h2>{nls.localize('theia/ai/ide/chatRestrictedMessage/title', 'AI Features are Restricted')}</h2>
+                <h2>{nls.localize('theia/ai/ide/chatRestrictedMessage/title', 'AI 功能已受限')}</h2>
             </div>
             <div className="theia-alert theia-warning-alert theia-WelcomeMessage-Alert">
                 <div className="theia-message-header">
                     <span className={codicon('shield')}></span>
-                    <span>{nls.localizeByDefault('Restricted Mode')}</span>
+                    <span>{nls.localizeByDefault('受限模式')}</span>
                 </div>
                 <div className="theia-message-content">
                     <LocalizedMarkdown
                         localizationKey="theia/ai/ide/chatRestrictedMessage/explanation"
-                        defaultMarkdown={'AI features are disabled because this workspace is not trusted. '
-                            + 'Grant trust to enable AI chat, inline suggestions, code actions, and prompt templates.'}
+                        defaultMarkdown={'AI 功能已禁用，因为此工作区不受信任。'
+                            + '授予权限以启用 AI 聊天、内联建议、代码操作和提示词模板。'}
                         markdownRenderer={this.markdownRenderer}
                     />
                 </div>
@@ -397,7 +397,7 @@ New here? [Get started with AI]({0}) walks you through the setup.
                 <button
                     className="theia-button main"
                     onClick={() => this.commandRegistry.executeCommand(WorkspaceCommands.MANAGE_WORKSPACE_TRUST.id)}>
-                    {nls.localizeByDefault('Manage Workspace Trust')}
+                    {nls.localizeByDefault('管理工作区信任')}
                 </button>
             </div>
         </div>;
@@ -407,18 +407,18 @@ New here? [Get started with AI]({0}) walks you through the setup.
         return <div className={'theia-WelcomeMessage theia-WelcomeMessage-Main theia-WelcomeMessage-Disabled'} key="disabled-message">
             <TheiaIdeAiLogo className="theia-WelcomeMessage-Logo" />
             <div className="theia-WelcomeMessage-Content">
-                <h2>{nls.localize('theia/ai/ide/chatDisabledMessage/title', 'AI Features are Disabled')}</h2>
+                <h2>{nls.localize('theia/ai/ide/chatDisabledMessage/title', 'AI 功能已禁用')}</h2>
             </div>
             <div className="theia-alert theia-info-alert theia-WelcomeMessage-Alert">
                 <div className="theia-message-header">
                     <span className={codicon('lightbulb')}></span>
-                    <span>{nls.localize('theia/ai/ide/howToGetStarted', 'How to get started')}</span>
+                    <span>{nls.localize('theia/ai/ide/howToGetStarted', '如何开始使用')}</span>
                 </div>
                 <div className="theia-message-content">
                     <LocalizedMarkdown
                         localizationKey="theia/ai/ide/chatDisabledMessage/steps"
-                        defaultMarkdown={'Turn the AI features on, connect a language model and pick an agent. '
-                            + '[Get started with AI]({0}) takes you through it step by step.'}
+                        defaultMarkdown={'开启 AI 功能、连接语言模型并选择一个代理。'
+                            + '[开始使用 AI]({0})将逐步引导您完成。'}
                         args={[`command:${AI_OPEN_GETTING_STARTED_WALKTHROUGH.id}`]}
                         markdownRenderer={this.markdownRenderer}
                         markdownOptions={{ isTrusted: { enabledCommands: [AI_OPEN_GETTING_STARTED_WALKTHROUGH.id] } }}
@@ -429,7 +429,7 @@ New here? [Get started with AI]({0}) walks you through the setup.
                 <button
                     className="theia-button main"
                     onClick={this.openAiConfiguration}>
-                    {nls.localize('theia/ai/ide/openAiConfiguration', 'Open the AI Configuration')}
+                    {nls.localize('theia/ai/ide/openAiConfiguration', '打开 AI 配置')}
                 </button>
                 <button
                     className="theia-button secondary"

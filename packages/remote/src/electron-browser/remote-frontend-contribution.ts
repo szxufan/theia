@@ -82,10 +82,10 @@ export class RemoteFrontendContribution implements CommandContribution, Frontend
             ...(info.alive
                 ? {
                     text: `$(codicon-remote) ${info.type}: ${info.name.length > 35 ? info.name.substring(0, 32) + '...' : info.name}`,
-                    tooltip: nls.localizeByDefault('Editing on {0}', info.name),
+                    tooltip: nls.localizeByDefault('正在 {0} 上编辑', info.name),
                 } : {
                     text: '$(codicon-remote)',
-                    tooltip: nls.localizeByDefault('Open a Remote Window'),
+                    tooltip: nls.localizeByDefault('打开远程窗口'),
                 })
         };
         this.statusBar.setElement('remoteStatus', entry);
@@ -138,7 +138,7 @@ export class RemoteFrontendContribution implements CommandContribution, Frontend
             });
         }
         const selection = await this.quickInputService?.showQuickPick(quickPicks, {
-            placeholder: nls.localizeByDefault('Select an option to open a Remote Window')
+            placeholder: nls.localizeByDefault('选择打开远程窗口的选项')
         });
         if (selection) {
             this.commandRegistry.executeCommand(selection.id!);

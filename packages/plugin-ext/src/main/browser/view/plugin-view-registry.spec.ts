@@ -88,8 +88,8 @@ describe('PluginViewRegistry - view menu labels', () => {
     it('suffixes the location when two containers share a label', () => {
         registerContainer('a', 'Claude Code', 'left');
         registerContainer('b', 'Claude Code', 'right');
-        expect(menus.actions.get('a')?.label).to.equal('Claude Code (Side Bar)');
-        expect(menus.actions.get('b')?.label).to.equal('Claude Code (Secondary Side Bar)');
+        expect(menus.actions.get('a')?.label).to.equal('Claude Code (侧边栏)');
+        expect(menus.actions.get('b')?.label).to.equal('Claude Code (辅助侧边栏)');
     });
 
     it('drops the suffix from the remaining container once the duplicate is removed', () => {
@@ -202,9 +202,9 @@ describe('PluginViewRegistry - VS Code view commands', () => {
 
         const disposeView = registry.registerView('sample', { id: 'sample.view', name: 'Sample View' });
 
-        expect(commands.get(containerId)).to.include({ label: 'Toggle Sample', category: 'View' });
+        expect(commands.get(containerId)).to.include({ label: '切换 Sample', category: '视图' });
         expect(commands.get('plugin.view-container.workbench.view.extension.sample.toggle')?.label).to.equal(undefined);
-        expect(commands.get('sample.view.focus')).to.include({ label: 'Focus on Sample View View', category: 'Sample' });
+        expect(commands.get('sample.view.focus')).to.include({ label: '聚焦 Sample View 视图', category: 'Sample' });
         expect(commands.has('sample.view.open')).to.equal(true);
 
         disposeView.dispose();

@@ -67,8 +67,7 @@ export class PreferenceTreeModel extends TreeModelImpl {
     protected readonly onTreeFilterChangedEmitter = new Emitter<PreferenceFilterChangeEvent>();
     readonly onFilterChanged = this.onTreeFilterChangedEmitter.event;
 
-    protected lastSearchedFuzzy: string = '';
-    protected lastSearchedLiteral: string = '';
+    protected lastSearchedTokens: string[] = [];
     protected lastSearchedTags: string[] = [];
     protected _currentScope: number = Number(Preference.DEFAULT_SCOPE.scope);
     protected _isFiltered: boolean = false;
@@ -136,11 +135,12 @@ export class PreferenceTreeModel extends TreeModelImpl {
             }),
             this.filterInput.onFilterChanged(newSearchTerm => {
                 this.lastSearchedTags = Array.from(newSearchTerm.matchAll(/@tag:([^\s]+)/g)).map(match => match[0].slice(5));
-                const newSearchTermWithoutTags = newSearchTerm.replace(/@tag:[^\s]+/g, '');
-                this.lastSearchedLiteral = newSearchTermWithoutTags;
-                this.lastSearchedFuzzy = newSearchTermWithoutTags.replace(/\s/g, '');
+                // Replacing tags with a space (rather than '') keeps the remaining terms separated;
+                // trimming and splitting then yields clean lowercase tokens for matching.
+                this.lastSearchedTokens = newSearchTerm.replace(/@tag:[^\s]+/g, ' ').toLowerCase().split(/\s+/).filter(token => token.length > 0);
                 const wasFiltered = this._isFiltered;
-                this._isFiltered = newSearchTerm.length > 2;
+                // Filter on any non-empty input: short queries such as 1-2 CJK characters are complete words.
+                this._isFiltered = newSearchTerm.trim().length > 0;
                 if (this._isFiltered) {
                     // Search results span all categories: drop the category filter and the
                     // now-stale selection so the tree matches the shown results.
@@ -308,9 +308,20 @@ export class PreferenceTreeModel extends TreeModelImpl {
         if (!this.lastSearchedTags.every(tag => node.preference.data.tags?.includes(tag))) {
             return false;
         }
-        return fuzzy.test(this.lastSearchedFuzzy, prefID) // search matches preference name.
-            // search matches description. Fuzzy isn't ideal here because the score depends on the order of discovery.
-            || (node.preference.data.description ?? '').includes(this.lastSearchedLiteral);
+        if (this.lastSearchedTokens.length === 0) {
+            // Tag-only search: every node carrying the tags passes.
+            return true;
+        }
+        const description = (node.preference.data.description ?? '').toLowerCase();
+        const markdownDescription = (node.preference.data.markdownDescription ?? '').toLowerCase();
+        // Every token must match, in any order: against the preference id (fuzzy subsequence)
+        // or against one of the descriptions (substring). Fuzzy isn't ideal for descriptions
+        // because the score depends on the order of discovery.
+        return this.lastSearchedTokens.every(token =>
+            fuzzy.test(token, prefID)
+            || description.includes(token)
+            || markdownDescription.includes(token)
+        );
     }
 
     protected override isVisibleSelectableNode(node: TreeNode): node is SelectableTreeNode {

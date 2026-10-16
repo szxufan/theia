@@ -67,10 +67,10 @@ export namespace DialogError {
 }
 
 export namespace Dialog {
-    export const YES = nls.localizeByDefault('Yes');
-    export const NO = nls.localizeByDefault('No');
-    export const OK = nls.localizeByDefault('OK');
-    export const CANCEL = nls.localizeByDefault('Cancel');
+    export const YES = nls.localizeByDefault('是');
+    export const NO = nls.localizeByDefault('否');
+    export const OK = nls.localizeByDefault('确定');
+    export const CANCEL = nls.localizeByDefault('取消');
 }
 
 @injectable()
@@ -442,8 +442,8 @@ export class ConfirmDialog extends AbstractDialog<boolean> {
 
 export async function confirmExit(): Promise<boolean> {
     const safeToExit = await new ConfirmDialog({
-        title: nls.localizeByDefault('Are you sure you want to quit?'),
-        msg: nls.localize('theia/core/quitMessage', 'Any unsaved changes will not be saved.'),
+        title: nls.localizeByDefault('确定要退出吗？'),
+        msg: nls.localize('theia/core/quitMessage', '任何未保存的更改都不会被保存。'),
         ok: Dialog.YES,
         cancel: Dialog.NO,
     }).open();

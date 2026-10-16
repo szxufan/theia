@@ -56,7 +56,7 @@ export class EditorPreviewContribution implements CommandContribution, MenuContr
     registerMenus(registry: MenuModelRegistry): void {
         registry.registerMenuAction(SHELL_TABBAR_CONTEXT_PIN, {
             commandId: EditorPreviewCommands.PIN_PREVIEW_COMMAND.id,
-            label: nls.localizeByDefault('Keep Open'),
+            label: nls.localizeByDefault('保持打开'),
             order: '6',
         });
     }

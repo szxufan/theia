@@ -187,57 +187,57 @@ export class KeymapsFrontendContribution extends AbstractViewContribution<Keybin
     override registerMenus(menus: MenuModelRegistry): void {
         menus.registerMenuAction(CommonMenus.FILE_SETTINGS_SUBMENU_OPEN, {
             commandId: KeymapsCommands.OPEN_KEYMAPS.id,
-            label: nls.localizeByDefault('Keyboard Shortcuts'),
+            label: nls.localizeByDefault('键盘快捷方式'),
             order: 'a20'
         });
         menus.registerMenuAction(CommonMenus.MANAGE_SETTINGS, {
             commandId: KeymapsCommands.OPEN_KEYMAPS.id,
-            label: nls.localizeByDefault('Keyboard Shortcuts'),
+            label: nls.localizeByDefault('键盘快捷方式'),
             order: 'a30'
         });
         menus.registerMenuAction(KeybindingWidget.COPY_MENU, {
             commandId: KeymapsCommands.COPY_KEYBINDING.id,
-            label: nls.localizeByDefault('Copy'),
+            label: nls.localizeByDefault('复制'),
             order: 'a'
         });
         menus.registerMenuAction(KeybindingWidget.COPY_MENU, {
             commandId: KeymapsCommands.COPY_COMMAND_ID.id,
-            label: nls.localizeByDefault('Copy Command ID'),
+            label: nls.localizeByDefault('复制命令 ID'),
             order: 'b'
         });
         menus.registerMenuAction(KeybindingWidget.COPY_MENU, {
             commandId: KeymapsCommands.COPY_COMMAND_TITLE.id,
-            label: nls.localizeByDefault('Copy Command Title'),
+            label: nls.localizeByDefault('复制命令标题'),
             order: 'c'
         });
         menus.registerMenuAction(KeybindingWidget.EDIT_MENU, {
             commandId: KeymapsCommands.EDIT_KEYBINDING.id,
-            label: nls.localize('theia/keymaps/editKeybinding', 'Edit Keybinding...'),
+            label: nls.localize('theia/keymaps/editKeybinding', '编辑快捷键...'),
             order: 'a'
         });
         menus.registerMenuAction(KeybindingWidget.EDIT_MENU, {
             commandId: KeymapsCommands.EDIT_WHEN_EXPRESSION.id,
-            label: nls.localize('theia/keymaps/editWhenExpression', 'Edit When Expression...'),
+            label: nls.localize('theia/keymaps/editWhenExpression', '编辑何时表达式...'),
             order: 'b'
         });
         menus.registerMenuAction(KeybindingWidget.ADD_MENU, {
             commandId: KeymapsCommands.ADD_KEYBINDING.id,
-            label: nls.localizeByDefault('Add Keybinding...'),
+            label: nls.localizeByDefault('添加快捷键...'),
             order: 'a'
         });
         menus.registerMenuAction(KeybindingWidget.REMOVE_MENU, {
             commandId: KeymapsCommands.REMOVE_KEYBINDING.id,
-            label: nls.localizeByDefault('Remove Keybinding'),
+            label: nls.localizeByDefault('移除快捷键'),
             order: 'a'
         });
         menus.registerMenuAction(KeybindingWidget.REMOVE_MENU, {
             commandId: KeymapsCommands.RESET_KEYBINDING.id,
-            label: nls.localizeByDefault('Reset Keybinding'),
+            label: nls.localizeByDefault('重置快捷键'),
             order: 'b'
         });
         menus.registerMenuAction(KeybindingWidget.SHOW_MENU, {
             commandId: KeymapsCommands.SHOW_SAME.id,
-            label: nls.localizeByDefault('Show Same Keybindings'),
+            label: nls.localizeByDefault('显示相同快捷键'),
             order: 'a'
         });
     }
@@ -255,13 +255,13 @@ export class KeymapsFrontendContribution extends AbstractViewContribution<Keybin
         toolbar.registerItem({
             id: KeymapsCommands.OPEN_KEYMAPS_JSON_TOOLBAR.id,
             command: KeymapsCommands.OPEN_KEYMAPS_JSON_TOOLBAR.id,
-            tooltip: nls.localizeByDefault('Open Keyboard Shortcuts (JSON)'),
+            tooltip: nls.localizeByDefault('打开键盘快捷方式 (JSON)'),
             priority: 0,
         });
         toolbar.registerItem({
             id: KeymapsCommands.CLEAR_KEYBINDINGS_SEARCH.id,
             command: KeymapsCommands.CLEAR_KEYBINDINGS_SEARCH.id,
-            tooltip: nls.localizeByDefault('Clear Keybindings Search Input'),
+            tooltip: nls.localizeByDefault('清除快捷键搜索输入'),
             priority: 1,
             onDidChange,
         });

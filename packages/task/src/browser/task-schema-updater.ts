@@ -160,7 +160,7 @@ export class TaskSchemaUpdater implements JsonSchemaContribution {
                 ...defaultTaskType,
                 enum: [def.taskType],
                 default: def.taskType,
-                description: nls.localizeByDefault('The task type to customize')
+                description: nls.localizeByDefault('要自定义的任务类型')
             };
             customizedDetectedTask.properties!.type = taskType;
             const required = def.properties.required || [];
@@ -190,14 +190,14 @@ export class TaskSchemaUpdater implements JsonSchemaContribution {
                 version: {
                     type: 'string',
                     default: '2.0.0',
-                    description: nls.localizeByDefault("The config's version number.")
+                    description: nls.localizeByDefault("此配置的版本号。")
                 },
                 tasks: {
                     type: 'array',
                     items: {
                         ...deepClone(taskConfigurationSchema)
                     },
-                    description: nls.localizeByDefault('The task configurations. Usually these are enrichments of task already defined in the external task runner.')
+                    description: nls.localizeByDefault('任务配置。通常是对外部任务运行器中已定义任务的补充。')
                 },
                 inputs: inputsSchema.definitions!.inputs
             },
@@ -223,12 +223,12 @@ export class TaskSchemaUpdater implements JsonSchemaContribution {
 
 const commandSchema: IJSONSchema = {
     type: 'string',
-    description: nls.localizeByDefault('The command to be executed. Can be an external program or a shell command.')
+    description: nls.localizeByDefault('要执行的命令。可以是外部程序或 Shell 命令。')
 };
 
 const commandArgSchema: IJSONSchema = {
     type: 'array',
-    description: nls.localizeByDefault('Arguments passed to the command when this task is invoked.'),
+    description: nls.localizeByDefault('调用此任务时传递给命令的参数。'),
     items: {
         type: 'string'
     }
@@ -236,7 +236,7 @@ const commandArgSchema: IJSONSchema = {
 
 const commandOptionsSchema: IJSONSchema = {
     type: 'object',
-    description: nls.localizeByDefault('Additional command options'),
+    description: nls.localizeByDefault('附加命令选项'),
     properties: {
         cwd: {
             type: 'string',
@@ -246,19 +246,19 @@ const commandOptionsSchema: IJSONSchema = {
         },
         env: {
             type: 'object',
-            description: nls.localizeByDefault("The environment of the executed program or shell. If omitted the parent process' environment is used.")
+            description: nls.localizeByDefault("执行的程序或 Shell 的环境。如果省略，则使用父进程的环境。")
         },
         shell: {
             type: 'object',
-            description: nls.localizeByDefault('Configures the shell to be used.'),
+            description: nls.localizeByDefault('配置要使用的 Shell。'),
             properties: {
                 executable: {
                     type: 'string',
-                    description: nls.localizeByDefault('The shell to be used.')
+                    description: nls.localizeByDefault('要使用的 Shell。')
                 },
                 args: {
                     type: 'array',
-                    description: nls.localizeByDefault('The shell arguments.'),
+                    description: nls.localizeByDefault('Shell 参数。'),
                     items: {
                         type: 'string'
                     }
@@ -273,13 +273,13 @@ const defaultTaskTypes = ['shell', 'process'];
 const supportedTaskTypes = [...defaultTaskTypes];
 const taskLabel: IJSONSchema = {
     type: 'string',
-    description: nls.localizeByDefault("The task's user interface label")
+    description: nls.localizeByDefault("任务的用户界面标签")
 };
 const defaultTaskType: IJSONSchema = {
     type: 'string',
     enum: supportedTaskTypes,
     default: defaultTaskTypes[0],
-    description: nls.localizeByDefault('Defines whether the task is run as a process or as a command inside a shell.')
+    description: nls.localizeByDefault('定义任务是作为进程运行，还是作为 Shell 内的命令运行。')
 } as const;
 const commandAndArgs = {
     command: commandSchema,
@@ -293,9 +293,9 @@ const group: IJSONSchema = {
             type: 'string',
             enum: ['build', 'test', 'none'],
             enumDescriptions: [
-                nls.localizeByDefault("Marks the task as a build task accessible through the 'Run Build Task' command."),
-                nls.localizeByDefault("Marks the task as a test task accessible through the 'Run Test Task' command."),
-                nls.localizeByDefault('Assigns the task to no group')
+                nls.localizeByDefault("将任务标记为可通过“运行生成任务”命令访问的生成任务。"),
+                nls.localizeByDefault("将任务标记为可通过“运行测试任务”命令访问的测试任务。"),
+                nls.localizeByDefault('将任务分配到任何组')
             ]
         },
         {
@@ -304,18 +304,18 @@ const group: IJSONSchema = {
                 kind: {
                     type: 'string',
                     default: 'none',
-                    description: nls.localizeByDefault("The task's execution group."),
+                    description: nls.localizeByDefault("任务的执行组。"),
                     enum: ['build', 'test', 'none'],
                     enumDescriptions: [
-                        nls.localizeByDefault("Marks the task as a build task accessible through the 'Run Build Task' command."),
-                        nls.localizeByDefault("Marks the task as a test task accessible through the 'Run Test Task' command."),
-                        nls.localizeByDefault('Assigns the task to no group')
+                        nls.localizeByDefault("将任务标记为可通过“运行生成任务”命令访问的生成任务。"),
+                        nls.localizeByDefault("将任务标记为可通过“运行测试任务”命令访问的测试任务。"),
+                        nls.localizeByDefault('将任务分配到任何组')
                     ]
                 },
                 isDefault: {
                     type: 'boolean',
                     default: false,
-                    description: nls.localizeByDefault('Defines if this task is the default task in the group, or a glob to match the file which should trigger this task.')
+                    description: nls.localizeByDefault('定义此任务是否为该组中的默认任务，或用于匹配应触发此任务的文件的 glob。')
                 }
             }
         }
@@ -335,53 +335,53 @@ const problemPattern: IJSONSchema = {
     properties: {
         regexp: {
             type: 'string',
-            description: nls.localizeByDefault('The regular expression to find an error, warning or info in the output.')
+            description: nls.localizeByDefault('用于在输出中查找错误、警告或信息的正则表达式。')
         },
         kind: {
             type: 'string',
-            description: nls.localizeByDefault('whether the pattern matches a location (file and line) or only a file.')
+            description: nls.localizeByDefault('模式是否匹配位置（文件和行）或仅匹配文件。')
         },
         file: {
             type: 'integer',
-            description: nls.localizeByDefault('The match group index of the filename. If omitted 1 is used.')
+            description: nls.localizeByDefault('文件名的匹配组索引。如果省略，则使用 1。')
         },
         location: {
             type: 'integer',
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault("The match group index of the problem's location. Valid location patterns are: (line), (line,column) and (startLine,startColumn,endLine,endColumn). If omitted (line,column) is assumed.")
+            description: nls.localizeByDefault("问题位置的匹配组索引。有效的位置模式为：(line)、(line,column) 和 (startLine,startColumn,endLine,endColumn)。如果省略，则假定为 (line,column)。")
         },
         line: {
             type: 'integer',
-            description: nls.localizeByDefault("The match group index of the problem's line. Defaults to 2")
+            description: nls.localizeByDefault("问题行的匹配组索引。默认为 2")
         },
         column: {
             type: 'integer',
-            description: nls.localizeByDefault("The match group index of the problem's line character. Defaults to 3")
+            description: nls.localizeByDefault("问题行字符的匹配组索引。默认为 3")
         },
         endLine: {
             type: 'integer',
-            description: nls.localizeByDefault("The match group index of the problem's end line. Defaults to undefined")
+            description: nls.localizeByDefault("问题结束行的匹配组索引。默认为 undefined")
         },
         endColumn: {
             type: 'integer',
-            description: nls.localizeByDefault("The match group index of the problem's end line character. Defaults to undefined")
+            description: nls.localizeByDefault("问题结束行字符的匹配组索引。默认为 undefined")
         },
         severity: {
             type: 'integer',
-            description: nls.localizeByDefault("The match group index of the problem's severity. Defaults to undefined")
+            description: nls.localizeByDefault("问题严重性的匹配组索引。默认为 undefined")
         },
         code: {
             type: 'integer',
-            description: nls.localizeByDefault("The match group index of the problem's code. Defaults to undefined")
+            description: nls.localizeByDefault("问题代码的匹配组索引。默认为 undefined")
         },
         message: {
             type: 'integer',
-            description: nls.localizeByDefault('The match group index of the message. If omitted it defaults to 4 if location is specified. Otherwise it defaults to 5.')
+            description: nls.localizeByDefault('消息的匹配组索引。如果省略，在指定位置时默认为 4，否则默认为 5。')
         },
         loop: {
             type: 'boolean',
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault('In a multi line matcher loop indicated whether this pattern is executed in a loop as long as it matches. Can only specified on a last pattern in a multi line pattern.')
+            description: nls.localizeByDefault('在多行匹配器循环中指示此模式是否在循环中执行（只要它匹配）。只能在多行模式的最后一个模式上指定。')
         }
     }
 };
@@ -397,11 +397,11 @@ const watchingPattern: IJSONSchema = {
     properties: {
         regexp: {
             type: 'string',
-            description: nls.localizeByDefault('The regular expression to detect the begin or end of a background task.')
+            description: nls.localizeByDefault('用于检测后台任务开始或结束的正则表达式。')
         },
         file: {
             type: 'integer',
-            description: nls.localizeByDefault('The match group index of the filename. Can be omitted.')
+            description: nls.localizeByDefault('文件名的匹配组索引。可以省略。')
         },
     }
 };
@@ -410,12 +410,12 @@ const patternType: IJSONSchema = {
     anyOf: [
         {
             type: 'string',
-            description: nls.localizeByDefault('The name of a contributed or predefined pattern')
+            description: nls.localizeByDefault('已贡献或预定义模式的名称')
         },
         problemPattern,
         multiLineProblemPattern
     ],
-    description: nls.localizeByDefault('A problem pattern or the name of a contributed or predefined problem pattern. Can be omitted if base is specified.')
+    description: nls.localizeByDefault('问题模式或已贡献/预定义问题模式的名称。如果指定了 base，则可以省略。')
 };
 
 const problemMatcherObject: IJSONSchema = {
@@ -424,7 +424,7 @@ const problemMatcherObject: IJSONSchema = {
         base: {
             type: 'string',
             enum: problemMatcherNames,
-            description: nls.localizeByDefault('The name of a base problem matcher to use.')
+            description: nls.localizeByDefault('要使用的基础问题匹配器的名称。')
         },
         owner: {
             type: 'string',
@@ -433,17 +433,17 @@ const problemMatcherObject: IJSONSchema = {
         },
         source: {
             type: 'string',
-            description: nls.localizeByDefault("A human-readable string describing the source of this diagnostic, e.g. 'typescript' or 'super lint'.")
+            description: nls.localizeByDefault("描述此诊断来源的人类可读字符串，例如 'typescript' 或 'super lint'。")
         },
         severity: {
             type: 'string',
             enum: ['error', 'warning', 'info'],
-            description: nls.localizeByDefault("The default severity for captures problems. Is used if the pattern doesn't define a match group for severity.")
+            description: nls.localizeByDefault("捕获问题的默认严重性。如果模式未定义严重性的匹配组，则使用此值。")
         },
         applyTo: {
             type: 'string',
             enum: ['allDocuments', 'openDocuments', 'closedDocuments'],
-            description: nls.localizeByDefault('Controls if a problem reported on a text document is applied only to open, closed or all documents.')
+            description: nls.localizeByDefault('控制在文本文档上报告的问题仅应用于已打开的文档、已关闭的文档还是所有文档。')
         },
         pattern: patternType,
         fileLocation: {
@@ -460,12 +460,12 @@ const problemMatcherObject: IJSONSchema = {
                 }
             ],
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault('Defines how file names reported in a problem pattern should be interpreted. A relative fileLocation may be an array, where the second element of the array is the path of the relative file location. The search fileLocation mode, performs a deep (and, possibly, heavy) file system search within the directories specified by the include/exclude properties of the second element (or the current workspace directory if not specified).')
+            description: nls.localizeByDefault('定义应如何解释问题模式中报告的文件名。相对 fileLocation 可以是数组，其中数组的第二个元素是相对文件位置的路径。search 的 fileLocation 模式会在第二个元素（如未指定则为当前工作区目录）的 include/exclude 属性所指定目录内执行深度（且可能开销较大）的文件系统搜索。')
         },
         background: {
             type: 'object',
             additionalProperties: false,
-            description: nls.localizeByDefault('Patterns to track the begin and end of a matcher active on a background task.'),
+            description: nls.localizeByDefault('用于跟踪在后台任务上处于活动状态的匹配器开始和结束的模式。'),
             properties: {
                 activeOnStart: {
                     type: 'boolean',
@@ -479,7 +479,7 @@ const problemMatcherObject: IJSONSchema = {
                         },
                         watchingPattern
                     ],
-                    description: nls.localizeByDefault('If matched in the output the start of a background task is signaled.')
+                    description: nls.localizeByDefault('如果在输出中匹配，则表示后台任务开始。')
                 },
                 endsPattern: {
                     oneOf: [
@@ -488,15 +488,15 @@ const problemMatcherObject: IJSONSchema = {
                         },
                         watchingPattern
                     ],
-                    description: nls.localizeByDefault('If matched in the output the end of a background task is signaled.')
+                    description: nls.localizeByDefault('如果在输出中匹配，则表示后台任务结束。')
                 }
             }
         },
         watching: {
             type: 'object',
             additionalProperties: false,
-            deprecationMessage: nls.localizeByDefault('The watching property is deprecated. Use background instead.'),
-            description: nls.localizeByDefault('Patterns to track the begin and end of a watching matcher.'),
+            deprecationMessage: nls.localizeByDefault('watching 属性已弃用。请改用 background。'),
+            description: nls.localizeByDefault('用于跟踪监视匹配器开始和结束的模式。'),
             properties: {
                 activeOnStart: {
                     type: 'boolean',
@@ -510,7 +510,7 @@ const problemMatcherObject: IJSONSchema = {
                         },
                         watchingPattern
                     ],
-                    description: nls.localizeByDefault('If matched in the output the start of a watching task is signaled.')
+                    description: nls.localizeByDefault('如果在输出中匹配，则表示监视任务开始。')
                 },
                 endsPattern: {
                     oneOf: [
@@ -519,7 +519,7 @@ const problemMatcherObject: IJSONSchema = {
                         },
                         watchingPattern
                     ],
-                    description: nls.localizeByDefault('If matched in the output the end of a watching task is signaled.')
+                    description: nls.localizeByDefault('如果在输出中匹配，则表示监视任务结束。')
                 }
             }
         }
@@ -545,7 +545,7 @@ const problemMatcher: IJSONSchema = {
             items: problemMatcherObject
         }
     ],
-    description: nls.localizeByDefault('The problem matcher(s) to use. Can either be a string or a problem matcher definition or an array of strings and problem matchers.')
+    description: nls.localizeByDefault('要使用的问题匹配器。可以是字符串、问题匹配器定义，或由字符串和问题匹配器组成的数组。')
 };
 
 const presentation: IJSONSchema = {
@@ -558,26 +558,26 @@ const presentation: IJSONSchema = {
         showReuseMessage: true,
         clear: false
     },
-    description: nls.localizeByDefault("Configures the panel that is used to present the task's output and reads its input."),
+    description: nls.localizeByDefault("配置用于呈现任务输出并读取其输入的面板。"),
     additionalProperties: true,
     properties: {
         echo: {
             type: 'boolean',
             default: true,
-            description: nls.localizeByDefault('Controls whether the executed command is echoed to the panel. Default is true.')
+            description: nls.localizeByDefault('控制是否将执行的命令回显到面板。默认为 true。')
         },
         focus: {
             type: 'boolean',
             default: false,
-            description: nls.localizeByDefault('Controls whether the panel takes focus. Default is false. If set to true the panel is revealed as well.')
+            description: nls.localizeByDefault('控制面板是否获取焦点。默认为 false。设置为 true 时面板也会被显示。')
         },
         reveal: {
             type: 'string',
             enum: ['always', 'silent', 'never'],
             enumDescriptions: [
-                nls.localizeByDefault('Always reveals the terminal when this task is executed.'),
-                nls.localizeByDefault('Only reveals the terminal if the task exits with an error or the problem matcher finds an error.'),
-                nls.localizeByDefault('Never reveals the terminal when this task is executed.')
+                nls.localizeByDefault('执行此任务时始终显示终端。'),
+                nls.localizeByDefault('仅在任务出错退出或问题匹配器发现错误时显示终端。'),
+                nls.localizeByDefault('执行此任务时从不显示终端。')
             ],
             default: 'always',
             description: nls.localizeByDefault(
@@ -587,30 +587,30 @@ const presentation: IJSONSchema = {
             type: 'string',
             enum: ['shared', 'dedicated', 'new'],
             enumDescriptions: [
-                nls.localize('theia/task/schema/presentation/panel/shared', 'The terminal is shared and the output of other task runs are added to the same terminal.'),
+                nls.localize('theia/task/schema/presentation/panel/shared', '终端是共享的，其他任务运行的输出会添加到同一终端中。'),
                 // eslint-disable-next-line max-len
-                nls.localize('theia/task/schema/presentation/panel/dedicated', 'The terminal is dedicated to a specific task. If that task is executed again, the terminal is reused. However, the output of a different task is presented in a different terminal.'),
-                nls.localize('theia/task/schema/presentation/panel/new', 'Every execution of that task is using a new clean terminal.')
+                nls.localize('theia/task/schema/presentation/panel/dedicated', '终端专用于特定任务。如果再次执行该任务，终端将被重用。但是，其他任务的输出将显示在另一个终端中。'),
+                nls.localize('theia/task/schema/presentation/panel/new', '该任务的每次执行都使用一个全新的干净终端。')
             ],
             default: 'shared',
-            description: nls.localizeByDefault('Controls if the panel is shared between tasks, dedicated to this task or a new one is created on every run.')
+            description: nls.localizeByDefault('控制面板在任务之间共享、专用于此任务，还是每次运行时新建一个。')
         },
         showReuseMessage: {
             type: 'boolean',
             default: true,
-            description: nls.localize('theia/task/schema/presentation/showReuseMessage', 'Controls whether to show the "Terminal will be reused by tasks" message.')
+            description: nls.localize('theia/task/schema/presentation/showReuseMessage', '控制是否显示"任务将重用终端"消息。')
         },
         clear: {
             type: 'boolean',
             default: false,
-            description: nls.localizeByDefault('Controls whether the terminal is cleared before executing the task.')
+            description: nls.localizeByDefault('控制执行任务前是否清空终端。')
         }
     }
 };
 
 const detail: IJSONSchema = {
     type: 'string',
-    description: nls.localizeByDefault('An optional description of a task that shows in the Run Task quick pick as a detail.')
+    description: nls.localizeByDefault('任务的可选描述，将显示在“运行任务”快速选择中作为详细信息。')
 };
 
 const taskIdentifier: IJSONSchema = {
@@ -619,7 +619,7 @@ const taskIdentifier: IJSONSchema = {
     properties: {
         type: {
             type: 'string',
-            description: nls.localizeByDefault('The task identifier.')
+            description: nls.localizeByDefault('任务标识符。')
         }
     }
 };
@@ -634,18 +634,18 @@ const processTaskConfigurationSchema: IJSONSchema = {
         isBackground: {
             type: 'boolean',
             default: false,
-            description: nls.localizeByDefault('Whether the executed task is kept alive and is running in the background.')
+            description: nls.localizeByDefault('执行的任务是否保持活动状态并在后台运行。')
         },
         dependsOn: {
             anyOf: [
                 {
                     type: 'string',
-                    description: nls.localizeByDefault('Another task this task depends on.')
+                    description: nls.localizeByDefault('此任务依赖的另一个任务。')
                 },
                 taskIdentifier,
                 {
                     type: 'array',
-                    description: nls.localizeByDefault('The other tasks this task depends on.'),
+                    description: nls.localizeByDefault('此任务依赖的其他任务。'),
                     items: {
                         anyOf: [
                             {
@@ -656,31 +656,31 @@ const processTaskConfigurationSchema: IJSONSchema = {
                     }
                 }
             ],
-            description: nls.localizeByDefault('Either a string representing another task or an array of other tasks that this task depends on.')
+            description: nls.localizeByDefault('表示另一个任务的字符串，或此任务依赖的其他任务数组。')
         },
         dependsOrder: {
             type: 'string',
             enum: ['parallel', 'sequence'],
             enumDescriptions: [
-                nls.localizeByDefault('Run all dependsOn tasks in parallel.'),
-                nls.localizeByDefault('Run all dependsOn tasks in sequence.')
+                nls.localizeByDefault('并行运行所有依赖任务。'),
+                nls.localizeByDefault('按顺序运行所有依赖任务。'),
             ],
             default: 'parallel',
-            description: nls.localizeByDefault('Determines the order of the dependsOn tasks for this task. Note that this property is not recursive.')
+            description: nls.localizeByDefault('确定此任务依赖任务的执行顺序。注意此属性不具有递归性。')
         },
         windows: {
             type: 'object',
-            description: nls.localizeByDefault('Windows specific command configuration'),
+            description: nls.localizeByDefault('Windows 特定的命令配置'),
             properties: commandAndArgs
         },
         osx: {
             type: 'object',
-            description: nls.localizeByDefault('Mac specific command configuration'),
+            description: nls.localizeByDefault('Mac 特定的命令配置'),
             properties: commandAndArgs
         },
         linux: {
             type: 'object',
-            description: nls.localizeByDefault('Linux specific command configuration'),
+            description: nls.localizeByDefault('Linux 特定的命令配置'),
             properties: commandAndArgs
         },
         group,

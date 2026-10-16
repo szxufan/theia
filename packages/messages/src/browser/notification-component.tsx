@@ -106,10 +106,10 @@ export class NotificationComponent extends React.Component<NotificationComponent
                         </div>
                         <ul className='theia-notification-actions'>
                             {expandable && (
-                                <li className={codicon('chevron-down', true) + (collapsed ? ' expand' : ' collapse')} title={collapsed ? 'Expand' : 'Collapse'}
+                                <li className={codicon('chevron-down', true) + (collapsed ? ' expand' : ' collapse')} title={collapsed ? '展开' : '折叠'}
                                     data-message-id={messageId} onClick={this.onToggleExpansion} />
                             )}
-                            {!isProgress && (<li className={codicon('close', true)} title={nls.localizeByDefault('Clear')} data-message-id={messageId}
+                            {!isProgress && (<li className={codicon('close', true)} title={nls.localizeByDefault('清除')} data-message-id={messageId}
                                 onClick={this.onClear} />)}
                         </ul>
                     </div>

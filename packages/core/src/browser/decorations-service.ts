@@ -265,7 +265,8 @@ export class DecorationsServiceImpl implements DecorationsService {
     readonly onDidChangeDecorations = this.onDidChangeDecorationsEmitter.event;
 
     /** Coalesces all changes of the same tick into a single event. */
-    protected readonly fireSoon = debounce(() => this.fireChangeEvent(), 0);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly fireSoon: any = debounce(() => this.fireChangeEvent(), 0);
 
     dispose(): void {
         this.fireSoon.cancel();

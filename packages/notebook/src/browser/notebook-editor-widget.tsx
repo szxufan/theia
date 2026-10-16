@@ -147,7 +147,8 @@ export class NotebookEditorWidget extends ReactWidget implements Navigatable, Sa
     protected _findWidgetVisible = false;
     protected _findWidgetRef = React.createRef<NotebookFindWidget>();
     protected scrollBarRef = React.createRef<{ updateScroll(): void }>();
-    protected debounceFind = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected debounceFind: any = debounce(() => {
         this._findWidgetRef.current?.search({});
     }, 30, {
         trailing: true,
@@ -312,7 +313,7 @@ export class NotebookEditorWidget extends ReactWidget implements Navigatable, Sa
         } else if (this.error) {
             return <div className='theia-notebook-main-container error-message' tabIndex={-1}>
                 <span className={codicon('error')}></span>
-                <h3>{nls.localizeByDefault('The editor could not be opened because the file was not found.')}</h3>
+                <h3>{nls.localizeByDefault('无法打开编辑器，因为找不到文件。')}</h3>
             </div>;
         } else {
             return <div className='theia-notebook-main-container' tabIndex={-1}>

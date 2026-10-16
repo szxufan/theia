@@ -52,7 +52,7 @@ const disassemblyNotAvailable: DisassembledInstructionEntry = {
     isBreakpointEnabled: false,
     instruction: {
         address: '-1',
-        instruction: nls.localizeByDefault('Disassembly not available.')
+        instruction: nls.localizeByDefault('反汇编不可用。')
     },
     instructionAddress: BigInt(-1)
 } as const;
@@ -83,7 +83,7 @@ export class DisassemblyViewWidget extends BaseWidget {
         this.id = DisassemblyViewWidget.ID;
         this.addClass(DisassemblyViewWidget.ID);
         this.title.closable = true;
-        this.title.label = nls.localizeByDefault('Disassembly');
+        this.title.label = nls.localizeByDefault('反汇编');
         const updateIcon = () => this.title.iconClass = this.labelProvider.getIcon(this.iconReferenceUri) + ' file-icon';
         updateIcon();
         this.toDispose.push(this.labelProvider.onDidChange(updateIcon));
@@ -237,7 +237,7 @@ export class DisassemblyViewWidget extends BaseWidget {
                     project(row: DisassembledInstructionEntry): DisassembledInstructionEntry { return row; }
                 },
                 {
-                    label: nls.localizeByDefault('instructions'),
+                    label: nls.localizeByDefault('指令'),
                     tooltip: '',
                     weight: 0.3,
                     templateId: InstructionRenderer.TEMPLATE_ID,

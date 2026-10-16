@@ -25,16 +25,16 @@ import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { FileOperationError, FileOperationResult } from '@theia/filesystem/lib/common/files';
 
 export namespace NavigatorDiffCommands {
-    const COMPARE_CATEGORY = 'Compare';
+    const COMPARE_CATEGORY = '比较';
     export const COMPARE_FIRST = Command.toDefaultLocalizedCommand({
         id: 'compare:first',
         category: COMPARE_CATEGORY,
-        label: 'Select for Compare'
+        label: '选择以进行比较'
     });
     export const COMPARE_SECOND = Command.toDefaultLocalizedCommand({
         id: 'compare:second',
         category: COMPARE_CATEGORY,
-        label: 'Compare with Selected'
+        label: '与已选文件比较'
     });
 }
 

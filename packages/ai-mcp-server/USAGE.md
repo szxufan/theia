@@ -1,50 +1,50 @@
-# MCP Server Usage Examples
+# MCP 服务器使用示例
 
-This document provides practical examples of how to use the Theia MCP Server.
+本文档提供使用 Theia MCP 服务器的实用示例。
 
-## Testing the MCP Server
+## 测试 MCP 服务器
 
-### Using WebSocket-based Clients (Recommended)
+### 使用基于 WebSocket 的客户端（推荐）
 
-For testing use: `npx @modelcontextprotocol/inspector` open the app with the token pre-filled.
-In the app select Streamable HTTP as the Transport Type and add your endpoint (e.g. `http://localhost:3000/mcp`) in the URL field.
+测试时可使用：`npx @modelcontextprotocol/inspector`，打开应用时令牌已预填。
+在应用中选择 Streamable HTTP 作为传输类型，并在 URL 字段中添加你的端点（例如 `http://localhost:3000/mcp`）。
 
-## Available Tools
+## 可用工具
 
-The MCP server currently has the following tools available:
+MCP 服务器目前提供以下工具：
 
-| Tool Name | Description | Parameters |
+| 工具名称 | 描述 | 参数 |
 |-----------|-------------|------------|
-| `test-tool` | A simple test tool for verification | None |
+| `test-tool` | 用于验证的简单测试工具 | 无 |
 
-Additional tools are added through backend and frontend contributions.
+更多工具通过后端和前端贡献添加。
 
-## Integration with AI Agents
+## 与 AI 智能体集成
 
-The MCP server is designed to be integrated with AI agents and tools that follow the Model Context Protocol specification. These agents can use the provided tools to interact with the Theia workspace.
+MCP 服务器设计用于与遵循 Model Context Protocol 规范的 AI 智能体和工具集成。这些智能体可以使用所提供的工具与 Theia 工作区交互。
 
-## Security Considerations
+## 安全注意事项
 
-- The MCP server has full access to Theia's command system and workspace
-- Only enable the server in trusted environments
-- Consider using authentication/authorization for HTTP transport in production
+- MCP 服务器对 Theia 的命令系统和工作区拥有完全访问权限
+- 仅在受信任的环境中启用该服务器
+- 在生产环境中，请考虑为 HTTP 传输使用身份验证/授权
 
-## Debugging
+## 调试
 
-Enable debug logging by setting the log level:
+通过设置日志级别启用调试日志：
 
 ```bash
 THEIA_LOG_LEVEL=debug theia start
 ```
 
-The server will log MCP operations, session management, and error details.
+服务器将记录 MCP 操作、会话管理和错误详情。
 
-## Development Notes
+## 开发说明
 
-When developing against the MCP server, note that it uses:
+针对 MCP 服务器进行开发时，请注意它使用：
 
-1. JSON-RPC 2.0 over HTTP
-2. Streamable HTTP transport that requires specific headers and protocol handling
-3. Session management via the `mcp-session-id` header
+1. 基于 HTTP 的 JSON-RPC 2.0
+2. 需要特定请求头和协议处理的 Streamable HTTP 传输
+3. 通过 `mcp-session-id` 请求头进行的会话管理
 
-For development and testing purposes, examine the server logs when `THEIA_LOG_LEVEL=debug` is enabled to understand the expected protocol interactions.
+出于开发和测试目的，可在启用 `THEIA_LOG_LEVEL=debug` 时查看服务器日志，以了解预期的协议交互。

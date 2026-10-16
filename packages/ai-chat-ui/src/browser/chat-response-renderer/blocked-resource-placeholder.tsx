@@ -23,20 +23,20 @@ export interface BlockedResourcePlaceholderProps {
 }
 
 export const BlockedResourcePlaceholder = ({ resources }: BlockedResourcePlaceholderProps): React.ReactNode => {
-    const firstResource = resources[0] ?? nls.localize('theia/ai-chat-ui/blockedResource/inlineContent', '(inline external content)');
+    const firstResource = resources[0] ?? nls.localize('theia/ai-chat-ui/blockedResource/inlineContent', '（内联外部内容）');
     return <>
         <span className='theia-blocked-resource-icon codicon codicon-shield'></span>
         <span className='theia-blocked-resource-label'>
-            {nls.localize('theia/ai-chat-ui/blockedResource/label', 'External resource blocked:')}{' '}
+            {nls.localize('theia/ai-chat-ui/blockedResource/label', '外部资源已被阻止：')}{' '}
             <span className='theia-blocked-resource-url' title={firstResource}>{firstResource}</span>
         </span>
         {resources.length > 1 && <details className='theia-blocked-resource-details'>
-            <summary>{nls.localize('theia/ai-chat-ui/blockedResource/resourcesToAllow', '{0} resources will be enabled', resources.length)}</summary>
+            <summary>{nls.localize('theia/ai-chat-ui/blockedResource/resourcesToAllow', '{0} 个资源将被启用', resources.length)}</summary>
             <ul>
                 {resources.map(resource => <li key={resource} title={resource}>{resource}</li>)}
             </ul>
         </details>}
-        <button type='button' className='theia-blocked-resource-allow'>{nls.localize('theia/ai-chat-ui/blockedResource/allow', 'Allow this blocked content')}</button>
+        <button type='button' className='theia-blocked-resource-allow'>{nls.localize('theia/ai-chat-ui/blockedResource/allow', '允许此被阻止的内容')}</button>
     </>;
 };
 

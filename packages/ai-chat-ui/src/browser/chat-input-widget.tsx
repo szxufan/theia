@@ -19,6 +19,7 @@ import {
     ChatRequestParser, ChatMode, ChatSession, MutableChatModel, ChatSessionSettings
 } from '@theia/ai-chat';
 import { ChatAgentService } from '@theia/ai-chat/lib/common/chat-agent-service';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { ParsedChatRequest } from '@theia/ai-chat/lib/common/parsed-chat-request';
 import {
     GenericCapabilitySelections, AIVariableResolutionRequest, ParsedCapability,
@@ -689,7 +690,7 @@ export class AIChatInputWidget extends ReactWidget {
             : undefined;
         const currentModelId = this.getSessionModelOverride();
         const defaultLabel = this.resolvedDefaultLabel
-            ?? nls.localize('theia/ai/chat-ui/agentDefaultModel', 'agent default');
+            ?? nls.localize('theia/ai/chat-ui/agentDefaultModel', '代理默认模型');
         return {
             show: (agent?.languageModelRequirements?.length ?? 0) > 0,
             models: this.getSelectableModels(currentModelId),
@@ -1325,13 +1326,13 @@ export class AIChatInputWidget extends ReactWidget {
         const percentage = this.getTokenUsageWarningThresholdPercentage();
         const message = nls.localize(
             'theia/ai/chat-ui/tokenUsageWarningMessage',
-            'Chat session token usage has reached {0}% of the context window. ' +
-            'Consider summarizing this session or starting a new one to avoid hitting the limit.',
+            '聊天会话的 Token 用量已达到上下文窗口的 {0}%。' +
+            '建议总结当前会话或开启新会话，以避免达到上限。',
             percentage
         );
-        const summarizeAction = nls.localize('theia/ai/chat-ui/tokenUsageWarningSummarizeAction', 'Summarize Current Session');
-        const newSessionAction = nls.localizeByDefault('Start New Chat');
-        const openSettingsAction = nls.localizeByDefault('Open Settings');
+        const summarizeAction = nls.localize('theia/ai/chat-ui/tokenUsageWarningSummarizeAction', '总结当前会话');
+        const newSessionAction = nls.localizeByDefault('开始新聊天');
+        const openSettingsAction = nls.localizeByDefault('打开设置');
         const selected = await this.messageService.warn(message, summarizeAction, newSessionAction, openSettingsAction);
         if (selected === summarizeAction) {
             this.commandService.executeCommand(ChatCommands.AI_CHAT_NEW_WITH_TASK_CONTEXT.id).catch(error => {
@@ -2019,7 +2020,7 @@ const hasTaskContext = (chatModel: ChatModel): boolean => chatModel.context.getV
     variable.variable?.id === TASK_CONTEXT_VARIABLE.id
 );
 
-const aiDisabledLabel = () => nls.localize('theia/ai/chat-ui/aiDisabled', 'AI features are disabled');
+const aiDisabledLabel = () => nls.localize('theia/ai/chat-ui/aiDisabled', 'AI 功能已禁用');
 
 /**
  * Aligns the input editor with the enabled state of the widget. A disabled editor neither accepts text nor focus:
@@ -2075,7 +2076,7 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
     // agent, show a "Perform this task." placeholder which is the message to send by default
     const isFirstRequest = props.chatModel.getRequests().length === 0;
     const shouldUseTaskPlaceholder = isFirstRequest && props.pinnedAgent && hasTaskContext(props.chatModel);
-    const taskPlaceholder = nls.localize('theia/ai/chat-ui/performThisTask', 'Perform this task.');
+    const taskPlaceholder = nls.localize('theia/ai/chat-ui/performThisTask', '执行此任务。');
 
     // Update placeholder text when focus state or other dependencies change
     React.useEffect(() => {
@@ -2083,8 +2084,8 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
             ? aiDisabledLabel()
             : shouldUseTaskPlaceholder
                 ? taskPlaceholder
-                : nls.localize('theia/ai/chat-ui/askQuestion', 'Ask a question') +
-                (props.hasPromptHistory && isInputFocused ? nls.localizeByDefault(' ({0} for history)', '⇅') : '');
+                : nls.localize('theia/ai/chat-ui/askQuestion', '输入问题') +
+                (props.hasPromptHistory && isInputFocused ? nls.localizeByDefault('（{0} 查看历史）', '⇅') : '');
         setPlaceholderText(newPlaceholderText);
     }, [props.isEnabled, shouldUseTaskPlaceholder, taskPlaceholder, props.hasPromptHistory, isInputFocused]);
 
@@ -2146,7 +2147,7 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
                 bracketPairColorization: { enabled: false },
                 wrappingStrategy: 'advanced',
                 stickyScroll: { enabled: false },
-                ariaLabel: nls.localize('theia/ai/chat-ui/chatInputAriaLabel', 'Type your message here'),
+                ariaLabel: nls.localize('theia/ai/chat-ui/chatInputAriaLabel', '在此输入您的消息'),
             });
 
             if (editorContainerRef.current) {
@@ -2392,7 +2393,7 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
     const leftOptions = [
         ...(props.showContext
             ? [{
-                title: nls.localize('theia/ai/chat-ui/attachToContext', 'Attach elements to context'),
+                title: nls.localize('theia/ai/chat-ui/attachToContext', '将元素添加到上下文'),
                 handler: () => props.onAddContextElement(),
                 className: 'codicon-attach',
                 disabled: !props.isEnabled
@@ -2400,13 +2401,13 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
             : []),
         ...(props.showPinnedAgent
             ? [{
-                title: props.pinnedAgent ? nls.localize('theia/ai/chat-ui/unpinAgent', 'Unpin Agent') : nls.localizeByDefault('Agent'),
+                title: props.pinnedAgent ? nls.localize('theia/ai/chat-ui/unpinAgent', '取消固定代理') : nls.localizeByDefault('代理'),
                 handler: props.pinnedAgent ? props.onUnpin : handlePin,
                 className: 'codicon-mention',
                 disabled: !props.isEnabled,
                 text: {
                     align: 'right',
-                    content: props.pinnedAgent && props.pinnedAgent.name
+                    content: props.pinnedAgent && getAgentDisplayName(props.pinnedAgent)
                 },
             }]
             : []),
@@ -2423,18 +2424,19 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
     }, [latestRequest, onResponseChanged]);
     if (isEditing) {
         rightOptions = [{
-            title: nls.localize('theia/ai/chat-ui/send', 'Send (Enter)'),
+            title: nls.localize('theia/ai/chat-ui/send', '发送 (Enter)'),
             handler: () => {
                 if (props.isEnabled) {
                     submit(editorRef.current?.document.textEditorModel.getValue() || '');
                 }
             },
+
             className: 'codicon-send',
             disabled: (isInputEmpty && !shouldUseTaskPlaceholder) || !props.isEnabled
         }];
     } else if (pending) {
         rightOptions = [{
-            title: nls.localize('theia/ai/chat-ui/cancel', 'Cancel (Esc)'),
+            title: nls.localize('theia/ai/chat-ui/cancel', '取消 (Esc)'),
             handler: () => {
                 if (latestRequest) {
                     props.onCancel(latestRequest);
@@ -2444,7 +2446,7 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
         }];
     } else {
         rightOptions = [{
-            title: nls.localize('theia/ai/chat-ui/send', 'Send (Enter)'),
+            title: nls.localize('theia/ai/chat-ui/send', '发送 (Enter)'),
             handler: () => {
                 if (props.isEnabled) {
                     submit(editorRef.current?.document.textEditorModel.getValue() || '');
@@ -2598,7 +2600,7 @@ const ChatInputOptions: React.FunctionComponent<ChatInputOptionsProps> = ({
     modelSelectorProps,
     capabilitiesToggle
 }) => {
-    const capabilitiesLabel = nls.localize('theia/ai/chat-ui/toggleCapabilitiesConfig', 'Toggle Capabilities Configuration');
+    const capabilitiesLabel = nls.localize('theia/ai/chat-ui/toggleCapabilitiesConfig', '切换能力配置');
     const capabilitiesTitle = capabilitiesToggle.keybindingHint
         ? `${capabilitiesLabel} (${capabilitiesToggle.keybindingHint})`
         : capabilitiesLabel;
@@ -2776,8 +2778,8 @@ const CapabilitiesBar: React.FunctionComponent<CapabilitiesBarProps> = ({
     if (isOpen) {
         // Expanded state: full panel with save button
         const hasCapabilities = capabilities.length > 0;
-        const saveLabel = nls.localizeByDefault('Save');
-        const saveTitle = nls.localize('theia/ai/chat-ui/saveCurrentSelectionsToSettings', 'Save capability settings');
+        const saveLabel = nls.localizeByDefault('保存');
+        const saveTitle = nls.localize('theia/ai/chat-ui/saveCurrentSelectionsToSettings', '保存能力设置');
         return (
             <div className="theia-ChatInput-CapabilitiesPanel">
                 {hasCapabilities && (
@@ -2862,7 +2864,7 @@ const ChatModeSelector: React.FunctionComponent<ChatModeSelectorProps> = React.m
         [onModeChange]
     );
 
-    const label = nls.localize('theia/ai/chat-ui/switchAgentMode', 'Switch Agent Mode');
+    const label = nls.localize('theia/ai/chat-ui/switchAgentMode', '切换代理模式');
     const title = keybindingHint ? `${label} (${keybindingHint})` : label;
 
     return (
@@ -2914,7 +2916,7 @@ const ChatModelSelector: React.FunctionComponent<ChatModelSelectorProps> = React
         const opts: SelectOption[] = [
             {
                 value: defaultValueId,
-                label: nls.localizeByDefault('Default'),
+                label: nls.localizeByDefault('默认'),
                 detail: defaultLabel
             }
         ];
@@ -2934,7 +2936,7 @@ const ChatModelSelector: React.FunctionComponent<ChatModelSelectorProps> = React
         opts.push({ separator: true });
         opts.push({
             value: configureValueId,
-            label: nls.localize('theia/ai/chat-ui/manageModels', 'Manage models…')
+            label: nls.localize('theia/ai/chat-ui/manageModels', '管理模型…')
         });
         // Keep the active override visible even if its model is no longer ready/available, so the
         // selector reflects the stored modelId instead of silently falling back to "Default". Once we
@@ -2943,7 +2945,7 @@ const ChatModelSelector: React.FunctionComponent<ChatModelSelectorProps> = React
             opts.push({
                 value: currentModelId,
                 label: currentModelId,
-                detail: nls.localize('theia/ai/chat-ui/modelUnavailable', 'unavailable'),
+                detail: nls.localize('theia/ai/chat-ui/modelUnavailable', '不可用'),
                 disabled: isUnavailable
             });
         }
@@ -2963,10 +2965,10 @@ const ChatModelSelector: React.FunctionComponent<ChatModelSelectorProps> = React
     );
 
     const title = isUnavailable
-        ? nls.localize('theia/ai/chat-ui/sessionModelUnavailable', 'Model for this chat is unavailable ({0}); requests use the agent default', currentModelId!)
+        ? nls.localize('theia/ai/chat-ui/sessionModelUnavailable', '此聊天的模型不可用（{0}）；请求将使用代理默认模型', currentModelId!)
         : isOverridden
-            ? nls.localize('theia/ai/chat-ui/sessionModel', 'Model for this chat')
-            : nls.localize('theia/ai/chat-ui/sessionModelDefault', 'Model for this chat ({0})', defaultLabel);
+            ? nls.localize('theia/ai/chat-ui/sessionModel', '此聊天的模型')
+            : nls.localize('theia/ai/chat-ui/sessionModelDefault', '此聊天的模型（{0}）', defaultLabel);
 
     return (
         <span className='theia-ChatInput-ModelSelector-container' onMouseEnter={hoverHandler(hoverService, title)}>
@@ -3008,7 +3010,7 @@ const ReasoningSelector: React.FunctionComponent<ReasoningSelectorProps> = React
         [onReasoningChange]
     );
 
-    const title = nls.localizeByDefault('Reasoning');
+    const title = nls.localizeByDefault('推理');
     const effectiveLevel = ReasoningSupport.clampLevel(reasoningSupport, currentLevel ?? reasoningSupport.defaultLevel ?? 'off');
 
     return (
@@ -3100,13 +3102,13 @@ const ChangeSetBox: React.FunctionComponent<{ changeSet: ChangeSetUI }> = React.
                         aria-expanded={!isCollapsed}
                         aria-label={
                             isCollapsed
-                                ? nls.localize('theia/ai/chat-ui/expandChangeSet', 'Expand Change Set')
-                                : nls.localize('theia/ai/chat-ui/collapseChangeSet', 'Collapse Change Set')
+                                ? nls.localize('theia/ai/chat-ui/expandChangeSet', '展开更改集')
+                                : nls.localize('theia/ai/chat-ui/collapseChangeSet', '折叠更改集')
                         }
                         title={
                             isCollapsed
-                                ? nls.localize('theia/ai/chat-ui/expandChangeSet', 'Expand Change Set')
-                                : nls.localize('theia/ai/chat-ui/collapseChangeSet', 'Collapse Change Set')
+                                ? nls.localize('theia/ai/chat-ui/expandChangeSet', '展开更改集')
+                                : nls.localize('theia/ai/chat-ui/collapseChangeSet', '折叠更改集')
                         }
                     />
                     <h3>{title}</h3>
@@ -3119,7 +3121,7 @@ const ChangeSetBox: React.FunctionComponent<{ changeSet: ChangeSetUI }> = React.
                     ))}
                     <span
                         className='codicon codicon-close action'
-                        title={nls.localize('theia/ai/chat-ui/deleteChangeSet', 'Delete Change Set')}
+                        title={nls.localize('theia/ai/chat-ui/deleteChangeSet', '删除更改集')}
                         onClick={() => deleteChangeSet()}
                     />
                 </div>
@@ -3154,7 +3156,7 @@ function toUiElement(element: ChangeSetElement,
 }
 
 const ChangeSetElement: React.FC<ChangeSetUIElement> = element => (
-    <li title={nls.localizeByDefault('Open Diff')} onClick={() => element.openChange?.()}>
+    <li title={nls.localizeByDefault('打开差异')} onClick={() => element.openChange?.()}>
         <div className={`theia-ChatInput-ChangeSet-Icon ${element.iconClass}`}>
         </div>
         <div className='theia-ChatInput-ChangeSet-labelParts'>
@@ -3171,22 +3173,22 @@ const ChangeSetElement: React.FC<ChangeSetUIElement> = element => (
             {element.open && (
                 <span
                     className='codicon codicon-file action'
-                    title={nls.localize('theia/ai/chat-ui/openOriginalFile', 'Open Original File')}
+                    title={nls.localize('theia/ai/chat-ui/openOriginalFile', '打开原始文件')}
                     onClick={noPropagation(() => element.open!())}
                 />)}
             {element.revert && (
                 <span
                     className='codicon codicon-discard action'
-                    title={nls.localizeByDefault('Revert')}
+                    title={nls.localizeByDefault('还原')}
                     onClick={noPropagation(() => element.revert!())}
                 />)}
             {element.apply && (
                 <span
                     className='codicon codicon-check action'
-                    title={nls.localizeByDefault('Apply')}
+                    title={nls.localizeByDefault('应用')}
                     onClick={noPropagation(() => element.apply!())}
                 />)}
-            <span className='codicon codicon-close action' title={nls.localizeByDefault('Delete')} onClick={noPropagation(() => element.delete())} />
+            <span className='codicon codicon-close action' title={nls.localizeByDefault('删除')} onClick={noPropagation(() => element.delete())} />
         </div>
     </li>
 );
@@ -3281,7 +3283,7 @@ const ChatContext: React.FunctionComponent<ChatContextUI> = ({ context }) => (
                                     {element.additionalInfo}
                                 </span>
                             </div>
-                            <span className="codicon codicon-close action" title={nls.localizeByDefault('Delete')} onClick={e => { e.stopPropagation(); element.delete(); }} />
+                            <span className="codicon codicon-close action" title={nls.localizeByDefault('删除')} onClick={e => { e.stopPropagation(); element.delete(); }} />
                         </div>
                         {hasImageData && <div className="theia-ChatInput-ChatContext-ImageRow">
                             <div className='theia-ChatInput-ImagePreview-Item'>
@@ -3306,7 +3308,7 @@ const ChatContext: React.FunctionComponent<ChatContextUI> = ({ context }) => (
                                 {element.additionalInfo}
                             </span>
                         </div>
-                        <span className="codicon codicon-close action" title={nls.localizeByDefault('Delete')} onClick={e => { e.stopPropagation(); element.delete(); }} />
+                        <span className="codicon codicon-close action" title={nls.localizeByDefault('删除')} onClick={e => { e.stopPropagation(); element.delete(); }} />
                     </div>
                 </li>;
             })}

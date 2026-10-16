@@ -35,7 +35,7 @@ export const aiConfigurationOpenPlaceholderSchema: PreferenceSchema = {
             type: 'null',
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai-core/openConfiguration/description',
-                'AI settings have moved to the AI Configuration view. Open it to configure providers, models, agents, and more.')
+                'AI 设置已迁移至 AI 配置视图。请打开该视图以配置提供商、模型、代理等。')
         }
     }
 };

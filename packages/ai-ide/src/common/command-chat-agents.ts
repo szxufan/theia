@@ -54,6 +54,7 @@ export class CommandChatAgent extends AbstractTextToModelParsingChatAgent<Parsed
 
     id: string = 'Command';
     name = 'Command';
+    displayName = nls.localize('theia/ai/ide/commandAgent/displayName', '命令');
     languageModelRequirements: LanguageModelRequirement[] = [{
         purpose: 'command',
         identifier: 'default/fast',
@@ -62,12 +63,12 @@ export class CommandChatAgent extends AbstractTextToModelParsingChatAgent<Parsed
     protected defaultLanguageModelPurpose: string = 'command';
 
     override description = nls.localize('theia/ai/ide/commandAgent/description',
-        'This agent is aware of all commands that the user can execute. ' +
-        'Based on the user request, it can find the right command and then let the user execute it.');
+        '此代理了解用户可以执行的所有命令。' +
+        '它会根据用户请求找到合适的命令，然后让用户执行它。');
     override prompts = [commandTemplate];
     override agentSpecificVariables = [{
         name: 'command-ids',
-        description: nls.localize('theia/ai/ide/commandAgent/vars/commandIds/description', 'The list of available commands.'),
+        description: nls.localize('theia/ai/ide/commandAgent/vars/commandIds/description', '可用命令的列表。'),
         usedInPrompt: true
     }];
 
@@ -117,7 +118,7 @@ export class CommandChatAgent extends AbstractTextToModelParsingChatAgent<Parsed
 
             return new HorizontalLayoutChatResponseContentImpl([
                 new MarkdownChatResponseContentImpl(
-                    nls.localize('theia/ai/ide/commandAgent/response/theiaCommand', 'I found this command that might help you:')
+                    nls.localize('theia/ai/ide/commandAgent/response/theiaCommand', '我找到了这个可能对您有帮助的命令：')
                 ),
                 new CommandChatResponseContentImpl(theiaCommand, undefined, args),
             ]);
@@ -126,24 +127,24 @@ export class CommandChatAgent extends AbstractTextToModelParsingChatAgent<Parsed
             const commandArgs = parsedCommand.arguments !== undefined && parsedCommand.arguments.length > 0 ? parsedCommand.arguments : [];
             const args = [id, ...commandArgs];
             const customCallback: CustomCallback = {
-                label: nls.localize('theia/ai/ide/commandAgent/commandCallback/label', 'AI command'),
+                label: nls.localize('theia/ai/ide/commandAgent/commandCallback/label', 'AI 命令'),
                 callback: () => this.commandCallback(...args),
             };
             return new HorizontalLayoutChatResponseContentImpl([
                 new MarkdownChatResponseContentImpl(
-                    nls.localize('theia/ai/ide/commandAgent/response/customHandler', 'Try executing this:')
+                    nls.localize('theia/ai/ide/commandAgent/response/customHandler', '尝试执行这个：')
                 ),
                 new CommandChatResponseContentImpl(undefined, customCallback, args),
             ]);
         } else {
             return new MarkdownChatResponseContentImpl(parsedCommand.message ?? nls.localize('theia/ai/ide/commandAgent/response/noCommand',
-                'Sorry, I can\'t find such a command'));
+                '抱歉，我找不到这样的命令'));
         }
     }
 
     protected async commandCallback(...commandArgs: unknown[]): Promise<void> {
         this.messageService.info(nls.localize('theia/ai/ide/commandAgent/commandCallback/message',
-            'Executing callback with args {0}. The first arg is the command id registered for the dynamically registered command. ' +
-            'The other args are the actual args for the handler.', commandArgs.join(', ')), nls.localize('theia/ai/ide/commandAgent/commandCallback/confirmAction', 'Got it'));
+            '使用参数 {0} 执行回调。第一个参数是为动态注册命令注册的命令 ID。' +
+            '其余参数是处理程序的实际参数。', commandArgs.join(', ')), nls.localize('theia/ai/ide/commandAgent/commandCallback/confirmAction', '知道了'));
     }
 }

@@ -23,7 +23,7 @@ export const PREFERENCE_NAME_TREE_INDENT = 'workbench.tree.indent';
 export const treePreferencesSchema: PreferenceSchema = {
     properties: {
         [PREFERENCE_NAME_TREE_INDENT]: {
-            description: nls.localizeByDefault('Controls tree indentation in pixels.'),
+            description: nls.localizeByDefault('控制树的缩进（以像素为单位）。'),
             type: 'number',
             default: 8,
             minimum: 4,

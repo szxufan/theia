@@ -1,13 +1,13 @@
-# Extensibility
+# 可扩展性
 
-Theia is an extensible tool platform for building custom tools with custom user interface elements, such as views, editors, commands, etc.
-Correspondingly, Theia 🎭 Playwright supports adding dedicated page objects for your custom user interface elements.
-Depending on the nature of your custom components, you can extend the generic base objects, such as for views or editors, or add your own from scratch.
+Theia 是一个可扩展的工具平台，用于构建带有自定义用户界面元素（例如视图、编辑器、命令等）的自定义工具。
+相应地，Theia 🎭 Playwright 支持为你的自定义用户界面元素添加专用的页面对象。
+根据自定义组件的性质，你可以扩展通用基类对象（例如视图或编辑器），也可以从头开始添加自己的对象。
 
-## Custom commands or menu items
+## 自定义命令或菜单项
 
-Commands and menu items are handled by their label, so no further customization of the page object framework is required.
-Simply interact with them via the menu or quick commands.
+命令和菜单项通过其标签处理，因此无需对页面对象框架做进一步定制。
+只需通过菜单或快速命令与它们交互即可。
 
 ```typescript
 const app = await TheiaAppLoader.load({ playwright, browser });
@@ -19,10 +19,10 @@ const yourItem = await mainMenu.menuItemByName('Your Item');
 expect(await yourItem?.hasSubmenu()).toBe(true);
 ```
 
-## Custom Theia applications
+## 自定义 Theia 应用程序
 
-The main entry point of the page object model is `TheiaApp`.
-To add further capabilities to it, for instance a custom toolbar, extend the `TheiaApp` class and add an accessor for a custom toolbar page object.
+页面对象模型的主入口是 `TheiaApp`。
+要为它添加更多能力，例如一个自定义工具栏，可以扩展 `TheiaApp` 类，并为自定义工具栏页面对象添加一个访问器。
 
 ```typescript
 export class MyTheiaApp extends TheiaApp {
@@ -41,14 +41,14 @@ const app = await TheiaAppLoader.load({ playwright, browser }, ws, MyTheiaApp);
 await app.toolbar.clickItem1();
 ```
 
-## Custom views and status indicators
+## 自定义视图和状态指示器
 
-Many custom Theia applications add dedicated views, editors, or status indicators.
-To support these custom user interface elements in the testing framework, you can add dedicated page objects for them.
-Typically, these dedicated page objects for your custom user interface elements are subclasses of the generic classes, `TheiaView`, `TheiaEditor`, etc.
-Consequently, they inherit the generic behavior of views or editors, such as activating or closing them, querying the title, check whether editors are dirty, etc.
+许多自定义 Theia 应用程序会添加专用的视图、编辑器或状态指示器。
+为了在测试框架中支持这些自定义用户界面元素，你可以为它们添加专用的页面对象。
+通常，这些针对你的自定义用户界面元素的专用页面对象是通用类 `TheiaView`、`TheiaEditor` 等的子类。
+因此，它们会继承视图或编辑器的通用行为，例如激活或关闭它们、查询标题、检查编辑器是否为脏状态等。
 
-Let's take a custom view as an example. This custom view has a button that we want to be able to click.
+让我们以一个自定义视图为例。这个自定义视图有一个我们希望能够点击的按钮。
 
 ```typescript
 export class MyView extends TheiaView {
@@ -72,15 +72,15 @@ export class MyView extends TheiaView {
 }
 ```
 
-So first, we create a new class that inherits all generic view capabilities from `TheiaView`.
-We have to specify the selectors for the tab and for the view container element that we specify in the view implementation.
-Optionally we can specify a view name, which corresponds to the label in Theia's view menu.
-This information is enough to open, close, find and interact with the view.
+首先，我们创建一个继承 `TheiaView` 所有通用视图能力的新类。
+我们必须指定标签页的选择器以及我们在视图实现中指定的视图容器元素的选择器。
+可选地，我们可以指定一个视图名称，它对应 Theia 视图菜单中的标签。
+这些信息足以打开、关闭、查找该视图并与之交互。
 
-Additionally, we can add further custom methods for the specific actions and queries we want to use for our custom view.
-As an example, `MyView` above introduces a method that allows to click a button.
+此外，我们可以为自定义视图想要使用的特定操作和查询添加更多自定义方法。
+例如，上面的 `MyView` 引入了一个允许点击按钮的方法。
 
-To use this custom page object in a test, we pass our custom page object as a parameter when opening the view with `app.openView`.
+要在测试中使用这个自定义页面对象，我们在通过 `app.openView` 打开视图时，将自定义页面对象作为参数传入。
 
 ```typescript
 const app = await TheiaAppLoader.load({ playwright, browser });
@@ -88,10 +88,10 @@ const myView = await app.openView(MyView);
 await myView.clickMyButton();
 ```
 
-A similar approach is used for custom editors. The only difference is that we extend `TheiaEditor` instead and pass our custom page object as an argument to `app.openEditor`.
-As a reference for custom views and editors, please refer to the existing page objects, such as `TheiaPreferenceView`, `TheiaTextEditor`, etc.
+自定义编辑器采用类似的方法。唯一的区别是我们改为扩展 `TheiaEditor`，并将自定义页面对象作为参数传递给 `app.openEditor`。
+作为自定义视图和编辑器的参考，请参阅现有的页面对象，例如 `TheiaPreferenceView`、`TheiaTextEditor` 等。
 
-Custom status indicators are supported with the same mechanism. They are accessed via `TheiaApp.statusBar`.
+自定义状态指示器通过相同的机制支持。它们通过 `TheiaApp.statusBar` 访问。
 
 ```typescript
 const app = await TheiaAppLoader.load({ playwright, browser });

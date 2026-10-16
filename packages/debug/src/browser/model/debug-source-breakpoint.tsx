@@ -107,8 +107,8 @@ export class DebugSourceBreakpoint extends DebugBreakpoint<SourceBreakpoint> imp
 
     protected renderActions(): React.ReactNode {
         return <div className='theia-debug-breakpoint-actions'>
-            <div className={codicon('edit', true)} title={nls.localizeByDefault('Edit Breakpoint')} onClick={this.onEdit} />
-            <div className={codicon('close', true)} title={nls.localizeByDefault('Remove Breakpoint')} onClick={this.onRemove} />
+            <div className={codicon('edit', true)} title={nls.localizeByDefault('编辑断点')} onClick={this.onEdit} />
+            <div className={codicon('close', true)} title={nls.localizeByDefault('移除断点')} onClick={this.onRemove} />
         </div>;
     }
 
@@ -131,23 +131,23 @@ export class DebugSourceBreakpoint extends DebugBreakpoint<SourceBreakpoint> imp
             if (this.logMessage) {
                 if (this.raw && !this.raw.supportsLogPoints) {
                     return this.getUnsupportedBreakpointDecoration(nls.localize('theia/debug/logpointsNotSupported',
-                        'Logpoints not supported by this debug type'));
+                    '此调试类型不支持日志点'));
                 }
-                messages.push(nls.localizeByDefault('Log Message: {0}', this.logMessage));
+                messages.push(nls.localizeByDefault('日志消息: {0}', this.logMessage));
             }
             if (this.condition) {
                 if (this.raw && !this.raw.supportsConditionalBreakpoints) {
                     return this.getUnsupportedBreakpointDecoration(nls.localize('theia/debug/conditionalBreakpointsNotSupported',
-                        'Conditional breakpoints not supported by this debug type'));
+                        '此调试类型不支持条件断点'));
                 }
-                messages.push(nls.localizeByDefault('Condition: {0}', this.condition));
+                messages.push(nls.localizeByDefault('条件: {0}', this.condition));
             }
             if (this.hitCondition) {
                 if (this.raw && !this.raw.supportsHitConditionalBreakpoints) {
                     return this.getUnsupportedBreakpointDecoration(nls.localize('theia/debug/htiConditionalBreakpointsNotSupported',
-                        'Hit conditional breakpoints not supported by this debug type'));
+                        '此调试类型不支持命中次数条件断点'));
                 }
-                messages.push(nls.localizeByDefault('Hit Count: {0}', this.hitCondition));
+                messages.push(nls.localizeByDefault('命中次数: {0}', this.hitCondition));
             }
         }
         return super.doGetDecoration(messages);
@@ -164,18 +164,18 @@ export class DebugSourceBreakpoint extends DebugBreakpoint<SourceBreakpoint> imp
         if (this.logMessage) {
             return {
                 className: 'codicon-debug-breakpoint-log',
-                message: message || [nls.localizeByDefault('Logpoint')]
+                message: message || [nls.localizeByDefault('日志点')]
             };
         }
         if (this.condition || this.hitCondition) {
             return {
                 className: 'codicon-debug-breakpoint-conditional',
-                message: message || [nls.localize('theia/debug/conditionalBreakpoint', 'Conditional Breakpoint')]
+                message: message || [nls.localize('theia/debug/conditionalBreakpoint', '条件断点')]
             };
         }
         return {
             className: 'codicon-debug-breakpoint',
-            message: message || [nls.localizeByDefault('Breakpoint')]
+            message: message || [nls.localizeByDefault('断点')]
         };
     }
 

@@ -27,22 +27,22 @@ export const FILE_CONTENT_MAX_SIZE_KB_PREF = 'ai-features.workspaceFunctions.fil
 export const WRITE_CONTENT_MAX_SIZE_KB_PREF = 'ai-features.workspaceFunctions.writeContentMaxSizeKB';
 export const ALLOWED_EXTERNAL_PATHS_PREF = 'ai-features.workspaceFunctions.allowedExternalPaths';
 
-const CONFLICT_RESOLUTION_DESCRIPTION = 'When templates with the same ID (filename) exist in multiple locations, conflicts are resolved by priority: specific template files \
-(highest) > workspace directories > global directories (lowest).';
+const CONFLICT_RESOLUTION_DESCRIPTION = '当多个位置存在相同 ID（文件名）的模板时，冲突将按优先级解决：特定模板文件 \
+（最高）> 工作区目录 > 全局目录（最低）。';
 
 export const WorkspacePreferencesSchema: PreferenceSchema = {
     properties: {
         [CONSIDER_GITIGNORE_PREF]: {
             type: 'boolean',
-            title: nls.localize('theia/ai/workspace/considerGitignore/title', 'Consider .gitignore'),
+            title: nls.localize('theia/ai/workspace/considerGitignore/title', '遵循 .gitignore'),
             description: nls.localize('theia/ai/workspace/considerGitignore/description',
-                'If enabled, excludes files/folders matched by .gitignore rules found in each workspace root directory.'),
+                '启用后，将排除每个工作区根目录中 .gitignore 规则所匹配的文件/文件夹。'),
             default: true
         },
         [USER_EXCLUDE_PATTERN_PREF]: {
             type: 'array',
-            title: nls.localize('theia/ai/workspace/excludedPattern/title', 'Excluded File Patterns'),
-            description: nls.localize('theia/ai/workspace/excludedPattern/description', 'List of patterns (glob or regex) for files/folders to exclude.'),
+            title: nls.localize('theia/ai/workspace/excludedPattern/title', '排除的文件模式'),
+            description: nls.localize('theia/ai/workspace/excludedPattern/description', '要排除的文件/文件夹的模式列表（glob 或正则表达式）。'),
             default: ['node_modules', 'lib'],
             items: {
                 type: 'string'
@@ -50,17 +50,17 @@ export const WorkspacePreferencesSchema: PreferenceSchema = {
         },
         [SEARCH_IN_WORKSPACE_MAX_RESULTS_PREF]: {
             type: 'number',
-            title: nls.localize('theia/ai/workspace/searchMaxResults/title', 'Maximum Search Results'),
+            title: nls.localize('theia/ai/workspace/searchMaxResults/title', '最大搜索结果数'),
             description: nls.localize('theia/ai/workspace/searchMaxResults/description',
-                'Maximum number of search results returned by the workspace search function.'),
+                '工作区搜索功能返回的最大搜索结果数。'),
             default: 30,
             minimum: 1
         },
         [PROMPT_TEMPLATE_WORKSPACE_DIRECTORIES_PREF]: {
             type: 'array',
-            title: nls.localize('theia/ai/promptTemplates/directories/title', 'Workspace-specific Prompt Template Directories'),
+            title: nls.localize('theia/ai/promptTemplates/directories/title', '工作区专属的提示词模板目录'),
             description: nls.localize('theia/ai/promptTemplates/directories/description',
-                'List of relative paths indicating folders in the current workspace to be scanned for WORKSPACE specific prompt templates. ' +
+                '相对路径列表，指示当前工作区中用于扫描 WORKSPACE 专属提示词模板的文件夹。' +
                 CONFLICT_RESOLUTION_DESCRIPTION),
             default: ['.prompts'],
             items: {
@@ -69,18 +69,18 @@ export const WorkspacePreferencesSchema: PreferenceSchema = {
         },
         [PROMPT_TEMPLATE_ADDITIONAL_EXTENSIONS_PREF]: {
             type: 'array',
-            title: nls.localize('theia/ai/promptTemplates/extensions/title', 'Additional Prompt Template File Extensions'),
+            title: nls.localize('theia/ai/promptTemplates/extensions/title', '额外的提示词模板文件扩展名'),
             description: nls.localize('theia/ai/promptTemplates/extensions/description',
-                'List of additional file extensions in prompt locations that are considered as prompt templates. \'.prompttemplate\' is always considered as a default.'),
+                '在提示词位置被视为提示词模板的其他文件扩展名列表。\'.prompttemplate\' 始终被视为默认扩展名。'),
             items: {
                 type: 'string'
             }
         },
         [PROMPT_TEMPLATE_WORKSPACE_FILES_PREF]: {
             type: 'array',
-            title: nls.localize('theia/ai/promptTemplates/files/title', 'Workspace-specific Prompt Template Files'),
+            title: nls.localize('theia/ai/promptTemplates/files/title', '工作区专属的提示词模板文件'),
             description: nls.localize('theia/ai/promptTemplates/files/description',
-                'List of relative paths to specific files in the current workspace to be used as prompt templates. ' +
+                '相对路径列表，指向当前工作区中用作提示词模板的特定文件。' +
                 CONFLICT_RESOLUTION_DESCRIPTION),
             default: [],
             items: {
@@ -90,40 +90,40 @@ export const WorkspacePreferencesSchema: PreferenceSchema = {
         [TASK_CONTEXT_STORAGE_DIRECTORY_PREF]: {
             type: 'string',
             description: nls.localize('theia/ai/chat/taskContextStorageDirectory/description',
-                'A workspace relative path in which to persist and from which to retrieve task context descriptions.' +
-                ' If set to empty value, generated task contexts will be stored in memory rather than on disk.'
+                '用于持久化任务上下文描述的工作区相对路径，也将从中检索。' +
+                '若设置为空值，生成的任务上下文将存储在内存中而非磁盘上。'
             ),
             default: '.prompts/task-contexts'
         },
         [FILE_CONTENT_MAX_SIZE_KB_PREF]: {
             type: 'number',
-            title: nls.localize('theia/ai/workspace/fileContentMaxSizeKB/title', 'File Content Max Size (KB)'),
+            title: nls.localize('theia/ai/workspace/fileContentMaxSizeKB/title', '文件内容最大大小 (KB)'),
             description: nls.localize('theia/ai/workspace/fileContentMaxSizeKB/description',
-                'Maximum size in kilobytes of the content returned by the getFileContent tool. ' +
-                'When reading a full file (no offset/limit), files exceeding this limit return an error. ' +
-                'When using offset and limit, only the requested range is checked against this limit.'),
+                'getFileContent 工具返回内容的最大大小（以千字节为单位）。' +
+                '读取完整文件（无 offset/limit）时，超过此限制的文件将返回错误。' +
+                '使用 offset 和 limit 时，仅对请求的范围检查此限制。'),
             default: 256,
             minimum: 1
         },
         [WRITE_CONTENT_MAX_SIZE_KB_PREF]: {
             type: 'number',
-            title: nls.localize('theia/ai/workspace/writeContentMaxSizeKB/title', 'Write Content Max Size (KB)'),
+            title: nls.localize('theia/ai/workspace/writeContentMaxSizeKB/title', '写入内容最大大小 (KB)'),
             description: nls.localize('theia/ai/workspace/writeContentMaxSizeKB/description',
-                'Maximum size in kilobytes of the content accepted by the whole-file write tools (writeFileContent and suggestFileContent). ' +
-                'Larger writes are rejected with a hint to use the replacement-based tools instead.'),
+                '整文件写入工具（writeFileContent 和 suggestFileContent）接受内容的最大大小（以千字节为单位）。' +
+                '更大的写入将被拒绝，并提示改用基于替换的工具。'),
             default: 256,
             minimum: 1
         },
         [ALLOWED_EXTERNAL_PATHS_PREF]: {
             type: 'array',
-            title: nls.localize('theia/ai/workspace/allowedExternalPaths/title', 'Allowed External Paths'),
+            title: nls.localize('theia/ai/workspace/allowedExternalPaths/title', '允许的外部路径'),
             description: nls.localize('theia/ai/workspace/allowedExternalPaths/description',
-                'List of absolute paths or file URIs (directories or files) outside the workspace that AI tools may access. ' +
-                'Supports `~` to refer to the user home directory. Empty by default; opt-in only. ' +
-                'Honored by every tool that takes a path, including the tools that write files. ' +
-                'Workspace-scoped values are ignored when the workspace is not trusted. ' +
-                'Symbolic links inside allow-listed directories are followed and may point to files outside the allow-list; ' +
-                'only add directories whose contents you trust.'),
+                'AI 工具可以访问的工作区之外的绝对路径或文件 URI（目录或文件）列表。' +
+                '支持用 `~` 表示用户主目录。默认为空；仅限显式启用。' +
+                '所有接受路径的工具（包括写文件的工具）都会遵循此设置。' +
+                '当工作区不受信任时，工作区作用域的值将被忽略。' +
+                '允许列表目录内的符号链接会被跟随，并可能指向允许列表之外的文件；' +
+                '只添加你信任其内容的目录。'),
             default: [],
             items: {
                 type: 'string'

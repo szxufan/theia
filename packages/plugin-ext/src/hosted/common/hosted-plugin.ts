@@ -143,7 +143,8 @@ export abstract class AbstractHostedPluginSupport<PM extends AbstractPluginManag
     }
 
     protected loadQueue: Promise<void> = Promise.resolve(undefined);
-    load = debounce(() => this.loadQueue = this.loadQueue.then(async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    load: any = debounce(() => this.loadQueue = this.loadQueue.then(async () => {
         try {
             await this.runOperation(() => this.doLoad());
         } catch (e) {

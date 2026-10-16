@@ -64,12 +64,12 @@ const WebSearchInProgressComponent: React.FC<{ query: string }> = ({ query }) =>
     <div className="codex-tool container">
         <div className="codex-tool header">
             <div className="codex-tool header-left">
-                <span className="codex-tool title">{nls.localize('theia/ai/codex/searching', 'Searching')}</span>
+                <span className="codex-tool title">{nls.localize('theia/ai/codex/searching', '正在搜索')}</span>
                 <span className={`${codicon('loading')} codex-tool icon theia-animation-spin`} />
                 <span className="codex-tool command">{query}</span>
             </div>
             <div className="codex-tool header-right">
-                <span className="codex-tool badge">{nls.localizeByDefault('Web Search')}</span>
+                <span className="codex-tool badge">{nls.localizeByDefault('网页搜索')}</span>
             </div>
         </div>
     </div>
@@ -79,12 +79,12 @@ const WebSearchCompletedComponent: React.FC<{ item: WebSearchItem }> = ({ item }
     <div className="codex-tool container">
         <div className="codex-tool header">
             <div className="codex-tool header-left">
-                <span className="codex-tool title">{nls.localize('theia/ai/codex/searched', 'Searched')}</span>
+                <span className="codex-tool title">{nls.localize('theia/ai/codex/searched', '已搜索')}</span>
                 <span className={`${codicon('globe')} codex-tool icon`} />
                 <span className="codex-tool command">{item.query}</span>
             </div>
             <div className="codex-tool header-right">
-                <span className="codex-tool badge">{nls.localizeByDefault('Web Search')}</span>
+                <span className="codex-tool badge">{nls.localizeByDefault('网页搜索')}</span>
             </div>
         </div>
     </div>

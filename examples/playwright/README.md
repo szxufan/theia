@@ -10,9 +10,9 @@
 
 </div>
 
-## Description
+## 描述
 
-Theia 🎭 Playwright is a [page object](https://martinfowler.com/bliki/PageObject.html) framework based on [Playwright](https://github.com/microsoft/playwright) for developing system tests of [Theia](https://github.com/eclipse-theia/theia)-based applications. See it in action below.
+Theia 🎭 Playwright 是一个基于 [Playwright](https://github.com/microsoft/playwright) 的[页面对象（page object）](https://martinfowler.com/bliki/PageObject.html)框架，用于为基于 [Theia](https://github.com/eclipse-theia/theia) 的应用程序开发系统测试。下面可以看到它的实际效果。
 
 <div style='margin:0 auto;width:70%;'>
 
@@ -20,35 +20,35 @@ Theia 🎭 Playwright is a [page object](https://martinfowler.com/bliki/PageObje
 
 </div>
 
-The Theia 🎭 Playwright page objects introduce abstraction over Theia's user interfaces, encapsulating the details of the user interface interactions, wait conditions, etc., to help keeping your tests more concise, maintainable, and stable.
-Ready for an [example](./docs/GETTING_STARTED.md)?
+Theia 🎭 Playwright 的页面对象对 Theia 的用户界面做了抽象，封装了用户界面交互、等待条件等的细节，帮助你的测试更加简洁、可维护和稳定。
+准备好看一个[示例](./docs/GETTING_STARTED.md)了吗？
 
-The actual interaction with the Theia application is implemented with 🎭 Playwright in Typescript. Thus, we can take advantage of [Playwright's benefits](https://playwright.dev/) and run or debug tests headless or headful across all modern browsers.
-Check out [Playwright's documentation](https://playwright.dev/docs/intro) for more information.
+与 Theia 应用程序的实际交互使用 TypeScript 编写的 🎭 Playwright 实现。因此，我们可以利用 [Playwright 的优势](https://playwright.dev/)，在所有现代浏览器上以无头（headless）或有头（headful）模式运行或调试测试。
+更多信息请查看 [Playwright 的文档](https://playwright.dev/docs/intro)。
 
-This page object framework not only covers Theia's generic capabilities, such as handling views, the quick command palette, file explorer etc.
-It is [extensible](./docs/EXTENSIBILITY.md) so you can add dedicated page objects for custom Theia components, such as custom views, editors, menus, etc.
+这个页面对象框架不仅覆盖 Theia 的通用能力，例如处理视图、快速命令面板、文件资源管理器等。
+它还是[可扩展的](./docs/EXTENSIBILITY.md)，你可以为自定义的 Theia 组件（例如自定义视图、编辑器、菜单等）添加专用的页面对象。
 
-## Documentation
+## 文档
 
-- [Getting Started](./docs/GETTING_STARTED.md)
-- [Extensibility](./docs/EXTENSIBILITY.md)
-- [Theia 🎭 Playwright Template](https://github.com/eclipse-theia/theia-playwright-template)
-- [Building and Developing Theia 🎭 Playwright](./docs/DEVELOPING.md)
+- [入门](./docs/GETTING_STARTED.md)
+- [可扩展性](./docs/EXTENSIBILITY.md)
+- [Theia 🎭 Playwright 模板](https://github.com/eclipse-theia/theia-playwright-template)
+- [构建和开发 Theia 🎭 Playwright](./docs/DEVELOPING.md)
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 - [Playwright - GitHub](https://github.com/microsoft/playwright)
 - [Playwright - Website](https://playwright.dev)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

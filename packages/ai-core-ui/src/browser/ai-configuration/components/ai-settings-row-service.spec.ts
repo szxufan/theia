@@ -158,7 +158,15 @@ describe('AiSettingsRowService', () => {
             expect(createServiceWithSchema({ type: 'array', items: { type: 'string' } }).controlFor('pref').type).to.equal('array');
         });
 
-        it('defers object and non-string-array preferences to the Settings UI via a json control', () => {
+        it('renders an object array with a declared item schema as per-entry cards', () => {
+            // A provider's custom endpoints (`ai-features.openAiCustom.customOpenAiModels`) are the
+            // canonical case: editable inline instead of as raw JSON.
+            const itemSchema = { type: 'object', properties: { model: { type: 'string' }, url: { type: 'string' } } } as PreferenceDataProperty;
+            const control = createServiceWithSchema({ type: 'array', items: itemSchema }).controlFor('pref');
+            expect(control).to.deep.equal({ type: 'objectList', itemSchema });
+        });
+
+        it('defers object and schemaless-array preferences to the Settings UI via a json control', () => {
             expect(createServiceWithSchema({ type: 'object' }).controlFor('pref').type).to.equal('json');
             expect(createServiceWithSchema({ type: 'array', items: { type: 'object' } }).controlFor('pref').type).to.equal('json');
             expect(createServiceWithSchema({ type: 'array', items: { type: 'number' } }).controlFor('pref').type).to.equal('json');

@@ -53,7 +53,7 @@ export class CommandExecutionRenderer implements ChatResponsePartRenderer<CodexT
 
         if (!item) {
             const args = content.arguments ? JSON.parse(content.arguments) : {};
-            return <CommandExecutionInProgressComponent command={args.command || nls.localizeByDefault('Executing')} />;
+            return <CommandExecutionInProgressComponent command={args.command || nls.localizeByDefault('正在执行')} />;
         }
 
         return <CommandExecutionComponent item={item} />;
@@ -66,10 +66,10 @@ const CommandExecutionInProgressComponent: React.FC<{
     <div className="codex-command-execution">
         <div className="codex-tool-header">
             <span className={`${codicon('loading')} codex-tool-icon codex-loading`}></span>
-            <span className="codex-tool-name">{nls.localizeByDefault('Terminal')}</span>
+            <span className="codex-tool-name">{nls.localizeByDefault('终端')}</span>
             <code className="codex-command-line">{command}</code>
             <span className="codex-exit-code in-progress">
-                {nls.localizeByDefault('Running')}...
+                {nls.localizeByDefault('运行中')}...
             </span>
         </div>
     </div>
@@ -94,10 +94,10 @@ const CommandExecutionComponent: React.FC<{
                     <span className={`${codicon(isExpanded ? 'chevron-down' : 'chevron-right')} codex-expand-icon`} />
                 )}
                 <span className={`${codicon('terminal')} codex-tool-icon`}></span>
-                <span className="codex-tool-name">{nls.localizeByDefault('Terminal')}</span>
+                <span className="codex-tool-name">{nls.localizeByDefault('终端')}</span>
                 <code className="codex-command-line">{item.command}</code>
                 <span className={`codex-exit-code ${success ? 'success' : 'error'}`}>
-                    {nls.localize('theia/ai/codex/exitCode', 'Exit code: {0}', item.exit_code)}
+                    {nls.localize('theia/ai/codex/exitCode', '退出码：{0}', item.exit_code)}
                 </span>
             </div>
             {hasOutput && isExpanded && (

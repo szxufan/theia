@@ -4,32 +4,32 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - SCAN OSS AI EXTENSION</h2>
+<h2>ECLIPSE THEIA - SCAN OSS AI 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-Integrates SCANOSS content scanning into the Chat View.
-Whenever a code listing is rendered, a scan action is offered to the user.
+将 SCANOSS 内容扫描集成到聊天视图中。
+每当渲染一个代码清单时，都会向用户提供一个扫描操作。
 
-Via the preferences the user can switch between manual and automatic scanning.
+通过首选项，用户可以在手动扫描和自动扫描之间切换。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/ai-scanoss`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-scanoss.html)
+- [`@theia/ai-scanoss` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-scanoss.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
-- [SCAN OSS Website](https://www.scanoss.com/)
+- [SCAN OSS 网站](https://www.scanoss.com/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

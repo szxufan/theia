@@ -92,7 +92,7 @@ export class CopilotLanguageModelsManagerImpl implements CopilotLanguageModelsMa
     protected async calculateStatus(): Promise<LanguageModelStatus> {
         const authState = await this.authService.getAuthState();
         if (!authState.isAuthenticated) {
-            return { status: 'unavailable', message: nls.localize('theia/ai/copilot/notSignedIn', 'Not signed in to GitHub Copilot') };
+            return { status: 'unavailable', message: nls.localize('theia/ai/copilot/notSignedIn', '未登录 GitHub Copilot') };
         }
         if (this.discoveryFailure) {
             return { status: 'unavailable', message: this.discoveryFailure };

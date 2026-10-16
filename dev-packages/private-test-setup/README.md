@@ -10,23 +10,23 @@
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/test-setup` contributes a setup script for mocha executed tests in Theia.
-This setup script is executed before any test file is loaded or compiled.
-This is for example useful for globals which must exist before dependencies are loaded.
+`@theia/test-setup` 为 Theia 中由 mocha 执行的测试贡献一个设置脚本。
+该设置脚本在任何测试文件被加载或编译之前执行。
+例如，这对于必须在加载依赖之前就存在的全局变量很有用。
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 -   [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 -   [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 https://www.eclipse.org/theia

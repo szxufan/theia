@@ -99,7 +99,8 @@ export class PluginDebugService implements DebugService {
     }
 
     // debouncing to send a single notification for multiple registrations at initialization time
-    fireOnDidConfigurationProvidersChanged = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    fireOnDidConfigurationProvidersChanged: any = debounce(() => {
         this.onDidChangeDebugConfigurationProvidersEmitter.fire();
     }, 100);
 
@@ -427,24 +428,24 @@ export class PluginDebugService implements DebugService {
             const properties = attributes.properties;
             properties['type'] = {
                 enum: [type],
-                description: nls.localizeByDefault('Type of configuration.'),
+                description: nls.localizeByDefault('配置类型。'),
                 pattern: '^(?!node2)',
-                errorMessage: nls.localizeByDefault('The debug type is not recognized. Make sure that you have a corresponding debug extension installed and that it is enabled.'),
-                patternErrorMessage: nls.localizeByDefault('"node2" is no longer supported, use "node" instead and set the "protocol" attribute to "inspector".')
+                errorMessage: nls.localizeByDefault('无法识别调试类型。请确保已安装相应的调试扩展且已启用。'),
+                patternErrorMessage: nls.localizeByDefault('不再支持 "node2"，请改用 "node" 并将 "protocol" 属性设置为 "inspector"。')
             };
             properties['name'] = {
                 type: 'string',
-                description: nls.localizeByDefault('Name of configuration; appears in the launch configuration dropdown menu.'),
-                default: 'Launch'
+                description: nls.localizeByDefault('配置名称；显示在启动配置下拉菜单中。'),
+                default: '启动'
             };
             properties['request'] = {
                 enum: [request],
-                description: nls.localizeByDefault('Request type of configuration. Can be "launch" or "attach".'),
+                description: nls.localizeByDefault('配置请求类型。可以是 "launch" 或 "attach"。'),
             };
             properties['debugServer'] = {
                 type: 'number',
                 description: nls.localizeByDefault(
-                    'For debug extension development only: if a port is specified VS Code tries to connect to a debug adapter running in server mode'
+                    '仅用于调试扩展开发：如果指定了端口，VS Code 将尝试连接到以服务器模式运行的调试适配器'
                 ),
                 default: 4711
             };
@@ -453,47 +454,47 @@ export class PluginDebugService implements DebugService {
                     type: ['string'],
                 }],
                 default: '',
-                description: nls.localizeByDefault('Task to run before debug session starts.')
+                description: nls.localizeByDefault('调试会话开始前运行的任务。')
             };
             properties['postDebugTask'] = {
                 anyOf: [taskSchema, {
                     type: ['string'],
                 }],
                 default: '',
-                description: nls.localizeByDefault('Task to run after debug session ends.')
+                description: nls.localizeByDefault('调试会话结束后运行的任务。')
             };
             properties['internalConsoleOptions'] = {
                 enum: ['neverOpen', 'openOnSessionStart', 'openOnFirstSessionStart'],
                 default: 'openOnFirstSessionStart',
-                description: nls.localizeByDefault('Controls when the internal Debug Console should open.')
+                description: nls.localizeByDefault('控制内部调试控制台何时打开。')
             };
             properties['suppressMultipleSessionWarning'] = {
                 type: 'boolean',
-                description: nls.localizeByDefault('Disable the warning when trying to start the same debug configuration more than once.'),
+                description: nls.localizeByDefault('禁用尝试多次启动同一调试配置时的警告。'),
                 default: true
             };
 
             const osProperties = Object.assign({}, properties);
             properties['windows'] = {
                 type: 'object',
-                description: nls.localizeByDefault('Windows specific launch configuration attributes.'),
+                description: nls.localizeByDefault('Windows 特定的启动配置属性。'),
                 properties: osProperties
             };
             properties['osx'] = {
                 type: 'object',
-                description: nls.localizeByDefault('OS X specific launch configuration attributes.'),
+                description: nls.localizeByDefault('OS X 特定的启动配置属性。'),
                 properties: osProperties
             };
             properties['linux'] = {
                 type: 'object',
-                description: nls.localizeByDefault('Linux specific launch configuration attributes.'),
+                description: nls.localizeByDefault('Linux 特定的启动配置属性。'),
                 properties: osProperties
             };
             Object.keys(attributes.properties).forEach(name => {
                 // Use schema allOf property to get independent error reporting #21113
                 attributes!.properties![name].pattern = attributes!.properties![name].pattern || '^(?!.*\\$\\{(env|config|command)\\.)';
                 attributes!.properties![name].patternErrorMessage = attributes!.properties![name].patternErrorMessage ||
-                    nls.localizeByDefault("'env.', 'config.' and 'command.' are deprecated, use 'env:', 'config:' and 'command:' instead.");
+                    nls.localizeByDefault("已弃用 'env.'、'config.' 和 'command.'，请改用 'env:'、'config:' 和 'command:'。");
             });
 
             return attributes;

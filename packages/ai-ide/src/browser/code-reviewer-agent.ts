@@ -29,6 +29,7 @@ export class CodeReviewerAgent extends AbstractStreamParsingChatAgent {
 
     name = 'Code Reviewer';
     id = CodeReviewerAgentId;
+    displayName = nls.localize('theia/ai/ide/codeReviewerAgent/displayName', '代码审查');
     languageModelRequirements: LanguageModelRequirement[] = [{
         purpose: 'chat',
         identifier: 'default/code',

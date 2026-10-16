@@ -1,64 +1,64 @@
-# OpenAI Tool Call Issues Troubleshooting
+# OpenAI 工具调用问题排查
 
-If you're experiencing tool call errors like:
+如果你遇到类似以下的工具调用错误：
 
 ```
 400 No tool call found for function call output with <UUID>
 ```
 
-## Current Solution (Automatic)
+## 当前解决方案（自动）
 
-**Good news**: Tool calls are now automatically handled correctly. The system automatically routes tool calls to the Chat Completions API even when Response API is enabled, ensuring reliable functionality without any user intervention required.
+**好消息**：工具调用现在会被自动正确处理。即使启用了 Response API，系统也会自动将工具调用路由到 Chat Completions API，确保可靠的功能，无需任何用户干预。
 
-## What's Happening
+## 发生了什么
 
-The OpenAI Response API has fundamental compatibility issues with tool calling that prevent reliable function calling. The API has different message formats, tool call semantics, and state management requirements.
+OpenAI Response API 在工具调用方面存在根本性的兼容问题，导致无法可靠地进行函数调用。该 API 具有不同的消息格式、工具调用语义和状态管理要求。
 
-## Automatic Routing
+## 自动路由
 
-As of the latest version:
-- ✅ **Tool calls**: Automatically use Chat Completions API (reliable)
-- ✅ **Text generation**: Uses configured API (Response or Chat Completions)
-- ✅ **No user action required**: Everything works seamlessly
+自最新版本起：
+- ✅ **工具调用**：自动使用 Chat Completions API（可靠）
+- ✅ **文本生成**：使用所配置的 API（Response 或 Chat Completions）
+- ✅ **无需用户操作**：一切无缝运行
 
-## Debug Information
+## 调试信息
 
-To verify the automatic routing is working:
-1. Open browser developer tools (F12)
-2. Look for console messages:
+要验证自动路由是否正常工作：
+1. 打开浏览器开发者工具（F12）
+2. 查找控制台消息：
    - `Model <id>: Request contains tools, falling back to Chat Completions API`
-   - This confirms tool calls are being routed correctly
+   - 这确认工具调用被正确路由
 
-## Response API Settings
+## Response API 设置
 
-### Official OpenAI Models
-1. Open Theia preferences (File > Preferences > Open Preferences)
-2. Search for "useResponseApi"
-3. Toggle "Use Response API" as desired
-4. **Note**: Tool calls will always use Chat Completions API regardless of this setting
+### 官方 OpenAI 模型
+1. 打开 Theia 首选项（文件 > 首选项 > 打开首选项）
+2. 搜索 "useResponseApi"
+3. 按需切换 "Use Response API"
+4. **注意**：无论此设置如何，工具调用始终使用 Chat Completions API
 
-### Custom OpenAI-Compatible Endpoints
-Set `useResponseApi: true/false` in your model configuration. Tool calls will automatically use Chat Completions API regardless.
+### 自定义 OpenAI 兼容端点
+在你的模型配置中设置 `useResponseApi: true/false`。无论如何，工具调用都会自动使用 Chat Completions API。
 
-## API Status
+## API 状态
 
-- **Chat Completion API**: ✅ Fully stable with tool calls
-- **Response API**: ✅ Stable for text generation, automatically bypassed for tool calls
+- **Chat Completion API**：✅ 对工具调用完全稳定
+- **Response API**：✅ 对文本生成稳定，工具调用会被自动绕过
 
-## Role Support Issues
+## 角色支持问题
 
-### Error Message
+### 错误消息
 ```
 OpenAI API error: 400 - Invalid request: messages[X]: role 'developer' is not supported
 ```
 
-### Description
-Some OpenAI models (particularly o1-preview and o1-mini) do not support the 'developer' role in messages.
+### 描述
+某些 OpenAI 模型（尤其是 o1-preview 和 o1-mini）不支持消息中的 'developer' 角色。
 
-### Solution
-This is handled automatically for known models. For custom endpoints with unsupported models:
+### 解决方案
+对于已知模型，这会自动处理。对于使用不支持模型的自定义端点：
 
-1. Set `developerMessageSettings` to `'user'` or `'system'` in your custom model configuration:
+1. 在自定义模型配置中将 `developerMessageSettings` 设置为 `'user'` 或 `'system'`：
 
 ```json
 {
@@ -68,33 +68,33 @@ This is handled automatically for known models. For custom endpoints with unsupp
 }
 ```
 
-2. Alternatively, use `'mergeWithFollowingUserMessage'` to combine system messages with user messages.
+2. 或者，使用 `'mergeWithFollowingUserMessage'` 将系统消息与用户消息合并。
 
-## Connection and Authentication Issues
+## 连接与身份验证问题
 
-### Missing API Key
+### 缺少 API 密钥
 ```
 Error: Please provide OPENAI_API_KEY in preferences or via environment variable
 ```
 
-**Solutions:**
-1. Set the environment variable: `export OPENAI_API_KEY=your_key_here`
-2. Or set in preferences: AI Features > OpenAI Official > API Key
+**解决方案：**
+1. 设置环境变量：`export OPENAI_API_KEY=your_key_here`
+2. 或在首选项中设置：AI Features > OpenAI Official > API Key
 
-### Custom Endpoint Issues
-For custom OpenAI-compatible endpoints, ensure:
-- URL is correct and accessible
-- API key is valid (if required)
-- Model name matches the endpoint's available models
+### 自定义端点问题
+对于自定义 OpenAI 兼容端点，请确保：
+- URL 正确且可访问
+- API 密钥有效（如果需要）
+- 模型名称与端点上可用的模型匹配
 
-## Reporting Issues
+## 报告问题
 
-If you experience issues with the automatic tool call routing, please report:
-- The exact error message
-- Console debug messages (if any)
-- The model configuration
-- Steps to reproduce
+如果你在自动工具调用路由方面遇到问题，请报告：
+- 确切的错误消息
+- 控制台调试消息（如有）
+- 模型配置
+- 复现步骤
 
-## Future Plans
+## 未来计划
 
-The Response API will be used for tool calls once OpenAI resolves the underlying compatibility issues. The current automatic routing approach ensures users get working tool calls without manual intervention.
+一旦 OpenAI 解决了底层的兼容性问题，Response API 将用于工具调用。当前的自动路由方法确保用户无需手动干预即可获得可用的工具调用。

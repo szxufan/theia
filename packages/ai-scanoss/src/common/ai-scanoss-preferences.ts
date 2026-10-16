@@ -25,13 +25,13 @@ export const AIScanOSSPreferencesSchema: PreferenceSchema = {
             type: 'string',
             enum: ['off', 'manual', 'automatic'],
             markdownEnumDescriptions: [
-                nls.localize('theia/ai/scanoss/mode/off/description', 'Feature is turned off completely.'),
-                nls.localize('theia/ai/scanoss/mode/manual/description', 'User can manually trigger the scan by clicking the SCANOSS item in the chat view.'),
-                nls.localize('theia/ai/scanoss/mode/automatic/description', 'Enable automatic scan of code snippets in chat views.')
+                nls.localize('theia/ai/scanoss/mode/off/description', '完全关闭该功能。'),
+                nls.localize('theia/ai/scanoss/mode/manual/description', '用户可以通过点击聊天视图中的 SCANOSS 项来手动触发扫描。'),
+                nls.localize('theia/ai/scanoss/mode/automatic/description', '启用聊天视图中代码片段的自动扫描。')
             ],
             markdownDescription: nls.localize('theia/ai/scanoss/mode/description',
-                'Configure the SCANOSS feature for analyzing code snippets in chat views. This will send a hash of suggested code snippets to the SCANOSS\n\
-service hosted by the [Software Transparency foundation](https://www.softwaretransparency.org/osskb) for analysis.'),
+                '配置用于分析聊天视图中代码片段的 SCANOSS 功能。这会将建议代码片段的哈希值发送到由 [Software Transparency foundation](https://www.softwaretransparency.org/osskb) 托管的 SCANOSS\n\
+服务进行分析。'),
             default: 'off',
             title: AI_CORE_PREFERENCES_TITLE
         }

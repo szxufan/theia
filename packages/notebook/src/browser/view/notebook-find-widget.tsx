@@ -98,7 +98,7 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                     this.props.onClose();
                 }
             }} className={`theia-notebook-find-widget ${!this.state.expanded ? 'search-mode' : ''} ${this.props.hidden ? 'hidden' : ''}`}>
-                <div className='theia-notebook-find-widget-expand' title={nls.localizeByDefault('Toggle Replace')} onClick={() => {
+                <div className='theia-notebook-find-widget-expand' title={nls.localizeByDefault('切换替换')} onClick={() => {
                     this.setState({
                         expanded: !this.state.expanded
                     });
@@ -111,7 +111,7 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                             ref={this.searchRef}
                             type='text'
                             className='theia-input theia-notebook-find-widget-input'
-                            placeholder={nls.localizeByDefault('Find')}
+                            placeholder={nls.localizeByDefault('查找')}
                             value={this.state.search}
                             onChange={event => {
                                 this.setState({
@@ -132,7 +132,7 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                         />
                         <div
                             className={`${codicon('case-sensitive', true)} option ${this.state.matchCase ? 'enabled' : ''}`}
-                            title={nls.localizeByDefault('Match Case')}
+                            title={nls.localizeByDefault('区分大小写')}
                             onClick={() => {
                                 this.search({
                                     matchCase: !this.state.matchCase
@@ -140,7 +140,7 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                             }}></div>
                         <div
                             className={`${codicon('whole-word', true)} option ${this.state.wholeWord ? 'enabled' : ''}`}
-                            title={nls.localizeByDefault('Match Whole Word')}
+                            title={nls.localizeByDefault('全字匹配')}
                             onClick={() => {
                                 this.search({
                                     wholeWord: !this.state.wholeWord
@@ -148,7 +148,7 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                             }}></div>
                         <div
                             className={`${codicon('regex', true)} option ${this.state.regex ? 'enabled' : ''}`}
-                            title={nls.localizeByDefault('Use Regular Expression')}
+                            title={nls.localizeByDefault('使用正则表达式')}
                             onClick={() => {
                                 this.search({
                                     regex: !this.state.regex
@@ -161,7 +161,7 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                     <input
                         type='text'
                         className='theia-input theia-notebook-find-widget-replace'
-                        placeholder={nls.localizeByDefault('Replace')}
+                        placeholder={nls.localizeByDefault('替换')}
                         value={this.state.replace}
                         onChange={event => {
                             this.setState({
@@ -183,21 +183,21 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                         </div>
                         <div
                             className={`${codicon('arrow-up', hasMatches)} ${hasMatches ? '' : 'disabled'}`}
-                            title={nls.localizeByDefault('Previous Match')}
+                            title={nls.localizeByDefault('上一个匹配项')}
                             onClick={() => {
                                 this.gotoPreviousMatch();
                             }}
                         ></div>
                         <div
                             className={`${codicon('arrow-down', hasMatches)} ${hasMatches ? '' : 'disabled'}`}
-                            title={nls.localizeByDefault('Next Match')}
+                            title={nls.localizeByDefault('下一个匹配项')}
                             onClick={() => {
                                 this.gotoNextMatch();
                             }}
                         ></div>
                         <div
                             className={codicon('close', true)}
-                            title={nls.localizeByDefault('Close')}
+                            title={nls.localizeByDefault('关闭')}
                             onClick={() => {
                                 this.props.onClose();
                             }}
@@ -206,14 +206,14 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
                     <div className='theia-notebook-find-widget-buttons-second'>
                         <div
                             className={`${codicon('replace', canReplace)} ${canReplace ? '' : 'disabled'}`}
-                            title={nls.localizeByDefault('Replace')}
+                            title={nls.localizeByDefault('替换')}
                             onClick={() => {
                                 this.replaceOne();
                             }}
                         ></div>
                         <div
                             className={`${codicon('replace-all', canReplaceAll)} ${canReplaceAll ? '' : 'disabled'}`}
-                            title={nls.localizeByDefault('Replace All')}
+                            title={nls.localizeByDefault('全部替换')}
                             onClick={() => {
                                 this.replaceAll();
                             }}
@@ -238,9 +238,9 @@ export class NotebookFindWidget extends React.Component<NotebookFindWidgetProps,
 
     private getMatchesCount(): string {
         if (this.hasMatches()) {
-            return nls.localizeByDefault('{0} of {1}', this.state.currentMatch + 1, this.state.matches.length);
+            return nls.localizeByDefault('第 {0} 项，共 {1} 项', this.state.currentMatch + 1, this.state.matches.length);
         } else {
-            return nls.localizeByDefault('No results');
+            return nls.localizeByDefault('无结果');
         }
     }
 

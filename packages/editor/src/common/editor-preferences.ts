@@ -40,7 +40,7 @@ const codeActionsContributionSchema: PreferenceSchema['properties'] = {
                 properties: {
                     'source.fixAll': {
                         type: 'boolean',
-                        description: nls.localizeByDefault('Controls whether \'{0}\' actions should be run on file save.', 'quickfix')
+                        description: nls.localizeByDefault('控制是否在保存文件时运行 \'{0}\' 操作。', 'quickfix')
                     }
                 },
                 additionalProperties: {
@@ -53,7 +53,7 @@ const codeActionsContributionSchema: PreferenceSchema['properties'] = {
             }
         ],
         default: {},
-        markdownDescription: nls.localizeByDefault('Run Code Actions for the editor on save. Code Actions must be specified and the editor must not be shutting down. When {0} is set to `afterDelay`, Code Actions will only be run when the file is saved explicitly. Example: `"source.organizeImports": "explicit" `'),
+        markdownDescription: nls.localizeByDefault('保存时为编辑器运行代码操作。必须指定代码操作，且编辑器不能正在关闭。当 {0} 设置为 `afterDelay` 时，只有在显式保存文件时才会运行代码操作。示例：`"source.organizeImports": "explicit" `'),
         scope: PreferenceScope.Folder,
         overridable: true
     }
@@ -69,7 +69,7 @@ interface CodeActionsContributionProperties {
 const fileContributionSchema: PreferenceSchema['properties'] = {
     'editor.formatOnSave': {
         'type': 'boolean',
-        'description': nls.localizeByDefault('Format a file on save. A formatter must be available and the editor must not be shutting down. When {0} is set to `afterDelay`, the file will only be formatted when saved explicitly.', '`#files.autoSave#`'),
+        'description': nls.localizeByDefault('保存时格式化文件。必须有可用的格式化程序，且编辑器不能正在关闭。当 {0} 设置为 `afterDelay` 时，只有在显式保存时才会格式化文件。', '`#files.autoSave#`'),
         'scope': PreferenceScope.Folder,
         overridable: true
     },
@@ -82,11 +82,11 @@ const fileContributionSchema: PreferenceSchema['properties'] = {
             'modificationsIfAvailable'
         ],
         'enumDescriptions': [
-            nls.localizeByDefault('Format the whole file.'),
-            nls.localizeByDefault("Format modifications. Requires source control and a formatter that supports 'Format Selection'."),
-            nls.localizeByDefault('Will attempt to format modifications only (requires source control and a formatter that supports \'Format Selection\'). If source control can\'t be used, then the whole file will be formatted.'),
+            nls.localizeByDefault('格式化整个文件。'),
+            nls.localizeByDefault("格式化修改部分。需要源代码管理以及支持“格式化选定内容”的格式化程序。"),
+            nls.localizeByDefault('将尝试仅格式化修改部分（需要源代码管理以及支持“格式化选定内容”的格式化程序）。如果无法使用源代码管理，则格式化整个文件。'),
         ],
-        'markdownDescription': nls.localizeByDefault('Controls if format on save formats the whole file or only modifications. Only applies when `#editor.formatOnSave#` is enabled.'),
+        'markdownDescription': nls.localizeByDefault('控制保存时是格式化整个文件还是仅格式化修改部分。仅在启用 `#editor.formatOnSave#` 时适用。'),
         'scope': PreferenceScope.Folder,
         overridable: true
     },
@@ -101,10 +101,10 @@ const fileContributionSchema: PreferenceSchema['properties'] = {
         'enumDescriptions': [
             nls.localizeByDefault('LF'),
             nls.localizeByDefault('CRLF'),
-            nls.localizeByDefault('Uses operating system specific end of line character.')
+            nls.localizeByDefault('使用特定于操作系统的行尾字符。')
         ],
         'default': 'auto',
-        'description': nls.localizeByDefault('The default end of line character.'),
+        'description': nls.localizeByDefault('默认的行尾字符。'),
         scope: PreferenceScope.Folder,
         overridable: true
     },
@@ -113,19 +113,19 @@ const fileContributionSchema: PreferenceSchema['properties'] = {
         'type': 'string',
         'enum': ['off', 'afterDelay', 'onFocusChange', 'onWindowChange'],
         'markdownEnumDescriptions': [
-            nls.localizeByDefault('An editor with changes is never automatically saved.'),
-            nls.localizeByDefault('An editor with changes is automatically saved after the configured `#files.autoSaveDelay#`.'),
-            nls.localizeByDefault('An editor with changes is automatically saved when the editor loses focus.'),
-            nls.localizeByDefault('An editor with changes is automatically saved when the window loses focus.')
+            nls.localizeByDefault('有更改的编辑器从不自动保存。'),
+            nls.localizeByDefault('有更改的编辑器会在配置的 `#files.autoSaveDelay#` 后自动保存。'),
+            nls.localizeByDefault('有更改的编辑器会在失去焦点时自动保存。'),
+            nls.localizeByDefault('有更改的编辑器会在窗口失去焦点时自动保存。')
         ],
         'default': environment.electron.is() ? 'off' : 'afterDelay',
-        'markdownDescription': nls.localizeByDefault('Controls [auto save](https://code.visualstudio.com/docs/editor/codebasics#_save-auto-save) of editors that have unsaved changes.')
+        'markdownDescription': nls.localizeByDefault('控制有未保存更改的编辑器的[自动保存](https://code.visualstudio.com/docs/editor/codebasics#_save-auto-save)。')
     },
     'files.autoSaveDelay': {
         'type': 'number',
         'default': 1000,
         'minimum': 0,
-        'markdownDescription': nls.localizeByDefault('Controls the delay in milliseconds after which an editor with unsaved changes is saved automatically. Only applies when `#files.autoSave#` is set to `{0}`.', 'afterDelay')
+        'markdownDescription': nls.localizeByDefault('控制在毫秒数之后自动保存具有未保存更改的编辑器。仅当 `#files.autoSave#` 设置为 `{0}` 时适用。', 'afterDelay')
     },
     'files.autoSaveWhenNoErrors': {
         'type': 'boolean',
@@ -136,7 +136,7 @@ const fileContributionSchema: PreferenceSchema['properties'] = {
     'files.refactoring.autoSave': {
         'type': 'boolean',
         'default': true,
-        'description': nls.localizeByDefault('Controls if files that were part of a refactoring are saved automatically')
+        'description': nls.localizeByDefault('控制是否自动保存属于重构一部分的文件')
     }
 };
 
@@ -155,7 +155,7 @@ interface FileContributionEditorPreferences {
 // This schema depends on a lot of private stuff in the file, so this is a stripped down version.
 const formatActionsMultipleSchema: PreferenceSchema['properties'] = {
     'editor.defaultFormatter': {
-        description: nls.localizeByDefault('Defines a default formatter which takes precedence over all other formatter settings. Must be the identifier of an extension contributing a formatter.'),
+        description: nls.localizeByDefault('定义默认格式化程序，其优先级高于所有其他格式化程序设置。必须是提供了格式化程序的扩展的标识符。'),
         type: ['string', 'null'],
         default: null,
     }
@@ -171,12 +171,12 @@ const theiaEditorSchema: PreferenceSchema['properties'] = {
     'editor.formatOnSaveTimeout': {
         'type': 'number',
         'default': 750,
-        'description': nls.localize('theia/editor/formatOnSaveTimeout', 'Timeout in milliseconds after which the formatting that is run on file save is cancelled.')
+        'description': nls.localize('theia/editor/formatOnSaveTimeout', '超时时间（毫秒），超过该时间后，文件保存时运行的格式化将被取消。')
     },
     'editor.history.persistClosedEditors': {
         'type': 'boolean',
         'default': false,
-        'description': nls.localize('theia/editor/persistClosedEditors', 'Controls whether to persist closed editor history for the workspace across window reloads.')
+        'description': nls.localize('theia/editor/persistClosedEditors', '控制是否在窗口重新加载后为工作区保留已关闭编辑器的历史记录。')
     },
 };
 

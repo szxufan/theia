@@ -19,39 +19,39 @@ import { codicon } from '@theia/core/lib/browser';
 
 export namespace NotificationsCommands {
 
-    const NOTIFICATIONS_CATEGORY = 'Notifications';
+    const NOTIFICATIONS_CATEGORY = '通知';
     const NOTIFICATIONS_CATEGORY_KEY = nls.getDefaultKey(NOTIFICATIONS_CATEGORY);
 
     export const TOGGLE = Command.toLocalizedCommand({
         id: 'notifications.commands.toggle',
         category: NOTIFICATIONS_CATEGORY,
         iconClass: codicon('list-unordered'),
-        label: 'Toggle Notifications'
+        label: '切换通知'
     }, 'theia/messages/toggleNotifications', NOTIFICATIONS_CATEGORY_KEY);
 
     export const SHOW = Command.toDefaultLocalizedCommand({
         id: 'notifications.commands.show',
         category: NOTIFICATIONS_CATEGORY,
-        label: 'Show Notifications'
+        label: '显示通知'
     });
 
     export const HIDE = Command.toDefaultLocalizedCommand({
         id: 'notifications.commands.hide',
         category: NOTIFICATIONS_CATEGORY,
-        label: 'Hide Notifications'
+        label: '隐藏通知'
     });
 
     export const CLEAR_ALL = Command.toDefaultLocalizedCommand({
         id: 'notifications.commands.clearAll',
         category: NOTIFICATIONS_CATEGORY,
         iconClass: codicon('clear-all'),
-        label: 'Clear All Notifications'
+        label: '全部清除通知'
     });
 
     export const COPY_MESSAGE = Command.toDefaultLocalizedCommand({
         id: 'notifications.commands.copyMessage',
         category: NOTIFICATIONS_CATEGORY,
-        label: 'Copy Message'
+        label: '复制消息'
     });
 }
 

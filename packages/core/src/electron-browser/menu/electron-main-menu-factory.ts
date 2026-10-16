@@ -97,7 +97,8 @@ export class ElectronMainMenuFactory extends BrowserMainMenuFactory {
      */
     titleBarStyle?: string;
 
-    setMenuBar = debounce(() => this.doSetMenuBar(), 100);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setMenuBar: any = debounce(() => this.doSetMenuBar(), 100);
 
     @postConstruct()
     postConstruct(): void {

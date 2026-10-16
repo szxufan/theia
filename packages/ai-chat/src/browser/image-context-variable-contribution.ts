@@ -363,8 +363,8 @@ export class ImageContextVariableContribution implements AIVariableContribution,
 
             const imageName = data.imageVariable.name ?? data.imageVariable.wsRelativePath ?? shortId;
             const detail = data.imageVariable.wsRelativePath
-                ? nls.localize('theia/ai/chat/pendingImage/file', 'Pending image: {0}', data.imageVariable.wsRelativePath)
-                : nls.localize('theia/ai/chat/pendingImage/pasted', 'Pending image (pasted)');
+                ? nls.localize('theia/ai/chat/pendingImage/file', '待处理图片：{0}', data.imageVariable.wsRelativePath)
+                : nls.localize('theia/ai/chat/pendingImage/pasted', '待处理图片（已粘贴）');
 
             completionItems.push({
                 label: shortId,

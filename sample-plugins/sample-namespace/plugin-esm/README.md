@@ -1,10 +1,10 @@
 # plugin-esm
 
-A sample VS Code extension shipped as an ECMAScript module (ESM).
+一个以 ECMAScript 模块（ESM）形式提供的示例 VS Code 扩展。
 
-The `package.json` declares `"type": "module"`, so Node treats `extension.js`
-as ESM. The entry point uses `import * as vscode from 'vscode'` and
-`export function activate(...)` instead of CommonJS `require` / `exports`.
+其 `package.json` 声明了 `"type": "module"`，因此 Node 将 `extension.js`
+视为 ESM。入口点使用 `import * as vscode from 'vscode'` 和
+`export function activate(...)`，而不是 CommonJS 的 `require` / `exports`。
 
-This mirrors how recent built-in VS Code extensions (e.g. `vscode.github`)
-are packaged. Loading it exercises the Theia plugin host's ESM support.
+这反映了近期的 VS Code 内置扩展（例如 `vscode.github`）的打包方式。
+加载它可以检验 Theia 插件宿主的 ESM 支持。

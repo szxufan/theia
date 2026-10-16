@@ -539,7 +539,7 @@ describe('McpFrontendApplicationContribution workspace-trust handlers', () => {
             expect(prompts).to.have.length(1);
             expect(prompts[0].text).to.contain('oauth-server');
             expect(prompts[0].actions).to.have.length(1);
-            expect(prompts[0].actions?.[0]?.toLowerCase()).to.contain('sign in');
+            expect(prompts[0].actions?.[0]).to.contain('登录');
             // The user must be able to dismiss the prompt manually; progress notifications have no close button.
             expect(prompts[0].options?.cancelable).to.be.true;
         });

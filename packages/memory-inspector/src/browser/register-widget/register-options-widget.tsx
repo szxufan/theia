@@ -45,7 +45,7 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
     override iconClass = 'register-view-icon';
     override lockIconClass = 'register-lock-icon';
 
-    protected readonly LABEL_PREFIX = nls.localize('theia/memory-inspector/register', 'Register');
+    protected readonly LABEL_PREFIX = nls.localize('theia/memory-inspector/register', '寄存器');
 
     protected readonly onRegisterChangedEmitter = new Emitter<[RegisterReadResult, boolean]>();
     readonly onRegisterChanged = this.onRegisterChangedEmitter.event;
@@ -57,28 +57,28 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
     protected registerDisplaySet = new Set();
     protected registerDisplayAll = true;
     protected registerFilterUpdate = false;
-    protected registerReadError = nls.localize('theia/memory-inspector/register/readError', 'No Registers currently available.');
+    protected registerReadError = nls.localize('theia/memory-inspector/register/readError', '当前没有可用的寄存器。');
     protected showRegisterError = false;
     protected noRadixColumnDisplayed = this.noRadixDisplayed();
     protected override columnsDisplayed: Interfaces.ColumnsDisplayed = {
         register: {
-            label: nls.localize('theia/memory-inspector/register', 'Register'),
+            label: nls.localize('theia/memory-inspector/register', '寄存器'),
             doRender: true
         },
         hexadecimal: {
-            label: nls.localize('theia/memory-inspector/hexadecimal', 'Hexadecimal'),
+            label: nls.localize('theia/memory-inspector/hexadecimal', '十六进制'),
             doRender: true
         },
         decimal: {
-            label: nls.localize('theia/memory-inspector/decimal', 'Decimal'),
+            label: nls.localize('theia/memory-inspector/decimal', '十进制'),
             doRender: false
         },
         octal: {
-            label: nls.localize('theia/memory-inspector/octal', 'Octal'),
+            label: nls.localize('theia/memory-inspector/octal', '八进制'),
             doRender: false
         },
         binary: {
-            label: nls.localize('theia/memory-inspector/binary', 'Binary'),
+            label: nls.localize('theia/memory-inspector/binary', '二进制'),
             doRender: false
         },
     };
@@ -211,8 +211,8 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
                 <div className='t-mv-group view-group'>
                     <MWInputWithSelect
                         id={REGISTER_FIELD_ID}
-                        label={nls.localize('theia/memory-inspector/registers', 'Registers')}
-                        placeholder={nls.localize('theia/memory-inspector/register-widget/filter-placeholder', 'Filter (starts with)')}
+                        label={nls.localize('theia/memory-inspector/registers', '寄存器')}
+                        placeholder={nls.localize('theia/memory-inspector/register-widget/filter-placeholder', '筛选（按开头匹配）')}
                         onSelectChange={this.setRegFilterFromSelect}
                         passRef={this.assignRegisterRef}
                         onKeyDown={this.doRefresh}
@@ -221,7 +221,7 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
                     />
                     <MWMultiSelect
                         id={ASCII_TOGGLE_ID}
-                        label={nls.localize('theia/memory-inspector/columns', 'Columns')}
+                        label={nls.localize('theia/memory-inspector/columns', '列')}
                         items={this.getOptionalColumns().map(column => ({ ...column, label: column.label.slice(0, 3) }))}
                         onSelectionChanged={this.handleColumnSelectionChange}
                     />
@@ -231,7 +231,7 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
                         onClick={this.doRefresh}
                         disabled={!this.doUpdateAutomatically}
                     >
-                        {nls.localizeByDefault('Go')}
+                        {nls.localizeByDefault('跳转')}
                     </button>
                 </div>
                 <div className={`t-mv-memory-fetch-error${this.showRegisterError ? ' show' : ' hide'}`}>
@@ -280,8 +280,8 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
                             className={`fa fa-${this.doUpdateAutomatically ? 'unlock' : 'lock'}`}
                             id={AUTO_UPDATE_TOGGLE_ID}
                             title={this.doUpdateAutomatically ?
-                                nls.localize('theia/memory-inspector/register/freeze', 'Freeze memory view') :
-                                nls.localize('theia/memory-inspector/register/unfreeze', 'Unfreeze memory view')
+                                nls.localize('theia/memory-inspector/register/freeze', '冻结内存视图') :
+                                nls.localize('theia/memory-inspector/register/unfreeze', '解冻内存视图')
                             }
                             onClick={this.toggleAutoUpdate}
                             onKeyDown={this.toggleAutoUpdate}
@@ -314,7 +314,8 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
         }
     }
 
-    protected updateRegisterView = debounce(this.doUpdateRegisterView.bind(this), Constants.DEBOUNCE_TIME, { trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateRegisterView: any = debounce(this.doUpdateRegisterView.bind(this), Constants.DEBOUNCE_TIME, { trailing: true });
 
     protected async doUpdateRegisterView(): Promise<void> {
         try {
@@ -325,7 +326,7 @@ export class RegisterOptionsWidget extends MemoryOptionsWidget {
             this.fireDidChangeRegister();
             this.doShowRegisterErrors(true);
         } catch (err) {
-            this.registerReadError = nls.localize('theia/memory-inspector/registerReadError', 'There was an error fetching registers.');
+            this.registerReadError = nls.localize('theia/memory-inspector/registerReadError', '读取寄存器时发生错误。');
             this.logger.error('Failed to read registers', err);
             this.doShowRegisterErrors();
         } finally {

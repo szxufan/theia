@@ -100,9 +100,9 @@ export namespace PromptSnippetsConfiguration {
 export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.PROMPT_SNIPPETS;
-    readonly label = nls.localize('theia/ai/ide/promptSnippetsConfiguration/label', 'Prompt Snippets');
+    readonly label = nls.localize('theia/ai/ide/promptSnippetsConfiguration/label', '提示词片段');
     readonly description = nls.localize('theia/ai/ide/promptSnippetsConfiguration/description',
-        'Reusable prompt text: your own snippets plus the capability snippets agents pull in. Editing a snippet affects every agent that uses it.');
+        '可复用的提示词文本：您自己的片段以及代理引入的能力片段。编辑片段会影响使用它的每个代理。');
     readonly iconClass = codicon('file-code');
     readonly order = AiConfigurationCategoryOrder.PROMPT_SNIPPETS;
     readonly kind = 'single-page' as const;
@@ -251,23 +251,23 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
         const groups: CollapsibleGroup[] = [
             {
                 id: 'snippets',
-                title: nls.localizeByDefault('Snippets'),
+                title: nls.localizeByDefault('片段'),
                 description: nls.localize('theia/ai/ide/promptSnippetsConfiguration/snippetsGroupDescription',
-                    'Prompt text you maintain yourself, referenced from other prompts with {{prompt:id}}.'),
+                    '您自行维护的提示词文本，可通过 {{prompt:id}} 从其他提示词中引用。'),
                 rows: this.buildRows('snippet', ctx, onOpenAgent)
             },
             {
                 id: 'capabilities',
-                title: nls.localizeByDefault('Capabilities'),
+                title: nls.localizeByDefault('能力'),
                 description: nls.localize('theia/ai/ide/promptSnippetsConfiguration/capabilitiesGroupDescription',
-                    'Instructions an agent adds to its prompt when enabled. They are shared, so an edit affects every agent using them.'),
+                    '代理在启用时添加到其提示词中的指令。它们是共享的，因此编辑会影响使用它们的每个代理。'),
                 rows: this.buildRows('capability', ctx, onOpenAgent)
             },
             {
                 id: 'generic-capabilities',
-                title: nls.localize('theia/ai/ide/promptSnippetsConfiguration/genericCapabilitiesGroup', 'Generic Capabilities'),
+                title: nls.localize('theia/ai/ide/promptSnippetsConfiguration/genericCapabilitiesGroup', '通用能力'),
                 description: nls.localize('theia/ai/ide/promptSnippetsConfiguration/genericCapabilitiesGroupDescription',
-                    'Basic instructions to integrate the selected capabilities into the agent\'s prompt.  They are shared, so an edit affects every agent using them.'),
+                    '将所选能力整合进代理提示词的基础指令。它们是共享的，因此编辑会影响使用它们的每个代理。'),
                 rows: this.buildRows('generic-capability', ctx, onOpenAgent)
             }
         ];
@@ -275,9 +275,9 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
             {this.renderResetAllCallout(ctx)}
             <CollapsibleList
                 groups={groups}
-                filterPlaceholder={nls.localize('theia/ai/ide/promptSnippetsConfiguration/filterPlaceholder', 'Filter prompt snippets by name, id or description')}
-                emptyMessage={nls.localize('theia/ai/ide/promptSnippetsConfiguration/empty', 'No prompt snippets are available.')}
-                filterEmptyMessage={query => nls.localize('theia/ai/ide/promptSnippetsConfiguration/noMatches', 'No prompt snippets match "{0}".', query)}
+                filterPlaceholder={nls.localize('theia/ai/ide/promptSnippetsConfiguration/filterPlaceholder', '按名称、ID 或描述筛选提示词片段')}
+                emptyMessage={nls.localize('theia/ai/ide/promptSnippetsConfiguration/empty', '没有可用的提示词片段。')}
+                filterEmptyMessage={query => nls.localize('theia/ai/ide/promptSnippetsConfiguration/noMatches', '没有与“{0}”匹配的提示词片段。', query)}
             />
         </>;
     }
@@ -293,10 +293,10 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
         }
         return <AiConfigurationCallout
             message={nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetAllMessage',
-                'Some prompt fragments are customized. Resetting reverts every one of them to its built-in version, '
-                + 'including the agents\' prompt templates. Snippets that have no built-in version are kept.')}
+                '某些提示词片段已被自定义。重置会将它们全部恢复为内置版本，'
+                + '包括代理的提示词模板。没有内置版本的片段将被保留。')}
             action={<button className='theia-button secondary' onClick={() => this.resetAllCustomizations(ctx)}>
-                {nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetAll', 'Reset All Customizations')}
+                {nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetAll', '重置所有自定义')}
             </button>}
         />;
     }
@@ -317,13 +317,13 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
 
     protected async resetAllCustomizations(ctx: AiConfigurationRenderContext): Promise<void> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetAllDialogTitle', 'Reset All Customizations'),
+            title: nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetAllDialogTitle', '重置所有自定义'),
             msg: nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetAllDialogMsg',
-                'Are you sure you want to reset every customized prompt fragment to its built-in version? '
-                + 'This includes the agents\' prompt templates, not only the snippets listed here. '
-                + 'Snippets that have no built-in version are kept.'),
-            ok: nls.localizeByDefault('Reset'),
-            cancel: nls.localizeByDefault('Cancel')
+                '确定要将每个已自定义的提示词片段都重置为内置版本吗？'
+                + '这包括代理的提示词模板，而不仅是此处列出的片段。'
+                + '没有内置版本的片段将被保留。'),
+            ok: nls.localizeByDefault('重置'),
+            cancel: nls.localizeByDefault('取消')
         });
         if (await dialog.open()) {
             await this.promptService.resetAllToBuiltIn();
@@ -339,10 +339,10 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
         const agents = this.availableAgents.filter(agent => entry.agentIds.includes(agent.id));
         const pills: string[] = [];
         if (entry.customized) {
-            pills.push(nls.localize('theia/ai/ide/promptSnippetsConfiguration/customized', 'Customized'));
+            pills.push(nls.localize('theia/ai/ide/promptSnippetsConfiguration/customized', '已自定义'));
         }
         if (agents.length > 0) {
-            pills.push(agents.length === 1 ? nls.localizeByDefault('1 agent') : nls.localizeByDefault('{0} agents', agents.length));
+            pills.push(agents.length === 1 ? nls.localizeByDefault('1 个代理') : nls.localizeByDefault('{0} 个代理', agents.length));
         }
         return {
             id: PromptSnippetsConfiguration.ROW_ID_PREFIX + entry.id,
@@ -353,19 +353,19 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
             actions: <>
                 <CollapsibleRowAction
                     iconClass={codicon('edit')}
-                    label={nls.localize('theia/ai/ide/promptSnippetsConfiguration/editSnippet', 'Edit snippet')}
+                    label={nls.localize('theia/ai/ide/promptSnippetsConfiguration/editSnippet', '编辑片段')}
                     onActivate={() => this.editEntry(entry)}
                 />
                 {/* A customization of a built-in can be reverted; a snippet that only exists as a file has
                     nothing to revert to, so it offers deletion instead. */}
                 {entry.customized && entry.hasBuiltIn && <CollapsibleRowAction
                     iconClass={codicon('discard')}
-                    label={nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetSnippet', 'Reset snippet to built-in')}
+                    label={nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetSnippet', '将片段重置为内置版本')}
                     onActivate={() => this.resetEntry(entry, ctx)}
                 />}
                 {entry.customized && !entry.hasBuiltIn && <CollapsibleRowAction
                     iconClass={codicon('trash')}
-                    label={nls.localize('theia/ai/ide/promptSnippetsConfiguration/removeSnippet', 'Remove snippet')}
+                    label={nls.localize('theia/ai/ide/promptSnippetsConfiguration/removeSnippet', '移除片段')}
                     onActivate={() => this.removeEntry(entry, ctx)}
                 />}
             </>,
@@ -376,7 +376,7 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
                 </div>
                 {agents.length > 0 && <div className='ai-variable-section'>
                     <div className='ai-variable-section-label'>
-                        {nls.localize('theia/ai/ide/promptSnippetsConfiguration/usedByAgents', 'Used by Agents')}
+                        {nls.localize('theia/ai/ide/promptSnippetsConfiguration/usedByAgents', '被以下代理使用')}
                     </div>
                     <AgentChips agents={agents} onOpenAgent={onOpenAgent} />
                 </div>}
@@ -399,9 +399,9 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
         await PromptCustomizationDialogs.confirmAndReset(
             this.promptService,
             entry.id,
-            nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetDialogTitle', 'Reset Snippet to Built-in'),
+            nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetDialogTitle', '将片段重置为内置版本'),
             nls.localize('theia/ai/ide/promptSnippetsConfiguration/resetDialogMsg',
-                'Are you sure you want to reset the snippet "{0}" to its built-in version? This will remove all customizations.', entry.id)
+                '确定要将片段“{0}”重置为内置版本吗？这将移除所有自定义。', entry.id)
         );
         ctx.update();
     }
@@ -409,13 +409,13 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
     /** Deletes a snippet that has no built-in behind it, naming the file, since it is gone afterwards. */
     protected async removeEntry(entry: PromptSnippetEntry, ctx: AiConfigurationRenderContext): Promise<void> {
         await PromptCustomizationDialogs.confirmAndRemove(this.promptService, entry.id, {
-            title: nls.localize('theia/ai/ide/promptSnippetsConfiguration/removeDialogTitle', 'Remove Snippet'),
+            title: nls.localize('theia/ai/ide/promptSnippetsConfiguration/removeDialogTitle', '移除片段'),
             message: ({ type, description }) => description
                 ? nls.localize('theia/ai/ide/promptSnippetsConfiguration/removeWithDescDialogMsg',
-                    'Are you sure you want to remove the {0} customization for snippet "{1}" ({2})? It has no built-in version, so it will be gone entirely.',
+                    '确定要移除片段“{1}”（{2}）的 {0} 自定义吗？它没有内置版本，因此将被彻底删除。',
                     type ?? '', entry.id, description)
                 : nls.localize('theia/ai/ide/promptSnippetsConfiguration/removeDialogMsg',
-                    'Are you sure you want to remove the {0} customization for snippet "{1}"? It has no built-in version, so it will be gone entirely.',
+                    '确定要移除片段“{1}”的 {0} 自定义吗？它没有内置版本，因此将被彻底删除。',
                     type ?? '', entry.id)
         });
         ctx.update();
@@ -423,9 +423,9 @@ export class PromptSnippetsConfigurationCategory extends SinglePageCategoryRende
 
     getSearchItems(): AiConfigurationSearchItem[] {
         const typeLabels: Record<PromptSnippetKind, string> = {
-            'snippet': nls.localizeByDefault('Snippet'),
-            'capability': nls.localize('theia/ai/ide/promptSnippetsConfiguration/capabilityTypeLabel', 'Capability'),
-            'generic-capability': nls.localize('theia/ai/ide/promptSnippetsConfiguration/genericCapabilityTypeLabel', 'Generic capability')
+            'snippet': nls.localizeByDefault('片段'),
+            'capability': nls.localize('theia/ai/ide/promptSnippetsConfiguration/capabilityTypeLabel', '能力'),
+            'generic-capability': nls.localize('theia/ai/ide/promptSnippetsConfiguration/genericCapabilityTypeLabel', '通用能力')
         };
         return this.entries.map(entry => ({
             label: this.displayName(entry),

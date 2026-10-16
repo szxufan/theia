@@ -60,7 +60,7 @@ export const keybindingSchema = {
     title: 'Keybinding Configuration File',
     default: [],
     definitions: {
-        key: { type: 'string', description: nls.localizeByDefault('Key or key sequence (separated by space)') },
+        key: { type: 'string', description: nls.localizeByDefault('按键或按键序列（以空格分隔）') },
     },
     items: {
         type: 'object',
@@ -70,14 +70,14 @@ export const keybindingSchema = {
                 required: ['command'],
                 properties: {
                     command: {
-                        anyOf: [{ type: 'string' }, { enum: <string[]>[], enumDescriptions: <string[]>[] }], description: nls.localizeByDefault('Name of the command to execute')
+                        anyOf: [{ type: 'string' }, { enum: <string[]>[], enumDescriptions: <string[]>[] }], description: nls.localizeByDefault('要执行的命令的名称')
                     },
-                    when: { type: 'string', description: nls.localizeByDefault('Condition when the key is active.') },
-                    args: { description: nls.localizeByDefault('Arguments to pass to the command to execute.') },
+                    when: { type: 'string', description: nls.localizeByDefault('按键处于活动状态的条件。') },
+                    args: { description: nls.localizeByDefault('传递给要执行命令的参数。') },
                     context: {
                         type: 'string',
-                        description: nls.localizeByDefault('Condition when the key is active.'),
-                        deprecationMessage: nls.localize('theia/keybinding-schema-updater/deprecation', 'Use `when` clause instead.')
+                        description: nls.localizeByDefault('按键处于活动状态的条件。'),
+                        deprecationMessage: nls.localize('theia/keybinding-schema-updater/deprecation', '请改用 `when` 子句。')
                     }
                 }
             },

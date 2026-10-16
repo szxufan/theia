@@ -42,24 +42,24 @@ export class AgentModeConfirmationServiceImpl implements AgentModeConfirmationSe
     async requestConfirmation(request: MutableChatRequestModel): Promise<boolean> {
         const deferred = new Deferred<boolean>();
 
-        const agentModeLabel = nls.localize('theia/ai/ide/agentModeConfirmation/continueAgentMode', 'Continue with Agent Mode');
-        const editModeLabel = nls.localize('theia/ai/ide/agentModeConfirmation/continueEditMode', 'Continue with Edit Mode');
+        const agentModeLabel = nls.localize('theia/ai/ide/agentModeConfirmation/continueAgentMode', '继续使用代理模式');
+        const editModeLabel = nls.localize('theia/ai/ide/agentModeConfirmation/continueEditMode', '继续使用编辑模式');
 
         request.response.response.addContent(new MarkdownChatResponseContentImpl(
             nls.localize('theia/ai/ide/agentModeConfirmation/msg',
-                'You are about to use **Agent Mode**. In this mode, the agent can **read, create, and modify files** '
-                + 'in your workspace autonomously, without asking for confirmation on each change.\n\n'
-                + 'We recommend using **version control** (e.g. Git) so you can easily review and revert any changes.\n\n'
-                + 'If you prefer more control, you can continue with **Edit Mode** instead, '
-                + 'where changes are presented as suggestions for you to apply.\n\n'
-                + 'How would you like to proceed?')
+                '您即将使用**代理模式**。在此模式下，代理可以自主**读取、创建和修改文件** '
+                + '而无需对每项更改请求确认。\n\n'
+                + '我们建议使用**版本控制**（例如 Git），以便您轻松审查和回退任何更改。\n\n'
+                + '如果您希望更多的控制，可以改为继续使用**编辑模式**，'
+                + '在该模式下更改将以建议的形式呈现，由您来应用。\n\n'
+                + '您希望如何继续？')
         ));
 
         request.response.response.addContent(new QuestionResponseContentImpl(
             nls.localize('theia/ai/ide/agentModeConfirmation/info',
-                'Continuing with Agent Mode saves your confirmation. You can revoke this later again via the `ai-features.agentMode.enabled` setting.\n\n'
-                + 'Continuing with Edit Mode changes your default mode to Edit Mode.\n\n'
-                + 'You can change modes anytime via the mode selector or in the AI Configuration.'),
+                '继续使用代理模式将保存您的确认。您以后可以随时通过 `ai-features.agentMode.enabled` 设置撤销。\n\n'
+                + '继续使用编辑模式会将您的默认模式更改为编辑模式。\n\n'
+                + '您可以随时通过模式选择器或 AI 配置更改模式。'),
             [{ text: agentModeLabel }, { text: editModeLabel }],
             request,
             async selectedOption => {
@@ -75,7 +75,7 @@ export class AgentModeConfirmationServiceImpl implements AgentModeConfirmationSe
         ));
 
         const progressMessage = request.response.addProgressMessage({
-            content: nls.localize('theia/ai/ide/agentModeConfirmation/waiting', 'Waiting for confirmation...'),
+            content: nls.localize('theia/ai/ide/agentModeConfirmation/waiting', '等待确认...'),
             show: 'whileIncomplete'
         });
         request.response.waitForInput();

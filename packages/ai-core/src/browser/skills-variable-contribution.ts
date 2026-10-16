@@ -28,7 +28,7 @@ export const SKILLS_VARIABLE: AIVariable = {
     id: 'skills',
     name: 'skills',
     description: nls.localize('theia/ai/core/skillsVariable/description',
-        'Returns the list of available skills that can be used by AI agents')
+        '返回可供 AI 代理使用的可用技能列表')
 };
 
 export const SKILL_VARIABLE: AIVariable = {

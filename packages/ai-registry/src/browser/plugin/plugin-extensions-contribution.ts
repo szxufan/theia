@@ -91,24 +91,24 @@ export class PluginExtensionsContribution implements ExtensionsSourceContributio
         this.handlers = {
             install: entry => this.runAction(
                 () => this.installer.install(entry, { replaceExisting: false, confirm: true }),
-                nls.localize('theia/ai-registry/plugin/installed', 'Installed Agent Plugin "{0}".', entry.name)),
+                nls.localize('theia/ai-registry/plugin/installed', '已安装代理插件“{0}”。', entry.name)),
             update: entry => this.runAction(
                 () => this.installer.install(entry, { replaceExisting: true, confirm: false }),
-                nls.localize('theia/ai-registry/plugin/updated', 'Updated Agent Plugin "{0}".', entry.name)),
+                nls.localize('theia/ai-registry/plugin/updated', '已更新代理插件“{0}”。', entry.name)),
             fixPlugin: entry => this.runAction(
                 () => this.installer.install(entry, { replaceExisting: true, confirm: false }),
-                nls.localize('theia/ai-registry/plugin/fixed', 'Restored Agent Plugin "{0}".', entry.name)),
+                nls.localize('theia/ai-registry/plugin/fixed', '已恢复代理插件“{0}”。', entry.name)),
             link: target => this.runAction(
                 () => this.link(target.entry, target.directoryName),
-                nls.localize('theia/ai-registry/plugin/linked', 'Linked Agent Plugin "{0}".', target.entry.name)
+                nls.localize('theia/ai-registry/plugin/linked', '已链接代理插件“{0}”。', target.entry.name)
             ),
             unlink: pluginId => this.runAction(
                 () => this.unlink(pluginId),
-                nls.localize('theia/ai-registry/plugin/unlinked', 'Unlinked Agent Plugin "{0}".', pluginId)
+                nls.localize('theia/ai-registry/plugin/unlinked', '已取消链接代理插件“{0}”。', pluginId)
             ),
             uninstall: pluginId => this.runAction(
                 () => this.uninstall(pluginId),
-                nls.localize('theia/ai-registry/plugin/uninstalled', 'Uninstalled Agent Plugin "{0}".', pluginId)
+                nls.localize('theia/ai-registry/plugin/uninstalled', '已卸载代理插件“{0}”。', pluginId)
             )
         };
         this.toDispose.push(this.fetchService.onDidChange(() => this.onDidChangeEmitter.fire()));
@@ -184,12 +184,12 @@ export class PluginExtensionsContribution implements ExtensionsSourceContributio
     }
 
     protected async promptWatcherReload(): Promise<void> {
-        const reload = nls.localizeByDefault('Reload Window');
+        const reload = nls.localizeByDefault('重新加载窗口');
         const answer = await this.messageService.warn(
             nls.localize(
                 'theia/ai-registry/plugin/watcherStopped',
-                'Stopped watching the Agent Plugins folder for changes. Installed plugins may no longer refresh automatically. '
-                + 'Reload the window to resume.'
+                '已停止监视代理插件文件夹的更改。已安装的插件可能不再自动刷新。'
+                + '请重新加载窗口以恢复。'
             ),
             reload
         );

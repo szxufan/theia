@@ -88,7 +88,7 @@ export class MCPFrontendServiceImpl implements MCPFrontendService {
         const usesOAuth = description && isRemoteMCPServerDescription(description) && !!description.oauth;
         if (usesOAuth && !await this.workspaceTrustService.getWorkspaceTrust()) {
             this.messageService.error(nls.localize('theia/ai/mcp/error/oauthRequiresTrustedWorkspace',
-                'Starting OAuth-enabled MCP servers requires a trusted workspace.'));
+                '启动启用 OAuth 的 MCP 服务器需要受信任的工作区。'));
             return false;
         }
         // Pass `interactive: true` so the OAuth provider permits `redirectToAuthorization` to launch
@@ -105,7 +105,7 @@ export class MCPFrontendServiceImpl implements MCPFrontendService {
         }
         if (!await this.workspaceTrustService.getWorkspaceTrust()) {
             this.messageService.error(nls.localize('theia/ai/mcp/error/oauthRequiresTrustedWorkspace',
-                'Starting OAuth-enabled MCP servers requires a trusted workspace.'));
+                '启动启用 OAuth 的 MCP 服务器需要受信任的工作区。'));
             return false;
         }
         // Stop first so a stale in-flight authorization wait is cancelled and a fresh flow starts.

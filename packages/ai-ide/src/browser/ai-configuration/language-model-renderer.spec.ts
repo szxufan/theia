@@ -71,7 +71,7 @@ describe('ReasoningRow', () => {
         }
     });
 
-    for (const [level, label] of [['none', 'None'], ['xhigh', 'Extra High'], ['max', 'Max']] as const) {
+    for (const [level, label] of [['none', '无'], ['xhigh', '极高'], ['max', '最大']] as const) {
         it(`labels the native ${level} effort and marks its glyph`, () => {
             const rendered = render({ support: { supportedLevels: [level] }, inheritedLevel: level });
             try {
@@ -94,14 +94,14 @@ describe('ReasoningRow', () => {
             const rendered = render(props);
             try {
                 const select = rendered.container.querySelector('.theia-ReasoningLevelSelector');
-                expect(select?.querySelector('.theia-select-component-label')?.textContent).to.equal('Extra High');
+                expect(select?.querySelector('.theia-select-component-label')?.textContent).to.equal('极高');
                 expect(select?.classList.contains('reasoning-level-xhigh')).to.equal(true);
                 expect(select?.classList.contains('reasoning-level-max')).to.equal(false);
                 expect(Boolean(rendered.container.querySelector('.ai-settings-row.modified'))).to.equal(origin === 'saved');
                 expect(props.savedLevel ?? props.inheritedLevel).to.equal('max');
                 expect(writes).to.equal(0);
                 if (origin === 'inherited') {
-                    expect(rendered.container.textContent).to.include('so "Extra High" applies').and.not.include('Maximum');
+                    expect(rendered.container.textContent).to.include('因此应用“极高”').and.not.include('最大');
                 }
             } finally {
                 rendered.dispose();
@@ -130,7 +130,7 @@ describe('ReasoningRow', () => {
     it('names the inherited level while nothing is stored, so the effective value is not a guess', () => {
         const inherited = render({ savedLevel: undefined, inheritedLevel: 'high' });
         try {
-            expect(inherited.container.textContent).to.include('High');
+            expect(inherited.container.textContent).to.include('应用“高”');
         } finally {
             inherited.dispose();
         }

@@ -28,7 +28,7 @@ export class LocalizationMainImpl implements LocalizationMain {
     }
 
     async $fetchBundle(id: string): Promise<LanguagePackBundle | undefined> {
-        const bundle = await this.languagePackService.getBundle(id, nls.locale ?? nls.defaultLocale);
+        const bundle = await this.languagePackService.getBundle(id, nls.locale);
         return bundle;
     }
 }

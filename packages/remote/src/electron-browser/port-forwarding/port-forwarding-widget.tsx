@@ -40,7 +40,7 @@ export class PortForwardingWidget extends ReactWidget {
     protected init(): void {
         this.id = PORT_FORWARDING_WIDGET_ID;
         this.node.tabIndex = -1;
-        this.title.label = nls.localizeByDefault('Ports');
+        this.title.label = nls.localizeByDefault('端口');
         this.title.caption = this.title.label;
         this.title.closable = true;
         this.update();
@@ -52,7 +52,7 @@ export class PortForwardingWidget extends ReactWidget {
         if (this.portForwardingService.forwardedPorts.length === 0) {
             return <div>
                 <p style={{ marginLeft: 'calc(var(--theia-ui-padding) * 2)' }}>
-                    {nls.localizeByDefault('No forwarded ports. Forward a port to access your locally running services over the internet.\n[Forward a Port]({0})').split('\n')[0]}
+                    {nls.localizeByDefault('暂无转发的端口。转发端口即可通过互联网访问本地运行的服务。\n[转发端口]({0})').split('\n')[0]}
                 </p>
                 {this.renderForwardPortButton()}
             </div>;
@@ -62,10 +62,10 @@ export class PortForwardingWidget extends ReactWidget {
             <table className='port-table'>
                 <thead>
                     <tr>
-                        <th className='port-table-header'>{nls.localizeByDefault('Port')}</th>
-                        <th className='port-table-header'>{nls.localizeByDefault('Label')}</th>
-                        <th className='port-table-header'>{nls.localizeByDefault('Address')}</th>
-                        <th className='port-table-header'>{nls.localizeByDefault('Origin')}</th>
+                        <th className='port-table-header'>{nls.localizeByDefault('端口')}</th>
+                        <th className='port-table-header'>{nls.localizeByDefault('标签')}</th>
+                        <th className='port-table-header'>{nls.localizeByDefault('地址')}</th>
+                        <th className='port-table-header'>{nls.localizeByDefault('来源')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -88,7 +88,7 @@ export class PortForwardingWidget extends ReactWidget {
             this.portForwardingService.forwardNewPort('User Forwarded');
             this.update();
         }
-        }>{nls.localizeByDefault('Forward a Port')}</button>;
+        }>{nls.localizeByDefault('转发端口')}</button>;
     }
 
     protected renderAddressColumn(port: ForwardedPort): ReactNode {
@@ -100,12 +100,12 @@ export class PortForwardingWidget extends ReactWidget {
                         const uri = new URI(`http://${address}`);
                         (await this.openerService.getOpener(uri)).open(uri);
                     }
-                }} title={nls.localizeByDefault('Follow link') + ' (ctrl/cmd + click)'}>
+                }} title={nls.localizeByDefault('跟踪链接') + ' (ctrl/cmd + click)'}>
                     {port.localPort ? address : ''}
                 </span>
                 {
                     port.localPort &&
-                    <span className='codicon codicon-clippy action-label' title={nls.localizeByDefault('Copy Local Address')} onClick={() => {
+                    <span className='codicon codicon-clippy action-label' title={nls.localizeByDefault('复制本地地址')} onClick={() => {
                         this.clipboardService.writeText(address);
                     }}></span>
                 }
@@ -119,7 +119,7 @@ export class PortForwardingWidget extends ReactWidget {
             <td>
                 <div className='button-cell'>
                     <span style={{ flexGrow: 1 }}>{port.localPort}</span>
-                    <span className='codicon codicon-close action-label' title={nls.localizeByDefault('Stop Forwarding Port')} onClick={() => {
+                    <span className='codicon codicon-close action-label' title={nls.localizeByDefault('停止转发端口')} onClick={() => {
                         this.portForwardingService.removePort(port);
                         this.update();
                     }}></span>
@@ -133,7 +133,7 @@ function PortEditingInput({ port, service }: { port: ForwardedPort, service: Por
     const [error, setError] = React.useState(false);
     return <input className={`theia-input forward-port-button${error ? ' port-edit-input-error' : ''}`} port-edit-input-error={error}
         autoFocus defaultValue={port.address ? `${port.address}:${port.localPort}` : port.localPort ?? ''}
-        placeholder={nls.localizeByDefault('Port number or address (eg. 3000 or 10.10.10.10:2000).')}
+        placeholder={nls.localizeByDefault('端口号或地址（例如 3000 或 10.10.10.10:2000）。')}
         onKeyDown={e => e.key === 'Enter' && !error && service.updatePort(port, e.currentTarget.value)}
         onKeyUp={e => setError(!service.isValidAddress(e.currentTarget.value))}></input>;
 

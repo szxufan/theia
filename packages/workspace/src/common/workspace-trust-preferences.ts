@@ -33,22 +33,22 @@ export const workspaceTrustPreferenceSchema: PreferenceSchema = {
     scope: PreferenceScope.User,
     properties: {
         [WORKSPACE_TRUST_ENABLED]: {
-            description: nls.localize('theia/workspace/trustEnabled', 'Controls whether or not workspace trust is enabled. If disabled, all workspaces are trusted.'),
+            description: nls.localize('theia/workspace/trustEnabled', '控制是否启用工作区信任。如果禁用，则所有工作区都被信任。'),
             type: 'boolean',
             default: true
         },
         [WORKSPACE_TRUST_STARTUP_PROMPT]: {
-            description: nls.localizeByDefault('Controls when the startup prompt to trust a workspace is shown.'),
+            description: nls.localizeByDefault('控制何时显示信任工作区的启动提示。'),
             enum: Object.values(WorkspaceTrustPrompt),
             default: WorkspaceTrustPrompt.ALWAYS
         },
         [WORKSPACE_TRUST_EMPTY_WINDOW]: {
-            description: nls.localize('theia/workspace/trustEmptyWindow', 'Controls whether or not the empty workspace is trusted by default.'),
+            description: nls.localize('theia/workspace/trustEmptyWindow', '控制空工作区默认是否被信任。'),
             type: 'boolean',
             default: true
         },
         [WORKSPACE_TRUST_TRUSTED_FOLDERS]: {
-            description: nls.localize('theia/workspace/trustTrustedFolders', 'List of folder URIs that are trusted without prompting.'),
+            description: nls.localize('theia/workspace/trustTrustedFolders', '无需提示即可信任的文件夹 URI 列表。'),
             type: 'array',
             items: {
                 type: 'string'

@@ -62,8 +62,8 @@ export namespace PromptCustomizationDialogs {
         const dialog = new ConfirmDialog({
             title: options.title,
             msg: options.message({ type, description }),
-            ok: nls.localizeByDefault('Remove'),
-            cancel: nls.localizeByDefault('Cancel')
+            ok: nls.localizeByDefault('移除'),
+            cancel: nls.localizeByDefault('取消')
         });
         if (await dialog.open()) {
             await promptService.removeCustomization(fragmentId, fragment.customizationId);
@@ -77,8 +77,8 @@ export namespace PromptCustomizationDialogs {
         const dialog = new ConfirmDialog({
             title,
             msg: message,
-            ok: nls.localizeByDefault('Reset'),
-            cancel: nls.localizeByDefault('Cancel')
+            ok: nls.localizeByDefault('重置'),
+            cancel: nls.localizeByDefault('取消')
         });
         if (await dialog.open()) {
             await promptService.resetToBuiltIn(fragmentId);

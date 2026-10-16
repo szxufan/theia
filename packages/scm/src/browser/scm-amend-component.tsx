@@ -299,7 +299,7 @@ export class ScmAmendComponent extends React.Component<ScmAmendComponentProps, S
                         <div>
                             <div id='lastCommit' className='theia-scm-amend'>
                                 <div className='theia-header scm-theia-header'>
-                                    {nls.localize('theia/scm/amendHeadCommit', 'HEAD Commit')}
+                                    {nls.localize('theia/scm/amendHeadCommit', 'HEAD 提交')}
                                 </div>
                                 {this.renderLastCommit()}
                             </div>
@@ -335,7 +335,7 @@ export class ScmAmendComponent extends React.Component<ScmAmendComponentProps, S
 
         return <div id='amendedCommits' className='theia-scm-amend-outer-container' style={style}>
             <div className='theia-header scm-theia-header'>
-                <div className='noWrapInfo'>Commits being Amended</div>
+                <div className='noWrapInfo'>正在修正的提交</div>
                 {this.renderAmendCommitListButtons()}
                 {this.renderCommitCount(this.state.amendingCommits.length)}
             </div>
@@ -356,10 +356,10 @@ export class ScmAmendComponent extends React.Component<ScmAmendComponentProps, S
         return <div className='theia-scm-inline-actions-container'>
             <div className='theia-scm-inline-actions'>
                 <div className='theia-scm-inline-action'>
-                    <a className={codicon('dash')} title='Unamend All Commits' onClick={this.unamendAll} />
+                    <a className={codicon('dash')} title='全部取消修正提交' onClick={this.unamendAll} />
                 </div>
                 <div className='theia-scm-inline-action' >
-                    <a className={codicon('close')} title='Clear Amending Commits' onClick={this.clearAmending} />
+                    <a className={codicon('close')} title='清除正在修正的提交' onClick={this.clearAmending} />
                 </div>
             </div>
         </div>;
@@ -376,8 +376,8 @@ export class ScmAmendComponent extends React.Component<ScmAmendComponentProps, S
             {
                 canAmend
                     ? <div className={ScmAmendComponent.Styles.FLEX_CENTER}>
-                        <button className='theia-button' title={nls.localize('theia/scm/amendLastCommit', 'Amend last commit')} onClick={this.amend}>
-                            {nls.localize('theia/scm/amend', 'Amend')}
+                        <button className='theia-button' title={nls.localize('theia/scm/amendLastCommit', '修正上次提交')} onClick={this.amend}>
+                            {nls.localize('theia/scm/amend', '修正')}
                         </button>
                     </div>
                     : ''
@@ -428,7 +428,7 @@ export class ScmAmendComponent extends React.Component<ScmAmendComponentProps, S
             </div>
             <div className={ScmAmendComponent.Styles.COMMIT_DETAILS}>
                 <div className={ScmAmendComponent.Styles.COMMIT_MESSAGE_SUMMARY}>{commit.summary}</div>
-                <div className={ScmAmendComponent.Styles.LAST_COMMIT_MESSAGE_TIME}>{`${commit.authorDateRelative} by ${commit.authorName}`}</div>
+                <div className={ScmAmendComponent.Styles.LAST_COMMIT_MESSAGE_TIME}>{`${commit.authorDateRelative}，由 ${commit.authorName} 提交`}</div>
             </div>
         </div>;
     }
@@ -452,8 +452,8 @@ export class ScmAmendComponent extends React.Component<ScmAmendComponentProps, S
                 {
                     isOldestAmendCommit
                         ? <div className={ScmAmendComponent.Styles.FLEX_CENTER}>
-                            <button className='theia-button' title={nls.localize('theia/scm/unamendCommit', 'Unamend commit')} onClick={this.unamend}>
-                                {nls.localize('theia/scm/unamend', 'Unamend')}
+                            <button className='theia-button' title={nls.localize('theia/scm/unamendCommit', '取消修正提交')} onClick={this.unamend}>
+                                {nls.localize('theia/scm/unamend', '取消修正')}
                             </button>
                         </div>
                         : ''

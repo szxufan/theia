@@ -46,7 +46,8 @@ export class ChangeSetDecoratorService implements FrontendApplicationContributio
         this.contributions.getContributions().map(decorator => decorator.onDidChangeDecorations(this.fireDidChangeDecorations));
     }
 
-    protected readonly fireDidChangeDecorations = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly fireDidChangeDecorations: any = debounce(() => {
         this.onDidChangeDecorationsEmitter.fire(undefined);
     }, 150);
 

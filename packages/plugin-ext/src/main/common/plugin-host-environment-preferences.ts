@@ -25,9 +25,9 @@ export const PluginHostEnvironmentPreferenceSchema: PreferenceSchema = {
         [SUPPORT_NODE_GLOBAL_NAVIGATOR_PREF]: {
             type: 'boolean',
             description: nls.localize('theia/plugin-ext/supportNodeGlobalNavigator',
-                'If enabled, the global navigator object in the extension host will be defined as provided by Node.js. '
-                + 'Extensions may use the presence of the navigator object as a hint that code is running in a browser. '
-                + 'Disabling this (the default) undefines the navigator in the extension host to preserve this assumption.'),
+                '如果启用，扩展主机中的全局 navigator 对象将按 Node.js 提供的方式定义。'
+                + '扩展可能将 navigator 对象的存在视为代码运行在浏览器中的提示。'
+                + '禁用此项（默认）将在扩展主机中取消定义 navigator，以保持此假设。'),
             default: false,
         }
     }

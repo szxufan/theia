@@ -24,13 +24,13 @@ import { AIVariable, ResolvedAIVariable, AIVariableContribution, AIVariableResol
 export const OPEN_EDITORS_VARIABLE: AIVariable = {
     id: 'openEditors',
     description: nls.localize('theia/ai/core/openEditorsVariable/description',
-        'A comma-separated list of all currently open files as workspace-relative paths (e.g., my-project/src/index.ts).'),
+        '当前所有已打开文件的逗号分隔列表（以工作区相对路径表示，例如 my-project/src/index.ts）。'),
     name: 'openEditors',
 };
 
 export const OPEN_EDITORS_SHORT_VARIABLE: AIVariable = {
     id: 'openEditorsShort',
-    description: nls.localize('theia/ai/core/openEditorsShortVariable/description', 'Short reference to all currently open files (relative paths, comma-separated)'),
+    description: nls.localize('theia/ai/core/openEditorsShortVariable/description', '对所有当前打开文件的简短引用（相对路径，逗号分隔）'),
     name: '_ff',
 };
 

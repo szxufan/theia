@@ -25,8 +25,8 @@ export const CodexPreferencesSchema: PreferenceSchema = {
             type: 'string',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'Codex' } satisfies ModelProviderTypeDetail },
             markdownDescription: nls.localize('theia/ai/codex/apiKey/description',
-                'OpenAI API key for Codex. If not set, falls back to the shared OpenAI API key (`ai-features.openAiOfficial.openAiApiKey`). ' +
-                'Can also be set via `OPENAI_API_KEY` environment variable.'),
+                'Codex 的 OpenAI API 密钥。如果未设置，将回退到共享的 OpenAI API 密钥（`ai-features.openAiOfficial.openAiApiKey`）。' +
+                '也可以通过 `OPENAI_API_KEY` 环境变量设置。'),
             title: AI_CORE_PREFERENCES_TITLE,
         },
     }

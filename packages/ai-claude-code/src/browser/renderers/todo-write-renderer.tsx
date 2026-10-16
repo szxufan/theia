@@ -33,9 +33,9 @@ interface TodoItem {
 }
 
 const TODO_PRIORITIES = {
-    'high': nls.localize('theia/ai/claude-code/todoPriority/high', 'high'),
-    'medium': nls.localize('theia/ai/claude-code/todoPriority/medium', 'medium'),
-    'low': nls.localize('theia/ai/claude-code/todoPriority/low', 'low')
+    'high': nls.localize('theia/ai/claude-code/todoPriority/high', '高'),
+    'medium': nls.localize('theia/ai/claude-code/todoPriority/medium', '中'),
+    'low': nls.localize('theia/ai/claude-code/todoPriority/low', '低')
 };
 
 interface TodoWriteInput {
@@ -93,7 +93,7 @@ export class TodoWriteRenderer implements ChatResponsePartRenderer<ToolCallChatR
             return <TodoListComponent todos={input.todos || []} sessionId={parentNode.sessionId} />;
         } catch (error) {
             this.logger.warn('Failed to parse TodoWrite input:', error);
-            return <div className="claude-code-tool todo-list-error">{nls.localize('theia/ai/claude-code/failedToParseTodoListData', 'Failed to parse todo list data')}</div>;
+            return <div className="claude-code-tool todo-list-error">{nls.localize('theia/ai/claude-code/failedToParseTodoListData', '解析待办列表数据失败')}</div>;
         }
     }
 }
@@ -135,9 +135,9 @@ const TodoListComponent: React.FC<{ todos: TodoItem[]; sessionId: string }> = ({
             <div className="claude-code-tool todo-list-container">
                 <div className="claude-code-tool todo-list-header">
                     <span className={`${codicon('checklist')} claude-code-tool todo-list-icon`} />
-                    <span className="claude-code-tool todo-list-title">{nls.localize('theia/ai/claude-code/todoList', 'Todo List')}</span>
+                    <span className="claude-code-tool todo-list-title">{nls.localize('theia/ai/claude-code/todoList', '待办列表')}</span>
                 </div>
-                <div className="claude-code-tool todo-list-empty">{nls.localize('theia/ai/claude-code/emptyTodoList', 'No todos available')}</div>
+                <div className="claude-code-tool todo-list-empty">{nls.localize('theia/ai/claude-code/emptyTodoList', '暂无待办事项')}</div>
             </div>
         );
     }
@@ -148,14 +148,14 @@ const TodoListComponent: React.FC<{ todos: TodoItem[]; sessionId: string }> = ({
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/todoList', 'Todo List')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/todoList', '待办列表')}</span>
                 <span className={`${codicon('checklist')} claude-code-tool icon`} />
-                <span className="claude-code-tool progress-text">{nls.localize('theia/ai/claude-code/completedCount', '{0}/{1} completed', completedCount, totalCount)}</span>
+                <span className="claude-code-tool progress-text">{nls.localize('theia/ai/claude-code/completedCount', '{0}/{1} 已完成', completedCount, totalCount)}</span>
             </div>
             <div className="claude-code-tool header-right">
                 <span className="claude-code-tool badge">{totalCount === 1
-                    ? nls.localize('theia/ai/claude-code/oneItem', '1 item')
-                    : nls.localize('theia/ai/claude-code/itemCount', '{0} items', totalCount)}</span>
+                    ? nls.localize('theia/ai/claude-code/oneItem', '1 项')
+                    : nls.localize('theia/ai/claude-code/itemCount', '{0} 项', totalCount)}</span>
             </div>
         </>
     );

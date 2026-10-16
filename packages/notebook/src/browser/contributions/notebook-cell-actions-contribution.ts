@@ -189,14 +189,14 @@ export class NotebookCellActionContribution implements MenuContribution, Command
             commandId: NotebookCellCommands.EDIT_COMMAND.id,
             icon: NotebookCellCommands.EDIT_COMMAND.iconClass,
             when: `${NOTEBOOK_CELL_TYPE} == 'markdown' && !${NOTEBOOK_CELL_MARKDOWN_EDIT_MODE}`,
-            label: nls.localizeByDefault('Edit Cell'),
+            label: nls.localizeByDefault('编辑单元格'),
             order: '10'
         });
         menus.registerMenuAction(NotebookCellActionContribution.ACTION_MENU, {
             commandId: NotebookCellCommands.STOP_EDIT_COMMAND.id,
             icon: NotebookCellCommands.STOP_EDIT_COMMAND.iconClass,
             when: `${NOTEBOOK_CELL_TYPE} == 'markdown' && ${NOTEBOOK_CELL_MARKDOWN_EDIT_MODE}`,
-            label: nls.localizeByDefault('Stop Editing Cell'),
+            label: nls.localizeByDefault('停止编辑单元格'),
             order: '10'
         });
 
@@ -204,7 +204,7 @@ export class NotebookCellActionContribution implements MenuContribution, Command
             commandId: NotebookCellCommands.EXECUTE_ABOVE_CELLS_COMMAND.id,
             icon: NotebookCellCommands.EXECUTE_ABOVE_CELLS_COMMAND.iconClass,
             when: `${NOTEBOOK_CELL_TYPE} == 'code'`,
-            label: nls.localizeByDefault('Execute Above Cells'),
+            label: nls.localizeByDefault('执行上方单元格'),
             order: '10'
         });
 
@@ -212,27 +212,27 @@ export class NotebookCellActionContribution implements MenuContribution, Command
             commandId: NotebookCellCommands.EXECUTE_CELL_AND_BELOW_COMMAND.id,
             icon: NotebookCellCommands.EXECUTE_CELL_AND_BELOW_COMMAND.iconClass,
             when: `${NOTEBOOK_CELL_TYPE} == 'code'`,
-            label: nls.localizeByDefault('Execute Cell and Below'),
+            label: nls.localizeByDefault('执行单元格及下方'),
             order: '20'
         });
 
         menus.registerMenuAction(NotebookCellActionContribution.ACTION_MENU, {
             commandId: NotebookCellCommands.SPLIT_CELL_COMMAND.id,
             icon: NotebookCellCommands.SPLIT_CELL_COMMAND.iconClass,
-            label: nls.localizeByDefault('Split Cell'),
+            label: nls.localizeByDefault('拆分单元格'),
             order: '20'
         });
 
         menus.registerMenuAction(NotebookCellActionContribution.ACTION_MENU, {
             commandId: NotebookCellCommands.DELETE_COMMAND.id,
             icon: NotebookCellCommands.DELETE_COMMAND.iconClass,
-            label: nls.localizeByDefault('Delete Cell'),
+            label: nls.localizeByDefault('删除单元格'),
             order: '999'
         });
 
         menus.registerSubmenu(
             NotebookCellActionContribution.ADDITIONAL_ACTION_MENU,
-            nls.localizeByDefault('More'),
+            nls.localizeByDefault('更多'),
             {
                 sortString: '30',
                 icon: codicon('ellipsis')
@@ -250,35 +250,35 @@ export class NotebookCellActionContribution implements MenuContribution, Command
         menus.registerMenuAction(NotebookCellActionContribution.CODE_CELL_SIDEBAR_MENU, {
             commandId: NotebookCellCommands.EXECUTE_SINGLE_CELL_COMMAND.id,
             icon: NotebookCellCommands.EXECUTE_SINGLE_CELL_COMMAND.iconClass,
-            label: nls.localizeByDefault('Execute Cell'),
+            label: nls.localizeByDefault('执行单元格'),
             when: `!${NOTEBOOK_CELL_EXECUTING}`
         });
         menus.registerMenuAction(NotebookCellActionContribution.CODE_CELL_SIDEBAR_MENU, {
             commandId: NotebookCellCommands.STOP_CELL_EXECUTION_COMMAND.id,
             icon: NotebookCellCommands.STOP_CELL_EXECUTION_COMMAND.iconClass,
-            label: nls.localizeByDefault('Stop Cell Execution'),
+            label: nls.localizeByDefault('停止执行单元格'),
             when: NOTEBOOK_CELL_EXECUTING
         });
 
         // Notebook Cell extra execution options
         menus.registerSubmenu(NotebookCellActionContribution.CONTRIBUTED_CELL_EXECUTION_MENU,
-            nls.localizeByDefault('More...'),
+            nls.localizeByDefault('更多...'),
             { icon: codicon('chevron-down') });
         // menus.getMenu(NotebookCellActionContribution.CODE_CELL_SIDEBAR_MENU).addNode(menus.getMenuNode(NotebookCellActionContribution.CONTRIBUTED_CELL_EXECUTION_MENU));
 
         // code cell output sidebar menu
         menus.registerSubmenu(
             NotebookCellActionContribution.ADDITIONAL_OUTPUT_SIDEBAR_MENU,
-            nls.localizeByDefault('More'),
+            nls.localizeByDefault('更多'),
             { icon: codicon('ellipsis') }
         );
         menus.registerMenuAction(NotebookCellActionContribution.ADDITIONAL_OUTPUT_SIDEBAR_MENU, {
             commandId: NotebookCellCommands.CLEAR_OUTPUTS_COMMAND.id,
-            label: nls.localizeByDefault('Clear Cell Outputs'),
+            label: nls.localizeByDefault('清除单元格输出'),
         });
         menus.registerMenuAction(NotebookCellActionContribution.ADDITIONAL_OUTPUT_SIDEBAR_MENU, {
             commandId: NotebookCellCommands.CHANGE_OUTPUT_PRESENTATION_COMMAND.id,
-            label: nls.localizeByDefault('Change Presentation'),
+            label: nls.localizeByDefault('更改呈现'),
         });
 
     }

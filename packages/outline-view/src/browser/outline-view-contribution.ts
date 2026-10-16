@@ -91,14 +91,14 @@ export class OutlineViewContribution extends AbstractViewContribution<OutlineVie
         toolbar.registerItem({
             id: OutlineViewCommands.COLLAPSE_ALL.id,
             command: OutlineViewCommands.COLLAPSE_ALL.id,
-            tooltip: nls.localizeByDefault('Collapse All'),
+            tooltip: nls.localizeByDefault('全部折叠'),
             priority: 0,
             onDidChange
         });
         toolbar.registerItem({
             id: OutlineViewCommands.EXPAND_ALL.id,
             command: OutlineViewCommands.EXPAND_ALL.id,
-            tooltip: nls.localizeByDefault('Expand All'),
+            tooltip: nls.localizeByDefault('全部展开'),
             priority: 0,
             onDidChange
         });

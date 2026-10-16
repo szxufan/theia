@@ -193,7 +193,7 @@ export class McpFrontendApplicationContribution implements FrontendApplicationCo
             return [];
         }
         return [{
-            label: nls.localize('theia/ai/mcp/blockedServersLabel', 'MCP Servers (autostart blocked)'),
+            label: nls.localize('theia/ai/mcp/blockedServersLabel', 'MCP 服务器（自动启动被阻止）'),
             details: Array.from(this.blockedUntrustedServers)
         }];
     }
@@ -247,10 +247,10 @@ export class McpFrontendApplicationContribution implements FrontendApplicationCo
      */
     protected promptForOAuthSignIn(serverName: string): void {
         this.pendingSignInPrompts.get(serverName)?.cancel();
-        const signInAction = nls.localizeByDefault('Sign In');
+        const signInAction = nls.localizeByDefault('登录');
         this.messageService.showProgress({
             text: nls.localize('theia/ai/mcp/oauth/notification/signInPrompt',
-                'MCP server "{0}" requires authorization to start.', serverName),
+                'MCP 服务器“{0}”需要授权才能启动。', serverName),
             actions: [signInAction],
             options: { cancelable: true }
         }).then(progress => {
@@ -288,7 +288,7 @@ export class McpFrontendApplicationContribution implements FrontendApplicationCo
                 // Catch here (instead of propagating) so a single failed change does not poison the queue.
                 this.logger.error('Failed to handle MCP server preference changes', error);
                 this.messageService.warn(nls.localize('theia/ai/mcp/warn/serverPreferenceChangeFailed',
-                    'Failed to apply MCP server preference changes: {0}', error instanceof Error ? error.message : String(error)));
+                    '应用 MCP 服务器首选项更改失败：{0}', error instanceof Error ? error.message : String(error)));
             });
     }
 

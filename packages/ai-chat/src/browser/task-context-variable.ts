@@ -21,13 +21,13 @@ import { codiconArray } from '@theia/core/lib/browser';
 export const TASK_CONTEXT_VARIABLE: AIVariable = {
     id: 'taskContext',
     description: nls.localize('theia/chat/taskContextVariable/description',
-        'Provides context information for a task, e.g. the plan for completing a task or a summary of a previous sessions'),
+        '提供任务的上下文信息，例如完成任务的计划或先前会话的摘要'),
     name: 'taskContext',
-    label: nls.localize('theia/chat/taskContextVariable/label', 'Task Context'),
+    label: nls.localize('theia/chat/taskContextVariable/label', '任务上下文'),
     iconClasses: codiconArray('clippy'),
     isContextVariable: true,
     args: [{
         name: 'context-id',
-        description: nls.localize('theia/chat/taskContextVariable/args/contextId/description', 'The ID of the task context to retrieve, or a chat session to summarize.')
+        description: nls.localize('theia/chat/taskContextVariable/args/contextId/description', '要检索的任务上下文 ID，或要总结的聊天会话。')
     }]
 };

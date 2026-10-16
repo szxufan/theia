@@ -108,8 +108,8 @@ export class WindowBlinkService {
         const originalTitle = this.windowTitleService?.title ?? document.title;
         const appName = FrontendApplicationConfigProvider.get().applicationName;
         const alertTitle = '🔔 ' + (agentName
-            ? nls.localize('theia/ai/core/blinkTitle/namedAgentCompleted', '{0} - Agent "{1}" Completed', appName, agentName)
-            : nls.localize('theia/ai/core/blinkTitle/agentCompleted', '{0} - Agent Completed', appName));
+            ? nls.localize('theia/ai/core/blinkTitle/namedAgentCompleted', '{0} - 代理“{1}”已完成', appName, agentName)
+            : nls.localize('theia/ai/core/blinkTitle/agentCompleted', '{0} - 代理已完成', appName));
 
         // Save original titles of secondary windows
         this.originalSecondaryTitles.clear();

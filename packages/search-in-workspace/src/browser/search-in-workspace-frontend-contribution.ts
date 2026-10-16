@@ -38,79 +38,79 @@ import { ClipboardService } from '@theia/core/lib/browser/clipboard-service';
 import { isHighContrast } from '@theia/core/lib/common/theme';
 
 export namespace SearchInWorkspaceCommands {
-    const SEARCH_CATEGORY = 'Search';
+    const SEARCH_CATEGORY = '搜索';
     export const TOGGLE_SIW_WIDGET = {
         id: 'search-in-workspace.toggle'
     };
     export const OPEN_SIW_WIDGET = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.open',
         category: SEARCH_CATEGORY,
-        label: 'Find in Files'
+        label: '在文件中搜索'
     });
     export const REPLACE_IN_FILES = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.replace',
         category: SEARCH_CATEGORY,
-        label: 'Replace in Files'
+        label: '在文件中替换'
     });
     export const FIND_IN_FOLDER = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.in-folder',
         category: SEARCH_CATEGORY,
-        label: 'Find in Folder...'
+        label: '在文件夹中搜索...'
     });
     export const FOCUS_NEXT_RESULT = Command.toDefaultLocalizedCommand({
         id: 'search.action.focusNextSearchResult',
         category: SEARCH_CATEGORY,
-        label: 'Focus Next Search Result'
+        label: '聚焦下一个搜索结果'
     });
     export const FOCUS_PREV_RESULT = Command.toDefaultLocalizedCommand({
         id: 'search.action.focusPreviousSearchResult',
         category: SEARCH_CATEGORY,
-        label: 'Focus Previous Search Result'
+        label: '聚焦上一个搜索结果'
     });
     export const REFRESH_RESULTS = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.refresh',
         category: SEARCH_CATEGORY,
-        label: 'Refresh',
+        label: '刷新',
         iconClass: codicon('refresh')
     });
     export const CANCEL_SEARCH = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.cancel',
         category: SEARCH_CATEGORY,
-        label: 'Cancel Search',
+        label: '取消搜索',
         iconClass: codicon('search-stop')
     });
     export const COLLAPSE_ALL = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.collapse-all',
         category: SEARCH_CATEGORY,
-        label: 'Collapse All',
+        label: '全部折叠',
         iconClass: codicon('collapse-all')
     });
     export const EXPAND_ALL = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.expand-all',
         category: SEARCH_CATEGORY,
-        label: 'Expand All',
+        label: '全部展开',
         iconClass: codicon('expand-all')
     });
     export const CLEAR_ALL = Command.toDefaultLocalizedCommand({
         id: 'search-in-workspace.clear-all',
         category: SEARCH_CATEGORY,
-        label: 'Clear Search Results',
+        label: '清除搜索结果',
         iconClass: codicon('clear-all')
     });
     export const COPY_ALL = Command.toDefaultLocalizedCommand({
         id: 'search.action.copyAll',
         category: SEARCH_CATEGORY,
-        label: 'Copy All',
+        label: '全部复制',
     });
     export const COPY_ONE = Command.toDefaultLocalizedCommand({
         id: 'search.action.copyMatch',
         category: SEARCH_CATEGORY,
-        label: 'Copy',
+        label: '复制',
     });
     export const DISMISS_RESULT = Command.toDefaultLocalizedCommand({
         id: 'search.action.remove',
         category: SEARCH_CATEGORY,
-        label: 'Dismiss',
+        label: '忽略',
     });
     export const REPLACE_RESULT = Command.toDefaultLocalizedCommand({
         id: 'search.action.replace',
@@ -417,13 +417,13 @@ export class SearchInWorkspaceFrontendContribution extends AbstractViewContribut
         });
         menus.registerMenuAction(SearchInWorkspaceResultTreeWidget.Menus.INTERNAL, {
             commandId: SearchInWorkspaceCommands.REPLACE_RESULT.id,
-            label: nls.localizeByDefault('Replace'),
+            label: nls.localizeByDefault('替换'),
             order: '1',
             when: 'replaceActive',
         });
         menus.registerMenuAction(SearchInWorkspaceResultTreeWidget.Menus.INTERNAL, {
             commandId: SearchInWorkspaceCommands.REPLACE_ALL_RESULTS.id,
-            label: nls.localizeByDefault('Replace All'),
+            label: nls.localizeByDefault('全部替换'),
             order: '1',
             when: 'replaceActive',
         });

@@ -32,7 +32,7 @@ import { MCPEntryHandlers, MCPInstalledEntry, MCPSearchResultEntry } from './mcp
 export class MCPExtensionsContribution implements ExtensionsSourceContribution, Disposable {
 
     readonly type = 'mcp-server';
-    readonly displayName = nls.localizeByDefault('MCP Servers');
+    readonly displayName = nls.localizeByDefault('MCP 服务器');
     readonly searchToken = '@mcp';
     readonly priority = 100;
 

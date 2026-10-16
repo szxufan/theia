@@ -59,7 +59,7 @@ export class AISessionsViewContribution extends AIViewContribution<AISessionsWid
         registry.registerItem({
             id: AI_SESSIONS_NEW_SESSION.id,
             command: AI_SESSIONS_NEW_SESSION.id,
-            tooltip: nls.localizeByDefault('New Chat'),
+            tooltip: nls.localizeByDefault('新建聊天'),
             isVisible: widget => this.activationService.isActive && widget instanceof AISessionsWidget,
             when: ENABLE_AI_CONTEXT_KEY
         });

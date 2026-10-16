@@ -35,7 +35,7 @@ export class AiConfigurationOpenPreferenceRenderer extends PreferenceLeafNodeRen
     protected createInteractable(container: HTMLElement): void {
         const button = document.createElement('button');
         button.classList.add('theia-button', 'main');
-        button.textContent = nls.localize('theia/ai/ide/aiConfiguration/openButton', 'Open the AI Configuration');
+        button.textContent = nls.localize('theia/ai/ide/aiConfiguration/openButton', '打开 AI 配置');
         button.onclick = () => this.commandService.executeCommand(OPEN_AI_CONFIG_VIEW.id);
         this.interactable = button;
         container.appendChild(button);

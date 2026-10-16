@@ -149,10 +149,10 @@ describe('PromptSnippetsConfigurationCategory', () => {
                 () => { }
             );
 
-        expect(build(['coder'], false).pills).to.deep.equal(['1 agent']);
-        expect(build(['coder', 'architect'], false).pills).to.deep.equal(['2 agents']);
+        expect(build(['coder'], false).pills).to.deep.equal(['1 个代理']);
+        expect(build(['coder', 'architect'], false).pills).to.deep.equal(['2 个代理']);
         // The customization state leads, so it reads before the agent count and the actions.
-        expect(build(['coder'], true).pills).to.deep.equal(['Customized', '1 agent']);
+        expect(build(['coder'], true).pills).to.deep.equal(['已自定义', '1 个代理']);
     });
 
     it('offers its actions in the row header, whether or not the row is expanded', () => {

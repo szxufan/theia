@@ -23,51 +23,51 @@ export const debugPreferencesSchema: PreferenceSchema = {
         'debug.trace': {
             type: 'boolean',
             default: false,
-            description: nls.localize('theia/debug/toggleTracing', 'Enable/disable tracing communications with debug adapters')
+            description: nls.localize('theia/debug/toggleTracing', '启用/禁用与调试适配器通信的跟踪')
         },
         'debug.openDebug': {
             enum: ['neverOpen', 'openOnSessionStart', 'openOnFirstSessionStart', 'openOnDebugBreak'],
             default: 'openOnSessionStart',
-            description: nls.localizeByDefault('Controls when the debug view should open.')
+            description: nls.localizeByDefault('控制调试视图何时打开。')
         },
         'debug.internalConsoleOptions': {
             enum: ['neverOpen', 'openOnSessionStart', 'openOnFirstSessionStart'],
             default: 'openOnFirstSessionStart',
-            description: nls.localizeByDefault('Controls when the internal Debug Console should open.')
+            description: nls.localizeByDefault('控制内部调试控制台何时打开。')
         },
         'debug.console.maximumLines': {
             type: 'number',
             default: 10000,
             minimum: 1,
-            description: nls.localizeByDefault('Controls the maximum number of lines in the Debug Console.')
+            description: nls.localizeByDefault('控制调试控制台的最大行数。')
         },
         'debug.inlineValues': {
             type: 'boolean',
             default: false,
-            description: nls.localizeByDefault('Show variable values inline in editor while debugging.')
+            description: nls.localizeByDefault('调试时在编辑器中内联显示变量值。')
         },
         'debug.showInStatusBar': {
             enum: ['never', 'always', 'onFirstSessionStart'],
             enumDescriptions: [
-                nls.localizeByDefault('Never show debug item in status bar'),
-                nls.localizeByDefault('Always show debug item in status bar'),
-                nls.localizeByDefault('Show debug item in status bar only after debug was started for the first time')
+                nls.localizeByDefault('从不在状态栏显示调试项'),
+                nls.localizeByDefault('始终在状态栏显示调试项'),
+                nls.localizeByDefault('仅在首次启动调试后在状态栏显示调试项')
             ],
-            description: nls.localizeByDefault('Controls when the debug status bar item should be visible.'),
+            description: nls.localizeByDefault('控制调试状态栏项何时可见。'),
             default: 'onFirstSessionStart'
         },
         'debug.confirmOnExit': {
-            description: nls.localizeByDefault('Controls whether to confirm when the window closes if there are active debug sessions.'),
+            description: nls.localizeByDefault('控制存在活动调试会话时关闭窗口是否需要确认。'),
             type: 'string',
             enum: ['never', 'always'],
             enumDescriptions: [
-                nls.localizeByDefault('Never confirm.'),
-                nls.localizeByDefault('Always confirm if there are debug sessions.'),
+                nls.localizeByDefault('从不确认。'),
+                nls.localizeByDefault('存在调试会话时始终确认。'),
             ],
             default: 'never'
         },
         'debug.disassemblyView.showSourceCode': {
-            description: nls.localizeByDefault('Show Source Code in Disassembly View.'),
+            description: nls.localizeByDefault('在反汇编视图中显示源代码。'),
             type: 'boolean',
             default: true,
         },
@@ -76,20 +76,20 @@ export const debugPreferencesSchema: PreferenceSchema = {
             enum: ['on', 'off'],
             default: 'off',
             enumDescriptions: [
-                nls.localizeByDefault('Always automatically expand lazy variables.'),
-                nls.localizeByDefault('Never automatically expand lazy variables.')
+                nls.localizeByDefault('始终自动展开惰性变量。'),
+                nls.localizeByDefault('从不自动展开惰性变量。')
             ],
-            description: nls.localizeByDefault('Controls whether variables that are lazily resolved, such as getters, are automatically resolved and expanded by the debugger.')
+            description: nls.localizeByDefault('控制是否由调试器自动解析和展开惰性求值的变量（如 getter）。')
         },
         'debug.focusWindowOnBreak': {
             type: 'boolean',
             default: true,
-            description: nls.localizeByDefault('Controls whether the workbench window should be focused when the debugger breaks.')
+            description: nls.localizeByDefault('控制调试器中断时工作台窗口是否获取焦点。')
         },
         'debug.focusEditorOnBreak': {
             type: 'boolean',
             default: true,
-            description: nls.localizeByDefault('Controls whether the editor should be focused when the debugger breaks.')
+            description: nls.localizeByDefault('控制调试器中断时编辑器是否获取焦点。')
         },
     }
 };

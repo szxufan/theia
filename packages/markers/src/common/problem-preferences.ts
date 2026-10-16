@@ -22,17 +22,17 @@ export const ProblemConfigSchema: PreferenceSchema = {
     'properties': {
         'problems.decorations.enabled': {
             'type': 'boolean',
-            'description': nls.localizeByDefault('Show Errors & Warnings on files and folder. Overwritten by {0} when it is off.', '`#problems.visibility#`'),
+            'description': nls.localizeByDefault('在文件和文件夹上显示错误和警告。关闭时会被 {0} 覆盖。', '`#problems.visibility#`'),
             'default': true,
         },
         'problems.decorations.tabbar.enabled': {
             'type': 'boolean',
-            'description': nls.localize('theia/markers/tabbarDecorationsEnabled', 'Show problem decorators (diagnostic markers) in the tab bars.'),
+            'description': nls.localize('theia/markers/tabbarDecorationsEnabled', '在标签栏中显示问题装饰器（诊断标记）。'),
             'default': true
         },
         'problems.autoReveal': {
             'type': 'boolean',
-            'description': nls.localizeByDefault('Controls whether Problems view should automatically reveal files when opening them.'),
+            'description': nls.localizeByDefault('控制打开文件时问题视图是否自动显示文件。'),
             'default': true
         }
     }

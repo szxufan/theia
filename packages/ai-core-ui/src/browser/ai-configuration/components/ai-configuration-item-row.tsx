@@ -124,7 +124,7 @@ const AiConfigurationItemRowDescription: React.FC<{ description: string }> = ({ 
             className='ai-configuration-item-row-description-toggle'
             aria-expanded={expanded}
             onClick={onToggle}
-        >{expanded ? nls.localizeByDefault('Show Less') : nls.localizeByDefault('Show More')}</button>}
+        >{expanded ? nls.localizeByDefault('收起') : nls.localizeByDefault('展开')}</button>}
     </>;
 };
 

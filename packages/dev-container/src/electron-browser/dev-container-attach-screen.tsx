@@ -40,7 +40,7 @@ export class DevContainerAttachScreen extends ReactWidget {
     static readonly ID = 'dev-container-attach-screen';
 
     protected containerName: string | undefined;
-    protected stage: string = nls.localize('theia/remote/dev-container/attachScreen/preparing', 'Preparing to attach...');
+    protected stage: string = nls.localize('theia/remote/dev-container/attachScreen/preparing', '正在准备附加...');
     protected error: { message: string, actions: AttachScreenErrorActions } | undefined;
 
     /** URL of the application's configured splash image, reused here for consistent startup branding. */
@@ -115,15 +115,15 @@ export class DevContainerAttachScreen extends ReactWidget {
 
     protected renderProgress(): React.ReactNode {
         const title = this.containerName
-            ? nls.localize('theia/remote/dev-container/attachScreen/titleNamed', 'Attaching to {0}', this.containerName)
-            : nls.localize('theia/remote/dev-container/attachScreen/title', 'Attaching to container');
+            ? nls.localize('theia/remote/dev-container/attachScreen/titleNamed', '正在附加到 {0}', this.containerName)
+            : nls.localize('theia/remote/dev-container/attachScreen/title', '正在附加到容器');
         return <React.Fragment>
             <span className={`${codicon('loading')} theia-animation-spin theia-dev-container-attach-screen-spinner`} />
             <h1 className='theia-dev-container-attach-screen-title'>{title}</h1>
             <div className='theia-dev-container-attach-screen-stage'>{this.stage}</div>
             <div className='theia-dev-container-attach-screen-note'>
                 {nls.localize('theia/remote/dev-container/attachScreen/firstStartNote',
-                    'The first start for a container can take a minute or two. Later starts are much faster.')}
+                    '容器的首次启动可能需要一两分钟。之后的启动会快得多。')}
             </div>
         </React.Fragment>;
     }
@@ -133,17 +133,17 @@ export class DevContainerAttachScreen extends ReactWidget {
             <div className='theia-dev-container-attach-screen-alert'>
                 <AlertMessage
                     type='ERROR'
-                    header={nls.localize('theia/remote/dev-container/attachScreen/errorHeader', 'Failed to attach to container')}
+                    header={nls.localize('theia/remote/dev-container/attachScreen/errorHeader', '附加到容器失败')}
                 >
                     {message}
                 </AlertMessage>
             </div>
             <div className='theia-dev-container-attach-screen-actions'>
                 <button className='theia-button' onClick={actions.retry}>
-                    {nls.localizeByDefault('Retry')}
+                    {nls.localizeByDefault('重试')}
                 </button>
                 <button className='theia-button secondary' onClick={actions.close}>
-                    {nls.localizeByDefault('Close')}
+                    {nls.localizeByDefault('关闭')}
                 </button>
             </div>
         </React.Fragment>;

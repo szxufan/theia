@@ -383,7 +383,7 @@ export class TaskFrontendContribution implements CommandContribution, MenuContri
 
         menus.registerMenuAction(CommonMenus.MANAGE_SETTINGS, {
             commandId: TaskCommands.TASK_OPEN_USER.id,
-            label: nls.localizeByDefault('Tasks'),
+            label: nls.localizeByDefault('任务'),
             order: 'a40'
         });
     }

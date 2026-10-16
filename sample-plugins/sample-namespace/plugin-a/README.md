@@ -1,3 +1,3 @@
 # plugin-a
 
-This is plugin-a's README
+这是 plugin-a 的 README

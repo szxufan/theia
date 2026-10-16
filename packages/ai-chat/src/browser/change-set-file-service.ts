@@ -112,7 +112,7 @@ export class ChangeSetFileService {
 
     protected getDiffUri(originalUri: URI, suggestedUri: URI): URI {
         return DiffUris.encode(originalUri, suggestedUri,
-            nls.localize('theia/ai/chat/changeSetFileDiffUriLabel', 'AI Changes: {0}', this.labelProvider.getName(originalUri)),
+            nls.localize('theia/ai/chat/changeSetFileDiffUriLabel', 'AI 更改：{0}', this.labelProvider.getName(originalUri)),
         );
     }
 

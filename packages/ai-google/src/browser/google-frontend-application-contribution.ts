@@ -36,15 +36,15 @@ export class GoogleFrontendApplicationContribution extends DiscoveringProviderCo
 
     protected get discoveryMessages(): ModelDiscoveryMessages {
         return {
-            noCredentials: nls.localize('theia/ai/google/discovery/noKey', 'No Google AI API key set. Add a key to discover models.'),
+            noCredentials: nls.localize('theia/ai/google/discovery/noKey', '未设置 Google AI API 密钥。添加密钥后即可发现模型。'),
             consentRequired: nls.localize('theia/ai/google/discovery/consentRequired',
-                'A Google AI API key was found in the environment. Confirm its use to discover models.'),
+                '在环境中发现了 Google AI API 密钥。确认使用它以发现模型。'),
             consentPrompt: nls.localize('theia/ai/google/discovery/consentPrompt',
-                'A Google AI API key was found in the environment (GOOGLE_API_KEY / GEMINI_API_KEY). Allow Theia to use it to discover and call Gemini models?'),
-            useEnvironmentKey: nls.localize('theia/ai/google/discovery/useEnvKey', 'Use key'),
+                '在环境中发现了 Google AI API 密钥（GOOGLE_API_KEY / GEMINI_API_KEY）。允许 Theia 使用它来发现和调用 Gemini 模型吗？'),
+            useEnvironmentKey: nls.localize('theia/ai/google/discovery/useEnvKey', '使用密钥'),
             overridden: nls.localize('theia/ai/google/discovery/overridden',
-                'The model list is configured manually. Clear the model overrides to discover the models from the provider again.'),
-            cached: error => nls.localize('theia/ai/google/discovery/cached', 'Showing cached models; last refresh failed: {0}', error)
+                '模型列表已手动配置。清除模型覆盖后即可重新从提供程序发现模型。'),
+            cached: error => nls.localize('theia/ai/google/discovery/cached', '正在显示缓存的模型；上次刷新失败：{0}', error)
         };
     }
 

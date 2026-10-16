@@ -379,22 +379,22 @@ export class ShouldSaveDialog extends AbstractDialog<boolean> {
 
     constructor(widget: Widget) {
         super({
-            title: nls.localizeByDefault('Do you want to save the changes you made to {0}?', widget.title.label || widget.title.caption)
+            title: nls.localizeByDefault('是否要保存对 {0} 所做的更改？', widget.title.label || widget.title.caption)
         }, {
             node: widget.node.ownerDocument.createElement('div')
         });
 
         const messageNode = this.node.ownerDocument.createElement('div');
-        messageNode.textContent = nls.localizeByDefault("Your changes will be lost if you don't save them.");
+        messageNode.textContent = nls.localizeByDefault("如果不保存，你的更改将丢失。");
         messageNode.setAttribute('style', 'flex: 1 100%; padding-bottom: calc(var(--theia-ui-padding)*3);');
         this.contentNode.appendChild(messageNode);
         this.appendCloseButton();
         this.dontSaveButton = this.appendDontSaveButton();
-        this.appendAcceptButton(nls.localizeByDefault('Save'));
+        this.appendAcceptButton(nls.localizeByDefault('保存'));
     }
 
     protected appendDontSaveButton(): HTMLButtonElement {
-        const button = this.createButton(nls.localizeByDefault("Don't Save"));
+        const button = this.createButton(nls.localizeByDefault("不保存"));
         this.controlPanel.appendChild(button);
         button.classList.add('secondary');
         return button;

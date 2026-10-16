@@ -146,7 +146,7 @@ export default new ContainerModule((bind: interfaces.Bind) => {
     bind(WorkspaceRestrictionContribution).toConstantValue({
         getRestrictions(): WorkspaceRestriction[] {
             return [{
-                label: nls.localize('theia/debug/debugRestricted', 'Debugging is disabled in Restricted Mode')
+                label: nls.localize('theia/debug/debugRestricted', '调试在受限模式下已禁用')
             }];
         }
     });

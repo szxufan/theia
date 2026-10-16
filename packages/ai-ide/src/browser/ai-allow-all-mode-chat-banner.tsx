@@ -121,19 +121,19 @@ export class AiAllowAllModeChatBanner implements ChatBannerProvider {
         const isAllowAll = overrides.some(override => override.bypass);
         const className = `theia-ai-allow-all-mode-strip ${isAllowAll ? 'is-allow-all' : 'is-overrides'}`;
         const title = isAllowAll
-            ? nls.localize('theia/ai/ide/allowAllMode/title', 'Theia AI Allow-All Mode')
-            : nls.localize('theia/ai/ide/toolConfirmationOverrides/title', 'AI Tool Confirmation Overrides');
+            ? nls.localize('theia/ai/ide/allowAllMode/title', 'Theia AI 全部允许模式')
+            : nls.localize('theia/ai/ide/toolConfirmationOverrides/title', 'AI 工具确认覆盖');
         const tooltipLines = [
             isAllowAll
                 ? nls.localize('theia/ai/ide/allowAllMode/stripTooltip',
-                    'AI tool calls run without confirmation in this session. Only enable in environments you trust.')
+                    '在此会话中，AI 工具调用无需确认即可运行。仅在您信任的环境中启用。')
                 : nls.localize('theia/ai/ide/toolConfirmationOverrides/stripTooltip',
-                    'One or more AI tools are auto-approved for this session via command-line flags.'),
+                    '通过命令行标志，一个或多个 AI 工具在此会话中被自动批准。'),
             '',
             ...overrides.map(override => `• ${override.label}`),
             '',
             nls.localize('theia/ai/ide/allowAllMode/stripTooltipFooter',
-                'Set via --session-preference. Restart without the flag to restore your saved settings.')
+                '通过 --session-preference 设置。请在不带该标志的情况下重启以恢复您保存的设置。')
         ];
         return <div
             className={className}
@@ -145,8 +145,8 @@ export class AiAllowAllModeChatBanner implements ChatBannerProvider {
             <button
                 type='button'
                 className={`theia-ai-allow-all-mode-strip-dismiss ${codicon('close')}`}
-                title={nls.localize('theia/ai/ide/allowAllMode/hideForThisSession', 'Hide for this session')}
-                aria-label={nls.localize('theia/ai/ide/allowAllMode/hideForThisSession', 'Hide for this session')}
+                title={nls.localize('theia/ai/ide/allowAllMode/hideForThisSession', '在此会话中隐藏')}
+                aria-label={nls.localize('theia/ai/ide/allowAllMode/hideForThisSession', '在此会话中隐藏')}
                 onClick={this.handleDismiss}
             />
         </div>;
@@ -185,17 +185,17 @@ export class AiAllowAllModeChatBanner implements ChatBannerProvider {
         switch (key) {
             case DEFAULT_TOOL_CONFIRMATION_PREFERENCE:
                 return nls.localize('theia/ai/ide/sessionOverride/defaultToolConfirmation',
-                    'Default tool confirmation: {0}', String(value));
+                    '默认工具确认：{0}', String(value));
             case TOOL_CONFIRMATION_PREFERENCE: {
                 if (value && typeof value === 'object') {
                     const entries = Object.entries(value as Record<string, unknown>)
                         .map(([tool, mode]) => `${tool}=${mode}`)
                         .join(', ');
                     return nls.localize('theia/ai/ide/sessionOverride/toolConfirmation',
-                        'Per-tool confirmation overrides: {0}', entries);
+                        '各工具确认覆盖：{0}', entries);
                 }
                 return nls.localize('theia/ai/ide/sessionOverride/toolConfirmationGeneric',
-                    'Per-tool confirmation overrides set');
+                    '已设置各工具确认覆盖');
             }
             default:
                 return `${key} = ${JSON.stringify(value)}`;

@@ -109,7 +109,7 @@ export class ChangeSetScanActionRenderer implements ChangeSetActionRenderer {
                 cache.set(toScan, result);
             } else if (!notifiedError && userTriggered) {
                 notifiedError = true;
-                this.messageService.warn(nls.localize('theia/ai/scanoss/changeSet/error-notification', 'ScanOSS error encountered: {0}.', result.message));
+                this.messageService.warn(nls.localize('theia/ai/scanoss/changeSet/error-notification', '遇到 ScanOSS 错误：{0}。', result.message));
             }
 
             return result;
@@ -256,11 +256,11 @@ function getResult(scanOSSResult: ScanOSSResultOptions): ScanOSSState {
 
 function getTitle(result: ScanOSSState): string {
     switch (result) {
-        case 'none': return nls.localize('theia/ai/scanoss/changeSet/scan', 'Scan');
-        case 'pending': return nls.localize('theia/ai/scanoss/changeSet/scanning', 'Scanning...');
-        case 'error': return nls.localize('theia/ai/scanoss/changeSet/error', 'Error: Rerun');
-        case 'match': return nls.localize('theia/ai/scanoss/changeSet/match', 'View Matches');
-        case 'clean': return nls.localize('theia/ai/scanoss/changeSet/clean', 'No Matches');
+        case 'none': return nls.localize('theia/ai/scanoss/changeSet/scan', '扫描');
+        case 'pending': return nls.localize('theia/ai/scanoss/changeSet/scanning', '正在扫描...');
+        case 'error': return nls.localize('theia/ai/scanoss/changeSet/error', '错误：重新运行');
+        case 'match': return nls.localize('theia/ai/scanoss/changeSet/match', '查看匹配');
+        case 'clean': return nls.localize('theia/ai/scanoss/changeSet/clean', '无匹配');
         default: return '';
     }
 }

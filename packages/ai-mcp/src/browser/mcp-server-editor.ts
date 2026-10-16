@@ -124,7 +124,7 @@ export class MCPServerEditorImpl implements MCPServerEditor {
     async openAddServer(): Promise<void> {
         const existing = (await this.mcpFrontendService.getServerNames()) ?? [];
         const dialog = this.editDialogFactory({
-            props: { title: nls.localizeByDefault('Add MCP Server'), maxWidth: 500 },
+            props: { title: nls.localizeByDefault('添加 MCP 服务器'), maxWidth: 500 },
             existingServerNames: existing,
             isEditing: false
         });
@@ -157,7 +157,7 @@ export class MCPServerEditorImpl implements MCPServerEditor {
                 PreferenceScope.User
             );
         } catch (error) {
-            this.messageService.error(nls.localize('theia/ai/mcpConfiguration/saveServerError', 'Failed to save MCP server configuration: {0}', String(error)));
+            this.messageService.error(nls.localize('theia/ai/mcpConfiguration/saveServerError', '保存 MCP 服务器配置失败：{0}', String(error)));
         }
     }
 
@@ -233,7 +233,7 @@ export class MCPServerEditorImpl implements MCPServerEditor {
                 PreferenceScope.User
             );
         } catch (error) {
-            this.messageService.error(nls.localize('theia/ai/mcpConfiguration/saveServerError', 'Failed to save MCP server configuration: {0}', String(error)));
+            this.messageService.error(nls.localize('theia/ai/mcpConfiguration/saveServerError', '保存 MCP 服务器配置失败：{0}', String(error)));
         }
     }
 

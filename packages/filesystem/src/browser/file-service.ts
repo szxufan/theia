@@ -769,7 +769,7 @@ export class FileService {
 
         // validate binary
         if (options?.acceptTextOnly && decoder.detected.seemsBinary) {
-            throw new TextFileOperationError(nls.localizeByDefault('File seems to be binary and cannot be opened as text'), TextFileOperationResult.FILE_IS_BINARY, options);
+            throw new TextFileOperationError(nls.localizeByDefault('文件似乎是二进制文件，无法作为文本打开'), TextFileOperationResult.FILE_IS_BINARY, options);
         }
 
         return [bufferStream, decoder];
@@ -890,7 +890,7 @@ export class FileService {
         }
 
         if (this.modifiedSince(stat, options)) {
-            throw new FileOperationError(nls.localizeByDefault('File Modified Since'), FileOperationResult.FILE_MODIFIED_SINCE, options);
+            throw new FileOperationError(nls.localizeByDefault('文件已被修改'), FileOperationResult.FILE_MODIFIED_SINCE, options);
         }
 
         return stat;
@@ -1062,7 +1062,7 @@ export class FileService {
 
         // Throw if file not modified since (unless disabled)
         if (options && typeof options.etag === 'string' && options.etag !== ETAG_DISABLED && options.etag === stat.etag) {
-            throw new FileOperationError(nls.localizeByDefault('File not modified since'), FileOperationResult.FILE_NOT_MODIFIED_SINCE, options);
+            throw new FileOperationError(nls.localizeByDefault('文件自上次读取后未被修改'), FileOperationResult.FILE_NOT_MODIFIED_SINCE, options);
         }
 
         // Throw if file is too large to load
@@ -2070,13 +2070,13 @@ export class FileService {
     private progressLabel(operation: FileOperation): string {
         switch (operation) {
             case FileOperation.CREATE:
-                return nls.localizeByDefault("Running 'File Create' participants...");
+                return nls.localizeByDefault("正在运行“文件创建”参与者...");
             case FileOperation.MOVE:
-                return nls.localizeByDefault("Running 'File Rename' participants...");
+                return nls.localizeByDefault("正在运行“文件重命名”参与者...");
             case FileOperation.COPY:
-                return nls.localizeByDefault("Running 'File Copy' participants...");
+                return nls.localizeByDefault("正在运行“文件复制”参与者...");
             case FileOperation.DELETE:
-                return nls.localizeByDefault("Running 'File Delete' participants...");
+                return nls.localizeByDefault("正在运行“文件删除”参与者...");
         }
     }
 

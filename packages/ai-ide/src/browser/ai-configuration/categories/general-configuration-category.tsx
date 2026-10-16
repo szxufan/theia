@@ -72,9 +72,9 @@ interface GeneralSettingRef {
 export class GeneralConfigurationCategory implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.GENERAL;
-    readonly label = nls.localize('theia/ai/ide/generalConfiguration/label', 'General');
+    readonly label = nls.localize('theia/ai/ide/generalConfiguration/label', '常规');
     readonly description = nls.localize('theia/ai/ide/generalConfiguration/description',
-        'Turn AI features on or off and configure how the assistant behaves across the IDE.');
+        '开启或关闭 AI 功能，并配置助手在整个 IDE 中的行为方式。');
     readonly iconClass = codicon('settings-gear');
     readonly order = AiConfigurationCategoryOrder.GENERAL;
     readonly kind = 'single-page' as const;
@@ -154,24 +154,24 @@ export class GeneralConfigurationCategory implements AiConfigurationCategory, Ai
     }
 
     protected get sectionChat(): string {
-        return nls.localizeByDefault('Chat');
+        return nls.localizeByDefault('聊天');
     }
 
     /** Per-setting, human-readable titles. The preferences share a schema `title`, so titles are authored here. */
     protected titleFor(preferenceId: string): string {
         switch (preferenceId) {
             case PREFERENCE_NAME_ENABLE_AI:
-                return nls.localizeByDefault('Enable AI features');
+                return nls.localizeByDefault('启用 AI 功能');
             case PIN_CHAT_AGENT_PREF:
-                return nls.localize('theia/ai/ide/generalConfiguration/pinAgentTitle', 'Pin mentioned agents');
+                return nls.localize('theia/ai/ide/generalConfiguration/pinAgentTitle', '固定被提及的代理');
             case BYPASS_MODEL_REQUIREMENT_PREF:
-                return nls.localize('theia/ai/ide/generalConfiguration/bypassModelTitle', 'Skip language model check');
+                return nls.localize('theia/ai/ide/generalConfiguration/bypassModelTitle', '跳过语言模型检查');
             case PERSISTED_SESSION_LIMIT_PREF:
-                return nls.localize('theia/ai/ide/generalConfiguration/persistedSessionsTitle', 'Persisted chat sessions');
+                return nls.localize('theia/ai/ide/generalConfiguration/persistedSessionsTitle', '持久化的聊天会话');
             case WELCOME_SCREEN_SESSIONS_PREF:
-                return nls.localize('theia/ai/ide/generalConfiguration/homeSessionsTitle', 'Sessions on the home view');
+                return nls.localize('theia/ai/ide/generalConfiguration/homeSessionsTitle', '主页视图上的会话');
             case SESSION_STORAGE_PREF:
-                return nls.localize('theia/ai/ide/generalConfiguration/sessionStorageTitle', 'Session storage location');
+                return nls.localize('theia/ai/ide/generalConfiguration/sessionStorageTitle', '会话存储位置');
             default:
                 return this.settingsRowService.describe(preferenceId).label ?? preferenceId;
         }
@@ -259,7 +259,7 @@ export class GeneralConfigurationCategory implements AiConfigurationCategory, Ai
                     </div>
                     <div className='ai-settings-row-description'>
                         {nls.localize('theia/ai/ide/generalConfiguration/enableAiDescription',
-                            'Turns on all AI capabilities of {0}. Requires at least one configured language model provider.',
+                            '开启 {0} 的所有 AI 能力。需要至少配置一个语言模型提供程序。',
                             FrontendApplicationConfigProvider.get().applicationName)}
                     </div>
                 </div>
@@ -274,13 +274,12 @@ export class GeneralConfigurationCategory implements AiConfigurationCategory, Ai
             </div>
             {enabled && this.renderProviderStatus(ctx)}
             {enabled && <details className='ai-configuration-risks'>
-                <summary>{nls.localize('theia/ai/ide/generalConfiguration/aboutCosts', 'About costs and data usage')}</summary>
+                <summary>{nls.localize('theia/ai/ide/generalConfiguration/aboutCosts', '关于费用与数据使用')}</summary>
                 <div className='ai-configuration-risk-body'>
                     <AiMarkdownDescription
                         renderMarkdown={this.renderMarkdown}
                         markdown={nls.localize('theia/ai/ide/generalConfiguration/costsBody',
-                            'AI features send requests to the language model providers you configure. Depending on your provider and usage, this can incur \
-costs — monitor them closely. Requests may run continuously while agents are active. See [the documentation]({0}) for details.',
+                            'AI 功能会向您配置的语言模型提供程序发送请求。根据您的提供程序和使用情况，这可能产生费用 — 请密切监控。当代理处于活动状态时，请求可能会持续运行。详情请参阅[文档]({0})。',
                             AI_DOCUMENTATION_URL)}
                     />
                 </div>
@@ -292,17 +291,17 @@ costs — monitor them closely. Requests may run continuously while agents are a
         if (this.hasReadyProvider) {
             return <div className='ai-configuration-status-line'>
                 <span className='ai-configuration-status ai-configuration-status-on'></span>
-                <span>{nls.localize('theia/ai/ide/generalConfiguration/providerReady', 'A language model provider is configured and ready.')}</span>
+                <span>{nls.localize('theia/ai/ide/generalConfiguration/providerReady', '语言模型提供程序已配置并就绪。')}</span>
             </div>;
         }
         return <div className='ai-configuration-status-line'>
             <span className='ai-configuration-status ai-configuration-status-warn'></span>
             <span>
-                {nls.localize('theia/ai/ide/generalConfiguration/noProvider', 'No language model provider is configured yet.')}{' '}
+                {nls.localize('theia/ai/ide/generalConfiguration/noProvider', '尚未配置语言模型提供程序。')}{' '}
                 <a
                     href='#'
                     onClick={e => { e.preventDefault(); ctx.navigate({ categoryId: AiConfigurationCategoryId.MODELS }); }}
-                >{nls.localize('theia/ai/ide/generalConfiguration/configureProvider', 'Configure a provider')}</a>
+                >{nls.localize('theia/ai/ide/generalConfiguration/configureProvider', '配置提供程序')}</a>
             </span>
         </div>;
     }
@@ -310,7 +309,7 @@ costs — monitor them closely. Requests may run continuously while agents are a
     protected renderGateNote(): React.ReactNode {
         return <div className='ai-configuration-gate-note'>
             <span className={codicon('info')}></span>
-            <span>{nls.localize('theia/ai/ide/generalConfiguration/gateNote', 'The settings below take effect once Enable AI features is turned on.')}</span>
+            <span>{nls.localize('theia/ai/ide/generalConfiguration/gateNote', '以下设置将在启用 AI 功能后生效。')}</span>
         </div>;
     }
 
@@ -338,8 +337,8 @@ costs — monitor them closely. Requests may run continuously while agents are a
                     limitedMin={1}
                     limitedMax={999}
                     specials={[
-                        { value: -1, label: nls.localize('theia/ai/ide/generalConfiguration/unlimited', 'Unlimited') },
-                        { value: 0, label: nls.localize('theia/ai/ide/generalConfiguration/dontPersist', "Don't persist") }
+                        { value: -1, label: nls.localize('theia/ai/ide/generalConfiguration/unlimited', '无限制') },
+                        { value: 0, label: nls.localize('theia/ai/ide/generalConfiguration/dontPersist', '不持久化') }
                     ]}
                     ariaLabel={this.titleFor(PERSISTED_SESSION_LIMIT_PREF)}
                     disabled={disabled}
@@ -352,7 +351,7 @@ costs — monitor them closely. Requests may run continuously while agents are a
                     limitedMin={1}
                     limitedMax={99}
                     specials={[
-                        { value: 0, label: nls.localize('theia/ai/ide/generalConfiguration/hideList', 'Hide list') }
+                        { value: 0, label: nls.localize('theia/ai/ide/generalConfiguration/hideList', '隐藏列表') }
                     ]}
                     ariaLabel={this.titleFor(WELCOME_SCREEN_SESSIONS_PREF)}
                     disabled={disabled}
@@ -434,7 +433,7 @@ costs — monitor them closely. Requests may run continuously while agents are a
     }
 
     getSearchItems(): AiConfigurationSearchItem[] {
-        const settingLabel = nls.localizeByDefault('Setting');
+        const settingLabel = nls.localizeByDefault('设置');
         const items = this.getSectionRefs().map(ref => ({
             label: this.titleFor(ref.preferenceId),
             typeLabel: settingLabel,

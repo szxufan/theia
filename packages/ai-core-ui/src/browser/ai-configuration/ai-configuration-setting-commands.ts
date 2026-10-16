@@ -49,9 +49,9 @@ export namespace AiConfigurationSettingCommandArgs {
 }
 
 export namespace AiConfigurationSettingCommands {
-    export const RESET: Command = { id: 'ai-configuration.setting.reset', label: nls.localizeByDefault('Reset Setting') };
-    export const COPY_ID: Command = { id: 'ai-configuration.setting.copyId', label: nls.localizeByDefault('Copy Setting ID') };
-    export const COPY_JSON: Command = { id: 'ai-configuration.setting.copyJson', label: nls.localizeByDefault('Copy Setting as JSON') };
+    export const RESET: Command = { id: 'ai-configuration.setting.reset', label: nls.localizeByDefault('重置设置') };
+    export const COPY_ID: Command = { id: 'ai-configuration.setting.copyId', label: nls.localizeByDefault('复制设置 ID') };
+    export const COPY_JSON: Command = { id: 'ai-configuration.setting.copyJson', label: nls.localizeByDefault('以 JSON 格式复制设置') };
 }
 
 /**

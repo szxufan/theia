@@ -1,32 +1,32 @@
-# How to add new custom plugin API
+# 如何添加新的自定义插件 API
 
-As a Theia developer, you might want to make your app extensible by plugins in ways that are unique to your application.
-That will require API that goes beyond what's in the VS Code Extension API and the Theia plugin API.
-You can do that by implementing a Theia extension that creates and exposes an API object within the plugin host.
-The API object can be imported by your plugins and exposes one or more API namespaces.
+作为 Theia 开发者，你可能希望让你的应用能够以应用独有的方式被插件扩展。
+这将需要超出 VS Code Extension API 和 Theia 插件 API 范围的 API。
+你可以通过实现一个 Theia 扩展来做到这一点：该扩展在插件宿主内创建并暴露一个 API 对象。
+你的插件可以导入该 API 对象，它暴露一个或多个 API 命名空间。
 
-Depending on the plugin host we can either provide a frontend or backend plugin API, or an API for headless plugins that extend or otherwise access backend services:
+根据插件宿主的不同，我们可以提供前端或后端插件 API，也可以为扩展或访问后端服务的无头（headless）插件提供 API：
 
-- In the backend plugin host that runs in the Node environment in a separate process, we adapt the module loading to return a custom API object instead of loading a module with a particular name.
-There is a distinct plugin host for each connected Theia frontend.
-- In the frontend plugin host that runs in the browser environment via a web worker, we import the API scripts and put it in the global context.
-There is a distinct plugin host for each connected Theia frontend.
-- In the headless plugin host that also runs in the Node environment in a separate process, we similarly adapt the module loading mechanism.
-When the first headless plugin is deployed, whether at start-up or upon later installation during run-time, then the one and only headless plugin host process is started.
+- 在运行于 Node 环境独立进程中的后端插件宿主中，我们调整模块加载机制，使其返回自定义的 API 对象，而不是加载具有特定名称的模块。
+每个已连接的 Theia 前端都有一个独立的插件宿主。
+- 在通过 web worker 运行于浏览器环境中的前端插件宿主中，我们导入 API 脚本并将其放入全局上下文。
+每个已连接的 Theia 前端都有一个独立的插件宿主。
+- 同样运行于 Node 环境独立进程中的无头插件宿主，我们同样调整模块加载机制。
+当第一个无头插件被部署时（无论是在启动时还是在运行期间后续安装时），唯一的无头插件宿主进程才会被启动。
 
-In this document we focus on the implementation of a custom backend plugin API.
-Headless plugin APIs are similar, and the same API can be contributed to both backend and headless plugin hosts.
-All three APIs — backend, frontend, and headless — can be provided by implementing and binding an `ExtPluginApiProvider` which should be packaged as a Theia extension.
+在本文档中，我们聚焦于自定义后端插件 API 的实现。
+无头插件 API 与之类似，同一个 API 也可以同时贡献给后端和无头插件宿主。
+后端、前端和无头这三种 API 都可以通过实现并绑定 `ExtPluginApiProvider` 来提供，它应被打包为一个 Theia 扩展。
 
-## Declare your plugin API provider
+## 声明你的插件 API 提供方
 
-The plugin API provider is executed on the respective plugin host to add your custom API object and namespaces.
-Add `@theia/plugin-ext` as a dependency in your `package.json`.
-If your plugin is contributing API to headless plugins, then you also need to add the `@theia/plugin-ext-headless` package as a dependency.
+插件 API 提供方在相应的插件宿主上执行，以添加你的自定义 API 对象和命名空间。
+在你的 `package.json` 中添加 `@theia/plugin-ext` 作为依赖。
+如果你的插件要向无头插件贡献 API，则还需要添加 `@theia/plugin-ext-headless` 包作为依赖。
 
-Example Foo Plugin API provider.
-Here we see that it provides the same API initialized by the same script to both backend plugins that are frontend-connection-scoped and to headless plugins.
-Any combination of these API initialization scripts may be provided, offering the same or differing capabilities in each respective plugin host, although of course it would be odd to provide API to none of them.
+Foo 插件 API 提供方示例。
+可以看到，它为以前端连接为作用域的后端插件和无头插件提供了由同一脚本初始化的相同 API。
+这些 API 初始化脚本可以以任意组合提供，在各自的插件宿主中提供相同或不同的能力，当然，一个都不提供就有些奇怪了。
 
 ```typescript
 @injectable()
@@ -46,18 +46,18 @@ export class FooExtPluginApiProvider implements ExtPluginApiProvider {
 }
 ```
 
-Register your Plugin API provider in a backend module:
+在后端模块中注册你的插件 API 提供方：
 
 ```typescript
     bind(FooExtPluginApiProvider).toSelf().inSingletonScope();
     bind(Symbol.for(ExtPluginApiProvider)).toService(FooExtPluginApiProvider);
 ```
 
-## Define your API
+## 定义你的 API
 
-To ease the usage of your API, it should be developed as separate npm package that can be easily imported without any additional dependencies, cf, the VS Code API or the Theia Plugin API.
+为了便于使用你的 API，应将其开发为独立的 npm 包，可以轻松导入而无需任何额外依赖，参考 VS Code API 或 Theia 插件 API。
 
-Example `foo.d.ts`:
+`foo.d.ts` 示例：
 
 ```typescript
 declare module '@bar/foo' {
@@ -69,14 +69,14 @@ declare module '@bar/foo' {
 }
 ```
 
-## Implement your plugin API provider
+## 实现你的插件 API 提供方
 
-In our example, we aim to provide a new API object for the backend.
-Theia expects that the `backendInitPath` or `headlessInitPath` that we specified in our API provider exports an [InversifyJS](https://inversify.io) `ContainerModule` under the name `containerModule`.
-This container-module configures the Inversify `Container` in the plugin host for creation of our API object.
-It also implements for us the customization of Node's module loading system to hook our API factory into the import of the module name that we choose.
+在我们的示例中，我们的目标是为后端提供一个新的 API 对象。
+Theia 期望我们在 API 提供方中指定的 `backendInitPath` 或 `headlessInitPath` 以名称 `containerModule` 导出一个 [InversifyJS](https://inversify.io) 的 `ContainerModule`。
+该容器模块在插件宿主中配置 Inversify `Container`，用于创建我们的 API 对象。
+它还为我们实现了对 Node 模块加载系统的定制，将我们的 API 工厂挂钩到我们所选模块名的导入上。
 
-Example `node/foo-init.ts`:
+`node/foo-init.ts` 示例：
 
 ```typescript
 import { inject, injectable } from '@theia/core/shared/inversify';
@@ -104,13 +104,13 @@ export const containerModule = PluginContainerModule.create(({ bind, bindApiFact
 });
 ```
 
-## Implement your API object
+## 实现你的 API 对象
 
-We create a dedicated API object for each individual plugin as part of the module loading process.
-Each API object is returned as part of the module loading process if a script imports `@bar/foo` and should therefore match the API definition that we provided in the `*.d.ts` file.
-Multiple imports will not lead to the creation of multiple API objects as the `PluginContainerModule` automatically caches the API implementation for us.
+我们在模块加载过程中为每个单独的插件创建专属的 API 对象。
+如果某个脚本导入了 `@bar/foo`，则该 API 对象会作为模块加载过程的一部分被返回，因此它应当与我们 `*.d.ts` 文件中提供的 API 定义相匹配。
+多次导入不会导致创建多个 API 对象，因为 `PluginContainerModule` 会自动为我们缓存 API 实现。
 
-Example `node/foo-init.ts` (continued):
+`node/foo-init.ts` 示例（续）：
 
 ```typescript
 // Creates the @foo/bar API object
@@ -138,20 +138,20 @@ class FooBarApiFactoryImpl {
 }
 ```
 
-In the example above the API object creates a local object that will fulfill the API contract.
-The implementation details are hidden by the object and it could be a local implementation that only lives inside the plugin host but it could also be an implementation that uses the `RPCProtocol` to communicate with the main application to trigger changes, register functionality or retrieve information.
+在上面的示例中，API 对象创建了一个满足 API 契约的本地对象。
+实现细节被该对象隐藏，它可以是一个仅存在于插件宿主内部的本地实现，也可以是使用 `RPCProtocol` 与主应用通信以触发变更、注册功能或获取信息的实现。
 
-### Implement Main-Ext communication
+### 实现 Main-Ext 通信
 
-In this document, we will only highlight the individual parts needed to establish the communication between the main application and the external plugin host.
-For a more elaborate example of an API that communicates with the main application, please have a look at the definition of the [Theia Plugin API](https://github.com/eclipse-theia/theia/blob/master/doc/Plugin-API.md).
+在本文档中，我们只重点介绍建立主应用与外部插件宿主之间通信所需的各个部分。
+有关与主应用通信的 API 的更完整示例，请查看 [Theia 插件 API](https://github.com/eclipse-theia/theia/blob/master/doc/Plugin-API.md) 的定义。
 
-First, we need to establish the communication on the RPC protocol by providing an implementation for our own side and generating a proxy for the opposite side.
-Proxies are identified using dedicated identifiers so we set them up first, together with the expected interfaces.
-`Ext` and `Main` interfaces contain the functions called over RCP and must start with `$`.
-Due to the asynchronous nature of the communication over RPC, the result should always be a `Promise` or `PromiseLike`.
+首先，我们需要在 RPC 协议上建立通信：为我们自己这一侧提供实现，并为对侧生成代理。
+代理使用专用的标识符来识别，因此我们先设置它们以及预期的接口。
+`Ext` 和 `Main` 接口包含通过 RCP 调用的函数，并且必须以 `$` 开头。
+由于通过 RPC 进行的通信是异步的，其结果应始终是 `Promise` 或 `PromiseLike`。
 
-Example `common/foo-api-rpc.ts`:
+`common/foo-api-rpc.ts` 示例：
 
 ```typescript
 export const FooMain = Symbol('FooMain');
@@ -175,9 +175,9 @@ export const FOO_MAIN_RPC_CONTEXT = {
 };
 ```
 
-On the plugin host side we can register our implementation and retrieve the proxy as part of our `createAPIFactory` implementation:
+在插件宿主一侧，我们可以在 `createAPIFactory` 实现中注册我们的实现并获取代理：
 
-Example `plugin/foo-ext.ts`:
+`plugin/foo-ext.ts` 示例：
 
 ```typescript
 import { inject, injectable } from '@theia/core/shared/inversify';
@@ -200,14 +200,14 @@ export class FooExtImpl implements FooExt {
 }
 ```
 
-On the main side we need to implement the counterpart of the ExtPluginApiProvider, the `MainPluginApiProvider`, and expose it in a browser frontend module.
+在主应用一侧，我们需要实现 ExtPluginApiProvider 的对等物 `MainPluginApiProvider`，并在浏览器前端模块中暴露它。
 
 > [!NOTE]
-> If the same API is also published to headless plugins, then the Main side is actually in the Node backend, not the browser frontend, so the implementation might
-then be in the `common/` tree and registered in both the frontend and backend container modules.
-> Alternatively, if the API is _only_ published to headless plugins, then it can be implemented in the `node/` tree and can take advantage of capabilities only available in the Node backend.
+> 如果相同的 API 也发布给无头插件，那么 Main 一侧实际上位于 Node 后端而非浏览器前端，因此实现可能
+> 位于 `common/` 目录树中，并同时在前端和后端容器模块中注册。
+> 或者，如果 API _仅_发布给无头插件，则可以在 `node/` 目录树中实现，并利用仅 Node 后端可用的能力。
 
-Example `main/browser/foo-main.ts`:
+`main/browser/foo-main.ts` 示例：
 
 ```typescript
 @injectable()
@@ -243,11 +243,11 @@ export default new ContainerModule(bind => {
 });
 ```
 
-In this example, we can already see the big advantage of going to the main application side as we have full access to our Theia services.
+在这个示例中，我们已经可以看到进入主应用一侧的巨大优势：我们可以完全访问 Theia 的各项服务。
 
-## Usage in a plugin
+## 在插件中使用
 
-When using the API in a plugin the user can simply use the API as follows:
+在插件中使用该 API 时，用户只需如下使用：
 
 ```typescript
 import * as foo from '@bar/foo';
@@ -255,20 +255,20 @@ import * as foo from '@bar/foo';
 foo.fooBar.getFoo();
 ```
 
-## Adding custom plugin activation events
+## 添加自定义插件激活事件
 
-When creating a custom plugin API there may also arise a need to trigger the activation of your plugins at a certain point in time.
-The events that trigger the activation of a plugin are simply called `activation events`.
-By default Theia supports a set of built-in activation events that contains the [activation events from VS Code](https://code.visualstudio.com/api/references/activation-events) as well as some additional Theia-specific events.
-Technically, an activation event is nothing more than a unique string fired at a specific point in time.
-To add more flexibility to activations events, Theia allows you to provide additional custom activation events when initializing a plugin host.
-These additional events can be specified by adopters through the `ADDITIONAL_ACTIVATION_EVENTS` environment variable.
-To fire an activation event, you need to call the plugin hosts `$activateByEvent(eventName)` method.
+创建自定义插件 API 时，可能还需要在特定时间点触发插件的激活。
+触发插件激活的事件简称为 `activation events`（激活事件）。
+默认情况下，Theia 支持一组内置的激活事件，其中包含 [VS Code 的激活事件](https://code.visualstudio.com/api/references/activation-events)以及一些额外的 Theia 专有事件。
+从技术上讲，激活事件不过是在特定时间点触发的一个唯一字符串。
+为了让激活事件更具灵活性，Theia 允许你在初始化插件宿主时提供额外的自定义激活事件。
+这些额外的事件可由采用者通过 `ADDITIONAL_ACTIVATION_EVENTS` 环境变量指定。
+要触发激活事件，你需要调用插件宿主的 `$activateByEvent(eventName)` 方法。
 
-## Packaging
+## 打包
 
-When bundling our application, our initialization function needs to be a dedicated entry point of the backend bundle so it can be dynamically loaded.
-Adjust the `esbuild.mjs` accordingly:
+在打包我们的应用程序时，我们的初始化函数需要是后端 bundle 的一个专用入口点，以便能够动态加载。
+相应地调整 `esbuild.mjs`：
 
 ```javascript
 import { nodeOptions } from './gen-esbuild.node.mjs';
@@ -280,4 +280,4 @@ import { nodeOptions } from './gen-esbuild.node.mjs';
 nodeOptions.entryPoints['foo-init'] = '@namespace/package/lib/node/foo-init';
 ```
 
-esbuild emits CommonJS for the `node` platform, so no additional configuration is needed to make the exports of the entry point loadable at runtime.
+esbuild 为 `node` 平台输出 CommonJS，因此无需额外配置即可在运行时加载该入口点的导出。

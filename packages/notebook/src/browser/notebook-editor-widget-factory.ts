@@ -93,7 +93,7 @@ export class NotebookEditorWidgetFactory implements WidgetFactory {
     protected setLabels(editor: NotebookEditorWidget, uri: URI): void {
         editor.title.caption = uri.path.fsPath();
         if (editor.model?.readOnly) {
-            editor.title.caption += ` • ${nls.localizeByDefault('Read-only')}`;
+            editor.title.caption += ` • ${nls.localizeByDefault('只读')}`;
         }
         const icon = this.labelProvider.getIcon(uri);
         editor.title.label = this.labelProvider.getName(uri);

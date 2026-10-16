@@ -65,7 +65,7 @@ export class WindowZoomActionBar extends React.Component<WindowZoomActionBarProp
 
     protected renderZoomDisplay(): React.ReactNode {
         const percentage = Math.round(100 * Math.pow(ZoomLevel.ZOOM_BASE, this.props.zoomLevel));
-        const zoomLevelText = nls.localizeByDefault('Zoom Level: {0} ({1}%)', this.props.zoomLevel.toString(), percentage.toString());
+        const zoomLevelText = nls.localizeByDefault('缩放级别: {0} ({1}%)', this.props.zoomLevel.toString(), percentage.toString());
         return (
             <div
                 className='window-zoom-display'

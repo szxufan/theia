@@ -231,7 +231,8 @@ export class WebviewsMainImpl implements WebviewsMain, Disposable {
         });
     }
 
-    protected readonly updateViewStates = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly updateViewStates: any = debounce(() => {
         const widgets = this.widgetManager.getWidgets(WebviewWidget.FACTORY_ID);
         const customEditors = this.widgetManager.getWidgets(CustomEditorWidget.FACTORY_ID);
 

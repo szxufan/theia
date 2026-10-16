@@ -141,7 +141,7 @@ export class ClaudeCodeEditToolServiceImpl implements ClaudeCodeEditToolService 
                 );
             }
 
-            request.session.changeSet.setTitle(nls.localize('theia/ai/claude-code/changeSetTitle', 'Changes by Claude Code'));
+            request.session.changeSet.setTitle(nls.localize('theia/ai/claude-code/changeSetTitle', 'Claude Code 的更改'));
         } catch (error) {
             this.logger.error('Error handling Edit tool:', error);
         }
@@ -178,7 +178,7 @@ export class ClaudeCodeEditToolServiceImpl implements ClaudeCodeEditToolService 
                 );
             }
 
-            request.session.changeSet.setTitle(nls.localize('theia/ai/claude-code/changeSetTitle', 'Changes by Claude Code'));
+            request.session.changeSet.setTitle(nls.localize('theia/ai/claude-code/changeSetTitle', 'Claude Code 的更改'));
         } catch (error) {
             this.logger.error('Error handling MultiEdit tool:', error);
         }
@@ -238,7 +238,7 @@ export class ClaudeCodeEditToolServiceImpl implements ClaudeCodeEditToolService 
                 request.session.changeSet.addElements(fileElement);
             }
 
-            request.session.changeSet.setTitle(nls.localize('theia/ai/claude-code/changeSetTitle', 'Changes by Claude Code'));
+            request.session.changeSet.setTitle(nls.localize('theia/ai/claude-code/changeSetTitle', 'Claude Code 的更改'));
         } catch (error) {
             this.logger.error('Error handling Write tool:', error);
         }

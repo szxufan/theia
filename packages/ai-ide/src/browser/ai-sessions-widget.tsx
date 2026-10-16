@@ -31,7 +31,7 @@ import * as React from '@theia/core/shared/react';
 export class AISessionsWidget extends ReactWidget {
 
     static readonly ID = 'ai-sessions-widget';
-    static readonly LABEL = nls.localize('theia/ai-ide/sessionsView', 'AI Sessions');
+    static readonly LABEL = nls.localize('theia/ai-ide/sessionsView', 'AI 会话');
 
     @inject(ChatSessionListService)
     protected readonly sessionListService: ChatSessionListService;
@@ -87,7 +87,7 @@ export class AISessionsWidget extends ReactWidget {
             return (
                 <div className="ai-sessions-view-empty">
                     <span className={codicon('comment-discussion')} />
-                    <p>{nls.localize('theia/ai-ide/noSessions', 'No chat sessions yet.')}</p>
+                    <p>{nls.localize('theia/ai-ide/noSessions', '暂无聊天会话。')}</p>
                 </div>
             );
         }

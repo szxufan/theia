@@ -16,14 +16,15 @@
 
 import { IJSONSchema } from '@theia/core/lib/common/json-schema';
 import * as Ajv from '@theia/core/shared/ajv';
+import { nls } from '@theia/core';
 import { DeflatedToolbarTree } from './toolbar-interfaces';
 
 const toolbarColumnGroup: IJSONSchema = {
     'type': 'array',
-    'description': 'Array of subgroups for right toolbar column',
+    'description': nls.localize('theia/toolbar/schema/column', '工具栏列的子组数组'),
     'items': {
         'type': 'array',
-        'description': 'Grouping',
+        'description': nls.localize('theia/toolbar/schema/grouping', '分组'),
         'items': {
             'type': 'object',
             'properties': {
@@ -47,7 +48,7 @@ export const toolbarConfigurationSchema: IJSONSchema = {
     // '$schema': 'https://json-schema.org/draft/2019-09/schema',
     '$id': 'vscode://schemas/indexing-grid',
     'type': 'object',
-    'title': 'Toolbar',
+    'title': nls.localize('theia/toolbar/schema/title', '工具栏'),
     'properties': {
         'items': {
             'type': 'object',

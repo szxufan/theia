@@ -45,7 +45,7 @@ export class FrontendLanguageModelServiceImpl extends LanguageModelServiceImpl {
         const reasoningEntries = this.aiConfiguration.get<ReasoningPreferenceEntry[]>(PREFERENCE_NAME_REASONING, []) ?? [];
         const trusted = await this.workspaceTrustService.getWorkspaceTrust();
         if (!trusted) {
-            throw new Error(nls.localize('theia/ai-core/aiDisabledInRestrictedMode', 'AI features are not available in untrusted workspaces.'));
+            throw new Error(nls.localize('theia/ai-core/aiDisabledInRestrictedMode', 'AI 功能在不受信任的工作区中不可用。'));
         }
 
         const ids = languageModel.id.split('/');

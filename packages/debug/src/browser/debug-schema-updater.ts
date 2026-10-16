@@ -72,18 +72,18 @@ export class DebugSchemaUpdater implements JsonSchemaContribution {
 const launchSchema: IJSONSchema = {
     $id: launchSchemaId,
     type: 'object',
-    title: nls.localizeByDefault('Launch'),
+    title: nls.localizeByDefault('启动'),
     required: [],
     default: { version: '0.2.0', configurations: [], compounds: [] },
     properties: {
         version: {
             type: 'string',
-            description: nls.localizeByDefault('Version of this file format.'),
+            description: nls.localizeByDefault('此文件格式的版本。'),
             default: '0.2.0'
         },
         configurations: {
             type: 'array',
-            description: nls.localizeByDefault('List of configurations. Add new configurations or edit existing ones by using IntelliSense.'),
+            description: nls.localizeByDefault('配置列表。使用 IntelliSense 添加新配置或编辑现有配置。'),
             items: {
                 defaultSnippets: [],
                 'type': 'object',
@@ -92,14 +92,14 @@ const launchSchema: IJSONSchema = {
         },
         compounds: {
             type: 'array',
-            description: nls.localizeByDefault('List of compounds. Each compound references multiple configurations which will get launched together.'),
+            description: nls.localizeByDefault('复合配置列表。每个复合配置引用多个将一起启动的配置。'),
             items: {
                 type: 'object',
                 required: ['name', 'configurations'],
                 properties: {
                     name: {
                         type: 'string',
-                        description: nls.localizeByDefault('Name of compound. Appears in the launch configuration drop down menu.')
+                        description: nls.localizeByDefault('复合配置的名称。显示在启动配置下拉菜单中。')
                     },
                     configurations: {
                         type: 'array',
@@ -107,33 +107,33 @@ const launchSchema: IJSONSchema = {
                         items: {
                             oneOf: [{
                                 type: 'string',
-                                description: nls.localizeByDefault('Please use unique configuration names.')
+                                description: nls.localizeByDefault('请使用唯一的配置名称。')
                             }, {
                                 type: 'object',
                                 required: ['name'],
                                 properties: {
                                     name: {
                                         enum: [],
-                                        description: nls.localizeByDefault('Name of compound. Appears in the launch configuration drop down menu.')
+                                        description: nls.localizeByDefault('复合配置的名称。显示在启动配置下拉菜单中。')
                                     },
                                     folder: {
                                         enum: [],
-                                        description: nls.localizeByDefault('Name of folder in which the compound is located.')
+                                        description: nls.localizeByDefault('复合配置所在文件夹的名称。')
                                     }
                                 }
                             }]
                         },
-                        description: nls.localizeByDefault('Names of configurations that will be started as part of this compound.')
+                        description: nls.localizeByDefault('将作为此复合配置的一部分启动的配置名称。')
                     },
                     stopAll: {
                         type: 'boolean',
                         default: false,
-                        description: nls.localizeByDefault('Controls whether manually terminating one session will stop all of the compound sessions.')
+                        description: nls.localizeByDefault('控制手动终止一个会话时是否停止复合配置的所有会话。')
                     },
                     preLaunchTask: {
                         type: 'string',
                         default: '',
-                        description: nls.localizeByDefault('Task to run before any of the compound configurations start.')
+                        description: nls.localizeByDefault('在任何复合配置启动前运行的任务。')
                     }
                 },
                 default: defaultCompound

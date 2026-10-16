@@ -57,7 +57,7 @@ export class WindowZoomStatusBarItem implements FrontendApplicationContribution 
             this.statusBar.removeElement(WindowZoomStatusBarItem.ID);
         } else {
             this.statusBar.setElement(WindowZoomStatusBarItem.ID, {
-                name: nls.localizeByDefault('Window Zoom'),
+                name: nls.localizeByDefault('窗口缩放'),
                 text: zoomLevel > 0 ? '$(codicon-zoom-in)' : '$(codicon-zoom-out)',
                 alignment: StatusBarAlignment.RIGHT,
                 priority: 110,

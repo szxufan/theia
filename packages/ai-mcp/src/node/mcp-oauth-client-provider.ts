@@ -205,7 +205,7 @@ export class MCPOAuthClientProvider implements OAuthClientProvider {
         }
         if (!callback.code) {
             throw new Error(nls.localize('theia/ai/mcp/oauth/missingAuthorizationCode',
-                'MCP OAuth authorization callback did not include an authorization code.'));
+                'MCP OAuth 授权回调未包含授权码。'));
         }
         return callback.code;
     }
@@ -233,7 +233,7 @@ export class MCPOAuthClientProvider implements OAuthClientProvider {
             const configuredResourceUrl = new URL(configuredResource);
             if (!checkResourceAllowed({ requestedResource: serverUrl, configuredResource: configuredResourceUrl })) {
                 throw new Error(nls.localize('theia/ai/mcp/oauth/configuredResourceMismatch',
-                    'Configured MCP OAuth resource {0} does not match {1}.', configuredResource, serverUrl.toString()));
+                    '配置的 MCP OAuth 资源 {0} 与 {1} 不匹配。', configuredResource, serverUrl.toString()));
             }
             return configuredResourceUrl;
         }
@@ -241,7 +241,7 @@ export class MCPOAuthClientProvider implements OAuthClientProvider {
             const resourceUrl = new URL(resource);
             if (!checkResourceAllowed({ requestedResource: serverUrl, configuredResource: resourceUrl })) {
                 throw new Error(nls.localize('theia/ai/mcp/oauth/protectedResourceMismatch',
-                    'Protected MCP OAuth resource {0} does not match {1}.', resource, serverUrl.toString()));
+                    '受保护的 MCP OAuth 资源 {0} 与 {1} 不匹配。', resource, serverUrl.toString()));
             }
             return resourceUrl;
         }
@@ -254,7 +254,7 @@ export class MCPOAuthClientProvider implements OAuthClientProvider {
         if (this.config.authorizationServer
             && normalizeOAuthUrl(state.authorizationServerUrl) !== normalizeOAuthUrl(this.config.authorizationServer)) {
             throw new Error(nls.localize('theia/ai/mcp/oauth/authorizationServerMismatch',
-                'Discovered MCP OAuth authorization server {0} does not match configured authorization server {1}.',
+                '发现的 MCP OAuth 授权服务器 {0} 与配置的授权服务器 {1} 不匹配。',
                 state.authorizationServerUrl, this.config.authorizationServer));
         }
         await this.write('discovery', state);

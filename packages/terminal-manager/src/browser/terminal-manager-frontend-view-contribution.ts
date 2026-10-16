@@ -44,7 +44,7 @@ export class TerminalManagerFrontendViewContribution extends AbstractViewContrib
     constructor() {
         super({
             widgetId: TerminalManagerWidget.ID,
-            widgetName: nls.localize('theia/terminal-manager', 'Terminal Manager'),
+            widgetName: nls.localize('theia/terminal-manager', '终端管理器'),
             defaultWidgetOptions: {
                 area: 'bottom',
             },
@@ -159,12 +159,12 @@ export class TerminalManagerFrontendViewContribution extends AbstractViewContrib
             isVisible: widget => widget instanceof TerminalManagerWidget,
             execute: async widget => {
                 if (widget instanceof TerminalManagerWidget) {
-                    const PRIMARY_BUTTON = nls.localize('theia/terminal-manager/resetLayout', 'Reset Layout');
+                    const PRIMARY_BUTTON = nls.localize('theia/terminal-manager/resetLayout', '重置布局');
                     const dialogResponse = await this.confirmUserAction({
-                        title: nls.localize('theia/terminal-manager/resetLayoutPrompt', 'Do you want to reset the terminal manager layout?'),
+                        title: nls.localize('theia/terminal-manager/resetLayoutPrompt', '要重置终端管理器布局吗？'),
                         message: nls.localize(
                             'theia/terminal-manager/resetLayoutMessage',
-                            'Once the layout is reset, it cannot be restored. Are you sure you would like to clear the layout?'),
+                            '布局一旦重置将无法恢复。确定要清除布局吗？'),
                         primaryButtonText: PRIMARY_BUTTON,
                     });
                     if (dialogResponse === PRIMARY_BUTTON) {

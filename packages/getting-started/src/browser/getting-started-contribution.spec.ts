@@ -190,7 +190,7 @@ describe('GettingStartedContribution', () => {
 
             await handlers.get(WalkthroughCommands.OPEN_WALKTHROUGH.id)!.execute();
 
-            expect(offeredItems.map(item => item.description)).to.deep.equal(['1 of 2', 'Completed']);
+            expect(offeredItems.map(item => item.description)).to.deep.equal(['已完成 1 步，共 2 步', '已完成']);
             expect(selectCalls).to.deep.equal(['wt1']);
             expect(openedView).to.be.true;
         });

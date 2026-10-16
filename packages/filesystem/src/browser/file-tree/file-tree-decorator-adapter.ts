@@ -26,7 +26,7 @@ import { FileStatNode } from './file-tree';
 @injectable()
 export class FileTreeDecoratorAdapter implements TreeDecorator {
     readonly id = 'decorations-service-tree-decorator-adapter';
-    protected readonly bubbleTooltip = nls.localizeByDefault('Contains emphasized items');
+    protected readonly bubbleTooltip = nls.localizeByDefault('包含强调显示的项目');
     @inject(DecorationsService) protected readonly decorationsService: DecorationsService;
     @inject(ColorRegistry) protected readonly colorRegistry: ColorRegistry;
 

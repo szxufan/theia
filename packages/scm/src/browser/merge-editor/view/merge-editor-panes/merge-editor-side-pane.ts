@@ -74,7 +74,7 @@ export abstract class MergeEditorSidePane extends MergeEditorPane {
         if (label) {
             label += ': ';
         }
-        label += `${nls.localizeByDefault('Base')} ⟷ ${this.header.title.label}`;
+        label += `${nls.localizeByDefault('基础版本')} ⟷ ${this.header.title.label}`;
         const options: EditorOpenerOptions = { selection: { start: this.editor.cursor } };
         open(this.openerService, DiffUris.encode(this.mergeEditor.baseUri, this.editor.uri, label), options).catch(e => {
             this.logger.error(e);
@@ -91,7 +91,7 @@ export abstract class MergeEditorSidePane extends MergeEditorPane {
             },
             {
                 id: 'compareWithBase',
-                tooltip: nls.localizeByDefault('Compare With Base'),
+                tooltip: nls.localizeByDefault('与基础版本比较'),
                 className: codicon('compare-changes', true),
                 onClick: () => this.compareWithBase()
             }

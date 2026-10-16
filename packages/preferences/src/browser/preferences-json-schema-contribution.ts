@@ -40,7 +40,8 @@ export class PreferencesJsonSchemaContribution implements JsonSchemaContribution
     @inject(WorkspaceService)
     protected readonly workspaceService: WorkspaceService;
 
-    protected readonly debouncedUpdateInMemoryResources = debounce(() => this.updateInMemoryResources(), DEBOUNCED_UPDATE_DELAY);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly debouncedUpdateInMemoryResources: any = debounce(() => this.updateInMemoryResources(), DEBOUNCED_UPDATE_DELAY);
 
     registerSchemas(context: JsonSchemaRegisterContext): void {
         this.registerSchema(PreferenceScope.Default, context);

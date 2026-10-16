@@ -54,7 +54,7 @@ export class TimelineTreeModel extends TreeModelImpl {
         let loadMore;
         if (hasMoreItems) {
             const loadMoreNode: TimelineItem = {
-                label: nls.localizeByDefault('Load more'),
+                label: nls.localizeByDefault('加载更多'),
                 timestamp: 0,
                 handle: '',
                 uri: '',

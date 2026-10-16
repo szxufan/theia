@@ -25,7 +25,7 @@ export const EditorPreviewConfigSchema: PreferenceSchema = {
         [ENABLE_PREVIEW_PREFERENCE]: {
             type: 'boolean',
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault("Controls whether preview mode is used when editors open. There is a maximum of one preview mode editor per editor group. This editor displays its filename in italics on its tab or title label and in the Open Editors view. Its contents will be replaced by the next editor opened in preview mode. Making a change in a preview mode editor will persist it, as will a double-click on its label, or the 'Keep Open' option in its label context menu. Opening a file from Explorer with a double-click persists its editor immediately."),
+            description: nls.localizeByDefault("控制打开编辑器时是否使用预览模式。每个编辑器组最多只有一个预览模式的编辑器。此编辑器的文件名在其标签页或标题标签以及“打开的编辑器”视图中以斜体显示。其内容将被下一个以预览模式打开的编辑器替换。在预览模式的编辑器中进行更改将使其持久化，双击其标签或在标签上下文菜单中选择“保持打开”也会使其持久化。在资源管理器中双击打开文件会立即持久化其编辑器。"),
             default: true
         },
     }

@@ -31,6 +31,7 @@ import {
 } from './chat-view-commands';
 import { ChatAgent, ChatAgentLocation, ChatService, ChatSessionMetadata, isActiveSessionChangedEvent } from '@theia/ai-chat';
 import { ChatAgentService } from '@theia/ai-chat/lib/common/chat-agent-service';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
 import { AbstractViewContribution } from '@theia/core/lib/browser/shell/view-contribution';
 import { TabBarToolbarContribution, TabBarToolbarRegistry } from '@theia/core/lib/browser/shell/tab-bar-toolbar';
@@ -105,11 +106,11 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
 
     protected static readonly RENAME_CHAT_BUTTON: QuickInputButton = {
         iconClass: 'codicon-edit',
-        tooltip: nls.localizeByDefault('Rename chat'),
+        tooltip: nls.localizeByDefault('重命名聊天'),
     };
     protected static readonly REMOVE_CHAT_BUTTON: QuickInputButton = {
         iconClass: 'codicon-remove-close',
-        tooltip: nls.localize('theia/ai/chat-ui/removeChat', 'Remove Chat'),
+        tooltip: nls.localize('theia/ai/chat-ui/removeChat', '删除聊天'),
     };
 
     @inject(SecondaryWindowHandler)
@@ -355,14 +356,14 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
                     // Get the session for this response node
                     const session = this.chatService.getActiveSession();
                     if (!session) {
-                        this.messageService.error(nls.localize('theia/ai/chat-ui/sessionNotFoundForRetry', 'Session not found for retry'));
+                        this.messageService.error(nls.localize('theia/ai/chat-ui/sessionNotFoundForRetry', '未找到可重试的会话'));
                         return;
                     }
 
                     // Find the request associated with this response
                     const request = session.model.getRequests().find(req => req.response.id === node.response.id);
                     if (!request) {
-                        this.messageService.error(nls.localize('theia/ai/chat-ui/requestNotFoundForRetry', 'Request not found for retry'));
+                        this.messageService.error(nls.localize('theia/ai/chat-ui/requestNotFoundForRetry', '未找到可重试的请求'));
                         return;
                     }
 
@@ -370,7 +371,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
                     await this.chatService.sendRequest(node.sessionId, request.request);
                 } catch (error) {
                     this.logger.error('Failed to retry chat message:', error);
-                    this.messageService.error(nls.localize('theia/ai/chat-ui/failedToRetry', 'Failed to retry message'));
+                    this.messageService.error(nls.localize('theia/ai/chat-ui/failedToRetry', '重试消息失败'));
                 }
             }
         });
@@ -422,7 +423,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
             command: AI_SHOW_SETTINGS_COMMAND.id,
             group: 'ai-settings',
             priority: 3,
-            tooltip: nls.localize('theia/ai-chat-ui/open-settings-tooltip', 'Open AI Settings'),
+            tooltip: nls.localize('theia/ai-chat-ui/open-settings-tooltip', '打开 AI 设置'),
             isVisible: widget => this.activationService.isActive && this.withWidget(widget),
             when: ENABLE_AI_CONTEXT_KEY
         });
@@ -495,7 +496,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
                     lastDate: session.lastInteraction ? session.lastInteraction.getTime() : 0,
                     firstRequestText: session.model.getRequests().at(0)?.request.text,
                     agentIconClass: session.pinnedAgent?.iconClass,
-                    agentName: session.pinnedAgent?.name
+                    agentName: session.pinnedAgent ? getAgentDisplayName(session.pinnedAgent) : undefined
                 }))
                 .sort((a, b) => b.lastDate - a.lastDate);
 
@@ -512,7 +513,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
                         lastDate: metadata.saveDate,
                         firstRequestText: undefined,
                         agentIconClass: agent?.iconClass,
-                        agentName: agent?.name
+                        agentName: agent ? getAgentDisplayName(agent) : undefined
                     };
                 })
                 .sort((a, b) => b.lastDate - a.lastDate);
@@ -544,12 +545,12 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
                 const timeAgo = formatTimeAgo(session.lastDate);
                 const subtitle = session.agentName ? `@${session.agentName} · ${timeAgo}` : timeAgo;
                 const description = session.isChild
-                    ? `${subtitle} · ${nls.localize('theia/ai/chat-ui/delegatedSession', 'Delegated')}`
+                    ? `${subtitle} · ${nls.localize('theia/ai/chat-ui/delegatedSession', '已委派')}`
                     : subtitle;
                 return {
                     label,
                     description,
-                    detail: session.firstRequestText || (session.isActive ? undefined : nls.localize('theia/ai/chat-ui/persistedSession', 'Persisted session (click to restore)')),
+                    detail: session.firstRequestText || (session.isActive ? undefined : nls.localize('theia/ai/chat-ui/persistedSession', '已持久化的会话（点击以恢复）')),
                     id: session.id,
                     buttons: [AIChatContribution.RENAME_CHAT_BUTTON, AIChatContribution.REMOVE_CHAT_BUTTON]
                 };
@@ -557,11 +558,11 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
 
             const items: (QuickPickItem | QuickPickSeparator)[] = [];
             if (activeSessions.length > 0) {
-                items.push({ type: 'separator', label: nls.localizeByDefault('Active') });
+                items.push({ type: 'separator', label: nls.localizeByDefault('活动') });
                 items.push(...activeSessions.map(toItem));
             }
             if (persistedSessions.length > 0) {
-                items.push({ type: 'separator', label: nls.localize('theia/ai/chat-ui/sectionRestored', 'Restored') });
+                items.push({ type: 'separator', label: nls.localize('theia/ai/chat-ui/sectionRestored', '已恢复') });
                 items.push(...persistedSessions.map(toItem));
             }
             return items;
@@ -569,7 +570,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
 
         const defer = new Deferred<QuickPickItem | undefined>();
         const quickPick = this.quickInputService.createQuickPick();
-        quickPick.placeholder = nls.localize('theia/ai/chat-ui/selectChat', 'Select chat');
+        quickPick.placeholder = nls.localize('theia/ai/chat-ui/selectChat', '选择聊天');
         quickPick.canSelectMany = false;
         quickPick.busy = true;
         quickPick.show();
@@ -581,7 +582,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
         }).catch(error => {
             this.logger.error('Failed to load chat sessions', error);
             quickPick.busy = false;
-            quickPick.placeholder = nls.localize('theia/ai/chat-ui/failedToLoadChats', 'Failed to load chat sessions');
+            quickPick.placeholder = nls.localize('theia/ai/chat-ui/failedToLoadChats', '加载聊天会话失败');
         });
 
         quickPick.onDidTriggerItemButton(async context => {
@@ -610,7 +611,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
                         this.checkPersistedSessions();
                     } catch (error) {
                         this.logger.error('Failed to restore chat session', error);
-                        this.messageService.error(nls.localize('theia/ai/chat-ui/failedToRestoreSession', 'Failed to restore chat session'));
+                        this.messageService.error(nls.localize('theia/ai/chat-ui/failedToRestoreSession', '恢复聊天会话失败'));
                         defer.resolve(undefined);
                         quickPick.hide();
                         return;
@@ -628,7 +629,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
 
     protected async renameSession(sessionId: string): Promise<void> {
         const name = await this.quickInputService.input({
-            placeHolder: nls.localize('theia/ai/chat-ui/enterChatName', 'Enter chat name')
+            placeHolder: nls.localize('theia/ai/chat-ui/enterChatName', '输入聊天名称')
         });
         if (name && name.length > 0) {
             await this.chatService.renameSession(sessionId, name);
@@ -638,8 +639,8 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
     protected async deleteSession(sessionId: string, confirm = false): Promise<void> {
         if (confirm) {
             const confirmed = await new ConfirmDialog({
-                title: nls.localizeByDefault('Delete Chat'),
-                msg: nls.localizeByDefault('Are you sure you want to delete this chat?')
+                title: nls.localizeByDefault('删除聊天'),
+                msg: nls.localizeByDefault('您确定要删除此聊天吗？')
             }).open();
             if (!confirmed) {
                 return;
@@ -655,7 +656,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
         } catch (error) {
             this.logger.error('Failed to delete chat session', error);
             this.messageService.error(
-                nls.localize('theia/ai/chat-ui/failedToDeleteSession', 'Failed to delete chat session')
+                nls.localize('theia/ai/chat-ui/failedToDeleteSession', '删除聊天会话失败')
             );
         }
     }
@@ -685,7 +686,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
         return this.taskContextService.summarize(activeSession, undefined, undefined, override).catch(err => {
             this.logger.warn('Error while summarizing session:', err);
             this.messageService.error(nls.localize('theia/ai/chat-ui/unableToSummarizeCurrentSession',
-                'Unable to summarize current session. Please confirm that the summary agent is not disabled.'));
+                '无法总结当前会话。请确认总结代理未被禁用。'));
             return undefined;
         });
     }
@@ -698,12 +699,12 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
     protected async selectAgent(defaultAgentId?: string): Promise<ChatAgent | undefined> {
         const agents = this.chatAgentService.getAgents();
         if (agents.length === 0) {
-            this.messageService.warn(nls.localize('theia/ai/chat-ui/noChatAgentsAvailable', 'No chat agents available.'));
+            this.messageService.warn(nls.localize('theia/ai/chat-ui/noChatAgentsAvailable', '没有可用的聊天代理。'));
             return undefined;
         }
 
         const items: QuickPickItem[] = agents.map(agent => ({
-            label: agent.name || agent.id,
+            label: getAgentDisplayName(agent),
             description: agent.description,
             id: agent.id
         }));
@@ -714,7 +715,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
         }
 
         const selected = await this.quickInputService.showQuickPick(items, {
-            placeholder: nls.localize('theia/ai/chat-ui/selectAgentQuickPickPlaceholder', 'Select an agent for the new session'),
+            placeholder: nls.localize('theia/ai/chat-ui/selectAgentQuickPickPlaceholder', '为新会话选择一个代理'),
             activeItem: preselected
         });
 
@@ -738,7 +739,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
             const isOpened = openedFilesInfo.openedIds.includes(summary.id);
             const isActive = openedFilesInfo.activeId === summary.id;
             return {
-                label: isOpened ? `📄 ${summary.label} (${nls.localize('theia/ai/chat-ui/selectTaskContextQuickPickItem/currentlyOpen', 'currently open')})` : summary.label,
+                label: isOpened ? `📄 ${summary.label} (${nls.localize('theia/ai/chat-ui/selectTaskContextQuickPickItem/currentlyOpen', '当前已打开')})` : summary.label,
                 description: summary.id,
                 id: summary.id,
                 // We'll sort active file first, then opened files, then others
@@ -747,7 +748,7 @@ export class AIChatContribution extends AbstractViewContribution<ChatViewWidget>
         }).sort((a, b) => a.sortText!.localeCompare(b.sortText!));
 
         const selected = await this.quickInputService.showQuickPick(items, {
-            placeholder: nls.localize('theia/ai/chat-ui/selectTaskContextQuickPickPlaceholder', 'Select a task context to attach')
+            placeholder: nls.localize('theia/ai/chat-ui/selectTaskContextQuickPickPlaceholder', '选择要附加的任务上下文')
         });
 
         return selected?.id;

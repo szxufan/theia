@@ -234,9 +234,9 @@ export class SketchedToolServiceImpl implements SketchedToolService, FrontendApp
     protected async askUserForReturnValue(toolName: string, argString: string): Promise<string> {
         const result = await this.quickInputService.input({
             prompt: nls.localize('theia/ai-tool-sketchpad/askReturnPrompt',
-                'Tool "{0}" was called with: {1}', toolName, argString),
+                '工具“{0}”被调用，参数为：{1}', toolName, argString),
             placeHolder: nls.localize('theia/ai-tool-sketchpad/askReturnPlaceholder',
-                'Enter the return value for this tool call...')
+                '输入此工具调用的返回值...')
         });
         return result ?? '';
     }

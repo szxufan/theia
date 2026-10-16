@@ -229,7 +229,7 @@ export class ViewContainer extends BaseWidget implements StatefulWidget, Applica
             }),
             menuRegistry.registerMenuAction([...this.contextMenuPath, '0_global'], {
                 commandId: this.globalHideCommandId,
-                label: nls.localizeByDefault('Hide')
+                label: nls.localizeByDefault('隐藏')
             }),
             this.onDidChangeTrackableWidgetsEmitter,
             this.onDidChangeTrackableWidgets(() => this.decoratorService.fireDidChangeDecorations())

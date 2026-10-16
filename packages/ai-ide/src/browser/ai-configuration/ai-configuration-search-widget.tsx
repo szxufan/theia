@@ -77,13 +77,13 @@ export class AiConfigurationSearchWidget extends ReactWidget {
                     ? <button
                         type='button'
                         className={`ai-configuration-tree-toolbar-button ${codicon('collapse-all')}`}
-                        title={nls.localizeByDefault('Collapse All')}
+                        title={nls.localizeByDefault('全部折叠')}
                         onClick={this.onCollapseAll}
                     ></button>
                     : <button
                         type='button'
                         className={`ai-configuration-tree-toolbar-button ${codicon('expand-all')}`}
-                        title={nls.localizeByDefault('Expand All')}
+                        title={nls.localizeByDefault('全部展开')}
                         onClick={this.onExpandAll}
                     ></button>}
             </div>}
@@ -112,14 +112,14 @@ const AiConfigurationSearchInput: React.FC<{ onQueryChange: (query: string) => v
             clear();
         }
     }, [query, clear]);
-    const clearLabel = nls.localizeByDefault('Clear');
+    const clearLabel = nls.localizeByDefault('清除');
     return <div className='ai-configuration-search-wrap'>
         <span className={`ai-configuration-search-icon ${codicon('search')}`}></span>
         <input
             className='theia-input ai-configuration-search-input'
             type='text'
             spellCheck={false}
-            placeholder={nls.localize('theia/ai/core/aiConfiguration/searchPlaceholder', 'Search AI settings')}
+            placeholder={nls.localize('theia/ai/core/aiConfiguration/searchPlaceholder', '搜索 AI 设置')}
             value={query}
             onChange={change}
             onKeyDown={onKeyDown}

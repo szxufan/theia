@@ -209,8 +209,8 @@ export class ApplicationConnectionStatusContribution extends DefaultFrontendAppl
     protected handleOffline(): void {
         this.statusBar.setElement(this.statusbarId, {
             alignment: StatusBarAlignment.LEFT,
-            text: nls.localizeByDefault('Offline'),
-            tooltip: nls.localize('theia/localize/offlineTooltip', 'Cannot connect to backend.'),
+            text: nls.localizeByDefault('离线'),
+            tooltip: nls.localize('theia/localize/offlineTooltip', '无法连接到后端。'),
             priority: 5000
         });
         this.toDisposeOnOnline.push(Disposable.create(() => this.statusBar.removeElement(this.statusbarId)));

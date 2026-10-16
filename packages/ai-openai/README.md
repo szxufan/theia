@@ -4,22 +4,23 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - OPEN AI EXTENSION</h2>
+<h2>ECLIPSE THEIA - OPEN AI 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/ai-openai` integrates OpenAI's models with Theia AI.
-The OpenAI API key and the models to use can be configured via preferences.
-Alternatively the OpenAI API key can also be handed in via the `OPENAI_API_KEY` variable.
+`@theia/ai-openai` 将 OpenAI 的模型与 Theia AI 集成。
+OpenAI API 密钥和要使用的模型可以通过首选项进行配置。
+或者，也可以通过 `OPENAI_API_KEY` 变量提供 OpenAI API 密钥。
 
-### Custom models
+### 自定义模型
 
-The extension also supports OpenAI compatible models hosted on different end points.
-You can configure the end points via the `ai-features.openAiCustom.customOpenAiModels` preference:
+该扩展还支持托管在不同端点上的 OpenAI 兼容模型。
+推荐在 AI 配置视图的「OpenAI（自定义）」页面中以可视化方式添加和编辑端点（每个端点一张卡片，
+逐字段填写）；也可以直接通过 `ai-features.openAiCustom.customOpenAiModels` 首选项配置：
 
 ```ts
 {
@@ -33,28 +34,27 @@ You can configure the end points via the `ai-features.openAiCustom.customOpenAiM
 }
 ```
 
-- `model` and `url` are mandatory attributes, indicating the end point and model to use
-- `id` is an optional attribute which is used in the UI to refer to this configuration
-- `apiKey` is either the key to access the API served at the given URL or `true` to use the global OpenAI API key. If not given 'no-key' will be used. The `apiKey` will be send as a Bearer Token in the authorization request.
-- `apiVersion` is either the api version to access the API served at the given URL in Azure or `true` to use the global OpenAI API version.
-- `developerMessageSettings` Controls the handling of system messages: `user`, `system`, and `developer` will be used as a role, `mergeWithFollowingUserMessage` will prefix the
-  following user message with the system message or convert the system message to user message if the next message is not a user message. `skip` will just remove the system message.
-  Defaulting to `developer`.
-- `enableStreaming` is a flag that indicates whether the streaming API shall be used or not. `true` by default.
+- `model` 和 `url` 是必需属性，指示要使用的端点和模型
+- `id` 是可选属性，在 UI 中用于引用此配置
+- `apiKey` 是访问给定 URL 所提供 API 的密钥，或为 `true` 以使用全局 OpenAI API 密钥。如果未提供，将使用 'no-key'。`apiKey` 将作为 Bearer Token 在授权请求中发送。
+- `apiVersion` 是在 Azure 中访问给定 URL 所提供 API 的 API 版本，或为 `true` 以使用全局 OpenAI API 版本。
+- `developerMessageSettings` 控制系统消息的处理方式：`user`、`system` 和 `developer` 将被用作角色，`mergeWithFollowingUserMessage` 会将系统消息作为后续用户消息的前缀，或者在接下来的消息不是用户消息时将系统消息转换为用户消息。`skip` 则直接移除系统消息。
+  默认为 `developer`。
+- `enableStreaming` 是一个标志，指示是否应使用流式 API。默认为 `true`。
 
 ### Azure OpenAI
 
-To use a custom OpenAI model hosted on Azure, the `AzureOpenAI` class needs to be used, as described in the
-[openai-node docs](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai).
+要使用托管在 Azure 上的自定义 OpenAI 模型，需要使用 `AzureOpenAI` 类，如
+[openai-node 文档](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai)所述。
 
-Requests to an OpenAI model hosted on Azure need an `apiVersion`. To configure a custom OpenAI model in Theia you therefore need to configure the `apiVersion` with the end point.
-Note that if you don't configure an `apiVersion`, the default `OpenAI` object is used for initialization and a connection to an Azure hosted OpenAI model will fail.
+对托管在 Azure 上的 OpenAI 模型的请求需要 `apiVersion`。因此，要在 Theia 中配置自定义 OpenAI 模型，你需要为端点配置 `apiVersion`。
+注意，如果不配置 `apiVersion`，将使用默认的 `OpenAI` 对象进行初始化，与 Azure 托管的 OpenAI 模型的连接将会失败。
 
-An OpenAI model version deployed on Azure might not support the `developer` role. In that case it is possible to configure whether the `developer` role is supported or not via the
-`developerMessageSettings` option, e.g. setting it to `system` or `user`.
+部署在 Azure 上的 OpenAI 模型版本可能不支持 `developer` 角色。在这种情况下，可以通过
+`developerMessageSettings` 选项配置是否支持 `developer` 角色，例如将其设置为 `system` 或 `user`。
 
-The following snippet shows a possible configuration to access an OpenAI model hosted on Azure. The `AZURE_OPENAI_API_BASE_URL` needs to be given without the `/chat/completions`
-path and without the `api-version` parameter, e.g. _`https://<my_prefix>.openai.azure.com/openai/deployments/<my_deployment>`_
+以下代码片段展示了访问托管在 Azure 上的 OpenAI 模型的可能配置。`AZURE_OPENAI_API_BASE_URL` 需要不含 `/chat/completions`
+路径，也不含 `api-version` 参数，例如 _`https://<my_prefix>.openai.azure.com/openai/deployments/<my_deployment>`_
 
 ```json
 {
@@ -90,18 +90,18 @@ path and without the `api-version` parameter, e.g. _`https://<my_prefix>.openai.
 }
 ```
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/ai-openai`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-openai.html)
+- [`@theia/ai-openai` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-openai.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

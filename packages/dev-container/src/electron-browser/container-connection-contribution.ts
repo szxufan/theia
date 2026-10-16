@@ -170,14 +170,14 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
         const filePath = new URLSearchParams(uri.query).get(DEV_CONTAINER_PATH_QUERY);
 
         if (!filePath) {
-            throw new Error(nls.localize('theia/dev-container/noDevcontainerFileSpecified', 'No devcontainer file specified for workspace'));
+            throw new Error(nls.localize('theia/dev-container/noDevcontainerFileSpecified', '未为工作区指定 devcontainer 文件'));
         }
 
         const devcontainerFiles = await this.connectionProvider.getDevContainerFiles(uri.path.toString());
         const devcontainerFile = devcontainerFiles.find(file => file.path === filePath);
 
         if (!devcontainerFile) {
-            throw new Error(nls.localize('theia/dev-container/devcontainerFileNotFound', 'Devcontainer file at {0} not found in workspace', filePath));
+            throw new Error(nls.localize('theia/dev-container/devcontainerFileNotFound', '工作区中未找到位于 {0} 的 devcontainer 文件', filePath));
         }
 
         return this.doOpenInContainer(devcontainerFile, uri.path.toString());
@@ -204,7 +204,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
     async rebuildContainer(): Promise<void> {
         this.containerOutputProvider.openChannel();
         const progress = await this.messageService.showProgress({
-            text: nls.localize('theia/remote/dev-container/rebuilding', 'Rebuilding dev container')
+            text: nls.localize('theia/remote/dev-container/rebuilding', '正在重新构建开发容器')
         });
 
         try {
@@ -213,7 +213,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             // doesn't have the container's workspace path).
             const ctx = await this.storageService.getData<DevContainerContext | undefined>(ACTIVE_DEV_CONTAINER_CONTEXT);
             if (ctx) {
-                progress.report({ message: nls.localize('theia/dev-container/removingOldContainer', 'Removing old container...') });
+                progress.report({ message: nls.localize('theia/dev-container/removingOldContainer', '正在移除旧容器...') });
                 try {
                     await this.connectionProvider.removeContainer(ctx.containerId);
                 } catch (error) {
@@ -237,7 +237,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             const lastContainerInfoKey = `${LAST_USED_CONTAINER}:${devcontainerFile.path}`;
             const lastContainerInfo = await this.storageService.getData<LastContainerInfo | undefined>(lastContainerInfoKey);
             if (lastContainerInfo) {
-                progress.report({ message: nls.localize('theia/dev-container/removingOldContainer', 'Removing old container...') });
+                progress.report({ message: nls.localize('theia/dev-container/removingOldContainer', '正在移除旧容器...') });
                 try {
                     await this.connectionProvider.removeContainer(lastContainerInfo.id);
                 } catch (error) {
@@ -249,7 +249,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             this.doOpenInContainer(devcontainerFile);
         } catch (e) {
             progress.cancel();
-            this.messageService.error(nls.localize('theia/dev-container/failedToRebuild', 'Failed to rebuild container: {0}', (e as Error).message));
+            this.messageService.error(nls.localize('theia/dev-container/failedToRebuild', '重新构建容器失败: {0}', (e as Error).message));
         }
     }
 
@@ -293,10 +293,10 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
     async attachToRunningContainer(): Promise<void> {
         try {
             const confirmed = await new ConfirmDialog({
-                title: nls.localize('theia/remote/dev-container/attachWarningTitle', 'Attach to Container'),
+                title: nls.localize('theia/remote/dev-container/attachWarningTitle', '附加到容器'),
                 msg: nls.localize('theia/remote/dev-container/attachWarning',
-                    'Attaching to a container will execute code inside it. Only attach to containers whose origin you trust.'),
-                ok: nls.localizeByDefault('Continue'),
+                    '附加到容器将在其中执行代码。请只附加到您信任来源的容器。'),
+                ok: nls.localizeByDefault('继续'),
                 cancel: Dialog.CANCEL,
             }).open();
             if (!confirmed) {
@@ -306,7 +306,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             const containers = await this.connectionProvider.listRunningContainers();
             if (containers.length === 0) {
                 this.messageService.info(
-                    nls.localize('theia/remote/dev-container/noRunningContainers', 'No running containers found.')
+                    nls.localize('theia/remote/dev-container/noRunningContainers', '未找到正在运行的容器。')
                 );
                 return;
             }
@@ -318,7 +318,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
                 detail: container.status,
                 container
             })), {
-                title: nls.localize('theia/remote/dev-container/selectContainer', 'Select a running container to attach to')
+                title: nls.localize('theia/remote/dev-container/selectContainer', '选择要附加到的运行中容器')
             });
 
             if (!selectedItem) {
@@ -339,11 +339,11 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
                 {
                     type: 'item' as const,
                     id: customPathId,
-                    label: nls.localize('theia/remote/dev-container/enterCustomPath', 'Enter custom path...'),
+                    label: nls.localize('theia/remote/dev-container/enterCustomPath', '输入自定义路径...'),
                     description: ''
                 }
             ], {
-                title: nls.localize('theia/remote/dev-container/selectWorkspacePath', 'Select a workspace path inside the container')
+                title: nls.localize('theia/remote/dev-container/selectWorkspacePath', '选择容器内的工作区路径')
             });
 
             if (!pathItem) {
@@ -353,7 +353,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             let selectedPath: string | undefined;
             if ('id' in pathItem && pathItem.id === customPathId) {
                 selectedPath = await this.quickInputService.input({
-                    prompt: nls.localize('theia/remote/dev-container/enterWorkspacePath', 'Enter the workspace path inside the container'),
+                    prompt: nls.localize('theia/remote/dev-container/enterWorkspacePath', '输入容器内的工作区路径'),
                     value: '/'
                 });
             } else {
@@ -375,11 +375,11 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
                     } else {
                         // 'ask'
                         const applyConfig = await new ConfirmDialog({
-                            title: nls.localize('theia/remote/dev-container/foundConfigTitle', 'Dev Container Configuration Found'),
+                            title: nls.localize('theia/remote/dev-container/foundConfigTitle', '找到开发容器配置'),
                             msg: nls.localize('theia/remote/dev-container/foundConfigMsg',
-                                'A devcontainer.json was found at {0}. Would you like to apply its post-attach settings (extensions, port forwarding, etc.)?',
+                                '在 {0} 处找到 devcontainer.json。是否要应用其附加后设置（扩展、端口转发等）？',
                                 foundConfig),
-                            ok: nls.localizeByDefault('Apply'),
+                            ok: nls.localizeByDefault('应用'),
                             cancel: Dialog.CANCEL,
                         }).open();
                         if (applyConfig) {
@@ -392,7 +392,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             this.containerOutputProvider.openChannel();
 
             const progress = await this.messageService.showProgress({
-                text: nls.localize('theia/remote/dev-container/attaching', 'Attaching to container')
+                text: nls.localize('theia/remote/dev-container/attaching', '正在附加到容器')
             });
 
             try {
@@ -438,7 +438,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             return devcontainerFiles[0];
         } else if (devcontainerFiles.length === 0) {
             // eslint-disable-next-line max-len
-            this.messageService.error(nls.localize('theia/remote/dev-container/noDevcontainerFiles', 'No devcontainer.json files found in the workspace. Please ensure you have a .devcontainer directory with a devcontainer.json file.'));
+            this.messageService.error(nls.localize('theia/remote/dev-container/noDevcontainerFiles', '在工作区中未找到 devcontainer.json 文件。请确保您拥有包含 devcontainer.json 文件的 .devcontainer 目录。'));
             return undefined;
         }
 
@@ -448,7 +448,7 @@ export class ContainerConnectionContribution extends AbstractRemoteRegistryContr
             description: file.path,
             file: file,
         })), {
-            title: nls.localize('theia/remote/dev-container/selectDevcontainer', 'Select a devcontainer.json file')
+            title: nls.localize('theia/remote/dev-container/selectDevcontainer', '选择一个 devcontainer.json 文件')
         }))?.file;
     }
 

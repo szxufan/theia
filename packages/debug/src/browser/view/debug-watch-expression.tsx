@@ -65,7 +65,7 @@ export class DebugWatchExpression extends ExpressionItem {
                 <span title={this.type || this._expression} className='name'>{this._expression}:</span>
                 <span title={this._value} className={valueClass}>{this._value}</span>
             </div>
-            <div className={codicon('close', true)} title={nls.localizeByDefault('Remove Expression')} onClick={this.options.remove} />
+            <div className={codicon('close', true)} title={nls.localizeByDefault('移除表达式')} onClick={this.options.remove} />
         </div>;
     }
 
@@ -81,9 +81,9 @@ export class DebugWatchExpression extends ExpressionItem {
 
     async open(): Promise<void> {
         const input = new SingleTextInputDialog({
-            title: nls.localizeByDefault('Edit Expression'),
+            title: nls.localizeByDefault('编辑表达式'),
             initialValue: this.expression,
-            placeholder: nls.localizeByDefault('Expression to watch')
+            placeholder: nls.localizeByDefault('要监视的表达式')
         });
         const newValue = await input.open();
         if (newValue !== undefined) {

@@ -27,11 +27,11 @@ export const PromptVariantBadge: React.FC<PromptVariantBadgeProps> = ({ variantI
     // eslint-disable-next-line no-null/no-null
     const badgeRef = React.useRef<HTMLSpanElement>(null);
     const displayText = isEdited
-        ? `[${nls.localize('theia/ai/chat-ui/edited', 'edited')}] ${variantId}`
+        ? `[${nls.localize('theia/ai/chat-ui/edited', '已编辑')}] ${variantId}`
         : variantId;
-    const baseTooltip = nls.localize('theia/ai/chat-ui/variantTooltip', 'Prompt variant: {0}', variantId);
+    const baseTooltip = nls.localize('theia/ai/chat-ui/variantTooltip', '提示词变体：{0}', variantId);
     const tooltip = isEdited
-        ? baseTooltip + '. ' + nls.localize('theia/ai/chat-ui/editedTooltipHint', 'This prompt variant has been edited. You can reset it in the AI Configuration view.')
+        ? baseTooltip + '。' + nls.localize('theia/ai/chat-ui/editedTooltipHint', '此提示词变体已被编辑。您可以在 AI 配置视图中将其重置。')
         : baseTooltip;
 
     return (

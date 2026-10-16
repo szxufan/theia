@@ -225,7 +225,7 @@ export class DebugConsoleContribution extends AbstractViewContribution<ConsoleWi
     static options: ConsoleOptions = {
         id: 'debug-console',
         title: {
-            label: nls.localizeByDefault('Debug Console'),
+            label: nls.localizeByDefault('调试控制台'),
             iconClass: codicon('debug-console')
         },
         input: {
@@ -312,7 +312,7 @@ export class DebugConsoleContribution extends AbstractViewContribution<ConsoleWi
         sortedSessions.forEach(session => {
             let label = session.label;
             if (session.terminated) {
-                label = `${label} (${nls.localizeByDefault('Stopped')})`;
+                label = `${label} (${nls.localizeByDefault('已停止')})`;
             }
             availableConsoles.push({
                 value: session.id,
@@ -349,8 +349,8 @@ export class DebugConsoleContribution extends AbstractViewContribution<ConsoleWi
                 <input
                     type="text"
                     className="theia-input"
-                    placeholder={nls.localize('theia/debug/consoleFilterPlaceholder', 'Filter (e.g. text, !exclude)')}
-                    aria-label={nls.localize('theia/debug/consoleFilterAriaLabel', 'Filter debug console output')}
+                    placeholder={nls.localize('theia/debug/consoleFilterPlaceholder', '筛选（例如 text、!exclude）')}
+                    aria-label={nls.localize('theia/debug/consoleFilterAriaLabel', '筛选调试控制台输出')}
                     ref={ref => { this.filterInputRef = ref ?? undefined; }}
                     onChange={this.handleFilterInputChange}
                     onMouseEnter={this.handleFilterMouseEnter}
@@ -359,9 +359,9 @@ export class DebugConsoleContribution extends AbstractViewContribution<ConsoleWi
                 {this.currentFilterValue && <span
                     className="debug-console-filter-btn codicon codicon-close action-label"
                     role="button"
-                    aria-label={nls.localizeByDefault('Clear')}
+                    aria-label={nls.localizeByDefault('清除')}
                     onClick={this.handleFilterClear}
-                    title={nls.localizeByDefault('Clear')}
+                    title={nls.localizeByDefault('清除')}
                 />}
             </div>
         );
@@ -374,7 +374,8 @@ export class DebugConsoleContribution extends AbstractViewContribution<ConsoleWi
         this.applyFilterDebounced(value);
     };
 
-    protected applyFilterDebounced = debounce((value: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected applyFilterDebounced: any = debounce((value: string) => {
         const session = this.consoleSessionManager.selectedSession;
         if (session) {
             session.filterText = value;

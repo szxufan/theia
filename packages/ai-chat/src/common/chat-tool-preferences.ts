@@ -64,9 +64,9 @@ export const TOOL_CONFIRMATION_MODE_VALUES = [
 ];
 
 export const TOOL_CONFIRMATION_MODE_DESCRIPTIONS = [
-    nls.localize('theia/ai/chat/toolConfirmation/alwaysAllow/description', 'Execute tools automatically without confirmation'),
-    nls.localize('theia/ai/chat/toolConfirmation/confirm/description', 'Ask for confirmation before executing tools'),
-    nls.localize('theia/ai/chat/toolConfirmation/disabled/description', 'Disable tool execution')
+    nls.localize('theia/ai/chat/toolConfirmation/alwaysAllow/description', '自动执行工具而无需确认'),
+    nls.localize('theia/ai/chat/toolConfirmation/confirm/description', '在执行工具前请求确认'),
+    nls.localize('theia/ai/chat/toolConfirmation/disabled/description', '禁用工具执行')
 ];
 
 export const chatToolPreferences: PreferenceSchema = {
@@ -77,9 +77,8 @@ export const chatToolPreferences: PreferenceSchema = {
             enumDescriptions: TOOL_CONFIRMATION_MODE_DESCRIPTIONS,
             default: ToolConfirmationMode.CONFIRM,
             description: nls.localize('theia/ai/chat/defaultToolConfirmation/description',
-                'Default confirmation behavior used for tools that do not have a tool-specific entry under ' +
-                '"ai-features.chat.toolConfirmation". Tools that explicitly require confirmation before being auto-approved ' +
-                'always default to "confirm" regardless of this setting.'),
+                '在 "ai-features.chat.toolConfirmation" 下没有特定工具条目的工具所使用的默认确认行为。' +
+                '显式要求在自动批准前进行确认的工具始终默认为 "confirm"，无论此设置如何。'),
             title: AI_CORE_PREFERENCES_TITLE,
         },
         [TOOL_CONFIRMATION_PREFERENCE]: {
@@ -91,8 +90,8 @@ export const chatToolPreferences: PreferenceSchema = {
             },
             default: {},
             description: nls.localize('theia/ai/chat/toolConfirmation/description',
-                'Configure confirmation behavior for individual tools. Key is the tool ID, value is the confirmation mode. ' +
-                'To change the default for all tools, use "ai-features.chat.defaultToolConfirmation".'),
+                '为单个工具配置确认行为。键为工具 ID，值为确认模式。' +
+                '要更改所有工具的默认值，请使用 "ai-features.chat.defaultToolConfirmation"。'),
             title: AI_CORE_PREFERENCES_TITLE,
         },
         [TOOL_CONFIRMATION_TIMEOUT_PREFERENCE]: {
@@ -100,8 +99,8 @@ export const chatToolPreferences: PreferenceSchema = {
             default: 0,
             minimum: 0,
             description: nls.localize('theia/ai/chat/toolConfirmationTimeout/description',
-                'Timeout in seconds for tool confirmation dialogs. When set to a positive value, tool confirmations will automatically be denied ' +
-                'after the specified duration. Set to 0 to disable (default).'),
+                '工具确认对话框的超时时间（秒）。设置为正值时，工具确认将在指定的时长后自动被拒绝。' +
+                '设置为 0 表示禁用（默认）。'),
             title: AI_CORE_PREFERENCES_TITLE,
         }
     }

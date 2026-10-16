@@ -38,20 +38,20 @@ export function formatRelativeTime(ms: number): string {
     }
     if (diffDay >= 1) {
         return diffDay === 1
-            ? nls.localizeByDefault('{0} day ago', diffDay)
-            : nls.localizeByDefault('{0} days ago', diffDay);
+            ? nls.localizeByDefault('{0} 天前', diffDay)
+            : nls.localizeByDefault('{0} 天前', diffDay);
     }
     if (diffHour >= 1) {
         return diffHour === 1
-            ? nls.localize('theia/scm/1HourAgo', '1 hour ago')
-            : nls.localizeByDefault('{0} hours ago', diffHour);
+            ? nls.localize('theia/scm/1HourAgo', '1 小时前')
+            : nls.localizeByDefault('{0} 小时前', diffHour);
     }
     if (diffMin >= 1) {
         return diffMin === 1
-            ? nls.localize('theia/scm/1MinuteAgo', '1 minute ago')
-            : nls.localizeByDefault('{0} minutes ago', diffMin);
+            ? nls.localize('theia/scm/1MinuteAgo', '1 分钟前')
+            : nls.localizeByDefault('{0} 分钟前', diffMin);
     }
-    return nls.localize('theia/scm/justNow', 'just now');
+    return nls.localize('theia/scm/justNow', '刚刚');
 }
 
 export function formatAbsoluteDate(ms: number): string {
@@ -246,7 +246,7 @@ export function buildHtmlTooltip(
         const stats = document.createElement('div');
         stats.className = 'scm-history-tooltip-stats';
 
-        const fileCount = s.files === 1 ? '1 file changed' : `${s.files} files changed`;
+        const fileCount = s.files === 1 ? '更改了 1 个文件' : `更改了 ${s.files} 个文件`;
         const filesStrong = document.createElement('strong');
         filesStrong.textContent = fileCount;
         stats.appendChild(filesStrong);
@@ -255,7 +255,7 @@ export function buildHtmlTooltip(
             stats.appendChild(document.createTextNode(', '));
             const ins = document.createElement('span');
             ins.className = 'scm-history-stat-added';
-            ins.textContent = `${s.insertions} insertion${s.insertions === 1 ? '' : 's'}(+)`;
+            ins.textContent = `插入 ${s.insertions} 行(+)`;
             stats.appendChild(ins);
         }
 
@@ -263,7 +263,7 @@ export function buildHtmlTooltip(
             stats.appendChild(document.createTextNode(', '));
             const del = document.createElement('span');
             del.className = 'scm-history-stat-deleted';
-            del.textContent = `${s.deletions} deletion${s.deletions === 1 ? '' : 's'}(-)`;
+            del.textContent = `删除 ${s.deletions} 行(-)`;
             stats.appendChild(del);
         }
 
@@ -316,14 +316,14 @@ export function buildHtmlTooltip(
 
         if (actions?.openCommit) {
             actionsRow.appendChild(createTooltipAction(
-                nls.localize('theia/scm/openCommit', 'Open Commit'), 'git-commit', shortHash, actions.openCommit));
+                nls.localize('theia/scm/openCommit', '打开提交'), 'git-commit', shortHash, actions.openCommit));
         }
         if (actions?.copyCommitHash) {
             if (actions.openCommit) {
                 actionsRow.appendChild(document.createTextNode('  '));
             }
             actionsRow.appendChild(createTooltipAction(
-                nls.localizeByDefault('Copy Commit Hash'), 'copy', undefined, actions.copyCommitHash));
+                nls.localizeByDefault('复制提交哈希'), 'copy', undefined, actions.copyCommitHash));
         }
 
         container.appendChild(actionsRow);

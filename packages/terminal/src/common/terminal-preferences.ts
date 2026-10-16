@@ -182,20 +182,20 @@ const commonProfileProperties: PreferenceSchema['properties'] = {
         additionalProperties: {
             type: 'string'
         },
-        markdownDescription: nls.localizeByDefault('An object with environment variables that will be added to the terminal profile process. Set to `null` to delete environment variables from the base environment.'),
+        markdownDescription: nls.localizeByDefault('一个包含环境变量的对象，这些变量将被添加到终端配置文件进程中。设置为 `null` 可从基础环境中删除环境变量。'),
     },
     overrideName: {
         type: 'boolean',
-        description: nls.localizeByDefault('Whether or not to replace the dynamic terminal title that detects what program is running with the static profile name.')
+        description: nls.localizeByDefault('是否将检测正在运行的程序的动态终端标题替换为静态配置文件名称。')
     },
     icon: {
         type: 'string',
-        markdownDescription: nls.localize('theia/terminal/profileIcon', 'A codicon ID to associate with the terminal icon.\nterminal-tmux:"$(terminal-tmux)"')
+        markdownDescription: nls.localize('theia/terminal/profileIcon', '要与终端图标关联的 codicon ID。\nterminal-tmux:"$(terminal-tmux)"')
     },
     color: {
         type: 'string',
         enum: Object.getOwnPropertyNames(terminalAnsiColorMap),
-        description: nls.localize('theia/terminal/profileColor', 'A terminal theme color ID to associate with the terminal.')
+        description: nls.localize('theia/terminal/profileColor', '要与终端关联的终端主题颜色 ID。')
     }
 };
 
@@ -212,130 +212,130 @@ const stringOrStringArray: IJSONSchema = {
 };
 
 const pathProperty: IJSONSchema = {
-    description: nls.localize('theia/terminal/profilePath', 'The path of the shell that this profile uses.'),
+    description: nls.localize('theia/terminal/profilePath', '此配置文件使用的 shell 路径。'),
     ...stringOrStringArray
 };
 
 function shellArgsDeprecatedMessage(type: OS.Type): string {
-    return nls.localize('theia/terminal/shell.deprecated', 'This is deprecated, the new recommended way to configure your default shell is by creating a terminal profile in \'terminal.integrated.profiles.{0}\' and setting its profile name as the default in \'terminal.integrated.defaultProfile.{0}.\'', type.toString().toLowerCase());
+    return nls.localize('theia/terminal/shell.deprecated', '此设置已弃用，配置默认 shell 的新推荐方式是在 \'terminal.integrated.profiles.{0}\' 中创建终端配置文件，并在 \'terminal.integrated.defaultProfile.{0}\' 中将其配置文件名称设置为默认。', type.toString().toLowerCase());
 }
 
 export const TerminalConfigSchema: PreferenceSchema = {
     properties: {
         'terminal.enableCopy': {
             type: 'boolean',
-            description: nls.localize('theia/terminal/enableCopy', 'Enable ctrl-c (cmd-c on macOS) to copy selected text'),
+            description: nls.localize('theia/terminal/enableCopy', '启用 ctrl-c（macOS 上为 cmd-c）复制所选文本'),
             default: true
         },
         'terminal.enablePaste': {
             type: 'boolean',
-            description: nls.localize('theia/terminal/enablePaste', 'Enable ctrl-v (cmd-v on macOS) to paste from clipboard'),
+            description: nls.localize('theia/terminal/enablePaste', '启用 ctrl-v（macOS 上为 cmd-v）从剪贴板粘贴'),
             default: true
         },
         'terminal.integrated.fontFamily': {
             type: 'string',
-            markdownDescription: nls.localizeByDefault('Controls the font family of the terminal. Defaults to {0}\'s value.', '`#editor.fontFamily#`'),
+            markdownDescription: nls.localizeByDefault('控制终端的字体系列。默认为 {0} 的值。', '`#editor.fontFamily#`'),
             default: editorGeneratedPreferenceProperties['editor.fontFamily'].default,
         },
         'terminal.integrated.fontSize': {
             type: 'number',
-            description: nls.localizeByDefault('Controls the font size in pixels of the terminal.'),
+            description: nls.localizeByDefault('控制终端的字体大小（像素）。'),
             minimum: 6,
             default: editorGeneratedPreferenceProperties['editor.fontSize'].default
         },
         'terminal.integrated.fontWeight': {
             type: 'string',
             enum: ['normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
-            description: nls.localizeByDefault('The font weight to use within the terminal for non-bold text. Accepts \"normal\" and \"bold\" keywords or numbers between 1 and 1000.'),
+            description: nls.localizeByDefault('终端中非粗体文本使用的字重。接受 \"normal\" 和 \"bold\" 关键字或 1 到 1000 之间的数字。'),
             default: 'normal'
         },
         'terminal.integrated.fontWeightBold': {
             type: 'string',
             enum: ['normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
-            description: nls.localizeByDefault('The font weight to use within the terminal for bold text. Accepts \"normal\" and \"bold\" keywords or numbers between 1 and 1000.'),
+            description: nls.localizeByDefault('终端中粗体文本使用的字重。接受 \"normal\" 和 \"bold\" 关键字或 1 到 1000 之间的数字。'),
             default: 'bold'
         },
         'terminal.integrated.drawBoldTextInBrightColors': {
-            description: nls.localizeByDefault('Controls whether bold text in the terminal will always use the \"bright\" ANSI color variant.'),
+            description: nls.localizeByDefault('控制终端中的粗体文本是否始终使用 \"bright\" ANSI 颜色变体。'),
             type: 'boolean',
             default: true,
         },
         'terminal.integrated.letterSpacing': {
-            description: nls.localizeByDefault('Controls the letter spacing of the terminal. This is an integer value which represents the number of additional pixels to add between characters.'),
+            description: nls.localizeByDefault('控制终端的字符间距。这是一个整数值，表示在字符之间添加的额外像素数。'),
             type: 'number',
             default: 1
         },
         'terminal.integrated.lineHeight': {
-            description: nls.localizeByDefault('Controls the line height of the terminal. This number is multiplied by the terminal font size to get the actual line-height in pixels.'),
+            description: nls.localizeByDefault('控制终端的行高。该数字乘以终端字体大小即可得到实际的行高（像素）。'),
             type: 'number',
             minimum: 1,
             default: 1
         },
         'terminal.integrated.scrollback': {
-            description: nls.localizeByDefault('Controls the maximum number of lines the terminal keeps in its buffer. We pre-allocate memory based on this value in order to ensure a smooth experience. As such, as the value increases, so will the amount of memory.'),
+            description: nls.localizeByDefault('控制终端缓冲区保留的最大行数。我们会根据此值预分配内存以确保流畅体验。因此，该值越大，占用的内存也越多。'),
             type: 'number',
             default: 1000
         },
         'terminal.integrated.fastScrollSensitivity': {
-            markdownDescription: nls.localizeByDefault('Scrolling speed multiplier when pressing `Alt`.'),
+            markdownDescription: nls.localizeByDefault('按下 `Alt` 时的滚动速度倍率。'),
             type: 'number',
             default: 5,
         },
         'terminal.integrated.rendererType': {
-            description: nls.localize('theia/terminal/rendererType', 'Controls how the terminal is rendered.'),
+            description: nls.localize('theia/terminal/rendererType', '控制终端的渲染方式。'),
             type: 'string',
             enum: ['canvas', 'dom'],
             default: 'canvas',
-            deprecationMessage: nls.localize('theia/terminal/rendererTypeDeprecationMessage', 'The renderer type is no longer supported as an option.')
+            deprecationMessage: nls.localize('theia/terminal/rendererTypeDeprecationMessage', '渲染器类型不再作为选项支持。')
         },
         'terminal.integrated.copyOnSelection': {
-            description: nls.localizeByDefault('Controls whether text selected in the terminal will be copied to the clipboard.'),
+            description: nls.localizeByDefault('控制终端中选中的文本是否将复制到剪贴板。'),
             type: 'boolean',
             default: false,
         },
         'terminal.integrated.cursorBlinking': {
-            description: nls.localizeByDefault('Controls whether the terminal cursor blinks.'),
+            description: nls.localizeByDefault('控制终端光标是否闪烁。'),
             type: 'boolean',
             default: false
         },
         'terminal.integrated.cursorStyle': {
-            description: nls.localizeByDefault('Controls the style of terminal cursor when the terminal is focused.'),
+            description: nls.localizeByDefault('控制终端聚焦时光标的样式。'),
             enum: ['block', 'underline', 'line'],
             default: 'block'
         },
         'terminal.integrated.cursorWidth': {
-            markdownDescription: nls.localizeByDefault('Controls the width of the cursor when {0} is set to {1}.', '`#terminal.integrated.cursorStyle#`', '`line`'),
+            markdownDescription: nls.localizeByDefault('控制当 {0} 设置为 {1} 时光标的宽度。', '`#terminal.integrated.cursorStyle#`', '`line`'),
             type: 'number',
             default: 1
         },
         'terminal.integrated.shell.windows': {
             type: ['string', 'null'],
             typeDetails: { isFilepath: true },
-            markdownDescription: nls.localize('theia/terminal/shellWindows', 'The path of the shell that the terminal uses on Windows. (default: \'{0}\').', 'C:\\Windows\\System32\\cmd.exe'),
+            markdownDescription: nls.localize('theia/terminal/shellWindows', '终端在 Windows 上使用的 shell 路径。（默认值：\'{0}\'）。', 'C:\\Windows\\System32\\cmd.exe'),
             default: undefined,
             deprecationMessage: shellArgsDeprecatedMessage(OS.Type.Windows),
         },
         'terminal.integrated.shell.osx': {
             type: ['string', 'null'],
-            markdownDescription: nls.localize('theia/terminal/shellOsx', 'The path of the shell that the terminal uses on macOS (default: \'{0}\'}).', '/bin/bash'),
+            markdownDescription: nls.localize('theia/terminal/shellOsx', '终端在 macOS 上使用的 shell 路径（默认值：\'{0}\'}）。', '/bin/bash'),
             default: undefined,
             deprecationMessage: shellArgsDeprecatedMessage(OS.Type.OSX),
         },
         'terminal.integrated.shell.linux': {
             type: ['string', 'null'],
-            markdownDescription: nls.localize('theia/terminal/shellLinux', 'The path of the shell that the terminal uses on Linux (default: \'{0}\'}).', '/bin/bash'),
+            markdownDescription: nls.localize('theia/terminal/shellLinux', '终端在 Linux 上使用的 shell 路径（默认值：\'{0}\'}）。', '/bin/bash'),
             default: undefined,
             deprecationMessage: shellArgsDeprecatedMessage(OS.Type.Linux),
         },
         'terminal.integrated.shellArgs.windows': {
             type: 'array',
-            markdownDescription: nls.localize('theia/terminal/shellArgsWindows', 'The command line arguments to use when on the Windows terminal.'),
+            markdownDescription: nls.localize('theia/terminal/shellArgsWindows', '在 Windows 终端上使用的命令行参数。'),
             default: [],
             deprecationMessage: shellArgsDeprecatedMessage(OS.Type.Windows),
         },
         'terminal.integrated.shellArgs.osx': {
             type: 'array',
-            markdownDescription: nls.localize('theia/terminal/shellArgsOsx', 'The command line arguments to use when on the macOS terminal.'),
+            markdownDescription: nls.localize('theia/terminal/shellArgsOsx', '在 macOS 终端上使用的命令行参数。'),
             default: [
                 '-l'
             ],
@@ -343,14 +343,14 @@ export const TerminalConfigSchema: PreferenceSchema = {
         },
         'terminal.integrated.shellArgs.linux': {
             type: 'array',
-            markdownDescription: nls.localize('theia/terminal/shellArgsLinux', 'The command line arguments to use when on the Linux terminal.'),
+            markdownDescription: nls.localize('theia/terminal/shellArgsLinux', '在 Linux 终端上使用的命令行参数。'),
             default: [],
             deprecationMessage: shellArgsDeprecatedMessage(OS.Type.Linux),
         },
         // TODO: This preference currently features no implementation but is only available for plugins to use.
         'terminal.integrated.commandsToSkipShell': {
             type: 'array',
-            markdownDescription: nls.localizeByDefault('A set of command IDs whose keybindings will not be sent to the shell but instead always be handled by VS Code. This allows keybindings that would normally be consumed by the shell to act instead the same as when the terminal is not focused, for example `Ctrl+P` to launch Quick Open.\n\n&nbsp;\n\nMany commands are skipped by default. To override a default and pass that command\'s keybinding to the shell instead, add the command prefixed with the `-` character. For example add `-workbench.action.quickOpen` to allow `Ctrl+P` to reach the shell.\n\n&nbsp;\n\nThe following list of default skipped commands is truncated when viewed in Settings Editor. To see the full list, {1} and search for the first command from the list below.\n\n&nbsp;\n\nDefault Skipped Commands:\n\n{0}'),
+            markdownDescription: nls.localizeByDefault('一组命令 ID，其按键绑定不会被发送到 shell，而是始终由 VS Code 处理。这使得通常会被 shell 消耗的按键绑定表现得与终端未聚焦时相同，例如 `Ctrl+P` 启动快速打开。\n\n&nbsp;\n\n许多命令默认被跳过。若要覆盖默认值并将该命令的按键绑定传递给 shell，请在命令前加上 `-` 字符。例如添加 `-workbench.action.quickOpen` 以允许 `Ctrl+P` 到达 shell。\n\n&nbsp;\n\n在设置编辑器中查看时，以下默认跳过命令列表会被截断。要查看完整列表，请 {1} 并搜索下面的列表中的第一个命令。\n\n&nbsp;\n\n默认跳过的命令：\n\n{0}'),
             items: {
                 type: 'string'
             },
@@ -358,48 +358,48 @@ export const TerminalConfigSchema: PreferenceSchema = {
         },
         'terminal.integrated.confirmOnExit': {
             type: 'string',
-            description: nls.localizeByDefault('Controls whether to confirm when the window closes if there are active terminal sessions. Background terminals like those launched by some extensions will not trigger the confirmation.'),
+            description: nls.localizeByDefault('控制存在活动终端会话时关闭窗口是否需要确认。由某些扩展启动的后台终端不会触发确认。'),
             enum: ['never', 'always', 'hasChildProcesses'],
             enumDescriptions: [
-                nls.localizeByDefault('Never confirm.'),
-                nls.localizeByDefault('Always confirm if there are terminals.'),
-                nls.localizeByDefault('Confirm if there are any terminals that have child processes.'),
+                nls.localizeByDefault('从不确认。'),
+                nls.localizeByDefault('存在终端时始终确认。'),
+                nls.localizeByDefault('存在含有子进程的终端时确认。'),
             ],
             default: 'never'
         },
         'terminal.integrated.enablePersistentSessions': {
             type: 'boolean',
-            description: nls.localizeByDefault('Persist terminal sessions/history for the workspace across window reloads.'),
+            description: nls.localizeByDefault('在窗口重新加载之间为工作区保留终端会话/历史记录。'),
             default: true
         },
         'terminal.integrated.enableCommandHistory': {
             type: 'boolean',
-            markdownDescription: nls.localize('theia/terminal/enableCommandHistory', 'Track terminal commands and their output separately using shell injection. This enables use cases such as visually distinguishing commands in the UI and giving AI agents more structured access to terminals. Toggling this setting will not affect terminals that are already open.\n\n&nbsp;\n\nThis feature is currently only supported by task terminals and user terminals running bash or zsh.'),
+            markdownDescription: nls.localize('theia/terminal/enableCommandHistory', '通过 shell 注入分别跟踪终端命令及其输出。这将启用诸如在 UI 中直观区分命令以及让 AI 代理更结构化地访问终端等用例。切换此设置不会影响已打开的终端。\n\n&nbsp;\n\n此功能目前仅受任务终端和运行 bash 或 zsh 的用户终端支持。'),
             default: false,
             tags: ['experimental']
         },
         'terminal.integrated.enableCommandSeparator': {
             type: 'boolean',
-            markdownDescription: nls.localize('theia/terminal/enableCommandSeparator', 'Enable a visual separator between executed commands and their output in the terminal. Changes only apply to commands executed after this setting is modified. Only works when {0} is enabled.', '`#terminal.integrated.enableCommandHistory#`'),
+            markdownDescription: nls.localize('theia/terminal/enableCommandSeparator', '在终端中为已执行的命令及其输出之间启用可视化分隔符。更改仅适用于修改此设置后执行的命令。仅在启用 {0} 时有效。', '`#terminal.integrated.enableCommandHistory#`'),
             default: false,
             tags: ['experimental']
         },
         'terminal.integrated.defaultProfile.windows': {
             type: 'string',
-            description: nls.localize('theia/terminal/defaultProfile', 'The default profile used on {0}', OS.Type.Windows.toString())
+            description: nls.localize('theia/terminal/defaultProfile', '{0} 上使用的默认配置文件', OS.Type.Windows.toString())
 
         },
         'terminal.integrated.defaultProfile.linux': {
             type: 'string',
-            description: nls.localize('theia/terminal/defaultProfile', 'The default profile used on {0}', OS.Type.Linux.toString())
+            description: nls.localize('theia/terminal/defaultProfile', '{0} 上使用的默认配置文件', OS.Type.Linux.toString())
 
         },
         'terminal.integrated.defaultProfile.osx': {
             type: 'string',
-            description: nls.localize('theia/terminal/defaultProfile', 'The default profile used on {0}', OS.Type.OSX.toString())
+            description: nls.localize('theia/terminal/defaultProfile', '{0} 上使用的默认配置文件', OS.Type.OSX.toString())
         },
         'terminal.integrated.profiles.windows': {
-            markdownDescription: nls.localize('theia/terminal/profiles', 'The profiles to present when creating a new terminal. Set the path property manually with optional args.\nSet an existing profile to `null` to hide the profile from the list, for example: `"{0}": null`.', 'cmd'),
+            markdownDescription: nls.localize('theia/terminal/profiles', '创建新终端时要显示的配置文件。手动设置 path 属性及可选参数。\n将现有配置文件设置为 `null` 可将其从列表中隐藏，例如：`"{0}": null`。', 'cmd'),
             anyOf: [
                 {
                     type: 'object',
@@ -413,7 +413,7 @@ export const TerminalConfigSchema: PreferenceSchema = {
                                 path: pathProperty,
                                 args: {
                                     ...stringOrStringArray,
-                                    description: nls.localize('theia/terminal/profileArgs', 'The shell arguments that this profile uses.'),
+                                    description: nls.localize('theia/terminal/profileArgs', '此配置文件使用的 shell 参数。'),
 
                                 },
                                 ...commonProfileProperties
@@ -426,11 +426,11 @@ export const TerminalConfigSchema: PreferenceSchema = {
                             properties: {
                                 source: {
                                     type: 'string',
-                                    description: nls.localizeByDefault('A profile source that will auto detect the paths to the shell. Note that non-standard executable locations are not supported and must be created manually in a new profile.')
+                                    description: nls.localizeByDefault('将自动检测 Shell 路径的配置文件源。注意不支持非标准的可执行文件位置，必须在新配置文件中手动创建。')
                                 },
                                 args: {
                                     ...stringOrStringArray,
-                                    description: nls.localize('theia/terminal/profileArgs', 'The shell arguments that this profile uses.'),
+                                    description: nls.localize('theia/terminal/profileArgs', '此配置文件使用的 shell 参数。'),
 
                                 },
                                 ...commonProfileProperties
@@ -454,7 +454,7 @@ export const TerminalConfigSchema: PreferenceSchema = {
             ]
         },
         'terminal.integrated.profiles.linux': {
-            markdownDescription: nls.localize('theia/terminal/profiles', 'The profiles to present when creating a new terminal. Set the path property manually with optional args.\nSet an existing profile to `null` to hide the profile from the list, for example: `"{0}": null`.', 'bash'),
+            markdownDescription: nls.localize('theia/terminal/profiles', '创建新终端时要显示的配置文件。手动设置 path 属性及可选参数。\n将现有配置文件设置为 `null` 可将其从列表中隐藏，例如：`"{0}": null`。', 'bash'),
             anyOf: [{
                 type: 'object',
                 properties: {
@@ -468,7 +468,7 @@ export const TerminalConfigSchema: PreferenceSchema = {
                                 args: {
                                     type: 'array',
                                     items: { type: 'string' },
-                                    description: nls.localize('theia/terminal/profileArgs', 'The shell arguments that this profile uses.'),
+                                    description: nls.localize('theia/terminal/profileArgs', '此配置文件使用的 shell 参数。'),
                                 },
                                 ...commonProfileProperties
                             },
@@ -488,7 +488,7 @@ export const TerminalConfigSchema: PreferenceSchema = {
             ]
         },
         'terminal.integrated.profiles.osx': {
-            markdownDescription: nls.localize('theia/terminal/profiles', 'The profiles to present when creating a new terminal. Set the path property manually with optional args.\nSet an existing profile to `null` to hide the profile from the list, for example: `"{0}": null`.', 'zsh'),
+            markdownDescription: nls.localize('theia/terminal/profiles', '创建新终端时要显示的配置文件。手动设置 path 属性及可选参数。\n将现有配置文件设置为 `null` 可将其从列表中隐藏，例如：`"{0}": null`。', 'zsh'),
             anyOf: [{
                 type: 'object',
                 properties: {
@@ -502,7 +502,7 @@ export const TerminalConfigSchema: PreferenceSchema = {
                                 args: {
                                     type: 'array',
                                     items: { type: 'string' },
-                                    description: nls.localize('theia/terminal/profileArgs', 'The shell arguments that this profile uses.'),
+                                    description: nls.localize('theia/terminal/profileArgs', '此配置文件使用的 shell 参数。'),
                                 },
                                 ...commonProfileProperties
                             },

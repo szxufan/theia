@@ -31,10 +31,10 @@ import { PromptText } from '../common/prompt-text';
 
 export const PROMPT_VARIABLE: AIVariable = {
     id: 'prompt-provider',
-    description: nls.localize('theia/ai/core/promptVariable/description', 'Resolves prompt templates via the prompt service'),
+    description: nls.localize('theia/ai/core/promptVariable/description', '通过提示词服务解析提示词模板'),
     name: 'prompt',
     args: [
-        { name: 'id', description: nls.localize('theia/ai/core/promptVariable/argDescription', 'The prompt template id to resolve') }
+        { name: 'id', description: nls.localize('theia/ai/core/promptVariable/argDescription', '要解析的提示词模板 ID') }
     ]
 };
 
@@ -232,8 +232,8 @@ export class PromptVariableContribution implements AIVariableContribution, AIVar
                     insertText: prompt.id,
                     range,
                     detail: isCustomizedPromptFragment(prompt) ?
-                        nls.localize('theia/ai/core/promptVariable/completions/detail/custom', 'Customized prompt fragment') :
-                        nls.localize('theia/ai/core/promptVariable/completions/detail/builtin', 'Built-in prompt fragment'),
+                        nls.localize('theia/ai/core/promptVariable/completions/detail/custom', '自定义的提示词片段') :
+                        nls.localize('theia/ai/core/promptVariable/completions/detail/builtin', '内置提示词片段'),
                     sortText: `${prompt.id}`
                 })));
         }

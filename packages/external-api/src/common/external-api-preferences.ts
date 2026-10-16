@@ -37,19 +37,19 @@ export const externalApiPreferenceSchema: PreferenceSchema = {
             type: 'string',
             enum: ['off', 'samePort', 'separatePort'],
             enumItemLabels: [
-                nls.localizeByDefault('Off'),
-                nls.localize('theia/external-api/delivery/samePortLabel', 'Same port as backend'),
-                nls.localize('theia/external-api/delivery/separatePortLabel', 'Separate port')
+                nls.localizeByDefault('关闭'),
+                nls.localize('theia/external-api/delivery/samePortLabel', '与后端相同的端口'),
+                nls.localize('theia/external-api/delivery/separatePortLabel', '独立端口')
             ],
             enumDescriptions: [
-                nls.localize('theia/external-api/delivery/off', 'Do not serve the external API.'),
-                nls.localize('theia/external-api/delivery/samePort', 'Serve the external API on the same port as the backend.'),
-                nls.localize('theia/external-api/delivery/separatePort', 'Serve the external API on a dedicated port, configured via "externalApi.port".')
+                nls.localize('theia/external-api/delivery/off', '不提供外部 API。'),
+                nls.localize('theia/external-api/delivery/samePort', '在与后端相同的端口上提供外部 API。'),
+                nls.localize('theia/external-api/delivery/separatePort', '在专用端口上提供外部 API，通过 "externalApi.port" 配置。')
             ],
             default: 'off',
             scope: PreferenceScope.User,
             description: nls.localize('theia/external-api/delivery/description',
-                'Controls whether and how the external HTTP API is served.')
+                '控制是否以及如何提供外部 HTTP API。')
         },
         [EXTERNAL_API_PORT_PREF]: {
             type: 'number',

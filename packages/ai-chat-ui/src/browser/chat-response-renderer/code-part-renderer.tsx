@@ -115,7 +115,7 @@ export class CodePartRenderer
     private getTitle(uri: URI | undefined, language: string | undefined): string {
         // If there is a URI, use the file name as the title. Otherwise, use the language as the title.
         // If there is no language, use a generic fallback title.
-        return uri?.path?.toString().split('/').pop() ?? language ?? nls.localize('theia/ai/chat-ui/code-part-renderer/generatedCode', 'Generated Code');
+        return uri?.path?.toString().split('/').pop() ?? language ?? nls.localize('theia/ai/chat-ui/code-part-renderer/generatedCode', '生成的代码');
     }
 
     /**
@@ -179,7 +179,7 @@ const CopyToClipboardButton = (props: { code: string, clipboardService: Clipboar
     }, [code, clipboardService]);
 
     const iconClass = copied ? 'codicon-check' : 'codicon-copy';
-    const title = copied ? nls.localizeByDefault('Copied') : nls.localizeByDefault('Copy');
+    const title = copied ? nls.localizeByDefault('已复制') : nls.localizeByDefault('复制');
     return <div className={`button codicon ${iconClass}`} title={title} role='button' onClick={copyCodeToClipboard}></div>;
 };
 
@@ -212,7 +212,7 @@ const InsertCodeAtCursorButton = (props: { code: string, editorManager: EditorMa
             }]);
         }
     }, [code, editorManager]);
-    return <div className='button codicon codicon-insert' title={nls.localizeByDefault('Insert At Cursor')} role='button' onClick={insertCode}></div>;
+    return <div className='button codicon codicon-insert' title={nls.localizeByDefault('插入到光标处')} role='button' onClick={insertCode}></div>;
 };
 
 /**

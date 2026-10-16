@@ -85,7 +85,7 @@ export class DevContainerStartupContribution extends AbstractRemoteRegistryContr
             } else {
                 // No attach screen is up, so fall back to a notification.
                 this.disposeAttachScreen();
-                this.messageService.error(nls.localize('theia/remote/dev-container/cliAttachError', 'Failed to attach to container: {0}', message));
+                this.messageService.error(nls.localize('theia/remote/dev-container/cliAttachError', '附加到容器失败: {0}', message));
             }
             return;
         }
@@ -105,7 +105,7 @@ export class DevContainerStartupContribution extends AbstractRemoteRegistryContr
         const statusSubscription = this.containerOutputProvider.onDidReportStatus(message => this.attachScreen.reportStage(message));
         try {
             this.logger.info(`CLI: --attach-container ${containerId}, initiating attach from frontend...`);
-            this.attachScreen.reportStage(nls.localize('theia/remote/dev-container/attachScreen/locating', 'Locating container {0}...', containerId));
+            this.attachScreen.reportStage(nls.localize('theia/remote/dev-container/attachScreen/locating', '正在定位容器 {0}...', containerId));
 
             const containers = await this.connectionProvider.listRunningContainers();
             // Match by ID prefix (either direction — user may pass a short prefix or a full 64-char ID
@@ -118,10 +118,10 @@ export class DevContainerStartupContribution extends AbstractRemoteRegistryContr
 
             if (!target) {
                 throw new Error(nls.localize('theia/remote/dev-container/cliContainerNotFound',
-                    'Container "{0}" not found or not running.', containerId));
+                    '未找到容器"{0}"或其未在运行。', containerId));
             }
 
-            this.attachScreen.reportStage(nls.localize('theia/remote/dev-container/attachScreen/preparingWorkspace', 'Preparing workspace...'));
+            this.attachScreen.reportStage(nls.localize('theia/remote/dev-container/attachScreen/preparingWorkspace', '正在准备工作区...'));
             const candidates = await this.connectionProvider.getWorkspaceCandidates(target.id);
             const workspacePath = candidates.length > 0 ? candidates[0].path : '/';
 
@@ -129,7 +129,7 @@ export class DevContainerStartupContribution extends AbstractRemoteRegistryContr
                 ? await this.connectionProvider.scanForDevContainerConfig(target.id, workspacePath)
                 : undefined;
 
-            this.attachScreen.reportStage(nls.localize('theia/remote/dev-container/attachScreen/starting', 'Starting the application inside the container...'));
+            this.attachScreen.reportStage(nls.localize('theia/remote/dev-container/attachScreen/starting', '正在容器内启动应用程序...'));
             const result = await this.connectionProvider.attachToContainer({
                 containerId: target.id,
                 workspacePath,

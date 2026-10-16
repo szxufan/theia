@@ -154,7 +154,7 @@ describe('GeneralConfigurationCategory', () => {
         const enableAi = items.find(item => item.keywords?.startsWith('ai-features.AiEnable.enableAI'));
         expect(enableAi).to.not.equal(undefined);
         // The master toggle authors its own title, so it does not fall back to the schema label.
-        expect(enableAi!.label).to.equal('Enable AI features');
+        expect(enableAi!.label).to.equal('启用 AI 功能');
         expect(enableAi!.target).to.deep.equal({
             categoryId: AiConfigurationCategoryId.GENERAL,
             highlight: { rowId: 'ai-features.AiEnable.enableAI' }

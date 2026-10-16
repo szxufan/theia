@@ -10,18 +10,18 @@
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/ovsx-client` package is used to interact with `open-vsx` through its REST APIs.
-The package allows clients to fetch extensions and their metadata, search the registry, and
-includes the necessary logic to determine compatibility based on a provided supported API version.
+`@theia/ovsx-client` 包用于通过 REST API 与 `open-vsx` 交互。
+该包允许客户端获取扩展及其元数据、搜索注册表，并
+包含根据所提供的受支持 API 版本确定兼容性的必要逻辑。
 
-Note that this client only supports a subset of the whole OpenVSX API, only what's relevant to
-clients like Theia applications.
+注意，该客户端仅支持整个 OpenVSX API 的一个子集，仅涵盖
+与 Theia 应用程序等客户端相关的部分。
 
 ### `OVSXRouterClient`
 
-This class is an `OVSXClient` that can delegate requests to sub-clients based on some configuration (`OVSXRouterConfig`).
+该类是一个 `OVSXClient`，可以根据某些配置（`OVSXRouterConfig`）将请求委托给子客户端。
 
 ```jsonc
 {
@@ -46,17 +46,17 @@ This class is an `OVSXClient` that can delegate requests to sub-clients based on
 }
 ```
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

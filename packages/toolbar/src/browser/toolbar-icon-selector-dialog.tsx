@@ -56,7 +56,8 @@ export class ToolbarIconSelectorDialog extends ReactDialog<string | undefined> {
     protected iconSets = new Map<IconSet, string[]>();
     protected filteredIcons: string[] = [];
     protected doShowFilterPlaceholder = false;
-    protected debounceHandleSearch = debounce(this.doHandleSearch.bind(this), FIFTY_MS, { trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected debounceHandleSearch: any = debounce(this.doHandleSearch.bind(this), FIFTY_MS, { trailing: true });
     protected controlPanelRoot: Root;
 
     constructor(
@@ -120,7 +121,7 @@ export class ToolbarIconSelectorDialog extends ReactDialog<string | undefined> {
         return (
             <div className='icon-selector-options'>
                 <div className='icon-set-selector-wrapper'>
-                    <span>{nls.localize('theia/toolbar/iconSet', 'Icon Set')}{': '}</span>
+                    <span>{nls.localize('theia/toolbar/iconSet', '图标集')}{': '}</span>
                     <SelectComponent
                         key='iconSetSelector'
                         options={[
@@ -133,7 +134,7 @@ export class ToolbarIconSelectorDialog extends ReactDialog<string | undefined> {
                 <div className='icon-fuzzy-filter'>
                     <input
                         ref={this.assignFilterRef}
-                        placeholder={nls.localize('theia/toolbar/filterIcons', 'Filter Icons')}
+                        placeholder={nls.localize('theia/toolbar/filterIcons', '筛选图标')}
                         type='text'
                         className='icon-filter-input theia-input'
                         onChange={this.debounceHandleSearch}
@@ -169,7 +170,7 @@ export class ToolbarIconSelectorDialog extends ReactDialog<string | undefined> {
                             <div className={`${this.activeIconPrefix} ${icon}`} />
                         </div>
                     ))
-                        : <div className='search-placeholder'>{nls.localizeByDefault('No results found')}</div>}
+                        : <div className='search-placeholder'>{nls.localizeByDefault('未找到结果')}</div>}
                 </div>
             </div>
         );
@@ -254,7 +255,7 @@ export class ToolbarIconSelectorDialog extends ReactDialog<string | undefined> {
                                 onClick={this.doAccept}
                             >
                                 <span>
-                                    {`${nls.localize('theia/toolbar/useDefaultIcon', 'Use Default Icon')}:`}
+                                    {`${nls.localize('theia/toolbar/useDefaultIcon', '使用默认图标')}:`}
                                 </span>
                                 <div className={`toolbar-default-icon ${this.toolbarCommand.iconClass}`} />
                             </button>
@@ -267,7 +268,7 @@ export class ToolbarIconSelectorDialog extends ReactDialog<string | undefined> {
                         className='theia-button main'
                         onClick={this.doAccept}
                     >
-                        {nls.localize('theia/toolbar/selectIcon', 'Select Icon')}
+                        {nls.localize('theia/toolbar/selectIcon', '选择图标')}
                     </button>
                     <button
                         type='button'
@@ -292,7 +293,7 @@ export const bindToolbarIconDialog = (bind: interfaces.Bind): void => {
     bind(ToolbarIconDialogFactory).toFactory(ctx => (command: Command): ToolbarIconSelectorDialog => {
         const child = ctx.container.createChild();
         child.bind(DialogProps).toConstantValue({
-            title: nls.localize('theia/toolbar/iconSelectDialog', "Select an Icon for '{0}'", command.label),
+            title: nls.localize('theia/toolbar/iconSelectDialog', "为“{0}”选择图标", command.label),
             maxWidth: ICON_DIALOG_WIDTH + ICON_DIALOG_PADDING,
         });
         child.bind(ToolbarCommand).toConstantValue(command);

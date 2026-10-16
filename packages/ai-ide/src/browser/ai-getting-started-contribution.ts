@@ -59,6 +59,6 @@ export class AiGettingStartedContribution implements CommandContribution {
     protected async setDefaultChatAgent(agentId: string): Promise<void> {
         await this.preferenceService.set(DEFAULT_CHAT_AGENT_PREF, agentId, PreferenceScope.User);
         const label = this.chatAgentService.getAgent(agentId)?.name ?? agentId;
-        this.messageService.info(nls.localize('theia/ai/ide/defaultChatAgentSet', 'The default chat agent is now {0}.', label));
+        this.messageService.info(nls.localize('theia/ai/ide/defaultChatAgentSet', '默认聊天代理现在是 {0}。', label));
     }
 }

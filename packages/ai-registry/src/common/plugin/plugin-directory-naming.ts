@@ -46,7 +46,7 @@ export class PluginDirectoryNamingImpl implements PluginDirectoryNaming {
         const encoded = filenamify(pluginId, { replacement: '_' });
         if (!encoded || encoded === '.' || encoded === '..' || NOT_A_SINGLE_SEGMENT.test(encoded)) {
             throw new Error(nls.localize('theia/ai-registry/plugin/invalidDirectoryName',
-                'Invalid plugin directory name "{0}": it must be a single path segment without separators.', encoded));
+                '无效的插件目录名称“{0}”：它必须是单个不含分隔符的路径段。', encoded));
         }
         return encoded;
     }

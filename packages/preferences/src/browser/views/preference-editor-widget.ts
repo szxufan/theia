@@ -39,9 +39,9 @@ import { COMMONLY_USED_SECTION_PREFIX } from '../util/preference-layout';
 @injectable()
 export class PreferencesEditorWidget extends BaseWidget {
     static readonly ID = 'settings.editor';
-    static readonly LABEL = nls.localizeByDefault('Settings Editor');
+    static readonly LABEL = nls.localizeByDefault('设置编辑器');
 
-    override scrollOptions = DEFAULT_SCROLL_OPTIONS;
+    override scrollOptions: any = DEFAULT_SCROLL_OPTIONS;
 
     protected scrollContainer: HTMLDivElement;
     /**
@@ -111,7 +111,7 @@ export class PreferencesEditorWidget extends BaseWidget {
         this.node.appendChild(innerWrapper);
         const noLeavesMessage = document.createElement('div');
         noLeavesMessage.classList.add('settings-no-results-announcement');
-        noLeavesMessage.textContent = nls.localizeByDefault('No Settings Found');
+        noLeavesMessage.textContent = nls.localizeByDefault('未找到设置');
         this.node.appendChild(noLeavesMessage);
     }
 
@@ -422,7 +422,7 @@ export class PreferencesEditorWidget extends BaseWidget {
         }
     };
 
-    onScroll = throttle(this.doOnScroll.bind(this), 50);
+    onScroll: any = throttle(this.doOnScroll.bind(this), 50);
 
     protected findFirstVisibleChildID(): string | undefined {
         // The pinned headers of the selected category and its ancestors always sit at the top of

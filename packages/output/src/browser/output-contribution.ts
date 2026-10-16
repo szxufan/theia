@@ -224,15 +224,15 @@ export class OutputContribution extends AbstractViewContribution<OutputWidget> i
         });
         registry.registerMenuAction(OutputContextMenu.TEXT_EDIT_GROUP, {
             commandId: OutputCommands.COPY_ALL.id,
-            label: nls.localizeByDefault('Copy All')
+            label: nls.localizeByDefault('全部复制')
         });
         registry.registerMenuAction(OutputContextMenu.COMMAND_GROUP, {
             commandId: quickCommand.id,
-            label: nls.localizeByDefault('Command Palette...')
+            label: nls.localizeByDefault('命令面板...')
         });
         registry.registerMenuAction(OutputContextMenu.WIDGET_GROUP, {
             commandId: OutputCommands.CLEAR__WIDGET.id,
-            label: nls.localizeByDefault('Clear Output')
+            label: nls.localizeByDefault('清空输出')
         });
     }
 
@@ -257,8 +257,8 @@ export class OutputContribution extends AbstractViewContribution<OutputWidget> i
 
     protected async pick({ channels, placeholder }: { channels: OutputChannel[], placeholder: string }): Promise<OutputChannel | undefined> {
         const items: Array<QuickPickValue<OutputChannel> | QuickPickItem | QuickPickSeparator> = [];
-        const outputChannels = nls.localize('theia/output/outputChannels', 'Output Channels');
-        const hiddenChannels = nls.localize('theia/output/hiddenChannels', 'Hidden Channels');
+        const outputChannels = nls.localize('theia/output/outputChannels', '输出通道');
+        const hiddenChannels = nls.localize('theia/output/hiddenChannels', '隐藏通道');
         for (let i = 0; i < channels.length; i++) {
             const channel = channels[i];
             if (i === 0) {

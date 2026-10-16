@@ -31,7 +31,7 @@ import { SkillEntryHandlers, SkillInstalledEntry, SkillSearchResultEntry } from 
 export class SkillExtensionsContribution implements ExtensionsSourceContribution, Disposable {
 
     readonly type = 'skill';
-    readonly displayName = nls.localizeByDefault('Skills');
+    readonly displayName = nls.localizeByDefault('技能');
     readonly searchToken = '@skills';
     // Skills sort below MCP servers (priority 100), which in turn sort below extensions.
     readonly priority = 200;
@@ -75,27 +75,27 @@ export class SkillExtensionsContribution implements ExtensionsSourceContribution
         this.handlers = {
             install: entry => this.runAction(
                 () => this.installService.install(entry),
-                nls.localize('theia/ai-registry/skill/installed', 'Installed skill "{0}".', entry.name)
+                nls.localize('theia/ai-registry/skill/installed', '已安装技能“{0}”。', entry.name)
             ),
             uninstall: name => this.runAction(
                 () => this.installService.uninstall(name),
-                nls.localize('theia/ai-registry/skill/uninstalled', 'Uninstalled skill "{0}".', name)
+                nls.localize('theia/ai-registry/skill/uninstalled', '已卸载技能“{0}”。', name)
             ),
             unlink: name => this.runAction(
                 () => this.installService.unlink(name),
-                nls.localize('theia/ai-registry/skill/unlinked', 'Unlinked skill "{0}".', name)
+                nls.localize('theia/ai-registry/skill/unlinked', '已取消链接技能“{0}”。', name)
             ),
             update: entry => this.runAction(
                 () => this.installService.update(entry),
-                nls.localize('theia/ai-registry/skill/updated', 'Updated skill "{0}".', entry.name)
+                nls.localize('theia/ai-registry/skill/updated', '已更新技能“{0}”。', entry.name)
             ),
             link: entry => this.runAction(
                 () => this.installService.link(entry),
-                nls.localize('theia/ai-registry/skill/linked', 'Linked skill "{0}".', entry.name)
+                nls.localize('theia/ai-registry/skill/linked', '已链接技能“{0}”。', entry.name)
             ),
             fixSkill: entry => this.runAction(
                 () => this.installService.fixSkill(entry),
-                nls.localize('theia/ai-registry/skill/fixed', 'Restored skill "{0}".', entry.name)
+                nls.localize('theia/ai-registry/skill/fixed', '已恢复技能“{0}”。', entry.name)
             )
         };
         this.toDispose.push(this.fetchService.onDidChange(() => this.onDidChangeEmitter.fire()));
@@ -162,11 +162,11 @@ export class SkillExtensionsContribution implements ExtensionsSourceContribution
      * offers to reload the window, which restarts the watcher.
      */
     protected async promptWatcherReload(): Promise<void> {
-        const reload = nls.localizeByDefault('Reload Window');
+        const reload = nls.localizeByDefault('重新加载窗口');
         const answer = await this.messageService.warn(
             nls.localize(
                 'theia/ai-registry/skill/watcherStopped',
-                'Stopped watching the skills folder for changes. Installed skills may no longer refresh automatically. Reload the window to resume.'
+                '已停止监视技能文件夹的更改。已安装的技能可能不再自动刷新。请重新加载窗口以恢复。'
             ),
             reload
         );

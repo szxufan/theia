@@ -79,7 +79,7 @@ export class RemoteSSHContribution extends AbstractRemoteRegistryContribution {
         const quickPicks: QuickPickInput[] = [];
         const filePath = await this.getConfigFilePath();
         if (!filePath) {
-            this.messageService.error(nls.localize('theia/remote/sshNoConfigPath', 'No SSH config path found.'));
+            this.messageService.error(nls.localize('theia/remote/sshNoConfigPath', '未找到 SSH 配置路径。'));
             return;
         }
         const sshConfig = await this.sshConnectionProvider.getSSHConfig(filePath);
@@ -110,12 +110,12 @@ export class RemoteSSHContribution extends AbstractRemoteRegistryContribution {
         }
 
         if (quickPicks.length === 0) {
-            this.messageService.info(nls.localize('theia/remote/noConfigHosts', 'No SSH hosts found in the config file: ' + filePath));
+            this.messageService.info(nls.localize('theia/remote/noConfigHosts', '在配置文件中未找到 SSH 主机: ' + filePath));
             return;
         }
 
         const selection = await this.quickInputService?.showQuickPick(quickPicks, {
-            placeholder: nls.localizeByDefault('Select an option to open a Remote Window')
+            placeholder: nls.localizeByDefault('选择打开远程窗口的选项')
         });
         if (selection?.id) {
             try {
@@ -125,7 +125,7 @@ export class RemoteSSHContribution extends AbstractRemoteRegistryContribution {
                 const remotePort = await this.sendSSHConnect(host, user);
                 this.openRemote(remotePort, false);
             } catch (err) {
-                this.messageService.error(`${nls.localize('theia/remote/ssh/failure', 'Could not open SSH connection to remote.')} ${err.message ?? String(err)}`);
+                this.messageService.error(`${nls.localize('theia/remote/ssh/failure', '无法打开到远程主机的 SSH 连接。')} ${err.message ?? String(err)}`);
             }
         }
     }
@@ -134,11 +134,11 @@ export class RemoteSSHContribution extends AbstractRemoteRegistryContribution {
         let host: string | undefined;
         let user: string | undefined;
         host = await this.quickInputService.input({
-            title: nls.localize('theia/remote/ssh/enterHost', 'Enter SSH host name'),
-            placeHolder: nls.localize('theia/remote/ssh/hostPlaceHolder', 'E.g. hello@example.com')
+            title: nls.localize('theia/remote/ssh/enterHost', '输入 SSH 主机名'),
+            placeHolder: nls.localize('theia/remote/ssh/hostPlaceHolder', '例如 hello@example.com')
         });
         if (!host) {
-            this.messageService.error(nls.localize('theia/remote/ssh/needsHost', 'Please enter a host name.'));
+            this.messageService.error(nls.localize('theia/remote/ssh/needsHost', '请输入主机名。'));
             return;
         }
         if (host.includes('@')) {
@@ -157,12 +157,12 @@ export class RemoteSSHContribution extends AbstractRemoteRegistryContribution {
         }
         if (!user) {
             user = await this.quickInputService.input({
-                title: nls.localize('theia/remote/ssh/enterUser', 'Enter SSH user name'),
-                placeHolder: nls.localize('theia/remote/ssh/userPlaceHolder', 'E.g. hello')
+                title: nls.localize('theia/remote/ssh/enterUser', '输入 SSH 用户名'),
+                placeHolder: nls.localize('theia/remote/ssh/userPlaceHolder', '例如 hello')
             });
         }
         if (!user) {
-            this.messageService.error(nls.localize('theia/remote/ssh/needsUser', 'Please enter a user name.'));
+            this.messageService.error(nls.localize('theia/remote/ssh/needsUser', '请输入用户名。'));
             return;
         }
 
@@ -170,7 +170,7 @@ export class RemoteSSHContribution extends AbstractRemoteRegistryContribution {
             const remotePort = await this.sendSSHConnect(host!, user!);
             this.openRemote(remotePort, newWindow);
         } catch (err) {
-            this.messageService.error(`${nls.localize('theia/remote/ssh/failure', 'Could not open SSH connection to remote.')} ${err.message ?? String(err)}`);
+            this.messageService.error(`${nls.localize('theia/remote/ssh/failure', '无法打开到远程主机的 SSH 连接。')} ${err.message ?? String(err)}`);
         }
     }
 

@@ -103,7 +103,7 @@ export class ChatGptLanguageModelsManagerImpl implements ChatGptLanguageModelsMa
     protected async calculateStatus(): Promise<LanguageModelStatus> {
         return (await this.authService.getAuthState()).isAuthenticated
             ? { status: 'ready' }
-            : { status: 'unavailable', message: nls.localize('theia/ai/chatgpt/notSignedIn', 'Not signed in with ChatGPT') };
+            : { status: 'unavailable', message: nls.localize('theia/ai/chatgpt/notSignedIn', '未登录 ChatGPT') };
     }
 
     removeLanguageModels(...modelIds: string[]): void {

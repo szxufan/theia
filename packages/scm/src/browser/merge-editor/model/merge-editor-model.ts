@@ -502,7 +502,7 @@ export class MergeEditorModel implements Disposable {
         StandaloneServices.get(IUndoRedoService).pushElement({
             type: UndoRedoElementType.Resource,
             resource: this.resultDocument.textEditorModel.uri,
-            label: nls.localizeByDefault('Undo Mark As Handled'),
+            label: nls.localizeByDefault('撤销标记为已处理'),
             code: 'markMergeRangeAsHandled',
             undo(): void {
                 const model = modelRef.deref();

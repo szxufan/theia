@@ -225,7 +225,7 @@ export abstract class PreferenceLeafNodeRenderer<ValueType extends JSONValue, In
         cog.setAttribute('role', 'button');
         cog.onclick = this.handleCogAction.bind(this);
         cog.onkeydown = this.handleCogAction.bind(this);
-        cog.title = nls.localizeByDefault('More Actions...');
+        cog.title = nls.localizeByDefault('更多操作...');
         gutter.appendChild(cog);
 
         const contentWrapper = document.createElement('div');
@@ -323,8 +323,8 @@ export abstract class PreferenceLeafNodeRenderer<ValueType extends JSONValue, In
                     const isExperimentalSetting = tag === 'experimental';
                     const isPreviewSetting = tag === 'preview';
                     tagElement.classList.add('preference-tag');
-                    tagElement.textContent = isExperimentalSetting ? nls.localizeByDefault('Experimental') :
-                        isPreviewSetting ? nls.localizeByDefault('Preview') : tag;
+                    tagElement.textContent = isExperimentalSetting ? nls.localizeByDefault('实验性') :
+                        isPreviewSetting ? nls.localizeByDefault('预览') : tag;
                     tagElement.title = isExperimentalSetting ? EXPERIMENTAL_INDICATOR_DESCRIPTION :
                         isPreviewSetting ? PREVIEW_INDICATOR_DESCRIPTION : tag;
                     tagsWrapper.appendChild(tagElement);
@@ -375,9 +375,9 @@ export abstract class PreferenceLeafNodeRenderer<ValueType extends JSONValue, In
         if (hasSessionOverride && !existingSuffix) {
             const suffix = document.createElement('i');
             suffix.classList.add('preference-leaf-headline-suffix', 'preference-session-suffix');
-            suffix.textContent = nls.localize('theia/preferences/sessionOverride/suffix', 'Overridden by session');
+            suffix.textContent = nls.localize('theia/preferences/sessionOverride/suffix', '已被会话覆盖');
             suffix.title = nls.localize('theia/preferences/sessionOverride/suffixTooltip',
-                'This preference has a session value set via --session-preference. Editing it here clears the session override for the rest of this session.');
+                '此首选项具有通过 --session-preference 设置的会话值。在此处编辑将清除本次会话的会话覆盖。');
             headlineWrapper.appendChild(suffix);
         } else if (!hasSessionOverride && existingSuffix) {
             existingSuffix.remove();
@@ -450,7 +450,7 @@ export abstract class PreferenceLeafNodeRenderer<ValueType extends JSONValue, In
     }
 
     protected getModifiedMessagePrefix(): string {
-        return (this.isSet ? nls.localizeByDefault('Also modified in') : nls.localizeByDefault('Modified in')) + ': ';
+        return (this.isSet ? nls.localizeByDefault('同时修改于') : nls.localizeByDefault('修改于')) + ': ';
     }
 
     protected addEventHandlerToModifiedScope(scope: PreferenceScope, scopeWrapper: HTMLElement): void {
@@ -495,7 +495,8 @@ export abstract class PreferenceLeafNodeRenderer<ValueType extends JSONValue, In
         return currentValue;
     }
 
-    protected setPreferenceWithDebounce = debounce(this.setPreferenceImmediately.bind(this), 500, { leading: false, trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected setPreferenceWithDebounce: any = debounce(this.setPreferenceImmediately.bind(this), 500, { leading: false, trailing: true });
 
     protected setPreferenceImmediately(value: ValueType | undefined): Promise<void> {
         return this.preferenceService.set(this.id, value, this.scopeTracker.currentScope.scope, this.scopeTracker.currentScope.uri)

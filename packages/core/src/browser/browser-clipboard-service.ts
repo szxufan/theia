@@ -60,7 +60,7 @@ export class BrowserClipboardService implements ClipboardService {
                     this.messageService.warn(nls.localize(
                         'theia/navigator/clipboardWarnFirefox',
                         // eslint-disable-next-line max-len
-                        "Clipboard API is not available. It can be enabled by '{0}' preference on '{1}' page. Then reload Theia. Note, it will allow FireFox getting full access to the system clipboard.", 'dom.events.testing.asyncClipboard', 'about:config'
+                        "剪贴板 API 不可用。可通过“{1}”页面中的“{0}”首选项启用。然后重新加载 Theia。请注意，这将允许 FireFox 完全访问系统剪贴板。", 'dom.events.testing.asyncClipboard', 'about:config'
                     ));
                 }
                 return '';
@@ -70,7 +70,7 @@ export class BrowserClipboardService implements ClipboardService {
             // most likely, the user intentionally denied the access
             this.messageService.warn(nls.localize(
                 'theia/navigator/clipboardWarn',
-                "Access to the clipboard is denied. Check your browser's permission."
+                "对剪贴板的访问被拒绝。请检查浏览器的权限。"
             ));
             return '';
         }
@@ -94,7 +94,7 @@ export class BrowserClipboardService implements ClipboardService {
                     this.messageService.warn(nls.localize(
                         'theia/core/navigator/clipboardWarnFirefox',
                         // eslint-disable-next-line max-len
-                        "Clipboard API is not available. It can be enabled by '{0}' preference on '{1}' page. Then reload Theia. Note, it will allow FireFox getting full access to the system clipboard.", 'dom.events.testing.asyncClipboard', 'about:config'
+                        "剪贴板 API 不可用。可通过“{1}”页面中的“{0}”首选项启用。然后重新加载 Theia。请注意，这将允许 FireFox 完全访问系统剪贴板。", 'dom.events.testing.asyncClipboard', 'about:config'
                     ));
                 }
                 return;
@@ -104,7 +104,7 @@ export class BrowserClipboardService implements ClipboardService {
             // most likely, the user intentionally denied the access
             this.messageService.warn(nls.localize(
                 'theia/core/navigator/clipboardWarn',
-                "Access to the clipboard is denied. Check your browser's permission."
+                "对剪贴板的访问被拒绝。请检查浏览器的权限。"
             ));
             return;
         }

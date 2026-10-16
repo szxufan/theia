@@ -4,33 +4,31 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - GETTING-STARTED EXTENSION</h2>
+<h2>ECLIPSE THEIA - GETTING-STARTED 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/getting-started` extension contributes a default `getting-started` widget which is displayed whenever
-opening the application without any workspace present or if the widget is explicitly opened (through the menu or command).
+`@theia/getting-started` 扩展贡献了一个默认的 `getting-started`（入门）组件，每当在没有工作区的情况下打开应用程序、或者显式打开该组件（通过菜单或命令）时，都会显示它。
 
-The `getting-started` widget provides useful commands and functionality for quickly getting up to speed with the application. For example:
+`getting-started` 组件提供了实用的命令和功能，帮助用户快速上手应用程序。例如：
 
-- `open commands`: commands which are used to open files, folders, and workspaces quickly.
-- `recent workspaces`: recently used workspaces are listed for easy and quick access.
-- `settings commands`: commands which are used to open the preferences and keyboard shortcuts widgets.
-- `help`: useful links pointing to documentation and/or guides.
+- `open commands`（打开命令）：用于快速打开文件、文件夹和工作区的命令。
+- `recent workspaces`（最近的工作区）：列出最近使用的工作区，便于快速访问。
+- `settings commands`（设置命令）：用于打开首选项和键盘快捷键组件的命令。
+- `help`（帮助）：指向文档和/或指南的有用链接。
 
-## Walkthroughs
+## 演练（Walkthroughs）
 
-The widget also lists the available walkthroughs: guided, multi-step introductions whose progress is remembered
-across sessions. They come from two sources, which are treated alike:
+该组件还列出了可用的演练：引导式、多步骤的入门介绍，其进度会在会话之间被记住。它们来自两个来源，处理方式相同：
 
-- VS Code extensions, through the `contributes.walkthroughs` section of their manifest.
-- Theia extensions, through the `WalkthroughProvider` contribution point.
+- VS Code 扩展，通过其清单中的 `contributes.walkthroughs` 部分。
+- Theia 扩展，通过 `WalkthroughProvider` 贡献点。
 
-A Theia extension contributes one by binding a provider:
+Theia 扩展通过绑定一个提供方来贡献演练：
 
 ```ts
 @injectable()
@@ -55,29 +53,26 @@ export class MyWalkthroughProvider implements WalkthroughProvider {
 bind(WalkthroughProvider).to(MyWalkthroughProvider).inSingletonScope();
 ```
 
-The ids are used as they are, so they have to be unique across the application; a walkthrough contributed by a
-plugin is identified by `<pluginId>.<walkthroughId>`, which a provider must not imitate. A provider whose
-walkthroughs change over time can expose an optional `onDidChange` event to have them collected again.
+这些 ID 会被原样使用，因此它们在整个应用程序中必须唯一；插件贡献的演练由 `<pluginId>.<walkthroughId>` 标识，提供方不得模仿这种形式。演练内容会随时间变化的提供方可以暴露一个可选的 `onDidChange` 事件，以便重新收集演练。
 
-A step is completed when one of its `completionEvents` fires. Besides `onContext:` these are `onCommand:`,
-`onSettingChanged:`, `onView:`, `onLink:` and `extensionInstalled:`, matching the VS Code walkthrough
-contribution. Prefer events that describe what the user achieved, so that a step is also ticked for a user who
-did the work before opening the walkthrough. A step without any completion event is marked done by hand.
+当某个步骤的 `completionEvents` 之一被触发时，该步骤即告完成。除 `onContext:` 之外，还有 `onCommand:`、
+`onSettingChanged:`、`onView:`、`onLink:` 和 `extensionInstalled:`，与 VS Code 演练
+贡献保持一致。优先选择能描述用户已达成之事的事件，这样即使某个用户在打开演练之前就完成了相应工作，该步骤也会被勾选。没有任何完成事件的步骤需要手动标记为完成。
 
-Walkthroughs are opened from the widget, or with the `walkthrough.open` command taking the walkthrough id.
+演练可以从该组件打开，也可以通过接受演练 ID 的 `walkthrough.open` 命令打开。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/getting-started`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_getting-started.html)
+- [`@theia/getting-started` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_getting-started.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

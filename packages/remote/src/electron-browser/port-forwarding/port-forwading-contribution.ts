@@ -32,7 +32,7 @@ export class PortForwardingContribution extends AbstractViewContribution<PortFor
     constructor() {
         super({
             widgetId: PORT_FORWARDING_WIDGET_ID,
-            widgetName: nls.localizeByDefault('Ports'),
+            widgetName: nls.localizeByDefault('端口'),
             defaultWidgetOptions: {
                 area: 'bottom'
             },

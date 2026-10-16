@@ -20,21 +20,7 @@ import { LocalizationContribution, LocalizationRegistry } from './localization-c
 @injectable()
 export class TheiaLocalizationContribution implements LocalizationContribution {
     async registerLocalizations(registry: LocalizationRegistry): Promise<void> {
-        // Attempt to use the same languages as VS Code
-        // See https://code.visualstudio.com/docs/getstarted/locales#_available-locales
+        // Fork customization: this build is Chinese-only. All other language data has been removed.
         registry.registerLocalizationFromRequire('zh-cn', require('../../../i18n/nls.zh-cn.json'));
-        registry.registerLocalizationFromRequire('zh-tw', require('../../../i18n/nls.zh-tw.json'));
-        registry.registerLocalizationFromRequire('fr', require('../../../i18n/nls.fr.json'));
-        registry.registerLocalizationFromRequire('de', require('../../../i18n/nls.de.json'));
-        registry.registerLocalizationFromRequire('it', require('../../../i18n/nls.it.json'));
-        registry.registerLocalizationFromRequire('es', require('../../../i18n/nls.es.json'));
-        registry.registerLocalizationFromRequire('ja', require('../../../i18n/nls.ja.json'));
-        registry.registerLocalizationFromRequire('ko', require('../../../i18n/nls.ko.json'));
-        registry.registerLocalizationFromRequire('ru', require('../../../i18n/nls.ru.json'));
-        registry.registerLocalizationFromRequire('pt-br', require('../../../i18n/nls.pt-br.json'));
-        registry.registerLocalizationFromRequire('tr', require('../../../i18n/nls.tr.json'));
-        registry.registerLocalizationFromRequire('pl', require('../../../i18n/nls.pl.json'));
-        registry.registerLocalizationFromRequire('cs', require('../../../i18n/nls.cs.json'));
-        registry.registerLocalizationFromRequire('hu', require('../../../i18n/nls.hu.json'));
     }
 }

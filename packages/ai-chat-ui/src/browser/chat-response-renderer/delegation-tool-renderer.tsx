@@ -17,6 +17,7 @@
 import { inject, injectable, named } from '@theia/core/shared/inversify';
 import { ChatRequestInvocation, ChatResponseContent, ChatResponseModel, InteractiveContent, ToolCallChatResponseContent } from '@theia/ai-chat';
 import { ChatAgentService } from '@theia/ai-chat/lib/common/chat-agent-service';
+import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
 import { ToolConfirmationManager } from '@theia/ai-chat/lib/browser/chat-tool-preference-bindings';
 import { PendingToolConfirmationTracker } from '@theia/ai-chat/lib/browser/pending-tool-confirmation-tracker';
 import { AGENT_DELEGATION_FUNCTION_ID } from '@theia/ai-core/lib/common/tool-constants';
@@ -87,7 +88,8 @@ export class DelegationToolRenderer implements ChatResponsePartRenderer<ToolCall
             try {
                 const args = JSON.parse(response.arguments);
                 if (typeof args.agentId === 'string') {
-                    agentName = this.chatAgentService.getAgent(args.agentId)?.name ?? args.agentId;
+                    const agent = this.chatAgentService.getAgent(args.agentId);
+                    agentName = agent ? getAgentDisplayName(agent) : args.agentId;
                 }
                 if (typeof args.prompt === 'string') {
                     prompt = args.prompt;
@@ -95,7 +97,8 @@ export class DelegationToolRenderer implements ChatResponsePartRenderer<ToolCall
             } catch {
                 const partialAgentId = extractJsonStringField(response.arguments, 'agentId');
                 if (partialAgentId) {
-                    agentName = this.chatAgentService.getAgent(partialAgentId)?.name ?? partialAgentId;
+                    const partialAgent = this.chatAgentService.getAgent(partialAgentId);
+                    agentName = partialAgent ? getAgentDisplayName(partialAgent) : partialAgentId;
                 }
                 const partialPrompt = extractJsonStringField(response.arguments, 'prompt');
                 if (partialPrompt) {
@@ -327,27 +330,27 @@ class DelegatedChat extends React.Component<DelegatedChatProps, DelegatedChatSta
         if (hasNode) {
             if (isCanceled) {
                 statusIcon = 'codicon-close';
-                statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/canceled', 'canceled');
+                statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/canceled', '已取消');
             } else if (isError) {
                 // error() also marks the response complete, so check isError first
                 statusIcon = 'codicon-error';
-                statusText = nls.localizeByDefault('error');
+                statusText = nls.localizeByDefault('错误');
             } else if (isComplete) {
                 statusIcon = 'codicon-check';
-                statusText = nls.localizeByDefault('completed');
+                statusText = nls.localizeByDefault('已完成');
             } else if (isWaitingForInput) {
                 statusIcon = 'codicon-loading';
-                statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/waitingForInput', 'waiting for input');
+                statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/waitingForInput', '等待输入');
             } else {
                 statusIcon = 'codicon-loading';
-                statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/generating', 'generating...');
+                statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/generating', '生成中...');
             }
         } else if (this.props.finished) {
             statusIcon = 'codicon-check';
-            statusText = nls.localizeByDefault('completed');
+            statusText = nls.localizeByDefault('已完成');
         } else {
             statusIcon = 'codicon-loading';
-            statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/starting', 'starting...');
+            statusText = nls.localize('theia/ai/chat-ui/delegation-response-renderer/status/starting', '正在启动...');
         }
 
         const { isOpen } = this.state;
@@ -365,7 +368,7 @@ class DelegatedChat extends React.Component<DelegatedChatProps, DelegatedChatSta
                                 {showInteractionsInSummary && (
                                     <span className='delegation-interaction-badge' title={nls.localize(
                                         'theia/ai/chat-ui/delegation-response-renderer/interactionNeeded',
-                                        'User interaction needed'
+                                        '需要用户交互'
                                     )}>
                                         <span className='codicon codicon-warning'></span>
                                     </span>
@@ -378,8 +381,8 @@ class DelegatedChat extends React.Component<DelegatedChatProps, DelegatedChatSta
                                     type='button'
                                     className='delegation-cancel-button'
                                     onClick={this.handleCancelDelegation}
-                                    title={nls.localize('theia/ai/chat-ui/delegation-response-renderer/cancel', 'Cancel delegation')}
-                                    aria-label={nls.localize('theia/ai/chat-ui/delegation-response-renderer/cancel', 'Cancel delegation')}
+                                    title={nls.localize('theia/ai/chat-ui/delegation-response-renderer/cancel', '取消委派')}
+                                    aria-label={nls.localize('theia/ai/chat-ui/delegation-response-renderer/cancel', '取消委派')}
                                 >
                                     <span className='codicon codicon-stop-circle' />
                                 </button>
@@ -394,20 +397,20 @@ class DelegatedChat extends React.Component<DelegatedChatProps, DelegatedChatSta
                     </summary>
                     <div className='delegation-content'>
                         <div className='delegation-prompt-section'>
-                            <strong>{nls.localize('theia/ai/chat-ui/delegation-response-renderer/prompt/label', 'Delegated prompt:')}</strong>
+                            <strong>{nls.localize('theia/ai/chat-ui/delegation-response-renderer/prompt/label', '委派的提示词：')}</strong>
                             <div className='delegation-prompt'>{prompt}</div>
                         </div>
                         <div className='delegation-response-section'>
-                            <strong>{nls.localize('theia/ai/chat-ui/delegation-response-renderer/response/label', 'Response:')}</strong>
+                            <strong>{nls.localize('theia/ai/chat-ui/delegation-response-renderer/response/label', '回复：')}</strong>
                             <div className='delegation-response-placeholder'>
                                 {hasNode && this.state.node ? this.widget.renderChatResponse(this.state.node) :
                                     this.props.finished ?
                                         <span className='delegation-status-text'>
                                             {nls.localize('theia/ai/chat-ui/delegation-response-renderer/restoredNotAvailable',
-                                                'Response not available for restored sessions.')}
+                                                '已恢复的会话没有可用的回复。')}
                                         </span> :
                                         <div className='theia-ChatContentInProgress'>
-                                            {nls.localize('theia/ai/chat-ui/delegation-response-renderer/starting', 'Starting delegation...')}
+                                            {nls.localize('theia/ai/chat-ui/delegation-response-renderer/starting', '正在启动委派...')}
                                         </div>
                                 }
                             </div>

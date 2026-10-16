@@ -283,12 +283,12 @@ export class MonacoWorkspace {
 
     protected getAriaSummary(totalEdits: number, totalFiles: number): string {
         if (totalEdits === 0) {
-            return nls.localizeByDefault('Made no edits');
+            return nls.localizeByDefault('未做任何编辑');
         }
         if (totalEdits > 1 && totalFiles > 1) {
-            return nls.localizeByDefault('Made {0} text edits in {1} files', totalEdits, totalFiles);
+            return nls.localizeByDefault('在 {1} 个文件中进行了 {0} 处文本编辑', totalEdits, totalFiles);
         }
-        return nls.localizeByDefault('Made {0} text edits in one file', totalEdits);
+        return nls.localizeByDefault('在一个文件中进行了 {0} 处文本编辑', totalEdits);
     }
 
     protected async performTextEdits(edits: MonacoResourceTextEdit[]): Promise<{

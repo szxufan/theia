@@ -79,8 +79,8 @@ export class CopilotSdkLoader {
         const api = this.toApi(candidate);
         if (!api) {
             throw new Error(nls.localize('theia/ai/copilot/sdkUnusable',
-                'The GitHub Copilot CLI at {0} does not provide the interface this integration needs. '
-                + 'Update it with `npm install -g @github/copilot`.', cli));
+                '{0} 处的 GitHub Copilot CLI 未提供此集成所需的接口。'
+                + '请使用 `npm install -g @github/copilot` 更新它。', cli));
         }
         return api;
     }

@@ -4,39 +4,39 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - SEARCH-IN-WORKSPACE EXTENSION</h2>
+<h2>ECLIPSE THEIA - SEARCH-IN-WORKSPACE 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/search-in-workspace` extension provides the ability to perform searches over all files in a given workspace using different search techniques.
+`@theia/search-in-workspace` 扩展提供了使用不同搜索技术对给定工作区中所有文件执行搜索的能力。
 
-## Search Widget
+## 搜索组件
 
-The `@theia/search-in-workspace` extension contributes the `Search` widget which is capable of performing different types of searches include the possibility to:
+`@theia/search-in-workspace` 扩展提供了 `Search`（搜索）组件，能够执行多种类型的搜索，包括：
 
-- Perform standard searches
-- Perform searches using regular expressions
-- Perform searches within an `include` list (search for specific types of files (ex: `*.ts`))
-- Perform searches excluding files or directories (using `exclude`)
-- Perform searches ignoring hidden or excluded files/folders
-- Perform search and replace (to quickly update multiple occurrences of a search term)
+- 执行标准搜索
+- 使用正则表达式执行搜索
+- 在 `include` 列表内执行搜索（搜索特定类型的文件，例如 `*.ts`）
+- 排除文件或目录执行搜索（使用 `exclude`）
+- 忽略隐藏或已排除的文件/文件夹执行搜索
+- 执行搜索并替换（快速更新搜索词的多个出现位置）
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/search-in-workspace`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_search-in-workspace.html)
+- [`@theia/search-in-workspace` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_search-in-workspace.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

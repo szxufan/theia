@@ -413,12 +413,12 @@ export class FileNavigatorContribution extends AbstractViewContribution<FileNavi
 
         registry.registerMenuAction(NavigatorContextMenu.NAVIGATION, {
             commandId: FileNavigatorCommands.OPEN.id,
-            label: nls.localizeByDefault('Open')
+            label: nls.localizeByDefault('打开')
         });
         registry.registerMenuAction(NavigatorContextMenu.NAVIGATION, {
             commandId: FileNavigatorCommands.OPEN_WITH.id,
             when: '!explorerResourceIsFolder',
-            label: nls.localizeByDefault('Open With...')
+            label: nls.localizeByDefault('打开方式...')
         });
 
         registry.registerMenuAction(NavigatorContextMenu.CLIPBOARD, {
@@ -476,7 +476,7 @@ export class FileNavigatorContribution extends AbstractViewContribution<FileNavi
         });
         registry.registerMenuAction(NavigatorContextMenu.MODIFICATION, {
             commandId: FileNavigatorCommands.COLLAPSE_ALL.id,
-            label: nls.localizeByDefault('Collapse All'),
+            label: nls.localizeByDefault('全部折叠'),
             order: 'z2'
         });
 
@@ -514,17 +514,17 @@ export class FileNavigatorContribution extends AbstractViewContribution<FileNavi
 
         registry.registerMenuAction(OpenEditorsContextMenu.MODIFICATION, {
             commandId: CommonCommands.CLOSE_TAB.id,
-            label: nls.localizeByDefault('Close'),
+            label: nls.localizeByDefault('关闭'),
             order: 'a'
         });
         registry.registerMenuAction(OpenEditorsContextMenu.MODIFICATION, {
             commandId: CommonCommands.CLOSE_OTHER_TABS.id,
-            label: nls.localizeByDefault('Close Others'),
+            label: nls.localizeByDefault('关闭其他'),
             order: 'b'
         });
         registry.registerMenuAction(OpenEditorsContextMenu.MODIFICATION, {
             commandId: CommonCommands.CLOSE_ALL_MAIN_TABS.id,
-            label: nls.localizeByDefault('Close All'),
+            label: nls.localizeByDefault('全部关闭'),
             order: 'c'
         });
 
@@ -567,25 +567,25 @@ export class FileNavigatorContribution extends AbstractViewContribution<FileNavi
         toolbarRegistry.registerItem({
             id: FileNavigatorCommands.NEW_FILE_TOOLBAR.id,
             command: FileNavigatorCommands.NEW_FILE_TOOLBAR.id,
-            tooltip: nls.localizeByDefault('New File...'),
+            tooltip: nls.localizeByDefault('新建文件...'),
             priority: 0,
         });
         toolbarRegistry.registerItem({
             id: FileNavigatorCommands.NEW_FOLDER_TOOLBAR.id,
             command: FileNavigatorCommands.NEW_FOLDER_TOOLBAR.id,
-            tooltip: nls.localizeByDefault('New Folder...'),
+            tooltip: nls.localizeByDefault('新建文件夹...'),
             priority: 1,
         });
         toolbarRegistry.registerItem({
             id: FileNavigatorCommands.REFRESH_NAVIGATOR.id,
             command: FileNavigatorCommands.REFRESH_NAVIGATOR.id,
-            tooltip: nls.localizeByDefault('Refresh Explorer'),
+            tooltip: nls.localizeByDefault('刷新资源管理器'),
             priority: 2,
         });
         toolbarRegistry.registerItem({
             id: FileNavigatorCommands.COLLAPSE_ALL.id,
             command: FileNavigatorCommands.COLLAPSE_ALL.id,
-            tooltip: nls.localizeByDefault('Collapse All'),
+            tooltip: nls.localizeByDefault('全部折叠'),
             priority: 3,
         });
 

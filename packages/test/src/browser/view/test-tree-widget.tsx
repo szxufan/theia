@@ -223,8 +223,8 @@ export class TestTreeWidget extends TreeWidget {
     ) {
         super(props, model, contextMenuRenderer);
         this.id = TestTreeWidget.ID;
-        this.title.label = nls.localizeByDefault('Test Explorer');
-        this.title.caption = nls.localizeByDefault('Test Explorer');
+        this.title.label = nls.localizeByDefault('测试资源管理器');
+        this.title.caption = nls.localizeByDefault('测试资源管理器');
         this.title.iconClass = codicon('beaker');
         this.title.closable = true;
     }
@@ -266,7 +266,7 @@ export class TestTreeWidget extends TreeWidget {
         if (TestRoot.is(model.root) && model.root.children.length > 0) {
             return super.renderTree(model);
         }
-        return <div className='theia-widget-noInfo noMarkers'>{nls.localizeByDefault('No tests have been found in this workspace yet.')}</div>;
+        return <div className='theia-widget-noInfo noMarkers'>{nls.localizeByDefault('尚未在此工作区中找到任何测试。')}</div>;
     }
 
     protected getTestStateClass(state: TestExecutionState | undefined): string {

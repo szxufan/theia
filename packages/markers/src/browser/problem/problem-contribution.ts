@@ -68,36 +68,36 @@ export namespace ProblemsCommands {
     };
     export const COPY = Command.toDefaultLocalizedCommand({
         id: 'problems.copy',
-        category: 'Problems',
-        label: 'Copy'
+        category: '问题',
+        label: '复制'
     });
     export const COPY_MESSAGE = Command.toDefaultLocalizedCommand({
         id: 'problems.copy.message',
-        category: 'Problems',
-        label: 'Copy Message'
+        category: '问题',
+        label: '复制消息'
     });
     export const COPY_AS_TEXT = Command.toLocalizedCommand({
         id: 'problems.copy.as.text',
-        category: 'Problems',
-        label: 'Copy as Text'
-    }, 'theia/markers/copyAsText', nls.getDefaultKey('Problems'));
+        category: '问题',
+        label: '复制为文本'
+    }, 'theia/markers/copyAsText', nls.getDefaultKey('问题'));
     export const SELECT_ALL = Command.toDefaultLocalizedCommand({
         id: 'problems.select.all',
-        category: 'Problems',
-        label: 'Select All'
+        category: '问题',
+        label: '全选'
     });
     export const EXPORT = Command.toLocalizedCommand({
         id: 'problems.export',
-        category: 'Problems',
-        label: 'Export',
+        category: '问题',
+        label: '导出',
         iconClass: codicon('arrow-circle-up')
-    }, 'theia/markers/export', nls.getDefaultKey('Problems'));
+    }, 'theia/markers/export', nls.getDefaultKey('问题'));
     export const CLEAR_ALL = Command.toLocalizedCommand({
         id: 'problems.clear.all',
-        category: 'Problems',
-        label: 'Clear All',
+        category: '问题',
+        label: '全部清除',
         iconClass: codicon('clear-all')
-    }, 'theia/markers/clearAll', nls.getDefaultKey('Problems'));
+    }, 'theia/markers/clearAll', nls.getDefaultKey('问题'));
 }
 
 @injectable()
@@ -113,7 +113,7 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
     constructor() {
         super({
             widgetId: PROBLEMS_WIDGET_ID,
-            widgetName: nls.localizeByDefault('Problems'),
+            widgetName: nls.localizeByDefault('问题'),
             defaultWidgetOptions: {
                 area: 'bottom'
             },
@@ -137,7 +137,8 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
         await this.openView();
     }
 
-    protected updateStatusBarElement = debounce(() => this.setStatusBarElement(this.problemManager.getProblemStat()), 10);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateStatusBarElement: any = debounce(() => this.setStatusBarElement(this.problemManager.getProblemStat()), 10);
     protected setStatusBarElement(problemStat: ProblemStat): void {
         this.statusBar.setElement('problem-marker-status', {
             text: problemStat.infos <= 0
@@ -161,17 +162,17 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
      */
     protected getStatusBarTooltip(stat: ProblemStat): string {
         if (stat.errors <= 0 && stat.warnings <= 0 && stat.infos <= 0) {
-            return nls.localizeByDefault('No Problems');
+            return nls.localizeByDefault('没有问题');
         }
         const tooltip: string[] = [];
         if (stat.errors > 0) {
-            tooltip.push(nls.localizeByDefault('{0} Errors', stat.errors));
+            tooltip.push(nls.localizeByDefault('{0} 个错误', stat.errors));
         }
         if (stat.warnings > 0) {
-            tooltip.push(nls.localizeByDefault('{0} Warnings', stat.warnings));
+            tooltip.push(nls.localizeByDefault('{0} 个警告', stat.warnings));
         }
         if (stat.infos > 0) {
-            tooltip.push(nls.localizeByDefault('{0} Infos', stat.infos));
+            tooltip.push(nls.localizeByDefault('{0} 个信息', stat.infos));
         }
         return tooltip.join(', ');
 
@@ -243,12 +244,12 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
         super.registerMenus(menus);
         menus.registerMenuAction(ProblemsMenu.CLIPBOARD, {
             commandId: ProblemsCommands.COPY.id,
-            label: nls.localizeByDefault('Copy'),
+            label: nls.localizeByDefault('复制'),
             order: '0'
         });
         menus.registerMenuAction(ProblemsMenu.CLIPBOARD, {
             commandId: ProblemsCommands.COPY_MESSAGE.id,
-            label: nls.localizeByDefault('Copy Message'),
+            label: nls.localizeByDefault('复制消息'),
             order: '1'
         });
         menus.registerMenuAction(ProblemsMenu.CLIPBOARD, {
@@ -261,12 +262,12 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
         });
         menus.registerMenuAction(ProblemsMenu.PROBLEMS, {
             commandId: ProblemsCommands.COLLAPSE_ALL.id,
-            label: nls.localizeByDefault('Collapse All'),
+            label: nls.localizeByDefault('全部折叠'),
             order: '2'
         });
         menus.registerMenuAction(ProblemsMenu.PROBLEMS, {
             commandId: ProblemsCommands.SELECT_ALL.id,
-            label: nls.localizeByDefault('Select All'),
+            label: nls.localizeByDefault('全选'),
             order: '3'
         });
     }
@@ -275,7 +276,7 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
         toolbarRegistry.registerItem({
             id: ProblemsCommands.COLLAPSE_ALL_TOOLBAR.id,
             command: ProblemsCommands.COLLAPSE_ALL_TOOLBAR.id,
-            tooltip: nls.localizeByDefault('Collapse All'),
+            tooltip: nls.localizeByDefault('全部折叠'),
             priority: 0,
         });
         toolbarRegistry.registerItem({
@@ -412,10 +413,10 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
         }
 
         const filePath = await this.fileDialogService.showSaveDialog({
-            title: nls.localize('theia/markers/exportProblems', 'Export Problems'),
-            filters: { [nls.localize('theia/markers/jsonFiles', 'JSON Files')]: ['json'] },
-            saveLabel: nls.localizeByDefault('Export'),
-            inputValue: nls.localizeByDefault('Problems').toLowerCase() + '.json'
+            title: nls.localize('theia/markers/exportProblems', '导出问题'),
+            filters: { [nls.localize('theia/markers/jsonFiles', 'JSON 文件')]: ['json'] },
+            saveLabel: nls.localizeByDefault('导出'),
+            inputValue: nls.localizeByDefault('问题').toLowerCase() + '.json'
         });
 
         if (!filePath) {
@@ -426,7 +427,7 @@ export class ProblemContribution extends AbstractViewContribution<ProblemWidget>
             const serializedProblems = markerNodes.map(node => this.serializeMarker(node.marker as ProblemMarker));
             const content = JSON.stringify(serializedProblems, undefined, '\t');
             await this.fileService.write(filePath, content);
-            this.messageService.info(nls.localize('theia/markers/exportSuccess', 'Problems exported successfully.'));
+            this.messageService.info(nls.localize('theia/markers/exportSuccess', '问题导出成功。'));
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : String(error);
             this.messageService.error(errorMessage);

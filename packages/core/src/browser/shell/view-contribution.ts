@@ -69,8 +69,8 @@ export abstract class AbstractViewContribution<T extends Widget> implements Comm
         if (options.toggleCommandId) {
             this.toggleCommand = {
                 id: options.toggleCommandId,
-                category: nls.localizeByDefault('View'),
-                label: nls.localizeByDefault('Toggle {0}', this.viewLabel)
+                category: nls.localizeByDefault('视图'),
+                label: nls.localizeByDefault('切换 {0}', this.viewLabel)
             };
         }
     }

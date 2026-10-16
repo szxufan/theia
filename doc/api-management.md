@@ -1,47 +1,47 @@
-# API Management
+# API 管理
 
-> The guidance below is for the code of the Theia framework only. End products will get better development experience by using private visibility.
+> 以下指导仅适用于 Theia 框架自身的代码。最终产品通过使用私有可见性可以获得更好的开发体验。
 
-- [**Stability**](#stability)
-  - [**Experimental**](#experimental)
-  - [**Stable**](#stable)
-- [**Finalization**](#finalization)
-- [**Deprecation**](#deprecation)
+- [**稳定性**](#stability)
+  - [**实验性**](#experimental)
+  - [**稳定**](#stable)
+- [**定稿**](#finalization)
+- [**弃用**](#deprecation)
 
-Theia is a framework embracing openness, extensibility, and customizability as much as possible:
+Theia 是一个尽可能拥抱开放、可扩展与可定制性的框架：
 
-- API defaults to public visibility for clients.
-- API defaults to protected for extenders.
-- Language constructions prohibiting runtime access to internals are never used.
+- API 对客户端默认公共可见。
+- API 对扩展者默认受保护（protected）。
+- 从不使用禁止运行时访问内部结构的语言构造。
 
-Usually, the version management is built around API visibility.
-Particularly, when a public API is broken a new major release is required.
+通常，版本管理围绕 API 可见性构建。
+特别是，当公共 API 被破坏时就需要新的大版本发布。
 
-Since all APIs are more or less public, following the conventional approach is not practicable for Theia.
-It will slow down API innovation, accumulate technical debt or require many major releases.
+由于所有 API 或多或少都是公共的，遵循常规方法对 Theia 并不可行。
+那会拖慢 API 创新、积累技术债，或要求大量大版本发布。
 
-Instead, we demand a major release only if a _stable_ API is broken.
-Breaking an _experimental_ API is allowed in a minor release.
+因此，我们只要求在 _稳定_ API 被破坏时才发布大版本。
+破坏 _实验性_ API 允许发生在次版本发布中。
 
-## Stability
+## 稳定性
 
-Conceptually, an API consists of all assumptions adopters depend on to make use or extend Theia.
-A stable API is based on assumptions that are not subject to change.
-It does not matter whether an API is public or internal, or whether it is used a lot or never.
+从概念上讲，一个 API 由采用者使用或扩展 Theia 时所依赖的全部假设构成。
+稳定 API 基于不会改变的假设。
+API 是公共的还是内部的、被大量使用还是从未使用，都无关紧要。
 
-> For instance, the language server protocol (LSP) depends on such data types like URIs and positions
-since they don't change from language to language. It ensures its stability.
+> 例如，语言服务器协议（LSP）依赖 URI 和位置等数据类型，
+因为它们不随语言而变化。这保证了它的稳定性。
 
-API stability is indicated explicitly by adding `@experimental` or `@stable` js-doc tags.
+API 稳定性通过添加 `@experimental` 或 `@stable` js-doc 标签显式标示。
 
-The explicit stability tag should be accompanied by `@since` tag indicating when API was added.
-The `@stable` tag should mention since which version an API was finalized.
+显式稳定性标签应附带 `@since` 标签，标明 API 何时添加。
+`@stable` 标签应注明 API 自哪个版本起定稿。
 
-An API without a stability tag is considered to be experimental and does not require `@since` tag.
+没有稳定性标签的 API 视为实验性，无需 `@since` 标签。
 
 ```ts
 /**
- * One does not need any annotations while working on experimental APIs.
+ * 开发实验性 API 时不需要任何注解。
  */
 export interface ExperimentalInterface {
 }
@@ -53,12 +53,12 @@ export interface ExperimentalInterface {
 export interface StableInterface {
 
     /**
-     * The same as `StableInterface`.
+     * 与 `StableInterface` 相同。
      */
     stableMethod(): void;
 
     /**
-     * Adding new API to stable API should be explicit.
+     * 向稳定 API 添加新 API 必须显式声明。
      *
      * @since 1.1.0
      * @experimental
@@ -69,64 +69,63 @@ export interface StableInterface {
 
 ```
 
-### Experimental
+### 实验性
 
-- All new APIs should always be added as **experimental** since it's almost impossible to get [stable API](#stable) right the first time.
-- Experimental APIs don't require the stability tag, but if a new member is added to [stable API](#stable) then it should be explicitly annotated.
-- Experimental APIs don't require extensive documentation. It does not mean that one shouldn't document unobvious parts.
-- Experimental APIs don't follow [semver](https://semver.org/#spec-item-8) semantic.
-- Experimental APIs could be changed or removed without [the deprecation cycle](#deprecation) if they were not widely adopted.
-- Adoption should be measured by the number of internal clients or based on the feedback of Theia contributors and committers.
+- 所有新 API 都应始终以**实验性**方式添加，因为很难一次性把[稳定 API](#stable) 设计正确。
+- 实验性 API 不需要稳定性标签，但向[稳定 API](#stable) 添加新成员时应显式注解。
+- 实验性 API 不需要详尽的文档。但这并不意味着明显之处不应记录。
+- 实验性 API 不遵循 [semver](https://semver.org/#spec-item-8) 语义。
+- 如果实验性 API 未被广泛采用，可以在不经过[弃用周期](#deprecation)的情况下更改或移除。
+- 采用程度应通过内部客户端的数量或基于 Theia 贡献者与 committer 的反馈来衡量。
 
-### Stable
+### 稳定
 
-- [Experimental APIs](#experimental) can be graduated to `stable` via [the finalization cycle](#finalization).
-- Stable APIs should be based on design decisions that are not likely to change.
-- Stable APIs should have sufficient adoption.
-- Stable APIs should have proper documentation.
-- Stable APIs must follow [semver](https://semver.org/#spec-item-8) semantic.
-- They can be changed only in a backward-compatible fashion.
-- They can be removed only via [the deprecation cycle](#deprecation).
+- [实验性 API](#experimental) 可以通过[定稿周期](#finalization)晋级为 `stable`。
+- 稳定 API 应基于不太可能改变的设计决策。
+- 稳定 API 应有足够的采用程度。
+- 稳定 API 应有恰当的文档。
+- 稳定 API 必须遵循 [semver](https://semver.org/#spec-item-8) 语义。
+- 只能以向后兼容的方式更改。
+- 只能通过[弃用周期](#deprecation)移除。
 
-## Finalization
+## 定稿
 
-API finalization should be requested via GitHub issues with `api-finalization` label.
-Such request should be resolved via a pull request following to [PR guidelines](https://github.com/eclipse-theia/theia/blob/master/doc/pull-requests.md#pull-requests).
+API 定稿应通过带 `api-finalization` 标签的 GitHub issue 请求。
+此类请求应通过遵循 [PR 指南](https://github.com/eclipse-theia/theia/blob/master/doc/pull-requests.md#pull-requests)的 pull request 解决。
 
-Finalization implies a review of the adoption, stability, and documentation of APIs.
-One cannot judge stability without gaining enough experience
-and provide stable documentation without API stability in the first place.
+定稿意味着对 API 的采用程度、稳定性和文档进行审查。
+没有获得足够的经验就无法判断稳定性，
+而没有 API 的稳定性也无法先给出稳定的文档。
 
-If there is not enough adoption, then finalization should be postponed.
-If it does not get adopted later, it should be considered to move APIs
-from the framework to another repository managed by requesting adopters.
+如果采用程度不足，则应推迟定稿。
+如果它此后仍未被采用，应考虑将 API 从框架移到由请求采用的采用者管理的另一个仓库。
 
-> Why? Consider the case if the LSP would have a feature that can be supported only by one tool.
-It is reasonable to move such a feature to a tool specific LSP extension
-instead of bloating the protocol. The same applies to the framework:
-If API is added and used only by one adopter, then such API has to be moved to the adopter.
-It ensures control of API for such adopters and reduces the API surface of the framework.
+> 为什么？设想 LSP 有一个只能被一个工具支持的特性。
+把这样的特性移到工具专属的 LSP 扩展
+而非让协议臃肿是合理的。框架同理：
+如果 API 只被一个采用者添加并使用，那么这样的 API 必须移交给该采用者。
+这保证了该采用者对此类 API 的控制权，并缩减框架的 API 面。
 
-If APIs are based on design decisions that are subject to change, then
-one could postpone finalization before such decisions are resolved.
+如果 API 基于可能改变的设计决策，
+那么可以推迟定稿，直到此类决策被解决。
 
-> Why? Some design decisions are only temporarily subject to change, for instance,
-which layout framework should be used. After it is resolved,
-such a design decision becomes fundamental, cannot be changed, and can be adopted.
+> 为什么？有些设计决策只是暂时可能改变，例如
+应使用哪种布局框架。一旦被解决，
+这样的设计决策就变得基础、不可更改，并可以被采用。
 
-If it is not possible, then APIs should be refactored to hide such assumptions.
+如果无法如此，则应重构 API 以隐藏这些假设。
 
-> Why? Some design decisions are changeable by nature, for instance, for the LSP,
-kind of symbols of a concrete language. In such a case,
-API should be changed to operate abstract symbol data type to hide concrete symbols.
+> 为什么？有些设计决策本质上就是可变的，例如对 LSP 而言，
+某个具体语言的符号种类。这种情况下，
+应把 API 改为操作抽象的符号数据类型，以隐藏具体符号。
 
-If sufficient adoption and API stability are established,
-documentation should be reviewed and completed.
+如果采用程度与 API 稳定性均已确立，
+则应审查并补全文档。
 
-## Deprecation
+## 弃用
 
-API deprecation is indicated by adding `@deprecated` js-doc tag.
-The deprecation tag should mention, since which version it is deprecated, explain why and what should be used instead.
+API 弃用通过添加 `@deprecated` js-doc 标签标示。
+弃用标签应注明自哪个版本起弃用，解释原因以及应改用什么。
 
 ```ts
 /**
@@ -139,9 +138,9 @@ export interface DeprecatedStableInterface {
 }
 ```
 
-Deprecated [stable API](#stable) can be removed in one of the next _major_ releases
+已弃用的[稳定 API](#stable) 可在下一个 _大_ 版本中移除
 
-Deprecated [experimental API](#experimental) can be removed in one of the next _minor_ releases
+已弃用的[实验性 API](#experimental) 可在下一个 _次_ 版本中移除
 
-Breaking changes should be documented in [CHANGELOG](../CHANGELOG.md). Each breaking change should be justified to adopters
-and guide what should be done instead.
+破坏性变更应记录在 [CHANGELOG](../CHANGELOG.md) 中。每项破坏性变更都应向采用者说明理由，
+并指导应改用什么。

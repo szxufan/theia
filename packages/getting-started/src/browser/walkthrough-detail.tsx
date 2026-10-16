@@ -59,7 +59,7 @@ export function WalkthroughDetail(props: WalkthroughDetailProps): React.ReactEle
                     }}
                 >
                     <i className={codicon('arrow-left')}></i>
-                    <span className='gs-walkthrough-back-label'>{nls.localizeByDefault('Back')}</span>
+                    <span className='gs-walkthrough-back-label'>{nls.localizeByDefault('返回')}</span>
                 </a>
                 <h2 className='gs-walkthrough-detail-title'>
                     <WalkthroughIcon walkthrough={walkthrough} />
@@ -84,7 +84,7 @@ export function WalkthroughDetail(props: WalkthroughDetailProps): React.ReactEle
                             disabled={walkthrough.steps.every(step => step.isComplete)}
                             onClick={props.onMarkAllStepsDone}
                         >
-                            {nls.localizeByDefault('Mark Done')}
+                            {nls.localizeByDefault('标记完成')}
                         </button>
                     )}
                 </div>
@@ -139,8 +139,8 @@ function WalkthroughStepItem(props: WalkthroughStepItemProps): React.ReactElemen
                 tabIndex={onToggleDone ? 0 : undefined}
                 title={onToggleDone
                     ? (step.isComplete
-                        ? nls.localize('theia/getting-started/markStepUndone', 'Mark Undone')
-                        : nls.localizeByDefault('Mark Done'))
+                        ? nls.localize('theia/getting-started/markStepUndone', '标记未完成')
+                        : nls.localizeByDefault('标记完成'))
                     : undefined}
                 onClick={onToggleDone && toggleDone}
                 onKeyDown={onToggleDone && ((e: React.KeyboardEvent) => {

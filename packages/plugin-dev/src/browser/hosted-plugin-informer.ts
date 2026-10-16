@@ -31,7 +31,7 @@ import { WindowTitleService } from '@theia/core/lib/browser/window/window-title-
 @injectable()
 export class HostedPluginInformer implements FrontendApplicationContribution {
 
-    public static readonly DEVELOPMENT_HOST_TITLE = nls.localize('theia/plugin-dev/devHost', 'Development Host');
+    public static readonly DEVELOPMENT_HOST_TITLE = nls.localize('theia/plugin-dev/devHost', '开发主机');
 
     public static readonly DEVELOPMENT_HOST = 'development-host';
 
@@ -66,7 +66,7 @@ export class HostedPluginInformer implements FrontendApplicationContribution {
 
                 this.entry = {
                     text: `$(cube) ${HostedPluginInformer.DEVELOPMENT_HOST_TITLE}`,
-                    tooltip: `${nls.localize('theia/plugin-dev/hostedPlugin', 'Hosted Plugin')} '${pluginMetadata.model.name}'`,
+                    tooltip: `${nls.localize('theia/plugin-dev/hostedPlugin', '托管插件')} '${pluginMetadata.model.name}'`,
                     alignment: StatusBarAlignment.LEFT,
                     priority: 100
                 };

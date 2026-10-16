@@ -41,7 +41,7 @@ export namespace ChatViewWidget {
 export class ChatViewWidget extends BaseWidget implements ExtractableWidget, StatefulWidget {
 
     public static ID = 'chat-view-widget';
-    static LABEL = nls.localize('theia/ai/chat/view/label', 'AI Chat');
+    static LABEL = nls.localize('theia/ai/chat/view/label', 'AI 聊天');
 
     @inject(ChatService)
     protected chatService: ChatService;
@@ -278,10 +278,10 @@ export class ChatViewWidget extends BaseWidget implements ExtractableWidget, Sta
                 const rawError = responseModel.errorObject?.message;
                 const message = rawError
                     ? nls.localize('theia/ai/chat-ui/chatRequestFailedWithDetail',
-                        'Chat request failed: {0}',
+                        '聊天请求失败：{0}',
                         formattedProviderErrorToShortString(formatProviderError(rawError)))
                     : nls.localize('theia/ai/chat-ui/errorChatInvocation',
-                        'An error occurred during chat service invocation.');
+                        '聊天服务调用期间发生错误。');
                 this.messageService.error(message);
             }
         }).finally(() => {
@@ -289,7 +289,7 @@ export class ChatViewWidget extends BaseWidget implements ExtractableWidget, Sta
         });
         if (!requestProgress) {
             this.messageService.error(nls.localize('theia/ai/chat-ui/couldNotSendRequestToSession',
-                'Was not able to send request "{0}" to session {1}', chatRequest.text, this.chatSession.id));
+                '无法将请求"{0}"发送到会话 {1}', chatRequest.text, this.chatSession.id));
             return;
         }
         // Tree Widget currently tracks the ChatModel itself. Therefore no notification necessary.

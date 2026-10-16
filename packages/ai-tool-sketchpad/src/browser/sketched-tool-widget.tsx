@@ -26,13 +26,13 @@ const ITEM_TYPES: Array<'string' | 'number' | 'integer' | 'boolean' | 'object'> 
 const MAX_NESTING_DEPTH = 2;
 
 function toolDisplayName(tool: SketchedToolDefinition): string {
-    return tool.name.trim() || nls.localize('theia/ai-tool-sketchpad/untitledTool', 'Untitled tool');
+    return tool.name.trim() || nls.localize('theia/ai-tool-sketchpad/untitledTool', '未命名的工具');
 }
 
 function returnModeLabel(mode: SketchedToolReturnMode): string {
     return mode === 'askAtRuntime'
-        ? nls.localize('theia/ai-tool-sketchpad/returnModeAskShort', 'Ask at runtime')
-        : nls.localize('theia/ai-tool-sketchpad/returnModeStaticShort', 'Static');
+        ? nls.localize('theia/ai-tool-sketchpad/returnModeAskShort', '运行时询问')
+        : nls.localize('theia/ai-tool-sketchpad/returnModeStaticShort', '静态');
 }
 
 /** Renders a tool as a call signature, e.g. `getWeather(city, units?)`. Optional parameters get a trailing `?`. */
@@ -47,8 +47,8 @@ function toolSignature(tool: SketchedToolDefinition): string {
 function toolSummary(tool: SketchedToolDefinition): string {
     const count = tool.parameters.length;
     const params = count === 1
-        ? nls.localize('theia/ai-tool-sketchpad/oneParameter', '1 parameter')
-        : nls.localize('theia/ai-tool-sketchpad/nParameters', '{0} parameters', count);
+        ? nls.localize('theia/ai-tool-sketchpad/oneParameter', '1 个参数')
+        : nls.localize('theia/ai-tool-sketchpad/nParameters', '{0} 个参数', count);
     return `${params} · ${returnModeLabel(tool.returnMode ?? 'static')}`;
 }
 
@@ -78,7 +78,7 @@ function ToolListItem({ tool, isSelected, onSelect, onDelete }: ToolListItemProp
             </div>
             <span
                 className={`ai-sketchpad-delete-icon ${codicon('trash')}`}
-                title={nls.localizeByDefault('Delete')}
+                title={nls.localizeByDefault('删除')}
                 onClick={handleDelete}
             />
         </li>
@@ -253,7 +253,7 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
         if (params.length === 0) {
             return (
                 <div className='ai-sketchpad-no-params'>
-                    {nls.localize('theia/ai-tool-sketchpad/noParameters', 'No parameters defined.')}
+                    {nls.localize('theia/ai-tool-sketchpad/noParameters', '未定义任何参数。')}
                 </div>
             );
         }
@@ -268,7 +268,7 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
         if (params.length === 0) {
             return (
                 <div className='ai-sketchpad-no-params'>
-                    {nls.localize('theia/ai-tool-sketchpad/noItemProperties', 'No item properties defined.')}
+                    {nls.localize('theia/ai-tool-sketchpad/noItemProperties', '未定义任何项属性。')}
                 </div>
             );
         }
@@ -288,13 +288,13 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                     <input
                         className='theia-input ai-sketchpad-param-name'
                         value={param.name}
-                        placeholder={nls.localizeByDefault('Name')}
+                        placeholder={nls.localizeByDefault('名称')}
                         onChange={e => updateItemProperty(paramPath, propertyIndex, 'name', e.target.value)}
                     />
                     <input
                         className='theia-input ai-sketchpad-param-desc'
                         value={param.description}
-                        placeholder={nls.localizeByDefault('Description')}
+                        placeholder={nls.localizeByDefault('描述')}
                         onChange={e => updateItemProperty(paramPath, propertyIndex, 'description', e.target.value)}
                     />
                     <select
@@ -310,11 +310,11 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                             checked={param.required ?? false}
                             onChange={e => updateItemProperty(paramPath, propertyIndex, 'required', e.target.checked)}
                         />
-                        <span>{nls.localize('theia/ai-tool-sketchpad/required', 'Required')}</span>
+                        <span>{nls.localize('theia/ai-tool-sketchpad/required', '必填')}</span>
                     </label>
                     <span
                         className={`ai-sketchpad-param-delete ${codicon('close')}`}
-                        title={nls.localizeByDefault('Remove')}
+                        title={nls.localizeByDefault('移除')}
                         onClick={() => handleRemoveItemProperty(paramPath, propertyIndex)}
                     />
                 </div>
@@ -343,13 +343,13 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                     <input
                         className='theia-input ai-sketchpad-param-name'
                         value={param.name}
-                        placeholder={nls.localizeByDefault('Name')}
+                        placeholder={nls.localizeByDefault('名称')}
                         onChange={e => updateParameter(path, 'name', e.target.value)}
                     />
                     <input
                         className='theia-input ai-sketchpad-param-desc'
                         value={param.description}
-                        placeholder={nls.localizeByDefault('Description')}
+                        placeholder={nls.localizeByDefault('描述')}
                         onChange={e => updateParameter(path, 'description', e.target.value)}
                     />
                     <select
@@ -365,11 +365,11 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                             checked={param.required ?? false}
                             onChange={e => updateParameter(path, 'required', e.target.checked)}
                         />
-                        <span>{nls.localize('theia/ai-tool-sketchpad/required', 'Required')}</span>
+                        <span>{nls.localize('theia/ai-tool-sketchpad/required', '必填')}</span>
                     </label>
                     <span
                         className={`ai-sketchpad-param-delete ${codicon('close')}`}
-                        title={nls.localizeByDefault('Remove')}
+                        title={nls.localizeByDefault('移除')}
                         onClick={() => handleRemoveParameter(path)}
                     />
                 </div>
@@ -381,13 +381,13 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                             onClick={() => handleAddParameter(path)}
                         >
                             <i className={codicon('add')} />&nbsp;
-                            {nls.localize('theia/ai-tool-sketchpad/addProperty', 'Add Property')}
+                            {nls.localize('theia/ai-tool-sketchpad/addProperty', '添加属性')}
                         </button>
                     </div>
                 )}
                 {param.type === 'array' && (
                     <div className='ai-sketchpad-param-array-type'>
-                        <label>{nls.localize('theia/ai-tool-sketchpad/itemType', 'Item Type:')}</label>
+                        <label>{nls.localize('theia/ai-tool-sketchpad/itemType', '项类型：')}</label>
                         <select
                             className='theia-select'
                             value={param.itemType ?? 'string'}
@@ -405,7 +405,7 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                             onClick={() => handleAddItemProperty(path)}
                         >
                             <i className={codicon('add')} />&nbsp;
-                            {nls.localize('theia/ai-tool-sketchpad/addItemProperty', 'Add Item Property')}
+                            {nls.localize('theia/ai-tool-sketchpad/addItemProperty', '添加项属性')}
                         </button>
                     </div>
                 )}
@@ -426,11 +426,11 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                 </div>
 
                 <div className='ai-sketchpad-form-field'>
-                    <label>{nls.localize('theia/ai-tool-sketchpad/toolName', 'Tool Name')}</label>
+                    <label>{nls.localize('theia/ai-tool-sketchpad/toolName', '工具名称')}</label>
                     <input
                         className={`theia-input${isDirty && nameError ? ' ai-sketchpad-input-error' : ''}`}
                         value={tool.name}
-                        placeholder={nls.localize('theia/ai-tool-sketchpad/toolNamePlaceholder', 'e.g. getWeather')}
+                        placeholder={nls.localize('theia/ai-tool-sketchpad/toolNamePlaceholder', '例如 getWeather')}
                         onChange={e => updateField('name', e.target.value)}
                     />
                     {isDirty && nameError && (
@@ -439,55 +439,55 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                 </div>
 
                 <div className='ai-sketchpad-form-field'>
-                    <label>{nls.localizeByDefault('Description')}</label>
+                    <label>{nls.localizeByDefault('描述')}</label>
                     <textarea
                         className='theia-input ai-sketchpad-textarea'
                         value={tool.description}
-                        placeholder={nls.localize('theia/ai-tool-sketchpad/descriptionPlaceholder', 'Describe what the tool does...')}
+                        placeholder={nls.localize('theia/ai-tool-sketchpad/descriptionPlaceholder', '描述此工具的功能...')}
                         onChange={e => updateField('description', e.target.value)}
                         rows={3}
                     />
                 </div>
 
                 <div className='ai-sketchpad-form-field'>
-                    <label>{nls.localize('theia/ai-tool-sketchpad/parameters', 'Parameters')}</label>
+                    <label>{nls.localize('theia/ai-tool-sketchpad/parameters', '参数')}</label>
                     {renderParameters(tool.parameters, [], 0)}
                     <button className='theia-button secondary ai-sketchpad-add-param-btn' onClick={() => handleAddParameter([])}>
                         <i className={codicon('add')} />&nbsp;
-                        {nls.localize('theia/ai-tool-sketchpad/addParameter', 'Add Parameter')}
+                        {nls.localize('theia/ai-tool-sketchpad/addParameter', '添加参数')}
                     </button>
                 </div>
 
                 <div className='ai-sketchpad-form-field'>
-                    <label>{nls.localize('theia/ai-tool-sketchpad/returnMode', 'Return Mode')}</label>
+                    <label>{nls.localize('theia/ai-tool-sketchpad/returnMode', '返回模式')}</label>
                     <select
                         className='theia-select'
                         value={tool.returnMode ?? 'static'}
                         onChange={e => updateReturnMode(e.target.value as SketchedToolReturnMode)}
                     >
                         <option value='static'>
-                            {nls.localize('theia/ai-tool-sketchpad/returnModeStatic', 'Static Return Value')}
+                            {nls.localize('theia/ai-tool-sketchpad/returnModeStatic', '静态返回值')}
                         </option>
                         <option value='askAtRuntime'>
-                            {nls.localize('theia/ai-tool-sketchpad/returnModeAskAtRuntime', 'Ask At Runtime')}
+                            {nls.localize('theia/ai-tool-sketchpad/returnModeAskAtRuntime', '运行时询问')}
                         </option>
                     </select>
                 </div>
 
                 {tool.returnMode !== 'askAtRuntime' && (
                     <div className='ai-sketchpad-form-field'>
-                        <label>{nls.localize('theia/ai-tool-sketchpad/staticReturn', 'Static Return Value')}</label>
+                        <label>{nls.localize('theia/ai-tool-sketchpad/staticReturn', '静态返回值')}</label>
                         <textarea
                             className='theia-input ai-sketchpad-textarea ai-sketchpad-textarea-code'
                             value={tool.staticReturn}
                             placeholder={nls.localize('theia/ai-tool-sketchpad/staticReturnPlaceholder',
-                                'The value returned when this tool is invoked (e.g. JSON string)')}
+                                '调用此工具时返回的值（例如 JSON 字符串）')}
                             onChange={e => updateField('staticReturn', e.target.value)}
                             rows={4}
                         />
                         <span className='ai-sketchpad-hint'>
                             {nls.localize('theia/ai-tool-sketchpad/staticReturnHint',
-                                'This static value is returned every time the tool is called, regardless of the input arguments.')}
+                                '每次调用该工具时都会返回此静态值，与输入参数无关。')}
                         </span>
                     </div>
                 )}
@@ -496,21 +496,21 @@ function ToolDetailForm({ tool: initialTool, existingTools, onSave, onDelete }: 
                     <div className='ai-sketchpad-form-field'>
                         <span className='ai-sketchpad-hint'>
                             {nls.localize('theia/ai-tool-sketchpad/askAtRuntimeHint',
-                                'When the LLM calls this tool, a quick input will open asking you to provide the return value.')}
+                                '当 LLM 调用此工具时，将打开一个快速输入框，要求你提供返回值。')}
                         </span>
                     </div>
                 )}
 
                 <div className='ai-sketchpad-actions'>
                     <button className='theia-button secondary' onClick={() => onDelete(tool.id)}>
-                        {nls.localizeByDefault('Delete')}
+                        {nls.localizeByDefault('删除')}
                     </button>
                     <button
                         className='theia-button main'
                         onClick={handleSave}
                         disabled={!isDirty || !!nameError}
                     >
-                        {nls.localizeByDefault('Save')}
+                        {nls.localizeByDefault('保存')}
                     </button>
                 </div>
             </div>
@@ -526,7 +526,7 @@ function deepCopy<T>(obj: T): T {
 export class SketchedToolWidget extends ReactWidget {
 
     static readonly ID = 'ai-tool-sketchpad';
-    static readonly LABEL = nls.localize('theia/ai-tool-sketchpad/label', 'AI Tool Sketchpad');
+    static readonly LABEL = nls.localize('theia/ai-tool-sketchpad/label', 'AI 工具草稿板');
 
     @inject(SketchedToolService)
     protected readonly sketchedToolService: SketchedToolService;
@@ -586,7 +586,7 @@ export class SketchedToolWidget extends ReactWidget {
             <div className='ai-sketchpad-list theia-TreeContainer'>
                 {this.tools.length === 0 ? (
                     <div className='ai-sketchpad-list-empty'>
-                        {nls.localize('theia/ai-tool-sketchpad/noTools', 'No tools yet.')}
+                        {nls.localize('theia/ai-tool-sketchpad/noTools', '暂无工具。')}
                     </div>
                 ) : (
                     <ul>
@@ -604,7 +604,7 @@ export class SketchedToolWidget extends ReactWidget {
                 <div className='ai-sketchpad-add-button'>
                     <button className='theia-button main' onClick={this.handleAddTool}>
                         <i className={codicon('add')} />&nbsp;
-                        {nls.localize('theia/ai-tool-sketchpad/addTool', 'Add Tool')}
+                        {nls.localize('theia/ai-tool-sketchpad/addTool', '添加工具')}
                     </button>
                 </div>
             </div>
@@ -618,7 +618,7 @@ export class SketchedToolWidget extends ReactWidget {
                     <div className='ai-sketchpad-empty-state'>
                         <i className={`ai-sketchpad-empty-icon ${codicon('beaker')}`} />
                         <span className='ai-sketchpad-empty-message'>
-                            {nls.localize('theia/ai-tool-sketchpad/selectTool', 'Select a tool to edit, or add a new one to start sketching.')}
+                            {nls.localize('theia/ai-tool-sketchpad/selectTool', '选择要编辑的工具，或添加一个新工具开始草拟。')}
                         </span>
                     </div>
                 </div>
@@ -663,11 +663,11 @@ export class SketchedToolWidget extends ReactWidget {
         const existing = this.tools.find(t => t.id === toolId);
         if (existing) {
             const confirmed = await new ConfirmDialog({
-                title: nls.localizeByDefault('Delete'),
+                title: nls.localizeByDefault('删除'),
                 msg: nls.localize('theia/ai-tool-sketchpad/confirmDelete',
-                    'Are you sure you want to delete the tool "{0}"?', existing.name || existing.id),
-                ok: nls.localizeByDefault('Delete'),
-                cancel: nls.localizeByDefault('Cancel')
+                    '确定要删除工具“{0}”吗？', existing.name || existing.id),
+                ok: nls.localizeByDefault('删除'),
+                cancel: nls.localizeByDefault('取消')
             }).open();
             if (!confirmed) {
                 return;

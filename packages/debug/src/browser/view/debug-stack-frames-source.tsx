@@ -63,7 +63,7 @@ export class LoadMoreStackFrames implements TreeElement {
     ) { }
 
     render(): React.ReactNode {
-        return <span className='theia-load-more-frames'>{nls.localizeByDefault('Load More Stack Frames')}</span>;
+        return <span className='theia-load-more-frames'>{nls.localizeByDefault('加载更多堆栈帧')}</span>;
     }
 
     async open(): Promise<void> {

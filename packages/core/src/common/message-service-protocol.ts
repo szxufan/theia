@@ -54,7 +54,7 @@ export interface ProgressMessage extends Message {
     readonly options?: ProgressMessageOptions;
 }
 export namespace ProgressMessage {
-    export const Cancel = nls.localizeByDefault('Cancel');
+    export const Cancel = nls.localizeByDefault('取消');
     export function isCancelable(message: ProgressMessage): boolean {
         return !!message.options?.cancelable;
     }

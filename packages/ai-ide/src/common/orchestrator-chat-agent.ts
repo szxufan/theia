@@ -34,6 +34,7 @@ export class OrchestratorChatAgent extends AbstractStreamParsingChatAgent {
 
     id: string = OrchestratorChatAgentId;
     name = OrchestratorChatAgentId;
+    displayName = nls.localize('theia/ai/ide/orchestrator/displayName', '编排');
     languageModelRequirements: LanguageModelRequirement[] = [{
         purpose: 'agent-selection',
         identifier: 'default/fast',
@@ -42,13 +43,13 @@ export class OrchestratorChatAgent extends AbstractStreamParsingChatAgent {
 
     override prompts = [orchestratorTemplate];
     override description = nls.localize('theia/ai/chat/orchestrator/description',
-        'This agent analyzes the user request against the description of all available chat agents and selects the best fitting agent to answer the request \
-    (by using AI).The user\'s request will be directly delegated to the selected agent without further confirmation.');
+        '此代理根据所有可用聊天代理的描述分析用户请求，并（借助 AI）选择最合适的代理来回答请求。' +
+        '用户的请求将直接委派给所选代理，无需进一步确认。');
     override iconClass: string = 'codicon codicon-milestone';
     override agentSpecificVariables = [{
         name: 'availableChatAgents',
         description: nls.localize('theia/ai/chat/orchestrator/vars/availableChatAgents/description',
-            'The list of chat agents that the orchestrator can delegate to, excluding agents specified in the exclusion list preference.'),
+            '编排代理可委派给的聊天代理列表，已排除在排除列表首选项中指定的代理。'),
         usedInPrompt: true
     }];
 
@@ -97,7 +98,7 @@ export class OrchestratorChatAgent extends AbstractStreamParsingChatAgent {
     }
 
     override async invoke(request: MutableChatRequestModel): Promise<void> {
-        request.response.addProgressMessage({ content: nls.localize('theia/ai/ide/orchestrator/progressMessage', 'Determining the most appropriate agent'), status: 'inProgress' });
+        request.response.addProgressMessage({ content: nls.localize('theia/ai/ide/orchestrator/progressMessage', '正在确定最合适的代理'), status: 'inProgress' });
         // We use a dedicated id for the orchestrator request
         const orchestratorRequestId = generateUuid();
         request.addData(OrchestratorRequestIdKey, orchestratorRequestId);
@@ -172,14 +173,14 @@ export class OrchestratorChatAgent extends AbstractStreamParsingChatAgent {
                 agentIds = [firstRegisteredAgent];
             } else {
                 throw new Error(nls.localize('theia/ai/ide/orchestrator/error/noAgents',
-                    'No chat agent available to handle request. Please check your configuration whether any are enabled.'));
+                    '没有可用的聊天代理来处理请求。请检查您的配置是否启用了任何代理。'));
             }
         }
 
         // TODO support delegating to more than one agent
         const delegatedToAgent = agentIds[0];
         request.response.response.addContent(new InformationalChatResponseContentImpl(
-            `*Orchestrator*: ${nls.localize('theia/ai/ide/orchestrator/response/delegatingToAgent', 'Delegating to \`@{0}\`', delegatedToAgent)}
+            `*编排器*：${nls.localize('theia/ai/ide/orchestrator/response/delegatingToAgent', '正在委派给 \`@{0}\`', delegatedToAgent)}
 
             ---
 

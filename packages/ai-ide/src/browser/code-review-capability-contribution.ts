@@ -34,7 +34,7 @@ export class CodeReviewCapabilityContribution implements FrontendApplicationCont
     }
 
     protected buildTemplate(): string {
-        const name = nls.localizeByDefault('Review');
+        const name = nls.localizeByDefault('审查');
         const description = nls.localize('theia/ai-ide/codeReview/description',
             'Delegates to code-reviewer agent after each implementation. Blocks next steps until review passes.');
 

@@ -272,7 +272,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     }
 
     function openEditorAndExpand(container: HTMLElement, rootName: string): void {
-        flushSync(() => container.querySelector<HTMLButtonElement>('button[aria-label="Edit generic capabilities"]')!.click());
+        flushSync(() => container.querySelector<HTMLButtonElement>('button[aria-label="编辑通用能力"]')!.click());
         const header = Array.from(container.querySelectorAll<HTMLElement>('.theia-GenericCapabilities-TreeNodeHeader'))
             .find(candidate => candidate.textContent === rootName);
         flushSync(() => header!.click());
@@ -300,7 +300,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('offers no editor when there is nothing to choose from', () => {
         const { container, dispose } = render({ skills: ['skill-a'] }, undefined);
         try {
-            expect(Boolean(container.querySelector('button[aria-label="Edit generic capabilities"]'))).to.equal(false);
+            expect(Boolean(container.querySelector('button[aria-label="编辑通用能力"]'))).to.equal(false);
             expect(container.textContent).to.include('skill-a');
         } finally {
             dispose();
@@ -310,7 +310,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('saves a selection made in the editor right away, keeping earlier edits', async () => {
         const { container, updates, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             flushSync(() => item(container, 'skill-b').click());
             await new Promise(resolve => setTimeout(resolve, 0));
@@ -329,7 +329,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('preserves newer edits when an intermediate save is reloaded', async () => {
         const { container, updates, reload, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             flushSync(() => item(container, 'skill-b').click());
             await new Promise(resolve => setTimeout(resolve, 0));
@@ -347,7 +347,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('ignores reversed stale props after all writes settle', async () => {
         const { container, updates, reload, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             flushSync(() => item(container, 'skill-b').click());
             await new Promise(resolve => setTimeout(resolve, 0));
@@ -367,9 +367,9 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('preserves a local reset when an earlier selection is reloaded', async () => {
         const { container, updates, reload, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
-            flushSync(() => container.querySelector<HTMLButtonElement>('button[aria-label="Reset all generic capability selections"]')!.click());
+            flushSync(() => container.querySelector<HTMLButtonElement>('button[aria-label="重置所有通用能力选择"]')!.click());
             await new Promise(resolve => setTimeout(resolve, 0));
             reload({ skills: ['skill-a'] });
             await new Promise(resolve => setTimeout(resolve, 0));
@@ -385,7 +385,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('starts queued writes in order and keeps optimistic edits until the queue drains', async () => {
         const { container, updates, finishWrite, getStored, dispose } = render(undefined, available, true);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             flushSync(() => item(container, 'skill-b').click());
             await new Promise(resolve => setTimeout(resolve, 0));
@@ -408,7 +408,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('persists A after rapid A to AB to A edits despite equal-value write suppression', async () => {
         const { container, updates, finishWrite, getStored, dispose } = render({ skills: ['skill-a'] }, available, true);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-b').click());
             flushSync(() => item(container, 'skill-b').click());
             expect(item(container, 'skill-b').querySelector<HTMLInputElement>('input')!.checked).to.equal(false);
@@ -437,7 +437,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
         });
         const { container, updates, rejectWrite, finishWrite, getStored, dispose } = render(undefined, available, true);
         try {
-            flushSync(() => container.querySelector<HTMLButtonElement>('button[aria-label="Edit generic capabilities"]')!.click());
+            flushSync(() => container.querySelector<HTMLButtonElement>('button[aria-label="编辑通用能力"]')!.click());
             let failed!: Promise<void>;
             let queued!: Promise<void>;
             flushSync(() => {
@@ -465,7 +465,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('rolls back a swallowed write failure after its change event and resolving promise', async () => {
         const { container, finishWrite, dispose } = render({ skills: ['skill-a'] }, available, true);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-b').click());
             expect(item(container, 'skill-b').querySelector<HTMLInputElement>('input')!.checked).to.equal(true);
             await finishWrite(0, false);
@@ -480,7 +480,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('retains a successful first edit when the second write fails without rejecting', async () => {
         const { container, finishWrite, updates, dispose } = render(undefined, available, true);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             flushSync(() => item(container, 'skill-b').click());
             await finishWrite(0);
@@ -502,7 +502,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('adopts external changes and a reset equal to the original baseline', async () => {
         const { container, reload, setStored, dispose } = render({ skills: ['skill-a'] }, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-b').click());
             await new Promise(resolve => setTimeout(resolve, 0));
             setStored({ skills: ['skill-b'] });
@@ -526,7 +526,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('rereads an external reset even when the saved prop is still undefined', async () => {
         const { container, reload, setStored, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             await new Promise(resolve => setTimeout(resolve, 0));
             setStored(undefined);
@@ -541,7 +541,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('adopts an external baseline-equivalent reset after a pending write fails', async () => {
         const { container, reload, setStored, finishWrite, dispose } = render(undefined, available, true);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             await finishWrite(0);
             await new Promise(resolve => setTimeout(resolve, 0));
@@ -562,7 +562,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('discards a stale asynchronous read after a newer local edit', async () => {
         const { container, updates, reload, deferRead, dispose } = render({ skills: ['skill-a'] }, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             await new Promise(resolve => setTimeout(resolve, 0));
             const staleRead = deferRead();
             reload({ skills: ['skill-a'] });
@@ -582,7 +582,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('discards a write-completion read if another edit starts before it resolves', async () => {
         const { container, finishWrite, deferRead, dispose } = render(undefined, available, true);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             const staleRead = deferRead();
             await finishWrite(0);
@@ -602,7 +602,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('discards an older read when a newer invalidation has already reconciled', async () => {
         const { container, reload, setStored, deferRead, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             await new Promise(resolve => setTimeout(resolve, 0));
             const staleRead = deferRead();
             reload({ skills: ['skill-a'] });
@@ -621,9 +621,9 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('preserves edits to different types made in the same tick', async () => {
         const { container, updates, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             const functions = Array.from(container.querySelectorAll<HTMLElement>('.theia-GenericCapabilities-TreeNodeHeader'))
-                .find(candidate => candidate.textContent === 'Functions')!;
+                .find(candidate => candidate.textContent === '函数')!;
             flushSync(() => functions.click());
             flushSync(() => {
                 item(container, 'skill-a').click();
@@ -639,7 +639,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('drops the setting instead of storing empty lists when the last selection is removed', async () => {
         const { container, updates, dispose } = render({ skills: ['skill-a'] }, available);
         try {
-            openEditorAndExpand(container, 'Skills');
+            openEditorAndExpand(container, '技能');
             flushSync(() => item(container, 'skill-a').click());
             await new Promise(resolve => setTimeout(resolve, 0));
 
@@ -652,7 +652,7 @@ describe('AgentGenericCapabilitiesSettings', () => {
     it('shows what the prompt already uses as checked and locked', () => {
         const { container, updates, dispose } = render(undefined, available);
         try {
-            openEditorAndExpand(container, 'Functions');
+            openEditorAndExpand(container, '函数');
             const used = item(container, 'fn-used');
             const checkbox = used.querySelector<HTMLInputElement>('input[type=checkbox]')!;
             expect(checkbox.checked).to.equal(true);

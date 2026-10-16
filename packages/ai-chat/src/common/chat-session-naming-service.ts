@@ -47,7 +47,7 @@ export class ChatSessionNamingAgent implements Agent {
     static ID = 'Chat Session Naming';
     id = ChatSessionNamingAgent.ID;
     name = ChatSessionNamingAgent.ID;
-    description = nls.localize('theia/ai/chat/chatSessionNamingAgent/description', 'Agent for generating chat session names');
+    description = nls.localize('theia/ai/chat/chatSessionNamingAgent/description', '用于生成聊天会话名称的代理');
     variables = [];
     prompts = [CHAT_SESSION_NAMING_PROMPT];
     languageModelRequirements: LanguageModelRequirement[] = [{
@@ -58,12 +58,12 @@ export class ChatSessionNamingAgent implements Agent {
         {
             name: 'conversation',
             usedInPrompt: true,
-            description: nls.localize('theia/ai/chat/chatSessionNamingAgent/vars/conversation/description', 'The content of the chat conversation.')
+            description: nls.localize('theia/ai/chat/chatSessionNamingAgent/vars/conversation/description', '聊天对话的内容。')
         },
         {
             name: 'listOfSessionNames',
             usedInPrompt: true,
-            description: nls.localize('theia/ai/chat/chatSessionNamingAgent/vars/listOfSessionNames/description', 'The list of existing session names.')
+            description: nls.localize('theia/ai/chat/chatSessionNamingAgent/vars/listOfSessionNames/description', '现有会话名称的列表。')
         }
     ];
     functions = [];

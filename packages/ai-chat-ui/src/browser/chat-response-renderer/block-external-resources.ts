@@ -26,7 +26,7 @@ const RESOURCE_SELECTORS = '*';
 const EMBEDDED_CONTENT_SELECTORS = 'iframe, frame, object, embed';
 const RESOURCE_URL_ATTRIBUTES = ['src', 'poster', 'href', 'xlink:href', 'data', 'background'];
 const URL_FUNCTION_ATTRIBUTES = ['fill', 'stroke', 'filter', 'clip-path', 'mask', 'marker-start', 'marker-mid', 'marker-end'];
-const INLINE_EXTERNAL_CONTENT_LABEL = nls.localize('theia/ai-chat-ui/blockedResource/inlineContent', '(inline external content)');
+const INLINE_EXTERNAL_CONTENT_LABEL = nls.localize('theia/ai-chat-ui/blockedResource/inlineContent', '（内联外部内容）');
 const URL_PATTERN = /url\(\s*(?:"([^"]*)"|'([^']*)'|([^)]*))\s*\)/gi;
 const IMAGE_SET_PATTERN = /(?:-webkit-)?image-set\(([^)]*)\)/gi;
 const IMAGE_SET_URL_PATTERN = /"([^"]*)"|'([^']*)'|(?:^|,)\s*([^,\s)]+)/gi;
@@ -146,7 +146,7 @@ function buildPlaceholder(doc: Document, original: Element): HTMLElement {
     placeholder.setAttribute('role', 'group');
     placeholder.setAttribute('aria-label', nls.localize(
         'theia/ai-chat-ui/blockedResource/aria',
-        'Blocked external resources: {0}',
+        '已阻止的外部资源：{0}',
         resources.join(', ')
     ));
     placeholder.dataset.blockedTag = original.tagName.toLowerCase();

@@ -81,7 +81,7 @@ export namespace TerminalManagerWidgetState {
 @injectable()
 export class TerminalManagerWidget extends BaseWidget implements StatefulWidget, ApplicationShell.TrackableWidgetProvider, ExtractableWidget {
     static ID = 'terminal-manager-widget';
-    static LABEL = nls.localize('theia/terminal-manager/label', 'Terminals');
+    static LABEL = nls.localize('theia/terminal-manager/label', '终端');
 
     isExtractable: boolean = true;
     secondaryWindow: Window | undefined;
@@ -282,17 +282,17 @@ export class TerminalManagerWidget extends BaseWidget implements StatefulWidget,
     }
 
     protected async confirmClose(): Promise<boolean> {
-        const CLOSE = nls.localizeByDefault('Close');
+        const CLOSE = nls.localizeByDefault('关闭');
         // When the widget lives in a secondary window, open the dialog there so it is visible to the user.
         const dialogOptions = this.secondaryWindow ? { node: this.secondaryWindow.document.createElement('div') } : undefined;
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/terminal-manager/closeDialog/title', 'Do you want to close the terminal manager?'),
+            title: nls.localize('theia/terminal-manager/closeDialog/title', '要关闭终端管理器吗？'),
             msg: nls.localize(
                 'theia/terminal-manager/closeDialog/message',
-                'Once the Terminal Manager is closed, its layout cannot be restored. Are you sure you want to close the Terminal Manager?'
+                '终端管理器一旦关闭，其布局将无法恢复。确定要关闭终端管理器吗？'
             ),
             ok: CLOSE,
-            cancel: nls.localizeByDefault('Cancel'),
+            cancel: nls.localizeByDefault('取消'),
         }, dialogOptions);
         const confirmed = await dialog.open();
         return confirmed === true;

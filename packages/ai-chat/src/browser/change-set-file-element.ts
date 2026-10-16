@@ -464,13 +464,13 @@ export class ChangeSetFileElement implements ChangeSetElement {
         await this.openChange();
         const answer = await new ConfirmDialog({
             title: verb === 'Apply'
-                ? nls.localize('theia/ai/chat/applySuggestion', 'Apply suggestion')
-                : nls.localize('theia/ai/chat/revertSuggestion', 'Revert suggestion'),
+                ? nls.localize('theia/ai/chat/applySuggestion', '应用建议')
+                : nls.localize('theia/ai/chat/revertSuggestion', '还原建议'),
             msg: verb === 'Apply'
                 ? nls.localize('theia/ai/chat/confirmApplySuggestion',
-                    'The file {0} has changed since this suggestion was created. Are you certain you wish to apply the change?', this.uri.path.toString())
+                    '文件 {0} 自此建议创建以来已发生更改。您确定要应用该更改吗？', this.uri.path.toString())
                 : nls.localize('theia/ai/chat/confirmRevertSuggestion',
-                    'The file {0} has changed since this suggestion was created. Are you certain you wish to revert the change?', this.uri.path.toString())
+                    '文件 {0} 自此建议创建以来已发生更改。您确定要还原该更改吗？', this.uri.path.toString())
         }).open(true);
         return !!answer;
     }

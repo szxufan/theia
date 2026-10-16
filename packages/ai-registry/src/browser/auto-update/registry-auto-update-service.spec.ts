@@ -369,7 +369,7 @@ describe('RegistryAutoUpdateService', () => {
         it('names the plugin in the prompt, so the notification says what is about to change', async () => {
             const { service } = createService({ defaultMode: 'ask', installedPlugins: [outdatedPlugin(pluginEntry)] });
             await service.check();
-            expect(service.messages[0].text).to.contain('Agent Plugin "Plugin A" has an update available.');
+            expect(service.messages[0].text).to.contain('代理插件“Plugin A”有可用更新。');
         });
 
         it('batches a plugin together with the other artifact kinds', async () => {
@@ -381,7 +381,7 @@ describe('RegistryAutoUpdateService', () => {
             });
             await service.check();
             expect(service.attempted).to.deep.equal([skillEntry.skillId, mcpEntry.serverId, pluginEntry.pluginId]);
-            expect(service.messages.map(message => message.text)).to.deep.equal(['Updated 3 AI registry items.']);
+            expect(service.messages.map(message => message.text)).to.deep.equal(['已更新 3 个 AI 注册表条目。']);
         });
 
         it('reports the failure without aborting the rest of the batch', async () => {
@@ -403,7 +403,7 @@ describe('RegistryAutoUpdateService', () => {
             const { service } = createService({ installedSkills: [outdatedSkill(skillEntry)] });
             await service.check();
             expect(service.messages).to.have.lengthOf(1);
-            expect(service.messages[0].actions).to.deep.equal(['Update', 'Show']);
+            expect(service.messages[0].actions).to.deep.equal(['更新', '显示']);
             expect(service.messages[0].text).to.contain('Skill A');
             expect(service.messages[0].text).to.contain('<settings>');
         });
@@ -412,7 +412,7 @@ describe('RegistryAutoUpdateService', () => {
             const { service } = createService({ installedSkills: [outdatedSkill(skillEntry), outdatedSkill(otherSkillEntry)] });
             await service.check();
             expect(service.messages).to.have.lengthOf(1);
-            expect(service.messages[0].actions).to.deep.equal(['Update All', 'Show']);
+            expect(service.messages[0].actions).to.deep.equal(['全部更新', '显示']);
             expect(service.messages[0].text).to.contain('2');
         });
 
@@ -420,12 +420,12 @@ describe('RegistryAutoUpdateService', () => {
             const { service } = createService({ installedSkills: [outdatedSkill(skillEntry)] });
             await service.check();
             const actions = service.messages[0].actions.join(' ');
-            expect(actions).to.not.contain('Never');
-            expect(actions).to.not.contain('Auto Update');
+            expect(actions).to.not.contain('从不');
+            expect(actions).to.not.contain('自动更新');
         });
 
         it('updates the single pending artifact for Update', async () => {
-            const { service, policy } = createService({ installedSkills: [outdatedSkill(skillEntry)], answer: 'Update' });
+            const { service, policy } = createService({ installedSkills: [outdatedSkill(skillEntry)], answer: '更新' });
             await service.check();
             expect(service.attempted).to.deep.equal([skillEntry.skillId]);
             // The notification never sets policy; the artifact keeps following the default.
@@ -435,7 +435,7 @@ describe('RegistryAutoUpdateService', () => {
         it('updates everything for Update All', async () => {
             const { service } = createService({
                 installedSkills: [outdatedSkill(skillEntry), outdatedSkill(otherSkillEntry)],
-                answer: 'Update All'
+                answer: '全部更新'
             });
             await service.check();
             expect(service.attempted).to.have.lengthOf(2);
@@ -444,7 +444,7 @@ describe('RegistryAutoUpdateService', () => {
         it('opens the installed view for Show', async () => {
             const { service } = createService({
                 installedSkills: [outdatedSkill(skillEntry), outdatedSkill(otherSkillEntry)],
-                answer: 'Show'
+                answer: '显示'
             });
             await service.check();
             expect(service.shown).to.equal(1);
@@ -492,7 +492,7 @@ describe('RegistryAutoUpdateService', () => {
             const { service } = createService({ explicitDefault: false, installedSkills: [outdatedSkill(skillEntry)] });
             await service.check();
             expect(service.messages).to.have.lengthOf(2);
-            expect(service.messages[1].actions).to.deep.equal(['Enable Auto Update', 'Keep Asking', 'Never']);
+            expect(service.messages[1].actions).to.deep.equal(['启用自动更新', '继续询问', '从不']);
             expect(service.messages[1].text).to.contain('<settings>');
         });
 
@@ -507,7 +507,7 @@ describe('RegistryAutoUpdateService', () => {
             const { service, policy } = createService({
                 explicitDefault: false,
                 installedSkills: [outdatedSkill(skillEntry)],
-                answer: 'Enable Auto Update'
+                answer: '启用自动更新'
             });
             await service.check();
             expect(policy.getDefault()).to.equal('on');
@@ -520,7 +520,7 @@ describe('RegistryAutoUpdateService', () => {
             const { service } = createService({
                 explicitDefault: false,
                 installedSkills: [outdatedSkill(skillEntry), outdatedSkill(otherSkillEntry)],
-                answer: 'Enable Auto Update'
+                answer: '启用自动更新'
             });
             await service.check();
             expect(service.attempted).to.deep.equal([skillEntry.skillId, otherSkillEntry.skillId]);
@@ -532,14 +532,14 @@ describe('RegistryAutoUpdateService', () => {
             const { service } = createService({
                 explicitDefault: false,
                 installedSkills: [outdatedSkill(skillEntry)],
-                answer: 'Update'
+                answer: '更新'
             });
             await service.check();
             expect(service.attempted).to.deep.equal([skillEntry.skillId]);
         });
 
         it('turns the default off for Never', async () => {
-            const { service, policy } = createService({ explicitDefault: false, installedSkills: [outdatedSkill(skillEntry)], answer: 'Never' });
+            const { service, policy } = createService({ explicitDefault: false, installedSkills: [outdatedSkill(skillEntry)], answer: '从不' });
             await service.check();
             expect(policy.getDefault()).to.equal('off');
         });
@@ -548,7 +548,7 @@ describe('RegistryAutoUpdateService', () => {
             const { service, policy } = createService({
                 explicitDefault: false,
                 installedSkills: [outdatedSkill(skillEntry)],
-                answer: 'Keep Asking'
+                answer: '继续询问'
             });
             await service.check();
             expect(policy.getDefault()).to.equal('ask');

@@ -45,8 +45,8 @@ export class TestResultWidget extends BaseWidget {
         super();
         this.addClass('theia-test-result-view');
         this.id = TestResultWidget.ID;
-        this.title.label = nls.localizeByDefault('Test Results');
-        this.title.caption = nls.localizeByDefault('Test Results');
+        this.title.label = nls.localizeByDefault('测试结果');
+        this.title.caption = nls.localizeByDefault('测试结果');
         this.title.iconClass = codicon('checklist');
         this.title.closable = true;
         this.scrollOptions = {
@@ -107,7 +107,7 @@ export class TestResultWidget extends BaseWidget {
     renderFrame(stackFrame: TestMessageStackFrame, stackTraceElement: HTMLElement): void {
         const frameElement = stackTraceElement.ownerDocument.createElement('div');
         frameElement.classList.add('debug-frame');
-        frameElement.append(`    ${nls.localize('theia/test/stackFrameAt', 'at')} ${stackFrame.label}`);
+        frameElement.append(`    ${nls.localize('theia/test/stackFrameAt', '位于')} ${stackFrame.label}`);
 
         // Add URI information as clickable links
         if (stackFrame.uri) {

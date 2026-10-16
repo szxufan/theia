@@ -57,8 +57,8 @@ export const OPENAI_TOOL_SEARCH = 'tool_search';
 
 function openAiToolSearchFoundText(found: number): string {
     return found === 1
-        ? nls.localize('theia/ai/openai/toolSearch/foundOne', 'Found 1 tool.')
-        : nls.localize('theia/ai/openai/toolSearch/found', 'Found {0} tools.', found);
+        ? nls.localize('theia/ai/openai/toolSearch/foundOne', '找到 1 个工具。')
+        : nls.localize('theia/ai/openai/toolSearch/found', '找到 {0} 个工具。', found);
 }
 
 interface ToolCall {
@@ -810,8 +810,8 @@ class ResponseApiToolCallIterator extends AbstractStreamingResponseIterator {
                     content: [{
                         type: 'text',
                         text: item.status === 'failed'
-                            ? nls.localize('theia/ai/openai/webSearch/failed', 'Web search failed.')
-                            : nls.localize('theia/ai/openai/webSearch/completed', 'Web search completed.')
+                            ? nls.localize('theia/ai/openai/webSearch/failed', '网页搜索失败。')
+                            : nls.localize('theia/ai/openai/webSearch/completed', '网页搜索已完成。')
                     }]
                 } : undefined,
                 data: finished && replayItems ? {

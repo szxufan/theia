@@ -35,10 +35,10 @@ export class ShellExecutionCapabilityContribution implements FrontendApplication
     }
 
     protected buildTemplate(): string {
-        const label = nls.localize('theia/ai/ide/shellExecutionCapability/name', 'Shell Execution');
+        const label = nls.localize('theia/ai/ide/shellExecutionCapability/name', 'Shell 执行');
         const description = nls.localize('theia/ai/ide/shellExecutionCapability/description',
-            'Allows the agent to run arbitrary shell commands on the host system. The agent can then delegate to execute scripts \
-            that are not available as tasks, query system information, and perform operations for which no dedicated tool exists.');
+            '允许代理在主机系统上运行任意 shell 命令。随后代理可以委派执行 \
+            不可作为任务使用的脚本、查询系统信息，以及执行没有专用工具可用的操作。');
 
         return `---
 name: ${label}

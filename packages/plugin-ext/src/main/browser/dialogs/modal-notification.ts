@@ -94,7 +94,7 @@ export class ModalNotification extends AbstractDialog<string | undefined> {
         if (actions.length <= 0) {
             this.appendAcceptButton();
         } else if (!actions.some(action => action.isCloseAffordance === true)) {
-            this.appendCloseButton(nls.localizeByDefault('Close'));
+            this.appendCloseButton(nls.localizeByDefault('关闭'));
         }
 
         return messageNode;

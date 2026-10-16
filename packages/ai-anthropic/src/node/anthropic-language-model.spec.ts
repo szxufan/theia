@@ -1145,7 +1145,7 @@ describe('AnthropicModel', () => {
             expect(finished!.id).to.equal('ts-1');
             expect(finished!.name).to.equal('tool_search');
             expect(finished!.arguments).to.equal('{"query":"file"}');
-            expect(finished!.result).to.deep.equal({ content: [{ type: 'text', text: 'Found 2 tools.' }] });
+            expect(finished!.result).to.deep.equal({ content: [{ type: 'text', text: '找到 2 个工具。' }] });
         });
 
         it('drops the deferred tool search server tool use message on replay', async () => {

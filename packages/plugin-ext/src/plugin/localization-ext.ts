@@ -17,7 +17,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { inject, injectable, postConstruct } from '@theia/core/shared/inversify';
-import { nls } from '@theia/core';
 import { Localization } from '@theia/core/lib/common/i18n/localization';
 import { LocalizationExt, LocalizationMain, Plugin, PLUGIN_RPC_CONTEXT, StringDetails } from '../common';
 import { LanguagePackBundle } from '../common/language-pack-service';
@@ -67,11 +66,10 @@ export class LocalizationExtImpl implements LocalizationExt {
 
     async initializeLocalizedMessages(plugin: Plugin, currentLanguage: string): Promise<void> {
         this.currentLanguage ??= currentLanguage;
-        this.isDefaultLanguage = this.currentLanguage === nls.defaultLocale;
-
-        if (this.isDefaultLanguage) {
-            return;
-        }
+        // Fork customization: plugins ship English source strings and are translated via the
+        // zh-cn language pack, so the "default language" shortcut (which skips bundle loading)
+        // must never trigger in this Chinese-only build.
+        this.isDefaultLanguage = false;
 
         if (this.bundleCache.has(plugin.model.id)) {
             return;

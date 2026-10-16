@@ -23,12 +23,12 @@ export const HostedPluginConfigSchema: PreferenceSchema = {
     properties: {
         'hosted-plugin.watchMode': {
             type: 'boolean',
-            description: nls.localize('theia/plugin-dev/watchMode', 'Run watcher on plugin under development'),
+            description: nls.localize('theia/plugin-dev/watchMode', '对正在开发的插件运行监视器'),
             default: true
         },
         'hosted-plugin.debugMode': {
             type: 'string',
-            description: nls.localize('theia/plugin-dev/debugMode', 'Using inspect or inspect-brk for Node.js debug'),
+            description: nls.localize('theia/plugin-dev/debugMode', '使用 inspect 或 inspect-brk 进行 Node.js 调试'),
             default: 'inspect',
             enum: ['inspect', 'inspect-brk']
         },
@@ -39,7 +39,7 @@ export const HostedPluginConfigSchema: PreferenceSchema = {
             },
             markdownDescription: nls.localize(
                 'theia/plugin-dev/launchOutFiles',
-                'Array of glob patterns for locating generated JavaScript files (`${pluginPath}` will be replaced by plugin actual path).'
+                '用于查找生成的 JavaScript 文件的 glob 模式数组（`${pluginPath}` 将被替换为插件的实际路径）。'
             ),
             default: ['${pluginPath}/out/**/*.js']
         },
@@ -58,12 +58,12 @@ export const HostedPluginConfigSchema: PreferenceSchema = {
                         type: 'number',
                         minimum: 0,
                         maximum: 65535,
-                        description: nls.localize('theia/plugin-dev/debugPorts/debugPort', 'Port to use for this server\'s Node.js debug'),
+                        description: nls.localize('theia/plugin-dev/debugPorts/debugPort', '用于此服务器 Node.js 调试的端口'),
                     }
                 },
             },
             default: [],
-            description: nls.localize('theia/plugin-dev/debugPorts', 'Port configuration per server for Node.js debug'),
+            description: nls.localize('theia/plugin-dev/debugPorts', '每个服务器的 Node.js 调试端口配置'),
         }
     }
 };

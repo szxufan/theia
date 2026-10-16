@@ -1,9 +1,8 @@
 # plugin-esm-mjs
 
-A sample VS Code extension delivered as an ECMAScript module via the `.mjs`
-file extension.
+一个通过 `.mjs` 文件扩展名以 ECMAScript 模块形式交付的示例 VS Code 扩展。
 
-Unlike `plugin-esm`, this sample does **not** set `"type": "module"` in
-`package.json`. The `.mjs` extension on `extension.mjs` is enough to tell
-Node to load the file as ESM. Theia detects this by inspecting the entry
-point's extension and dispatches to `import()` instead of `require()`.
+与 `plugin-esm` 不同，本示例**没有**在
+`package.json` 中设置 `"type": "module"`。`extension.mjs` 上的 `.mjs` 扩展名
+就足以告诉 Node 将该文件作为 ESM 加载。Theia 通过检查入口
+点的扩展名来检测这一点，并分发到 `import()` 而非 `require()`。

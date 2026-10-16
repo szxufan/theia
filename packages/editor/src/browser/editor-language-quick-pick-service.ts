@@ -32,11 +32,11 @@ export class EditorLanguageQuickPickService {
 
     async pickEditorLanguage(current: string): Promise<QuickPickValue<'autoDetect' | Language> | undefined> {
         const items: Array<QuickPickValue<'autoDetect' | Language> | QuickPickItemOrSeparator> = [
-            { label: nls.localizeByDefault('Auto Detect'), value: 'autoDetect' },
-            { type: 'separator', label: nls.localizeByDefault('languages (identifier)') },
+            { label: nls.localizeByDefault('自动检测'), value: 'autoDetect' },
+            { type: 'separator', label: nls.localizeByDefault('语言（标识符）') },
             ... (this.languages.languages.map(language => this.toQuickPickLanguage(language, current))).sort((e, e2) => e.label.localeCompare(e2.label))
         ];
-        const selectedMode = await this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('Select Language Mode') });
+        const selectedMode = await this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('选择语言模式') });
         return (selectedMode && 'value' in selectedMode) ? selectedMode : undefined;
     }
 
@@ -51,7 +51,7 @@ export class EditorLanguageQuickPickService {
         return {
             value,
             label: value.name,
-            description: nls.localizeByDefault(`({0})${configured ? ' - Configured Language' : ''}`, value.id),
+            description: nls.localizeByDefault(`({0})${configured ? ' - 已配置的语言' : ''}`, value.id),
             iconClasses
         };
     }

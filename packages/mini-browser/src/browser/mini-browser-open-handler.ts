@@ -220,12 +220,12 @@ export class MiniBrowserOpenHandler extends NavigatableWidgetOpenHandler<MiniBro
         toolbar.registerItem({
             id: MiniBrowserCommands.PREVIEW.id,
             command: MiniBrowserCommands.PREVIEW.id,
-            tooltip: nls.localize('vscode.markdown-language-features/package/markdown.previewSide.title', 'Open Preview to the Side')
+            tooltip: nls.localize('vscode.markdown-language-features/package/markdown.previewSide.title', '在侧边打开预览')
         });
         toolbar.registerItem({
             id: MiniBrowserCommands.OPEN_SOURCE.id,
             command: MiniBrowserCommands.OPEN_SOURCE.id,
-            tooltip: nls.localize('vscode.markdown-language-features/package/markdown.showSource.title', 'Open Source')
+            tooltip: nls.localize('vscode.markdown-language-features/package/markdown.showSource.title', '打开源文件')
         });
     }
 
@@ -281,8 +281,8 @@ export class MiniBrowserOpenHandler extends NavigatableWidgetOpenHandler<MiniBro
 
     protected async openUrl(arg?: string): Promise<void> {
         const url = arg ? arg : await this.quickInputService?.input({
-            prompt: nls.localizeByDefault('URL to open'),
-            placeHolder: nls.localize('theia/mini-browser/typeUrl', 'Type a URL')
+            prompt: nls.localizeByDefault('要打开的 URL'),
+            placeHolder: nls.localize('theia/mini-browser/typeUrl', '输入 URL')
         });
         if (url) {
             await this.openPreview(url);

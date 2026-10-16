@@ -86,7 +86,7 @@ export class CallHierarchyTreeWidget extends TreeWidget {
 
     protected override renderTree(model: TreeModel): React.ReactNode {
         return super.renderTree(model)
-            || <div className='theia-widget-noInfo'>{nls.localize('theia/callhierarchy/noCallers', 'No callers have been detected.')}</div>;
+            || <div className='theia-widget-noInfo'>{nls.localize('theia/callhierarchy/noCallers', '未检测到任何调用方。')}</div>;
     }
 
     protected override renderCaption(node: TreeNode, props: NodeProps): React.ReactNode {

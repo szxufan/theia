@@ -30,19 +30,19 @@ export namespace DebugMenus {
 }
 
 function nlsEditBreakpoint(breakpoint: string): string {
-    return nls.localizeByDefault('Edit {0}...', nls.localizeByDefault(breakpoint));
+    return nls.localizeByDefault('编辑 {0}...', nls.localizeByDefault(breakpoint));
 }
 
 function nlsRemoveBreakpoint(breakpoint: string): string {
-    return nls.localizeByDefault('Remove {0}', nls.localizeByDefault(breakpoint));
+    return nls.localizeByDefault('移除 {0}', nls.localizeByDefault(breakpoint));
 }
 
 export function nlsEnableBreakpoint(breakpoint: string): string {
-    return nls.localizeByDefault('Enable {0}', nls.localizeByDefault(breakpoint));
+    return nls.localizeByDefault('启用 {0}', nls.localizeByDefault(breakpoint));
 }
 
 export function nlsDisableBreakpoint(breakpoint: string): string {
-    return nls.localizeByDefault('Disable {0}', nls.localizeByDefault(breakpoint));
+    return nls.localizeByDefault('禁用 {0}', nls.localizeByDefault(breakpoint));
 }
 
 export namespace DebugCommands {

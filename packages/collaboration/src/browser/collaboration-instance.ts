@@ -179,10 +179,10 @@ export class CollaborationInstance implements Disposable {
 
     protected registerProtocolEvents(connection: types.ProtocolBroadcastConnection): void {
         connection.peer.onJoinRequest(async (_, user) => {
-            const allow = nls.localizeByDefault('Allow');
-            const deny = nls.localizeByDefault('Deny');
+            const allow = nls.localizeByDefault('允许');
+            const deny = nls.localizeByDefault('拒绝');
             const result = await this.messageService.info(
-                nls.localize('theia/collaboration/userWantsToJoin', "User '{0}' wants to join the collaboration room", user.email ? `${user.name} (${user.email})` : user.name),
+                nls.localize('theia/collaboration/userWantsToJoin', '用户"{0}"想要加入协作房间', user.email ? `${user.name} (${user.email})` : user.name),
                 allow,
                 deny
             );
@@ -190,7 +190,7 @@ export class CollaborationInstance implements Disposable {
                 const roots = await this.workspaceService.roots;
                 return {
                     workspace: {
-                        name: this.workspaceService.workspace?.name ?? nls.localize('theia/collaboration/collaboration', 'Collaboration'),
+                        name: this.workspaceService.workspace?.name ?? nls.localize('theia/collaboration/collaboration', '协作'),
                         folders: roots.map(e => e.name)
                     }
                 };
@@ -209,7 +209,7 @@ export class CollaborationInstance implements Disposable {
                     capabilities: {},
                     permissions: this.permissions,
                     workspace: {
-                        name: this.workspaceService.workspace?.name ?? nls.localize('theia/collaboration/collaboration', 'Collaboration'),
+                        name: this.workspaceService.workspace?.name ?? nls.localize('theia/collaboration/collaboration', '协作'),
                         folders: roots.map(e => e.name)
                     }
                 };

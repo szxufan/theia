@@ -90,7 +90,7 @@ export default new ContainerModule(bind => {
     bind(WorkspaceRestrictionContribution).toConstantValue({
         getRestrictions(): WorkspaceRestriction[] {
             return [{
-                label: nls.localize('theia/task/taskRestricted', 'Task execution is disabled in Restricted Mode')
+                label: nls.localize('theia/task/taskRestricted', '任务执行在受限模式下已禁用')
             }];
         }
     });

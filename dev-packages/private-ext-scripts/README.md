@@ -10,12 +10,12 @@
 
 </div>
 
-## Description
+## 描述
 
-`theiaext` is a command line tool to run shared npm scripts in Theia packages.\
-For instance, if you want add a new `hello` script that prints `Hello World`:
+`theiaext` 是一个用于在 Theia 包中运行共享 npm 脚本的命令行工具。\
+例如，如果你想添加一个打印 `Hello World` 的新 `hello` 脚本：
 
-- add a new script to [./package.json](./package.json) with the `ext:` prefix.
+- 在 [./package.json](./package.json) 中添加一个带 `ext:` 前缀的新脚本。
 
 ```json
 {
@@ -26,7 +26,7 @@ For instance, if you want add a new `hello` script that prints `Hello World`:
 }
 ```
 
-- install `theiaext` in your package (the actual version can be different)
+- 在你的包中安装 `theiaext`（实际版本可以不同）
 
 ```json
 {
@@ -37,13 +37,13 @@ For instance, if you want add a new `hello` script that prints `Hello World`:
 }
 ```
 
-- you should be able to call `hello` script in the context of your package:
+- 你应该能够在你的包的上下文中调用 `hello` 脚本：
 
 ```shell
     npx theiaext hello
 ````
 
-- and from npm scripts of your package:
+- 以及从你的包的 npm 脚本中调用：
 
 ```json
 {
@@ -54,17 +54,17 @@ For instance, if you want add a new `hello` script that prints `Hello World`:
 }
 ```
 
-## Additional Information
+## 更多信息
 
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

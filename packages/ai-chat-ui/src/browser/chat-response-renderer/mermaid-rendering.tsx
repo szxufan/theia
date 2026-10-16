@@ -217,12 +217,12 @@ export const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ code, themeMode,
             <div className='theia-MermaidViewer-error' title={error}>
                 <span className='codicon codicon-warning'></span>
                 <span>{nls.localize('theia/ai/chat-ui/mermaid-rendering/error',
-                    'Unable to render the Mermaid diagram. Switch to the source view to inspect the definition.')}</span>
+                    '无法渲染 Mermaid 图表。请切换到源码视图以检查定义。')}</span>
             </div>
         );
     }
     return <div className='theia-MermaidViewer-status'>
-        {nls.localize('theia/ai/chat-ui/mermaid-rendering/rendering', 'Rendering diagram…')}
+        {nls.localize('theia/ai/chat-ui/mermaid-rendering/rendering', '正在渲染图表…')}
     </div>;
 };
 
@@ -386,36 +386,36 @@ export const MermaidViewer: React.FC<MermaidViewerProps> = ({
 
     const isDiagram = mode === 'diagram';
     const diagram = <MermaidDiagram code={code} themeMode={themeMode} isComplete={isComplete} />;
-    const wheelZoomHint = nls.localize('theia/ai/chat-ui/mermaid-rendering/wheelZoomHint', '{0} + Scroll', isOSX ? 'Cmd' : 'Ctrl');
+    const wheelZoomHint = nls.localize('theia/ai/chat-ui/mermaid-rendering/wheelZoomHint', '{0} + 滚轮', isOSX ? 'Cmd' : 'Ctrl');
     return (
         <div className='theia-MermaidViewer-root'>
             <div
                 className='theia-MermaidViewer-toolbar'
                 role='button'
-                title={collapsed ? nls.localizeByDefault('Expand') : nls.localizeByDefault('Collapse')}
+                title={collapsed ? nls.localizeByDefault('展开') : nls.localizeByDefault('折叠')}
                 onClick={toggleCollapsed}>
                 <span className='theia-MermaidViewer-title'>
-                    {nls.localize('theia/ai/chat-ui/mermaid-rendering/title', 'Mermaid Diagram')}
+                    {nls.localize('theia/ai/chat-ui/mermaid-rendering/title', 'Mermaid 图表')}
                 </span>
                 <div className='theia-MermaidViewer-actions' onClick={stopPropagation}>
                     {!collapsed && isDiagram && <>
-                        <ToolbarButton icon='zoom-in' title={`${nls.localizeByDefault('Zoom In')} (${wheelZoomHint})`} onClick={zoomIn} />
-                        <ToolbarButton icon='zoom-out' title={`${nls.localizeByDefault('Zoom Out')} (${wheelZoomHint})`} onClick={zoomOut} />
+                        <ToolbarButton icon='zoom-in' title={`${nls.localizeByDefault('放大')} (${wheelZoomHint})`} onClick={zoomIn} />
+                        <ToolbarButton icon='zoom-out' title={`${nls.localizeByDefault('缩小')} (${wheelZoomHint})`} onClick={zoomOut} />
                         <ToolbarButton
                             icon='screen-normal'
-                            title={nls.localize('theia/ai/chat-ui/mermaid-rendering/resetView', 'Reset View')}
+                            title={nls.localize('theia/ai/chat-ui/mermaid-rendering/resetView', '重置视图')}
                             onClick={resetView} />
                     </>}
-                    <ToolbarButton icon='copy' title={nls.localize('theia/ai/chat-ui/mermaid-rendering/copySource', 'Copy Source')} onClick={copySource} />
+                    <ToolbarButton icon='copy' title={nls.localize('theia/ai/chat-ui/mermaid-rendering/copySource', '复制源码')} onClick={copySource} />
                     {!collapsed && <ToolbarButton
                         icon={isDiagram ? 'code' : 'graph'}
                         title={isDiagram
-                            ? nls.localize('theia/ai/chat-ui/mermaid-rendering/showSource', 'Show Source')
-                            : nls.localize('theia/ai/chat-ui/mermaid-rendering/showDiagram', 'Show Diagram')}
+                            ? nls.localize('theia/ai/chat-ui/mermaid-rendering/showSource', '显示源码')
+                            : nls.localize('theia/ai/chat-ui/mermaid-rendering/showDiagram', '显示图表')}
                         onClick={toggleMode} />}
                     <ToolbarButton
                         icon={collapsed ? 'chevron-down' : 'chevron-up'}
-                        title={collapsed ? nls.localizeByDefault('Expand') : nls.localizeByDefault('Collapse')}
+                        title={collapsed ? nls.localizeByDefault('展开') : nls.localizeByDefault('折叠')}
                         onClick={toggleCollapsed} />
                 </div>
             </div>

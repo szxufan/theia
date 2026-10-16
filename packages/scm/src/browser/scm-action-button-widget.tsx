@@ -227,7 +227,7 @@ class ScmActionButtonComponent extends React.Component<ScmActionButtonComponent.
                             className={`${ScmActionButtonWidget.Styles.ACTION_BUTTON_SECONDARY} ${ScmActionButtonWidget.Styles.ACTION_BUTTON}`}
                             onClick={e => onShowSecondaryMenu(e, actionButton)}
                             disabled={isDisabled}
-                            title={nls.localizeByDefault('More Actions...')}
+                            title={nls.localizeByDefault('更多操作...')}
                         >
                             <span className={codicon('chevron-down')}></span>
                         </button>

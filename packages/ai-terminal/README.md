@@ -4,48 +4,48 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - AI TERMINAL EXTENSION</h2>
+<h2>ECLIPSE THEIA - AI TERMINAL 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/ai-terminal` extension contributes an overlay to the terminal view.\
-The overlay can be used to ask a dedicated `TerminalAgent` for suggestions of terminal commands.
+`@theia/ai-terminal` 扩展为终端视图提供一个浮层。\
+该浮层可用于向专用的 `TerminalAgent` 询问终端命令的建议。
 
-It also provides the `shellExecute` tool that allows AI agents to run commands on the host system.
+它还提供 `shellExecute` 工具，允许 AI 智能体在宿主系统上运行命令。
 
-## Shell Execution Tool
+## Shell 执行工具
 
-The `shellExecute` tool enables AI agents to execute shell commands on the host system with user confirmation.
+`shellExecute` 工具使 AI 智能体能够在获得用户确认的情况下，在宿主系统上执行 shell 命令。
 
-### Security
+### 安全性
 
-By default, every command requires explicit user approval. The tool is marked with `confirmAlwaysAllow`, which shows an additional warning dialog when users try to enable auto-approval.
+默认情况下，每条命令都需要用户明确批准。该工具标记了 `confirmAlwaysAllow`，当用户尝试启用自动批准时会显示额外的警告对话框。
 
-> **Warning**: This tool has full system access. Only enable auto-approval in isolated environments (containers, VMs).
+> **警告**：该工具拥有完整的系统访问权限。请仅在隔离环境（容器、虚拟机）中启用自动批准。
 
-### Features
+### 功能特性
 
-- Execute any shell command (bash on Linux/macOS, cmd/PowerShell on Windows)
-- Configurable working directory and timeout (default 2 min, max 10 min)
-- Output truncation (first/last 50 lines) for large outputs
-- Cancellation support
+- 执行任意 shell 命令（Linux/macOS 上的 bash，Windows 上的 cmd/PowerShell）
+- 可配置的工作目录和超时（默认 2 分钟，最长 10 分钟）
+- 针对大输出量的输出截断（首尾各 50 行）
+- 支持取消
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/ai-terminal`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai_terminal.html)
+- [`@theia/ai-terminal` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai_terminal.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

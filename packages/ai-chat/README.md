@@ -4,24 +4,24 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - AI CHAT EXTENSION</h2>
+<h2>ECLIPSE THEIA - AI CHAT 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/ai-chat` extension provides the concept of a language model chat to Theia.
-It serves as the basis for `@theia/ai-chat-ui` to provide the Chat UI.
+`@theia/ai-chat` 扩展为 Theia 提供语言模型聊天（chat）的概念。
+它是 `@theia/ai-chat-ui` 提供聊天 UI 的基础。
 
-## Tool Context Patterns
+## 工具上下文模式
 
-When implementing tool handlers, there are two patterns depending on whether your tool requires chat-specific features:
+实现工具处理器时，根据工具是否需要聊天专属功能，有两种模式：
 
-### Generic Tools (no chat dependency)
+### 通用工具（无聊天依赖）
 
-For tools that only need basic context like cancellation support:
+对于只需要取消支持等基本上下文的工具：
 
 ```typescript
 import { ToolInvocationContext, ToolProvider, ToolRequest } from '@theia/ai-core';
@@ -46,9 +46,9 @@ export class MyGenericTool implements ToolProvider {
 }
 ```
 
-### Chat-Bound Tools (requires chat session)
+### 聊天绑定工具（需要聊天会话）
 
-For tools that need access to the chat session, request model, or response:
+对于需要访问聊天会话、请求模型或响应的工具：
 
 ```typescript
 import { assertChatContext, ChatToolContext } from '@theia/ai-chat';
@@ -77,20 +77,20 @@ export class MyChatTool implements ToolProvider {
 }
 ```
 
-The `assertChatContext()` function serves as both a runtime validator and TypeScript type guard, ensuring the context is a `ChatToolContext` with `request` and `response` properties.
+`assertChatContext()` 函数既是运行时校验器，也是 TypeScript 类型守卫，确保上下文是带有 `request` 和 `response` 属性的 `ChatToolContext`。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/ai-chat`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-chat.html)
+- [`@theia/ai-chat` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_ai-chat.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

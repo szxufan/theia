@@ -103,12 +103,12 @@ export const ReasoningRow: React.FC<{
     }, [onSelect]);
     const effectiveLevel = ReasoningSupport.clampLevel(support, savedLevel ?? inheritedLevel);
     return <AiConfigurationSettingRow
-        title={nls.localizeByDefault('Reasoning')}
+        title={nls.localizeByDefault('推理')}
         description={savedLevel
             ? nls.localize('theia/ai/core/languageModelRenderer/reasoningStored',
-                'Reasoning effort this agent asks the model for. Set here or by the chat input\'s selector, which writes the same setting.')
+                '此代理要求模型使用的推理力度。可在此处设置，或由聊天输入框的选择器设置，两者写入同一设置。')
             : nls.localize('theia/ai/core/languageModelRenderer/reasoningInherited',
-                'Reasoning effort this agent asks the model for. Not set, so "{0}" applies, from the reasoning defaults preference or the model.',
+                '此代理要求模型使用的推理力度。未设置，因此应用“{0}”（来自推理默认偏好或模型）。',
                 reasoningLevelLabel(effectiveLevel))}
         modified={savedLevel !== undefined}
         below={<SelectComponent
@@ -237,7 +237,7 @@ export const LanguageModelRenderer: React.FC<LanguageModelSettingsProps> = (
         aliases?.slice().sort((a, b) => a.id.localeCompare(b.id)).forEach(alias => {
             options.push({
                 value: alias.id,
-                label: nls.localize('theia/ai/core/languageModelRenderer/alias', '[alias] {0}', alias.id)
+                label: nls.localize('theia/ai/core/languageModelRenderer/alias', '[别名] {0}', alias.id)
             });
         });
         const modelOption = (model: LanguageModel): SelectOption => {
@@ -261,7 +261,7 @@ export const LanguageModelRenderer: React.FC<LanguageModelSettingsProps> = (
     return <div className='language-model-container'>
         {lmRequirementMap && Object.keys(lmRequirementMap).length > 0 ? (
             <div className="settings-section-subcategory-title ai-settings-section-subcategory-title">
-                {nls.localizeByDefault('Language Models')}
+                {nls.localizeByDefault('语言模型')}
             </div>
         ) : undefined}
         {Object.values(lmRequirementMap).map(requirement => {
@@ -270,7 +270,7 @@ export const LanguageModelRenderer: React.FC<LanguageModelSettingsProps> = (
             const isOverridden = overriddenPurposes.has(requirement.purpose);
             return <AiConfigurationSettingRow
                 key={requirement.purpose}
-                title={nls.localize('theia/ai/core/languageModelRenderer/purposeTitle', 'Purpose: {0}', requirement.purpose)}
+                title={nls.localize('theia/ai/core/languageModelRenderer/purposeTitle', '用途：{0}', requirement.purpose)}
                 modified={isOverridden}
                 below={<>
                     <ModelSelect
@@ -281,11 +281,11 @@ export const LanguageModelRenderer: React.FC<LanguageModelSettingsProps> = (
                         onSelect={onSelectedModelChange}
                     />
                     {isAlias && <div className='ai-lm-evaluates-to'>
-                        <span className='ai-lm-evaluates-to-label'>{nls.localize('theia/ai/core/modelAliasesConfiguration/evaluatesTo', 'Evaluates to')}:</span>
+                        <span className='ai-lm-evaluates-to-label'>{nls.localize('theia/ai/core/modelAliasesConfiguration/evaluatesTo', '解析结果')}:</span>
                         {resolvedModel
                             ? <span>{resolvedModel.name ?? resolvedModel.id} {resolvedModel.status.status === 'ready' ? '✓' : '✗'}</span>
                             : <span className='ai-alias-evaluates-to-unresolved'>
-                                {nls.localize('theia/ai/core/modelAliasesConfiguration/noResolvedModel', 'No model ready for this alias.')}</span>}
+                                {nls.localize('theia/ai/core/modelAliasesConfiguration/noResolvedModel', '此别名没有就绪的模型。')}</span>}
                     </div>}
                 </>}
                 onOpenMenu={gear => settingsRowService.openResetMenu(gear, () => onResetPurpose(requirement.purpose))}

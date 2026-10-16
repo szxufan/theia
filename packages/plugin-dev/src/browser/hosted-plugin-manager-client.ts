@@ -157,7 +157,7 @@ export class HostedPluginManagerClient {
 
     async start(debugConfig?: PluginDebugConfiguration): Promise<void> {
         if (await this.hostedPluginServer.isHostedPluginInstanceRunning()) {
-            this.messageService.warn(nls.localize('theia/plugin-dev/alreadyRunning', 'Hosted instance is already running.'));
+            this.messageService.warn(nls.localize('theia/plugin-dev/alreadyRunning', '托管实例已在运行。'));
             return;
         }
 
@@ -171,7 +171,7 @@ export class HostedPluginManagerClient {
 
         try {
             this.stateChanged.fire({ state: HostedInstanceState.STARTING, pluginLocation: this.pluginLocation });
-            this.messageService.info(nls.localize('theia/plugin-dev/starting', 'Starting hosted instance server ...'));
+            this.messageService.info(nls.localize('theia/plugin-dev/starting', '正在启动托管实例服务器 ...'));
 
             if (debugConfig) {
                 this.isDebug = true;
@@ -182,10 +182,10 @@ export class HostedPluginManagerClient {
             }
             await this.openPluginWindow();
 
-            this.messageService.info(`${nls.localize('theia/plugin-dev/running', 'Hosted instance is running at:')} ${this.pluginInstanceURL}`);
+            this.messageService.info(`${nls.localize('theia/plugin-dev/running', '托管实例正在以下地址运行:')} ${this.pluginInstanceURL}`);
             this.stateChanged.fire({ state: HostedInstanceState.RUNNING, pluginLocation: this.pluginLocation });
         } catch (error) {
-            this.messageService.error(nls.localize('theia/plugin-dev/failed', 'Failed to run hosted plugin instance: {0}', this.getErrorMessage(error)));
+            this.messageService.error(nls.localize('theia/plugin-dev/failed', '运行托管插件实例失败: {0}', this.getErrorMessage(error)));
             this.stateChanged.fire({ state: HostedInstanceState.FAILED, pluginLocation: this.pluginLocation });
             this.stop();
         }
@@ -208,7 +208,7 @@ export class HostedPluginManagerClient {
                 );
             }
         }
-        const name = nls.localize('theia/plugin-dev/hostedPlugin', 'Hosted Plugin');
+        const name = nls.localize('theia/plugin-dev/hostedPlugin', '托管插件');
         await this.debugSessionManager.start({
             name,
             configuration: {
@@ -227,7 +227,7 @@ export class HostedPluginManagerClient {
 
     async stop(checkRunning: boolean = true): Promise<void> {
         if (checkRunning && !await this.hostedPluginServer.isHostedPluginInstanceRunning()) {
-            this.messageService.warn(nls.localize('theia/plugin-dev/notRunning', 'Hosted instance is not running.'));
+            this.messageService.warn(nls.localize('theia/plugin-dev/notRunning', '托管实例未在运行。'));
             return;
         }
         try {
@@ -249,7 +249,7 @@ export class HostedPluginManagerClient {
             }
             this.messageService.info((this.pluginInstanceURL
                 ? nls.localize('theia/plugin-dev/instanceTerminated', '{0} has been terminated', this.pluginInstanceURL)
-                : nls.localize('theia/plugin-dev/unknownTerminated', 'The instance has been terminated')));
+                : nls.localize('theia/plugin-dev/unknownTerminated', '实例已被终止')));
             this.stateChanged.fire({ state: HostedInstanceState.STOPPED, pluginLocation: this.pluginLocation! });
         } catch (error) {
             this.messageService.error(this.getErrorMessage(error));
@@ -260,7 +260,7 @@ export class HostedPluginManagerClient {
         if (await this.hostedPluginServer.isHostedPluginInstanceRunning()) {
             await this.stop(false);
 
-            this.messageService.info(nls.localize('theia/plugin-dev/starting', 'Starting hosted instance server ...'));
+            this.messageService.info(nls.localize('theia/plugin-dev/starting', '正在启动托管实例服务器 ...'));
 
             // It takes some time before OS released all resources e.g. port.
             // Keep trying to run hosted instance with delay.
@@ -278,7 +278,7 @@ export class HostedPluginManagerClient {
                         this.pluginInstanceURL = await this.hostedPluginServer.runHostedPluginInstance(this.pluginLocation!.toString());
                     }
                     await this.openPluginWindow();
-                    this.messageService.info(`${nls.localize('theia/plugin-dev/running', 'Hosted instance is running at:')} ${this.pluginInstanceURL}`);
+                    this.messageService.info(`${nls.localize('theia/plugin-dev/running', '托管实例正在以下地址运行:')} ${this.pluginInstanceURL}`);
                     this.stateChanged.fire({
                         state: HostedInstanceState.RUNNING,
                         pluginLocation: this.pluginLocation!
@@ -289,11 +289,11 @@ export class HostedPluginManagerClient {
                     await new Promise(resolve => setTimeout(resolve, 500));
                 }
             }
-            this.messageService.error(nls.localize('theia/plugin-dev/failed', 'Failed to run hosted plugin instance: {0}', this.getErrorMessage(lastError)));
+            this.messageService.error(nls.localize('theia/plugin-dev/failed', '运行托管插件实例失败: {0}', this.getErrorMessage(lastError)));
             this.stateChanged.fire({ state: HostedInstanceState.FAILED, pluginLocation: this.pluginLocation! });
             this.stop();
         } else {
-            this.messageService.warn(nls.localize('theia/plugin-dev/notRunning', 'Hosted instance is not running.'));
+            this.messageService.warn(nls.localize('theia/plugin-dev/notRunning', '托管实例未在运行。'));
             this.start();
         }
     }
@@ -309,7 +309,7 @@ export class HostedPluginManagerClient {
 
         const result = await this.fileDialogService.showOpenDialog({
             title: HostedPluginCommands.SELECT_PATH.label!,
-            openLabel: nls.localizeByDefault('Select'),
+            openLabel: nls.localizeByDefault('选择'),
             canSelectFiles: false,
             canSelectFolders: true,
             canSelectMany: false
@@ -318,9 +318,9 @@ export class HostedPluginManagerClient {
         if (result) {
             if (await this.hostedPluginServer.isPluginValid(result.toString())) {
                 this.pluginLocation = result;
-                this.messageService.info(nls.localize('theia/plugin-dev/pluginFolder', 'Plugin folder is set to: {0}', this.labelProvider.getLongName(result)));
+                this.messageService.info(nls.localize('theia/plugin-dev/pluginFolder', '插件文件夹已设置为: {0}', this.labelProvider.getLongName(result)));
             } else {
-                this.messageService.error(nls.localize('theia/plugin-dev/noValidPlugin', 'Specified folder does not contain valid plugin.'));
+                this.messageService.error(nls.localize('theia/plugin-dev/noValidPlugin', '指定的文件夹不包含有效插件。'));
             }
         }
     }
@@ -442,7 +442,7 @@ class OpenHostedInstanceLinkDialog extends AbstractDialog<string> {
 
     constructor(windowService: WindowService) {
         super({
-            title: nls.localize('theia/plugin-dev/preventedNewTab', 'Your browser prevented opening of a new tab')
+            title: nls.localize('theia/plugin-dev/preventedNewTab', '您的浏览器阻止了新标签页的打开')
         });
         this.windowService = windowService;
 
@@ -452,12 +452,12 @@ class OpenHostedInstanceLinkDialog extends AbstractDialog<string> {
         this.contentNode.appendChild(this.linkNode);
 
         const messageNode = document.createElement('div');
-        messageNode.innerText = nls.localize('theia/plugin-dev/running', 'Hosted instance is running at:') + ' ';
+        messageNode.innerText = nls.localize('theia/plugin-dev/running', '托管实例正在以下地址运行:') + ' ';
         messageNode.appendChild(this.linkNode);
         this.contentNode.appendChild(messageNode);
 
         this.appendCloseButton();
-        this.openButton = this.appendAcceptButton(nls.localizeByDefault('Open'));
+        this.openButton = this.appendAcceptButton(nls.localizeByDefault('打开'));
     }
 
     showOpenNewTabAskDialog(uri: string): void {

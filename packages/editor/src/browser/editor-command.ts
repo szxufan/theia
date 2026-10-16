@@ -26,12 +26,12 @@ import { PreferenceService } from '@theia/core/lib/common/preferences';
 
 export namespace EditorCommands {
 
-    const EDITOR_CATEGORY = 'Editor';
+    const EDITOR_CATEGORY = '编辑器';
     const EDITOR_CATEGORY_KEY = nls.getDefaultKey(EDITOR_CATEGORY);
 
     export const GOTO_LINE_COLUMN = Command.toDefaultLocalizedCommand({
         id: 'editor.action.gotoLine',
-        label: 'Go to Line/Column'
+        label: '转到行/列'
     });
 
     /**
@@ -50,38 +50,38 @@ export namespace EditorCommands {
     export const CONFIG_EOL = Command.toDefaultLocalizedCommand({
         id: 'textEditor.commands.configEol',
         category: EDITOR_CATEGORY,
-        label: 'Change End of Line Sequence'
+        label: '更改行尾序列'
     });
 
     export const INDENT_USING_SPACES = Command.toDefaultLocalizedCommand({
         id: 'textEditor.commands.indentUsingSpaces',
         category: EDITOR_CATEGORY,
-        label: 'Indent Using Spaces'
+        label: '使用空格缩进'
     });
     export const INDENT_USING_TABS = Command.toDefaultLocalizedCommand({
         id: 'textEditor.commands.indentUsingTabs',
         category: EDITOR_CATEGORY,
-        label: 'Indent Using Tabs'
+        label: '使用制表符缩进'
     });
     export const CHANGE_LANGUAGE = Command.toDefaultLocalizedCommand({
         id: 'textEditor.change.language',
         category: EDITOR_CATEGORY,
-        label: 'Change Language Mode'
+        label: '更改语言模式'
     });
     export const CHANGE_ENCODING = Command.toDefaultLocalizedCommand({
         id: 'textEditor.change.encoding',
         category: EDITOR_CATEGORY,
-        label: 'Change File Encoding'
+        label: '更改文件编码'
     });
     export const REVERT_EDITOR = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.files.revert',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Revert File',
+        label: '还原文件',
     });
     export const REVERT_AND_CLOSE = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.revertAndCloseActiveEditor',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Revert and Close Editor'
+        label: '还原并关闭编辑器'
     });
 
     /**
@@ -90,7 +90,7 @@ export namespace EditorCommands {
     export const GO_BACK = Command.toDefaultLocalizedCommand({
         id: 'textEditor.commands.go.back',
         category: EDITOR_CATEGORY,
-        label: 'Go Back'
+        label: '后退'
     });
     /**
      * Command for going to the forthcoming editor navigation location.
@@ -98,7 +98,7 @@ export namespace EditorCommands {
     export const GO_FORWARD = Command.toDefaultLocalizedCommand({
         id: 'textEditor.commands.go.forward',
         category: EDITOR_CATEGORY,
-        label: 'Go Forward'
+        label: '前进'
     });
     /**
      * Command that reveals the last text edit location, if any.
@@ -106,7 +106,7 @@ export namespace EditorCommands {
     export const GO_LAST_EDIT = Command.toDefaultLocalizedCommand({
         id: 'textEditor.commands.go.lastEdit',
         category: EDITOR_CATEGORY,
-        label: 'Go to Last Edit Location'
+        label: '转到上次编辑位置'
     });
     /**
      * Command that clears the editor navigation history.
@@ -114,7 +114,7 @@ export namespace EditorCommands {
     export const CLEAR_EDITOR_HISTORY = Command.toDefaultLocalizedCommand({
         id: 'textEditor.commands.clear.history',
         category: EDITOR_CATEGORY,
-        label: 'Clear Editor History'
+        label: '清除编辑器历史记录'
     });
     /**
      * Command that displays all editors that are currently opened.
@@ -122,7 +122,7 @@ export namespace EditorCommands {
     export const SHOW_ALL_OPENED_EDITORS = Command.toLocalizedCommand({
         id: 'workbench.action.showAllEditors',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Show All Opened Editors'
+        label: '显示所有打开的编辑器'
     }, 'theia/editor/showAllEditors', EDITOR_CATEGORY_KEY);
     /**
      * Command that toggles the minimap.
@@ -130,7 +130,7 @@ export namespace EditorCommands {
     export const TOGGLE_MINIMAP = Command.toDefaultLocalizedCommand({
         id: 'editor.action.toggleMinimap',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Toggle Minimap'
+        label: '切换缩略图（minimap）'
     });
     /**
      * Command that toggles the rendering of whitespace characters in the editor.
@@ -138,14 +138,14 @@ export namespace EditorCommands {
     export const TOGGLE_RENDER_WHITESPACE = Command.toDefaultLocalizedCommand({
         id: 'editor.action.toggleRenderWhitespace',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Toggle Render Whitespace'
+        label: '切换渲染空白字符'
     });
     /**
      * Command that toggles the word wrap.
      */
     export const TOGGLE_WORD_WRAP = Command.toDefaultLocalizedCommand({
         id: 'editor.action.toggleWordWrap',
-        label: 'View: Toggle Word Wrap'
+        label: '视图: 切换自动换行'
     });
     /**
      * Command that toggles sticky scroll.
@@ -153,7 +153,7 @@ export namespace EditorCommands {
     export const TOGGLE_STICKY_SCROLL = Command.toLocalizedCommand({
         id: 'editor.action.toggleStickyScroll',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Toggle Sticky Scroll',
+        label: '切换粘性滚动',
     }, 'theia/editor/toggleStickyScroll', EDITOR_CATEGORY_KEY);
     /**
      * Command that re-opens the last closed editor.
@@ -161,7 +161,7 @@ export namespace EditorCommands {
     export const REOPEN_CLOSED_EDITOR = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.reopenClosedEditor',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Reopen Closed Editor'
+        label: '重新打开已关闭的编辑器'
     });
     /**
      * Opens a second instance of the current editor, splitting the view in the direction specified.
@@ -169,22 +169,22 @@ export namespace EditorCommands {
     export const SPLIT_EDITOR_RIGHT = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.splitEditorRight',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Split Editor Right'
+        label: '向右拆分编辑器'
     });
     export const SPLIT_EDITOR_DOWN = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.splitEditorDown',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Split Editor Down'
+        label: '向下拆分编辑器'
     });
     export const SPLIT_EDITOR_UP = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.splitEditorUp',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Split Editor Up'
+        label: '向上拆分编辑器'
     });
     export const SPLIT_EDITOR_LEFT = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.splitEditorLeft',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Split Editor Left'
+        label: '向左拆分编辑器'
     });
     /**
      * Default horizontal split: right.
@@ -192,7 +192,7 @@ export namespace EditorCommands {
     export const SPLIT_EDITOR_HORIZONTAL = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.splitEditor',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Split Editor'
+        label: '拆分编辑器'
     });
     /**
      * Default vertical split: down.
@@ -200,7 +200,7 @@ export namespace EditorCommands {
     export const SPLIT_EDITOR_VERTICAL = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.splitEditorOrthogonal',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Split Editor Orthogonal'
+        label: '正交拆分编辑器'
     });
 }
 
@@ -327,13 +327,13 @@ export class EditorCommandContribution implements CommandContribution {
         if (!editor) {
             return;
         }
-        const reopenWithEncodingPick = { label: nls.localizeByDefault('Reopen with Encoding'), value: 'reopen' };
-        const saveWithEncodingPick = { label: nls.localizeByDefault('Save with Encoding'), value: 'save' };
+        const reopenWithEncodingPick = { label: nls.localizeByDefault('通过编码重新打开'), value: 'reopen' };
+        const saveWithEncodingPick = { label: nls.localizeByDefault('通过编码保存'), value: 'save' };
         const actionItems: QuickPickValue<string>[] = [
             reopenWithEncodingPick,
             saveWithEncodingPick
         ];
-        const selectedEncoding = await this.quickInputService?.showQuickPick(actionItems, { placeholder: nls.localizeByDefault('Select Action') });
+        const selectedEncoding = await this.quickInputService?.showQuickPick(actionItems, { placeholder: nls.localizeByDefault('选择操作') });
         if (!selectedEncoding) {
             return;
         }
@@ -366,21 +366,21 @@ export class EditorCommandContribution implements CommandContribution {
         // Insert guessed encoding
         if (guessedEncoding && configuredEncoding !== guessedEncoding && SUPPORTED_ENCODINGS[guessedEncoding]) {
             encodingItems.unshift({
-                label: `${nls.localizeByDefault('Guessed from content')}: ${SUPPORTED_ENCODINGS[guessedEncoding].labelLong}`,
+                label: `${nls.localizeByDefault('根据内容猜测')}: ${SUPPORTED_ENCODINGS[guessedEncoding].labelLong}`,
                 value: { id: guessedEncoding, description: guessedEncoding }
             });
         }
         const selectedFileEncoding = await this.quickInputService?.showQuickPick<QuickPickValue<{ id: string, description: string }>>(encodingItems, {
             placeholder: isReopenWithEncoding ?
-                nls.localizeByDefault('Select File Encoding to Reopen File') :
-                nls.localizeByDefault('Select File Encoding to Save with')
+                nls.localizeByDefault('选择用于重新打开文件的编码') :
+                nls.localizeByDefault('选择用于保存的编码')
         });
 
         if (!selectedFileEncoding) {
             return;
         }
         if (editor.document.dirty && isReopenWithEncoding) {
-            this.messageService.info(nls.localize('theia/editor/dirtyEncoding', 'The file is dirty. Please save it first before reopening it with another encoding.'));
+            this.messageService.info(nls.localize('theia/editor/dirtyEncoding', '文件有未保存的更改。请先保存文件，然后再以其他编码重新打开。'));
             return;
         } else if (selectedFileEncoding.value) {
             editor.setEncoding(selectedFileEncoding.value.id, isReopenWithEncoding ? EncodingMode.Decode : EncodingMode.Encode);

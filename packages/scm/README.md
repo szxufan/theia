@@ -4,29 +4,29 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - SCM EXTENSION</h2>
+<h2>ECLIPSE THEIA - SCM 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/scm` extension adds support for handling multiple source control managers, and includes a `SCM` (Source Control Manager) View which different source control providers (such as `Git` and `Mercurial`) can contribute to.
+`@theia/scm` 扩展增加了对多个源代码管理器的支持，并包含一个 `SCM`（源代码管理）视图，不同的源代码管理提供方（如 `Git` 和 `Mercurial`）都可以向其贡献内容。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/scm`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_scm.html)
+- [`@theia/scm` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_scm.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
-- [VS Code SCM Documentation](https://code.visualstudio.com/docs/editor/versioncontrol)
+- [VS Code SCM 文档](https://code.visualstudio.com/docs/editor/versioncontrol)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

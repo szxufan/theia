@@ -322,7 +322,7 @@ describe('ChatGptFrontendApplicationContribution', () => {
             await start();
             expect(manager.created).to.be.empty;
             expect(manager.availableCalls).to.equal(0);
-            expect(discoveryStatus.getStatus(CHATGPT_DISCOVERY_PROVIDER_ID)?.stateLabel).to.equal('Disabled');
+            expect(discoveryStatus.getStatus(CHATGPT_DISCOVERY_PROVIDER_ID)?.stateLabel).to.equal('已禁用');
         });
     }
 

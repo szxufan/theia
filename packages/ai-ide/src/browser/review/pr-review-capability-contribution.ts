@@ -65,9 +65,9 @@ export class PRReviewCapabilityContribution implements FrontendApplicationContri
     }
 
     protected buildGitHubInformationTemplate(): string {
-        const name = nls.localize('theia/ai/ide/prReview/capability/githubInfo/name', 'GH PR Info');
+        const name = nls.localize('theia/ai/ide/prReview/capability/githubInfo/name', 'GH PR 信息');
         const description = nls.localize('theia/ai/ide/prReview/capability/githubInfo/description',
-            'Delegates to the GitHub agent to retrieve pull request metadata, diffs, comments, checks, and linked issues.');
+            '委派给 GitHub 代理以检索拉取请求元数据、差异、评论、检查和关联的议题。');
 
         return `---
 name: ${name}
@@ -99,9 +99,9 @@ Completeness is critical. Every review comment and every changed file must be in
     }
 
     protected buildLocalCheckoutTemplate(): string {
-        const name = nls.localizeByDefault('Checkout');
+        const name = nls.localizeByDefault('检出');
         const description = nls.localize('theia/ai/ide/prReview/capability/localCheckout/description',
-            'Checks out the pull request locally and protects existing worktree changes.');
+            '在本地检出拉取请求并保护现有的工作区更改。');
 
         return `---
 name: ${name}
@@ -137,9 +137,9 @@ Store these values for the review plan and cleanup:
     }
 
     protected buildLocalValidationTemplate(): string {
-        const name = nls.localize('theia/ai/ide/prReview/capability/localValidation/name', 'Build');
+        const name = nls.localize('theia/ai/ide/prReview/capability/localValidation/name', '构建');
         const description = nls.localize('theia/ai/ide/prReview/capability/localValidation/description',
-            'Runs local install, build, lint, test, or comparable validation tasks for the pull request.');
+            '为拉取请求运行本地安装、构建、lint、测试或类似的验证任务。');
 
         return `---
 name: ${name}
@@ -169,9 +169,9 @@ Store this value for the review plan:
     }
 
     protected buildCodebaseExplorationTemplate(): string {
-        const name = nls.localize('theia/ai/ide/prReview/capability/codebaseExploration/name', 'Delegated Exploration');
+        const name = nls.localize('theia/ai/ide/prReview/capability/codebaseExploration/name', '委派探索');
         const description = nls.localize('theia/ai/ide/prReview/capability/codebaseExploration/description',
-            'Delegates focused architecture, usage, convention, and tests exploration to the Explore agent. When disabled, the PR reviewer explores with its own tools.');
+            '将聚焦的架构、用法、约定与测试探索委派给 Explore 代理。禁用时，PR 审查者将使用自己的工具进行探索。');
 
         return `---
 name: ${name}
@@ -205,9 +205,9 @@ Example delegation prompts:
     }
 
     protected buildPendingGitHubReviewTemplate(): string {
-        const name = nls.localize('theia/ai/ide/prReview/capability/pendingGitHubReview/name', 'Pending GH Review');
+        const name = nls.localize('theia/ai/ide/prReview/capability/pendingGitHubReview/name', '待定 GH 审查');
         const description = nls.localize('theia/ai/ide/prReview/capability/pendingGitHubReview/description',
-            'Delegates to the GitHub agent to create or update a pending pull request review with prepared inline comments after explicit user confirmation.');
+            '在用户明确确认后，委派给 GitHub 代理以创建或更新带有已准备好的内联评论的待定拉取请求审查。');
 
         return `---
 name: ${name}

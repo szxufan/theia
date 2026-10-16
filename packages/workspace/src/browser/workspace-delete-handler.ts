@@ -89,11 +89,11 @@ export class WorkspaceDeleteHandler implements UriCommandHandler<URI[]> {
      * @param uris URIs of selected resources.
      */
     protected confirm(uris: URI[], options: FileDeleteOptions): Promise<boolean | undefined> {
-        let title = uris.length === 1 ? nls.localizeByDefault('File') : nls.localizeByDefault('Files');
+        let title = uris.length === 1 ? nls.localizeByDefault('文件') : nls.localizeByDefault('多个文件');
         if (options.useTrash) {
-            title = nls.localize('theia/workspace/trashTitle', 'Move {0} to Trash', title);
+            title = nls.localize('theia/workspace/trashTitle', '将 {0} 移入回收站', title);
         } else {
-            title = nls.localizeByDefault('Delete {0}', title);
+            title = nls.localizeByDefault('删除 {0}', title);
         }
         return new ConfirmDialog({
             title,
@@ -110,18 +110,18 @@ export class WorkspaceDeleteHandler implements UriCommandHandler<URI[]> {
         const dirty = this.getDirty(uris);
         if (dirty.length) {
             if (dirty.length === 1) {
-                return nls.localize('theia/workspace/confirmMessage.dirtySingle', 'Do you really want to delete {0} with unsaved changes?', dirty[0].path.base);
+                return nls.localize('theia/workspace/confirmMessage.dirtySingle', '是否确实要删除有未保存更改的 {0}？', dirty[0].path.base);
             }
-            return nls.localize('theia/workspace/confirmMessage.dirtyMultiple', 'Do you really want to delete {0} files with unsaved changes?', dirty.length);
+            return nls.localize('theia/workspace/confirmMessage.dirtyMultiple', '是否确实要删除 {0} 个有未保存更改的文件？', dirty.length);
         }
         if (uris.length === 1) {
-            return nls.localize('theia/workspace/confirmMessage.uriSingle', 'Do you really want to delete {0}?', uris[0].path.base);
+            return nls.localize('theia/workspace/confirmMessage.uriSingle', '是否确实要删除 {0}？', uris[0].path.base);
         }
         if (uris.length > 10) {
-            return nls.localize('theia/workspace/confirmMessage.uriMultiple', 'Do you really want to delete all the {0} selected files?', uris.length);
+            return nls.localize('theia/workspace/confirmMessage.uriMultiple', '是否确实要删除所选的全部 {0} 个文件？', uris.length);
         }
         const messageContainer = document.createElement('div');
-        messageContainer.textContent = nls.localize('theia/workspace/confirmMessage.delete', 'Do you really want to delete the following files?');
+        messageContainer.textContent = nls.localize('theia/workspace/confirmMessage.delete', '是否确实要删除以下文件？');
         const list = document.createElement('ul');
         list.style.listStyleType = 'none';
         for (const uri of uris) {
@@ -186,18 +186,18 @@ export class WorkspaceDeleteHandler implements UriCommandHandler<URI[]> {
      * @param uri URI of selected resource.
      */
     protected async confirmDeletePermanently(uri: URI): Promise<boolean> {
-        const title = nls.localize('theia/workspace/confirmDeletePermanently.title', 'Error deleting file');
+        const title = nls.localize('theia/workspace/confirmDeletePermanently.title', '删除文件时出错');
 
         const msg = document.createElement('div');
 
         const question = document.createElement('p');
         question.textContent = nls.localize('theia/workspace/confirmDeletePermanently.description',
-            'Failed to delete "{0}" using the Trash. Do you want to permanently delete instead?',
+            '无法使用回收站删除“{0}”。是否改为永久删除？',
             uri.path.base);
         msg.append(question);
 
         const info = document.createElement('p');
-        info.textContent = nls.localize('theia/workspace/confirmDeletePermanently.solution', 'You can disable the use of Trash in the preferences.');
+        info.textContent = nls.localize('theia/workspace/confirmDeletePermanently.solution', '您可以在首选项中禁用回收站的使用。');
         msg.append(info);
 
         const response = await new ConfirmDialog({ title, msg }).open();

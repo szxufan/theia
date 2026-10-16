@@ -256,7 +256,7 @@ export class DebugFrontendContribution extends AbstractViewContribution<MemoryLa
         toolbarRegistry.registerItem({
             id: ToggleDiffSelectWidgetVisibilityCommand.id,
             command: ToggleDiffSelectWidgetVisibilityCommand.id,
-            tooltip: nls.localize('theia/memory-inspector/toggleComparisonWidgetVisibility', 'Toggle Comparison Widget Visibility'),
+            tooltip: nls.localize('theia/memory-inspector/toggleComparisonWidgetVisibility', '切换比较小组件可见性'),
             priority: -3,
             onDidChange: this.memoryWidgetManager.onChanged,
         });

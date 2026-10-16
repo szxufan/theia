@@ -50,6 +50,6 @@ describe('DefaultFileChangeSetTitleProvider', () => {
         };
 
         const title = provider.getChangeSetTitle(ctx);
-        expect(title).to.equal('Changes proposed');
+        expect(title).to.equal('建议的更改');
     });
 });

@@ -82,7 +82,8 @@ export class TabBarToolbarRegistry implements FrontendApplicationContribution {
     protected readonly onDidChangeEmitter = new Emitter<void>();
     readonly onDidChange: Event<void> = this.onDidChangeEmitter.event;
     // debounce in order to avoid to fire more than once in the same tick
-    protected fireOnDidChange = debounce(() => this.onDidChangeEmitter.fire(undefined), 0);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected fireOnDidChange: any = debounce(() => this.onDidChangeEmitter.fire(undefined), 0);
 
     onStart(): void {
         const contributions = this.contributionProvider.getContributions();

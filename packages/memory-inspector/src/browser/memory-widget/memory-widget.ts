@@ -28,7 +28,7 @@ export class MemoryWidget<
 >
     extends BaseWidget {
     static readonly ID = 'memory-view-wrapper';
-    static readonly LABEL = nls.localize('theia/memory-inspector/memoryTitle', 'Memory');
+    static readonly LABEL = nls.localize('theia/memory-inspector/memoryTitle', '内存');
 
     @inject(MemoryWidgetOptions) protected readonly memoryWidgetOptions: MemoryWidgetOptions;
     @inject(MemoryOptionsWidget) readonly optionsWidget: O;

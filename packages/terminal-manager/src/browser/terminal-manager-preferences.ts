@@ -21,8 +21,8 @@ export const TerminalManagerPreferenceSchema: PreferenceSchema = {
         'terminal.grouping.treeViewLocation': {
             'type': 'string',
             'enum': ['left', 'right'],
-            'description': nls.localize('theia/terminal-manager/treeViewLocation', 'The location of the terminal manager\'s tree view.'
-                + ' Only applies when \'terminal.grouping.mode\' is set to \'tree\'.'),
+            'description': nls.localize('theia/terminal-manager/treeViewLocation', '终端管理器树视图的位置。'
+                + ' 仅在 \'terminal.grouping.mode\' 设置为 \'tree\' 时生效。'),
             'default': 'left',
             'scope': PreferenceScope.Workspace,
         },
@@ -30,8 +30,8 @@ export const TerminalManagerPreferenceSchema: PreferenceSchema = {
             'type': 'string',
             'enum': ['tabbed', 'tree'],
             'description': nls.localize('theia/terminal-manager/tabsDisplay',
-                'Controls how terminals are displayed. \'tree\' shows multiple terminals in a single view with a tree view for management,'
-                + '\'tabbed\' shows each terminal in its own view in a separate tab.'),
+                '控制终端的显示方式。\'tree\' 在单个视图中显示多个终端，并提供树视图进行管理；'
+                + '\'tabbed\' 在单独的选项卡中为每个终端显示各自的视图。'),
             'default': 'tabbed',
             'scope': PreferenceScope.Workspace,
         },

@@ -485,7 +485,7 @@ export class WorkspaceFrontendContribution implements CommandContribution, Keybi
     protected getWorkspaceDialogFileFilters(): FileDialogTreeFilters {
         const filters: FileDialogTreeFilters = {};
         for (const fileType of this.workspaceFileService.getWorkspaceFileTypes()) {
-            filters[`${nls.localizeByDefault('{0} workspace', fileType.name)} (*.${fileType.extension})`] = [fileType.extension];
+            filters[`${nls.localizeByDefault('{0} 工作区', fileType.name)} (*.${fileType.extension})`] = [fileType.extension];
         }
         return filters;
     }
@@ -505,9 +505,9 @@ export class WorkspaceFrontendContribution implements CommandContribution, Keybi
 
     protected async manageWorkspaceTrust(): Promise<void> {
         const currentTrust = await this.workspaceTrustService.getWorkspaceTrust();
-        const trust = nls.localizeByDefault('Trust');
-        const dontTrust = nls.localizeByDefault("Don't Trust");
-        const currentSuffix = `(${nls.localizeByDefault('Current')})`;
+        const trust = nls.localizeByDefault('信任');
+        const dontTrust = nls.localizeByDefault("不信任");
+        const currentSuffix = `(${nls.localizeByDefault('当前')})`;
 
         const items: QuickPickItem[] = [
             {
@@ -521,8 +521,8 @@ export class WorkspaceFrontendContribution implements CommandContribution, Keybi
         ];
 
         const selected = await this.quickInputService.showQuickPick(items, {
-            title: nls.localizeByDefault('Manage Workspace Trust'),
-            placeholder: nls.localize('theia/workspace/manageTrustPlaceholder', 'Select trust state for this workspace')
+            title: nls.localizeByDefault('管理工作区信任'),
+            placeholder: nls.localize('theia/workspace/manageTrustPlaceholder', '选择此工作区的信任状态')
         });
 
         if (selected) {
@@ -543,7 +543,7 @@ export class WorkspaceFrontendContribution implements CommandContribution, Keybi
                         return true;
                     }
                     const shouldSaveFile = await new UntitledWorkspaceExitDialog({
-                        title: nls.localizeByDefault('Do you want to save your workspace configuration as a file?')
+                        title: nls.localizeByDefault('是否要将工作区配置保存为文件？')
                     }).open();
                     if (shouldSaveFile === "Don't Save") {
                         return true;

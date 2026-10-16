@@ -103,10 +103,10 @@ export class MemoryDiffSelectWidget extends ReactWidget {
                 <button
                     type='button'
                     className='theia-button main memory-diff-select-go'
-                    title={nls.localizeByDefault('Go')}
+                    title={nls.localizeByDefault('跳转')}
                     onClick={this.diff}
                 >
-                    {nls.localizeByDefault('Go')}
+                    {nls.localizeByDefault('跳转')}
                 </button>
             </div>
         );

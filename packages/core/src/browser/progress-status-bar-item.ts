@@ -58,7 +58,8 @@ export class ProgressStatusBarItem implements ProgressClient {
         this.triggerUpdate();
     }
 
-    protected readonly triggerUpdate = throttle(() => this.update(this.currentProgress), 250, { leading: true, trailing: true });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly triggerUpdate: any = throttle(() => this.update(this.currentProgress), 250, { leading: true, trailing: true });
 
     async reportProgress(progressId: string, update: ProgressUpdate, originalMessage: ProgressMessage, _cancellationToken: CancellationToken): Promise<void> {
         const newMessage = update.message ? `${originalMessage.text}: ${update.message}` : originalMessage.text;

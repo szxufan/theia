@@ -414,7 +414,7 @@ export class DebugConfigurationManager {
             });
         }
         const root = await this.quickPickService.show(items, {
-            placeholder: nls.localize('theia/debug/addConfigurationPlaceholder', 'Select workspace root to add configuration to'),
+            placeholder: nls.localize('theia/debug/addConfigurationPlaceholder', '选择要向其添加配置的工作区根目录'),
         });
         return root?.value;
     }
@@ -591,7 +591,7 @@ export class DebugConfigurationManager {
             return undefined;
         }
         const items: Array<QuickPickValue<string>> = debuggers.map(({ label, type }) => ({ label, value: type }));
-        const selectedItem = await this.quickPickService.show(items, { placeholder: nls.localizeByDefault('Select debugger') });
+        const selectedItem = await this.quickPickService.show(items, { placeholder: nls.localizeByDefault('选择调试器') });
         return selectedItem?.value;
     }
 

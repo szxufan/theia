@@ -90,11 +90,11 @@ export class PreferencesSearchbarWidget extends ReactWidget implements StatefulW
     protected renderResultsCountOption(): React.ReactNode {
         let resultsFound: string;
         if (this.resultsCount === 0) {
-            resultsFound = nls.localizeByDefault('No Settings Found');
+            resultsFound = nls.localizeByDefault('未找到设置');
         } else if (this.resultsCount === 1) {
             resultsFound = nls.localizeByDefault('1 Setting Found');
         } else {
-            resultsFound = nls.localizeByDefault('{0} Settings Found', this.resultsCount.toFixed(0));
+            resultsFound = nls.localizeByDefault('找到 {0} 项设置', this.resultsCount.toFixed(0));
         }
         return this.searchTermExists() ?
             (<span
@@ -114,8 +114,8 @@ export class PreferencesSearchbarWidget extends ReactWidget implements StatefulW
         const enabled = this.searchTermExists();
         return <button
             className={`option ${enabled ? 'enabled' : ''}`}
-            aria-label={nls.localizeByDefault('Clear Search Results')}
-            title={nls.localizeByDefault('Clear Search Results')}
+            aria-label={nls.localizeByDefault('清除搜索结果')}
+            title={nls.localizeByDefault('清除搜索结果')}
             disabled={!enabled}
             onClick={this.clearSearchResults}
         >
@@ -155,7 +155,7 @@ export class PreferencesSearchbarWidget extends ReactWidget implements StatefulW
                         type="text"
                         id={PreferencesSearchbarWidget.SEARCHBAR_ID}
                         spellCheck={false}
-                        placeholder={nls.localizeByDefault('Search settings')}
+                        placeholder={nls.localizeByDefault('搜索设置')}
                         className="settings-search-input theia-input"
                         onChange={this.handleSearch}
                         ref={this.searchbarRef}

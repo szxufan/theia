@@ -31,13 +31,13 @@ export class UntitledWorkspaceExitDialog extends AbstractDialog<UntitledWorkspac
     ) {
         super(props);
         const messageNode = document.createElement('div');
-        messageNode.textContent = nls.localizeByDefault('Save your workspace if you plan to open it again.');
+        messageNode.textContent = nls.localizeByDefault('如果您打算再次打开工作区，请保存工作区。');
         this.contentNode.appendChild(messageNode);
-        this.dontSaveButton = this.createButton(nls.localizeByDefault(UntitledWorkspaceExitDialog.Values["Don't Save"]));
+        this.dontSaveButton = this.createButton(nls.localize('theia/workspace/dontSave', '不保存'));
         this.dontSaveButton.classList.add('secondary');
         this.appendCloseButton(Dialog.CANCEL);
         this.controlPanel.appendChild(this.dontSaveButton);
-        this.appendAcceptButton(nls.localizeByDefault(UntitledWorkspaceExitDialog.Values.Save));
+        this.appendAcceptButton(nls.localize('theia/workspace/save', '保存'));
     }
 
     protected override onAfterAttach(msg: Message): void {

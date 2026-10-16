@@ -34,7 +34,7 @@ import { VSXExtensionsModel } from './vsx-extensions-model';
 export class VSXExtensionsContributionAdapter implements ExtensionsSourceContribution {
 
     readonly type = 'extension';
-    readonly displayName = nls.localizeByDefault('Extensions');
+    readonly displayName = nls.localizeByDefault('扩展');
     readonly searchToken = '@extensions';
     readonly priority = 0;
 

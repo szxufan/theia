@@ -227,7 +227,7 @@ export class ProblemMatcherRegistry {
     private fillDefaults(): void {
         this.add({
             name: 'msCompile',
-            label: nls.localizeByDefault('Microsoft compiler problems'),
+            label: nls.localizeByDefault('Microsoft 编译器问题'),
             owner: 'msCompile',
             applyTo: ApplyToKind.allDocuments,
             fileLocation: FileLocationKind.Absolute,
@@ -236,7 +236,7 @@ export class ProblemMatcherRegistry {
 
         this.add({
             name: 'lessCompile',
-            label: nls.localizeByDefault('Less problems'),
+            label: nls.localizeByDefault('Less 问题'),
             deprecated: true,
             owner: 'lessCompile',
             source: 'less',
@@ -248,7 +248,7 @@ export class ProblemMatcherRegistry {
 
         this.add({
             name: 'gulp-tsc',
-            label: nls.localizeByDefault('Gulp TSC Problems'),
+            label: nls.localizeByDefault('Gulp TSC 问题'),
             owner: 'typescript',
             source: 'ts',
             applyTo: ApplyToKind.closedDocuments,
@@ -259,7 +259,7 @@ export class ProblemMatcherRegistry {
 
         this.add({
             name: 'jshint',
-            label: nls.localizeByDefault('JSHint problems'),
+            label: nls.localizeByDefault('JSHint 问题'),
             owner: 'jshint',
             source: 'jshint',
             applyTo: ApplyToKind.allDocuments,
@@ -269,7 +269,7 @@ export class ProblemMatcherRegistry {
 
         this.add({
             name: 'jshint-stylish',
-            label: nls.localizeByDefault('JSHint stylish problems'),
+            label: nls.localizeByDefault('JSHint stylish 问题'),
             owner: 'jshint',
             source: 'jshint',
             applyTo: ApplyToKind.allDocuments,
@@ -279,7 +279,7 @@ export class ProblemMatcherRegistry {
 
         this.add({
             name: 'eslint-compact',
-            label: nls.localizeByDefault('ESLint compact problems'),
+            label: nls.localizeByDefault('ESLint compact 问题'),
             owner: 'eslint',
             source: 'eslint',
             applyTo: ApplyToKind.allDocuments,
@@ -290,7 +290,7 @@ export class ProblemMatcherRegistry {
 
         this.add({
             name: 'eslint-stylish',
-            label: nls.localizeByDefault('ESLint stylish problems'),
+            label: nls.localizeByDefault('ESLint stylish 问题'),
             owner: 'eslint',
             source: 'eslint',
             applyTo: ApplyToKind.allDocuments,
@@ -300,7 +300,7 @@ export class ProblemMatcherRegistry {
 
         this.add({
             name: 'go',
-            label: nls.localizeByDefault('Go problems'),
+            label: nls.localizeByDefault('Go 问题'),
             owner: 'go',
             source: 'go',
             applyTo: ApplyToKind.allDocuments,

@@ -115,13 +115,13 @@ export class VSXExtensionsWidget extends SourceTreeWidget implements BadgeWidget
     protected computeTitle(): string {
         switch (this.options.id) {
             case VSXExtensionsSourceOptions.INSTALLED:
-                return nls.localizeByDefault('Installed');
+                return nls.localizeByDefault('已安装');
             case VSXExtensionsSourceOptions.BUILT_IN:
-                return nls.localizeByDefault('Built-in');
+                return nls.localizeByDefault('内置');
             case VSXExtensionsSourceOptions.RECOMMENDED:
-                return nls.localizeByDefault('Recommended');
+                return nls.localizeByDefault('推荐');
             case VSXExtensionsSourceOptions.SEARCH_RESULT:
-                return 'Open VSX Registry';
+                return 'Open VSX 市场';
             default:
                 return '';
         }
@@ -155,8 +155,8 @@ export class VSXExtensionsWidget extends SourceTreeWidget implements BadgeWidget
         if (this.options.id === VSXExtensionsSourceOptions.SEARCH_RESULT) {
             const searchError = this.extensionsSource.getModel().searchError;
             if (!!searchError) {
-                const message = nls.localize('theia/vsx-registry/errorFetching', 'Error fetching extensions.');
-                const configurationHint = nls.localize('theia/vsx-registry/errorFetchingConfigurationHint', 'This could be caused by network configuration issues.');
+                const message = nls.localize('theia/vsx-registry/errorFetching', '获取扩展时出错。');
+                const configurationHint = nls.localize('theia/vsx-registry/errorFetchingConfigurationHint', '这可能是由网络配置问题引起的。');
                 const hint = searchError.includes('ENOTFOUND') ? configurationHint : '';
                 return <AlertMessage
                     type='ERROR'

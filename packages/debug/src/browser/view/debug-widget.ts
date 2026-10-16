@@ -40,7 +40,7 @@ export class DebugWidget extends BaseWidget implements StatefulWidget, Applicati
     }
 
     static ID = 'debug';
-    static LABEL = nls.localizeByDefault('Debug');
+    static LABEL = nls.localizeByDefault('调试');
 
     @inject(DebugViewModel)
     readonly model: DebugViewModel;

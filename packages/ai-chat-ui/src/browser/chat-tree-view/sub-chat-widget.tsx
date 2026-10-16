@@ -84,7 +84,7 @@ export class SubChatWidget {
             [-1, undefined])[1];
         if (!renderer) {
             this.logger.error('No renderer found for content', content);
-            return <div>{nls.localize('theia/ai/chat-ui/chat-view-tree-widget/noRenderer', 'Error: No renderer found')}</div>;
+            return <div>{nls.localize('theia/ai/chat-ui/chat-view-tree-widget/noRenderer', '错误：未找到渲染器')}</div>;
         }
         return renderer.render(content, node);
     }

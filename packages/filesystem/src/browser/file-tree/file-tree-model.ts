@@ -183,8 +183,8 @@ export class FileTreeModel extends CompressedTreeModel implements LocationServic
 
     protected async shouldReplace(fileName: string): Promise<boolean> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/filesystem/replaceTitle', 'Replace File'),
-            msg: nls.localizeByDefault('{0} already exists. Are you sure you want to overwrite it?', fileName),
+            title: nls.localize('theia/filesystem/replaceTitle', '替换文件'),
+            msg: nls.localizeByDefault('{0} 已存在。是否确定要覆盖它？', fileName),
             ok: Dialog.YES,
             cancel: Dialog.NO
         });

@@ -33,7 +33,7 @@ describe('MCPOAuthCallbackResponder', () => {
         const response = responder.renderResponse({ code: 'authorization-code' });
 
         expect(response.status).to.equal(400);
-        expect(response.body).to.contain('Missing OAuth state.');
+        expect(response.body).to.contain('缺少 OAuth state。');
     });
 
     it('returns 400 when neither code nor error is present', () => {
@@ -43,7 +43,7 @@ describe('MCPOAuthCallbackResponder', () => {
         const response = responder.renderResponse({ state });
 
         expect(response.status).to.equal(400);
-        expect(response.body).to.contain('Missing OAuth authorization code.');
+        expect(response.body).to.contain('缺少 OAuth 授权码。');
     });
 
     it('returns 400 with the generic unknown-state message for an unknown state', () => {
@@ -52,7 +52,7 @@ describe('MCPOAuthCallbackResponder', () => {
         const response = responder.renderResponse({ state: 'bogus-state', code: 'authorization-code' });
 
         expect(response.status).to.equal(400);
-        expect(response.body).to.contain('Unknown or expired OAuth state.');
+        expect(response.body).to.contain('未知或已过期的 OAuth state。');
     });
 
     it('renders the remembered rejection message for a recently-cancelled state', () => {
@@ -74,7 +74,7 @@ describe('MCPOAuthCallbackResponder', () => {
         const response = responder.renderResponse({ state, code: 'authorization-code' });
 
         expect(response.status).to.equal(200);
-        expect(response.body).to.contain('All done. You can close this tab now.');
+        expect(response.body).to.contain('全部完成。你现在可以关闭此标签页了。');
         const callback = await pending;
         expect(callback.code).to.equal('authorization-code');
     });

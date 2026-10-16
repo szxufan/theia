@@ -41,12 +41,12 @@ export class CommandPartRenderer implements ChatResponsePartRenderer<CommandChat
             response.command?.id
                 .split('-')
                 .map(s => s[0].toUpperCase() + s.substring(1))
-                .join(' ') ?? nls.localizeByDefault('Execute Command');
+                .join(' ') ?? nls.localizeByDefault('执行命令');
         if (!response.customCallback && response.command) {
             const isCommandEnabled = this.commandRegistry.isEnabled(response.command.id);
             if (!isCommandEnabled) {
                 return <div>{nls.localize('theia/ai/chat-ui/command-part-renderer/commandNotExecutable',
-                    'The command has the id "{0}" but it is not executable from the Chat window.', response.command.id)}</div>;
+                    '该命令的 id 为"{0}"，但无法从聊天窗口中执行。', response.command.id)}</div>;
 
             }
         }

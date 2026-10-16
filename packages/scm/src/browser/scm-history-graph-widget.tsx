@@ -103,7 +103,7 @@ function renderJsxRefBadge(
 export class ScmHistoryGraphWidget extends ReactWidget implements DynamicToolbarWidget {
 
     static readonly ID = 'scm-history-graph-widget';
-    static readonly LABEL = nls.localizeByDefault('Graph');
+    static readonly LABEL = nls.localizeByDefault('关系图');
 
     @inject(ScmHistoryGraphModel) protected readonly model: ScmHistoryGraphModel;
     @inject(HoverService) protected readonly hoverService: HoverService;
@@ -208,13 +208,13 @@ export class ScmHistoryGraphWidget extends ReactWidget implements DynamicToolbar
             if (!this.model.hasAttemptedLoad) {
                 return (
                     <div className='scm-history-loading'>
-                        {nls.localizeByDefault('Loading')}
+                        {nls.localizeByDefault('正在加载')}
                     </div>
                 );
             }
             return (
                 <div className='scm-history-empty'>
-                    {nls.localize('theia/scm/noHistory', 'No source control history available.')}
+                    {nls.localize('theia/scm/noHistory', '没有可用的源代码管理历史记录。')}
                 </div>
             );
         }
@@ -227,7 +227,7 @@ export class ScmHistoryGraphWidget extends ReactWidget implements DynamicToolbar
         const svgWidth = (maxLane + 1) * LANE_WIDTH;
 
         const footer = loading
-            ? () => <div className='scm-history-loading'>{nls.localizeByDefault('Loading')}</div>
+            ? () => <div className='scm-history-loading'>{nls.localizeByDefault('正在加载')}</div>
             : hasMore
                 ? () => (
                     <div
@@ -237,7 +237,7 @@ export class ScmHistoryGraphWidget extends ReactWidget implements DynamicToolbar
                         tabIndex={0}
                         onKeyDown={this.handleLoadMoreKey}
                     >
-                        {nls.localizeByDefault('Load more')}
+                        {nls.localizeByDefault('加载更多')}
                     </div>
                 )
                 : undefined;
@@ -354,7 +354,7 @@ export class ScmHistoryGraphWidget extends ReactWidget implements DynamicToolbar
         if (changes === 'loading' || changes === undefined) {
             return (
                 <div key={`${itemId}-loading`} className='scm-history-changes-loading'>
-                    {nls.localizeByDefault('Loading')}
+                    {nls.localizeByDefault('正在加载')}
                 </div>
             );
         }
@@ -362,7 +362,7 @@ export class ScmHistoryGraphWidget extends ReactWidget implements DynamicToolbar
         if (changes.length === 0) {
             return (
                 <div key={`${itemId}-empty`} className='scm-history-changes-empty'>
-                    {nls.localize('theia/scm/noChanges', 'No changed files.')}
+                    {nls.localize('theia/scm/noChanges', '没有更改的文件。')}
                 </div>
             );
         }

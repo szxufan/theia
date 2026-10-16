@@ -190,7 +190,7 @@ describe('CopilotSdkClientProvider - lifecycle', () => {
             await provider.getClient();
             expect.fail('should have rejected');
         } catch (error) {
-            expect(String(error)).to.contain('sign in');
+            expect(String(error)).to.contain('未登录 GitHub Copilot');
         }
     });
 
@@ -238,12 +238,12 @@ describe('CopilotSdkClientProvider - entitlement errors', () => {
 
     it('should explain what an authorization failure of the runtime can mean', () => {
         const enriched = provider.callEnrichEntitlementError(new Error('user is not authorized to use this Copilot feature'));
-        expect(String(enriched)).to.contain('subscription');
+        expect(String(enriched)).to.contain('订阅');
         expect(String(enriched)).to.contain('not authorized to use this Copilot feature');
     });
 
     it('should explain a policy rejection the same way', () => {
-        expect(String(provider.callEnrichEntitlementError(new Error('Access denied by policy settings')))).to.contain('administrator');
+        expect(String(provider.callEnrichEntitlementError(new Error('Access denied by policy settings')))).to.contain('管理员');
     });
 
     it('should pass an unrelated failure through unchanged', () => {

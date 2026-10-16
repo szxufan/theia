@@ -22,7 +22,7 @@ import { AIVariable, AIVariableContribution, AIVariableContext, AIVariableResolu
 export const PRODUCT_NAME_VARIABLE: AIVariable = {
     id: 'product-name-provider',
     name: 'productName',
-    description: nls.localize('theia/ai/core/productNameVariable/description', 'The name of the product/application the user is working with'),
+    description: nls.localize('theia/ai/core/productNameVariable/description', '用户正在使用的产品/应用程序的名称'),
 };
 
 @injectable()

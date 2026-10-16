@@ -4,19 +4,19 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - TASK EXTENSION</h2>
+<h2>ECLIPSE THEIA - TASK 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/task` extension extension permits executing scripts or binaries in the application's backend.
+`@theia/task` 扩展允许在应用程序后端执行脚本或二进制程序。
 
-Tasks launch configurations can be defined independently for each workspace, under `.theia/tasks.json`. When present, they are automatically picked-up when a client opens a workspace, and watches for changes. A task can be executed by triggering the "Run Task" command (shortcut F1). A list of known tasks will then be available, one of which can be selected to trigger execution.
+任务启动配置可以在 `.theia/tasks.json` 中针对每个工作区独立定义。如果存在该文件，客户端打开工作区时会自动加载它，并监视其变更。可以通过触发 "Run Task"（运行任务）命令（快捷键 F1）来执行任务。随后会显示已知任务的列表，选择其中一个即可触发执行。
 
-Each task configuration looks like this:
+每个任务配置如下所示：
 
 ``` json
 {
@@ -40,29 +40,29 @@ Each task configuration looks like this:
 }
 ```
 
-*label*: a unique string that identifies the task. That's what's shown to the user, when it's time to chose one task configuration to run.
+*label*：标识任务的唯一字符串。当需要选择要运行的任务配置时，显示给用户的就是它。
 
-*type*: determines what type of process will be used to execute the task. Can be "process" or "shell". "Shell" processes' output can be shown in Theia's frontend, in a terminal widget. If type set as "process" then task will be run without their output being shown.
+*type*：决定执行任务所使用的进程类型，可以是 "process" 或 "shell"。"shell" 类型进程的输出可以显示在 Theia 前端的终端组件中。如果类型设置为 "process"，则任务运行时不显示输出。
 
-*command*: the actual command or script to execute. The command can have no path (e.g. "ls") if it can be found in the system path. Else it can have an absolute path, in which case there is no confusion. Or it can have a relative path, in which case it will be interpreted to be relative to cwd. e.g. "./task" would be interpreted to mean a script or binary called "task", right under the workspace root directory.
+*command*：要执行的实际命令或脚本。如果命令能在系统路径中找到，则可以不带路径（例如 "ls"）；也可以使用绝对路径，此时不存在歧义；还可以使用相对路径，此时将相对于 cwd 解析。例如 "./task" 会被解释为工作区根目录下名为 "task" 的脚本或二进制程序。
 
-*args*: a list of strings, each one being one argument to pass to the command.
+*args*：字符串列表，每一项都是传递给命令的一个参数。
 
-*options*: the command options used when the command is executed. This is the place to provide the
+*options*：执行命令时使用的命令选项。在此处可以提供：
 
-- *cwd*: the current working directory, in which the task's command will execute. This is the equivalent of doing a "cd" to that directory, on the command-line, before running the command. This can contain the variable *${workspaceFolder}*, which will be replaced at execution time by the path of the current workspace. If left undefined, will by default be set to workspace root.
-- *env*: the environment of the executed program or shell. If omitted the parent process' environment is used.
-- *shell*: configuration of the shell when task type is `shell`, where users can specify the shell to use with *shell*, and the arguments to be passed to the shell executable to run in command mode with *args*.
+- *cwd*：当前工作目录，任务的命令将在此目录中执行。等同于在命令行中运行命令之前先 "cd" 到该目录。它可以包含变量 *${workspaceFolder}*，该变量会在执行时被替换为当前工作区的路径。如果未定义，默认设置为工作区根目录。
+- *env*：被执行程序或 shell 的环境变量。如果省略，则使用父进程的环境变量。
+- *shell*：任务类型为 `shell` 时的 shell 配置，用户可以通过 *shell* 指定要使用的 shell，并通过 *args* 指定传递给 shell 可执行文件以使命令模式运行的参数。
 
-By default, *command* and *args* above are used on all platforms. However it's not always possible to express a task in the same way, both on Unix and Windows. The command and/or arguments may be different, for example. If a task needs to work on Linux, MacOS, and Windows, it is better to have separated command, command arguments, and options.
+默认情况下，上述 *command* 和 *args* 在所有平台上都适用。然而，同一个任务并不总能在 Unix 和 Windows 上以相同的方式表达，例如命令和/或参数可能不同。如果任务需要同时在 Linux、macOS 和 Windows 上工作，最好将命令、命令参数和选项分开定义。
 
-*windows*: if *windows* is defined, its command, command arguments, and options (i.e., *windows.command*, *windows.args*, and *windows.options*) will take precedence over the *command*, *args*, and *options*, when the task is executed on a Windows backend.
+*windows*：如果定义了 *windows*，当任务在 Windows 后端执行时，其中的命令、命令参数和选项（即 *windows.command*、*windows.args* 和 *windows.options*）将优先于 *command*、*args* 和 *options*。
 
-*osx*: if *osx* is defined, its command, command arguments, and options (i.e., *osx.command*, *osx.args*, and *osx.options*) will take precedence over the *command*, *args*, and *options*, when the task is executed on a MacOS backend.
+*osx*：如果定义了 *osx*，当任务在 macOS 后端执行时，其中的命令、命令参数和选项（即 *osx.command*、*osx.args* 和 *osx.options*）将优先于 *command*、*args* 和 *options*。
 
-*linux*: if *linux* is defined, its command, command arguments, and options (i.e., *linux.command*, *linux.args*, and *linux.options*) will take precedence over the *command*, *args*, and *options*, when the task is executed on a Linux backend.
+*linux*：如果定义了 *linux*，当任务在 Linux 后端执行时，其中的命令、命令参数和选项（即 *linux.command*、*linux.args* 和 *linux.options*）将优先于 *command*、*args* 和 *options*。
 
-Here is a sample tasks.json that can be used to test tasks. Just add this content under the theia source directory, in directory `.theia`:
+下面是一个可用于测试任务的 tasks.json 示例。只需将此内容添加到 theia 源码目录下的 `.theia` 目录中：
 
 ``` json
 {
@@ -147,9 +147,9 @@ Here is a sample tasks.json that can be used to test tasks. Just add this conten
 }
 ```
 
-## Variables substitution
+## 变量替换
 
-The variables are supported in the following properties, using `${variableName}` syntax:
+以下属性支持使用 `${variableName}` 语法的变量：
 
 - `command`
 - `args`
@@ -164,13 +164,13 @@ The variables are supported in the following properties, using `${variableName}`
 - `linux.args`
 - `linux.options.cwd`
 
-See [here](https://www.theia-ide.org/doc/index.html) for a detailed documentation.
+详细文档请参见[这里](https://www.theia-ide.org/doc/index.html)。
 
-## Contribution points
+## 贡献点
 
-The extension provides contribution points:
+该扩展提供以下贡献点：
 
-- `browser/TaskContribution` - allows an extension to provide its own Task format and/or to provide the Tasks programmatically to the system
+- `browser/TaskContribution` - 允许扩展提供自己的任务格式，和/或以编程方式向系统提供任务
 
 ```typescript
 export interface TaskContribution {
@@ -179,7 +179,7 @@ export interface TaskContribution {
 }
 ```
 
-- `node/TaskRunnerContribution` - allows an extension to provide its own way of running/killing a Task
+- `node/TaskRunnerContribution` - 允许扩展提供自己运行/终止任务的方式
 
 ```typescript
 export interface TaskRunnerContribution {
@@ -187,18 +187,18 @@ export interface TaskRunnerContribution {
 }
 ```
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/task`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_task.html)
+- [`@theia/task` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_task.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

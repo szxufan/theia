@@ -21,12 +21,12 @@ import { TerminalService } from '@theia/terminal/lib/browser/base/terminal-servi
 
 const TERMINAL_COMMAND_BLOCK: AIVariable = {
     id: 'ai-terminal:terminal-command-block',
-    description: nls.localize('theia/ai/terminal/terminalCommandBlockAIVariable/description', 'Stores an executed terminal command and its corresponding output.'),
+    description: nls.localize('theia/ai/terminal/terminalCommandBlockAIVariable/description', '存储已执行的终端命令及其对应的输出。'),
     name: 'terminalCommand',
     args: [{
         name: 'index',
         description: nls.localize('theia/ai/terminal/terminalCommandBlockAIVariable/index/description',
-            'Index of the command block in the terminal history. Defaults to the last command if not specified.'
+            '终端历史中命令块的索引。未指定时默认为最后一个命令。'
         )
     }]
 };
@@ -112,10 +112,10 @@ export class AiTerminalCommandBlockVariableContribution implements AIVariableCon
         }
         const commandHistory = this.terminalService.lastUsedTerminal.commandHistoryState.commandHistory;
         const quickPick = this.quickInputService.createQuickPick();
-        quickPick.title = nls.localize('theia/ai/terminal/terminalCommandBlockAIVariable/quickPick/title', 'Select a command and its output from the terminal history');
+        quickPick.title = nls.localize('theia/ai/terminal/terminalCommandBlockAIVariable/quickPick/title', '从终端历史中选择一个命令及其输出');
         quickPick.placeholder = nls.localize(
             'theia/ai/terminal/terminalCommandBlockAIVariable/quickPick/placeholder',
-            'Type to filter commands'
+            '输入以筛选命令'
         );
         quickPick.items = commandHistory.map((block, i) => (
             {

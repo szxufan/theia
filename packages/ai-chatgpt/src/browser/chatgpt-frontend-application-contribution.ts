@@ -181,7 +181,7 @@ export class ChatGptFrontendApplicationContribution implements FrontendApplicati
     protected updateDisabledStatus(): void {
         this.discoveryStatus.updateStatus(CHATGPT_DISCOVERY_PROVIDER_ID, {
             state: 'idle',
-            stateLabel: nls.localizeByDefault('Disabled'),
+            stateLabel: nls.localizeByDefault('已禁用'),
             message: undefined,
             discovered: [],
             lastFetch: undefined,
@@ -196,20 +196,20 @@ export class ChatGptFrontendApplicationContribution implements FrontendApplicati
         if (!isAuthenticated) {
             this.discoveryStatus.updateStatus(CHATGPT_DISCOVERY_PROVIDER_ID, {
                 state: 'no-credentials',
-                stateLabel: nls.localizeByDefault('Not signed in'),
+                stateLabel: nls.localizeByDefault('未登录'),
                 message: nls.localize('theia/ai/chatgpt/discovery/signedOut',
-                    'Not signed in with ChatGPT. Sign in to use the models of your ChatGPT plan.'),
+                    '未登录 ChatGPT。登录后即可使用您的 ChatGPT 套餐中的模型。'),
                 discovered,
                 lastFetch: undefined,
                 fromCache: undefined,
-                action: { label: nls.localize('theia/ai/chatgpt/models/signIn', 'Sign in with ChatGPT'), commandId: ChatGptCommands.SIGN_IN.id }
+                action: { label: nls.localize('theia/ai/chatgpt/models/signIn', '使用 ChatGPT 登录'), commandId: ChatGptCommands.SIGN_IN.id }
             });
         } else if (configured) {
             this.discoveryStatus.updateStatus(CHATGPT_DISCOVERY_PROVIDER_ID, {
                 state: 'overridden',
                 stateLabel: undefined,
                 message: nls.localize('theia/ai/chatgpt/discovery/overridden',
-                    'The model list is configured manually. Clear it to offer the models your ChatGPT plan grants.'),
+                    '模型列表已手动配置。清除后即可提供您的 ChatGPT 套餐实际授予的模型。'),
                 discovered,
                 lastFetch: undefined,
                 action: undefined

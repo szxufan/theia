@@ -1,176 +1,176 @@
-# Pull Requests
+# Pull Request
 
-This document clarifies rules and expectations of contributing and reviewing pull requests.
-It is structured as a list of rules which can be referenced on a PR to moderate and drive discussions.
-If a rule causes distress during discussions itself, it has to be reviewed on [the dev meeting](https://github.com/eclipse-theia/theia/wiki/Dev-Meetings) and updated.
+本文档阐明贡献与审查 pull request 的规则与期望。
+它以规则列表的形式组织，可以在 PR 中引用这些规则来引导和约束讨论。
+如果某条规则本身在讨论中引发困扰，必须在[开发者会议](https://github.com/eclipse-theia/theia/wiki/Dev-Meetings)上复议并更新。
 
-- [**Opening a Pull Request**](#opening-a-pull-request)
-- [**Requesting a Review**](#requesting-a-review)
-- [**Review Checklist**](#review-checklist)
-- [**Reviewing**](#reviewing)
-- [**Landing**](#landing)
-- [**Reverting**](#reverting)
-- [**Closing**](#closing)
+- [**开启 Pull Request**](#opening-a-pull-request)
+- [**请求审查**](#requesting-a-review)
+- [**审查清单**](#review-checklist)
+- [**审查**](#reviewing)
+- [**合入**](#landing)
+- [**回退**](#reverting)
+- [**关闭**](#closing)
 
-## Opening a Pull Request
+## 开启 Pull Request
 
 <a name="pr-template"></a>
 
-- [1.](#pr-template) Each PR description has to follow the [PR template](https://github.com/eclipse-theia/theia/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
+- [1.](#pr-template) 每个 PR 描述必须遵循 [PR 模板](https://github.com/eclipse-theia/theia/blob/master/.github/PULL_REQUEST_TEMPLATE.md)
 
 <a name="human-in-the-loop"></a>
 
-- [2.](#human-in-the-loop) Contributors can use whatever tools they would like to craft their contributions, but there must be a human in the loop. Contributors must read and review all LLM-generated code or text before they ask other project members to review it. The contributor is always the author and is fully accountable for their contributions. Contributors should be sufficiently confident that the contribution is high enough quality that asking for a review is a good use of scarce maintainer time, and they should be able to answer questions about their work themselves during review.
+- [2.](#human-in-the-loop) 贡献者可以使用任何喜欢的工具来制作贡献，但必须有人类在回路中。贡献者在请其他项目成员审查之前，必须阅读并检查所有 LLM 生成的代码或文本。贡献者始终是作者，并对自己的贡献承担全部责任。贡献者应有足够的信心确保贡献质量足够高，让请求审查是对维护者稀缺时间的良好使用；并且在审查期间，他们应当能自行回答有关其工作的问题。
 
 <a name="design-review"></a>
 
-- [3.](#design-review) A PR can be opened early for the design review before going into the detailed implementation.
-  - A request on the design review should be an explicit comment.
-  - Such PR should be marked as a draft or with the WIP prefix.
+- [3.](#design-review) 可以在进入详细实现之前提早开启 PR 进行设计审查。
+  - 设计审查请求应是一条明确的评论。
+  - 此类 PR 应标记为 draft 或使用 WIP 前缀。
 
 <a name="fixups"></a>
 
-- [4.](#fixups) Changes done _after_ the PR has been opened should be kept in separate commits until the review process is finished. This allows reviewers to re-review only the updated parts of the PR and to determine what needs to be tested again. The "fixup" commits must be squashed before merging in order to keep a clean history.
+- [4.](#fixups) PR 开启_之后_所做的改动应保存在独立 commit 中，直到审查流程结束。这使审查者只需重新审查 PR 中被更新的部分，并判断哪些需要重新测试。"fixup" commit 必须在合并前 squash，以保持干净的历史。
 
 <a name="changelog-entry"></a>
 
-- [5.](#changelog-entry) A changelog entry is only mandatory for [breaking changes](#checklist-breaking-changes), which are declared in the `Breaking changes` section of the PR description. PRs with non-breaking changes should _not_ add an entry to [CHANGELOG.md](https://github.com/eclipse-theia/theia/blob/master/CHANGELOG.md); their entries are collected at [release time](Publishing.md#15-update-changelog).
+- [5.](#changelog-entry) 只有[破坏性变更](#checklist-breaking-changes)才强制要求变更日志条目，破坏性变更在 PR 描述的 `Breaking changes` 一节中声明。含非破坏性变更的 PR 不应向 [CHANGELOG.md](https://github.com/eclipse-theia/theia/blob/master/CHANGELOG.md) 添加条目；它们的条目会在[发布时](Publishing.md#15-更新变更日志)统一收集。
 
-  > Why? It avoids the frequent merge conflicts in `CHANGELOG.md` that a manual entry per PR causes.
+  > 为什么？这避免了每个 PR 手动写条目导致的 `CHANGELOG.md` 频繁合并冲突。
 
-## Requesting a Review
+## 请求审查
 
 <a name="review-reqs"></a>
 
-- [1.](#review-reqs) A review can be requested when:
-  - [The PR template](#pr-template) is filled in.
-  - Changes are thoroughly tested by an author.
-  - Changes thoroughly reviewed following the [review checklist](#review-checklist) by an author.
+- [1.](#review-reqs) 满足以下条件时可以请求审查：
+  - [PR 模板](#pr-template)已填写完整。
+  - 作者已充分测试改动。
+  - 作者已按[审查清单](#review-checklist)充分自查。
 <a name="review-request-gh"></a>
-- [2.](#review-request-gh) A review can be requested explicitly [using GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review).
+- [2.](#review-request-gh) 可以[通过 GitHub](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/requesting-a-pull-request-review) 显式请求审查。
 <a name="review-request-comment"></a>
-- [3.](#review-request-comment) A review can be also requested as a comment from any GitHub users.
-  - For example to invite the person who originally filed an issue for testing.
+- [3.](#review-request-comment) 也可以由任意 GitHub 用户以评论形式请求审查。
+  - 例如邀请最初提交 issue 的人参与测试。
 
-## Review Checklist
+## 审查清单
 
 <a name="checklist-build-and-test"></a>
 
-- [1.](#checklist-build-and-test) The new code is built and tested according to the `How to test` section of a PR description.
+- [1.](#checklist-build-and-test) 新代码按照 PR 描述的 `How to test` 一节完成构建与测试。
 <a name="checklist-project-org"></a>
-- [2.](#checklist-project-org) The new code is aligned with the [project organization](code-organization.md) and [coding conventions](coding-guidelines.md).
+- [2.](#checklist-project-org) 新代码符合[项目组织](code-organization.md)与[编码规范](coding-guidelines.md)。
 <a name="checklist-breaking-changes"></a>
-- [3.](#checklist-breaking-changes) Breaking changes are justified and recorded in the [changelog](https://github.com/eclipse-theia/theia/blob/master/CHANGELOG.md).
-  - Whether a PR is breaking is declared in the `Breaking changes` section of its description. Non-breaking changes need no changelog entry, see [the changelog rule](#changelog-entry): a missing entry is not a review finding, and an entry added for a non-breaking change should be dropped.
+- [3.](#checklist-breaking-changes) 破坏性变更已说明理由并记录在[变更日志](https://github.com/eclipse-theia/theia/blob/master/CHANGELOG.md)中。
+  - PR 是否为破坏性变更在其描述的 `Breaking changes` 一节声明。非破坏性变更无需变更日志条目，参见[变更日志规则](#changelog-entry)：缺少条目不构成审查发现，为非破坏性变更添加的条目应被删除。
 <a name="checklist-dependencies"></a>
-- [4.](#checklist-dependencies) New dependencies are justified and [verified](https://github.com/eclipse-theia/theia/wiki/Registering-CQs#wip---new-ecd-theia-intellectual-property-clearance-approach-experimental).
-  - For newly added dependencies, we run the [license check workflow](../.github/workflows/license-check.yml), but not in review mode.
-    - If the license check reveals that a review is needed for the new dependency (i.e., `ERROR: Found results that aren't part of the baseline! X some-dependency, some-license`), we need to run the license check in review mode (`npm run license:check:review`).
-    - Since we have no PAT secret defined for the repo at the moment, the license check in review mode needs to be done locally, either by the contributor (if they are a Theia committer) or by the reviewer.
+- [4.](#checklist-dependencies) 新依赖已说明理由并经过[验证](https://github.com/eclipse-theia/theia/wiki/Registering-CQs#wip---new-ecd-theia-intellectual-property-clearance-approach-experimental)。
+  - 对于新添加的依赖，我们会运行[许可证检查工作流](../.github/workflows/license-check.yml)，但不以评审模式运行。
+    - 如果许可证检查显示新依赖需要评审（即 `ERROR: Found results that aren't part of the baseline! X some-dependency, some-license`），我们需要以评审模式运行许可证检查（`npm run license:check:review`）。
+    - 由于当前仓库没有定义 PAT secret，评审模式的许可证检查需要在本地进行——由贡献者（如果其是 Theia committer）或审查者执行。
 <a name="checklist-copied-code"></a>
-- [5.](#checklist-copied-code) Copied code is justified and [approved via a CQ](https://github.com/eclipse-theia/theia/wiki/Registering-CQs#case-3rd-party-project-code-copiedforked-from-another-project-into-eclipse-theia-maintained-by-us).
-  - Look closely at the GitHub actions running for your PR: the 3pp/dash license check should be green.
-  - If red: it most likely mean you need to create a CQ.
+- [5.](#checklist-copied-code) 复制的代码已说明理由并通过 [CQ 批准](https://github.com/eclipse-theia/theia/wiki/Registering-CQs#case-3rd-party-project-code-copiedforked-from-another-project-into-eclipse-theia-maintained-by-us)。
+  - 仔细查看为你的 PR 运行的 GitHub action：3pp/dash 许可证检查应为绿色。
+  - 如果是红色：很可能意味着你需要创建一个 CQ。
 <a name="checklist-copyright"></a>
-- [6.](#checklist-copyright) Each new file has proper copyright with the current year and the name of contributing entity (individual or company).
+- [6.](#checklist-copyright) 每个新文件都有恰当的版权声明，包含当前年份与贡献实体（个人或公司）名称。
 <a name="checklist-sign-off"></a>
-- [7.](#checklist-sign-off) Commits are signed-off: <https://github.com/eclipse-theia/theia/blob/master/CONTRIBUTING.md#sign-your-work>.
+- [7.](#checklist-sign-off) commit 已签署（signed-off）：<https://github.com/eclipse-theia/theia/blob/master/CONTRIBUTING.md#sign-your-work>。
 <a name="checklist-meaningful-commits"></a>
-- [8.](#checklist-meaningful-commits) Each commit has meaningful title and a body that explains what it does. One can take inspiration from the `What it does` section from the PR.
+- [8.](#checklist-meaningful-commits) 每个 commit 都有有意义的标题以及说明其作用的正文。可以从 PR 的 `What it does` 一节获得启发。
 <a name="checklist-commit-history"></a>
-- [9.](#checklist-commit-history) Commit history is rebased on master and contains only meaningful commits and changes (less are usually better).
-  - For example, use `git pull -r` or `git fetch && git rebase` to pick up changes from the master.
+- [9.](#checklist-commit-history) commit 历史已 rebase 到 master，且只包含有意义的 commit 与改动（通常越少越好）。
+  - 例如，使用 `git pull -r` 或 `git fetch && git rebase` 从 master 获取改动。
 <a name="checklist-i18n"></a>
-- [10.](#checklist-i18n) User-facing text is internationalized using the `nls` service.
-  - For details, please see the [Internationalization/Localization section](./coding-guidelines.md#internationalizationlocalization) in the Coding Guidelines.
+- [10.](#checklist-i18n) 用户可见文案已使用 `nls` 服务国际化。
+  - 详情请参阅编码规范中的[国际化/本地化章节](./coding-guidelines.md#internationalizationlocalization)。
 
-## Reviewing
+## 审查
 
 <a name="reviewing-template"></a>
 
-- [1.](#reviewing-template) Reviewers should check that a PR has a [proper description](#pr-template).
+- [1.](#reviewing-template) 审查者应检查 PR 是否有[恰当的描述](#pr-template)。
 <a name="reviewing-fn"></a>
-- [2.](#reviewing-fn) Reviewers should build and verify changes according to the `How to test` section of a PR description.
+- [2.](#reviewing-fn) 审查者应按照 PR 描述的 `How to test` 一节构建并验证改动。
 <a name="reviewing-checklist"></a>
-- [3.](#reviewing-checklist) Reviewers should ensure that all checks from [the review checklist](#review-checklist) are successful.
+- [3.](#reviewing-checklist) 审查者应确保[审查清单](#review-checklist)中的所有检查均通过。
 <a name="reviewing-share"></a>
-- [4.](#reviewing-share) A reviewer does not need to ensure everything but can verify a part of it and provide feedback as a comment.
+- [4.](#reviewing-share) 审查者无需确保所有内容，可以只验证一部分并以评论形式提供反馈。
 <a name="review-consultation"></a>
-- [5.](#review-consultation) For any change that substantially alters the behavior of the application or one of its components, reviews should be requested from representatives of several contributing organizations to ensure consistency with the goals of the project and compatibility with significant adopters' downstream products.
+- [5.](#review-consultation) 对于实质性改变应用或其组件行为的变更，应向多个贡献组织的代表请求审查，以确保与项目目标一致，并与重要采用者的下游产品兼容。
 
-### Requesting Changes
+### 请求变更
 
 <a name="changes-review-reqs"></a>
 
-- [1.](#changes-review-reqs) Changes should be requested if an author does not follow the [review requirements](#review-reqs).
+- [1.](#changes-review-reqs) 如果作者未遵循[审查要求](#review-reqs)，应请求变更。
 <a name="changes-no-nit"></a>
-- [2.](#changes-no-nit) Changes cannot be requested because of the personal preferences of a reviewer.
-  - Such change requests should be dismissed.
+- [2.](#changes-no-nit) 不能因审查者的个人偏好而请求变更。
+  - 此类变更请求应被驳回。
 <a name="changes-no-out-of-scope"></a>
-- [3.](#changes-no-out-of-scope) Changes cannot be requested if they address issues out of the scope of a PR.
-  - Such change requests should be dismissed and an issue should be filed to address them separately.
+- [3.](#changes-no-out-of-scope) 不能因超出 PR 范围的问题而请求变更。
+  - 此类变更请求应被驳回，并应另立 issue 单独处理。
 <a name="changes-style-agreement"></a>
-- [4.](#changes-style-agreement) Styles and coding preferences should not be discussed on the PR, but raised in [the dev meeting](https://github.com/eclipse-theia/theia/wiki/Dev-Meetings),
-  agreed by the team, applied to [the coding guidelines](coding-guidelines.md) and after that followed by all contributors.
+- [4.](#changes-style-agreement) 风格与编码偏好不应在 PR 上讨论，而应在[开发者会议](https://github.com/eclipse-theia/theia/wiki/Dev-Meetings)上提出，
+  由团队商定后写入[编码规范](coding-guidelines.md)，此后所有贡献者共同遵循。
 
-### Approving
+### 批准
 
 <a name="justifying-approve"></a>
 
-- [1.](#justifying-approve) Each approval should have supporting comments following these guidelines.
+- [1.](#justifying-approve) 每次批准都应附有遵循这些指南的支持性评论。
 <a name="dismissing-approve"></a>
-- [2.](#dismissing-approve) An approval without a comment should be dismissed.
+- [2.](#dismissing-approve) 没有评论的批准应被驳回。
 <a name="approval-finality"></a>
-- [3.](#approval-finality) Approval of a PR implies that the reviewer is prepared to merge the PR. A reviewer should only approve a pull request that they are prepared to merge it. If a PR is under review by multiple reviewers, reviewers who are not satisfied with the state of the PR should block its merge, for example by marking their review 'request changes'.
+- [3.](#approval-finality) 批准 PR 意味着审查者已准备好合并该 PR。审查者只应批准自己准备好合并的 PR。如果一个 PR 正在被多名审查者审查，对 PR 状态不满意的审查者应阻止其合并，例如将自己的审查标记为 'request changes'。
 
-### Collaborating
+### 协作
 
 <a name="collaboration-on-pr"></a>
 
-- [1.](#collaboration-on-pr) If a change request is important, but cannot be elaborated by a reviewer,
-then a reviewer should be encouraged to open an alternative PR or collaborate on a current PR.
+- [1.](#collaboration-on-pr) 如果某项变更请求很重要，但审查者无法详尽阐述，
+那么应鼓励审查者打开替代 PR，或在当前 PR 上协作。
 <a name="completing-pr"></a>
-- [2.](#completing-pr) If a PR is important, but an author cannot or does not want to address outstanding issues,
-then maintainers can complete the PR with additional commits
-provided that the original author accepted the [ECA](https://github.com/eclipse-theia/theia/blob/master/CONTRIBUTING.md#eclipse-contributor-agreement) and their commits are preserved - the original author's work should not be squashed away.
+- [2.](#completing-pr) 如果一个 PR 很重要，但作者无法或不愿处理遗留问题，
+维护者可以用额外的 commit 完成 PR，
+前提是原作者已接受 [ECA](https://github.com/eclipse-theia/theia/blob/master/CONTRIBUTING.md#eclipse-contributor-agreement) 且其 commit 得到保留——原作者的工作不应被 squash 掉。
 <a name="suggesting-help-on-pr"></a>
-- [3.](#suggesting-help-on-pr) Reviewers should offer their help via a comment to avoid intervening in an author's work.
+- [3.](#suggesting-help-on-pr) 审查者应通过评论提供帮助，避免直接介入作者的工作。
 <a name="landing-stale-pr"></a>
-- [4.](#landing-stale-pr) Such comment is not required if an author is not responsive.
+- [4.](#landing-stale-pr) 如果作者没有回应，则此类评论并非必需。
 
-## Landing
+## 合入
 
 <a name="landing-pr"></a>
 
-- [1.](#landing-pr) A PR can be landed when:
-  - CI build has succeeded.
-  - The author has accepted the [Eclipse Contributor Agreement](https://github.com/eclipse-theia/theia/blob/master/CONTRIBUTING.md#eclipse-contributor-agreement).
-  - All checks from [the review checklist](#review-checklist) are approved by at least one reviewer.
-  - There are no unresolved review comments.
+- [1.](#landing-pr) 满足以下条件时可以合入 PR：
+  - CI 构建成功。
+  - 作者已接受 [Eclipse Contributor Agreement](https://github.com/eclipse-theia/theia/blob/master/CONTRIBUTING.md#eclipse-contributor-agreement)。
+  - [审查清单](#review-checklist)中的所有检查均获至少一名审查者批准。
+  - 没有未解决的审查评论。
 <a name="merging-pr"></a>
-- [2.](#merging-pr) Pull requests satisfying the criteria above should be merged in a timely fashion to avoid a buildup of approved PR's at release time. Responsibility for merging a PR falls to
-  - The author, if the author is a committer.
-  - A committer from the author's organization, if one is available.
-  - The approving reviewer, otherwise.
+- [2.](#merging-pr) 满足上述条件的 PR 应及时合并，以避免发布时积压大量已批准 PR。合并 PR 的责任归属于：
+  - 作者本人，如果作者是 committer。
+  - 作者所在组织的 committer，如果存在。
+  - 否则为批准该 PR 的审查者。
 
-## Reverting
+## 回退
 
 <a name="reverting-pr"></a>
 
-- [1.](#reverting-pr) If a PR causes regressions after landing
-then an author and maintainers have 2 days to resolve them after that a PR has to be reverted.
+- [1.](#reverting-pr) 如果 PR 合入后导致回归，
+作者与维护者有 2 天时间解决，此后该 PR 必须被回退。
 
-## Closing
+## 关闭
 
 <a name="closing-pr"></a>
 
-- [1.](#closing-pr) A reviewer cannot close a PR without a reason.
+- [1.](#closing-pr) 审查者不能无故关闭 PR。
 <a name="closing-pr-reasons"></a>
-- [2.](#closing-pr-reasons) A PR may be closed, for example, because of the following reasons:
-  - It introduces functionality which should be implemented as external Theia or VS Code extensions.
-  - It introduces structural or API changes between core extensions.
-  Such changes have to be done by an experienced maintainer to avoid regressions and long reviews.
-  - It should be a 3rd party component, e.g. Theia is not a logging framework or a proxy server.
-  - It changes development infrastructure, e.g. testing frameworks, packaging and so on.
-  Such changes have to be done by active maintainers after agreement in [the dev meeting](https://github.com/eclipse-theia/theia/wiki/Dev-Meetings).
-  - It violates the [human-in-the-loop](#human-in-the-loop) policy.
+- [2.](#closing-pr-reasons) PR 可能因以下原因被关闭：
+  - 它引入的功能本应实现为外部的 Theia 或 VS Code 扩展。
+  - 它引入了核心扩展之间的结构性或 API 变更。
+  此类变更必须由经验丰富的维护者完成，以避免回归与冗长的审查。
+  - 它本应是第三方组件，例如 Theia 不是日志框架或代理服务器。
+  - 它更改了开发基础设施，例如测试框架、打包方式等。
+  此类变更必须由活跃维护者在[开发者会议](https://github.com/eclipse-theia/theia/wiki/Dev-Meetings)上达成一致后完成。
+  - 它违反了[人类在回路](#human-in-the-loop)政策。

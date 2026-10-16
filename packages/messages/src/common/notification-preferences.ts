@@ -28,7 +28,7 @@ export const NotificationConfigSchema: PreferenceSchema = {
     'properties': {
         'notification.timeout': {
             'type': 'number',
-            'description': nls.localize('theia/messages/notificationTimeout', 'Informative notifications will be hidden after this timeout.'),
+            'description': nls.localize('theia/messages/notificationTimeout', '信息性通知将在该超时时间后自动隐藏。'),
             'default': 30 * 1000 // `0` and negative values are treated as no timeout.
         }
     }

@@ -33,8 +33,8 @@ export const AnthropicPreferencesSchema: PreferenceSchema = {
             type: 'string',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'Anthropic' } satisfies ModelProviderTypeDetail },
             markdownDescription: nls.localize('theia/ai/anthropic/apiKey/description',
-                'Enter an API Key of your official Anthropic Account. **Please note:** By using this preference the Anthropic API key will be stored in clear text\
-            on the machine running Theia. Use the environment variable `ANTHROPIC_API_KEY` to set the key securely.') + LINUX_ENV_HINT,
+                '输入您官方 Anthropic 账户的 API 密钥。**请注意：**使用此偏好设置后，Anthropic API 密钥将以明文形式存储\
+            在运行 Theia 的机器上。请使用环境变量 `ANTHROPIC_API_KEY` 安全地设置密钥。') + LINUX_ENV_HINT,
             title: AI_CORE_PREFERENCES_TITLE,
         },
         [ALLOW_ENV_API_KEY_PREF]: {
@@ -42,8 +42,8 @@ export const AnthropicPreferencesSchema: PreferenceSchema = {
             default: false,
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/anthropic/allowEnvApiKey/description',
-                'Allow Theia to use an Anthropic API key found in the environment (`ANTHROPIC_API_KEY`). '
-                + 'You are asked to confirm this once before the key is used; set it back to `false` to revoke consent.'),
+                '允许 Theia 使用在环境中找到的 Anthropic API 密钥（`ANTHROPIC_API_KEY`）。'
+                + '在密钥被使用之前，系统会要求您确认一次；将其重新设置为 `false` 可撤销授权。'),
         },
         [MODEL_OVERRIDES_PREF]: {
             type: 'array',
@@ -53,22 +53,22 @@ export const AnthropicPreferencesSchema: PreferenceSchema = {
             },
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/anthropic/modelOverrides/description',
-                'Override the models discovered from Anthropic. When empty (default), the available models are discovered from the provider. '
-                + 'Set explicit model ids to use exactly those instead; discovery is then not used at all.')
+                '覆盖从 Anthropic 发现的模型。为空时（默认），将从提供程序发现可用模型。'
+                + '设置显式的模型 ID 可精确使用这些模型；此时将完全不使用发现功能。')
         },
         [SERVER_SIDE_COMPACTION_PREF]: {
             type: 'string',
             enum: ['default', 'enabled', 'disabled'],
             enumDescriptions: [
-                nls.localize('theia/ai/anthropic/compaction/default', 'Follow the global chat server-side compaction setting.'),
-                nls.localize('theia/ai/anthropic/compaction/enabled', 'Always request server-side compaction for Anthropic models.'),
-                nls.localize('theia/ai/anthropic/compaction/disabled', 'Never request server-side compaction for Anthropic models.')
+                nls.localize('theia/ai/anthropic/compaction/default', '遵循全局聊天服务端压缩设置。'),
+                nls.localize('theia/ai/anthropic/compaction/enabled', '始终为 Anthropic 模型请求服务端压缩。'),
+                nls.localize('theia/ai/anthropic/compaction/disabled', '从不为 Anthropic 模型请求服务端压缩。')
             ],
             default: 'default',
             markdownDescription: nls.localize('theia/ai/anthropic/compaction/description',
-                'Override provider-native server-side compaction for Anthropic models. "default" follows the global chat setting ' +
-                '({0}). When effectively enabled, the Anthropic Beta Messages API is used so the provider can summarize ' +
-                'older turns once the conversation grows past its threshold.',
+                '覆盖 Anthropic 模型的提供程序原生服务端压缩。"default" 遵循全局聊天设置 ' +
+                '（{0}）。在有效启用的情况下，将使用 Anthropic Beta Messages API，以便提供程序在' +
+                '对话增长超过其阈值时总结较早的对话轮次。',
                 `\`#${PREFERENCE_NAME_SERVER_SIDE_COMPACTION}#\``),
             title: AI_CORE_PREFERENCES_TITLE,
         },
@@ -76,75 +76,76 @@ export const AnthropicPreferencesSchema: PreferenceSchema = {
             type: 'integer',
             minimum: SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM,
             markdownDescription: nls.localize('theia/ai/anthropic/compactionTokenThreshold/description',
-                'Override the global input-token threshold for server-side compaction for Anthropic models. When unset, the global setting or provider default applies. ' +
-                'If set, the value must be at least 50,000 tokens.'),
+                '覆盖 Anthropic 模型服务端压缩的全局输入 Token 阈值。未设置时，将应用全局设置或提供程序默认值。' +
+                '如果设置，该值必须至少为 50,000 Token。'),
             title: AI_CORE_PREFERENCES_TITLE,
         },
         [CUSTOM_ENDPOINTS_PREF]: {
             type: 'array',
             typeDetails: {
-                [MODEL_PROVIDER_TYPE_DETAIL]: { label: nls.localize('theia/ai/anthropic/customProvider/label', '{0} (Custom)', 'Anthropic') } satisfies ModelProviderTypeDetail
+                [MODEL_PROVIDER_TYPE_DETAIL]: { label: nls.localize('theia/ai/anthropic/customProvider/label', '{0}（自定义）', 'Anthropic') } satisfies ModelProviderTypeDetail
             },
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/anthropic/customEndpoints/mdDescription',
-                'Integrate custom models compatible with the Anthropic API. The required attributes are `model` and `url`.\
+                '集成与 Anthropic API 兼容的自定义模型。必需的属性是 `model` 和 `url`。\
             \n\
-            Optionally, you can\
+            可选地，您可以\
             \n\
-            - specify a unique `id` to identify the custom model in the UI. If none is given `model` will be used as `id`.\
+            - 指定唯一的 `id` 以在 UI 中标识该自定义模型。如果不提供，将使用 `model` 作为 `id`。\
             \n\
-            - provide an `apiKey` to access the API served at the given url. Use `true` to indicate the use of the global anthropic API key.\
+            - 提供 `apiKey` 以访问给定 URL 上的 API。使用 `true` 表示使用全局 Anthropic API 密钥。\
             \n\
-            - specify `enableStreaming: false` to indicate that streaming shall not be used.\
+            - 指定 `enableStreaming: false` 表示不使用流式传输。\
             \n\
-            - specify `useCaching: false` to indicate that prompt caching shall not be used.\
+            - 指定 `useCaching: false` 表示不使用提示词缓存。\
             \n\
-            - specify `maxRetries: <number>` to indicate the maximum number of retries when a request fails. 3 by default.\
+            - 指定 `maxRetries: <数字>` 表示请求失败时的最大重试次数。默认为 3。\
             \n\
-            - specify `headers` to send additional HTTP headers with every request to the endpoint, e.g. headers required by a gateway in front of the API.\
+            - 指定 `headers` 以随每个发送到端点的请求附加额外的 HTTP 头，例如 API 前置网关所需的头。\
             \n\
-            Reasoning capabilities and the maximum output token limit are derived from the endpoint\'s `/v1/models` response.'),
+            推理能力和最大输出 Token 限制从端点的 `/v1/models` 响应中推导。'),
             default: [],
             items: {
                 type: 'object',
+                required: ['model', 'url'],
                 properties: {
                     model: {
                         type: 'string',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/modelId/title', 'Model ID')
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/modelId/title', '模型 ID')
                     },
                     url: {
                         type: 'string',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/url/title', 'The Anthropic API compatible endpoint where the model is hosted')
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/url/title', '托管该模型的 Anthropic API 兼容端点')
                     },
                     id: {
                         type: 'string',
-                        title: nls.localize('theia/ai/anthropic/customEndpoints/id/title', 'A unique identifier which is used in the UI to identify the custom model'),
+                        title: nls.localize('theia/ai/anthropic/customEndpoints/id/title', '用于在 UI 中标识自定义模型的唯一标识符'),
                     },
                     apiKey: {
                         type: ['string', 'boolean'],
                         title: nls.localize('theia/ai/anthropic/customEndpoints/apiKey/title',
-                            'Either the key to access the API served at the given url or `true` to use the global Anthropic API key'),
+                            '访问给定 URL 上 API 的密钥，或使用 `true` 表示使用全局 Anthropic API 密钥'),
                     },
                     enableStreaming: {
                         type: 'boolean',
                         title: nls.localize('theia/ai/anthropic/customEndpoints/enableStreaming/title',
-                            'Indicates whether the streaming API shall be used. `true` by default.'),
+                            '指示是否使用流式 API。默认为 `true`。'),
                     },
                     useCaching: {
                         type: 'boolean',
                         title: nls.localize('theia/ai/anthropic/customEndpoints/useCaching/title',
-                            'Indicates whether the model supports prompt caching. `true` by default'),
+                            '指示模型是否支持提示词缓存。默认为 `true`'),
                     },
                     maxRetries: {
                         type: 'number',
                         title: nls.localize('theia/ai/anthropic/customEndpoints/maxRetries/title',
-                            'Maximum number of retries when a request fails. 3 by default'),
+                            '请求失败时的最大重试次数。默认为 3'),
                     },
                     headers: {
                         type: 'object',
                         additionalProperties: { type: 'string' },
                         title: nls.localize('theia/ai/anthropic/customEndpoints/headers/title',
-                            'Additional HTTP headers sent with every request to the endpoint'),
+                            '随每个发送到端点的请求一起发送的额外 HTTP 头'),
                     }
                 }
             }

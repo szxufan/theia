@@ -73,7 +73,7 @@ describe('blockExternalResources', () => {
         expect(placeholder.textContent).to.contain('https://a.com/x');
         expect(placeholder.textContent).to.contain('https://b.com/y');
         expect(placeholder.textContent).to.contain('https://c.com/z');
-        expect(placeholder.textContent).to.contain('3 resources will be enabled');
+        expect(placeholder.textContent).to.contain('3 个资源将被启用');
     });
 
     it('preserves data image srcset entries', () => {
@@ -172,7 +172,7 @@ describe('blockExternalResources', () => {
         expect(placeholder).to.exist;
         expect(placeholder.textContent).to.contain('https://evil.com/video.mp4');
         expect(placeholder.textContent).to.contain('https://evil.com/poster.png');
-        expect(placeholder.textContent).to.contain('2 resources will be enabled');
+        expect(placeholder.textContent).to.contain('2 个资源将被启用');
     });
 
     it('blocks iframes unconditionally', () => {
@@ -187,7 +187,7 @@ describe('blockExternalResources', () => {
 
         const placeholder = root.querySelector(`.${BLOCKED_RESOURCE_CLASS}`) as HTMLElement;
         expect(placeholder).to.exist;
-        expect(placeholder.textContent).to.contain('(inline external content)');
+        expect(placeholder.textContent).to.contain('（内联外部内容）');
     });
 
     it('sandboxes restored embedded content', () => {
@@ -212,7 +212,7 @@ describe('blockExternalResources', () => {
 
         const placeholders = root.querySelectorAll(`.${BLOCKED_RESOURCE_CLASS}`);
         expect(placeholders).to.have.length(2);
-        expect(placeholders[0].textContent).to.contain('(inline external content)');
+        expect(placeholders[0].textContent).to.contain('（内联外部内容）');
         expect(root.querySelector('object')).to.be.null;
         expect(root.querySelector('embed')).to.be.null;
     });
@@ -394,7 +394,7 @@ describe('blockExternalResources', () => {
         expect(root.querySelector('img')?.getAttribute('src')).to.equal('https://evil.com/x.gif');
         const placeholder = root.querySelector(`.${BLOCKED_RESOURCE_CLASS}`) as HTMLElement;
         expect(placeholder).to.exist;
-        expect(placeholder.textContent).to.contain('(inline external content)');
+        expect(placeholder.textContent).to.contain('（内联外部内容）');
         expect(root.querySelector('iframe')).to.be.null;
     });
 

@@ -89,12 +89,12 @@ export class CopilotStatusBarContribution implements FrontendApplicationContribu
             const accountLabel = this.authState.accountLabel ?? 'GitHub';
             text = `$(github) ${accountLabel}`;
             tooltip = nls.localize('theia/ai/copilot/statusBar/signedIn',
-                'Signed in to GitHub Copilot as {0}. Click to sign out.', accountLabel);
+                '已登录 GitHub Copilot，账户为 {0}。点击登出。', accountLabel);
             command = CopilotCommands.SIGN_OUT.id;
         } else {
-            text = `$(github) ${nls.localize('theia/ai/copilot/commands/signIn', 'Sign in to GitHub Copilot')}`;
+            text = `$(github) ${nls.localize('theia/ai/copilot/commands/signIn', '登录 GitHub Copilot')}`;
             tooltip = nls.localize('theia/ai/copilot/statusBar/signedOut',
-                'Not signed in to GitHub Copilot. Click to sign in.');
+                '未登录 GitHub Copilot。点击登录。');
             command = CopilotCommands.SIGN_IN.id;
         }
 

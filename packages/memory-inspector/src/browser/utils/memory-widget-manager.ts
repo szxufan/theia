@@ -140,12 +140,12 @@ export class MemoryWidgetManager implements Disposable {
     async doDiff(options: Omit<MemoryDiffWidgetData, 'dynamic' | 'identifier'>): Promise<MemoryDiffWidget | undefined> {
         if (options.beforeBytes.length === 0) {
             // eslint-disable-next-line max-len
-            const beforeBytesMessage = nls.localize('theia/memory-inspector/utils/bytesMessage', 'You must load memory in both widgets you would like to compare. {0} has no memory loaded.', options.titles[0]);
+            const beforeBytesMessage = nls.localize('theia/memory-inspector/utils/bytesMessage', '必须在要比较的两个小组件中都加载内存。{0} 尚未加载内存。', options.titles[0]);
             this.messageService.warn(beforeBytesMessage);
             return undefined;
         } else if (options.afterBytes.length === 0) {
             // eslint-disable-next-line max-len
-            const afterBytesMessage = nls.localize('theia/memory-inspector/utils/afterBytes', 'You must load memory in both widgets you would like to compare. {0} has no memory loaded.', options.titles[1]);
+            const afterBytesMessage = nls.localize('theia/memory-inspector/utils/afterBytes', '必须在要比较的两个小组件中都加载内存。{0} 尚未加载内存。', options.titles[1]);
             this.messageService.warn(afterBytesMessage);
             return undefined;
         }

@@ -63,13 +63,13 @@ describe('MCPServerInstallDialog.isValid', () => {
 
     it('rejects an empty token when the server requires one', () => {
         const d = dialog({ requireAuthToken: true });
-        expect(d.runValidation()).to.match(/auth token is required/i);
+        expect(d.runValidation()).to.equal('安装此服务器需要认证令牌。');
     });
 
     it('rejects a whitespace-only token when the server requires one', () => {
         const d = dialog({ requireAuthToken: true });
         d.setToken('   ');
-        expect(d.runValidation()).to.match(/auth token is required/i);
+        expect(d.runValidation()).to.equal('安装此服务器需要认证令牌。');
     });
 
     it('accepts a non-empty token when the server requires one', () => {
@@ -80,9 +80,9 @@ describe('MCPServerInstallDialog.isValid', () => {
 
     it('rejects missing OAuth credentials when the server requires OAuth', () => {
         const d = dialog({ requireOAuth: true });
-        expect(d.runValidation()).to.match(/client ID and client secret are required/i);
+        expect(d.runValidation()).to.equal('安装此服务器需要 OAuth 客户端 ID 和客户端密钥。');
         d.setOAuthCredentials('client-id', '');
-        expect(d.runValidation()).to.match(/client ID and client secret are required/i);
+        expect(d.runValidation()).to.equal('安装此服务器需要 OAuth 客户端 ID 和客户端密钥。');
     });
 
     it('accepts and returns OAuth credentials when both are provided', () => {

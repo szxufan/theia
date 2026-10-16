@@ -50,7 +50,7 @@ export class TimelineContribution implements CommandContribution, TabBarToolbarC
     private readonly toolbarItem = {
         id: 'timeline-refresh-toolbar-item',
         command: 'timeline-refresh',
-        tooltip: nls.localizeByDefault('Refresh'),
+        tooltip: nls.localizeByDefault('刷新'),
         icon: codicon('refresh')
     };
     registerToolbarItems(registry: TabBarToolbarRegistry): void {

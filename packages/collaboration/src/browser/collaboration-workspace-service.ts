@@ -36,7 +36,7 @@ export class CollaborationWorkspaceService extends WorkspaceService {
             isFile: true,
             isReadonly: false,
             isSymbolicLink: false,
-            name: nls.localize('theia/collaboration/collaborationWorkspace', 'Collaboration Workspace'),
+            name: nls.localize('theia/collaboration/collaborationWorkspace', '协作工作区'),
             resource: CollaborationURI.create(this.collabWorkspace)
         });
         return Disposable.create(() => {

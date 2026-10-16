@@ -48,13 +48,13 @@ export const AIRegistryPreferencesSchema: PreferenceSchema = {
             scope: PreferenceScope.User,
             enumDescriptions: [
                 nls.localize('theia/ai-registry/autoUpdate/off',
-                    'Never update installed skills, MCP servers and Agent Plugins, and never notify about available updates.'),
-                nls.localize('theia/ai-registry/autoUpdate/ask', 'Notify when an update is available for an installed skill, MCP server or Agent Plugin.'),
-                nls.localize('theia/ai-registry/autoUpdate/on', 'Update installed skills, MCP servers and Agent Plugins automatically.')
+                    '从不更新已安装的技能、MCP 服务器和代理插件，也不通知可用的更新。'),
+                nls.localize('theia/ai-registry/autoUpdate/ask', '当已安装的技能、MCP 服务器或代理插件有可用更新时通知。'),
+                nls.localize('theia/ai-registry/autoUpdate/on', '自动更新已安装的技能、MCP 服务器和代理插件。')
             ],
             description: nls.localize('theia/ai-registry/autoUpdate/description',
-                'Default update behavior for skills, MCP servers and Agent Plugins installed from the AI registry. Updates are checked once per \
-window load. Individual artifacts can override this from the gear menu in the Extensions view.'),
+                '从 AI 注册表安装的技能、MCP 服务器和代理插件的默认更新行为。每次\
+窗口加载时检查一次更新。单个工件可以在扩展视图的齿轮菜单中覆盖此设置。'),
             title: AI_CORE_PREFERENCES_TITLE
         },
         [AUTO_UPDATE_OVERRIDES_PREF]: {
@@ -66,9 +66,9 @@ window load. Individual artifacts can override this from the gear menu in the Ex
                 enum: [...AUTO_UPDATE_MODES]
             },
             markdownDescription: nls.localize('theia/ai-registry/autoUpdateOverrides/mdDescription',
-                'Per-artifact overrides of `#ai-features.registry.autoUpdate#`, keyed by `skill:<skillId>`, `mcp:<serverId>` or \
-`plugin:<pluginId>`. Entries are normally maintained through the gear menu in the Extensions view; an artifact without an entry follows \
-the default.'),
+                '按工件覆盖 `#ai-features.registry.autoUpdate#`，以 `skill:<skillId>`、`mcp:<serverId>` 或 \
+`plugin:<pluginId>` 为键。条目通常通过扩展视图中的齿轮菜单维护；没有条目的工件将遵循\
+默认设置。'),
             title: AI_CORE_PREFERENCES_TITLE
         }
     }

@@ -4,23 +4,23 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - VARIABLE-RESOLVER EXTENSION</h2>
+<h2>ECLIPSE THEIA - VARIABLE-RESOLVER 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/variable-resolved` extension provides variable substitution mechanism inside of strings using `${variableName}` syntax.
+`@theia/variable-resolver` 扩展提供在字符串内部使用 `${variableName}` 语法的变量替换机制。
 
-### Variable Contribution Point
+### 变量贡献点
 
-Extension provides a hook that allows any extensions to contribute its own variables.
-Here's the example of contributing two variables:
+该扩展提供了一个钩子，允许任何扩展贡献自己的变量。
+下面是贡献两个变量的示例：
 
-- `${file}` - returns the name of the file opened in the current editor
-- `${lineNumber}` - returns the current line number in the current file
+- `${file}` - 返回当前编辑器中打开的文件的名称
+- `${lineNumber}` - 返回当前文件中的当前行号
 
 ```typescript
 @injectable()
@@ -65,11 +65,11 @@ export class EditorVariableContribution implements VariableContribution {
 }
 ```
 
-Note that a Variable is resolved to `MaybePromise<string | undefined>` which means that it can be resolved synchronously or within a Promise.
+注意，变量会被解析为 `MaybePromise<string | undefined>`，这意味着它既可以同步解析，也可以在 Promise 中解析。
 
-### Using the Variable Resolver Service
+### 使用变量解析服务
 
-There's the example of how one can use Variable Resolver Service in its own plugin:
+下面是在自己的插件中使用变量解析服务（Variable Resolver Service）的示例：
 
 ```typescript
 @injectable()
@@ -87,24 +87,24 @@ export class MyService {
 }
 ```
 
-If `package.json` file is currently opened and cursor is on line 5 then the following output will be logged to the console:
+如果当前打开的是 `package.json` 文件且光标位于第 5 行，则控制台将输出以下内容：
 
 ```sh
 cursor is in file package.json on line 5
 ```
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/variable-resolver`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_variable-resolver.html)
+- [`@theia/variable-resolver` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_variable-resolver.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

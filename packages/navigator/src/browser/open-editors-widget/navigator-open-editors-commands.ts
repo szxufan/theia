@@ -21,28 +21,28 @@ export namespace OpenEditorsCommands {
     export const CLOSE_ALL_TABS_FROM_TOOLBAR = Command.toDefaultLocalizedCommand({
         id: 'navigator.close.all.editors.toolbar',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Close All Editors',
+        label: '关闭所有编辑器',
         iconClass: 'codicon codicon-close-all'
     });
 
     export const SAVE_ALL_TABS_FROM_TOOLBAR = Command.toDefaultLocalizedCommand({
         id: 'navigator.save.all.editors.toolbar',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Save All',
+        label: '全部保存',
         iconClass: 'codicon codicon-save-all'
     });
 
     export const CLOSE_ALL_EDITORS_IN_GROUP_FROM_ICON = Command.toDefaultLocalizedCommand({
         id: 'navigator.close.all.in.area.icon',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Close Group',
+        label: '关闭组',
         iconClass: 'codicon codicon-close-all'
     });
 
     export const SAVE_ALL_IN_GROUP_FROM_ICON = Command.toDefaultLocalizedCommand({
         id: 'navigator.save.all.in.area.icon',
         category: CommonCommands.FILE_CATEGORY,
-        label: 'Save All in Group',
+        label: '全部保存在组中',
         iconClass: 'codicon codicon-save-all'
     });
 }

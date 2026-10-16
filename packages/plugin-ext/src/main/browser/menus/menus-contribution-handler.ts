@@ -60,7 +60,7 @@ export class MenusContributionPointHandler {
             id: this.tabBarToolbar.toElementId(PLUGIN_EDITOR_TITLE_RUN_MENU),
             menuPath: PLUGIN_EDITOR_TITLE_RUN_MENU,
             icon: codicon('debug-alt'),
-            text: nls.localizeByDefault('Run or Debug...'),
+            text: nls.localizeByDefault('运行或调试...'),
             command: '',
             group: 'navigation',
             isVisible: widget => CodeEditorWidgetUtil.is(widget)

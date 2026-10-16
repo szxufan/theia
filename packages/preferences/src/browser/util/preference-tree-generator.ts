@@ -222,7 +222,8 @@ export class PreferenceTreeGenerator {
         this.onSchemaChangedEmitter.fire(newTree);
     }
 
-    handleChangedSchema = debounce(this.doHandleChangedSchema, 200);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    handleChangedSchema: any = debounce(this.doHandleChangedSchema, 200);
 
     protected createRootNode(): CompositeTreeNode {
         return {

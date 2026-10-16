@@ -27,18 +27,18 @@ export class DefaultChatAgentRecommendationService implements ChatAgentRecommend
         return [
             {
                 id: CoderAgentId,
-                label: nls.localize('theia/ai/chat/agent/coder', 'Coder'),
-                description: nls.localize('theia/ai/chat/agent/coder/description', 'Code generation and modification')
+                label: nls.localize('theia/ai/chat/agent/coder', '编码'),
+                description: nls.localize('theia/ai/chat/agent/coder/description', '代码生成与修改')
             },
             {
                 id: ArchitectAgentId,
-                label: nls.localize('theia/ai/chat/agent/architect', 'Architect'),
-                description: nls.localize('theia/ai/chat/agent/architect/description', 'High-level design and architecture')
+                label: nls.localize('theia/ai/chat/agent/architect', '架构'),
+                description: nls.localize('theia/ai/chat/agent/architect/description', '高层设计与架构')
             },
             {
                 id: 'Universal',
-                label: nls.localize('theia/ai/chat/agent/universal', 'Universal'),
-                description: nls.localize('theia/ai/chat/agent/universal/description', 'General-purpose assistant')
+                label: nls.localize('theia/ai/chat/agent/universal', '通用'),
+                description: nls.localize('theia/ai/chat/agent/universal/description', '通用助手')
             }
         ];
     }

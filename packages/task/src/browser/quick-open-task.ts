@@ -34,7 +34,7 @@ import { TriggerAction } from '@theia/monaco-editor-core/esm/vs/platform/quickin
 
 export namespace ConfigureTaskAction {
     export const ID = 'workbench.action.tasks.configureTaskRunner';
-    export const TEXT = nls.localizeByDefault('Configure Task');
+    export const TEXT = nls.localizeByDefault('配置任务');
 }
 
 export type TaskEntry = QuickPickItemOrSeparator | QuickPickValue<string>;
@@ -44,16 +44,16 @@ export namespace TaskEntry {
     }
 }
 
-export const CHOOSE_TASK = nls.localizeByDefault('Select the task to run');
-export const CONFIGURE_A_TASK = nls.localizeByDefault('Configure a Task');
-export const NO_TASK_TO_RUN = nls.localize('theia/task/noTaskToRun', 'No task to run found. Configure Tasks...');
-export const NO_TASKS_FOUND = nls.localize('theia/task/noTasksFound', 'No tasks found');
-export const SHOW_ALL = nls.localizeByDefault('Show All Tasks...');
+export const CHOOSE_TASK = nls.localizeByDefault('选择要运行的任务');
+export const CONFIGURE_A_TASK = nls.localizeByDefault('配置任务');
+export const NO_TASK_TO_RUN = nls.localize('theia/task/noTaskToRun', '未找到要运行的任务。配置任务...');
+export const NO_TASKS_FOUND = nls.localize('theia/task/noTasksFound', '未找到任务');
+export const SHOW_ALL = nls.localizeByDefault('显示所有任务...');
 
 @injectable()
 export class QuickOpenTask implements QuickAccessProvider {
     static readonly PREFIX = 'task ';
-    readonly description: string = nls.localizeByDefault('Run Task');
+    readonly description: string = nls.localizeByDefault('运行任务');
     protected items: Array<TaskEntry> = [];
 
     @inject(TaskService)
@@ -99,8 +99,8 @@ export class QuickOpenTask implements QuickAccessProvider {
         const isMulti: boolean = this.workspaceService.isMultiRootWorkspaceOpened;
         this.items = [];
 
-        const filteredRecentTasksItems = this.getItems(filteredRecentTasks, nls.localizeByDefault('recently used tasks'), token, isMulti);
-        const filteredConfiguredTasksItems = this.getItems(filteredConfiguredTasks, nls.localizeByDefault('configured tasks'), token, isMulti, {
+        const filteredRecentTasksItems = this.getItems(filteredRecentTasks, nls.localizeByDefault('最近使用的任务'), token, isMulti);
+        const filteredConfiguredTasksItems = this.getItems(filteredConfiguredTasks, nls.localizeByDefault('已配置的任务'), token, isMulti, {
             label: `$(plus) ${CONFIGURE_A_TASK}`,
             execute: () => this.configure()
         });
@@ -122,7 +122,7 @@ export class QuickOpenTask implements QuickAccessProvider {
 
     protected createProvidedTypeItems(providedTypes: TaskDefinition[]): TaskEntry[] {
         const result: TaskEntry[] = [];
-        result.push({ type: 'separator', label: nls.localizeByDefault('contributed') });
+        result.push({ type: 'separator', label: nls.localizeByDefault('已贡献') });
 
         providedTypes.sort((t1, t2) =>
             t1.taskType.localeCompare(t2.taskType)
@@ -219,8 +219,8 @@ export class QuickOpenTask implements QuickAccessProvider {
         const providedTasksItems = this.getItems(providedTasks, taskType + ' tasks', token, isMulti);
 
         const label = providedTasksItems.length ?
-            nls.localizeByDefault('Go back ↩') :
-            nls.localizeByDefault('No {0} tasks found. Go back ↩', taskType);
+            nls.localizeByDefault('返回 ↩') :
+            nls.localizeByDefault('未找到 {0} 任务。返回 ↩', taskType);
 
         providedTasksItems.push(({
             label,
@@ -268,7 +268,7 @@ export class QuickOpenTask implements QuickAccessProvider {
     }
 
     async configure(): Promise<void> {
-        this.quickInputService?.pick(this.resolveItemsToConfigure(), { placeHolder: nls.localizeByDefault('Select a task to configure') }).
+        this.quickInputService?.pick(this.resolveItemsToConfigure(), { placeHolder: nls.localizeByDefault('选择要配置的任务') }).
             then(async item => {
                 if (item && 'execute' in item && typeof item.execute === 'function') {
                     item.execute();
@@ -307,7 +307,7 @@ export class QuickOpenTask implements QuickAccessProvider {
                 const { configUri } = this.preferences.resolve('tasks', [], rootFolder);
                 const existTaskConfigFile = !!configUri;
                 items.push(({
-                    label: existTaskConfigFile ? nls.localizeByDefault('Open tasks.json file') : nls.localizeByDefault('Create tasks.json file from template'),
+                    label: existTaskConfigFile ? nls.localizeByDefault('打开 tasks.json 文件') : nls.localizeByDefault('从模板创建 tasks.json 文件'),
                     execute: () => {
                         setTimeout(() => this.taskConfigurationManager.openConfiguration(rootFolder));
                     }
@@ -387,8 +387,8 @@ export class QuickOpenTask implements QuickAccessProvider {
             } else { // no build / test tasks, display an action item to configure the build / test task
                 this.items = [({
                     label: shouldRunBuildTask
-                        ? nls.localizeByDefault('No build task to run found. Configure Build Task...')
-                        : nls.localizeByDefault('No test task to run found. Configure Tasks...'),
+                        ? nls.localizeByDefault('未找到要运行的构建任务。配置生成任务...')
+                        : nls.localizeByDefault('未找到要运行的测试任务。配置任务...'),
                     execute: () => {
                         this.doInit(token).then(() => {
                             // update the `tasks.json` file, instead of running the task itself
@@ -405,8 +405,8 @@ export class QuickOpenTask implements QuickAccessProvider {
                             ));
                             this.quickInputService?.showQuickPick(this.items, {
                                 placeholder: shouldRunBuildTask
-                                    ? nls.localizeByDefault('Select the task to be used as the default build task')
-                                    : nls.localizeByDefault('Select the task to be used as the default test task')
+                                    ? nls.localizeByDefault('选择要用作默认生成任务的任务')
+                                    : nls.localizeByDefault('选择要用作默认测试任务的任务')
                             });
                         });
                     }
@@ -415,16 +415,16 @@ export class QuickOpenTask implements QuickAccessProvider {
         } else { // no tasks are currently present, prompt users if they'd like to configure a task.
             this.items = [{
                 label: shouldRunBuildTask
-                    ? nls.localizeByDefault('No build task to run found. Configure Build Task...')
-                    : nls.localizeByDefault('No test task to run found. Configure Tasks...'),
+                    ? nls.localizeByDefault('未找到要运行的构建任务。配置生成任务...')
+                    : nls.localizeByDefault('未找到要运行的测试任务。配置任务...'),
                 execute: () => this.configure()
             }];
         }
 
         this.quickInputService?.showQuickPick(this.items, {
             placeholder: shouldRunBuildTask
-                ? nls.localizeByDefault('Select the build task to run')
-                : nls.localizeByDefault('Select the test task to run'),
+                ? nls.localizeByDefault('选择要运行的生成任务')
+                : nls.localizeByDefault('选择要运行的测试任务'),
             onDidTriggerItemButton: ({ item }) => this.onDidTriggerGearIcon(item)
         });
     }
@@ -438,8 +438,8 @@ export class QuickOpenTask implements QuickAccessProvider {
         this.quickAccessRegistry.registerQuickAccessProvider({
             getInstance: () => this,
             prefix: QuickOpenTask.PREFIX,
-            placeholder: nls.localizeByDefault('Select the task to run'),
-            helpEntries: [{ description: nls.localizeByDefault('Run Task'), needsEditor: false }]
+            placeholder: nls.localizeByDefault('选择要运行的任务'),
+            helpEntries: [{ description: nls.localizeByDefault('运行任务'), needsEditor: false }]
         });
     }
 
@@ -453,7 +453,7 @@ export class QuickOpenTask implements QuickAccessProvider {
             new TaskRunQuickOpenItem(token, task, this.taskService, isMulti, this.taskDefinitionRegistry, this.taskNameResolver,
                 this.taskSourceResolver, this.taskConfigurationManager, [{
                     iconClass: 'codicon-gear',
-                    tooltip: nls.localizeByDefault('Configure Task'),
+                    tooltip: nls.localizeByDefault('配置任务'),
                 }])
         ).sort((t1, t2) => {
             let result = (t1.description ?? '').localeCompare(t2.description ?? '');
@@ -663,7 +663,7 @@ export class TaskTerminateQuickOpen {
         const isMulti: boolean = this.workspaceService.isMultiRootWorkspaceOpened;
         if (runningTasks.length <= 0) {
             items.push(({
-                label: nls.localizeByDefault('No task is currently running'),
+                label: nls.localizeByDefault('当前没有正在运行的任务'),
             }));
         } else {
             runningTasks.forEach((task: TaskInfo) => {
@@ -680,7 +680,7 @@ export class TaskTerminateQuickOpen {
             });
             if (runningTasks.length > 1) {
                 items.push(({
-                    label: nls.localizeByDefault('All Running Tasks'),
+                    label: nls.localizeByDefault('所有正在运行的任务'),
                     execute: () => {
                         runningTasks.forEach((t: TaskInfo) => {
                             this.taskService.kill(t.taskId);
@@ -694,7 +694,7 @@ export class TaskTerminateQuickOpen {
 
     async open(): Promise<void> {
         const items = await this.getItems();
-        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('Select a task to terminate') });
+        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('选择要终止的任务') });
     }
 }
 
@@ -730,7 +730,7 @@ export class TaskRunningQuickOpen {
         const isMulti: boolean = this.workspaceService.isMultiRootWorkspaceOpened;
         if (runningTasks.length <= 0) {
             items.push(({
-                label: nls.localizeByDefault('No task is currently running'),
+                label: nls.localizeByDefault('当前没有正在运行的任务'),
             }));
         } else {
             runningTasks.forEach((task: TaskInfo) => {
@@ -758,7 +758,7 @@ export class TaskRunningQuickOpen {
 
     async open(): Promise<void> {
         const items = await this.getItems();
-        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('Select the task to show its output') });
+        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('选择要显示输出的任务') });
     }
 }
 
@@ -816,7 +816,7 @@ export class TaskRestartRunningQuickOpen {
         const isMulti: boolean = this.workspaceService.isMultiRootWorkspaceOpened;
         if (runningTasks.length <= 0) {
             items.push({
-                label: nls.localizeByDefault('No task to restart')
+                label: nls.localizeByDefault('没有可重新启动的任务')
             });
         } else {
             runningTasks.forEach((task: TaskInfo) => {
@@ -837,6 +837,6 @@ export class TaskRestartRunningQuickOpen {
 
     async open(): Promise<void> {
         const items = await this.getItems();
-        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('Select the task to restart') });
+        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('选择要重新启动的任务') });
     }
 }

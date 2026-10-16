@@ -188,7 +188,8 @@ export class PluginIconTheme extends PluginIconThemeDefinition implements IconTh
         this.fireDidChange();
     }
 
-    protected reload = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected reload: any = debounce(() => {
         this.toUnload.dispose();
         this.doActivate();
     }, 50);

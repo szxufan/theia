@@ -30,7 +30,7 @@ import { TerminalBlock } from '@theia/terminal/lib/browser/base/terminal-widget'
 
 const AI_TERMINAL_COMMAND = Command.toLocalizedCommand({
     id: 'ai-terminal:open',
-    label: 'Ask AI',
+    label: '询问 AI',
     iconClass: codicon('sparkle')
 }, 'theia/ai/terminal/askAi');
 
@@ -119,7 +119,7 @@ class AiTerminalChatWidget {
         const chatResultContainer = document.createElement('div');
         chatResultContainer.className = 'ai-terminal-chat-result';
         this.chatResultParagraph = document.createElement('p');
-        this.chatResultParagraph.textContent = nls.localize('theia/ai/terminal/howCanIHelp', 'How can I help you?');
+        this.chatResultParagraph.textContent = nls.localize('theia/ai/terminal/howCanIHelp', '我能帮您做什么？');
         chatResultContainer.appendChild(this.chatResultParagraph);
         this.chatContainer.appendChild(chatResultContainer);
 
@@ -128,7 +128,7 @@ class AiTerminalChatWidget {
 
         this.chatInput = document.createElement('textarea');
         this.chatInput.className = 'theia-input theia-ChatInput';
-        this.chatInput.placeholder = nls.localize('theia/ai/terminal/askTerminalCommand', 'Ask about a terminal command...');
+        this.chatInput.placeholder = nls.localize('theia/ai/terminal/askTerminalCommand', '询问终端命令相关的问题...');
         this.chatInput.onkeydown = event => {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
@@ -151,7 +151,7 @@ class AiTerminalChatWidget {
         const chatInputOptionsContainer = document.createElement('div');
         const chatInputOptionsSpan = document.createElement('span');
         chatInputOptionsSpan.className = 'codicon codicon-send option';
-        chatInputOptionsSpan.title = nls.localizeByDefault('Send');
+        chatInputOptionsSpan.title = nls.localizeByDefault('发送');
         chatInputOptionsSpan.onclick = () => this.send();
         chatInputOptionsContainer.appendChild(chatInputOptionsSpan);
         this.chatInputContainer.appendChild(chatInputOptionsContainer);
@@ -168,7 +168,7 @@ class AiTerminalChatWidget {
         if (userRequest) {
             this.chatInput.value = '';
 
-            this.chatResultParagraph.innerText = nls.localizeByDefault('Loading');
+            this.chatResultParagraph.innerText = nls.localizeByDefault('加载中');
             this.chatResultParagraph.className = 'loading';
 
             const cwd = (await this.terminalWidget.cwd).toString();
@@ -181,15 +181,15 @@ class AiTerminalChatWidget {
             if (this.commands.length > 0) {
                 this.chatResultParagraph.className = 'command';
                 this.chatResultParagraph.innerText = this.commands[0];
-                this.chatInput.placeholder = nls.localize('theia/ai/terminal/hitEnterConfirm', 'Hit enter to confirm');
+                this.chatInput.placeholder = nls.localize('theia/ai/terminal/hitEnterConfirm', '按回车键确认');
                 if (this.commands.length > 1) {
-                    this.chatInput.placeholder += nls.localize('theia/ai/terminal/useArrowsAlternatives', ' or use ⇅ to show alternatives...');
+                    this.chatInput.placeholder += nls.localize('theia/ai/terminal/useArrowsAlternatives', '或使用 ⇅ 查看其他命令...');
                 }
                 this.haveResult = true;
             } else {
                 this.chatResultParagraph.className = '';
-                this.chatResultParagraph.innerText = nls.localizeByDefault('No results');
-                this.chatInput.placeholder = nls.localize('theia/ai/terminal/tryAgain', 'Try again...');
+                this.chatResultParagraph.innerText = nls.localizeByDefault('无结果');
+                this.chatInput.placeholder = nls.localize('theia/ai/terminal/tryAgain', '重试...');
             }
         }
     }

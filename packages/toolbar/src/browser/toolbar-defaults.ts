@@ -50,7 +50,7 @@ export const ToolbarDefaults: () => DeflatedToolbarTree = () => ({
                     id: 'workbench.action.showCommands',
                     command: 'workbench.action.showCommands',
                     icon: 'codicon codicon-terminal',
-                    tooltip: nls.localizeByDefault('Command Palette'),
+                    tooltip: nls.localizeByDefault('命令面板'),
                 },
             ]
         ]

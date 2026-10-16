@@ -55,7 +55,8 @@ export class ExternalApiFrontendContribution implements FrontendApplicationContr
     @inject(ILogger) @named('external-api:ExternalApiFrontendContribution')
     protected readonly logger: ILogger;
 
-    protected readonly pushConfigDebounced = debounce(() => this.pushConfig(), this.pushDelay);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected readonly pushConfigDebounced: any = debounce(() => this.pushConfig(), this.pushDelay);
 
     onStart(): void {
         this.preferenceService.ready.then(() => {

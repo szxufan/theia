@@ -46,11 +46,11 @@ export namespace AiConfigurationOrigin {
      */
     export function registry(entryId: string, open?: () => void): AiConfigurationOrigin {
         return {
-            label: nls.localize('theia/ai/core/aiConfiguration/origin/fromRegistry', 'From registry'),
+            label: nls.localize('theia/ai/core/aiConfiguration/origin/fromRegistry', '来自注册表'),
             iconClass: codicon('link-external'),
             tooltip: open
-                ? nls.localize('theia/ai/core/aiConfiguration/origin/openInRegistry', 'Open in AI registry: {0}', entryId)
-                : nls.localize('theia/ai/core/aiConfiguration/origin/registryEntry', 'AI registry entry: {0}', entryId),
+                ? nls.localize('theia/ai/core/aiConfiguration/origin/openInRegistry', '在 AI 注册表中打开：{0}', entryId)
+                : nls.localize('theia/ai/core/aiConfiguration/origin/registryEntry', 'AI 注册表条目：{0}', entryId),
             activate: open
         };
     }
@@ -62,11 +62,11 @@ export namespace AiConfigurationOrigin {
      */
     export function agentPlugin(plugin: InstalledAgentPluginInfo, reveal: () => void): AiConfigurationOrigin {
         return {
-            label: nls.localize('theia/ai/core/aiConfiguration/origin/viaAgentPlugin', 'via {0}', plugin.name),
+            label: nls.localize('theia/ai/core/aiConfiguration/origin/viaAgentPlugin', '来自 {0}', plugin.name),
             // `package`, matching the Agent Plugin cards in the Extensions view; `extensions` is the icon
             // that view's VS Code extension section owns.
             iconClass: codicon('package'),
-            tooltip: nls.localize('theia/ai/core/aiConfiguration/origin/openAgentPlugin', 'Open the Agent Plugin that provides this: {0}', plugin.name),
+            tooltip: nls.localize('theia/ai/core/aiConfiguration/origin/openAgentPlugin', '打开提供此条目的代理插件：{0}', plugin.name),
             activate: reveal
         };
     }

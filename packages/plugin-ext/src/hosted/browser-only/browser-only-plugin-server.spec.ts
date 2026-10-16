@@ -214,15 +214,15 @@ describe('BrowserOnlyPluginServer', () => {
 
         await server.install('my.plugin').then(
             () => expect.fail('should have rejected'),
-            error => expect(error.message).to.contain('browser-only'));
+            error => expect(error.message).to.contain('纯浏览器应用'));
         await server.uninstall('theia.a@1.0.0').then(
             () => expect.fail('should have rejected'),
-            error => expect(error.message).to.contain('browser-only'));
+            error => expect(error.message).to.contain('纯浏览器应用'));
         await server.enablePlugin('theia.a').then(
             () => expect.fail('should have rejected'),
-            error => expect(error.message).to.contain('browser-only'));
+            error => expect(error.message).to.contain('纯浏览器应用'));
         await server.disablePlugin('theia.a').then(
             () => expect.fail('should have rejected'),
-            error => expect(error.message).to.contain('browser-only'));
+            error => expect(error.message).to.contain('纯浏览器应用'));
     });
 });

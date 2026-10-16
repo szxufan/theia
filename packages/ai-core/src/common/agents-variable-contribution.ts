@@ -22,7 +22,7 @@ import { Agent } from './agent';
 export const AGENTS_VARIABLE: AIVariable = {
     id: 'agents',
     name: 'agents',
-    description: nls.localize('theia/ai/core/agentsVariable/description', 'Returns the list of agents available in the system')
+    description: nls.localize('theia/ai/core/agentsVariable/description', '返回系统中可用的代理列表')
 };
 
 export interface ResolvedAgentsVariable extends ResolvedAIVariable {

@@ -47,7 +47,7 @@ export class NavigatorSymlinkDecorator implements TreeDecorator {
         for (const node of new DepthFirstTreeIterator(tree.root)) {
             if (FileStatNode.is(node) && node.fileStat.isSymbolicLink) {
                 const decorations: TreeDecoration.Data = {
-                    tailDecorations: [{ data: '⤷', tooltip: nls.localizeByDefault('Symbolic Link') }]
+                    tailDecorations: [{ data: '⤷', tooltip: nls.localizeByDefault('符号链接') }]
                 };
                 result.set(node.id, decorations);
             }

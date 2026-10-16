@@ -86,7 +86,8 @@ export class ThemeService {
         }
     }
 
-    protected updateColorThemePreference = debounce(() => this.doUpdateColorThemePreference(), 500);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateColorThemePreference: any = debounce(() => this.doUpdateColorThemePreference(), 500);
 
     protected doUpdateColorThemePreference(): void {
         const preference = this.schemaProvider.getSchemaProperty(COLOR_THEME_PREFERENCE_KEY);

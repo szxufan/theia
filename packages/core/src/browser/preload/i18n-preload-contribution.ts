@@ -15,7 +15,6 @@
 // *****************************************************************************
 
 import { PreloadContribution } from './preloader';
-import { FrontendApplicationConfigProvider } from '../frontend-application-config-provider';
 import { nls } from '../../common/nls';
 import { inject, injectable, named } from 'inversify';
 import { Localization } from '../../common/i18n/localization';
@@ -34,7 +33,7 @@ export class I18nPreloadContribution implements PreloadContribution {
 
     /**
      * Maximum time in milliseconds to wait for localization data from the backend
-     * before falling back to the default locale.
+     * before starting with untranslated default values.
      *
      * Without a timeout a backend that never answers (e.g. its localization cache is
      * locked by another running instance) would block the preload phase forever,
@@ -42,45 +41,22 @@ export class I18nPreloadContribution implements PreloadContribution {
      */
     protected readonly localizationLoadTimeout: number = 10000;
 
+    /**
+     * Fork customization: this build is Chinese-only (zh-cn). System language detection,
+     * the `defaultLocale` frontend configuration and any fallback to other languages
+     * have been removed; the zh-cn localization is always loaded.
+     */
     async initialize(): Promise<void> {
-        const defaultLocale = FrontendApplicationConfigProvider.get().defaultLocale;
-        if (!nls.locale && !defaultLocale) {
-            // No persisted user choice and no configured default: follow the system language for Chinese
-            const systemLanguage = navigator.language.toLowerCase();
-            if (systemLanguage.startsWith('zh')) {
-                Object.assign(nls, {
-                    locale: systemLanguage.startsWith('zh-tw') || systemLanguage.startsWith('zh-hant') ? 'zh-tw' : 'zh-cn'
-                });
+        const locale = nls.defaultLocale;
+        try {
+            const localization = await this.loadLocalization(locale);
+            if (localization.languagePack) {
+                nls.localization = localization;
             }
-        }
-        if (defaultLocale && !nls.locale) {
-            Object.assign(nls, {
-                locale: defaultLocale
-            });
-        }
-        let locale = nls.locale ?? nls.defaultLocale;
-        if (nls.locale) {
-            try {
-                const localization = await this.loadLocalization(locale);
-                if (localization.languagePack) {
-                    nls.localization = localization;
-                } else if (locale !== nls.defaultLocale) {
-                    // In case the localization that we've loaded doesn't localize Theia completely (languagePack is false)
-                    // We simply reset the locale to the default again
-                    Object.assign(nls, {
-                        locale: defaultLocale || undefined
-                    });
-                    locale = defaultLocale;
-                }
-            } catch (error) {
-                // Never block application startup on localization loading failures:
-                // fall back to the default locale instead.
-                console.error(`Failed to load localization data for locale '${locale}'. Falling back to the default locale.`, error);
-                Object.assign(nls, {
-                    locale: defaultLocale || undefined
-                });
-                locale = defaultLocale;
-            }
+        } catch (error) {
+            // Never block application startup on localization loading failures:
+            // the source strings are already Chinese in this build.
+            console.error(`Failed to load localization data for locale '${locale}'. Falling back to the default values.`, error);
         }
         const replacements = this.getReplacements(locale);
         if (Object.keys(replacements).length > 0) {

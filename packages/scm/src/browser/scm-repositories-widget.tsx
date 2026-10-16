@@ -66,7 +66,7 @@ export class ScmRepositoriesWidget extends ReactWidget {
     @postConstruct()
     protected init(): void {
         this.id = ScmRepositoriesWidget.ID;
-        this.title.label = nls.localizeByDefault('Repositories');
+        this.title.label = nls.localizeByDefault('存储库');
         this.title.caption = this.title.label;
 
         this.toDispose.push(this.toDisposeOnRepositoriesChange);
@@ -255,7 +255,7 @@ export class ScmRepositoriesWidget extends ReactWidget {
                     )}
                     <a
                         className={`theia-scm-repository-more-button ${codicon('ellipsis')}${isSelected ? ' selected' : ''}`}
-                        title={nls.localizeByDefault('More Actions...')}
+                        title={nls.localizeByDefault('更多操作...')}
                         onClick={e => { e.stopPropagation(); this.showContextMenu(e, repo); }}
                     />
                 </div>

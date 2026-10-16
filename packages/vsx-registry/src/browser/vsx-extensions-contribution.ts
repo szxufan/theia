@@ -185,26 +185,26 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
         });
         menus.registerMenuAction(VSXExtensionsContextMenu.COPY, {
             commandId: VSXExtensionsCommands.COPY.id,
-            label: nls.localizeByDefault('Copy'),
+            label: nls.localizeByDefault('复制'),
             order: '0'
         });
         menus.registerMenuAction(VSXExtensionsContextMenu.COPY, {
             commandId: VSXExtensionsCommands.COPY_EXTENSION_ID.id,
-            label: nls.localizeByDefault('Copy Extension ID'),
+            label: nls.localizeByDefault('复制扩展 ID'),
             order: '1'
         });
         menus.registerMenuAction(VSXExtensionsContextMenu.DISABLE, {
             commandId: VSXExtensionsCommands.DISABLE.id,
-            label: nls.localizeByDefault('Disable')
+            label: nls.localizeByDefault('禁用')
         });
 
         menus.registerMenuAction(VSXExtensionsContextMenu.ENABLE, {
             commandId: VSXExtensionsCommands.ENABLE.id,
-            label: nls.localizeByDefault('Enable')
+            label: nls.localizeByDefault('启用')
         });
         menus.registerMenuAction(VSXExtensionsContextMenu.INSTALL, {
             commandId: VSXExtensionsCommands.INSTALL_ANOTHER_VERSION.id,
-            label: nls.localizeByDefault('Install Specific Version...'),
+            label: nls.localizeByDefault('安装特定版本...'),
         });
         menus.registerMenuAction(NAVIGATOR_CONTEXT_MENU, {
             commandId: VSXExtensionsCommands.INSTALL_VSIX_FILE.id,
@@ -265,8 +265,8 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
     protected async installFromVSIX(): Promise<void> {
         const props: OpenFileDialogProps = {
             title: VSXExtensionsCommands.INSTALL_FROM_VSIX.dialogLabel,
-            openLabel: nls.localizeByDefault('Install from VSIX'),
-            filters: { 'VSIX Extensions (*.vsix)': ['vsix'] },
+            openLabel: nls.localizeByDefault('从 VSIX 安装'),
+            filters: { 'VSIX 扩展 (*.vsix)': ['vsix'] },
             canSelectMany: false,
             canSelectFiles: true
         };
@@ -275,7 +275,7 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
             if (extensionUri.path.ext === '.vsix') {
                 await this.installVsixFile(extensionUri);
             } else {
-                this.messageService.error(nls.localize('theia/vsx-registry/invalidVSIX', 'The selected file is not a valid "*.vsix" plugin.'));
+                this.messageService.error(nls.localize('theia/vsx-registry/invalidVSIX', '所选文件不是有效的 "*.vsix" 插件。'));
             }
         }
     }
@@ -291,16 +291,16 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
         const extensionName = this.labelProvider.getName(fileURI);
         try {
             await this.commandRegistry.executeCommand(VscodeCommands.INSTALL_EXTENSION_FROM_ID_OR_URI.id, fileURI);
-            this.messageService.info(nls.localizeByDefault('Completed installing extension.', extensionName));
+            this.messageService.info(nls.localizeByDefault('已完成扩展安装。', extensionName));
         } catch (e) {
             if (e instanceof Error && e.name === 'DuplicateExtensionError') {
                 this.messageService.error(
                     nls.localize('theia/vsx-registry/duplicateVSIX',
-                        'Failed to install {0} from VSIX. The extension is already installed. Uninstall the existing extension before installing a new version from VSIX.',
+                        '无法从 VSIX 安装 {0}。该扩展已安装。请卸载现有扩展后再从 VSIX 安装新版本。',
                         extensionName)
                 );
             } else {
-                this.messageService.error(nls.localize('theia/vsx-registry/failedInstallingVSIX', 'Failed to install {0} from VSIX.', extensionName));
+                this.messageService.error(nls.localize('theia/vsx-registry/failedInstallingVSIX', '无法从 VSIX 安装 {0}。', extensionName));
             }
             this.logger.warn(e);
         }
@@ -365,8 +365,8 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
             // Extensions not on the registry (e.g. VSIX or private installs) have no other versions to offer.
             // Show feedback instead of an empty quick pick, matching the `NO_TASKS_FOUND` pattern in the task package.
             await this.quickInput.showQuickPick(
-                [{ label: nls.localize('theia/vsx-registry/vsx-extensions-contribution/no-other-versions', 'No other versions are available.') }],
-                { placeholder: nls.localizeByDefault('Select Version to Install') }
+                [{ label: nls.localize('theia/vsx-registry/vsx-extensions-contribution/no-other-versions', '没有其他可用版本。') }],
+                { placeholder: nls.localizeByDefault('选择要安装的版本') }
             );
             return;
         }
@@ -377,13 +377,13 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
                 description: DateTime.fromISO(ext.timestamp).toRelative({ locale: nls.locale }) ?? ''
             };
             if (currentVersion === ext.version) {
-                item.description += ` (${nls.localizeByDefault('Current')})`;
+                item.description += ` (${nls.localizeByDefault('当前')})`;
                 activeItem = item;
             }
             return item;
         });
         const selectedItem = await this.quickInput.showQuickPick(items, {
-            placeholder: nls.localizeByDefault('Select Version to Install'),
+            placeholder: nls.localizeByDefault('选择要安装的版本'),
             runIfSingle: false,
             activeItem
         });
@@ -414,7 +414,7 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
         try {
             await extension.install({ version: updateToVersion, ignoreOtherVersions: true });
         } catch {
-            this.messageService.warn(nls.localize('theia/vsx-registry/vsx-extensions-contribution/update-version-version-error', 'Failed to install version {0} of {1}.',
+            this.messageService.warn(nls.localize('theia/vsx-registry/vsx-extensions-contribution/update-version-version-error', '无法安装 {1} 的版本 {0}。',
                 updateToVersion, extension.displayName));
             return;
         }
@@ -423,7 +423,7 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
                 await extension.uninstall();
             }
         } catch {
-            this.messageService.warn(nls.localize('theia/vsx-registry/vsx-extensions-contribution/update-version-uninstall-error', 'Error while removing the extension: {0}.',
+            this.messageService.warn(nls.localize('theia/vsx-registry/vsx-extensions-contribution/update-version-uninstall-error', '移除扩展 {0} 时出错。',
                 extension.displayName));
         }
     }
@@ -437,11 +437,11 @@ export class VSXExtensionsContribution extends AbstractViewContribution<VSXExten
                 }
             }
             if (recommended.size) {
-                const install = nls.localizeByDefault('Install');
-                const showRecommendations = nls.localizeByDefault('Show Recommendations');
-                const neverAskAgain = nls.localizeByDefault('Never ask me again');
+                const install = nls.localizeByDefault('安装');
+                const showRecommendations = nls.localizeByDefault('显示推荐');
+                const neverAskAgain = nls.localizeByDefault('不再询问');
                 const userResponse = await this.messageService.info(
-                    nls.localize('theia/vsx-registry/recommendedExtensions', 'Do you want to install the recommended extensions for this repository?'),
+                    nls.localize('theia/vsx-registry/recommendedExtensions', '是否安装此仓库的推荐扩展？'),
                     install,
                     showRecommendations,
                     neverAskAgain

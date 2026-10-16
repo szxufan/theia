@@ -71,7 +71,7 @@ export class CopilotSdkClientProvider {
     async getClient(): Promise<CopilotClient> {
         const credentials = await this.credentialStore.get();
         if (!credentials) {
-            throw new Error(nls.localize('theia/ai/copilot/notSignedInSignInFirst', 'Not signed in to GitHub Copilot. Please sign in first.'));
+            throw new Error(nls.localize('theia/ai/copilot/notSignedInSignInFirst', '未登录 GitHub Copilot。请先登录。'));
         }
         const configKey = this.getConfigKey(credentials);
         if (this.clientPromise && this.clientConfigKey === configKey) {
@@ -111,11 +111,11 @@ export class CopilotSdkClientProvider {
             return error;
         }
         return new Error(nls.localize('theia/ai/copilot/notAuthorized',
-            'GitHub Copilot rejected the request as not authorized for this account. Either the account has no Copilot subscription, or '
-            + 'access has to be enabled by an administrator through an organization or enterprise policy. Signing out and in again also '
-            + 'renews credentials that were revoked. GitHub reports requests sent to an API host that does not match the subscription the '
-            + 'same way, so as a last resort the host can be set explicitly with the `COPILOT_API_URL` environment variable of the backend. '
-            + 'Reported by the Copilot runtime: {0}', message));
+            'GitHub Copilot 拒绝了此请求，认为该账户未经授权。可能是该账户没有 Copilot 订阅，'
+            + '或者需要管理员通过组织或企业策略启用访问权限。重新登录也可以续订已被吊销的凭据。'
+            + 'GitHub 对发送到与订阅不匹配的 API 主机的请求也会以同样的方式报告，'
+            + '因此作为最后手段，可以通过后端的 `COPILOT_API_URL` 环境变量显式设置主机。'
+            + '由 Copilot 运行时报告：{0}', message));
     }
 
     protected getConfigKey(credentials: CopilotCredentials): string {

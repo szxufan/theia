@@ -25,44 +25,43 @@ export const AgentSettingsPreferenceSchema: PreferenceSchema = {
     properties: {
         [AGENT_SETTINGS_PREF]: {
             type: 'object',
-            title: nls.localize('theia/ai/agents/title', 'Agent Settings'),
+            title: nls.localize('theia/ai/agents/title', '代理设置'),
             hidden: true,
-            markdownDescription: nls.localize('theia/ai/agents/mdDescription', 'Configure agent settings such as enabling or disabling specific agents, configuring prompts and \
-        selecting LLMs.'),
+            markdownDescription: nls.localize('theia/ai/agents/mdDescription', '配置代理设置，例如启用或禁用特定代理、配置提示词以及选择 LLM。'),
             additionalProperties: {
                 type: 'object',
                 properties: {
                     enable: {
                         type: 'boolean',
-                        title: nls.localize('theia/ai/agents/enable/title', 'Enable Agent'),
-                        markdownDescription: nls.localize('theia/ai/agents/enable/mdDescription', 'Specifies whether the agent should be enabled (true) or disabled (false).'),
+                        title: nls.localize('theia/ai/agents/enable/title', '启用代理'),
+                        markdownDescription: nls.localize('theia/ai/agents/enable/mdDescription', '指定应启用（true）还是禁用（false）该代理。'),
                         default: true
                     },
                     showInChat: {
                         type: 'boolean',
-                        title: nls.localize('theia/ai/agents/showInChat/title', 'Show in Chat'),
+                        title: nls.localize('theia/ai/agents/showInChat/title', '在聊天中显示'),
                         markdownDescription: nls.localize('theia/ai/agents/showInChat/mdDescription',
-                            'Specifies whether the agent should be shown in the chat UI (true) or hidden (false).'),
+                            '指定该代理应在聊天界面中显示（true）还是隐藏（false）。'),
                         default: true
                     },
                     languageModelRequirements: {
                         type: 'array',
-                        title: nls.localize('theia/ai/agents/languageModelRequirements/title', 'Language Model Requirements'),
-                        markdownDescription: nls.localize('theia/ai/agents/languageModelRequirements/mdDescription', 'Specifies the used language models for this agent.'),
+                        title: nls.localize('theia/ai/agents/languageModelRequirements/title', '语言模型要求'),
+                        markdownDescription: nls.localize('theia/ai/agents/languageModelRequirements/mdDescription', '指定该代理使用的语言模型。'),
                         items: {
                             type: 'object',
                             properties: {
                                 purpose: {
                                     type: 'string',
-                                    title: nls.localize('theia/ai/agents/languageModelRequirements/purpose/title', 'Purpose'),
+                                    title: nls.localize('theia/ai/agents/languageModelRequirements/purpose/title', '用途'),
                                     markdownDescription: nls.localize('theia/ai/agents/languageModelRequirements/purpose/mdDescription',
-                                        'The purpose for which this language model is used.')
+                                        '此语言模型的用途。')
                                 },
                                 identifier: {
                                     type: 'string',
-                                    title: nls.localizeByDefault('Identifier'),
+                                    title: nls.localizeByDefault('标识符'),
                                     markdownDescription: nls.localize('theia/ai/agents/languageModelRequirements/identifier/mdDescription',
-                                        'The identifier of the language model to be used.')
+                                        '要使用的语言模型的标识符。')
                                 }
                             },
                             required: ['purpose', 'identifier']
@@ -70,8 +69,8 @@ export const AgentSettingsPreferenceSchema: PreferenceSchema = {
                     },
                     selectedVariants: {
                         type: 'object',
-                        title: nls.localize('theia/ai/agents/selectedVariants/title', 'Selected Variants'),
-                        markdownDescription: nls.localize('theia/ai/agents/selectedVariants/mdDescription', 'Specifies the currently selected prompt variants for this agent.'),
+                        title: nls.localize('theia/ai/agents/selectedVariants/title', '已选变体'),
+                        markdownDescription: nls.localize('theia/ai/agents/selectedVariants/mdDescription', '指定该代理当前选中的提示词变体。'),
                         additionalProperties: {
                             type: 'string'
                         }
@@ -79,67 +78,67 @@ export const AgentSettingsPreferenceSchema: PreferenceSchema = {
                     completionNotification: {
                         type: 'string',
                         enum: [...NOTIFICATION_TYPES],
-                        title: nls.localize('theia/ai/agents/completionNotification/title', 'Notification'),
+                        title: nls.localize('theia/ai/agents/completionNotification/title', '通知'),
                         markdownDescription: nls.localize('theia/ai/agents/completionNotification/mdDescription',
-                            'Notification behavior when this agent needs your attention, i.e. it completed a task or requests your input. \
-                    If not set, the global default notification setting will be used.\n\
-                    - `os-notification`: Show OS/system notifications\n\
-                    - `message`: Show notifications in the status bar/message area\n\
-                    - `blink`: Blink or highlight the UI\n\
-                    - `off`: Disable notifications for this agent')
+                            '当该代理需要你的关注（例如完成任务或请求输入）时的通知行为。\
+                    如果未设置，将使用全局默认通知设置。\n\
+                    - `os-notification`: 显示操作系统/系统通知\n\
+                    - `message`: 在状态栏/消息区域显示通知\n\
+                    - `blink`: 闪烁或高亮界面\n\
+                    - `off`: 禁用该代理的通知')
                     },
                     capabilityOverrides: {
                         type: 'object',
-                        title: nls.localize('theia/ai/agents/capabilityOverrides/title', 'Capability Overrides'),
+                        title: nls.localize('theia/ai/agents/capabilityOverrides/title', '能力覆盖'),
                         markdownDescription: nls.localize('theia/ai/agents/capabilityOverrides/mdDescription',
-                            'User overrides for template-based capabilities. Keys are capability fragment IDs, values are enabled (true) or disabled (false).'),
+                            '用户对基于模板的能力的覆盖设置。键为能力片段 ID，值为启用（true）或禁用（false）。'),
                         additionalProperties: {
                             type: 'boolean'
                         }
                     },
                     genericCapabilitySelections: {
                         type: 'object',
-                        title: nls.localize('theia/ai/agents/genericCapabilitySelections/title', 'Generic Capability Selections'),
+                        title: nls.localize('theia/ai/agents/genericCapabilitySelections/title', '通用能力选择'),
                         markdownDescription: nls.localize('theia/ai/agents/genericCapabilitySelections/mdDescription',
-                            'User selections for generic capabilities such as skills, functions, and MCP tools.'),
+                            '用户对通用能力（如技能、函数和 MCP 工具）的选择。'),
                         properties: {
                             skills: {
                                 type: 'array',
                                 items: { type: 'string' },
-                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/skills', 'Selected skill IDs')
+                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/skills', '已选技能 ID')
                             },
                             mcpFunctions: {
                                 type: 'array',
                                 items: { type: 'string' },
-                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/mcpFunctions', 'Selected MCP function IDs')
+                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/mcpFunctions', '已选 MCP 函数 ID')
                             },
                             functions: {
                                 type: 'array',
                                 items: { type: 'string' },
-                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/functions', 'Selected function IDs')
+                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/functions', '已选函数 ID')
                             },
                             promptFragments: {
                                 type: 'array',
                                 items: { type: 'string' },
-                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/promptFragments', 'Selected prompt fragment IDs')
+                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/promptFragments', '已选提示词片段 ID')
                             },
                             agentDelegation: {
                                 type: 'array',
                                 items: { type: 'string' },
-                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/agentDelegation', 'Selected agent IDs for delegation')
+                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/agentDelegation', '已选用于委派的代理 ID')
                             },
                             variables: {
                                 type: 'array',
                                 items: { type: 'string' },
-                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/variables', 'Selected variable names')
+                                description: nls.localize('theia/ai/agents/genericCapabilitySelections/variables', '已选变量名')
                             }
                         }
                     },
                     serverToolSelections: {
                         type: 'object',
-                        title: nls.localize('theia/ai/agents/serverToolSelections/title', 'Server Tool Selections'),
+                        title: nls.localize('theia/ai/agents/serverToolSelections/title', '服务器工具选择'),
                         markdownDescription: nls.localize('theia/ai/agents/serverToolSelections/mdDescription',
-                            'User selections for provider server tools, keyed by model vendor. Each value holds the enabled server tool ids for that vendor.'),
+                            '用户对提供商服务器工具的选择，按模型供应商分组。每个值包含该供应商已启用的服务器工具 ID。'),
                         additionalProperties: {
                             type: 'array',
                             items: { type: 'string' }

@@ -128,15 +128,15 @@ describe('MCPOAuthFrontendDelegateClientImpl', () => {
             const client = createClient(openCalls, {
                 onShowProgress: message => {
                     prompt = message;
-                    return 'Open';
+                    return '打开';
                 }
             });
 
             await client.openExternal('https://auth.example.com/authorize?state=abc');
             await flushToastHandlers();
 
-            expect(prompt?.text).to.contain('browser may have blocked');
-            expect(prompt?.actions).to.deep.equal(['Open']);
+            expect(prompt?.text).to.contain('浏览器拦截了弹窗');
+            expect(prompt?.actions).to.deep.equal(['打开']);
             // The user must be able to dismiss the toast manually; progress notifications have no close button.
             expect(prompt?.options?.cancelable).to.be.true;
             expect(openCalls).to.deep.equal([
@@ -175,7 +175,7 @@ describe('MCPOAuthFrontendDelegateClientImpl', () => {
             serverUpdateEmitter.fire();
 
             expect(cancelled).to.have.length(1);
-            expect(cancelled[0].text).to.contain('browser may have blocked');
+            expect(cancelled[0].text).to.contain('浏览器拦截了弹窗');
         });
 
         it('does not require any prepare / arm step before the call', async () => {

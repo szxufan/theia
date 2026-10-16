@@ -63,7 +63,7 @@ export class InstallSkillUriHandler implements OpenHandler {
         if (!skillId) {
             this.messageService.error(nls.localize(
                 'theia/ai-registry/skill/installUri/missingId',
-                'Install link is missing the required "id" parameter.'
+                '安装链接缺少必需的 "id" 参数。'
             ));
             return undefined;
         }
@@ -73,7 +73,7 @@ export class InstallSkillUriHandler implements OpenHandler {
         } catch {
             this.messageService.error(nls.localize(
                 'theia/ai-registry/skill/installUri/fetchFailed',
-                'Could not load the AI registry to install skill "{0}".',
+                '无法加载 AI 注册表以安装技能“{0}”。',
                 skillId
             ));
             return undefined;
@@ -82,7 +82,7 @@ export class InstallSkillUriHandler implements OpenHandler {
         if (!entry) {
             this.messageService.error(nls.localize(
                 'theia/ai-registry/skill/installUri/unknownId',
-                'Skill "{0}" is not listed in your AI registry.',
+                '技能“{0}”未列在你的 AI 注册表中。',
                 skillId
             ));
             return undefined;
@@ -94,7 +94,7 @@ export class InstallSkillUriHandler implements OpenHandler {
             await this.installService.install(entry);
             this.messageService.info(nls.localize(
                 'theia/ai-registry/skill/installUri/success',
-                'Installed skill "{0}" from the AI registry.',
+                '已从 AI 注册表安装技能“{0}”。',
                 entry.name
             ));
         } catch (error) {
@@ -105,15 +105,15 @@ export class InstallSkillUriHandler implements OpenHandler {
 
     protected async confirmInstall(entry: ResolvedSkillEntry): Promise<boolean> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai-registry/skill/installUri/confirm/title', 'Install skill'),
+            title: nls.localize('theia/ai-registry/skill/installUri/confirm/title', '安装技能'),
             msg: nls.localize(
                 'theia/ai-registry/skill/installUri/confirm/msg',
-                'Install the skill "{0}" by downloading its files from {1}?',
+                '通过从 {1} 下载文件来安装技能“{0}”吗？',
                 entry.name,
                 entry.sourceUrl
             ),
-            ok: nls.localizeByDefault('Install'),
-            cancel: nls.localizeByDefault('Cancel')
+            ok: nls.localizeByDefault('安装'),
+            cancel: nls.localizeByDefault('取消')
         });
         return !!await dialog.open();
     }

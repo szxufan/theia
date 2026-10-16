@@ -38,32 +38,32 @@ import { getThemeMode, ThemeChangeEvent } from '../../common/theme';
 export namespace ElectronCommands {
     export const TOGGLE_DEVELOPER_TOOLS = Command.toDefaultLocalizedCommand({
         id: 'theia.toggleDevTools',
-        label: 'Toggle Developer Tools'
+        label: '切换开发人员工具'
     });
     export const RELOAD = Command.toDefaultLocalizedCommand({
         id: 'view.reload',
-        label: 'Reload Window'
+        label: '重新加载窗口'
     });
     export const ZOOM_IN = Command.toDefaultLocalizedCommand({
         id: 'view.zoomIn',
-        label: 'Zoom In'
+        label: '放大'
     });
     export const ZOOM_OUT = Command.toDefaultLocalizedCommand({
         id: 'view.zoomOut',
-        label: 'Zoom Out'
+        label: '缩小'
     });
     export const RESET_ZOOM = Command.toDefaultLocalizedCommand({
         id: 'view.resetZoom',
-        label: 'Reset Zoom'
+        label: '重置缩放'
     });
     export const CLOSE_WINDOW = Command.toDefaultLocalizedCommand({
         id: 'close.window',
-        label: 'Close Window'
+        label: '关闭窗口'
     });
     export const TOGGLE_FULL_SCREEN = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.toggleFullScreen',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Toggle Full Screen'
+        label: '切换全屏'
     });
 }
 
@@ -284,12 +284,12 @@ export class ElectronMenuContribution extends BrowserMenuBarContribution impleme
     protected async handleRequiredRestart(): Promise<void> {
         const msgNode = document.createElement('div');
         const message = document.createElement('p');
-        message.textContent = nls.localizeByDefault('A setting has changed that requires a restart to take effect.');
+        message.textContent = nls.localizeByDefault('某项设置已更改，需要重启后才能生效。');
         const detail = document.createElement('p');
         detail.textContent = nls.localizeByDefault(
-            'Press the restart button to restart {0} and enable the setting.', FrontendApplicationConfigProvider.get().applicationName);
+            '按重启按钮重启 {0} 并启用该设置。', FrontendApplicationConfigProvider.get().applicationName);
         msgNode.append(message, detail);
-        const restart = nls.localizeByDefault('Restart');
+        const restart = nls.localizeByDefault('重启');
         const dialog = new ConfirmDialog({
             title: restart,
             msg: msgNode,
@@ -420,7 +420,7 @@ export class ElectronMenuContribution extends BrowserMenuBarContribution impleme
         });
         registry.registerMenuAction(CommonMenus.VIEW_APPEARANCE_SUBMENU_SCREEN, {
             commandId: ElectronCommands.TOGGLE_FULL_SCREEN.id,
-            label: nls.localizeByDefault('Full Screen'),
+            label: nls.localizeByDefault('全屏'),
             order: '0'
         });
     }

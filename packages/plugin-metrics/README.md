@@ -4,61 +4,61 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - PLUGIN-METRICS EXTENSION</h2>
+<h2>ECLIPSE THEIA - PLUGIN-METRICS 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/plugin-metrics` extension contributes metrics for plugins in the [Prometheus](https://prometheus.io/) format.
+`@theia/plugin-metrics` 扩展以 [Prometheus](https://prometheus.io/) 格式为插件贡献度量指标。
 
-### What Metrics it Detects
+### 它检测哪些指标
 
-1. Detects errors in languages that are registered directly with monaco (E.g. if an error happens here: <https://github.com/microsoft/vscode-extension-samples/blob/master/completions-sample/src/extension.ts#L11> it will be reported).
+1. 检测直接在 monaco 中注册的语言里出现的错误（例如：如果这里发生错误：<https://github.com/microsoft/vscode-extension-samples/blob/master/completions-sample/src/extension.ts#L11>，它将被上报）。
 
-2. Detects errors that are logged directly to the output channel for a specific vscode extension that uses a language server. These errors can only be reported via their id that is registered with the vscode-languageclient library. E.g. "YAML Support", "XML Support", etc
+2. 检测直接记录到某个使用语言服务的 vscode 扩展的输出通道中的错误。这些错误只能通过其在 vscode-languageclient 库中注册的 ID 来上报，例如 "YAML Support"、"XML Support" 等。
 
-### Limitations & Drawbacks
+### 限制与缺点
 
-Due to the limitations of the vscode-languageclient library (see <https://github.com/microsoft/vscode-languageserver-node/issues/517>) we are unable to process errors that come from the language server directly, instead we need to use the output channel. The output channel is great because it allows us to work around limitations of the vscode-languageclient library and still get metrics but it still has some drawbacks:
+由于 vscode-languageclient 库的限制（参见 <https://github.com/microsoft/vscode-languageserver-node/issues/517>），我们无法直接处理来自语言服务器的错误，而需要使用输出通道。输出通道很棒，因为它让我们能够绕过 vscode-languageclient 库的限制并仍然获取度量指标，但它仍有一些缺点：
 
-1. Every time a language server request is resolved it counts as a success. This is because the vscode-languageclient always sends back a resolved promise even when the promise is actually rejected. The only time you can get an error is by extracting data from the output channel using a regex and connecting it back to the successes that were counted earlier. This has a few consequences:
-    1. If the errors logged are not matched by the regex we have no way to know where the error occurred and thus we can't link the error back to a language server method. That means that the metric we created will always show that its working 100% correctly, even though it's not.
+1. 每当一个语言服务器请求被 resolve 时，都会计为一次成功。这是因为 vscode-languageclient 总是返回已 resolve 的 Promise，即使该 Promise 实际上被 reject 了。唯一能获取错误的方式是使用正则表达式从输出通道提取数据，并将其关联回之前统计的成功记录。这带来了一些后果：
+    1. 如果记录的错误没有被正则表达式匹配到，我们就无法得知错误发生在哪里，因此无法将错误关联回某个语言服务器方法。这意味着我们创建的指标将始终显示 100% 正常工作，即便事实并非如此。
 
-2. You need to manually add a mapping of the output channel id to the vscode extension id, otherwise when the request is logged to the output channel it doesn't know which vscode extension it should associate itself with. There is no way around this because the output channel id is registered in the vscode-languageclient library inside of the vscode extension and not in something like the vscode-extensions package.json.
+2. 你需要手动添加输出通道 ID 到 vscode 扩展 ID 的映射，否则当请求被记录到输出通道时，它不知道应该与哪个 vscode 扩展关联。这一点没有别的办法，因为输出通道 ID 是在 vscode 扩展内部的 vscode-languageclient 库中注册的，而不是在类似 vscode-extensions 的 package.json 中。
 
-### Implementation
+### 实现
 
-The browser side of this extension rebinds key parts of the plugin-ext allowing us to abstract relevant metrics at certain points.
+本扩展的浏览器端重新绑定了 plugin-ext 的关键部分，使我们能够在某些节点上抽象出相关的度量指标。
 
-The browser then collects all these key metrics in the plugin-metrics-creator class.
+浏览器端随后在 plugin-metrics-creator 类中收集所有这些关键度量指标。
 
-Once we have all the data we want, we need to transfer the data from the frontend to the backend so that our new metrics are displayed on /metrics endpoint. This communication is done via JSON-RPC where the PluginMetrics interface acts as a way to pass information between the frontend and the backend. To learn more see [1]
+一旦我们拥有了所有想要的数据，就需要将这些数据从前端传输到后端，以便我们的新度量指标能够显示在 /metrics 端点上。这种通信通过 JSON-RPC 完成，其中 PluginMetrics 接口充当在前端和后端之间传递信息的方式。欲了解更多，请参见 [1]
 
-The plugin-metrics-extractor will set the plugin metrics every 5 seconds [2] via `pluginMetrics.setMetrics(metrics: string)`.
+plugin-metrics-extractor 每隔 5 秒 [2] 通过 `pluginMetrics.setMetrics(metrics: string)` 设置插件度量指标。
 
-Then, every 5 seconds [2] the backend will check the plugin metrics via `pluginMetrics.getMetrics()` to see what the contents of the metrics are at that time.
+随后，后端每隔 5 秒 [2] 通过 `pluginMetrics.getMetrics()` 检查插件度量指标，查看当时指标的内容。
 
-Then, when you load up the /metrics endpoint you will see the new language metrics.
+然后，当你加载 /metrics 端点时，就会看到新的语言度量指标。
 
 [1] - [https://www.theia-ide.org/docs/json_rpc](https://www.theia-ide.org/docs/json_rpc)
 
-[2] - This is configurable and lives in common/metrics-protocol.ts
+[2] - 这是可配置的，位于 common/metrics-protocol.ts 中
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/plugin-metrics`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin-metrics.html)
+- [`@theia/plugin-metrics` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin-metrics.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

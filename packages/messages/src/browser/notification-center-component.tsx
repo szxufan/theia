@@ -59,17 +59,17 @@ export class NotificationCenterComponent extends React.Component<NotificationCen
     override render(): React.ReactNode {
         const empty = this.state.notifications.length === 0;
         const title = empty
-            ? nls.localizeByDefault('No New Notifications')
-            : nls.localizeByDefault('Notifications');
+            ? nls.localizeByDefault('无新通知')
+            : nls.localizeByDefault('通知');
         return (
             <div className={`theia-notifications-container theia-notification-center ${this.state.visibilityState === 'center' ? 'open' : 'closed'}`}>
                 <div className='theia-notification-center-header'>
                     <div className='theia-notification-center-header-title'>{title}</div>
                     <div className='theia-notification-center-header-actions'>
                         <ul className='theia-notification-actions'>
-                            <li className={codicon('clear-all', true)} title={nls.localizeByDefault('Clear All Notifications')}
+                            <li className={codicon('clear-all', true)} title={nls.localizeByDefault('全部清除通知')}
                                 onClick={this.onClearAll} />
-                            <li className={codicon('chevron-down', true)} title={nls.localizeByDefault('Hide Notifications')}
+                            <li className={codicon('chevron-down', true)} title={nls.localizeByDefault('隐藏通知')}
                                 onClick={this.onHide} />
                         </ul>
                     </div>

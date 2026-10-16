@@ -216,11 +216,11 @@ export class PreferenceTransaction extends Transaction<[string, string[], unknow
      * @returns whether the setting operation in progress, and any others started in the meantime, should continue.
      */
     protected async handleDirtyEditor(): Promise<boolean> {
-        const saveAndRetry = nls.localizeByDefault('Save and Retry');
-        const open = nls.localizeByDefault('Open File');
+        const saveAndRetry = nls.localizeByDefault('保存并重试');
+        const open = nls.localizeByDefault('打开文件');
         const msg = await this.messageService.error(
             // eslint-disable-next-line @theia/localization-check
-            nls.localizeByDefault('Unable to write into {0} settings because the file has unsaved changes. Please save the {0} settings file first and then try again.',
+            nls.localizeByDefault('无法写入 {0} 设置，因为文件有未保存的更改。请先保存 {0} 设置文件，然后重试。',
                 nls.localizeByDefault(PreferenceScope[this.context.getScope()].toLocaleLowerCase())
             ),
             saveAndRetry, open);

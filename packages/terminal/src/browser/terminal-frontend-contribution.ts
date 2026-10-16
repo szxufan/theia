@@ -79,103 +79,103 @@ export namespace TerminalMenus {
 }
 
 export namespace TerminalCommands {
-    export const TERMINAL_CATEGORY = 'Terminal';
+    export const TERMINAL_CATEGORY = '终端';
     export const TERMINAL_CATEGORY_KEY = nls.getDefaultKey(TERMINAL_CATEGORY);
     export const NEW = Command.toDefaultLocalizedCommand({
         id: 'terminal:new',
         category: TERMINAL_CATEGORY,
-        label: 'Create New Terminal'
+        label: '新建终端'
     });
     export const PROFILE_NEW = Command.toLocalizedCommand({
         id: 'terminal:new:profile',
         category: TERMINAL_CATEGORY,
-        label: 'Create New Integrated Terminal from a Profile'
+        label: '从配置文件新建集成终端'
     }, undefined, TERMINAL_CATEGORY_KEY);
     export const PROFILE_DEFAULT = Command.toLocalizedCommand({
         id: 'terminal:profile:default',
         category: TERMINAL_CATEGORY,
-        label: 'Choose the default Terminal Profile'
+        label: '选择默认终端配置文件'
     }, undefined, TERMINAL_CATEGORY_KEY);
     export const NEW_ACTIVE_WORKSPACE = Command.toDefaultLocalizedCommand({
         id: 'terminal:new:active:workspace',
         category: TERMINAL_CATEGORY,
-        label: 'Create New Terminal (In Active Workspace)'
+        label: '新建终端（在活动工作区中）'
     });
     export const TERMINAL_CLEAR = Command.toDefaultLocalizedCommand({
         id: 'terminal:clear',
         category: TERMINAL_CATEGORY,
-        label: 'Clear'
+        label: '清除'
     });
     export const TERMINAL_CONTEXT = Command.toDefaultLocalizedCommand({
         id: 'terminal:context',
         category: TERMINAL_CATEGORY,
-        label: 'Open in Integrated Terminal'
+        label: '在集成终端中打开'
     });
     export const SPLIT = Command.toDefaultLocalizedCommand({
         id: 'terminal:split',
         category: TERMINAL_CATEGORY,
-        label: 'Split Terminal'
+        label: '拆分终端'
     });
     export const TERMINAL_FIND_TEXT = Command.toDefaultLocalizedCommand({
         id: 'terminal:find',
         category: TERMINAL_CATEGORY,
-        label: 'Find'
+        label: '查找'
     });
     export const TERMINAL_FIND_TEXT_CANCEL = Command.toDefaultLocalizedCommand({
         id: 'terminal:find:cancel',
         category: TERMINAL_CATEGORY,
-        label: 'Hide Find'
+        label: '隐藏查找'
     });
 
     export const SCROLL_LINE_UP = Command.toDefaultLocalizedCommand({
         id: 'terminal:scroll:line:up',
         category: TERMINAL_CATEGORY,
-        label: 'Scroll Up (Line)'
+        label: '向上滚动（行）'
     });
     export const SCROLL_LINE_DOWN = Command.toDefaultLocalizedCommand({
         id: 'terminal:scroll:line:down',
         category: TERMINAL_CATEGORY,
-        label: 'Scroll Down (Line)'
+        label: '向下滚动（行）'
     });
     export const SCROLL_TO_TOP = Command.toDefaultLocalizedCommand({
         id: 'terminal:scroll:top',
         category: TERMINAL_CATEGORY,
-        label: 'Scroll to Top'
+        label: '滚动到顶部'
     });
     export const SCROLL_PAGE_UP = Command.toDefaultLocalizedCommand({
         id: 'terminal:scroll:page:up',
         category: TERMINAL_CATEGORY,
-        label: 'Scroll Up (Page)'
+        label: '向上滚动（页）'
     });
     export const SCROLL_PAGE_DOWN = Command.toDefaultLocalizedCommand({
         id: 'terminal:scroll:page:down',
         category: TERMINAL_CATEGORY,
-        label: 'Scroll Down (Page)'
+        label: '向下滚动（页）'
     });
     export const TOGGLE_TERMINAL = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.terminal.toggleTerminal',
         category: TERMINAL_CATEGORY,
-        label: 'Toggle Terminal'
+        label: '切换终端'
     });
     export const KILL_TERMINAL = Command.toDefaultLocalizedCommand({
         id: 'terminal:kill',
         category: TERMINAL_CATEGORY,
-        label: 'Kill Terminal'
+        label: '终止终端'
     });
     export const SELECT_ALL: Command = Command.toDefaultLocalizedCommand({
         id: 'terminal:select:all',
-        label: 'Select All',
+        label: '全选',
         category: TERMINAL_CATEGORY,
     });
     export const PASTE_TERMINAL = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.terminal.paste',
         category: TERMINAL_CATEGORY,
-        label: 'Paste into Active Terminal'
+        label: '粘贴到活动终端'
     });
     export const COPY_TERMINAL_SELECTION = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.terminal.copySelection',
         category: TERMINAL_CATEGORY,
-        label: 'Copy Selection'
+        label: '复制所选内容'
     });
 
     /**
@@ -184,7 +184,7 @@ export namespace TerminalCommands {
     export const SHOW_ALL_OPENED_TERMINALS = Command.toDefaultLocalizedCommand({
         id: 'workbench.action.showAllTerminals',
         category: CommonCommands.VIEW_CATEGORY,
-        label: 'Show All Opened Terminals'
+        label: '显示所有打开的终端'
     });
 }
 
@@ -481,12 +481,12 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
 
     protected async confirmExitWithActiveTerminals(activeTerminalCount: number): Promise<boolean> {
         const msg = activeTerminalCount === 1
-            ? nls.localizeByDefault('Do you want to terminate the active terminal session?')
-            : nls.localizeByDefault('Do you want to terminate the {0} active terminal sessions?', activeTerminalCount);
+            ? nls.localizeByDefault('要终止活动的终端会话吗？')
+            : nls.localizeByDefault('要终止 {0} 个活动的终端会话吗？', activeTerminalCount);
         const safeToExit = await new ConfirmDialog({
             title: '',
             msg,
-            ok: nls.localizeByDefault('Terminate'),
+            ok: nls.localizeByDefault('终止'),
             cancel: Dialog.CANCEL,
         }).open();
         return safeToExit === true;
@@ -591,7 +591,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
 
         commands.registerCommand(TerminalCommands.PROFILE_NEW, {
             execute: async () => {
-                const profile = await this.selectTerminalProfile(nls.localize('theia/terminal/selectProfile', 'Select a profile for the new terminal'));
+                const profile = await this.selectTerminalProfile(nls.localize('theia/terminal/selectProfile', '为新终端选择配置文件'));
                 if (!profile) {
                     return;
                 }
@@ -779,18 +779,18 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
         menus.registerSubmenu(TerminalMenus.TERMINAL, TerminalWidgetImpl.LABEL);
         menus.registerMenuAction(TerminalMenus.TERMINAL_NEW, {
             commandId: TerminalCommands.NEW.id,
-            label: nls.localizeByDefault('New Terminal'),
+            label: nls.localizeByDefault('新建终端'),
             order: '0'
         });
         menus.registerMenuAction(TerminalMenus.TERMINAL_NEW, {
             commandId: TerminalCommands.PROFILE_NEW.id,
-            label: nls.localize('theia/terminal/profileNew', 'New Terminal (With Profile)...'),
+            label: nls.localize('theia/terminal/profileNew', '新建终端（使用配置文件）...'),
             order: '1'
         });
 
         menus.registerMenuAction(TerminalMenus.TERMINAL_NEW, {
             commandId: TerminalCommands.PROFILE_DEFAULT.id,
-            label: nls.localize('theia/terminal/profileDefault', 'Choose Default Profile...'),
+            label: nls.localize('theia/terminal/profileDefault', '选择默认配置文件...'),
             order: '3'
         });
         menus.registerMenuAction(TerminalMenus.TERMINAL_NEW, {
@@ -808,18 +808,18 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
 
         menus.registerMenuAction([...TerminalMenus.TERMINAL_CONTEXT_MENU, '_1'], {
             commandId: TerminalCommands.NEW_ACTIVE_WORKSPACE.id,
-            label: nls.localizeByDefault('New Terminal')
+            label: nls.localizeByDefault('新建终端')
         });
         menus.registerMenuAction([...TerminalMenus.TERMINAL_CONTEXT_MENU, '_1'], {
             commandId: TerminalCommands.SPLIT.id
         });
         menus.registerMenuAction([...TerminalMenus.TERMINAL_CONTEXT_MENU, '_2'], {
             commandId: TerminalCommands.COPY_TERMINAL_SELECTION.id,
-            label: nls.localizeByDefault('Copy')
+            label: nls.localizeByDefault('复制')
         });
         menus.registerMenuAction([...TerminalMenus.TERMINAL_CONTEXT_MENU, '_2'], {
             commandId: TerminalCommands.PASTE_TERMINAL.id,
-            label: nls.localizeByDefault('Paste')
+            label: nls.localizeByDefault('粘贴')
         });
         menus.registerMenuAction([...TerminalMenus.TERMINAL_CONTEXT_MENU, '_2'], {
             commandId: TerminalCommands.SELECT_ALL.id
@@ -1042,7 +1042,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                     resource
                 }));
                 const selectedItem = await this.quickInputService?.showQuickPick(items, {
-                    placeholder: nls.localizeByDefault('Select current working directory for new terminal')
+                    placeholder: nls.localizeByDefault('为新终端选择当前工作目录')
                 });
                 resolve(selectedItem?.resource?.toString());
             }
@@ -1100,7 +1100,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
     }
 
     protected async chooseDefaultProfile(): Promise<void> {
-        const result = await this.selectTerminalProfile(nls.localizeByDefault('Select your default terminal profile'));
+        const result = await this.selectTerminalProfile(nls.localizeByDefault('选择你的默认终端配置文件'));
         if (!result) {
             return;
         }
@@ -1133,7 +1133,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                 hcDark: 'panel.background',
                 hcLight: 'panel.background'
             },
-            description: nls.localizeByDefault('The background color of the terminal, this allows coloring the terminal differently to the panel.')
+            description: nls.localizeByDefault('终端的背景色，允许终端与面板使用不同的配色。')
         });
         colors.register({
             id: 'terminal.foreground',
@@ -1143,15 +1143,15 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                 hcDark: '#FFFFFF',
                 hcLight: '#292929'
             },
-            description: nls.localizeByDefault('The foreground color of the terminal.')
+            description: nls.localizeByDefault('终端的前景色。')
         });
         colors.register({
             id: 'terminalCursor.foreground',
-            description: nls.localizeByDefault('The foreground color of the terminal cursor.')
+            description: nls.localizeByDefault('终端光标的前景色。')
         });
         colors.register({
             id: 'terminalCursor.background',
-            description: nls.localizeByDefault('The background color of the terminal cursor. Allows customizing the color of a character overlapped by a block cursor.')
+            description: nls.localizeByDefault('终端光标的背景色。允许自定义被块状光标覆盖字符的颜色。')
         });
         colors.register({
             id: 'terminal.selectionBackground',
@@ -1161,7 +1161,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                 hcDark: 'editor.selectionBackground',
                 hcLight: 'editor.selectionBackground'
             },
-            description: nls.localizeByDefault('The selection background color of the terminal.')
+            description: nls.localizeByDefault('终端选定内容的背景色。')
         });
         colors.register({
             id: 'terminal.inactiveSelectionBackground',
@@ -1171,7 +1171,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                 hcDark: Color.transparent('terminal.selectionBackground', 0.7),
                 hcLight: Color.transparent('terminal.selectionBackground', 0.5),
             },
-            description: nls.localizeByDefault('The selection background color of the terminal when it does not have focus.')
+            description: nls.localizeByDefault('终端未聚焦时选定内容的背景色。')
         });
         colors.register({
             id: 'terminal.selectionForeground',
@@ -1182,7 +1182,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                 hcLight: '#ffffff'
             },
             // eslint-disable-next-line max-len
-            description: nls.localizeByDefault('The selection foreground color of the terminal. When this is null the selection foreground will be retained and have the minimum contrast ratio feature applied.')
+            description: nls.localizeByDefault('终端选定内容的前景色。当此值为 null 时将保留选定内容前景色，并应用最小对比度特性。')
         });
         colors.register({
             id: 'terminal.border',
@@ -1192,7 +1192,7 @@ export class TerminalFrontendContribution implements FrontendApplicationContribu
                 hcDark: 'panel.border',
                 hcLight: 'panel.border'
             },
-            description: nls.localizeByDefault('The color of the border that separates split panes within the terminal. This defaults to panel.border.')
+            description: nls.localizeByDefault('终端内分隔拆分窗格的边框颜色。默认为 panel.border。')
         });
         // eslint-disable-next-line guard-for-in
         for (const id in terminalAnsiColorMap) {

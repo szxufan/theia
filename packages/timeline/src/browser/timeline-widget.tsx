@@ -51,7 +51,7 @@ export class TimelineWidget extends BaseWidget {
     constructor() {
         super();
         this.id = TimelineWidget.ID;
-        this.title.label = nls.localizeByDefault('Timeline');
+        this.title.label = nls.localizeByDefault('时间线');
         this.title.caption = this.title.label;
         this.addClass('theia-timeline');
     }

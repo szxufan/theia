@@ -24,7 +24,7 @@ export class TestOutputViewContribution extends AbstractViewContribution<TestOut
     constructor() {
         super({
             widgetId: TestOutputWidget.ID,
-            widgetName: nls.localizeByDefault('Test Output'),
+            widgetName: nls.localizeByDefault('测试输出'),
             defaultWidgetOptions: {
                 area: 'bottom'
             }

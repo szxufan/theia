@@ -36,7 +36,7 @@ export class QuickEditorService implements QuickAccessContribution, QuickAccessP
             getInstance: () => this,
             prefix: QuickEditorService.PREFIX,
             placeholder: '',
-            helpEntries: [{ description: 'Show All Opened Editors', needsEditor: false }]
+            helpEntries: [{ description: '显示所有打开的编辑器', needsEditor: false }]
         });
     }
 
@@ -74,7 +74,7 @@ export class QuickEditorService implements QuickAccessContribution, QuickAccessP
     }
 
     protected getGroupLocalization(index: number): string {
-        return this.groupLocalizations[index] || nls.localizeByDefault('Group {0}', index + 1);
+        return this.groupLocalizations[index] || nls.localizeByDefault('组 {0}', index + 1);
     }
 
     protected toItem(widget: NavigatableWidget): QuickPickItem {

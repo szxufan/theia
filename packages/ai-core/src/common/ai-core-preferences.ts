@@ -27,7 +27,7 @@ import {
 import { ReasoningSettings, SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM } from './language-model';
 import { PreferenceSchema } from '@theia/core/lib/common/preferences/preference-schema';
 
-export const AI_CORE_PREFERENCES_TITLE = nls.localize('theia/ai-core/preferences/title', 'AI Features');
+export const AI_CORE_PREFERENCES_TITLE = nls.localize('theia/ai-core/preferences/title', 'AI 功能');
 
 /**
  * Key under a preference's schema `typeDetails` where a language-model provider declares the
@@ -75,10 +75,8 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             title: AI_CORE_PREFERENCES_TITLE,
             type: 'boolean',
             description: nls.localize('theia/ai/core/serverSideCompaction/description',
-                'Enable provider-native server-side compaction by default for chat requests. When on, models that support it ' +
-                'may automatically summarize older turns once the conversation grows past their own threshold, letting long ' +
-                'sessions continue past the context limit. Each provider offers its own override, and individual chat sessions ' +
-                'can override this in their session settings. Models without support ignore it.'),
+                '默认为聊天请求启用提供商原生的服务端压缩。启用后，支持的模型会在对话超出其自身阈值时自动总结较早的轮次，' +
+                '让长会话能够突破上下文限制继续进行。每个提供商均可单独覆盖此设置，单个聊天会话也可在其会话设置中覆盖。不支持该功能的模型会忽略此设置。'),
             default: true,
         },
         [PREFERENCE_NAME_SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD]: {
@@ -86,20 +84,18 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             type: 'integer',
             minimum: SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM,
             description: nls.localize('theia/ai/core/serverSideCompactionTokenThreshold/description',
-                'Default input-token threshold at which provider-native server-side compaction should run. Providers and individual chat sessions ' +
-                'can override this value. When unset, the provider chooses its default threshold. If set, the value must be at least 50,000 tokens.'),
+                '提供商原生服务端压缩的默认输入 token 阈值。提供商和单个聊天会话可以覆盖此值。未设置时，提供商使用其默认阈值。若设置，该值必须至少为 50,000 个 token。'),
         },
         [PREFERENCE_NAME_PROMPT_TEMPLATES]: {
             title: AI_CORE_PREFERENCES_TITLE,
             description: nls.localize('theia/ai/core/promptTemplates/description',
-                'Folder for storing customized prompt templates. If not customized the user config directory is used. Please consider to use a folder, which is\
-            under version control to manage your variants of prompt templates.'),
+                '用于存储自定义提示词模板的文件夹。未自定义时使用用户配置目录。建议使用纳入版本控制的文件夹来管理你的提示词模板变体。'),
             type: 'string',
             default: '',
             typeDetails: {
                 isFilepath: true,
                 selectionProps: {
-                    openLabel: nls.localizeByDefault('Select Folder'),
+                    openLabel: nls.localizeByDefault('选择文件夹'),
                     canSelectFiles: false,
                     canSelectFolders: true,
                     canSelectMany: false
@@ -107,19 +103,19 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             },
         },
         [PREFERENCE_NAME_REQUEST_SETTINGS]: {
-            title: nls.localize('theia/ai/core/requestSettings/title', 'Custom Request Settings'),
-            markdownDescription: nls.localize('theia/ai/core/requestSettings/mdDescription', 'Allows specifying custom request settings for multiple models.\n\
-            Each setting consists of:\n\
-            - `scope`: Defines when the setting applies:\n\
-              - `modelId` (optional): The model ID to match\n\
-              - `providerId` (optional): The provider ID to match (e.g., huggingface, openai, ollama, llamafile)\n\
-              - `agentId` (optional): The agent ID to match\n\
-            - `requestSettings`: Model-specific settings as key-value pairs\n\
-            - `clientSettings`: Client-side message handling settings:\n\
-              - `keepToolCalls` (boolean): Whether to keep tool calls in the context\n\
-              - `keepThinking` (boolean): Whether to keep thinking messages\n\
-            Settings are matched based on specificity (agent: 100, model: 10, provider: 1 points).\n\
-            Refer to [our documentation](https://theia-ide.org/docs/user_ai/#custom-request-settings) for more information.'),
+            title: nls.localize('theia/ai/core/requestSettings/title', '自定义请求设置'),
+            markdownDescription: nls.localize('theia/ai/core/requestSettings/mdDescription', '允许为多个模型指定自定义请求设置。\n\
+            每个设置包含：\n\
+            - `scope`：定义设置何时生效：\n\
+              - `modelId`（可选）：要匹配的模型 ID\n\
+              - `providerId`（可选）：要匹配的提供商 ID（例如 huggingface、openai、ollama、llamafile）\n\
+              - `agentId`（可选）：要匹配的代理 ID\n\
+            - `requestSettings`：以键值对形式表示的模型特定设置\n\
+            - `clientSettings`：客户端消息处理设置：\n\
+              - `keepToolCalls`（布尔值）：是否在上下文中保留工具调用\n\
+              - `keepThinking`（布尔值）：是否保留思考消息\n\
+            设置按特异度匹配（agent: 100 分，model: 10 分，provider: 1 分）。\n\
+            更多信息请参阅[我们的文档](https://theia-ide.org/docs/user_ai/#custom-request-settings)。'),
             type: 'array',
             items: {
                 type: 'object',
@@ -129,41 +125,40 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
                         properties: {
                             modelId: {
                                 type: 'string',
-                                description: nls.localize('theia/ai/core/requestSettings/scope/modelId/description', 'The (optional) model id')
+                                description: nls.localize('theia/ai/core/requestSettings/scope/modelId/description', '（可选的）模型 ID')
                             },
                             providerId: {
                                 type: 'string',
-                                description: nls.localize('theia/ai/core/requestSettings/scope/providerId/description', 'The (optional) provider id to apply the settings to.'),
+                                description: nls.localize('theia/ai/core/requestSettings/scope/providerId/description', '（可选的）应用此设置的提供商 ID。'),
                             },
                             agentId: {
                                 type: 'string',
-                                description: nls.localize('theia/ai/core/requestSettings/scope/agentId/description', 'The (optional) agent id to apply the settings to.'),
+                                description: nls.localize('theia/ai/core/requestSettings/scope/agentId/description', '（可选的）应用此设置的代理 ID。'),
                             },
                         }
                     },
                     requestSettings: {
                         type: 'object',
                         additionalProperties: true,
-                        description: nls.localize('theia/ai/core/requestSettings/modelSpecificSettings/description', 'Settings for the specific model ID.'),
+                        description: nls.localize('theia/ai/core/requestSettings/modelSpecificSettings/description', '针对特定模型 ID 的设置。'),
                     },
                     clientSettings: {
                         type: 'object',
                         additionalProperties: false,
                         description: nls.localize('theia/ai/core/requestSettings/clientSettings/description',
-                            'Client settings for how to handle messages that are send back to the llm.'),
+                            '客户端设置，用于控制如何处理发回 LLM 的消息。'),
                         properties: {
                             keepToolCalls: {
                                 type: 'boolean',
                                 default: true,
                                 description: nls.localize('theia/ai/core/requestSettings/clientSettings/keepToolCalls/description',
-                                    'If set to false, all tool request and tool responses will be filtered \
-                                    before sending the next user request in a multi-turn conversation.')
+                                    '若设为 false，在多轮对话中发送下一条用户请求之前，所有工具请求和工具响应都将被过滤掉。')
                             },
                             keepThinking: {
                                 type: 'boolean',
                                 default: true,
                                 description: nls.localize('theia/ai/core/requestSettings/clientSettings/keepThinking/description',
-                                    'If set to false, all thinking output will be filtered before sending the next user request in a multi-turn conversation.')
+                                    '若设为 false，在多轮对话中发送下一条用户请求之前，所有思考输出都将被过滤掉。')
                             }
                         }
                     },
@@ -173,19 +168,18 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: [],
         },
         [PREFERENCE_NAME_MAX_RETRIES]: {
-            title: nls.localize('theia/ai/core/maxRetries/title', 'Maximum Retries'),
+            title: nls.localize('theia/ai/core/maxRetries/title', '最大重试次数'),
             markdownDescription: nls.localize('theia/ai/core/maxRetries/mdDescription',
-                'The maximum number of retry attempts when a request to an AI provider fails. A value of 0 means no retries.'),
+                '对 AI 提供商的请求失败时的最大重试次数。设为 0 表示不重试。'),
             type: 'number',
             minimum: 0,
             default: 3
         },
         [PREFERENCE_NAME_FAVORITE_MODELS]: {
-            title: nls.localize('theia/ai/core/favoriteModels/title', 'Favorite Models'),
+            title: nls.localize('theia/ai/core/favoriteModels/title', '收藏的模型'),
             markdownDescription: nls.localize('theia/ai/core/favoriteModels/mdDescription',
-                'Models the AI chat input\'s model picker shows in addition to the newest ones of each provider, as fully qualified ids '
-                + '(e.g. `anthropic/claude-opus-5`). This is for keeping an older or release-pinned model at hand. Check a model on its '
-                + 'provider\'s page in the AI Configuration view to add it.'),
+                '除了每个提供商最新的模型之外，AI 聊天输入的模型选择器还会显示这些模型，以完全限定 ID 表示 '
+                + '（例如 `anthropic/claude-opus-5`）。这用于保留旧版本或锁定版本的模型。在 AI 配置视图中该模型的提供商页面上勾选它即可添加。'),
             type: 'array',
             // The provider pages check models one by one; a second, raw editor for the same ids would
             // invite typos and disagree with what the checks say.
@@ -196,11 +190,10 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: []
         },
         [PREFERENCE_NAME_HIDDEN_MODELS]: {
-            title: nls.localizeByDefault('Hidden Models'),
+            title: nls.localizeByDefault('隐藏的模型'),
             markdownDescription: nls.localize('theia/ai/core/hiddenModels/mdDescription',
-                'Models the AI chat input\'s model picker does not show even though it would by default, as fully qualified ids '
-                + '(e.g. `google/gemini-flash-lite-latest`). Only the models shown without being listed as a favorite end up here, '
-                + 'i.e. the newest ones of a provider. Uncheck a model on its provider\'s page in the AI Configuration view to add it.'),
+                'AI 聊天输入的模型选择器默认本会显示、但不予显示的模型，以完全限定 ID 表示 '
+                + '（例如 `google/gemini-flash-lite-latest`）。只有未经列为收藏即显示的模型（即各提供商最新的模型）会出现在此处。在 AI 配置视图中该模型的提供商页面上取消勾选它即可添加。'),
             type: 'array',
             typeDetails: { [DEDICATED_EDITOR_TYPE_DETAIL]: true },
             items: {
@@ -209,10 +202,10 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: []
         },
         [PREFERENCE_NAME_DEFAULT_NOTIFICATION_TYPE]: {
-            title: nls.localize('theia/ai/core/defaultNotification/title', 'Default Notification Type'),
+            title: nls.localize('theia/ai/core/defaultNotification/title', '默认通知类型'),
             markdownDescription: nls.localize('theia/ai/core/defaultNotification/mdDescription',
-                'The default notification method used when an AI agent needs your attention, i.e. it completed a task or requests your input. '
-                + 'Individual agents can override this setting.'),
+                '当 AI 代理需要你的关注（例如完成任务或请求输入）时使用的默认通知方式。'
+                + '单个代理可以覆盖此设置。'),
             type: 'string',
             enum: [...NOTIFICATION_TYPES],
             enumItemLabels: NOTIFICATION_TYPES.map(type => NOTIFICATION_TYPE_LABELS[type]),
@@ -221,9 +214,9 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
         },
         [PREFERENCE_NAME_SKILL_DIRECTORIES]: {
             description: nls.localize('theia/ai/core/skillDirectories/description',
-                'Additional directories containing skill definitions (SKILL.md files). Skills provide reusable instructions that can be referenced by AI agents. ' +
-                'The .prompts/skills and .agents/skills directories in your workspace, the .agents/skills directory in your home directory, ' +
-                'and the skills directory in your product\'s configuration folder are always included.'),
+                '包含技能定义（SKILL.md 文件）的其他目录。技能提供可被 AI 代理引用的可复用指令。' +
+                '工作区中的 .prompts/skills 和 .agents/skills 目录、主目录中的 .agents/skills 目录，' +
+                '以及产品配置文件夹中的 skills 目录始终会被包含。'),
             type: 'array',
             items: {
                 type: 'string'
@@ -231,25 +224,23 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: []
         },
         [PREFERENCE_NAME_REASONING]: {
-            title: nls.localize('theia/ai/core/reasoning/title', 'Reasoning Defaults'),
+            title: nls.localize('theia/ai/core/reasoning/title', '推理默认设置'),
             markdownDescription: nls.localize('theia/ai/core/reasoning/mdDescription',
-                'Default value for the chat input\'s reasoning selector, applied to models that support reasoning.\n\n'
-                + 'This is a UI-level setting: the chosen level is translated to the provider\'s native API parameters'
-                + ' at request time (e.g. Anthropic `thinking` / `output_config.effort`, OpenAI `reasoning.effort`,'
-                + ' Gemini `thinkingConfig`) and takes precedence over any raw values supplied via'
-                + ' `#ai-features.modelSettings.requestSettings#` for the same fields.\n\n'
-                + 'Each entry consists of:\n'
-                + '- `scope`: Defines when the setting applies (`modelId`, `providerId`, `agentId`).\n'
-                + '- `reasoning.level`: One of `off`, `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, `auto`.\n'
-                + 'Supported levels depend on the model. `none` explicitly requests no reasoning; `off` disables thinking'
-                + ' on Ollama. For other providers, `off` omits explicit reasoning effort, allowing provider defaults'
-                + ' or raw request settings to apply. `auto` uses the provider default.\n\n'
-                + 'Precedence at runtime (highest first): session override via the selector → this preference →'
-                + ' the model\'s declared default. Whichever the selector displays is what gets sent. To override'
-                + ' a provider\'s reasoning field manually via `#ai-features.modelSettings.requestSettings#`, set'
-                + ' `reasoning.level` to `off` here so the level-based translation is disabled (except on Ollama).\n\n'
-                + 'Entries are matched based on scope specificity (agent: 100, model: 10, provider: 1 points).\n\n'
-                + 'Example:\n'
+                '聊天输入推理选择器的默认值，应用于支持推理的模型。\n\n'
+                + '这是一个 UI 层设置：所选级别会在请求时转换为提供商的原生 API 参数'
+                + '（例如 Anthropic 的 `thinking` / `output_config.effort`、OpenAI 的 `reasoning.effort`、'
+                + ' Gemini 的 `thinkingConfig`），并且优先于通过 `#ai-features.modelSettings.requestSettings#` '
+                + '为相同字段提供的原始值。\n\n'
+                + '每个条目包含：\n'
+                + '- `scope`：定义设置何时生效（`modelId`、`providerId`、`agentId`）。\n'
+                + '- `reasoning.level`：`off`、`none`、`minimal`、`low`、`medium`、`high`、`xhigh`、`max`、`auto` 之一。\n'
+                + '支持的级别取决于模型。`none` 明确请求不进行推理；`off` 在 Ollama 上禁用思考。'
+                + '对于其他提供商，`off` 会省略显式推理力度，允许使用提供商默认值或原始请求设置。`auto` 使用提供商默认值。\n\n'
+                + '运行时优先级（从高到低）：通过选择器进行的会话覆盖 → 此首选项 → 模型声明的默认值。选择器显示的即是发送的内容。'
+                + '要通过 `#ai-features.modelSettings.requestSettings#` 手动覆盖提供商的推理字段，请在此处将 '
+                + ' `reasoning.level` 设为 `off`，以禁用基于级别的转换（Ollama 除外）。\n\n'
+                + '条目按作用域特异度匹配（agent: 100 分，model: 10 分，provider: 1 分）。\n\n'
+                + '示例：\n'
                 + '```json\n'
                 + '[\n'
                 + '  { "scope": { "providerId": "anthropic" }, "reasoning": { "level": "medium" } },\n'
@@ -287,9 +278,9 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: []
         },
         [LANGUAGE_MODEL_ALIASES_PREFERENCE]: {
-            title: nls.localize('theia/ai/core/preference/languageModelAliases/title', 'Language Model Aliases'),
-            markdownDescription: nls.localize('theia/ai/core/preference/languageModelAliases/description', 'Configure models for each language model alias in the \
-[AI Configuration View]({0}). Alternatiely you can set the settings manually in the settings.json: \n\
+            title: nls.localize('theia/ai/core/preference/languageModelAliases/title', '语言模型别名'),
+            markdownDescription: nls.localize('theia/ai/core/preference/languageModelAliases/description', '在\
+[AI 配置视图]({0})中为每个语言模型别名配置模型。也可以在 settings.json 中手动设置：\n\
 ```\n\
 "default/code": {\n\
   "selectedModel": "anthropic/claude-opus-4-20250514"\n\
@@ -302,7 +293,7 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
                 properties: {
                     selectedModel: {
                         type: 'string',
-                        description: nls.localize('theia/ai/core/preference/languageModelAliases/selectedModel', 'The user-selected model for this alias.')
+                        description: nls.localize('theia/ai/core/preference/languageModelAliases/selectedModel', '用户为此别名选择的模型。')
                     }
                 },
                 required: ['selectedModel'],

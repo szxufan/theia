@@ -43,9 +43,9 @@ interface GrepToolInput {
 }
 
 const GREP_OUTPUT_MODES = {
-    'content': nls.localize('theia/ai/claude-code/grepOutputModes/content', 'content'),
-    'files_with_matches': nls.localize('theia/ai/claude-code/grepOutputModes/filesWithMatches', 'files with matches'),
-    'count': nls.localize('theia/ai/claude-code/grepOutputModes/count', 'count')
+    'content': nls.localize('theia/ai/claude-code/grepOutputModes/content', '内容'),
+    'files_with_matches': nls.localize('theia/ai/claude-code/grepOutputModes/filesWithMatches', '匹配的文件'),
+    'count': nls.localize('theia/ai/claude-code/grepOutputModes/count', '计数')
 };
 
 @injectable()
@@ -77,7 +77,7 @@ export class GrepToolRenderer implements ChatResponsePartRenderer<ToolCallChatRe
             />;
         } catch (error) {
             this.logger.warn('Failed to parse Grep tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseGrepToolData', 'Failed to parse Grep tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseGrepToolData', '解析 Grep 工具数据失败')}</div>;
         }
     }
 }
@@ -91,7 +91,7 @@ const GrepToolComponent: React.FC<{
         if (input.path) {
             return input.path.split('/').pop() || input.path;
         }
-        return nls.localize('theia/ai/claude-code/project', 'project');
+        return nls.localize('theia/ai/claude-code/project', '项目');
     };
 
     const getWorkspaceRelativePath = async (filePath: string): Promise<string> => {
@@ -114,15 +114,15 @@ const GrepToolComponent: React.FC<{
 
     const getOptionsInfo = (): { label: string; count: number } => {
         const options = [];
-        if (input['-i']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/caseInsensitive', 'case-insensitive')); }
-        if (input['-n']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/lineNumbers', 'line numbers')); }
-        if (input['-A']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/linesAfter', '+{0} after'), input['-A']); }
-        if (input['-B']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/linesBefore', '+{0} before', input['-B'])); }
-        if (input['-C']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/linesContext', '±{0} context', input['-C'])); }
-        if (input.multiline) { options.push(nls.localize('theia/ai/claude-code/grepOptions/multiLine', 'multiline')); }
-        if (input.glob) { options.push(nls.localize('theia/ai/claude-code/grepOptions/glob', 'glob: {0}', input.glob)); }
-        if (input.type) { options.push(nls.localize('theia/ai/claude-code/grepOptions/type', 'type: {0}', input.type)); }
-        if (input.head_limit) { options.push(nls.localize('theia/ai/claude-code/grepOptions/headLimit', 'limit: {0}', input.head_limit)); }
+        if (input['-i']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/caseInsensitive', '忽略大小写')); }
+        if (input['-n']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/lineNumbers', '行号')); }
+        if (input['-A']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/linesAfter', '后 {0} 行'), input['-A']); }
+        if (input['-B']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/linesBefore', '前 {0} 行', input['-B'])); }
+        if (input['-C']) { options.push(nls.localize('theia/ai/claude-code/grepOptions/linesContext', '前后各 {0} 行', input['-C'])); }
+        if (input.multiline) { options.push(nls.localize('theia/ai/claude-code/grepOptions/multiLine', '多行')); }
+        if (input.glob) { options.push(nls.localize('theia/ai/claude-code/grepOptions/glob', 'glob：{0}', input.glob)); }
+        if (input.type) { options.push(nls.localize('theia/ai/claude-code/grepOptions/type', '类型：{0}', input.type)); }
+        if (input.head_limit) { options.push(nls.localize('theia/ai/claude-code/grepOptions/headLimit', '限制：{0}', input.head_limit)); }
 
         return {
             label: options.length > 0 ? options.join(', ') : '',
@@ -135,10 +135,10 @@ const GrepToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/searching', 'Searching')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/searching', '正在搜索')}</span>
                 <span className={`${codicon('search')} claude-code-tool icon`} />
                 <span className="claude-code-tool pattern">"{input.pattern}"</span>
-                <span className="claude-code-tool scope">{nls.localizeByDefault('in {0}', getSearchScope())}</span>
+                <span className="claude-code-tool scope">{nls.localizeByDefault('在 {0} 中', getSearchScope())}</span>
                 {relativePath && <span className="claude-code-tool relative-path">{relativePath}</span>}
             </div>
             <div className="claude-code-tool header-right">
@@ -148,8 +148,8 @@ const GrepToolComponent: React.FC<{
                 {optionsInfo.count > 0 && (
                     <span className="claude-code-tool badge" title={optionsInfo.label}>
                         {optionsInfo.count > 1
-                            ? nls.localize('theia/ai/claude-code/optionsCount', '{0} options', optionsInfo.count)
-                            : nls.localize('theia/ai/claude-code/oneOption', '1 option')}
+                            ? nls.localize('theia/ai/claude-code/optionsCount', '{0} 个选项', optionsInfo.count)
+                            : nls.localize('theia/ai/claude-code/oneOption', '1 个选项')}
                     </span>
                 )}
             </div>
@@ -159,34 +159,34 @@ const GrepToolComponent: React.FC<{
     const expandedContent = (
         <div className="claude-code-tool details">
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localizeByDefault('Pattern')}</span>
+                <span className="claude-code-tool detail-label">{nls.localizeByDefault('模式')}</span>
                 <code className="claude-code-tool detail-value">"{input.pattern}"</code>
             </div>
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/searchPath', 'Search Path')}</span>
-                <code className="claude-code-tool detail-value">{input.path || nls.localize('theia/ai/claude-code/projectRoot', 'project root')}</code>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/searchPath', '搜索路径')}</span>
+                <code className="claude-code-tool detail-value">{input.path || nls.localize('theia/ai/claude-code/projectRoot', '项目根目录')}</code>
             </div>
             {input.output_mode && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localizeByDefault('Mode')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localizeByDefault('模式')}</span>
                     <span className="claude-code-tool detail-value">{GREP_OUTPUT_MODES[input.output_mode]}</span>
                 </div>
             )}
             {input.glob && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/fileFilter', 'File Filter')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/fileFilter', '文件过滤器')}</span>
                     <code className="claude-code-tool detail-value">{input.glob}</code>
                 </div>
             )}
             {input.type && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/fileType', 'File Type')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/fileType', '文件类型')}</span>
                     <span className="claude-code-tool detail-value">{input.type}</span>
                 </div>
             )}
             {optionsInfo.label && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localizeByDefault('Options')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localizeByDefault('选项')}</span>
                     <span className="claude-code-tool detail-value">{optionsInfo.label}</span>
                 </div>
             )}

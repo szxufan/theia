@@ -27,21 +27,21 @@ export const AiConfigurationPreferences: PreferenceSchema = {
         'ai-features.agentSettings.details': {
             type: 'null',
             markdownDescription: nls.localize('theia/ai/ide/agent-description',
-                'Configure AI agent settings including enablement, LLM selection, prompt template customization, and custom agent creation in the [AI Configuration View]({0}).',
+                '在 [AI 配置视图]({0})中配置 AI 代理设置，包括启用状态、LLM 选择、提示词模板自定义以及自定义代理创建。',
                 'command:aiConfiguration:open'
             )
         },
         'ai-features.promptTemplates.details': {
             type: 'null',
             markdownDescription: nls.localize('theia/ai/ide/prompt-template-description',
-                'Select prompt variants and customize prompt templates for AI agents in the [AI Configuration View]({0}).',
+                '在 [AI 配置视图]({0})中为 AI 代理选择提示词变体并自定义提示词模板。',
                 'command:aiConfiguration:open'
             )
         },
         'ai-features.modelSelection.details': {
             type: 'null',
             markdownDescription: nls.localize('theia/ai/ide/model-selection-description',
-                'Choose which Large Language Models (LLMs) are used by each AI agent in the [AI Configuration View]({0}).',
+                '在 [AI 配置视图]({0})中为每个 AI 代理选择所使用的大语言模型 (LLM)。',
                 'command:aiConfiguration:open'
             )
         }

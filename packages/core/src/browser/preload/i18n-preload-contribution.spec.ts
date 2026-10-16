@@ -22,7 +22,6 @@ import { nls } from '../../common/nls';
 import { Localization } from '../../common/i18n/localization';
 import { LocalizationServer } from '../../common/i18n/localization-server';
 import { ContributionProvider } from '../../common/contribution-provider';
-import { FrontendApplicationConfigProvider } from '../frontend-application-config-provider';
 import { TextReplacementContribution } from './text-replacement-contribution';
 import { I18nPreloadContribution } from './i18n-preload-contribution';
 
@@ -35,35 +34,18 @@ class TestI18nPreloadContribution extends I18nPreloadContribution {
 
 describe('I18nPreloadContribution', function (): void {
 
-    // `FrontendApplicationConfigProvider` stores its config globally and `set` may only be called once,
-    // so make sure to clean up again if this spec is the one setting it.
-    const configKey = (FrontendApplicationConfigProvider as unknown as { KEY: symbol }).KEY;
-    let configSetByThisSpec = false;
-
     before(() => disableJSDOM = enableJSDOM());
-    after(() => {
-        if (configSetByThisSpec) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            delete (window as any)[configKey];
-        }
-        disableJSDOM();
-    });
+    after(() => disableJSDOM());
 
-    function ensureFrontendApplicationConfig(): void {
-        try {
-            FrontendApplicationConfigProvider.get();
-        } catch {
-            FrontendApplicationConfigProvider.set({});
-            configSetByThisSpec = true;
-        }
-    }
-
-    function createContribution(loadLocalization: LocalizationServer['loadLocalization']): I18nPreloadContribution {
+    function createContribution(
+        loadLocalization: LocalizationServer['loadLocalization'],
+        replacementContributions: TextReplacementContribution[] = []
+    ): I18nPreloadContribution {
         const contribution = new TestI18nPreloadContribution();
         Object.assign(contribution, {
             localizationServer: <LocalizationServer>{ loadLocalization },
             replacementContributions: <ContributionProvider<TextReplacementContribution>><unknown>{
-                getContributions: () => []
+                getContributions: () => replacementContributions
             }
         });
         return contribution;
@@ -72,56 +54,70 @@ describe('I18nPreloadContribution', function (): void {
     let originalConsoleError: typeof console.error;
 
     beforeEach(() => {
-        ensureFrontendApplicationConfig();
-        Object.assign(nls, { locale: undefined, localization: undefined });
+        nls.localization = undefined;
         originalConsoleError = console.error;
         console.error = () => { };
     });
 
     afterEach(() => {
         console.error = originalConsoleError;
-        Object.assign(nls, { locale: undefined, localization: undefined });
+        nls.localization = undefined;
     });
 
-    it('applies the localization data when the backend answers', async () => {
+    it('is pinned to zh-cn', () => {
+        expect(nls.defaultLocale).to.equal('zh-cn');
+        expect(nls.locale).to.equal('zh-cn');
+    });
+
+    it('always loads the zh-cn localization data when the backend answers', async () => {
         const localization: Localization = { languageId: 'zh-cn', languagePack: true, translations: { key: 'value' } };
-        const contribution = createContribution(() => Promise.resolve(localization));
-        Object.assign(nls, { locale: 'zh-cn' });
+        const requestedLocales: string[] = [];
+        const contribution = createContribution(locale => {
+            requestedLocales.push(locale);
+            return Promise.resolve(localization);
+        });
+
+        await contribution.initialize();
+
+        expect(requestedLocales).to.deep.equal(['zh-cn']);
+        expect(nls.localization).to.deep.equal(localization);
+    });
+
+    it('keeps the default values when the loaded localization is not a language pack', async () => {
+        const contribution = createContribution(() => Promise.resolve({ languageId: 'zh-cn', languagePack: false, translations: {} }));
 
         await contribution.initialize();
 
         expect(nls.locale).to.equal('zh-cn');
-        expect(nls.localization).to.deep.equal(localization);
-    });
-
-    it('resets the locale when the loaded localization is not a language pack', async () => {
-        const contribution = createContribution(() => Promise.resolve({ languageId: 'zh-cn', languagePack: false, translations: {} }));
-        Object.assign(nls, { locale: 'zh-cn' });
-
-        await contribution.initialize();
-
-        expect(nls.locale).to.be.undefined;
         expect(nls.localization).to.be.undefined;
     });
 
-    it('falls back to the default locale when the backend request fails', async () => {
+    it('does not block startup when the backend request fails', async () => {
         const contribution = createContribution(() => Promise.reject(new Error('backend unavailable')));
-        Object.assign(nls, { locale: 'zh-cn' });
 
         await contribution.initialize();
 
-        expect(nls.locale).to.be.undefined;
+        expect(nls.locale).to.equal('zh-cn');
         expect(nls.localization).to.be.undefined;
     });
 
-    it('falls back to the default locale when the backend never answers', async () => {
+    it('does not block startup when the backend never answers', async () => {
         // Regression test: a backend that never resolves must not block the preload phase forever.
         const contribution = createContribution(() => new Promise<Localization>(() => { }));
-        Object.assign(nls, { locale: 'zh-cn' });
 
         await contribution.initialize();
 
-        expect(nls.locale).to.be.undefined;
+        expect(nls.locale).to.equal('zh-cn');
         expect(nls.localization).to.be.undefined;
+    });
+
+    it('applies text replacements even when the backend request fails', async () => {
+        const contribution = createContribution(() => Promise.reject(new Error('backend unavailable')), [
+            <TextReplacementContribution><unknown>{ getReplacement: () => ({ 'some.key': '替换文本' }) }
+        ]);
+
+        await contribution.initialize();
+
+        expect(nls.localization?.replacements).to.deep.equal({ 'some.key': '替换文本' });
     });
 });

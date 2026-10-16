@@ -38,34 +38,34 @@ export const notebookPreferenceSchema: PreferenceSchema = {
             type: 'string',
             enum: ['on', 'off'],
             default: 'off',
-            description: nls.localizeByDefault('Controls the display of line numbers in the cell editor.')
+            description: nls.localizeByDefault('控制单元格编辑器中行号的显示。')
         },
         [NotebookPreferences.OUTPUT_LINE_HEIGHT]: {
             // eslint-disable-next-line max-len
-            markdownDescription: nls.localizeByDefault('Line height of the output text within notebook cells.\n - When set to 0, editor line height is used.\n - Values between 0 and 8 will be used as a multiplier with the font size.\n - Values greater than or equal to 8 will be used as effective values.'),
+            markdownDescription: nls.localizeByDefault('笔记本单元格中输出文本的行高。\n - 设置为 0 时，使用编辑器行高。\n - 0 到 8 之间的值将作为字体大小的倍数使用。\n - 大于等于 8 的值将作为有效值使用。'),
             type: 'number',
             default: 0,
             tags: ['notebookLayout', 'notebookOutputLayout']
         },
         [NotebookPreferences.OUTPUT_FONT_SIZE]: {
-            markdownDescription: nls.localizeByDefault('Font size for the output text within notebook cells. When set to 0, {0} is used.', '`#editor.fontSize#`'),
+            markdownDescription: nls.localizeByDefault('笔记本单元格中输出文本的字体大小。设置为 0 时，使用 {0}。', '`#editor.fontSize#`'),
             type: 'number',
             default: 0,
             tags: ['notebookLayout', 'notebookOutputLayout']
         },
         [NotebookPreferences.OUTPUT_FONT_FAMILY]: {
-            markdownDescription: nls.localizeByDefault('The font family of the output text within notebook cells. When set to empty, the {0} is used.', '`#editor.fontFamily#`'),
+            markdownDescription: nls.localizeByDefault('笔记本单元格中输出文本的字体系列。设置为空时，使用 {0}。', '`#editor.fontFamily#`'),
             type: 'string',
             tags: ['notebookLayout', 'notebookOutputLayout']
         },
         [NotebookPreferences.OUTPUT_SCROLLING]: {
-            markdownDescription: nls.localizeByDefault('Initially render notebook outputs in a scrollable region when longer than the limit.'),
+            markdownDescription: nls.localizeByDefault('超过限制时，最初在可滚动区域中呈现笔记本输出。'),
             type: 'boolean',
             tags: ['notebookLayout', 'notebookOutputLayout'],
             default: false
         },
         [NotebookPreferences.OUTPUT_WORD_WRAP]: {
-            markdownDescription: nls.localizeByDefault('Controls whether the lines in output should wrap.'),
+            markdownDescription: nls.localizeByDefault('控制输出中的行是否换行。'),
             type: 'boolean',
             tags: ['notebookLayout', 'notebookOutputLayout'],
             default: false

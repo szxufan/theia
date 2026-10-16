@@ -73,7 +73,8 @@ export class StatusBarImpl extends ReactWidget implements StatusBar {
         this.setHidden(prefHides);
     }
 
-    protected debouncedUpdate = debounce(() => this.update(), 50);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected debouncedUpdate: any = debounce(() => this.update(), 50);
 
     protected get ready(): Promise<void> {
         return this.applicationStateService.reachedAnyState('initialized_layout', 'ready');
@@ -138,7 +139,7 @@ export class StatusBarImpl extends ReactWidget implements StatusBar {
         const target = e.currentTarget;
         if (typeof entry.tooltip === 'function') {
             const cancellationSource = new CancellationTokenSource();
-            this.doRequestHover(target, nls.localizeByDefault('Loading...'), skipDelay, () => cancellationSource.dispose());
+            this.doRequestHover(target, nls.localizeByDefault('正在加载...'), skipDelay, () => cancellationSource.dispose());
             Promise.resolve(entry.tooltip(cancellationSource.token))
                 .catch(() => undefined)
                 .then(res => res && !cancellationSource.token.isCancellationRequested && this.doRequestHover(target, res, skipDelay));

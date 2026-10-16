@@ -168,7 +168,7 @@ export class AuthenticationMainImpl implements AuthenticationMain {
                 value: { session }
             }));
             items.push({
-                label: nls.localizeByDefault('Sign in to another account'),
+                label: nls.localizeByDefault('登录其他账户'),
                 value: {}
             });
 
@@ -176,7 +176,7 @@ export class AuthenticationMainImpl implements AuthenticationMain {
             // any accounts that don't have sessions, we dont' do this.
             const selected = await this.quickPickService.show(items,
                 {
-                    title: nls.localizeByDefault("The extension '{0}' wants to access a {1} account", extensionName, providerName),
+                    title: nls.localizeByDefault("扩展 '{0}' 想要访问 {1} 账户", extensionName, providerName),
                     ignoreFocusOut: true
                 });
             if (selected) {
@@ -208,9 +208,9 @@ export class AuthenticationMainImpl implements AuthenticationMain {
             addAccountUsage(this.storageService, providerId, accountName, extensionId, extensionName);
             return true;
         }
-        const choice = await this.messageService.info(`The extension '${extensionName}' wants to access the ${providerName} account '${accountName}'.`, 'Allow', 'Cancel');
+        const choice = await this.messageService.info(`扩展 '${extensionName}' 想要访问 ${providerName} 账户 '${accountName}'。`, '允许', '取消');
 
-        const allow = choice === 'Allow';
+        const allow = choice === '允许';
         if (allow) {
             await addAccountUsage(this.storageService, providerId, accountName, extensionId, extensionName);
             allowList.push({ id: extensionId, name: extensionName });
@@ -223,8 +223,8 @@ export class AuthenticationMainImpl implements AuthenticationMain {
     protected async loginPrompt(providerName: string, extensionName: string, recreatingSession: boolean, detail?: string): Promise<boolean> {
         const msg = document.createElement('span');
         msg.textContent = recreatingSession
-            ? nls.localizeByDefault("The extension '{0}' wants you to sign in again using {1}.", extensionName, providerName)
-            : nls.localizeByDefault("The extension '{0}' wants to sign in using {1}.", extensionName, providerName);
+            ? nls.localizeByDefault("扩展 '{0}' 希望您再次使用 {1} 登录。", extensionName, providerName)
+            : nls.localizeByDefault("扩展 '{0}' 希望使用 {1} 登录。", extensionName, providerName);
 
         if (detail) {
             const detailElement = document.createElement('p');
@@ -233,9 +233,9 @@ export class AuthenticationMainImpl implements AuthenticationMain {
         }
 
         return !!await new ConfirmDialog({
-            title: nls.localize('theia/plugin-ext/authentication-main/loginTitle', 'Login'),
+            title: nls.localize('theia/plugin-ext/authentication-main/loginTitle', '登录'),
             msg,
-            ok: nls.localizeByDefault('Allow'),
+            ok: nls.localizeByDefault('允许'),
             cancel: Dialog.CANCEL
         }).open();
     }
@@ -342,13 +342,13 @@ export class AuthenticationProviderImpl implements AuthenticationProvider, Dispo
         const accountUsages = await readAccountUsages(this.storageService, this.id, accountName);
         const sessionsForAccount = this.accounts.get(accountName);
         const result = await this.messageService.info(accountUsages.length
-            ? nls.localizeByDefault("The account '{0}' has been used by: \n\n{1}\n\n Sign out from these extensions?", accountName,
+            ? nls.localizeByDefault("账户 '{0}' 已被以下扩展使用：\n\n{1}\n\n 是否从这些扩展退出登录？", accountName,
                 accountUsages.map(usage => usage.extensionName).join(', '))
-            : nls.localizeByDefault("Sign out of '{0}'?", accountName),
-            nls.localizeByDefault('Sign Out'),
+            : nls.localizeByDefault("退出登录 '{0}'？", accountName),
+            nls.localizeByDefault('退出登录'),
             Dialog.CANCEL);
 
-        if (result && result === nls.localizeByDefault('Sign Out') && sessionsForAccount) {
+        if (result && result === nls.localizeByDefault('退出登录') && sessionsForAccount) {
             sessionsForAccount.forEach(sessionId => this.removeSession(sessionId));
             removeAccountUsage(this.storageService, this.id, accountName);
         }
@@ -398,7 +398,7 @@ export class AuthenticationProviderImpl implements AuthenticationProvider, Dispo
     removeSession(sessionId: string): Thenable<void> {
         return this.proxy.$removeSession(this.id, sessionId)
             .then(() => {
-                this.messageService.info(nls.localize('theia/plugin-ext/authentication-main/signedOut', 'Successfully signed out.'));
+                this.messageService.info(nls.localize('theia/plugin-ext/authentication-main/signedOut', '已成功退出登录。'));
             });
     }
 }

@@ -50,7 +50,7 @@ export class EditorManager extends NavigatableWidgetOpenHandler<EditorWidget> {
 
     readonly id = EditorWidgetFactory.ID;
 
-    readonly label = nls.localizeByDefault('Text Editor');
+    readonly label = nls.localizeByDefault('文本编辑器');
 
     protected readonly onActiveEditorChangedEmitter = new Emitter<EditorWidget | undefined>();
     /**

@@ -39,9 +39,9 @@ import { SinglePageCategoryRenderer } from '@theia/ai-core-ui/lib/browser/ai-con
 export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.TOKEN_USAGE;
-    readonly label = nls.localize('theia/ai/tokenUsage/label', 'Token Usage');
+    readonly label = nls.localize('theia/ai/tokenUsage/label', 'Token 用量');
     readonly description = nls.localize('theia/ai/tokenUsage/description',
-        'Review token consumption across providers and models.');
+        '查看各提供程序与模型的 Token 消耗情况。');
     readonly iconClass = codicon('graph');
     readonly order = AiConfigurationCategoryOrder.TOKEN_USAGE;
     readonly kind = 'single-page' as const;
@@ -84,7 +84,7 @@ export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer 
             this.items = (await this.tokenUsageService.getTokenUsageData()).sort((a, b) => a.modelId.localeCompare(b.modelId));
             this.onDidChangeEmitter.fire();
         } catch (error) {
-            this.messageService.error(nls.localize('theia/ai/tokenUsage/failedToGetTokenUsageData', 'Failed to fetch token usage data: {0}', String(error)));
+            this.messageService.error(nls.localize('theia/ai/tokenUsage/failedToGetTokenUsageData', '获取 Token 用量数据失败：{0}', String(error)));
         }
     }
 
@@ -93,7 +93,7 @@ export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer 
     }
 
     protected formatDate(date?: Date): string {
-        return date ? formatTimeAgo(date.getTime()) : nls.localizeByDefault('Never');
+        return date ? formatTimeAgo(date.getTime()) : nls.localizeByDefault('从未');
     }
 
     protected hasCacheData(): boolean {
@@ -103,7 +103,7 @@ export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer 
     protected renderSections(): React.ReactNode {
         if (this.items.length === 0) {
             return <div className='ai-empty-state-content'>
-                <p>{nls.localize('theia/ai/tokenUsage/noData', 'No token usage data available yet.')}</p>
+                <p>{nls.localize('theia/ai/tokenUsage/noData', '暂无 Token 用量数据。')}</p>
             </div>;
         }
         const showCache = this.hasCacheData();
@@ -111,15 +111,15 @@ export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer 
             <table className='ai-configuration-table'>
                 <thead>
                     <tr>
-                        <th className='token-usage-model-column'>{nls.localizeByDefault('Model')}</th>
-                        <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/inputTokens', 'Input Tokens')}</th>
+                        <th className='token-usage-model-column'>{nls.localizeByDefault('模型')}</th>
+                        <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/inputTokens', '输入 Token')}</th>
                         {showCache && <>
-                            <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/cachedInputTokens', 'Input Tokens Written to Cache')}</th>
-                            <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/readCachedInputTokens', 'Input Tokens Read From Cache')}</th>
+                            <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/cachedInputTokens', '写入缓存的输入 Token')}</th>
+                            <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/readCachedInputTokens', '从缓存读取的输入 Token')}</th>
                         </>}
-                        <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/outputTokens', 'Output Tokens')}</th>
-                        <th className='token-usage-column'>{nls.localizeByDefault('Total Tokens')}</th>
-                        <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/lastUsed', 'Last Used')}</th>
+                        <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/outputTokens', '输出 Token')}</th>
+                        <th className='token-usage-column'>{nls.localizeByDefault('Token 总数')}</th>
+                        <th className='token-usage-column'>{nls.localize('theia/ai/tokenUsage/lastUsed', '最后使用时间')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -130,7 +130,7 @@ export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer 
             <div className='ai-configuration-info-box'>
                 <p className='ai-configuration-info-text'>
                     <i className={`${codicon('info')} ai-configuration-info-icon`}></i>
-                    {nls.localize('theia/ai/tokenUsage/note', 'Token usage is tracked since the start of the application and is not persisted.')}
+                    {nls.localize('theia/ai/tokenUsage/note', 'Token 用量自应用程序启动起开始统计，且不会被持久化。')}
                 </p>
             </div>
         </div>;
@@ -160,7 +160,7 @@ export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer 
         const totalRead = sum(model => model.readCachedInputTokens ?? 0);
         return <tfoot>
             <tr className='ai-configuration-footer-total-row'>
-                <td className='token-usage-model-column'>{nls.localizeByDefault('Total')}</td>
+                <td className='token-usage-model-column'>{nls.localizeByDefault('总计')}</td>
                 <td className='token-usage-column'>{this.formatNumber(totalInput)}</td>
                 {showCache && <>
                     <td className='token-usage-column'>{this.formatNumber(totalCached)}</td>
@@ -176,7 +176,7 @@ export class TokenUsageConfigurationCategory extends SinglePageCategoryRenderer 
     getSearchItems(): AiConfigurationSearchItem[] {
         return [{
             label: this.label,
-            typeLabel: nls.localize('theia/ai/ide/aiConfiguration/pageTypeLabel', 'Page'),
+            typeLabel: nls.localize('theia/ai/ide/aiConfiguration/pageTypeLabel', '页面'),
             categoryId: this.id,
             target: { categoryId: this.id },
             keywords: 'token usage tokens cost'

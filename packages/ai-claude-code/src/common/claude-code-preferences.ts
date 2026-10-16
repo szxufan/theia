@@ -26,16 +26,15 @@ export const ClaudeCodePreferencesSchema: PreferenceSchema = {
             type: 'string',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'Claude Code' } satisfies ModelProviderTypeDetail },
             markdownDescription: nls.localize('theia/ai/claude-code/executablePath/description',
-                'Path to the Claude Code executable (cli.js) of the `@anthropic-ai/claude-agent-sdk`.' +
-                'If not specified, the system will attempt to resolve the path automatically ' +
-                'from the global npm installation.'),
+                '`@anthropic-ai/claude-agent-sdk` 的 Claude Code 可执行文件（cli.js）的路径。' +
+                '如果未指定，系统将尝试自动从全局 npm 安装中解析该路径。'),
             title: AI_CORE_PREFERENCES_TITLE,
         },
         [CLAUDE_CODE_API_KEY_PREF]: {
             type: 'string',
             markdownDescription: nls.localize('theia/ai/claude-code/apiKey/description',
-                'Enter an API Key for Claude Code. **Please note:** By using this preference the API key will be stored in clear text ' +
-                'on the machine running Theia. Use the environment variable `ANTHROPIC_API_KEY` to set the key securely.') + LINUX_ENV_HINT,
+                '输入 Claude Code 的 API 密钥。**请注意：**使用此偏好设置后，API 密钥将以明文形式存储' +
+                '在运行 Theia 的机器上。请使用环境变量 `ANTHROPIC_API_KEY` 安全地设置密钥。') + LINUX_ENV_HINT,
             title: AI_CORE_PREFERENCES_TITLE,
         },
     }

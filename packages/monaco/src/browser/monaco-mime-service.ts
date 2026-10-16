@@ -44,7 +44,8 @@ export class MonacoMimeService extends MimeService {
         this.updateAssociations();
     }
 
-    protected updateAssociations = debounce(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateAssociations: any = debounce(() => {
         this.updatingAssociations = true;
         try {
             clearConfiguredLanguageAssociations();

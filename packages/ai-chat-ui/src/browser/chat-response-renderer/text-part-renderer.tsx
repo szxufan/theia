@@ -32,6 +32,6 @@ export class TextPartRenderer implements ChatResponsePartRenderer<ChatResponseCo
         }
         return <span>
             {nls.localize('theia/ai/chat-ui/text-part-renderer/cantDisplay',
-                "Can't display response, please check your ChatResponsePartRenderers!")} {JSON.stringify(response)}</span>;
+                '无法显示回复，请检查您的 ChatResponsePartRenderers！')} {JSON.stringify(response)}</span>;
     }
 }

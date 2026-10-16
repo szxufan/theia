@@ -259,7 +259,7 @@ export class MonacoEditorCommandHandlers implements CommandContribution {
             label: nls.localizeByDefault(`Indent Using ${useSpaces ? 'Spaces' : 'Tabs'}`),
             execute: () => this.configureTabSize(editor, useSpaces)
         }));
-        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('Select Action') });
+        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('选择操作') });
     }
 
     protected newConfigEolHandler(): MonacoEditorCommandHandler {
@@ -275,7 +275,7 @@ export class MonacoEditorCommandHandlers implements CommandContribution {
             execute: () => this.setEol(editor, lineEnding)
         })
         );
-        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('Select End of Line Sequence') });
+        this.quickInputService?.showQuickPick(items, { placeholder: nls.localizeByDefault('选择行尾序列') });
     }
 
     protected setEol(editor: MonacoEditor, lineEnding: string): void {
@@ -301,7 +301,7 @@ export class MonacoEditorCommandHandlers implements CommandContribution {
             const sizes = Array.from(Array(8), (_, x) => x + 1);
             const tabSizeOptions = sizes.map(size =>
             ({
-                label: size === tabSize ? size + '   ' + nls.localizeByDefault('Configured Tab Size') : size.toString(),
+                label: size === tabSize ? size + '   ' + nls.localizeByDefault('已配置的制表符大小') : size.toString(),
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 execute: () =>
                     model.updateOptions({
@@ -311,7 +311,7 @@ export class MonacoEditorCommandHandlers implements CommandContribution {
                     })
             })
             );
-            this.quickInputService?.showQuickPick(tabSizeOptions, { placeholder: nls.localizeByDefault('Select Tab Size for Current File') });
+            this.quickInputService?.showQuickPick(tabSizeOptions, { placeholder: nls.localizeByDefault('为当前文件选择制表符大小') });
         }
     }
 

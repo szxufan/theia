@@ -4,28 +4,28 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - PLUGIN-DEVELOPMENT EXTENSION</h2>
+<h2>ECLIPSE THEIA - PLUGIN-DEVELOPMENT 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-The `@theia/plugin-dev` extension contributes functionality for the `plugin host`.
+`@theia/plugin-dev` 扩展为 `plugin host`（插件宿主）提供功能实现。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/plugin-dev`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin-dev.html)
+- [`@theia/plugin-dev` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_plugin-dev.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

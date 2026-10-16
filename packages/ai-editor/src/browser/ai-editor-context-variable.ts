@@ -26,9 +26,9 @@ import { nls } from '@theia/core';
 
 export const EDITOR_CONTEXT_VARIABLE: AIVariable = {
     id: 'editorContext',
-    description: nls.localize('theia/ai/editor/editorContextVariable/description', 'Resolves editor specific context information'),
+    description: nls.localize('theia/ai/editor/editorContextVariable/description', '解析编辑器特定的上下文信息'),
     name: 'editorContext',
-    label: nls.localize('theia/ai/editor/editorContextVariable/label', 'EditorContext'),
+    label: nls.localize('theia/ai/editor/editorContextVariable/label', '编辑器上下文'),
     iconClasses: codiconArray('file'),
     isContextVariable: true,
     args: []

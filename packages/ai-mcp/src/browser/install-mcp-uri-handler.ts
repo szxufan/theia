@@ -83,14 +83,14 @@ export class InstallMcpUriHandler implements OpenHandler {
         if (!serverId) {
             this.messageService.error(nls.localize(
                 'theia/ai-mcp/installUri/missingId',
-                'Install link is missing the required "id" parameter.'
+                '安装链接缺少必需的 "id" 参数。'
             ));
             return undefined;
         }
         if (!this.registryBridge) {
             this.messageService.error(nls.localize(
                 'theia/ai-mcp/installUri/noRegistry',
-                'Cannot install MCP server "{0}" - no AI registry is configured in this product.',
+                '无法安装 MCP 服务器“{0}”——此产品未配置 AI 注册表。',
                 serverId
             ));
             return undefined;
@@ -102,7 +102,7 @@ export class InstallMcpUriHandler implements OpenHandler {
         if (!entry) {
             this.messageService.error(nls.localize(
                 'theia/ai-mcp/installUri/unknownId',
-                'MCP server "{0}" is not listed in your AI registry.',
+                'MCP 服务器“{0}”未列在你的 AI 注册表中。',
                 serverId
             ));
             return undefined;
@@ -129,7 +129,7 @@ export class InstallMcpUriHandler implements OpenHandler {
         // confirm. A confirmation toast makes the outcome explicit.
         this.messageService.info(nls.localize(
             'theia/ai-mcp/installUri/success',
-            'Installed MCP server "{0}" from the AI registry.',
+            '已从 AI 注册表安装 MCP 服务器“{0}”。',
             entry.localName
         ));
         return undefined;
@@ -148,14 +148,14 @@ export class InstallMcpUriHandler implements OpenHandler {
      */
     protected async confirmOverwrite(localName: string): Promise<boolean> {
         const dialog = new ConfirmDialog({
-            title: nls.localize('theia/ai-mcp/installUri/alreadyInstalled/title', 'MCP server already installed'),
+            title: nls.localize('theia/ai-mcp/installUri/alreadyInstalled/title', 'MCP 服务器已安装'),
             msg: nls.localize(
                 'theia/ai-mcp/installUri/alreadyInstalled/msg',
-                'An MCP server named "{0}" is already configured. Continuing will overwrite the existing entry with the configuration from the registry.',
+                '名为“{0}”的 MCP 服务器已配置。继续操作将使用注册表中的配置覆盖现有条目。',
                 localName
             ),
-            ok: nls.localizeByDefault('Continue'),
-            cancel: nls.localizeByDefault('Cancel')
+            ok: nls.localizeByDefault('继续'),
+            cancel: nls.localizeByDefault('取消')
         });
         return !!await dialog.open();
     }

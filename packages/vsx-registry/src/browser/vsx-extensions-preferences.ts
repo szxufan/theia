@@ -29,7 +29,7 @@ export const VsxExtensionsPreferenceSchema: PreferenceSchema = {
         'extensions.onlyShowVerifiedExtensions': {
             type: 'boolean',
             default: false,
-            description: nls.localize('theia/vsx-registry/onlyShowVerifiedExtensionsDescription', 'This allows the {0} to only show verified extensions.', 'Open VSX Registry')
+            description: nls.localize('theia/vsx-registry/onlyShowVerifiedExtensionsDescription', '允许 {0} 仅显示已验证的扩展。', 'Open VSX Registry')
         },
     }
 };

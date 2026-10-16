@@ -63,7 +63,7 @@ export class ServerToolCallPartRenderer implements ChatResponsePartRenderer<Serv
         this.hoverService.requestHover({
             content: nls.localize(
                 'theia/ai/chat-ui/server-toolcall-part-renderer/serverTooltip',
-                "Ran on the provider's servers (not locally). Server tools are auto-approved when selected."
+                '在提供者的服务器上运行（非本地）。选中后服务器工具将被自动批准。'
             ),
             target,
             position: 'right'
@@ -121,7 +121,7 @@ const ServerToolCallContent: React.FC<ServerToolCallContentProps> = ({
 
     const serverIndicator = (
         <span className='theia-serverToolCall-badge'>
-            {nls.localize('theia/ai/chat-ui/server-toolcall-part-renderer/indicator', 'server')}
+            {nls.localize('theia/ai/chat-ui/server-toolcall-part-renderer/indicator', '服务器')}
         </span>
     );
 
@@ -132,7 +132,7 @@ const ServerToolCallContent: React.FC<ServerToolCallContentProps> = ({
                     <summary>
                         {/* anchor the tooltip to the inline label, not the full-width summary, so it opens next to the text */}
                         <span onMouseOver={handleHover}>
-                            {nls.localize('theia/ai/chat-ui/toolcall-part-renderer/finished', 'Ran')} {response.name} {serverIndicator}
+                            {nls.localize('theia/ai/chat-ui/toolcall-part-renderer/finished', '已运行')} {response.name} {serverIndicator}
                             {' '}(<span className='theia-toolCall-args-label'>{argsLabel}</span>)
                         </span>
                     </summary>
@@ -142,7 +142,7 @@ const ServerToolCallContent: React.FC<ServerToolCallContentProps> = ({
                 </details>
             ) : (
                 <span className='theia-toolCall-allowed' onMouseOver={handleHover}>
-                    <Spinner /> {nls.localizeByDefault('Running')} {response.name} {serverIndicator}
+                    <Spinner /> {nls.localizeByDefault('运行中')} {response.name} {serverIndicator}
                     {' '}(<span className='theia-toolCall-args-label'>{argsLabel}</span>)
                 </span>
             )}

@@ -307,7 +307,7 @@ export class DefaultTestService implements TestService {
                 activeProfile = defaultProfile;
             } else {
 
-                activeProfile = await this.pickProfile(runProfiles, nls.localizeByDefault('Pick a test profile to use'));
+                activeProfile = await this.pickProfile(runProfiles, nls.localizeByDefault('选择要使用的测试配置文件'));
             }
         }
         if (activeProfile) {
@@ -329,7 +329,7 @@ export class DefaultTestService implements TestService {
             }
             return {
                 iconClasses,
-                label: `${profile.label}${profile.isDefault ? ' (default)' : ''}`,
+                label: `${profile.label}${profile.isDefault ? '（默认）' : ''}`,
                 profile: profile
             };
         });
@@ -342,15 +342,15 @@ export class DefaultTestService implements TestService {
         // eslint-disable-next-line arrow-body-style
         const picks = [{
             iconClasses: codiconArray('run'),
-            label: 'Run',
+            label: '运行',
             kind: TestRunProfileKind.Run
         }, {
             iconClasses: codiconArray('debug-alt'),
-            label: 'Debug',
+            label: '调试',
             kind: TestRunProfileKind.Debug
         }];
 
-        return (await this.quickpickService.show(picks, { title: 'Select the kind of profiles' }))?.kind;
+        return (await this.quickpickService.show(picks, { title: '选择配置文件的类型' }))?.kind;
 
     }
 
@@ -365,7 +365,7 @@ export class DefaultTestService implements TestService {
     runTestsWithProfile(items: TestItem[]): void {
         groupBy(items, item => item.controller).forEach((tests, controller) => {
             if (controller) {
-                this.pickProfile(controller.testRunProfiles, nls.localizeByDefault('Pick a test profile to use')).then(activeProfile => {
+                this.pickProfile(controller.testRunProfiles, nls.localizeByDefault('选择要使用的测试配置文件')).then(activeProfile => {
                     if (activeProfile) {
                         activeProfile.run(`Test run #${this.testRunCounter++}`, items, [], true);
                     }
@@ -377,7 +377,7 @@ export class DefaultTestService implements TestService {
     selectDefaultProfile(): void {
         this.pickProfileKind().then(kind => {
             const profiles = this.getControllers().flatMap(c => c.testRunProfiles).filter(profile => profile.kind === kind);
-            this.pickProfile(profiles, nls.localizeByDefault('Pick a test profile to use')).then(activeProfile => {
+            this.pickProfile(profiles, nls.localizeByDefault('选择要使用的测试配置文件')).then(activeProfile => {
                 if (activeProfile) {
                     // only change the default for the controller containing selected profile for default and its profiles with same kind
                     const controller = this.getControllers().find(c => c.testRunProfiles.includes(activeProfile));
@@ -396,7 +396,7 @@ export class DefaultTestService implements TestService {
             profiles.push(...controller.testRunProfiles);
         }
         ;
-        this.pickProfile(profiles.filter(profile => profile.canConfigure), nls.localizeByDefault('Select a profile to update')).then(profile => {
+        this.pickProfile(profiles.filter(profile => profile.canConfigure), nls.localizeByDefault('选择要更新的配置文件')).then(profile => {
             if (profile) {
                 profile.configure();
             }

@@ -93,15 +93,15 @@ export class DialogsMainImpl implements DialogsMain {
             let title = options.title;
             if (!title) {
                 if (canSelectFiles && canSelectFolders) {
-                    title = 'Open';
+                    title = nls.localizeByDefault('打开');
                 } else {
                     if (canSelectFiles) {
-                        title = 'Open File';
+                        title = nls.localizeByDefault('打开文件');
                     } else {
-                        title = 'Open Folder';
+                        title = nls.localizeByDefault('打开文件夹');
                     }
                     if (options.canSelectMany) {
-                        title += '(s)';
+                        title += nls.localizeByDefault('（多个）');
                     }
                 }
             }
@@ -147,7 +147,7 @@ export class DialogsMainImpl implements DialogsMain {
         try {
             // Create save file dialog props
             const dialogProps = {
-                title: options.title ?? nls.localizeByDefault('Save'),
+                title: options.title ?? nls.localizeByDefault('保存'),
                 saveLabel: options.saveLabel,
                 filters: options.filters,
                 inputValue: fileNameValue

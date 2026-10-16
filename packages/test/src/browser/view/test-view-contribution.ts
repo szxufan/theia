@@ -34,8 +34,8 @@ export namespace TestViewCommands {
      */
     export const REFRESH: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.RefreshTestsAction,
-        label: 'Refresh Tests',
-        category: 'Test',
+        label: '刷新测试',
+        category: '测试',
         iconClass: codicon('refresh')
     });
 
@@ -44,82 +44,82 @@ export namespace TestViewCommands {
      */
     export const CANCEL_REFRESH: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.CancelTestRefreshAction,
-        label: 'Cancel Test Refresh',
-        category: 'Test',
+        label: '取消测试刷新',
+        category: '测试',
         iconClass: codicon('stop')
     });
 
     export const RUN_ALL_TESTS: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.RunAllAction,
-        label: 'Run All Tests',
-        category: 'Test',
+        label: '运行所有测试',
+        category: '测试',
         iconClass: codicon('run-all')
     });
 
     export const DEBUG_ALL_TESTS: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.DebugAllAction,
-        label: 'Debug Tests',
-        category: 'Test',
+        label: '调试测试',
+        category: '测试',
         iconClass: codicon('debug-all')
     });
 
     export const RUN_TEST: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.RunAction,
-        label: 'Run Test',
-        category: 'Test',
+        label: '运行测试',
+        category: '测试',
         iconClass: codicon('run')
     });
 
     export const RUN_TEST_WITH_PROFILE: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.RunUsingProfileAction,
-        category: 'Test',
-        label: 'Execute Using Profile...'
+        category: '测试',
+        label: '使用配置文件执行...'
     });
 
     export const DEBUG_TEST: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.DebugAction,
-        label: 'Debug Test',
-        category: 'Test',
+        label: '调试测试',
+        category: '测试',
         iconClass: codicon('debug-alt')
     });
 
     export const CANCEL_ALL_RUNS: Command = Command.toLocalizedCommand({
         id: 'testing.cancelAllRuns',
-        label: 'Cancel All Test Runs',
-        category: 'Test',
+        label: '取消所有测试运行',
+        category: '测试',
         iconClass: codicon('debug-stop')
     }, 'theia/test/cancelAllTestRuns', nls.getDefaultKey('Test'));
 
     export const CANCEL_RUN: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.CancelTestRunAction,
-        label: 'Cancel Test Run',
-        category: 'Test',
+        label: '取消测试运行',
+        category: '测试',
         iconClass: codicon('debug-stop')
     });
 
     export const GOTO_TEST: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.GoToTest,
-        label: 'Go to Test',
-        category: 'Test',
+        label: '转到测试',
+        category: '测试',
         iconClass: codicon('go-to-file')
     });
 
     export const CONFIGURE_PROFILES: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.ConfigureTestProfilesAction,
-        label: 'Configure Test Profiles',
-        category: 'Test'
+        label: '配置测试配置文件',
+        category: '测试'
     });
 
     export const SELECT_DEFAULT_PROFILES: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.SelectDefaultTestProfiles,
-        label: 'Select Default Profile',
-        category: 'Test'
+        label: '选择默认配置文件',
+        category: '测试'
     });
 
     export const CLEAR_ALL_RESULTS: Command = Command.toDefaultLocalizedCommand({
         id: TestCommandId.ClearTestResultsAction,
-        label: 'Clear All Results',
-        category: 'Test',
+        label: '清除所有结果',
+        category: '测试',
         iconClass: codicon('trash')
     });
 }
@@ -129,7 +129,7 @@ export const TEST_VIEW_INLINE_MENU = [...TEST_VIEW_CONTEXT_MENU, 'inline'];
 
 export const TEST_VIEW_CONTAINER_ID = 'test-view-container';
 export const TEST_VIEW_CONTAINER_TITLE_OPTIONS: ViewContainerTitleOptions = {
-    label: nls.localizeByDefault('Testing'),
+    label: nls.localizeByDefault('测试'),
     iconClass: codicon('beaker'),
     closeable: true
 };
@@ -147,7 +147,7 @@ export class TestViewContribution extends AbstractViewContribution<TestTreeWidge
         super({
             viewContainerId: TEST_VIEW_CONTAINER_ID,
             widgetId: TestTreeWidget.ID,
-            widgetName: nls.localizeByDefault('Test Explorer'),
+            widgetName: nls.localizeByDefault('测试资源管理器'),
             defaultWidgetOptions: {
                 area: 'left',
                 rank: 600,

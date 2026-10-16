@@ -4,68 +4,64 @@
 
 <img src='https://raw.githubusercontent.com/eclipse-theia/theia/master/logo/theia.svg?sanitize=true' alt='theia-ext-logo' width='100px' />
 
-<h2>ECLIPSE THEIA - MEMORY-INSPECTOR EXTENSION</h2>
+<h2>ECLIPSE THEIA - MEMORY-INSPECTOR 扩展</h2>
 
 <hr />
 
 </div>
 
-## Description
+## 描述
 
-This extension contributes a set of widgets for viewing memory in different ways.
+本扩展提供一组以不同方式查看内存的组件。
 
-## Requirements
+## 要求
 
-This extension must be used in conjunction with a Debug Adapter that implements a `ReadMemoryRequest` handler or alternative custom request that returns memory data.
-It has been tested against the [CDT-GDB Adapter](https://github.com/eclipse-cdt/cdt-gdb-adapter) used as the backend for the
-[CDT-GDB VSCode](https://github.com/eclipse-cdt/cdt-gdb-vscode) plugin. This repository is configured to download that plugin as part of its build routine.
-If you intend to use this extension with a different debug adapter, you may need to implement a custom
-[`MemoryProvider`](./src/browser/memory-provider/memory-provider-service.ts) to handle any peculiarities of the requests and responses used by your adapter.
+本扩展必须与实现了 `ReadMemoryRequest` 处理器（或返回内存数据的替代性自定义请求）的调试适配器配合使用。
+它已针对 [CDT-GDB Adapter](https://github.com/eclipse-cdt/cdt-gdb-adapter) 进行了测试，该适配器是
+[CDT-GDB VSCode](https://github.com/eclipse-cdt/cdt-gdb-vscode) 插件的后端。本仓库被配置为在构建流程中下载该插件。
+如果你打算将本扩展与其他调试适配器一起使用，可能需要实现自定义的
+[`MemoryProvider`](./src/browser/memory-provider/memory-provider-service.ts) 来处理你的适配器所用请求和响应的任何特殊之处。
 
-## Widgets
+## 组件
 
-### Memory Widget
+### 内存组件
 
-The basic [`MemoryWidget` class](./src/browser/memory-widget/memory-widget.ts) is a wrapper around two functional widgets, a `MemoryOptionsWidget` and
-a`MemoryTableWidget`. The [`MemoryOptionsWidget`](./src/browser/memory-widget/memory-options-widget.tsx) is responsible for configuring the display
-and fetching memory, and the [`MemoryTableWidget`](./src/browser/memory-widget/memory-table-widget.tsx) renders the memory according to the options
-specified by the user in the `MemoryOptionsWidget`. The basic combination of these three classes offers variable highlighting, ascii display, and
-dynamic updating in response to events from the debug session, as well as the option to lock the view to ignore changes from the session.
+基础的 [`MemoryWidget` 类](./src/browser/memory-widget/memory-widget.ts)封装了两个功能性组件：`MemoryOptionsWidget` 和
+`MemoryTableWidget`。[ `MemoryOptionsWidget`](./src/browser/memory-widget/memory-options-widget.tsx) 负责配置显示和获取内存，
+[ `MemoryTableWidget`](./src/browser/memory-widget/memory-table-widget.tsx) 则根据用户在 `MemoryOptionsWidget` 中指定的选项渲染内存。
+这三个类的基本组合提供了变量高亮、ASCII 显示、响应调试会话事件的动态更新，以及锁定视图以忽略会话变更的选项。
 
-### Diff Widget
+### 差异组件
 
-The [`MemoryDiffWidget`](./src/browser/diff-widget/memory-diff-widget-types.ts) is an elaboration of the `MemoryWidget` type that allows side-by-side
-comparison of the contents of two `MemoryWidgets`.
+[ `MemoryDiffWidget`](./src/browser/diff-widget/memory-diff-widget-types.ts) 是 `MemoryWidget` 类型的扩展形式，支持并排比较两个 `MemoryWidget` 的内容。
 
-### Register Widget
+### 寄存器组件
 
-The [`RegisterWidget`](./src/browser/register-widget/register-widget-types.ts) offers functionality to view and
-manipulate those values when using a debug adapter that reports register contents.
+[ `RegisterWidget`](./src/browser/register-widget/register-widget-types.ts) 提供在使用能报告寄存器内容的调试适配器时查看和操作这些值的功能。
 
-### Editable Widget
+### 可编辑组件
 
-The [`MemoryEditableTableWidget`](./src/browser/editable-widget/memory-editable-table-widget.tsx) adds UI functionality to allow users to modify values in
-the table display and send them to a backend that supports that operation.
+[ `MemoryEditableTableWidget`](./src/browser/editable-widget/memory-editable-table-widget.tsx) 增加了 UI 功能，允许用户修改表格显示中的值，并将其发送到支持该操作的后端。
 
-## Using the Widgets
+## 使用这些组件
 
-The widgets are created by the [`MemoryWidgetManager`](./src/browser/utils/memory-widget-manager.ts), and modifying the `createNewMemoryWidget()`
-method of that service allows you to change what kind of widget is instantiated and under what circumstances. The widgets get memory through the
-[`MemoryProviderService`](./src/browser/memory-provider/memory-provider-service.ts), which delegates to implementations `MemoryProvider` interface
-that are bound as `MemoryProvider` contributions.
+这些组件由 [`MemoryWidgetManager`](./src/browser/utils/memory-widget-manager.ts) 创建，修改该服务的 `createNewMemoryWidget()`
+方法可以更改实例化的组件类型以及实例化的时机。这些组件通过
+[`MemoryProviderService`](./src/browser/memory-provider/memory-provider-service.ts) 获取内存，该服务委托给实现 `MemoryProvider` 接口
+并绑定为 `MemoryProvider` 贡献的实现。
 
-## Additional Information
+## 更多信息
 
-- [API documentation for `@theia/memory-inspector`](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_memory-inspector.html)
+- [`@theia/memory-inspector` 的 API 文档](https://eclipse-theia.github.io/theia/docs/next/modules/_theia_memory-inspector.html)
 - [Theia - GitHub](https://github.com/eclipse-theia/theia)
 - [Theia - Website](https://theia-ide.org/)
 
-## License
+## 许可证
 
 - [Eclipse Public License 2.0](http://www.eclipse.org/legal/epl-2.0/)
 - [一 (Secondary) GNU General Public License, version 2 with the GNU Classpath Exception](https://projects.eclipse.org/license/secondary-gpl-2.0-cp)
 
-## Trademark
+## 商标
 
-"Theia" is a trademark of the Eclipse Foundation
+"Theia" 是 Eclipse Foundation 的商标
 <https://www.eclipse.org/theia>

@@ -105,17 +105,17 @@ export class OpenWithService {
         const extraItems: QuickPickItemOrSeparator[] = uri.path.ext ? [{
             type: 'separator'
         }, {
-            label: nls.localizeByDefault("Configure default editor for '{0}'...", ext)
+            label: nls.localizeByDefault("配置“{0}”的默认编辑器...", ext)
         }] : [];
         const result = await this.quickInputService.pick<OpenWithQuickPickItem | { label: string }>([...items, ...extraItems], {
-            placeHolder: nls.localizeByDefault("Select editor for '{0}'", uri.path.base)
+            placeHolder: nls.localizeByDefault("选择“{0}”的编辑器", uri.path.base)
         });
         if (result) {
             if ('handler' in result) {
                 return result.handler.open(uri);
             } else if (result.label) {
                 const configureResult = await this.quickInputService.pick(items, {
-                    placeHolder: nls.localizeByDefault("Select new default editor for '{0}'", ext)
+                    placeHolder: nls.localizeByDefault("选择“{0}”的新默认编辑器", ext)
                 });
                 if (configureResult) {
                     associations[ext] = configureResult.handler.id;
@@ -132,7 +132,7 @@ export class OpenWithService {
             handler,
             label: handler.label ?? handler.id,
             detail: handler.providerName ?? '',
-            description: handler.id === defaultHandler ? nls.localizeByDefault('Default') : undefined
+            description: handler.id === defaultHandler ? nls.localizeByDefault('默认') : undefined
         }));
     }
 

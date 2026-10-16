@@ -50,9 +50,9 @@ const DEFAULT_LIST_VALUE = '';
 export class ModelAliasesConfigurationCategory extends CollectionCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.MODEL_ALIASES;
-    readonly label = nls.localize('theia/ai/core/modelAliasesConfiguration/label', 'Model Aliases');
+    readonly label = nls.localize('theia/ai/core/modelAliasesConfiguration/label', '模型别名');
     readonly description = nls.localize('theia/ai/core/modelAliasesConfiguration/description',
-        'Named references to a preferred model, so agents can target a role instead of a specific model.');
+        '指向首选模型的命名引用，使代理可以面向角色而非特定模型。');
     readonly iconClass = codicon('symbol-namespace');
     readonly order = AiConfigurationCategoryOrder.MODEL_ALIASES;
     readonly kind = 'collection' as const;
@@ -170,15 +170,15 @@ export class ModelAliasesConfigurationCategory extends CollectionCategoryRendere
         if (!resolved) {
             return {
                 kind: 'error',
-                label: nls.localize('theia/ai/core/modelAliasesConfiguration/noModel', 'No model'),
-                tooltip: nls.localize('theia/ai/core/modelAliasesConfiguration/noResolvedModel', 'No model ready for this alias.')
+                label: nls.localize('theia/ai/core/modelAliasesConfiguration/noModel', '无模型'),
+                tooltip: nls.localize('theia/ai/core/modelAliasesConfiguration/noResolvedModel', '此别名没有就绪的模型。')
             };
         }
         const modelName = resolved.name ?? resolved.id;
         if (resolved.status.status !== 'ready') {
             return {
                 kind: 'warn',
-                label: nls.localize('theia/ai/core/modelAliasesConfiguration/notReady', 'Not ready'),
+                label: nls.localize('theia/ai/core/modelAliasesConfiguration/notReady', '未就绪'),
                 tooltip: resolved.status.message
             };
         }
@@ -186,7 +186,7 @@ export class ModelAliasesConfigurationCategory extends CollectionCategoryRendere
         return {
             kind: 'on',
             label: modelName,
-            tooltip: nls.localize('theia/ai/core/modelAliasesConfiguration/resolvesTo', 'Resolves to {0}', modelName)
+            tooltip: nls.localize('theia/ai/core/modelAliasesConfiguration/resolvesTo', '解析为 {0}', modelName)
         };
     }
 
@@ -206,12 +206,12 @@ export class ModelAliasesConfigurationCategory extends CollectionCategoryRendere
         const options = this.getModelOptions();
         const selected = alias.selectedModelId ?? DEFAULT_LIST_VALUE;
         const isInvalid = !!alias.selectedModelId && !this.languageModels.some(model => model.id === alias.selectedModelId);
-        return <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/selectedModelId', 'Selected Model')}>
+        return <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/selectedModelId', '所选模型')}>
             {isInvalid && <div className='ai-alias-invalid-model'>
-                {nls.localize('theia/ai/core/modelAliasesConfiguration/unavailableModel', 'Selected model is no longer available')}
+                {nls.localize('theia/ai/core/modelAliasesConfiguration/unavailableModel', '所选模型已不可用')}
             </div>}
             <AiEnumSelect
-                ariaLabel={nls.localize('theia/ai/core/modelAliasesConfiguration/selectedModelId', 'Selected Model')}
+                ariaLabel={nls.localize('theia/ai/core/modelAliasesConfiguration/selectedModelId', '所选模型')}
                 value={isInvalid ? undefined : selected}
                 invalid={isInvalid}
                 options={this.toEnumOptions(options)}
@@ -237,7 +237,7 @@ export class ModelAliasesConfigurationCategory extends CollectionCategoryRendere
     protected getModelOptions(): SelectOption[] {
         const options: SelectOption[] = [{
             value: DEFAULT_LIST_VALUE,
-            label: nls.localize('theia/ai/core/modelAliasesConfiguration/defaultList', '[Default list]')
+            label: nls.localize('theia/ai/core/modelAliasesConfiguration/defaultList', '[默认列表]')
         }];
         // Divided per provider, newest first inside each group. An alias names a concrete model, which
         // includes the older and release-pinned ones, so the whole catalogue is offered here.
@@ -265,7 +265,7 @@ export class ModelAliasesConfigurationCategory extends CollectionCategoryRendere
     protected renderPriorityList(alias: LanguageModelAlias): React.ReactNode {
         const resolved = this.resolvedModelForAlias.get(alias.id);
         return <>
-            <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/priorityList', 'Priority List')}>
+            <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/priorityList', '优先级列表')}>
                 <ol>
                     {alias.defaultModelIds.map(modelId => {
                         const model = this.languageModels.find(candidate => candidate.id === modelId);
@@ -276,10 +276,10 @@ export class ModelAliasesConfigurationCategory extends CollectionCategoryRendere
                     })}
                 </ol>
             </AiConfigurationSection>
-            <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/evaluatesTo', 'Evaluates to')}>
+            <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/evaluatesTo', '解析结果')}>
                 {resolved
                     ? <span>{resolved.name ?? resolved.id} {resolved.status.status === 'ready' ? '✓' : '✗'}</span>
-                    : <span>{nls.localize('theia/ai/core/modelAliasesConfiguration/noResolvedModel', 'No model ready for this alias.')}</span>}
+                    : <span>{nls.localize('theia/ai/core/modelAliasesConfiguration/noResolvedModel', '此别名没有就绪的模型。')}</span>}
             </AiConfigurationSection>
         </>;
     }
@@ -287,15 +287,15 @@ export class ModelAliasesConfigurationCategory extends CollectionCategoryRendere
     protected renderAgentsUsingAlias(alias: LanguageModelAlias, ctx: AiConfigurationRenderContext): React.ReactNode {
         const agentIds = this.matchingAgentIdsForAlias.get(alias.id) ?? [];
         const agents = this.agentService.getAllAgents().filter(agent => agentIds.includes(agent.id));
-        return <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/agents', 'Agents using this Alias')}>
+        return <AiConfigurationSection title={nls.localize('theia/ai/core/modelAliasesConfiguration/agents', '使用此别名的代理')}>
             {agents.length > 0
                 ? <AgentChips agents={agents} onOpenAgent={agentId => ctx.navigate({ categoryId: AiConfigurationCategoryId.AGENTS, itemId: agentId })} />
-                : <span>{nls.localize('theia/ai/core/modelAliasesConfiguration/noAgents', 'No agents use this alias.')}</span>}
+                : <span>{nls.localize('theia/ai/core/modelAliasesConfiguration/noAgents', '没有代理使用此别名。')}</span>}
         </AiConfigurationSection>;
     }
 
     getSearchItems(): AiConfigurationSearchItem[] {
-        const typeLabel = nls.localize('theia/ai/core/modelAliasesConfiguration/aliasTypeLabel', 'Model Alias');
+        const typeLabel = nls.localize('theia/ai/core/modelAliasesConfiguration/aliasTypeLabel', '模型别名');
         return this.aliases.map(alias => ({
             label: alias.id,
             typeLabel,

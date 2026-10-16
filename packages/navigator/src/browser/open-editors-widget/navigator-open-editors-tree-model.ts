@@ -107,7 +107,8 @@ export class OpenEditorsModel extends FileTreeModel {
         this.fireChanged();
     }
 
-    protected updateOpenWidgets = debounce(this.doUpdateOpenWidgets, 250);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    protected updateOpenWidgets: any = debounce(this.doUpdateOpenWidgets, 250);
 
     protected async doUpdateOpenWidgets(layoutModifiedArea?: ApplicationShell.Area): Promise<void> {
         this._lastEditorWidgetsByArea = this._editorWidgetsByArea;
@@ -156,7 +157,7 @@ export class OpenEditorsModel extends FileTreeModel {
         if (mainTabBars.length > 1) {
             mainTabBars.forEach((tabbar, index) => {
                 const groupNumber = index + 1;
-                const newCaption = nls.localizeByDefault('Group {0}', groupNumber);
+                const newCaption = nls.localizeByDefault('组 {0}', groupNumber);
                 const groupNode = {
                     parent: undefined,
                     id: `${OpenEditorsModel.GROUP_NODE_ID_PREFIX}:${groupNumber}`,

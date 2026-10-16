@@ -27,7 +27,7 @@ import { RegisterTableWidget } from './register-table-widget';
 export type RegisterWidget = MemoryWidget<RegisterOptionsWidget, RegisterTableWidget>;
 export namespace RegisterWidget {
     export const ID = 'register-view-options-widget';
-    export const LABEL = nls.localize('theia/memory-inspector/register', 'Register');
+    export const LABEL = nls.localize('theia/memory-inspector/register', '寄存器');
     export const is = (widget: MemoryWidget): boolean => widget.optionsWidget instanceof RegisterOptionsWidget;
 
     export const createContainer = (

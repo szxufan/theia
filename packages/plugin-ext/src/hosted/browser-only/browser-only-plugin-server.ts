@@ -55,19 +55,19 @@ export class BrowserOnlyPluginServer implements PluginServer {
     protected missingLocksWarned = false;
 
     async install(pluginEntry: string, type?: PluginType, options?: PluginDeployOptions): Promise<void> {
-        throw new Error(nls.localize('theia/plugin-ext/browserOnlyInstallUnsupported', 'Installing plugins is not supported in a browser-only application.'));
+        throw new Error(nls.localize('theia/plugin-ext/browserOnlyInstallUnsupported', '纯浏览器应用不支持安装插件。'));
     }
 
     async uninstall(pluginId: PluginIdentifiers.VersionedId): Promise<void> {
-        throw new Error(nls.localize('theia/plugin-ext/browserOnlyUninstallUnsupported', 'Uninstalling plugins is not supported in a browser-only application.'));
+        throw new Error(nls.localize('theia/plugin-ext/browserOnlyUninstallUnsupported', '纯浏览器应用不支持卸载插件。'));
     }
 
     async enablePlugin(pluginId: PluginIdentifiers.UnversionedId): Promise<boolean> {
-        throw new Error(nls.localize('theia/plugin-ext/browserOnlyEnableUnsupported', 'Enabling plugins is not supported in a browser-only application.'));
+        throw new Error(nls.localize('theia/plugin-ext/browserOnlyEnableUnsupported', '纯浏览器应用不支持启用插件。'));
     }
 
     async disablePlugin(pluginId: PluginIdentifiers.UnversionedId): Promise<boolean> {
-        throw new Error(nls.localize('theia/plugin-ext/browserOnlyDisableUnsupported', 'Disabling plugins is not supported in a browser-only application.'));
+        throw new Error(nls.localize('theia/plugin-ext/browserOnlyDisableUnsupported', '纯浏览器应用不支持禁用插件。'));
     }
 
     async getInstalledPlugins(): Promise<readonly PluginIdentifiers.VersionedId[]> {

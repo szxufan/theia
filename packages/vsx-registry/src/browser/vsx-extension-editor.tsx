@@ -67,7 +67,7 @@ export class VSXExtensionEditor extends ReactWidget {
     }
 
     protected updateTitle(): void {
-        const label = nls.localizeByDefault('Extension: {0}', (this.extension.displayName || this.extension.name));
+        const label = nls.localizeByDefault('扩展：{0}', (this.extension.displayName || this.extension.name));
         this.title.label = label;
         this.title.caption = label;
     }

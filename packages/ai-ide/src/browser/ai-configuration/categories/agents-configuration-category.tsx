@@ -32,7 +32,7 @@ import {
 import { AGENT_SETTINGS_PREF } from '@theia/ai-core/lib/common/agent-preferences';
 import { LanguageModelAlias, LanguageModelAliasRegistry } from '@theia/ai-core/lib/common/language-model-alias';
 import { DEFAULT_CHAT_AGENT_PREF } from '@theia/ai-chat/lib/common/ai-chat-preferences';
-import { isChatAgent } from '@theia/ai-chat/lib/common';
+import { getAgentDisplayName, isChatAgent } from '@theia/ai-chat/lib/common';
 import { GenericCapabilitiesService } from '@theia/ai-chat-ui/lib/browser/generic-capabilities-service';
 import { ChatCapabilitiesService } from '@theia/ai-chat-ui/lib/browser/chat-capabilities-service';
 import { CommandService, DisposableCollection, Emitter, Event, ILogger, MessageService, nls, URI } from '@theia/core';
@@ -75,9 +75,9 @@ interface CustomAgentScopeOption {
 export class AgentsConfigurationCategory extends CollectionCategoryRenderer implements AiConfigurationCategory, AiConfigurationSearchProvider {
 
     readonly id = AiConfigurationCategoryId.AGENTS;
-    readonly label = nls.localizeByDefault('Agents');
+    readonly label = nls.localizeByDefault('代理');
     readonly description = nls.localize('theia/ai/ide/agentsConfiguration/description',
-        'The AI agents available in the IDE. Open an agent to configure its prompts, model and capabilities.');
+        'IDE 中可用的 AI 代理。打开某个代理以配置其提示词、模型与能力。');
     readonly iconClass = codicon('copilot');
     readonly order = AiConfigurationCategoryOrder.AGENTS;
     readonly kind = 'collection' as const;
@@ -145,7 +145,7 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
     }
 
     protected override get overviewListTitle(): string {
-        return nls.localizeByDefault('Agents');
+        return nls.localizeByDefault('代理');
     }
 
     getOwnedPreferenceIds(): string[] {
@@ -208,12 +208,12 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
             const enabled = this.agentService.isEnabled(agent.id);
             return {
                 id: agent.id,
-                label: agent.name,
+                label: getAgentDisplayName(agent),
                 iconClass: getAgentIconClass(agent),
                 description: agent.description,
                 status: {
                     kind: enabled ? 'on' : 'off',
-                    label: enabled ? nls.localizeByDefault('Enabled') : nls.localizeByDefault('Disabled')
+                    label: enabled ? nls.localizeByDefault('已启用') : nls.localizeByDefault('已禁用')
                 }
             } satisfies AiConfigurationTreeItem;
         });
@@ -221,11 +221,11 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
 
     protected override renderCategorySettings(ctx: AiConfigurationRenderContext): React.ReactNode {
         return <>
-            <AiConfigurationSection title={nls.localize('theia/ai/ide/agentConfiguration/behavior', 'Behavior')}>
+            <AiConfigurationSection title={nls.localize('theia/ai/ide/agentConfiguration/behavior', '行为')}>
                 <AiSettingsRow
                     service={this.settingsRowService}
                     preferenceId={PREFERENCE_NAME_AGENT_MODE_ENABLED}
-                    label={nls.localize('theia/ai/ide/agentConfiguration/agentMode', 'Agent mode for Coder')}
+                    label={nls.localize('theia/ai/ide/agentConfiguration/agentMode', 'Coder 的代理模式')}
                     scope={ctx.scope}
                     control={{ type: 'boolean' }}
                     onDidChange={ctx.update}
@@ -233,17 +233,17 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
                 <AiSettingsRow
                     service={this.settingsRowService}
                     preferenceId={PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST}
-                    label={nls.localize('theia/ai/ide/agentConfiguration/orchestratorExclude', 'Agents hidden from the orchestrator')}
+                    label={nls.localize('theia/ai/ide/agentConfiguration/orchestratorExclude', '对编排器隐藏的代理')}
                     scope={ctx.scope}
-                    control={{ type: 'array', placeholder: nls.localize('theia/ai/ide/agentConfiguration/orchestratorExcludePlaceholder', 'Add agent ID...') }}
+                    control={{ type: 'array', placeholder: nls.localize('theia/ai/ide/agentConfiguration/orchestratorExcludePlaceholder', '添加代理 ID...') }}
                     onDidChange={ctx.update}
                 />
             </AiConfigurationSection>
-            <AiConfigurationSection title={nls.localize('theia/ai/ide/agentConfiguration/defaults', 'Defaults')}>
+            <AiConfigurationSection title={nls.localize('theia/ai/ide/agentConfiguration/defaults', '默认值')}>
                 <AiSettingsRow
                     service={this.settingsRowService}
                     preferenceId={DEFAULT_CHAT_AGENT_PREF}
-                    label={nls.localize('theia/ai/ide/agentConfiguration/defaultChatAgent', 'Default Chat Agent')}
+                    label={nls.localize('theia/ai/ide/agentConfiguration/defaultChatAgent', '默认聊天代理')}
                     scope={ctx.scope}
                     control={{ type: 'select', options: this.getChatAgentOptions() }}
                     onDidChange={ctx.update}
@@ -264,13 +264,13 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
         // built-in defaults apply. Without it the select would fall back to showing the first agent when unset.
         const none: SelectOption = {
             value: '',
-            label: nls.localize('theia/ai/ide/agentConfiguration/defaultChatAgentNone', 'Built-in default'),
+            label: nls.localize('theia/ai/ide/agentConfiguration/defaultChatAgentNone', '内置默认'),
             description: nls.localize('theia/ai/ide/agentConfiguration/defaultChatAgentNoneDescription',
-                'No explicit default; Theia picks the default Chat Agent.')
+                '未显式指定默认值；Theia 将选择默认聊天代理。')
         };
         return [none, ...this.agentService.getAllAgents()
             .filter(agent => isChatAgent(agent))
-            .map(agent => ({ value: agent.id, label: agent.name }))];
+            .map(agent => ({ value: agent.id, label: getAgentDisplayName(agent) }))];
     }
 
     protected getNotificationTypeOptions(): SelectOption[] {
@@ -279,14 +279,14 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
 
     override getAddAction(ctx: AiConfigurationRenderContext): AiConfigurationAddDescriptor {
         return {
-            label: nls.localize('theia/ai/core/agentConfiguration/addCustomAgent', 'Add Custom Agent'),
+            label: nls.localize('theia/ai/core/agentConfiguration/addCustomAgent', '添加自定义代理'),
             iconClass: codicon('add'),
             run: () => this.addCustomAgent()
         };
     }
 
     protected override getEmptyMessage(): string {
-        return nls.localize('theia/ai/ide/agentConfiguration/noAgents', 'No agents are available.');
+        return nls.localize('theia/ai/ide/agentConfiguration/noAgents', '没有可用的代理。');
     }
 
     protected override renderItemHeader(): React.ReactNode {
@@ -328,33 +328,33 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
     }
 
     getSearchItems(): AiConfigurationSearchItem[] {
-        const settingLabel = nls.localizeByDefault('Setting');
+        const settingLabel = nls.localizeByDefault('设置');
         const items: AiConfigurationSearchItem[] = [{
-            label: nls.localize('theia/ai/ide/agentConfiguration/agentMode', 'Agent mode for Coder'),
+            label: nls.localize('theia/ai/ide/agentConfiguration/agentMode', 'Coder 的代理模式'),
             typeLabel: settingLabel,
             categoryId: this.id,
             target: { categoryId: this.id },
             keywords: PREFERENCE_NAME_AGENT_MODE_ENABLED
         }, {
-            label: nls.localize('theia/ai/ide/agentConfiguration/orchestratorExclude', 'Agents hidden from the orchestrator'),
+            label: nls.localize('theia/ai/ide/agentConfiguration/orchestratorExclude', '对编排器隐藏的代理'),
             typeLabel: settingLabel,
             categoryId: this.id,
             target: { categoryId: this.id, highlight: { rowId: PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST } },
             keywords: PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST
         }, {
-            label: nls.localize('theia/ai/ide/agentConfiguration/defaultChatAgent', 'Default Chat Agent'),
+            label: nls.localize('theia/ai/ide/agentConfiguration/defaultChatAgent', '默认聊天代理'),
             typeLabel: settingLabel,
             categoryId: this.id,
             target: { categoryId: this.id, highlight: { rowId: DEFAULT_CHAT_AGENT_PREF } },
             keywords: DEFAULT_CHAT_AGENT_PREF
         }, {
-            label: nls.localize('theia/ai/core/defaultNotification/title', 'Default Notification Type'),
+            label: nls.localize('theia/ai/core/defaultNotification/title', '默认通知类型'),
             typeLabel: settingLabel,
             categoryId: this.id,
             target: { categoryId: this.id, highlight: { rowId: PREFERENCE_NAME_DEFAULT_NOTIFICATION_TYPE } },
             keywords: PREFERENCE_NAME_DEFAULT_NOTIFICATION_TYPE
         }];
-        const agentTypeLabel = nls.localizeByDefault('Agent');
+        const agentTypeLabel = nls.localizeByDefault('代理');
         for (const agent of this.agentService.getAllAgents()) {
             items.push({
                 label: agent.name,
@@ -386,7 +386,7 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
         const scopeOptions = this.selectAgentScopeOptions(allLocations);
         if (scopeOptions.length === 0) {
             this.messageService.warn(nls.localize('theia/ai/ide/agentConfiguration/newAgent/noLocation',
-                'Cannot create a custom agent: no prompt-templates location is configured. Set a global or workspace prompt-templates folder and try again.'));
+                '无法创建自定义代理：未配置提示词模板位置。请设置全局或工作区提示词模板文件夹后重试。'));
             return;
         }
 
@@ -395,9 +395,9 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
             chosen = await new Promise<CustomAgentScopeOption>((resolve, reject) => {
                 const quickPick = this.quickInputService.createQuickPick();
                 quickPick.title = nls.localize('theia/ai/ide/agentConfiguration/customAgentLocationQuickPick/title',
-                    'Select location for the new custom agent');
+                    '选择新自定义代理的位置');
                 quickPick.placeholder = nls.localize('theia/ai/ide/agentConfiguration/customAgentLocationQuickPick/placeholder',
-                    'Choose where to create the agents/<id>/agent.md file');
+                    '选择创建 agents/<id>/agent.md 文件的位置');
                 quickPick.items = scopeOptions.map(opt => ({
                     label: opt.scopeDir.path.toString(),
                     description: opt.agentsDir.path.toString(),
@@ -418,12 +418,12 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
         }
 
         const id = await this.quickInputService.input({
-            title: nls.localize('theia/ai/ide/agentConfiguration/newAgent/idTitle', 'New custom agent'),
-            prompt: nls.localize('theia/ai/ide/agentConfiguration/newAgent/idPrompt', 'Agent id (used as folder name under agents/)'),
+            title: nls.localize('theia/ai/ide/agentConfiguration/newAgent/idTitle', '新建自定义代理'),
+            prompt: nls.localize('theia/ai/ide/agentConfiguration/newAgent/idPrompt', '代理 ID（用作 agents/ 下的文件夹名称）'),
             placeHolder: 'my-agent',
             validateInput: async value => /^[A-Za-z0-9._-]+$/.test(value)
                 ? undefined
-                : nls.localize('theia/ai/ide/agentConfiguration/newAgent/idInvalid', 'Use letters, digits, dash, underscore, or dot only.')
+                : nls.localize('theia/ai/ide/agentConfiguration/newAgent/idInvalid', '只能使用字母、数字、短横线、下划线或点。')
         });
         if (!id) {
             return;
@@ -433,14 +433,14 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
             await this.promptFragmentCustomizationService.createCustomAgentFile(chosen.scopeDir, {
                 id,
                 name: id,
-                description: nls.localize('theia/ai/ide/agentConfiguration/newAgent/defaultDescription', 'Custom agent. Edit this description in agent.md.'),
-                prompt: nls.localize('theia/ai/ide/agentConfiguration/newAgent/defaultPrompt', 'You are a helpful agent. Adjust this prompt to fit your needs.'),
+                description: nls.localize('theia/ai/ide/agentConfiguration/newAgent/defaultDescription', '自定义代理。请在 agent.md 中编辑此描述。'),
+                prompt: nls.localize('theia/ai/ide/agentConfiguration/newAgent/defaultPrompt', '你是一个乐于助人的代理。请根据你的需求调整此提示词。'),
                 defaultLLM: 'default/universal',
                 showInChat: true
             });
         } catch (error) {
             this.messageService.error(nls.localize('theia/ai/ide/agentConfiguration/newAgent/createFailed',
-                'Could not create the custom agent "{0}": {1}', id, error instanceof Error ? error.message : String(error)));
+                '无法创建自定义代理“{0}”：{1}', id, error instanceof Error ? error.message : String(error)));
         }
     }
 }

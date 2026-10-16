@@ -68,7 +68,7 @@ export class ReadToolRenderer implements ChatResponsePartRenderer<ToolCallChatRe
             />;
         } catch (error) {
             this.logger.warn('Failed to parse Read tool input:', error);
-            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseReadToolData', 'Failed to parse Read tool data')}</div>;
+            return <div className="claude-code-tool error">{nls.localize('theia/ai/claude-code/failedToParseReadToolData', '解析 Read 工具数据失败')}</div>;
         }
     }
 }
@@ -120,12 +120,12 @@ const ReadToolComponent: React.FC<{
     const compactHeader = (
         <>
             <div className="claude-code-tool header-left">
-                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/reading', 'Reading')}</span>
+                <span className="claude-code-tool title">{nls.localize('theia/ai/claude-code/reading', '正在读取')}</span>
                 <span className={`${getIcon(input.file_path)} claude-code-tool icon`} />
                 <span
                     className="claude-code-tool file-name clickable-element"
                     onClick={handleOpenFile}
-                    title={nls.localize('theia/ai/claude-code/openFileTooltip', 'Click to open file in editor')}
+                    title={nls.localize('theia/ai/claude-code/openFileTooltip', '点击在编辑器中打开文件')}
                 >
                     {getFileName(input.file_path)}
                 </span>
@@ -133,10 +133,10 @@ const ReadToolComponent: React.FC<{
             </div>
             <div className="claude-code-tool header-right">
                 {isEntireFile && (
-                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/entireFile', 'Entire File')}</span>
+                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/entireFile', '整个文件')}</span>
                 )}
                 {!isEntireFile && (
-                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/partial', 'Partial')}</span>
+                    <span className="claude-code-tool badge">{nls.localize('theia/ai/claude-code/partial', '部分')}</span>
                 )}
             </div>
         </>
@@ -145,26 +145,26 @@ const ReadToolComponent: React.FC<{
     const expandedContent = (
         <div className="claude-code-tool details">
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', 'File Path')}</span>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/filePath', '文件路径')}</span>
                 <code className="claude-code-tool detail-value">{input.file_path}</code>
             </div>
             {input.offset && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/startingLine', 'Starting Line')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/startingLine', '起始行')}</span>
                     <span className="claude-code-tool detail-value">{input.offset}</span>
                 </div>
             )}
             {input.limit && (
                 <div className="claude-code-tool detail-row">
-                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/lineLimit', 'Line Limit')}</span>
+                    <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/lineLimit', '行数限制')}</span>
                     <span className="claude-code-tool detail-value">{input.limit}</span>
                 </div>
             )}
             <div className="claude-code-tool detail-row">
-                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/readMode', 'Read Mode')}</span>
+                <span className="claude-code-tool detail-label">{nls.localize('theia/ai/claude-code/readMode', '读取模式')}</span>
                 <span className="claude-code-tool detail-value">{isEntireFile
-                    ? nls.localize('theia/ai/claude-code/entireFile', 'Entire File')
-                    : nls.localize('theia/ai/claude-code/partial', 'Partial')}</span>
+                    ? nls.localize('theia/ai/claude-code/entireFile', '整个文件')
+                    : nls.localize('theia/ai/claude-code/partial', '部分')}</span>
             </div>
         </div>
     );
