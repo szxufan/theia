@@ -16,7 +16,7 @@
 
 /**
  * A schema-driven editor for `array` preferences whose entries are objects with a declared
- * `properties` map — above all a provider's custom endpoints (`ai-features.openAiCustom.customOpenAiModels`,
+ * `properties` map — above all a provider's custom endpoints (`ai-features.openAiCustom.endpoints`,
  * `ai-features.anthropicCustom.customAnthropicModels`), which would otherwise be editable only as raw
  * JSON in `settings.json`. Each entry renders as a card with one field per declared property; entries
  * can be added and removed. Clearing a field removes the property from the entry, so optional settings
@@ -110,17 +110,29 @@ export const AiObjectListInput: React.FC<{
 };
 
 /**
- * The card's display name: the entry's `id`, falling back to its `model`/`name`, then to a positional
- * label while the entry is still empty (a just-added card has no identifying property yet).
+ * The card's display name: the entry's `id`, falling back to its `model`/`url`/`name` (an endpoint card
+ * titles itself by its Base URL), then to a positional label while the entry is still empty (a
+ * just-added card has no identifying property yet).
  */
 function itemTitle(item: Record<string, unknown>, index: number): string {
-    for (const key of ['id', 'model', 'name']) {
+    for (const key of ['id', 'model', 'url', 'name']) {
         const value = item[key];
         if (typeof value === 'string' && value) {
             return value;
         }
     }
     return nls.localize('theia/ai/core/aiConfiguration/objectList/entry', '条目 {0}', index + 1);
+}
+
+/** Whether a stored array entry is a plain object and can therefore be shown as an object-list card. */
+export function isPlainObject(entry: unknown): entry is Record<string, unknown> {
+    return !!entry && typeof entry === 'object' && !Array.isArray(entry);
+}
+
+/** The item schema of an `array` property whose entries are objects with a declared `properties` map. */
+function isObjectItemSchema(schema: unknown): schema is PreferenceDataProperty {
+    const candidate = schema as { type?: unknown; properties?: unknown };
+    return candidate?.type === 'object' && !!candidate.properties;
 }
 
 /** Whether a property holds a secret (an API key, token or password) that should be masked. */
@@ -226,7 +238,47 @@ const AiObjectField: React.FC<{
         </div>;
     }
 
-    if (type === 'object' || type === 'array') {
+    if (type === 'object') {
+        return <div className='ai-config-object-field'>
+            {labelNode}
+            <ParsedTextInput
+                value={value}
+                ariaLabel={label}
+                monospace={true}
+                disabled={disabled}
+                format={current => current === undefined ? '' : JSON.stringify(current)}
+                parse={text => {
+                    try {
+                        return { kind: 'value', value: JSON.parse(text) };
+                    } catch {
+                        return { kind: 'error', message: nls.localize('theia/ai/core/aiConfiguration/objectList/invalidJson', '不是有效的 JSON。') };
+                    }
+                }}
+                onCommit={onCommit}
+            />
+        </div>;
+    }
+
+    // An array of objects with a declared item schema (e.g. an endpoint's `models` list): a nested
+    // per-entry card editor instead of a raw JSON field. Other array shapes fall through to JSON.
+    if (type === 'array') {
+        const items = property.items;
+        const itemSchema = Array.isArray(items) ? items[0] : items;
+        if (itemSchema && isObjectItemSchema(itemSchema)) {
+            return <div className='ai-config-object-field'>
+                {labelNode}
+                <AiObjectListInput
+                    values={Array.isArray(value) ? value.filter(isPlainObject) : []}
+                    itemSchema={itemSchema}
+                    ariaLabel={label}
+                    disabled={disabled}
+                    onChange={next => onCommit(next.length
+                        ? { kind: 'value', value: next }
+                        // An emptied nested list removes the property, so a just-cleared entry carries no ghost `models: []`.
+                        : { kind: 'unset' })}
+                />
+            </div>;
+        }
         return <div className='ai-config-object-field'>
             {labelNode}
             <ParsedTextInput

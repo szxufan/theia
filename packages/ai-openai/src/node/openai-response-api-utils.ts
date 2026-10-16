@@ -45,6 +45,10 @@ import type { ResponsesModel } from 'openai/resources/shared';
 import { DeveloperMessageSettings } from './openai-language-model';
 import type { OpenAiModelUtils } from './openai-model-utils';
 import { OPENAI_WEB_SEARCH, OPENAI_WEB_SEARCH_REPLAY_DATA_KEY } from './openai-server-tools';
+
+/** Sent in place of an image when the model is configured not to accept image input. */
+const UNSUPPORTED_IMAGE_PLACEHOLDER = '（图片已忽略：当前模型不支持图像输入）';
+
 import { AbstractStreamingResponseIterator } from './streaming-response-iterator';
 
 export const OPENAI_FUNCTION_CALL_REASONING_DATA_KEY = 'openAiFunctionCallReasoning';
@@ -103,13 +107,14 @@ export class OpenAiResponseApiUtils {
         developerMessageSettings: DeveloperMessageSettings,
         modelId: string,
         isStreaming: boolean,
-        cancellationToken?: CancellationToken
+        cancellationToken?: CancellationToken,
+        supportsImages: boolean = true
     ): Promise<LanguageModelResponse> {
         if (cancellationToken?.isCancellationRequested) {
             return { text: '' };
         }
 
-        const { instructions, input } = this.processMessages(request.messages, developerMessageSettings, model);
+        const { instructions, input } = this.processMessages(request.messages, developerMessageSettings, model, supportsImages);
         const tools = this.convertToolsForResponseApi(request.tools, request.deferredToolIds, request.serverTools);
         const include = [...new Set([
             ...(Array.isArray(settings.include) ? settings.include : []),
@@ -159,7 +164,8 @@ export class OpenAiResponseApiUtils {
             this.toolCallExecutor,
             this.logger,
             isStreaming,
-            cancellationToken
+            cancellationToken,
+            supportsImages
         );
 
         return { stream: iterator };
@@ -356,12 +362,14 @@ export class OpenAiResponseApiUtils {
      * @param messages the list of messages to process.
      * @param developerMessageSettings how system and developer messages are handled during processing.
      * @param model the OpenAI model identifier. Currently not used, but allows subclasses to implement model-specific behavior.
+     * @param supportsImages whether the model accepts image input; `false` replaces image messages with a placeholder text.
      * @returns an object containing instructions and input formatted for the Response API.
      */
     processMessages(
         messages: LanguageModelMessage[],
         developerMessageSettings: DeveloperMessageSettings,
-        model: string
+        model: string,
+        supportsImages: boolean = true
     ): { instructions?: string; input: ResponseInputItem[] } {
         const processed = this.processSystemMessages(messages, developerMessageSettings)
             .filter(m => m.type !== 'thinking');
@@ -447,6 +455,17 @@ export class OpenAiResponseApiUtils {
                     output: content
                 });
             } else if (LanguageModelMessage.isImageMessage(message)) {
+                if (!supportsImages) {
+                    input.push({
+                        type: 'message',
+                        role: 'user',
+                        content: [{
+                            type: 'input_text',
+                            text: UNSUPPORTED_IMAGE_PLACEHOLDER
+                        }]
+                    });
+                    continue;
+                }
                 input.push({
                     type: 'message',
                     role: 'user',
@@ -515,10 +534,11 @@ class ResponseApiToolCallIterator extends AbstractStreamingResponseIterator {
         protected readonly toolCallExecutor: ToolCallExecutor,
         protected readonly logger: ILogger,
         protected readonly isStreaming: boolean,
-        protected readonly cancellationToken?: CancellationToken
+        protected readonly cancellationToken?: CancellationToken,
+        protected readonly supportsImages: boolean = true
     ) {
         super();
-        const { instructions, input } = utils.processMessages(request.messages, developerMessageSettings, model);
+        const { instructions, input } = utils.processMessages(request.messages, developerMessageSettings, model, supportsImages);
         this.instructions = instructions;
         this.currentInput = input;
         this.tools = utils.convertToolsForResponseApi(request.tools, request.deferredToolIds, request.serverTools);

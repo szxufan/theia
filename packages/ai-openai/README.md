@@ -18,55 +18,56 @@ OpenAI API 密钥和要使用的模型可以通过首选项进行配置。
 
 ### 自定义模型
 
-该扩展还支持托管在不同端点上的 OpenAI 兼容模型。
-推荐在 AI 配置视图的「OpenAI（自定义）」页面中以可视化方式添加和编辑端点（每个端点一张卡片，
-逐字段填写）；也可以直接通过 `ai-features.openAiCustom.customOpenAiModels` 首选项配置：
+该扩展还支持托管在不同端点上的 OpenAI 兼容模型（如 `vllm`、API 网关等）。
+推荐在 AI 配置视图的「OpenAI（自定义）」页面中以可视化方式配置：每个端点一张卡片，填写 Base URL 与该端点自己的
+API 密钥，并在端点内的「模型列表」中逐个声明模型及其能力（上下文窗口、图像输入等）。
+也可以直接通过 `ai-features.openAiCustom.endpoints` 首选项配置，结构为两级：
 
 ```ts
+// 端点级
 {
-    model: string,
-    url: string,
-    id?: string,
-    apiKey?: string | true,
-    apiVersion?: string | true,
-    developerMessageSettings?: 'user' | 'system' | 'developer' | 'mergeWithFollowingUserMessage' | 'skip',
-    enableStreaming?: boolean
+    url: string,                        // OpenAI 兼容 API 的基础地址，通常以 /v1 结尾
+    apiKey?: string,                    // 该端点自己的密钥；留空表示无需认证
+    useResponseApi?: boolean,           // true 使用 Response API；默认使用 Chat Completions
+    headers?: Record<string, string>,   // 随每个请求附加的额外 HTTP 头
+    models: [                           // 该端点托管的模型列表
+        {
+            model: string,              // 调用 API 时使用的模型名称（必需）
+            id?: string,                // UI 中的显示名称；默认使用模型 ID
+            contextWindow?: number,     // 上下文窗口（Token），用于提示截断
+            maxOutputTokens?: number,   // 最大输出 Token
+            vision?: boolean,           // 是否接受图像输入；默认开启，关闭后图片被忽略
+            enableStreaming?: boolean,  // 是否使用流式 API；默认开启
+            supportsStructuredOutput?: boolean, // 是否支持结构化输出；默认开启
+            developerMessageSettings?: 'user' | 'system' | 'developer' | 'mergeWithFollowingUserMessage' | 'skip',
+            reasoningSupport?: { supportedLevels: string[], defaultLevel?: string }
+        }
+    ]
 }
 ```
 
-- `model` 和 `url` 是必需属性，指示要使用的端点和模型
-- `id` 是可选属性，在 UI 中用于引用此配置
-- `apiKey` 是访问给定 URL 所提供 API 的密钥，或为 `true` 以使用全局 OpenAI API 密钥。如果未提供，将使用 'no-key'。`apiKey` 将作为 Bearer Token 在授权请求中发送。
-- `apiVersion` 是在 Azure 中访问给定 URL 所提供 API 的 API 版本，或为 `true` 以使用全局 OpenAI API 版本。
-- `developerMessageSettings` 控制系统消息的处理方式：`user`、`system` 和 `developer` 将被用作角色，`mergeWithFollowingUserMessage` 会将系统消息作为后续用户消息的前缀，或者在接下来的消息不是用户消息时将系统消息转换为用户消息。`skip` 则直接移除系统消息。
-  默认为 `developer`。
-- `enableStreaming` 是一个标志，指示是否应使用流式 API。默认为 `true`。
+- `url` 与 `models` 是端点的必需属性；`models` 中每项的 `model` 为必需。
+- **安全提示**：自定义端点只会使用其自身配置的 `apiKey`，绝不会发送官方 OpenAI 的全局密钥
+  （「OpenAI（官方）」页或 `OPENAI_API_KEY` 环境变量中的密钥）到自定义端点。
+- 同一模型 ID 出现在多个端点时，注册 ID 自动追加端点序号（如 `my-model@2`）；显式 `id` 优先。
+- 旧版平铺偏好 `ai-features.openAiCustom.customOpenAiModels` 已废弃，不再迁移，需按新结构重新配置。
 
 ### Azure OpenAI
 
-要使用托管在 Azure 上的自定义 OpenAI 模型，需要使用 `AzureOpenAI` 类，如
-[openai-node 文档](https://github.com/openai/openai-node?tab=readme-ov-file#microsoft-azure-openai)所述。
-
-对托管在 Azure 上的 OpenAI 模型的请求需要 `apiVersion`。因此，要在 Theia 中配置自定义 OpenAI 模型，你需要为端点配置 `apiVersion`。
-注意，如果不配置 `apiVersion`，将使用默认的 `OpenAI` 对象进行初始化，与 Azure 托管的 OpenAI 模型的连接将会失败。
-
-部署在 Azure 上的 OpenAI 模型版本可能不支持 `developer` 角色。在这种情况下，可以通过
-`developerMessageSettings` 选项配置是否支持 `developer` 角色，例如将其设置为 `system` 或 `user`。
-
-以下代码片段展示了访问托管在 Azure 上的 OpenAI 模型的可能配置。`AZURE_OPENAI_API_BASE_URL` 需要不含 `/chat/completions`
-路径，也不含 `api-version` 参数，例如 _`https://<my_prefix>.openai.azure.com/openai/deployments/<my_deployment>`_
+Azure OpenAI 部署可通过 `headers` 传入 Azure 所需的请求头（如 `api-key`），并按上述两级结构配置端点与模型。
+若端点对系统消息角色的支持有差异，可按模型配置 `developerMessageSettings`（例如 `system` 或 `user`）。
 
 ```json
 {
   "ai-features.AiEnable.enableAI": true,
-  "ai-features.openAiCustom.customOpenAiModels": [
+  "ai-features.openAiCustom.endpoints": [
     {
-      "model": "gpt4o",
       "url": "<AZURE_OPENAI_API_BASE_URL>",
-      "id": "azure-deployment",
-      "apiKey": "<AZURE_OPENAI_API_KEY>",
-      "apiVersion": "<AZURE_OPENAI_API_VERSION>",
-      "developerMessageSettings": "system"
+      "apiKey": "<AZURE_API_KEY>",
+      "headers": { "api-version": "<AZURE_OPENAI_API_VERSION>" },
+      "models": [
+        { "model": "gpt4o", "id": "azure-deployment", "developerMessageSettings": "system" }
+      ]
     }
   ],
   "ai-features.agentSettings": {

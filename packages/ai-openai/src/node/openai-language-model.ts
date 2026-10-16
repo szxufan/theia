@@ -114,6 +114,9 @@ export interface OpenAiModelParams {
     proxy?: string;
     reasoningSupport?: ReasoningSupport;
     maxInputTokens?: number;
+    maxOutputTokens?: number;
+    /** Whether image messages may be sent; `undefined`/`true` keeps them, `false` replaces them with a placeholder text. */
+    supportsImages?: boolean;
     serverTools?: ServerToolDescriptor[];
     serverSideCompactionSupport?: boolean;
     serverSideCompactionEnabledByDefault?: boolean;
@@ -145,6 +148,8 @@ export class OpenAiModel implements LanguageModel {
     proxy?: string;
     reasoningSupport?: ReasoningSupport;
     maxInputTokens?: number;
+    maxOutputTokens?: number;
+    supportsImages: boolean;
     serverTools?: ServerToolDescriptor[];
     serverSideCompactionSupport: boolean;
     serverSideCompactionEnabledByDefault: boolean;
@@ -188,6 +193,8 @@ export class OpenAiModel implements LanguageModel {
         this.proxy = params.proxy;
         this.reasoningSupport = params.reasoningSupport;
         this.maxInputTokens = params.maxInputTokens;
+        this.maxOutputTokens = params.maxOutputTokens;
+        this.supportsImages = params.supportsImages ?? true;
         this.serverTools = params.serverTools;
         this.serverSideCompactionSupport = params.serverSideCompactionSupport ?? false;
         this.serverSideCompactionEnabledByDefault = params.serverSideCompactionEnabledByDefault ?? false;
@@ -355,7 +362,8 @@ export class OpenAiModel implements LanguageModel {
                 this.developerMessageSettings,
                 this.id,
                 isStreamingRequest,
-                cancellationToken
+                cancellationToken,
+                this.supportsImages
             );
         } catch (error) {
             // Chat Completions cannot execute Response API server tools.
@@ -368,6 +376,6 @@ export class OpenAiModel implements LanguageModel {
     }
 
     protected processMessages(messages: LanguageModelMessage[]): ChatCompletionMessageParam[] {
-        return this.openAiModelUtils.processMessages(messages, this.developerMessageSettings, this.model);
+        return this.openAiModelUtils.processMessages(messages, this.developerMessageSettings, this.model, this.supportsImages);
     }
 }

@@ -19,7 +19,7 @@ import * as React from '@theia/core/shared/react';
 import { AiConfigurationScope } from '../ai-configuration-category';
 import { AiSettingsControl, AiSettingsRowService } from './ai-settings-row-service';
 import { AiArrayInput, AiEditInSettingsButton, AiEnumSelect, AiNumberStepper, AiTextInput, AiToggleSwitch } from './ai-configuration-controls';
-import { AiObjectListInput } from './ai-object-list-input';
+import { AiObjectListInput, isPlainObject } from './ai-object-list-input';
 import { AiConfigurationSettingRow } from './ai-configuration-setting-row';
 
 export interface AiSettingsRowProps {
@@ -107,11 +107,6 @@ export const AiSettingsRow: React.FC<AiSettingsRowProps> = ({
         actions={actions}
     />;
 };
-
-/** Whether a stored array entry is a plain object and can therefore be shown as an object-list card. */
-function isPlainObject(entry: unknown): entry is Record<string, unknown> {
-    return !!entry && typeof entry === 'object' && !Array.isArray(entry);
-}
 
 /**
  * Renders the shared control for a schema-derived {@link AiSettingsControl}, so generically-discovered

@@ -20,7 +20,7 @@ import {
 } from '@theia/ai-core';
 import { DiscoveringProviderContribution, ModelDiscoveryMessages } from '@theia/ai-core/lib/browser';
 import { DiscoveredModel } from '@theia/ai-core/lib/common';
-import { OpenAiLanguageModelsManager, OpenAiModelDescription, OPENAI_PROVIDER_ID } from '../common';
+import { OpenAiCustomEndpointDescription, OpenAiLanguageModelsManager, OpenAiModelDescription, OPENAI_PROVIDER_ID } from '../common';
 import {
     ALLOW_ENV_API_KEY_PREF, API_KEY_PREF, CUSTOM_ENDPOINTS_PREF, MODEL_OVERRIDES_PREF, SERVER_SIDE_COMPACTION_PREF, SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_PREF,
     USE_RESPONSE_API_PREF
@@ -53,7 +53,7 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
         return OPENAI_PROVIDER_ID;
     }
 
-    protected prevCustomModels: Partial<OpenAiModelDescription>[] = [];
+    protected prevCustomModels: Partial<OpenAiCustomEndpointDescription>[] = [];
 
     protected get discoveryMessages(): ModelDiscoveryMessages {
         return {
@@ -73,7 +73,7 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
         this.manager.setApiKey(this.preferenceService.get<string>(API_KEY_PREF, undefined));
         this.manager.setProxyUrl(this.preferenceService.get<string>('http.proxy', undefined));
 
-        const customModels = this.preferenceService.get<Partial<OpenAiModelDescription>[]>(CUSTOM_ENDPOINTS_PREF, []);
+        const customModels = this.preferenceService.get<Partial<OpenAiCustomEndpointDescription>[]>(CUSTOM_ENDPOINTS_PREF, []);
         this.manager.createOrUpdateLanguageModels(...this.createCustomModelDescriptionsFromPreferences(customModels));
         this.prevCustomModels = [...customModels];
 
@@ -89,7 +89,7 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
             this.manager.setApiKey(this.preferenceService.get<string>(API_KEY_PREF, undefined));
             this.discoverAndRegisterModels();
         } else if (event.preferenceName === CUSTOM_ENDPOINTS_PREF) {
-            this.handleCustomModelChanges(this.preferenceService.get<Partial<OpenAiModelDescription>[]>(CUSTOM_ENDPOINTS_PREF, []));
+            this.handleCustomModelChanges(this.preferenceService.get<Partial<OpenAiCustomEndpointDescription>[]>(CUSTOM_ENDPOINTS_PREF, []));
         } else if (event.preferenceName === USE_RESPONSE_API_PREF ||
             event.preferenceName === SERVER_SIDE_COMPACTION_PREF ||
             event.preferenceName === PREFERENCE_NAME_SERVER_SIDE_COMPACTION ||
@@ -105,30 +105,18 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
         }
     }
 
-    protected handleCustomModelChanges(newCustomModels: Partial<OpenAiModelDescription>[]): void {
+    protected handleCustomModelChanges(newCustomModels: Partial<OpenAiCustomEndpointDescription>[]): void {
         const oldModels = this.createCustomModelDescriptionsFromPreferences(this.prevCustomModels);
         const newModels = this.createCustomModelDescriptionsFromPreferences(newCustomModels);
 
-        const modelsToRemove = oldModels.filter(model => !newModels.some(newModel => newModel.id === model.id));
-        const modelsToAddOrUpdate = newModels.filter(newModel =>
-            !oldModels.some(model =>
-                model.id === newModel.id &&
-                model.model === newModel.model &&
-                model.url === newModel.url &&
-                model.deployment === newModel.deployment &&
-                model.apiKey === newModel.apiKey &&
-                model.apiVersion === newModel.apiVersion &&
-                model.developerMessageSettings === newModel.developerMessageSettings &&
-                model.supportsStructuredOutput === newModel.supportsStructuredOutput &&
-                model.enableStreaming === newModel.enableStreaming &&
-                model.useResponseApi === newModel.useResponseApi &&
-                model.serverSideCompactionEnabledByDefault === newModel.serverSideCompactionEnabledByDefault &&
-                model.serverSideCompactionTokenThresholdByDefault === newModel.serverSideCompactionTokenThresholdByDefault &&
-                reasoningSupportEquals(model.reasoningSupport, newModel.reasoningSupport) &&
-                JSON.stringify(model.headers) === JSON.stringify(newModel.headers)));
+        // Canonical JSON comparison: preference reads yield fresh objects, and a field-by-field
+        // comparison silently misses newly introduced description fields.
+        const fingerprints = new Map(newModels.map(model => [model.id, JSON.stringify(model)]));
+        const modelsToRemove = oldModels.filter(model => fingerprints.get(model.id) !== JSON.stringify(model));
 
         this.manager.removeLanguageModels(...modelsToRemove.map(model => model.id));
-        this.manager.createOrUpdateLanguageModels(...modelsToAddOrUpdate);
+        this.manager.createOrUpdateLanguageModels(...newModels.filter(model =>
+            JSON.stringify(oldModels.find(old => old.id === model.id)) !== JSON.stringify(model)));
         this.prevCustomModels = [...newCustomModels];
     }
 
@@ -139,7 +127,7 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
 
     /** Re-applies the model descriptions of the configured custom endpoints. */
     protected updateCustomModels(): void {
-        const customModels = this.preferenceService.get<Partial<OpenAiModelDescription>[]>(CUSTOM_ENDPOINTS_PREF, []);
+        const customModels = this.preferenceService.get<Partial<OpenAiCustomEndpointDescription>[]>(CUSTOM_ENDPOINTS_PREF, []);
         this.manager.createOrUpdateLanguageModels(...this.createCustomModelDescriptionsFromPreferences(customModels));
     }
 
@@ -168,8 +156,14 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
         };
     }
 
+    /**
+     * Flattens the two-level endpoint preference ({@link OpenAiCustomEndpointDescription}) into one
+     * description per model, inheriting the endpoint-level connection settings. A custom endpoint only
+     * ever uses its **own** key: the global OpenAI key is never applied here, so a `true` (or any
+     * non-string) endpoint key is dropped — the official key must not leak to a third-party endpoint.
+     */
     protected createCustomModelDescriptionsFromPreferences(
-        preferences: Partial<OpenAiModelDescription>[]
+        preferences: Partial<OpenAiCustomEndpointDescription>[]
     ): OpenAiModelDescription[] {
         const maxRetries = this.aiCorePreferences.get(PREFERENCE_NAME_MAX_RETRIES) ?? 3;
         const globalCompaction = this.preferenceService.get<boolean>(PREFERENCE_NAME_SERVER_SIDE_COMPACTION, true);
@@ -178,31 +172,62 @@ export class OpenAiFrontendApplicationContribution extends DiscoveringProviderCo
         const globalThreshold = this.preferenceService.get<number>(PREFERENCE_NAME_SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD, undefined);
         const providerThreshold = this.preferenceService.get<number>(SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_PREF, undefined);
         const serverSideCompactionTokenThresholdByDefault = resolveCompactionTokenThresholdDefault(globalThreshold, providerThreshold);
-        return preferences.reduce((acc, pref) => {
-            if (!pref.model || !pref.url || typeof pref.model !== 'string' || typeof pref.url !== 'string') {
-                return acc;
+
+        const descriptions: OpenAiModelDescription[] = [];
+        // First pass: collect usable endpoints, then count how often each model id appears as a
+        // *default* id across all of them, so duplicates can be disambiguated with a positional
+        // suffix (`model@2` = second endpoint).
+        const usableEndpoints: Array<{ url: string; apiKey: string | undefined; useResponseApi: boolean; headers: Record<string, string> | undefined; models: (Partial<OpenAiModelDescription> & { model: string })[] }> = [];
+        for (const endpoint of preferences) {
+            const url = typeof endpoint?.url === 'string' && endpoint.url ? endpoint.url : undefined;
+            if (!url) {
+                continue;
             }
-            return [
-                ...acc,
-                {
-                    id: pref.id && typeof pref.id === 'string' ? pref.id : pref.model,
-                    model: pref.model,
-                    url: pref.url,
-                    deployment: typeof pref.deployment === 'string' && pref.deployment ? pref.deployment : undefined,
-                    apiKey: typeof pref.apiKey === 'string' || pref.apiKey === true ? pref.apiKey : undefined,
-                    apiVersion: typeof pref.apiVersion === 'string' || pref.apiVersion === true ? pref.apiVersion : undefined,
-                    developerMessageSettings: pref.developerMessageSettings,
-                    supportsStructuredOutput: pref.supportsStructuredOutput,
-                    enableStreaming: pref.enableStreaming,
-                    maxRetries: pref.maxRetries ?? maxRetries,
-                    useResponseApi: pref.useResponseApi ?? false,
-                    headers: resolveCustomModelHeaders(pref.headers),
-                    reasoningSupport: isReasoningSupport(pref.reasoningSupport) ? pref.reasoningSupport : undefined,
+            const models = Array.isArray(endpoint.models) ? endpoint.models.filter(isModelPreference) : [];
+            if (!models.length) {
+                continue;
+            }
+            // SECURITY: never fall back to the global OpenAI key (`true`) for a custom endpoint —
+            // it would be sent to a third-party server. Only an endpoint-specific string is used.
+            usableEndpoints.push({
+                url,
+                apiKey: typeof endpoint.apiKey === 'string' && endpoint.apiKey ? endpoint.apiKey : undefined,
+                useResponseApi: endpoint.useResponseApi === true,
+                headers: resolveCustomModelHeaders(endpoint.headers),
+                models
+            });
+        }
+        const defaultIdCounts = new Map<string, number>();
+        for (const endpoint of usableEndpoints) {
+            for (const model of endpoint.models) {
+                defaultIdCounts.set(model.model, (defaultIdCounts.get(model.model) ?? 0) + 1);
+            }
+        }
+        usableEndpoints.forEach((endpoint, index) => {
+            for (const modelPref of endpoint.models) {
+                // A model id duplicated across endpoints gets a positional suffix; an explicit `id` wins.
+                const defaultId = (defaultIdCounts.get(modelPref.model) ?? 0) > 1 ? `${modelPref.model}@${index + 1}` : modelPref.model;
+                descriptions.push({
+                    id: typeof modelPref.id === 'string' && modelPref.id ? modelPref.id : defaultId,
+                    model: modelPref.model,
+                    url: endpoint.url,
+                    apiKey: endpoint.apiKey,
+                    maxRetries,
+                    useResponseApi: endpoint.useResponseApi,
+                    headers: endpoint.headers,
+                    enableStreaming: modelPref.enableStreaming,
+                    supportsStructuredOutput: modelPref.supportsStructuredOutput,
+                    contextWindow: typeof modelPref.contextWindow === 'number' ? modelPref.contextWindow : undefined,
+                    maxOutputTokens: typeof modelPref.maxOutputTokens === 'number' ? modelPref.maxOutputTokens : undefined,
+                    supportsImages: typeof modelPref.supportsImages === 'boolean' ? modelPref.supportsImages : undefined,
+                    developerMessageSettings: modelPref.developerMessageSettings,
+                    reasoningSupport: isReasoningSupport(modelPref.reasoningSupport) ? modelPref.reasoningSupport : undefined,
                     serverSideCompactionEnabledByDefault,
                     serverSideCompactionTokenThresholdByDefault
-                }
-            ];
-        }, []);
+                });
+            }
+        });
+        return descriptions;
     }
 }
 
@@ -210,15 +235,7 @@ function isReasoningSupport(value: unknown): value is ReasoningSupport {
     return !!value && typeof value === 'object' && Array.isArray((value as ReasoningSupport).supportedLevels);
 }
 
-/** Structural equality — preference reads yield fresh objects, so identity comparison would always report a change. */
-function reasoningSupportEquals(a: ReasoningSupport | undefined, b: ReasoningSupport | undefined): boolean {
-    if (a === b) {
-        return true;
-    }
-    if (!a || !b) {
-        return false;
-    }
-    return a.defaultLevel === b.defaultLevel
-        && a.supportedLevels.length === b.supportedLevels.length
-        && a.supportedLevels.every((level, index) => level === b.supportedLevels[index]);
+/** A `models[]` entry usable for registration: carries the mandatory API model id. */
+function isModelPreference(model: Partial<OpenAiModelDescription> | undefined): model is Partial<OpenAiModelDescription> & { model: string } {
+    return !!model && typeof model.model === 'string';
 }

@@ -803,6 +803,87 @@ describe('AiObjectListInput', () => {
             dispose();
         }
     });
+
+    it('titles an entry by its url when it has no id/model (an endpoint card)', () => {
+        const { container, dispose } = mountList([{ url: 'https://gw.example.com/v1', models: [] }]);
+        try {
+            expect(container.querySelector('.ai-config-object-card-title')?.textContent).to.equal('https://gw.example.com/v1');
+        } finally {
+            dispose();
+        }
+    });
+
+    it('edits a nested object-array field (an endpoint\'s `models` list) as sub-cards', () => {
+        const endpointSchema = {
+            type: 'object',
+            required: ['url', 'models'],
+            properties: {
+                url: { type: 'string', title: 'Base URL' },
+                apiKey: { type: 'string', title: 'API 密钥' },
+                models: {
+                    type: 'array',
+                    title: '模型列表',
+                    items: {
+                        type: 'object',
+                        required: ['model'],
+                        properties: {
+                            model: { type: 'string', title: '模型 ID' },
+                            contextWindow: { type: 'integer', title: '上下文窗口' }
+                        }
+                    }
+                }
+            }
+        } as PreferenceDataProperty;
+
+        const changes: Record<string, unknown>[][] = [];
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+        const root = createRoot(container);
+        // Controlled rendering: keep the latest value in a variable and re-render on change, the way
+        // the preference-backed row feeds the editor. Otherwise the nested list would reset to the
+        // stale initial props on the next interaction.
+        let current: Record<string, unknown>[] = [{ url: 'https://gw/v1', models: [{ model: 'qwen' }] }];
+        const renderList = (): void => flushSync(() => root.render(React.createElement(AiObjectListInput, {
+            values: current,
+            itemSchema: endpointSchema,
+            ariaLabel: 'Endpoints',
+            onChange: (next: Record<string, unknown>[]) => { changes.push(next); current = next; renderList(); }
+        })));
+        renderList();
+
+        try {
+            // The nested list renders its own sub-cards inside the endpoint card.
+            const endpointCard = container.querySelector('.ai-config-object-card') as HTMLElement;
+            expect(endpointCard.querySelectorAll('.ai-config-object-card').length).to.equal(1);
+            expect(endpointCard.textContent).to.include('模型列表').and.to.include('qwen');
+
+            // Editing a nested model field commits the whole nested array up through the endpoint entry.
+            // The nested card's model input carries its field label as the aria-label.
+            const nestedInput = container.querySelector('input[aria-label="模型 ID"]') as HTMLInputElement;
+            const view = container.ownerDocument.defaultView as unknown as { Event: typeof Event; HTMLInputElement: typeof HTMLInputElement; FocusEvent: typeof FocusEvent };
+            const nativeSetter = Object.getOwnPropertyDescriptor(view.HTMLInputElement.prototype, 'value')!.set!;
+            flushSync(() => {
+                nativeSetter.call(nestedInput, 'qwen3-max');
+                nestedInput.dispatchEvent(new view.Event('input', { bubbles: true }));
+            });
+            flushSync(() => nestedInput.dispatchEvent(new view.FocusEvent('focusout', { bubbles: true })));
+            expect(changes).to.deep.equal([[{ url: 'https://gw/v1', models: [{ model: 'qwen3-max' }] }]]);
+
+            // Adding a nested model appends an empty sub-entry; removing the last one unsets `models`.
+            const addButton = container.querySelector<HTMLElement>('.ai-config-object-field .ai-config-object-add')!;
+            flushSync(() => addButton.click());
+            expect((changes[1][0] as Record<string, unknown>).models).to.deep.equal([{ model: 'qwen3-max' }, {}]);
+
+            // Remove buttons in document order: the endpoint card's own, then one per nested model card.
+            // Removing the second (empty) nested model leaves the edited one.
+            const nestedRemove = container.querySelectorAll<HTMLElement>('.ai-config-object-card-remove')[2];
+            flushSync(() => nestedRemove.click());
+            expect(changes[2][0]).to.deep.equal({ url: 'https://gw/v1', models: [{ model: 'qwen3-max' }] });
+        } finally {
+            flushSync(() => root.unmount());
+            container.remove();
+        }
+    });
 });
 
 describe('AiNumberStepper', () => {

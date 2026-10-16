@@ -26,7 +26,7 @@ export const MODEL_OVERRIDES_PREF = 'ai-features.openAiOfficial.modelOverrides';
 export const USE_RESPONSE_API_PREF = 'ai-features.openAiOfficial.useResponseApi';
 export const SERVER_SIDE_COMPACTION_PREF = 'ai-features.openAiOfficial.serverSideCompaction';
 export const SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_PREF = 'ai-features.openAiOfficial.serverSideCompactionTokenThreshold';
-export const CUSTOM_ENDPOINTS_PREF = 'ai-features.openAiCustom.customOpenAiModels';
+export const CUSTOM_ENDPOINTS_PREF = 'ai-features.openAiCustom.endpoints';
 
 export const OpenAiPreferencesSchema: PreferenceSchema = {
     properties: {
@@ -96,91 +96,30 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
             },
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: nls.localize('theia/ai/openai/customEndpoints/mdDescription',
-                '添加与 OpenAI API 兼容的自定义端点（如 `vllm`）。每个端点填写模型 ID 与 URL 即可，'
-                + '其余字段可选；详细说明见[我们的文档](https://theia-ide.org/docs/user_ai/#openai-compatible-models-eg-via-vllm)。'),
+                '添加与 OpenAI API 兼容的自定义端点（如 `vllm`）。每个端点填写 Base URL 与自己的 API 密钥（留空表示无需认证），'
+                + '并在其模型列表中声明各模型的 ID 与能力；详细说明见[我们的文档](https://theia-ide.org/docs/user_ai/#openai-compatible-models-eg-via-vllm)。'),
             default: [],
             items: {
                 type: 'object',
-                required: ['model', 'url'],
+                required: ['url', 'models'],
                 properties: {
-                    model: {
-                        type: 'string',
-                        title: nls.localize('theia/ai/openai/customEndpoints/modelId/title', '模型 ID')
-                    },
                     url: {
                         type: 'string',
-                        title: nls.localize('theia/ai/openai/customEndpoints/url/title', '端点 URL'),
+                        title: nls.localize('theia/ai/openai/customEndpoints/url/title', 'Base URL'),
                         description: nls.localize('theia/ai/openai/customEndpoints/url/description',
-                            '托管该模型的 OpenAI API 兼容端点地址')
-                    },
-                    id: {
-                        type: 'string',
-                        title: nls.localize('theia/ai/openai/customEndpoints/id/title', '显示名称'),
-                        description: nls.localize('theia/ai/openai/customEndpoints/id/description',
-                            '在 UI 中标识该自定义模型的唯一标识符；不提供时使用模型 ID')
+                            'OpenAI 兼容 API 的基础地址，通常以 `/v1` 结尾')
                     },
                     apiKey: {
-                        type: ['string', 'boolean'],
+                        type: 'string',
                         title: nls.localize('theia/ai/openai/customEndpoints/apiKey/title', 'API 密钥'),
                         description: nls.localize('theia/ai/openai/customEndpoints/apiKey/description',
-                            '访问该端点 API 的密钥；填 true 表示使用全局 OpenAI API 密钥')
-                    },
-                    apiVersion: {
-                        type: ['string', 'boolean'],
-                        title: nls.localize('theia/ai/openai/customEndpoints/apiVersion/title', 'API 版本'),
-                        description: nls.localize('theia/ai/openai/customEndpoints/apiVersion/description',
-                            'Azure：该端点的 API 版本；填 true 表示使用全局 OpenAI API 版本')
-                    },
-                    deployment: {
-                        type: 'string',
-                        title: nls.localize('theia/ai/openai/customEndpoints/deployment/title', '部署名称'),
-                        description: nls.localize('theia/ai/openai/customEndpoints/deployment/description',
-                            'Azure 部署名称')
-                    },
-                    developerMessageSettings: {
-                        type: 'string',
-                        enum: ['user', 'system', 'developer', 'mergeWithFollowingUserMessage', 'skip'],
-                        default: 'developer',
-                        title: nls.localize('theia/ai/openai/customEndpoints/developerMessageSettings/title', '系统消息处理'),
-                        description: nls.localize('theia/ai/openai/customEndpoints/developerMessageSettings/description',
-                            '`user`、`system`、`developer` 用作角色；`mergeWithFollowingUserMessage` 将系统消息并入后续用户消息；`skip` 移除系统消息。默认 `developer`。')
-                    },
-                    supportsStructuredOutput: {
-                        type: 'boolean',
-                        title: nls.localize('theia/ai/openai/customEndpoints/supportsStructuredOutput/title', '结构化输出'),
-                        description: nls.localize('theia/ai/openai/customEndpoints/supportsStructuredOutput/description',
-                            '该模型是否支持结构化输出。默认开启')
-                    },
-                    enableStreaming: {
-                        type: 'boolean',
-                        title: nls.localize('theia/ai/openai/customEndpoints/enableStreaming/title', '流式传输'),
-                        description: nls.localize('theia/ai/openai/customEndpoints/enableStreaming/description',
-                            '是否使用流式 API。默认开启')
+                            '该端点自己的密钥；留空表示无需认证')
                     },
                     useResponseApi: {
                         type: 'boolean',
-                        title: nls.localize('theia/ai/openai/customEndpoints/useResponseApi/title', 'Response API'),
+                        title: nls.localize('theia/ai/openai/customEndpoints/useResponseApi/title', 'API 格式'),
                         description: nls.localize('theia/ai/openai/customEndpoints/useResponseApi/description',
-                            '使用较新的 OpenAI Response API 而非 Chat Completion API（需端点兼容；使用工具时自动回退）。默认关闭')
-                    },
-                    reasoningSupport: {
-                        type: 'object',
-                        title: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/title', '推理能力'),
-                        description: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/description',
-                            '声明后聊天界面将显示推理力度选择器。格式如 {"supportedLevels": ["low", "high"], "defaultLevel": "medium"}'),
-                        properties: {
-                            supportedLevels: {
-                                type: 'array',
-                                items: {
-                                    type: 'string',
-                                    enum: ['off', 'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'auto']
-                                }
-                            },
-                            defaultLevel: {
-                                type: 'string',
-                                enum: ['off', 'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'auto']
-                            }
-                        }
+                            '开启使用 Response API；关闭（默认）使用 Chat Completions')
                     },
                     headers: {
                         type: 'object',
@@ -188,6 +127,83 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
                         title: nls.localize('theia/ai/openai/customEndpoints/headers/title', 'HTTP 头'),
                         description: nls.localize('theia/ai/openai/customEndpoints/headers/description',
                             '随每个请求附加的额外 HTTP 头，如 {"X-Custom": "value"}')
+                    },
+                    models: {
+                        type: 'array',
+                        title: nls.localize('theia/ai/openai/customEndpoints/models/title', '模型列表'),
+                        items: {
+                            type: 'object',
+                            required: ['model'],
+                            properties: {
+                                model: {
+                                    type: 'string',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/modelId/title', '模型 ID'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/modelId/description',
+                                        '调用 API 时使用的模型名称')
+                                },
+                                id: {
+                                    type: 'string',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/id/title', '显示名称'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/id/description',
+                                        '在 UI 中标识该模型的唯一标识符；不提供时使用模型 ID')
+                                },
+                                contextWindow: {
+                                    type: 'integer',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/contextWindow/title', '上下文窗口'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/contextWindow/description',
+                                        '上下文窗口大小（Token），用于提示截断')
+                                },
+                                maxOutputTokens: {
+                                    type: 'integer',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/maxOutputTokens/title', '最大输出 Token')
+                                },
+                                vision: {
+                                    type: 'boolean',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/vision/title', '图像输入'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/vision/description',
+                                        '是否接受图像输入；关闭后图片会被忽略。默认开启')
+                                },
+                                enableStreaming: {
+                                    type: 'boolean',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/enableStreaming/title', '流式传输'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/enableStreaming/description',
+                                        '是否使用流式 API。默认开启')
+                                },
+                                supportsStructuredOutput: {
+                                    type: 'boolean',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/supportsStructuredOutput/title', '结构化输出'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/supportsStructuredOutput/description',
+                                        '该模型是否支持结构化输出。默认开启')
+                                },
+                                developerMessageSettings: {
+                                    type: 'string',
+                                    enum: ['user', 'system', 'developer', 'mergeWithFollowingUserMessage', 'skip'],
+                                    default: 'developer',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/developerMessageSettings/title', '系统消息处理'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/developerMessageSettings/description',
+                                        '`user`、`system`、`developer` 用作角色；`mergeWithFollowingUserMessage` 将系统消息并入后续用户消息；`skip` 移除系统消息。默认 `developer`。')
+                                },
+                                reasoningSupport: {
+                                    type: 'object',
+                                    title: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/title', '推理能力'),
+                                    description: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/description',
+                                        '声明后聊天界面将显示推理力度选择器。格式如 {"supportedLevels": ["low", "high"], "defaultLevel": "medium"}'),
+                                    properties: {
+                                        supportedLevels: {
+                                            type: 'array',
+                                            items: {
+                                                type: 'string',
+                                                enum: ['off', 'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'auto']
+                                            }
+                                        },
+                                        defaultLevel: {
+                                            type: 'string',
+                                            enum: ['off', 'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'auto']
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

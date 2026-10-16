@@ -453,18 +453,17 @@ describe('OpenAiModelUtils - processMessagesForResponseApi', () => {
     });
 
     describe('image messages', () => {
+        const base64Image: LanguageModelMessage = {
+            actor: 'user',
+            type: 'image',
+            image: {
+                mimeType: 'image/png',
+                base64data: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+            }
+        };
+
         it('should convert base64 image messages to input image items', () => {
-            const messages: LanguageModelMessage[] = [
-                {
-                    actor: 'user',
-                    type: 'image',
-                    image: {
-                        mimeType: 'image/png',
-                        base64data: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
-                    }
-                }
-            ];
-            const result = responseUtils.processMessages(messages, 'developer', 'gpt-4');
+            const result = responseUtils.processMessages([base64Image], 'developer', 'gpt-4');
             expect(result.input).to.deep.equal([
                 {
                     type: 'message',
@@ -500,6 +499,31 @@ describe('OpenAiModelUtils - processMessagesForResponseApi', () => {
                     }]
                 }
             ]);
+        });
+
+        it('should replace images with a placeholder text when the model does not support them (Response API)', () => {
+            const result = responseUtils.processMessages([base64Image], 'developer', 'gpt-4', false);
+            expect(result.input).to.deep.equal([
+                {
+                    type: 'message',
+                    role: 'user',
+                    content: [{ type: 'input_text', text: '（图片已忽略：当前模型不支持图像输入）' }]
+                }
+            ]);
+        });
+
+        it('should replace images with a placeholder text when the model does not support them (Chat Completions)', () => {
+            const result = utils.processMessages([base64Image], 'developer', 'gpt-4', false);
+            expect(result).to.deep.equal([
+                { role: 'user', content: '（图片已忽略：当前模型不支持图像输入）' }
+            ]);
+        });
+
+        it('should keep images by default (Chat Completions)', () => {
+            const result = utils.processMessages([base64Image], 'developer', 'gpt-4');
+            expect(result).to.have.lengthOf(1);
+            expect(result[0].role).to.equal('user');
+            expect(JSON.stringify(result[0].content)).to.include('image_url');
         });
     });
 

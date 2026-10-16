@@ -20,6 +20,9 @@ import { ChatCompletionAssistantMessageParam, ChatCompletionMessageParam } from 
 import { DeveloperMessageSettings } from './openai-language-model';
 import { processSystemMessages } from './openai-response-api-utils';
 
+/** Sent in place of an image when the model is configured not to accept image input. */
+const UNSUPPORTED_IMAGE_PLACEHOLDER = '（图片已忽略：当前模型不支持图像输入）';
+
 /**
  * Utility class for processing messages for the OpenAI language model.
  *
@@ -53,7 +56,8 @@ export class OpenAiModelUtils {
 
     protected toOpenAIMessage(
         message: LanguageModelMessage,
-        developerMessageSettings: DeveloperMessageSettings
+        developerMessageSettings: DeveloperMessageSettings,
+        supportsImages: boolean = true
     ): ChatCompletionMessageParam {
         if (LanguageModelMessage.isTextMessage(message)) {
             return {
@@ -75,6 +79,12 @@ export class OpenAiModelUtils {
             };
         }
         if (LanguageModelMessage.isImageMessage(message) && message.actor === 'user') {
+            if (!supportsImages) {
+                return {
+                    role: 'user',
+                    content: UNSUPPORTED_IMAGE_PLACEHOLDER
+                };
+            }
             return {
                 role: 'user',
                 content: [{
@@ -100,19 +110,21 @@ export class OpenAiModelUtils {
      * @param messages the list of messages to process.
      * @param developerMessageSettings how system and developer messages are handled during processing.
      * @param model the OpenAI model identifier. Currently not used, but allows subclasses to implement model-specific behavior.
+     * @param supportsImages whether the model accepts image input; `false` replaces image messages with a placeholder text.
      * @returns an array of messages formatted for the OpenAI API.
      */
     processMessages(
         messages: LanguageModelMessage[],
         developerMessageSettings: DeveloperMessageSettings,
-        model?: string
+        model?: string,
+        supportsImages: boolean = true
     ): ChatCompletionMessageParam[] {
         const processed = this.processSystemMessages(messages, developerMessageSettings);
         // 'server_tool_use' and 'compaction' replay markers can appear when switching providers within a session;
         // OpenAI Chat Completions has no equivalent, so they are dropped (like 'thinking' messages).
         const converted = processed
             .filter(m => m.type !== 'thinking' && m.type !== 'server_tool_use' && m.type !== 'compaction')
-            .map(m => this.toOpenAIMessage(m, developerMessageSettings));
+            .map(m => this.toOpenAIMessage(m, developerMessageSettings, supportsImages));
         return this.mergeConsecutiveAssistantMessages(converted);
     }
 

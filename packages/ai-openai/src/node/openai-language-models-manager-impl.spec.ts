@@ -28,6 +28,17 @@ class TestableOpenAiLanguageModelsManagerImpl extends OpenAiLanguageModelsManage
         return this.resolveServerTools(description);
     }
 
+    resolveMetadataForTest(description: OpenAiModelDescription): {
+        maxInputTokens?: number; maxOutputTokens?: number; supportsImages: boolean;
+    } {
+        const metadata = this.resolveMetadata(description);
+        return {
+            maxInputTokens: metadata.maxInputTokens,
+            maxOutputTokens: metadata.maxOutputTokens,
+            supportsImages: metadata.supportsImages
+        };
+    }
+
     public stubbedModels: Array<{ id: string; created?: number }> = [];
     public listCalls = 0;
     /** Throw {@link failWith} for the first `failTimes` list calls, then return {@link stubbedModels}. */
@@ -83,6 +94,41 @@ describe('OpenAiLanguageModelsManagerImpl server tools', () => {
 
     it('does not offer native web search without the Response API', () => {
         expect(manager.resolveServerToolsForTest(modelDescription())).to.equal(undefined);
+    });
+});
+
+describe('OpenAiLanguageModelsManagerImpl custom endpoint metadata', () => {
+    const manager = new TestableOpenAiLanguageModelsManagerImpl();
+
+    it('uses the preference context window for a custom endpoint when declared', () => {
+        const metadata = manager.resolveMetadataForTest(modelDescription({
+            url: 'https://gw.example.com/v1',
+            model: 'unknown-at-openai',
+            contextWindow: 900000,
+            maxOutputTokens: 131072
+        }));
+        expect(metadata.maxInputTokens).to.equal(900000);
+        expect(metadata.maxOutputTokens).to.equal(131072);
+    });
+
+    it('leaves the context window unknown for a custom endpoint without a declared one', () => {
+        const metadata = manager.resolveMetadataForTest(modelDescription({
+            url: 'https://gw.example.com/v1',
+            model: 'unknown-at-openai'
+        }));
+        expect(metadata.maxInputTokens).to.be.undefined;
+    });
+
+    it('keeps the model-id defaults for official models and applies an explicit override', () => {
+        const defaulted = manager.resolveMetadataForTest(modelDescription({ model: 'gpt-4o' }));
+        expect(defaulted.maxInputTokens).to.equal(128000);
+        const overridden = manager.resolveMetadataForTest(modelDescription({ model: 'gpt-4o', contextWindow: 500000 }));
+        expect(overridden.maxInputTokens).to.equal(500000);
+    });
+
+    it('accepts images unless the description opts out', () => {
+        expect(manager.resolveMetadataForTest(modelDescription()).supportsImages).to.be.true;
+        expect(manager.resolveMetadataForTest(modelDescription({ supportsImages: false })).supportsImages).to.be.false;
     });
 });
 

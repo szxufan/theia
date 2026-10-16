@@ -27,14 +27,18 @@ export interface OpenAiModelDescription {
     model: string;
     /** The OpenAI API compatible endpoint where the model is hosted. If not provided the default OpenAI endpoint will be used. */
     url?: string;
-    /** The key for the model. If `true` is provided the global OpenAI API key will be used. */
-    apiKey: string | true | undefined;
+    /**
+     * The key for the model. If `true` is provided the global OpenAI API key will be used — official
+     * models only: custom endpoints never receive the global key (their descriptions carry a
+     * per-endpoint string key or none at all).
+     */
+    apiKey?: string | true;
     /** The version for the api. If `true` is provided the global OpenAI version will be used. */
-    apiVersion: string | true | undefined;
+    apiVersion?: string | true;
     /** Optional deployment name for Azure OpenAI. */
     deployment?: string;
     /** Maximum number of retry attempts when a request fails. Default is 3. */
-    maxRetries: number;
+    maxRetries?: number;
     /** Additional HTTP headers sent with every request to the endpoint, e.g. headers required by a gateway in front of the API. */
     headers?: Record<string, string>;
     /** Use the newer OpenAI Response API instead of the Chat Completion API. Default is `false`. */
@@ -50,6 +54,12 @@ export interface OpenAiModelDescription {
     developerMessageSettings?: 'user' | 'system' | 'developer' | 'mergeWithFollowingUserMessage' | 'skip';
     /** Whether the model supports structured output (`response_format` JSON schemas). Defaults from the model id when unset. */
     supportsStructuredOutput?: boolean;
+    /** The model's context window size in tokens, used for prompt truncation. Defaults from the model id when unset (custom endpoints: unlimited). */
+    contextWindow?: number;
+    /** The maximum number of output tokens the model may generate. */
+    maxOutputTokens?: number;
+    /** Whether the model accepts image input. Defaults to `true`; `false` drops image messages. */
+    supportsImages?: boolean;
     /** When set, the UI exposes a reasoning selector. Defaults from the model id when unset. */
     reasoningSupport?: ReasoningSupport;
     /** Resolved default enablement of server-side compaction (global preference folded with the per-provider override). Defaults to disabled when omitted. */
@@ -58,6 +68,25 @@ export interface OpenAiModelDescription {
     serverSideCompactionTokenThresholdByDefault?: number;
     /** Release date (ms since epoch) reported by discovery, surfaced as {@link LanguageModelMetaData.released}. */
     released?: number;
+}
+
+/**
+ * One entry of the `ai-features.openAiCustom.endpoints` preference: an OpenAI-compatible endpoint with
+ * its own connection settings and the list of models hosted behind it. Security-relevant: there is no
+ * `apiKey: true` here on purpose — a custom endpoint only ever uses its own key, never the global
+ * OpenAI one.
+ */
+export interface OpenAiCustomEndpointDescription {
+    /** The OpenAI-compatible base URL, usually ending in `/v1`. */
+    url: string;
+    /** The endpoint's own API key; unset means the endpoint needs no authentication. */
+    apiKey?: string;
+    /** Use the Response API instead of Chat Completions. Default is `false`. */
+    useResponseApi?: boolean;
+    /** Additional HTTP headers sent with every request to the endpoint. */
+    headers?: Record<string, string>;
+    /** The models hosted behind this endpoint. */
+    models: Partial<OpenAiModelDescription>[];
 }
 export interface OpenAiLanguageModelsManager {
     apiKey: string | undefined;

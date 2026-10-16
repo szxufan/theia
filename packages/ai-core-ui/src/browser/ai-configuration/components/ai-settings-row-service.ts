@@ -399,7 +399,7 @@ export class AiSettingsRowService {
 
     /**
      * The item schema of an `array` preference whose entries are objects with a declared `properties`
-     * map (e.g. `ai-features.openAiCustom.customOpenAiModels`), so the view can render one editable
+     * map (e.g. `ai-features.openAiCustom.endpoints`), so the view can render one editable
      * card per entry. Returns `undefined` for arrays without an object item schema, which keep the
      * `json` control.
      */
