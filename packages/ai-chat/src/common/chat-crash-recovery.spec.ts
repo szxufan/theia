@@ -18,7 +18,7 @@ import { enableJSDOM } from '@theia/core/lib/browser/test/jsdom';
 const disableJSDOM = enableJSDOM();
 
 import { FrontendApplicationConfigProvider } from '@theia/core/lib/browser/frontend-application-config-provider';
-FrontendApplicationConfigProvider.set({});
+try { FrontendApplicationConfigProvider.set({}); } catch { /* 已由先加载的 spec 设置 */ }
 
 import { expect } from 'chai';
 import * as sinon from 'sinon';

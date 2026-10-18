@@ -28,6 +28,7 @@ import { IMAGE_CONTEXT_VARIABLE, ImageContextVariable } from '../common/image-co
 import { fileToBase64, getMimeTypeFromExtension } from './image-file-utils';
 import { ApplicationShell, codiconArray, LabelProvider } from '@theia/core/lib/browser';
 import { NavigationLocationService } from '@theia/editor/lib/browser/navigation/navigation-location-service';
+import { EditorManager } from '@theia/editor/lib/browser/editor-manager';
 import * as fuzzy from '@theia/core/shared/fuzzy';
 import { QuickPickItem } from '@theia/core/lib/common/quick-pick-service';
 
@@ -62,6 +63,9 @@ export class FileChatVariableContribution implements FrontendVariableContributio
 
     @inject(NavigationLocationService)
     protected readonly navigationLocationService: NavigationLocationService;
+
+    @inject(EditorManager)
+    protected readonly editorManager: EditorManager;
 
     registerVariables(service: FrontendVariableService): void {
         service.registerArgumentPicker(FILE_VARIABLE, this.triggerArgumentPicker.bind(this));
@@ -281,6 +285,12 @@ export class FileChatVariableContribution implements FrontendVariableContributio
 
         const picks = await this.quickFileSelectService.getPicks(userInput, CancellationToken.None);
 
+        // 当前打开的编辑器文件优先展示：通常是用户正在关注、最可能想附加的上下文
+        const openUris = new Set(this.editorManager.all
+            .map(widget => (widget as { getResourceUri?: () => URI | undefined }).getResourceUri?.())
+            .filter((uri): uri is URI => !!uri)
+            .map(uri => uri.toString()));
+
         return picks
             .filter(FileQuickPickItem.is)
             // only show files with highlights, if the user started typing to filter down the results
@@ -288,6 +298,7 @@ export class FileChatVariableContribution implements FrontendVariableContributio
             .map((pick, index) => {
                 const relativePath = this.wsService.getRootPrefixedPath(pick.uri);
                 const parentPath = this.wsService.getRootPrefixedPath(pick.uri.parent);
+                const isOpen = openUris.has(pick.uri.toString());
                 return {
                     label: pick.label,
                     kind: monaco.languages.CompletionItemKind.File,
@@ -297,7 +308,7 @@ export class FileChatVariableContribution implements FrontendVariableContributio
                     // don't let monaco filter the items, as we only return picks that are filtered
                     filterText: userInput,
                     // keep the order of the items, but move them to the end of the list
-                    sortText: `ZZ${index.toString().padStart(4, '0')}_${pick.label}`,
+                    sortText: `${isOpen ? 'AA' : 'ZZ'}${index.toString().padStart(4, '0')}_${pick.label}`,
                     command: {
                         title: VARIABLE_ADD_CONTEXT_COMMAND.label!,
                         id: VARIABLE_ADD_CONTEXT_COMMAND.id,
