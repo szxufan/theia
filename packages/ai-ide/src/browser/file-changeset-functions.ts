@@ -97,6 +97,22 @@ export interface FileChangeSetTitleProvider {
     getChangeSetTitle(ctx: ChatToolContext): string;
 }
 
+/**
+ * Snapshot of the on-disk content taken when the change-set element is created, so the recorded
+ * "state before the AI change" survives even if the element is serialized before its lazy
+ * initialization got around to reading the file (e.g. after an immediate apply).
+ */
+async function readOriginalState(fileService: FileService, uri: URI, exists: boolean): Promise<string | undefined> {
+    if (!exists) {
+        return undefined;
+    }
+    try {
+        return (await fileService.read(uri)).value.toString();
+    } catch {
+        return undefined;
+    }
+}
+
 @injectable()
 export class SuggestFileContent implements ToolProvider {
     static ID = SUGGEST_FILE_CONTENT_ID;
@@ -184,6 +200,7 @@ export class SuggestFileContent implements ToolProvider {
                         type,
                         state: 'pending',
                         targetState: content,
+                        originalState: await readOriginalState(this.fileService, uri, exists),
                         requestId: ctx.request.id,
                         chatSessionId
                     })
@@ -285,6 +302,7 @@ export class WriteFileContent implements ToolProvider {
                     type: type as 'modify' | 'add' | 'delete',
                     state: 'pending',
                     targetState: content,
+                    originalState: await readOriginalState(this.fileService, uri, exists),
                     requestId: ctx.request.id,
                     chatSessionId
                 });
@@ -494,6 +512,7 @@ export class ReplaceContentInFileFunctionHelper {
                 type: 'modify',
                 state: 'pending',
                 targetState: updatedContent,
+                originalState: originalContent,
                 requestId: ctx.request.id,
                 chatSessionId: ctx.request.session.id
             });

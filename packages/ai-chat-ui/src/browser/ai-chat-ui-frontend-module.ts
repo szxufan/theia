@@ -26,6 +26,7 @@ import { EditorSelectionResolver } from '@theia/editor/lib/browser/editor-manage
 import { AIChatContribution } from './ai-chat-ui-contribution';
 import { AIChatInputConfiguration, AIChatInputWidget } from './chat-input-widget';
 import { ChatNodeToolbarActionContribution, DefaultChatNodeToolbarActionContribution } from './chat-node-toolbar-action-contribution';
+import { RollbackChatNodeToolbarContribution } from './rollback-chat-node-toolbar-contribution';
 import { ChatResponsePartRenderer } from './chat-response-part-renderer';
 import {
     CodePartRenderer,
@@ -237,6 +238,10 @@ export default new ContainerModule((bind, _unbind, _isBound, rebind) => {
     bindRootContributionProvider(bind, ChatNodeToolbarActionContribution);
     bind(DefaultChatNodeToolbarActionContribution).toSelf().inSingletonScope();
     bind(ChatNodeToolbarActionContribution).toService(DefaultChatNodeToolbarActionContribution);
+
+    bind(RollbackChatNodeToolbarContribution).toSelf().inSingletonScope();
+    bind(ChatNodeToolbarActionContribution).toService(RollbackChatNodeToolbarContribution);
+    bind(CommandContribution).toService(RollbackChatNodeToolbarContribution);
 
     bind(SubChatWidgetFactory).toFactory(ctx => () => {
         const container = ctx.container.createChild();
