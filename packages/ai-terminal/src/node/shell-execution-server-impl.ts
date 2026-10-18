@@ -29,6 +29,7 @@ const MAX_OUTPUT_SIZE = 1024 * 1024; // 1MB
 
 interface BackgroundTask {
     process: ChildProcess;
+    command: string;
     stdout: string;
     stderr: string;
     startedAt: number;
@@ -195,6 +196,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
                 windowsHide: true,
                 env: process.env,
             }),
+            command,
             stdout: '',
             stderr: '',
             startedAt: Date.now(),
@@ -234,12 +236,18 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
         }
         return {
             taskId,
+            command: task.command,
             running: task.finishedAt === undefined,
             exitCode: task.exitCode,
             startedAt: task.startedAt,
             finishedAt: task.finishedAt,
             error: task.error
         };
+    }
+
+    async listTasks(): Promise<ShellTaskStatus[]> {
+        const statuses = await Promise.all([...this.backgroundTasks.keys()].map(taskId => this.getStatus(taskId)));
+        return statuses.filter((status): status is ShellTaskStatus => status !== undefined);
     }
 
     async readOutput(taskId: string, fromOffset: number): Promise<ShellTaskOutput> {

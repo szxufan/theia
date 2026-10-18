@@ -15,7 +15,7 @@
 // *****************************************************************************
 
 import { injectable } from '@theia/core/shared/inversify';
-import { generateUuid } from '@theia/core';
+import { Emitter, Event, generateUuid } from '@theia/core';
 import { ChatRequestInvocation } from '../common';
 
 export type BackgroundDelegationState = 'running' | 'completed' | 'error' | 'cancelled';
@@ -27,6 +27,8 @@ export interface BackgroundDelegationEntry {
     /** The delegation session's request invocation; resolves when the sub-agent finishes. */
     invocation: ChatRequestInvocation;
     state: BackgroundDelegationState;
+    /** Epoch milliseconds. */
+    createdAt: number;
     /** Final result text, once the state is no longer `running`. */
     result?: string;
     /** Called when the entry is removed (stop, session delete). */
@@ -43,13 +45,18 @@ export class BackgroundDelegationRegistry {
 
     protected readonly entries = new Map<string, BackgroundDelegationEntry>();
 
-    create(init: Omit<BackgroundDelegationEntry, 'taskId' | 'state'>): BackgroundDelegationEntry {
+    protected readonly onDidChangeEmitter = new Emitter<void>();
+    readonly onDidChange: Event<void> = this.onDidChangeEmitter.event;
+
+    create(init: Omit<BackgroundDelegationEntry, 'taskId' | 'state' | 'createdAt'>): BackgroundDelegationEntry {
         const entry: BackgroundDelegationEntry = {
             taskId: generateUuid(),
             state: 'running',
+            createdAt: Date.now(),
             ...init
         };
         this.entries.set(entry.taskId, entry);
+        this.onDidChangeEmitter.fire();
         return entry;
     }
 
@@ -61,6 +68,20 @@ export class BackgroundDelegationRegistry {
         return [...this.entries.values()];
     }
 
+    /** Single mutation point for entry state; keeps listeners (e.g. the task panel) in sync. */
+    updateState(taskId: string, state: BackgroundDelegationState, result?: string): boolean {
+        const entry = this.entries.get(taskId);
+        if (!entry) {
+            return false;
+        }
+        entry.state = state;
+        if (result !== undefined) {
+            entry.result = result;
+        }
+        this.onDidChangeEmitter.fire();
+        return true;
+    }
+
     /** Removes the entry, invoking its cleanup callback. Returns whether it existed. */
     remove(taskId: string): boolean {
         const entry = this.entries.get(taskId);
@@ -69,6 +90,8 @@ export class BackgroundDelegationRegistry {
         }
         this.entries.delete(taskId);
         entry.onDispose?.();
+        this.onDidChangeEmitter.fire();
         return true;
     }
 }
+

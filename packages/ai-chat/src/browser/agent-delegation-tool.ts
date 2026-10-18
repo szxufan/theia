@@ -301,17 +301,18 @@ export class AgentDelegationTool implements ToolProvider {
                         });
                         const parentResponse = ctx.response;
                         response.responseCompleted.then(result => {
-                            entry.state = result.isCanceled ? 'cancelled' : 'completed';
-                            entry.result = this.renderDelegationResult(result.response.content,
-                                result.isCanceled ? `Delegation to agent '${agentId}' was cancelled by the user.` : '',
-                                sessionIdSuffix);
+                            this.backgroundDelegations.updateState(entry.taskId,
+                                result.isCanceled ? 'cancelled' : 'completed',
+                                this.renderDelegationResult(result.response.content,
+                                    result.isCanceled ? `Delegation to agent '${agentId}' was cancelled by the user.` : '',
+                                    sessionIdSuffix));
                             parentResponse.response.addContent(new InformationalChatResponseContentImpl(
                                 nls.localize('theia/ai/chat/delegation/backgroundFinished',
                                     '后台委派任务 {0}（代理 {1}）已完成，可调用 getDelegationResult 获取结果。',
                                     entry.taskId, agentId)));
                         }).catch(completionError => {
-                            entry.state = 'error';
-                            entry.result = `Failed to complete response from agent '${agentId}': ${completionError instanceof Error ? completionError.message : completionError}`;
+                            this.backgroundDelegations.updateState(entry.taskId, 'error',
+                                `Failed to complete response from agent '${agentId}': ${completionError instanceof Error ? completionError.message : completionError}`);
                         });
                         return [
                             `Delegation to agent '${agentId}' started in the background.`,

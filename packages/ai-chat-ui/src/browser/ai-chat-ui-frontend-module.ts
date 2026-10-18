@@ -27,6 +27,9 @@ import { AIChatContribution } from './ai-chat-ui-contribution';
 import { AIChatInputConfiguration, AIChatInputWidget } from './chat-input-widget';
 import { ChatNodeToolbarActionContribution, DefaultChatNodeToolbarActionContribution } from './chat-node-toolbar-action-contribution';
 import { RollbackChatNodeToolbarContribution } from './rollback-chat-node-toolbar-contribution';
+import { AiTaskProvider } from '@theia/ai-chat/lib/browser/ai-task-provider';
+import { AiTaskView } from './ai-task-view';
+import { AiTaskViewContribution } from './ai-task-view-contribution';
 import { ChatResponsePartRenderer } from './chat-response-part-renderer';
 import {
     CodePartRenderer,
@@ -242,6 +245,14 @@ export default new ContainerModule((bind, _unbind, _isBound, rebind) => {
     bind(RollbackChatNodeToolbarContribution).toSelf().inSingletonScope();
     bind(ChatNodeToolbarActionContribution).toService(RollbackChatNodeToolbarContribution);
     bind(CommandContribution).toService(RollbackChatNodeToolbarContribution);
+
+    bindRootContributionProvider(bind, AiTaskProvider);
+    bindViewContribution(bind, AiTaskViewContribution);
+    bind(AiTaskView).toSelf();
+    bind(WidgetFactory).toDynamicValue(ctx => ({
+        id: AiTaskView.ID,
+        createWidget: () => ctx.container.get<AiTaskView>(AiTaskView)
+    })).inSingletonScope();
 
     bind(SubChatWidgetFactory).toFactory(ctx => () => {
         const container = ctx.container.createChild();

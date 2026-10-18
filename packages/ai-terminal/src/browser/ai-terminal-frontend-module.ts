@@ -30,6 +30,8 @@ import { ShellCommandPermissionService } from './shell-command-permission-servic
 import { shellCommandPreferences } from '../common/shell-command-preferences';
 import { DefaultShellCommandAnalyzer, ShellCommandAnalyzer } from '../common/shell-command-analyzer';
 import { AiTerminalCommandBlockVariableContribution } from './ai-terminal-command-block-variable';
+import { AiTaskProvider } from '@theia/ai-chat/lib/browser/ai-task-provider';
+import { ShellTaskProvider } from './shell-task-provider';
 
 import '../../src/browser/style/ai-terminal.css';
 import '../../src/browser/style/shell-execution-tool.css';
@@ -61,4 +63,7 @@ export default new ContainerModule(bind => {
 
     bind(AiTerminalCommandBlockVariableContribution).toSelf().inSingletonScope();
     bind(AIVariableContribution).toService(AiTerminalCommandBlockVariableContribution);
+
+    bind(ShellTaskProvider).toSelf().inSingletonScope();
+    bind(AiTaskProvider).toService(ShellTaskProvider);
 });

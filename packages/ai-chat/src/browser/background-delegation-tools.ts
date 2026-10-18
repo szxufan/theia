@@ -125,7 +125,7 @@ export class StopDelegationTool implements ToolProvider {
         }
         const request = await entry.invocation.requestCompleted;
         await this.chatService.cancelRequest(request.session.id, request.id);
-        entry.state = 'cancelled';
+        this.registry.updateState(args.taskId, 'cancelled');
         return { stopped: true };
     }
 }

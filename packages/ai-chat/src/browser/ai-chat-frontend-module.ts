@@ -45,6 +45,8 @@ import { ClientCompactionService } from '../common/client-compaction';
 import { GetDelegationResultTool, StopDelegationTool } from './background-delegation-tools';
 import { BackgroundDelegationRegistry } from './background-delegation-registry';
 import { SessionRollbackService, SessionRollbackServiceImpl } from './session-rollback-service';
+import { AiTaskProvider } from './ai-task-provider';
+import { DelegationTaskProvider, QueuedMessageTaskProvider } from './ai-chat-task-providers';
 import { ChangeSetFileService } from './change-set-file-service';
 import { FileReadTracker } from '../common/file-read-tracker';
 import { FileReadTrackerImpl } from './file-read-tracker-impl';
@@ -111,6 +113,11 @@ export default new ContainerModule(bind => {
 
     bind(SessionRollbackServiceImpl).toSelf().inSingletonScope();
     bind(SessionRollbackService).toService(SessionRollbackServiceImpl);
+
+    bind(DelegationTaskProvider).toSelf().inSingletonScope();
+    bind(AiTaskProvider).toService(DelegationTaskProvider);
+    bind(QueuedMessageTaskProvider).toSelf().inSingletonScope();
+    bind(AiTaskProvider).toService(QueuedMessageTaskProvider);
 
     bind(ChatAgentServiceImpl).toSelf().inSingletonScope();
     bind(ChatAgentService).toService(ChatAgentServiceImpl);

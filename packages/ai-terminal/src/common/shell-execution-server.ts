@@ -56,6 +56,8 @@ export interface ShellTaskStartResult {
 
 export interface ShellTaskStatus {
     taskId: string;
+    /** The command line this task runs, when known. */
+    command?: string;
     running: boolean;
     exitCode: number | undefined;
     /** Epoch milliseconds. */
@@ -82,6 +84,8 @@ export interface ShellExecutionServer {
     /** Starts a command in the background and returns immediately with a task handle. */
     start(request: ShellTaskStartRequest): Promise<ShellTaskStartResult>;
     getStatus(taskId: string): Promise<ShellTaskStatus | undefined>;
+    /** Statuses of all background tasks known to this server (for the AI task panel). */
+    listTasks(): Promise<ShellTaskStatus[]>;
     /** Reads combined output (stdout, then stderr) from the given character offset. */
     readOutput(taskId: string, fromOffset: number): Promise<ShellTaskOutput>;
     stop(taskId: string): Promise<boolean>;
