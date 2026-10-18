@@ -17,13 +17,12 @@
 import { injectable, inject } from '@theia/core/shared/inversify';
 import { ToolRequest, AutoActionResult } from '@theia/ai-core';
 import { ShellCommandPermissionService } from './shell-command-permission-service';
-import { AbstractShellExecutionTool } from './abstract-shell-execution-tool';
+import { AbstractShellExecutionTool, resolveShellCwd } from './abstract-shell-execution-tool';
 import {
     SHELL_EXECUTION_FUNCTION_ID,
     ShellExecutionToolResult,
     ShellExecutionCanceledResult
 } from '../common/shell-execution-server';
-import { Path } from '@theia/core';
 
 @injectable()
 export class ShellExecutionTool extends AbstractShellExecutionTool {
@@ -147,56 +146,10 @@ TIMEOUT: Default 2 minutes, max 10 minutes. Specify higher timeout for longer co
 
         return this.runShellCommand({
             command: args.command,
-            cwd: this.resolveCwd(args.cwd),
+            cwd: resolveShellCwd(this.workspaceService, args.cwd),
             timeout: args.timeout,
             ctx
         });
-    }
-
-    /**
-     * Resolves a cwd value to an absolute filesystem path.
-     * Handles: undefined (falls back to workspace root), absolute paths (pass-through),
-     * root-relative paths (<rootName>/...), and bare root names.
-     */
-    private resolveCwd(cwd: string | undefined): string {
-        const roots = this.workspaceService.tryGetRoots();
-
-        const rootNames = roots.map(r => r.resource.path.base);
-        if (!cwd) {
-            if (roots.length === 1) {
-                return roots[0].resource.path.fsPath();
-            }
-            throw new Error(
-                'A working directory (cwd) is required in a multi-root workspace. ' +
-                `Available workspace roots: ${rootNames.join(', ')}. ` +
-                'Provide one as cwd (e.g., "backend") or use a sub-path (e.g., "backend/src").'
-            );
-        }
-
-        const normalized = Path.normalizePathSeparator(cwd);
-
-        if (new Path(normalized).isAbsolute) {
-            return normalized;
-        }
-
-        const segments = normalized.split('/');
-        for (const root of roots) {
-            if (root.resource.path.base === segments[0]) {
-                const rest = segments.slice(1).join('/');
-                const resolved = rest ? root.resource.resolve(rest) : root.resource;
-                return resolved.path.fsPath();
-            }
-        }
-
-        if (roots.length === 1) {
-            return roots[0].resource.resolve(normalized).path.fsPath();
-        }
-
-        throw new Error(
-            `Could not resolve working directory '${cwd}' to a workspace root. ` +
-            'In a multi-root workspace, prefix paths with the workspace root name ' +
-            `(e.g., '${rootNames[0]}/path'). Available roots: ${rootNames.join(', ')}.`
-        );
     }
 
 }

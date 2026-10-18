@@ -1123,6 +1123,11 @@ export class AIChatInputWidget extends ReactWidget {
         this.id = AIChatInputWidget.ID;
         this.title.closable = false;
         this.toDispose.push(this.resources.add(this.getResourceUri(), ''));
+        this.toDispose.push(this.chatService.onDidChangeQueuedRequests(({ sessionId }) => {
+            if (this._chatModel && this._chatModel.id === sessionId) {
+                this.update();
+            }
+        }));
         this.toDispose.push(this.aiActivationService.onDidChangeCanRun(() => {
             this.setEnabled(this.aiActivationService.canRun);
         }));
@@ -1568,7 +1573,9 @@ export class AIChatInputWidget extends ReactWidget {
         const pending = isPending();
 
         return (
-            <ChatInput
+            <React.Fragment>
+                {this.renderQueuedRequests()}
+                <ChatInput
                 branch={this._branch}
                 onQuery={this._onQuery.bind(this)}
                 onUnpin={this._onUnpin.bind(this)}
@@ -1654,8 +1661,41 @@ export class AIChatInputWidget extends ReactWidget {
                 tokenUsageEnabled={this.tokenUsageEnabled}
                 tokenUsageWarningThreshold={this.getTokenUsageWarningThreshold()}
                 contextWindowSize={this.getContextWindowSize()}
-            />
+                />
+            </React.Fragment>
         );
+    }
+
+    /** Messages queued while the session is still answering; rendered above the input. */
+    protected renderQueuedRequests(): React.ReactNode {
+        const sessionId = this._chatModel?.id;
+        if (!sessionId) {
+            return undefined;
+        }
+        const queued = this.chatService.getQueuedRequests(sessionId);
+        if (queued.length === 0) {
+            return undefined;
+        }
+        return <div className='theia-ai-chat-queued-requests' role='list'>
+            {queued.map(entry => (
+                <div className='theia-ai-chat-queued-request' key={entry.id} role='listitem'
+                    title={nls.localize('theia/ai/chat-ui/queuedRequest/tooltip',
+                        '当前请求完成后自动发送。点击 × 取消该消息。')}>
+                    <span className='theia-ai-chat-queued-request-icon codicon codicon-watch' />
+                    <span className='theia-ai-chat-queued-request-text'>
+                        {nls.localize('theia/ai/chat-ui/queuedRequest/label', '已排队：{0}', entry.request.text)}
+                    </span>
+                    <button type='button' className='theia-ai-chat-queued-request-cancel'
+                        aria-label={nls.localize('theia/ai/chat-ui/queuedRequest/cancel', '取消排队消息')}
+                        onClick={e => {
+                            e.stopPropagation();
+                            this.chatService.cancelQueuedRequest(sessionId, entry.id);
+                        }}>
+                        ×
+                    </button>
+                </div>
+            ))}
+        </div>;
     }
 
     protected onDragOver(event: React.DragEvent): void {

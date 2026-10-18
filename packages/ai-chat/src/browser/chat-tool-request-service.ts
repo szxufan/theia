@@ -21,6 +21,7 @@ import { ChatToolRequestService, normalizeToolArgs } from '../common/chat-tool-r
 import { raceConfirmationWithTimeout } from '../common/chat-tool-confirmation-timeout';
 import { MutableChatRequestModel, ToolCallChatResponseContent } from '../common/chat-model';
 import { ToolConfirmationMode, ChatToolPreferences, TOOL_CONFIRMATION_TIMEOUT_PREFERENCE } from '../common/chat-tool-preferences';
+import { resolveAutonomyConfirmationMode } from '../common/chat-autonomy';
 import { ToolConfirmationManager } from './chat-tool-preference-bindings';
 
 /**
@@ -44,7 +45,21 @@ export class FrontendChatToolRequestService extends ChatToolRequestService {
             handler: async (arg_string: string, ctx?: ToolInvocationContext) => {
                 const toolCallId = ctx?.toolCallId;
                 const sessionId = request.session.rootSessionId ?? request.session.id;
-                const confirmationMode = this.confirmationManager.getConfirmationMode(toolRequest.id, sessionId, toolRequest);
+                const preferenceMode = this.confirmationManager.getConfirmationMode(toolRequest.id, sessionId, toolRequest);
+                const resolution = resolveAutonomyConfirmationMode(
+                    preferenceMode,
+                    request.session.settings?.commonSettings?.autonomyMode,
+                    toolRequest
+                );
+
+                if (typeof resolution === 'object' && 'deny' in resolution) {
+                    // Deny before any confirmation UI: the tool call content is recorded with the
+                    // denial reason so the model learns why and can plan instead of act.
+                    const toolCallContent = this.findToolCallContent(toolRequest, arg_string, request, toolCallId);
+                    toolCallContent.deny(resolution.deny);
+                    return toolCallContent.result;
+                }
+                const confirmationMode = resolution;
 
                 switch (confirmationMode) {
                     case ToolConfirmationMode.DISABLED:

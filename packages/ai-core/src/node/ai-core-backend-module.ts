@@ -44,6 +44,8 @@ import {
     ToolCallExecutor,
     ToolCallExecutorImpl
 } from '../common';
+import { ToolCallEventBus, ToolCallHook } from '../common/tool-call-hook';
+import { bindRootContributionProvider } from '@theia/core';
 import { BackendLanguageModelRegistryImpl } from './backend-language-model-registry';
 import { TokenUsageServiceImpl } from './token-usage-service-impl';
 import { ModelSnapshotStore, ModelSnapshotStoreImpl } from './model-snapshot-store';
@@ -117,6 +119,8 @@ export default new ContainerModule(bind => {
     bind(PreferenceContribution).toConstantValue({ schema: AgentSettingsPreferenceSchema });
     bindAICorePreferences(bind);
     bind(ToolCallExecutorImpl).toSelf().inSingletonScope();
+    bind(ToolCallEventBus).toSelf().inSingletonScope();
+    bindRootContributionProvider(bind, ToolCallHook);
     bind(ToolCallExecutor).toService(ToolCallExecutorImpl);
     // Bound in the root container: the snapshots are per provider, not per frontend connection,
     // and the provider managers resolving them live in connection-scoped child containers.

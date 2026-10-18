@@ -23,6 +23,7 @@ export * from './language-model-util';
 export * from './language-model';
 export * from './language-model-alias';
 export * from './tool-call-execution';
+export * from './tool-call-hook';
 export * from './model-discovery-status';
 export * from './model-discovery-util';
 export * from './prompt-service';

@@ -195,6 +195,8 @@ When a diagram clarifies an architectural concept or how something is implemente
 
 {{prompt:project-info}}
 
+{{capability:workspace-instructions default on}}
+
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}
 
 {{${TASK_CONTEXT_SUMMARY_VARIABLE_ID}}}
@@ -234,6 +236,8 @@ Always look at the relevant files to understand your task using the function ~{$
 {{${CONTEXT_FILES_VARIABLE_ID}}}
 
 {{prompt:project-info}}
+
+{{capability:workspace-instructions default on}}
 
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}
 `
@@ -468,6 +472,8 @@ When a diagram clarifies an architectural concept or how something is implemente
 {{${CONTEXT_FILES_VARIABLE_ID}}}
 
 {{prompt:project-info}}
+
+{{capability:workspace-instructions default on}}
 
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}
 

@@ -33,6 +33,9 @@ import {
 } from './workspace-functions';
 import { WorkspaceSearchProvider } from './workspace-search-provider';
 import { MemoryDirectoryVariableContribution } from './memory-directory-variable-contribution';
+import { WorkspaceInstructionsVariableContribution } from './workspace-instructions-variable-contribution';
+import { AutoMemoryService } from './auto-memory-service';
+import { WorkspaceInstructionsCapabilityContribution } from './workspace-instructions-capability-contribution';
 import {
     FrontendApplicationContribution,
     WidgetFactory,
@@ -254,6 +257,10 @@ export default new ContainerModule((bind, _unbind, _isBound, rebind) => {
     bind(MemoryDirectoryVariableContribution).toSelf().inSingletonScope();
     bind(AIVariableContribution).toService(MemoryDirectoryVariableContribution);
     bind(AccessibleRootContribution).toService(MemoryDirectoryVariableContribution);
+    bind(WorkspaceInstructionsVariableContribution).toSelf().inSingletonScope();
+    bind(AIVariableContribution).toService(WorkspaceInstructionsVariableContribution);
+    bind(AutoMemoryService).toSelf().inSingletonScope();
+    bind(FrontendApplicationContribution).toService(AutoMemoryService);
 
     bindToolProvider(SuggestFileContent, bind);
     bindToolProvider(WriteFileContent, bind);
@@ -385,6 +392,7 @@ export default new ContainerModule((bind, _unbind, _isBound, rebind) => {
     bind(FrontendApplicationContribution).to(GitHubCapabilityContribution);
     bind(FrontendApplicationContribution).to(ShellExecutionCapabilityContribution);
     bind(FrontendApplicationContribution).to(MemoryCapabilityContribution);
+    bind(FrontendApplicationContribution).to(WorkspaceInstructionsCapabilityContribution);
     bind(FrontendApplicationContribution).to(OpenEditorsHintContribution);
 
     bind(FrontendApplicationContribution).to(CodeReviewCapabilityContribution);

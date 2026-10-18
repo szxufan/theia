@@ -26,6 +26,10 @@ Some files and other pieces of data may have been added by the user to the conte
 {{${CHAT_CONTEXT_DETAILS_VARIABLE_ID}}}
 
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}
+
+{{capability:workspace-instructions default on}}
+
+{{capability:web-access default on}}
 `
 };
 

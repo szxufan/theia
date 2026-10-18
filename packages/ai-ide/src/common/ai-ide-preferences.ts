@@ -21,8 +21,17 @@ import { nls, PreferenceSchema, PreferenceScope } from '@theia/core';
 export const PREFERENCE_NAME_ENABLE_AI = 'ai-features.AiEnable.enableAI';
 export const PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST = 'ai-features.orchestrator.excludedAgents';
 export const PREFERENCE_NAME_AGENT_MODE_ENABLED = 'ai-features.agentMode.enabled';
+export const AUTO_MEMORY_ENABLED_PREFERENCE = 'ai-features.autoMemory.enabled';
 export const aiIdePreferenceSchema: PreferenceSchema = {
     properties: {
+        [AUTO_MEMORY_ENABLED_PREFERENCE]: {
+            title: AI_CORE_PREFERENCES_TITLE,
+            type: 'boolean',
+            default: false,
+            description: nls.localize('theia/ai/ide/autoMemory/enabled/description',
+                '会话空闲后自动从对话中提取值得长期记住的事实，写入工作区记忆目录的 wiki（自动记忆.md，并链接到 index.md）。' +
+                '提取使用 default/summarize 模型别名。默认关闭。'),
+        },
         [PREFERENCE_NAME_ENABLE_AI]: {
             title: AI_CORE_PREFERENCES_TITLE,
             markdownDescription: '❗ ' + nls.localize('theia/ai/ide/enableAI/mdDescription',

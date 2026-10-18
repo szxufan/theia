@@ -16,7 +16,7 @@
 
 import { GenericCapabilitySelections } from '@theia/ai-core';
 import { ChatAgentLocation } from './chat-agents';
-import { ChatSessionSettings, ResponseTokenUsage } from './chat-model';
+import { ChatSessionSettings, ClientCompactionRecord, ResponseTokenUsage } from './chat-model';
 
 export interface SerializableChangeSetElement {
     kind?: string;
@@ -196,6 +196,10 @@ export interface SerializedChatModel {
      * chat input can restore the correct selection.
      */
     settings?: ChatSessionSettings;
+    /**
+     * Client-side compaction state so a compacted session stays compacted after a reload.
+     */
+    clientCompaction?: ClientCompactionRecord;
 }
 
 /**
@@ -208,6 +212,10 @@ export interface SerializedChatData {
     title?: string;
     model: SerializedChatModel;
     saveDate: number;
+    /** Whether the last request was still in progress when the session was saved (e.g. app crash). */
+    hasInterrupted?: boolean;
+    /** Whether the last request ended with an error. */
+    hasError?: boolean;
     /** ID of the root session in the delegation chain. */
     rootSessionId?: string;
     /** ID of the immediate parent session that delegated this one. */

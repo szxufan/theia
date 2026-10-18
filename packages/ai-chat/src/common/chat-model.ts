@@ -84,7 +84,8 @@ export type ChatChangeEvent =
     | ChatChangeHierarchyBranchEvent
     | ChatInteractionNeededEvent
     | ChatSessionStatusChangedEvent
-    | ChatSettingsChangedEvent;
+    | ChatSettingsChangedEvent
+    | ChatClientCompactionChangedEvent;
 
 export interface ChatAddRequestEvent {
     kind: 'addRequest';
@@ -154,6 +155,11 @@ export interface ChatSessionStatusChangedEvent {
 export interface ChatSettingsChangedEvent {
     kind: 'settingsChanged';
     settings: ChatSessionSettings;
+}
+
+export interface ChatClientCompactionChangedEvent {
+    kind: 'clientCompactionChanged';
+    compaction: ClientCompactionRecord | undefined;
 }
 
 export namespace ChatChangeEvent {
@@ -251,7 +257,19 @@ export interface CommonChatSessionSettings {
     confirmationTimeout?: number;
     /** Per-session server-side compaction settings; set values win over the per-provider and global settings. */
     compaction?: CompactionSettings;
+    /**
+     * Session-level autonomy mode governing tool confirmation:
+     * - `default`: confirmations follow the tool confirmation preferences.
+     * - `plan`: mutating tools are denied outright (with an explanatory reason) so the agent
+     *   can only read and plan.
+     * - `yolo`: all confirmations are auto-approved, except tools flagged
+     *   `confirmAlwaysAllow` (e.g. shell execution), which still require explicit approval.
+     */
+    autonomyMode?: AutonomyMode;
 }
+
+/** Session-level autonomy mode controlling how tool calls are confirmed. */
+export type AutonomyMode = 'default' | 'plan' | 'yolo';
 
 export interface ChatSessionSettings {
     /**
@@ -357,6 +375,13 @@ export interface ChatModel {
      * Changes are announced via {@link onDidChange} with a {@link ChatSessionStatusChangedEvent}.
      */
     readonly status: ChatSessionStatus;
+    /**
+     * Client-side compaction state of this session, or `undefined` while the history is not
+     * compacted. When set, requests up to and including `upToRequestId` on the active branch are
+     * represented by `summary` instead of their original messages when the history is sent to a
+     * language model. The full history stays visible in the UI.
+     */
+    readonly clientCompaction?: ClientCompactionRecord;
     /** ID of the root session in the delegation chain. For delegated sessions, this points to the topmost session where task contexts are stored. */
     rootSessionId?: string;
     /** ID of the immediate parent session that delegated this one. Undefined for top-level sessions. */
@@ -365,6 +390,19 @@ export interface ChatModel {
     getBranches(): ChatHierarchyBranch<ChatRequestModel>[];
     isEmpty(): boolean;
     toSerializable(): SerializedChatModel;
+}
+
+/**
+ * Persistent record of a client-side compaction: everything on the active branch up to and
+ * including `upToRequestId` has been replaced by `summary` for language model requests.
+ */
+export interface ClientCompactionRecord {
+    /** Id of the last request covered by the summary. */
+    upToRequestId: string;
+    /** Generated summary standing in for the compacted requests. */
+    summary: string;
+    /** ISO timestamp of when the compaction was created. */
+    createdAt: string;
 }
 
 export interface ChatSuggestionCallback {
@@ -1187,6 +1225,7 @@ export class MutableChatModel implements ChatModel, Disposable {
     protected readonly _contextManager = new ChatContextManagerImpl();
     protected _changeSet: ChatTreeChangeSet;
     protected _settings: ChatSessionSettings;
+    protected _clientCompaction: ClientCompactionRecord | undefined;
     protected _location: ChatAgentLocation;
     protected _status: ChatSessionStatus = 'idle';
     rootSessionId?: string;
@@ -1270,6 +1309,7 @@ export class MutableChatModel implements ChatModel, Disposable {
         if (data.settings) {
             this._settings = data.settings;
         }
+        this._clientCompaction = data.clientCompaction;
 
         // Restore the hierarchy structure with all alternatives
         this._hierarchy = new ChatRequestHierarchyImpl<MutableChatRequestModel>(data.hierarchy, requestMap);
@@ -1343,6 +1383,15 @@ export class MutableChatModel implements ChatModel, Disposable {
         this._onDidChangeEmitter.fire({ kind: 'settingsChanged', settings });
     }
 
+    get clientCompaction(): ClientCompactionRecord | undefined {
+        return this._clientCompaction;
+    }
+
+    setClientCompaction(compaction: ClientCompactionRecord | undefined): void {
+        this._clientCompaction = compaction;
+        this._onDidChangeEmitter.fire({ kind: 'clientCompactionChanged', compaction });
+    }
+
     addChildModel(child: MutableChatModel): Disposable {
         const disposable = new DisposableCollection();
         disposable.push(child.onDidChange(event => {
@@ -1413,7 +1462,8 @@ export class MutableChatModel implements ChatModel, Disposable {
             hierarchy,
             requests: serializedRequests,
             responses: serializedResponses,
-            settings: this._settings
+            settings: this._settings,
+            clientCompaction: this._clientCompaction
         };
     }
 

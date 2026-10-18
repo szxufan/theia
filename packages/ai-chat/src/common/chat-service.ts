@@ -20,7 +20,7 @@
 // Partially copied from https://github.com/microsoft/vscode/blob/a2cab7255c0df424027be05d58e1b7b941f4ea60/src/vs/workbench/contrib/chat/common/chatService.ts
 
 import { AIVariableResolutionRequest, AIVariableService, ResolvedAIContextVariable, ToolInvocationRegistry, ToolRequest } from '@theia/ai-core';
-import { Emitter, Event, ILogger, URI, generateUuid } from '@theia/core';
+import { Emitter, Event, ILogger, URI, generateUuid, nls } from '@theia/core';
 import { Deferred } from '@theia/core/lib/common/promise-util';
 import { inject, injectable, optional, named } from '@theia/core/shared/inversify';
 import { ChatAgentService, DefaultChatAgentId, FallbackChatAgentId } from './chat-agent-service';
@@ -34,6 +34,7 @@ import {
     ChatRequestModel,
     ChatResponseModel,
     ErrorChatResponseModel,
+    InformationalChatResponseContentImpl,
     MutableChatModel,
     MutableChatRequestModel,
 } from './chat-model';
@@ -141,8 +142,18 @@ export type PinChatAgent = boolean;
 
 export const ChatService = Symbol('ChatService');
 export const ChatServiceFactory = Symbol('ChatServiceFactory');
+
+/** A user message waiting for the session's current request to finish before it is sent. */
+export interface QueuedChatRequest {
+    /** Stable id of the queue entry, used to cancel individual messages. */
+    readonly id: string;
+    readonly request: ChatRequest;
+}
+
 export interface ChatService {
     onSessionEvent: Event<ActiveSessionChangedEvent | SessionCreatedEvent | SessionDeletedEvent | SessionRenamedEvent>
+    /** Fires whenever a session's queue of pending messages changes. */
+    onDidChangeQueuedRequests: Event<{ sessionId: string }>;
 
     getSession(id: string): ChatSession | undefined;
     getSessions(): ChatSession[];
@@ -150,12 +161,17 @@ export interface ChatService {
     deleteSession(sessionId: string): Promise<void>;
     renameSession(sessionId: string, title: string): Promise<void>;
     getActiveSession(): ChatSession | undefined;
-    setActiveSession(sessionId: string, options?: SessionOptions): void;
+    setActiveSession(sessionId: string | undefined, options?: SessionOptions): void;
 
     sendRequest(
         sessionId: string,
         request: ChatRequest
     ): Promise<ChatRequestInvocation | undefined>;
+
+    /** The messages queued for the given session, oldest first. */
+    getQueuedRequests(sessionId: string): readonly QueuedChatRequest[];
+    /** Removes one queued message; returns whether it was found and removed. */
+    cancelQueuedRequest(sessionId: string, queueEntryId: string): boolean;
 
     deleteChangeSet(sessionId: string): void;
     deleteChangeSetElement(sessionId: string, uri: URI): void;
@@ -187,6 +203,18 @@ interface ChatSessionInternal extends ChatSession {
 export class ChatServiceImpl implements ChatService {
     protected readonly onSessionEventEmitter = new Emitter<ActiveSessionChangedEvent | SessionCreatedEvent | SessionDeletedEvent | SessionRenamedEvent>();
     onSessionEvent = this.onSessionEventEmitter.event;
+
+    protected readonly onDidChangeQueuedRequestsEmitter = new Emitter<{ sessionId: string }>();
+    onDidChangeQueuedRequests = this.onDidChangeQueuedRequestsEmitter.event;
+
+    /** Upper bound of queued messages per session, so a runaway loop cannot pile up input. */
+    protected static readonly MAX_QUEUED_REQUESTS = 10;
+
+    protected readonly queuedRequests = new Map<string, Array<QueuedChatRequest & {
+        send: () => void;
+        cancel: () => void;
+        settled: Promise<unknown>;
+    }>>();
 
     @inject(ChatAgentService)
     protected chatAgentService: ChatAgentService;
@@ -285,6 +313,16 @@ export class ChatServiceImpl implements ChatService {
             await this.deleteSessionAndChildren(childId, visited);
         }
 
+        // Drop any messages still queued for this session; they must not fire later.
+        const queued = this.queuedRequests.get(sessionId);
+        if (queued) {
+            for (const entry of queued) {
+                entry.cancel();
+            }
+            this.queuedRequests.delete(sessionId);
+            this.onDidChangeQueuedRequestsEmitter.fire({ sessionId });
+        }
+
         const sessionIndex = this._sessions.findIndex(candidate => candidate.id === sessionId);
 
         // If session is in memory, remove it
@@ -347,7 +385,62 @@ export class ChatServiceImpl implements ChatService {
             return undefined;
         }
 
-        this.cancelIncompleteRequests(session);
+        if (this.hasIncompleteRequests(session)) {
+            return this.enqueueRequest(session, request);
+        }
+        return this.doSendRequest(session, request);
+    }
+
+    /**
+     * Queues a message while the session is still processing an earlier one instead of
+     * interrupting it. Resolves immediately with an invocation whose promises settle when the
+     * queued message is eventually sent (and its own request completes). The queue is drained
+     * automatically as soon as the running request finishes, in FIFO order.
+     */
+    protected enqueueRequest(session: ChatSessionInternal, request: ChatRequest): Promise<ChatRequestInvocation | undefined> {
+        const queue = this.queuedRequests.get(session.id) ?? [];
+        if (queue.length >= ChatServiceImpl.MAX_QUEUED_REQUESTS) {
+            this.logger.warn(`Queue limit of ${ChatServiceImpl.MAX_QUEUED_REQUESTS} reached for session ${session.id}; dropping message.`);
+            return Promise.resolve(undefined);
+        }
+        const deferred = new Deferred<ChatRequestInvocation>();
+        const entry = {
+            id: generateUuid(),
+            request,
+            send: () => {
+                this.doSendRequest(session, request).then(
+                    invocation => deferred.resolve(invocation ?? {
+                        requestCompleted: Promise.reject(new Error('Queued message could not be sent.')),
+                        responseCreated: Promise.reject(new Error('Queued message could not be sent.')),
+                        responseCompleted: Promise.reject(new Error('Queued message could not be sent.'))
+                    }),
+                    error => deferred.reject(error)
+                );
+            },
+            cancel: () => deferred.reject(new Error('Queued message was cancelled.')),
+            // Keep the rejection handled until a consumer subscribes, so a cancelled message
+            // cannot surface as an unhandled rejection.
+            settled: deferred.promise.catch(() => undefined)
+        };
+        queue.push(entry);
+        this.queuedRequests.set(session.id, queue);
+        this.onDidChangeQueuedRequestsEmitter.fire({ sessionId: session.id });
+        return Promise.resolve({
+            requestCompleted: deferred.promise.then(invocation => invocation.requestCompleted),
+            responseCreated: deferred.promise.then(invocation => invocation.responseCreated),
+            responseCompleted: deferred.promise.then(invocation => invocation.responseCompleted),
+        });
+    }
+
+    protected hasIncompleteRequests(session: ChatSessionInternal): boolean {
+        return session.model.getRequests().some(pastRequest => !pastRequest.response.isComplete);
+    }
+
+    /** Sends the request now, assuming no other request of the session is in progress. */
+    protected async doSendRequest(
+        session: ChatSessionInternal,
+        request: ChatRequest,
+    ): Promise<ChatRequestInvocation | undefined> {
 
         const resolutionContext: ChatSessionContext = {
             model: session.model,
@@ -396,9 +489,52 @@ export class ChatServiceImpl implements ChatService {
             }
         });
 
+        // As soon as this request settles (completes, errors, or is cancelled), send the next
+        // queued message, if any.
+        responseCompletionDeferred.promise.then(() => this.drainQueue(session.id));
+
         agent.invoke(requestModel).catch(error => requestModel.response.error(error));
 
         return invocation;
+    }
+
+    protected drainQueue(sessionId: string): void {
+        const queue = this.queuedRequests.get(sessionId);
+        if (!queue || queue.length === 0) {
+            return;
+        }
+        const session = this.getSession(sessionId);
+        if (!session || this.hasIncompleteRequests(session)) {
+            return;
+        }
+        const next = queue.shift()!;
+        if (queue.length === 0) {
+            this.queuedRequests.delete(sessionId);
+        }
+        this.onDidChangeQueuedRequestsEmitter.fire({ sessionId });
+        next.send();
+    }
+
+    getQueuedRequests(sessionId: string): readonly QueuedChatRequest[] {
+        return (this.queuedRequests.get(sessionId) ?? []).map(({ id, request }) => ({ id, request }));
+    }
+
+    cancelQueuedRequest(sessionId: string, queueEntryId: string): boolean {
+        const queue = this.queuedRequests.get(sessionId);
+        if (!queue) {
+            return false;
+        }
+        const index = queue.findIndex(entry => entry.id === queueEntryId);
+        if (index === -1) {
+            return false;
+        }
+        const [removed] = queue.splice(index, 1);
+        removed.cancel();
+        if (queue.length === 0) {
+            this.queuedRequests.delete(sessionId);
+        }
+        this.onDidChangeQueuedRequestsEmitter.fire({ sessionId });
+        return true;
     }
 
     protected cancelIncompleteRequests(session: ChatSessionInternal): void {
@@ -529,15 +665,19 @@ export class ChatServiceImpl implements ChatService {
         // Store session with title, pinned agent info, last interaction timestamp, and error state
         const lastRequest = session.model.getRequests().at(-1);
         const hasError = lastRequest?.response.isComplete === true && lastRequest?.response.isError === true;
-        return this.sessionStore.storeSessions({
+        // Saved while a request was still running (crash, forced shutdown): lets the restore
+        // path surface the interruption instead of silently dropping the partial response.
+        const hasInterrupted = lastRequest !== undefined && lastRequest.response.isComplete !== true;
+        return Promise.resolve(this.sessionStore.storeSessions({
             model: session.model,
             title: session.title,
             pinnedAgentId: session.pinnedAgent?.id,
             lastInteraction: session.lastInteraction?.getTime(),
             hasError,
+            hasInterrupted,
             rootSessionId: session.rootSessionId,
             parentSessionId: session.parentSessionId
-        }).catch(error => {
+        })).catch(error => {
             this.logger.error('Failed to store chat sessions', error);
         });
     }
@@ -595,6 +735,9 @@ export class ChatServiceImpl implements ChatService {
 
         const model = new MutableChatModel(serialized.model);
         await this.restoreSessionData(model, serialized.model);
+        if (serialized.hasInterrupted) {
+            this.markInterruptedRequests(model, serialized.model);
+        }
 
         // Determine pinned agent (hidden agents included — a restored pin, like a live one,
         // is an explicit choice; see getPinnedAgent)
@@ -622,6 +765,30 @@ export class ChatServiceImpl implements ChatService {
         this.logger.debug('Session successfully restored and registered', { sessionId, title: session.title });
 
         return session;
+    }
+
+    /**
+     * Crash recovery: responses that were still running when the session was saved are restored
+     * as complete (no agent can resume them), which would silently swallow the fact that the
+     * answer never finished. Each such response gets an informational marker telling the user
+     * what happened and how to retry (edit & resend the message).
+     */
+    protected markInterruptedRequests(model: MutableChatModel, data: SerializedChatModel): void {
+        const interruptedRequestIds = new Set(
+            data.responses.filter(response => response.isComplete === false).map(response => response.requestId)
+        );
+        if (interruptedRequestIds.size === 0) {
+            return;
+        }
+        for (const request of model.getRequests()) {
+            if (interruptedRequestIds.has(request.id)) {
+                request.response.response.addContent(new InformationalChatResponseContentImpl(
+                    nls.localize('theia/ai/chat/sessionRestored/interrupted',
+                        '会话在此处被中断（应用退出或崩溃），以上为已收到的部分内容。' +
+                        '编辑并重新发送该消息即可重试。')
+                ));
+            }
+        }
     }
 
     async getPersistedSessions(): Promise<ChatSessionIndex> {

@@ -82,6 +82,7 @@ import {
     ThinkingChatResponseContent,
 } from './chat-model';
 import { ChatToolRequestService } from './chat-tool-request-service';
+import { ClientCompactionService, clientCompactionToMessage } from './client-compaction';
 import { parseContents } from './parse-contents';
 import { DefaultResponseContentFactory, ResponseContentMatcher, ResponseContentMatcherProvider } from './response-content-matcher';
 import { ImageContextVariable, ResolvedImageContextVariable } from './image-context-variable';
@@ -214,6 +215,8 @@ export abstract class AbstractChatAgent implements ChatAgent {
 
     @inject(FileReadTracker) @optional() protected fileReadTracker: FileReadTracker | undefined;
 
+    @inject(ClientCompactionService) @optional() protected clientCompactionService: ClientCompactionService | undefined;
+
     readonly abstract id: string;
     readonly abstract name: string;
     readonly abstract languageModelRequirements: LanguageModelRequirement[];
@@ -266,6 +269,13 @@ export abstract class AbstractChatAgent implements ChatAgent {
                     systemMessageDescription.promptVariantId,
                     systemMessageDescription.isPromptVariantCustomized ?? false
                 );
+            }
+
+            // Client-side compaction runs before the history is assembled: when it summarizes the
+            // older turns, the recorded boundary below makes getMessages use the summary.
+            if (this.clientCompactionService) {
+                const { commonSettings } = this.getSessionSettings(request);
+                await this.clientCompactionService.maybeCompact(request.session, languageModel, commonSettings);
             }
 
             const messages = await this.getMessages(request.session);
@@ -477,7 +487,22 @@ export abstract class AbstractChatAgent implements ChatAgent {
     protected async getMessages(
         model: ChatModel, includeResponseInProgress = false
     ): Promise<LanguageModelMessage[]> {
-        const requestMessages = model.getRequests().flatMap(request => {
+        const requests = model.getRequests();
+        // With a client-side compaction record, requests up to and including the boundary request
+        // are represented by the summary; only newer requests are sent verbatim. If the boundary
+        // request is no longer on the active branch (e.g. after editing an earlier message), the
+        // record is stale and the full history is used.
+        let compactionBoundary = -1;
+        if (model.clientCompaction) {
+            compactionBoundary = requests.findIndex(request => request.id === model.clientCompaction?.upToRequestId);
+        }
+        const requestMessages = requests.flatMap((request, index) => {
+            if (compactionBoundary >= 0 && index < compactionBoundary) {
+                return [];
+            }
+            if (compactionBoundary === index) {
+                return [clientCompactionToMessage(model.clientCompaction!)];
+            }
             const messages: LanguageModelMessage[] = [];
             const text = request.message.parts.map(part => part.promptText).join('');
             if (text.length > 0) {

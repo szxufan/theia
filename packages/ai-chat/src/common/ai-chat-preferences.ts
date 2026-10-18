@@ -23,6 +23,9 @@ export const BYPASS_MODEL_REQUIREMENT_PREF = 'ai-features.chat.bypassModelRequir
 export const PERSISTED_SESSION_LIMIT_PREF = 'ai-features.chat.persistedSessionLimit';
 export const SESSION_STORAGE_PREF = 'ai-features.chat.sessionStorageScope';
 export const WELCOME_SCREEN_SESSIONS_PREF = 'ai-features.chat.welcomeScreenSessions';
+export const CLIENT_COMPACTION_ENABLED_PREFERENCE = 'ai-features.chat.clientCompaction';
+export const CLIENT_COMPACTION_THRESHOLD_PREFERENCE = 'ai-features.chat.clientCompactionThreshold';
+export const CLIENT_COMPACTION_KEEP_TURNS_PREFERENCE = 'ai-features.chat.clientCompactionKeepTurns';
 
 export type SessionStorageScope = 'workspace' | 'global';
 
@@ -86,6 +89,31 @@ export const aiChatPreferences: PreferenceSchema = {
             description: nls.localize('theia/ai/chat/sessionStorageScope/description',
                 '选择是将聊天会话持久化到按工作区划分的独立存储中，还是持久化到单一的全局存储中。' +
                 '如果未打开工作区，会话将回退到全局存储。'),
+            title: AI_CORE_PREFERENCES_TITLE,
+        },
+        [CLIENT_COMPACTION_ENABLED_PREFERENCE]: {
+            type: 'boolean',
+            description: nls.localize('theia/ai/chat/clientCompaction/enabled/description',
+                '当会话历史接近模型上下文窗口上限时，自动把较早的对话压缩为摘要（在客户端完成，' +
+                '适用于任何模型，包括本地与自定义端点模型）。完整历史仍保留在界面中。'),
+            default: true,
+            title: AI_CORE_PREFERENCES_TITLE,
+        },
+        [CLIENT_COMPACTION_THRESHOLD_PREFERENCE]: {
+            type: 'number',
+            description: nls.localize('theia/ai/chat/clientCompaction/threshold/description',
+                '触发客户端压缩的上下文占用比例（0-1，默认 0.8）。以最近一次请求的 token 用量估算当前上下文大小。'),
+            default: 0.8,
+            minimum: 0.1,
+            maximum: 1,
+            title: AI_CORE_PREFERENCES_TITLE,
+        },
+        [CLIENT_COMPACTION_KEEP_TURNS_PREFERENCE]: {
+            type: 'number',
+            description: nls.localize('theia/ai/chat/clientCompaction/keepTurns/description',
+                '客户端压缩时保留最近多少轮对话不压缩（默认 4）。'),
+            default: 4,
+            minimum: 1,
             title: AI_CORE_PREFERENCES_TITLE,
         }
     }

@@ -2466,3 +2466,75 @@ details.theia-tool-confirmation-args>summary::marker {
   margin-top: 4px;
   white-space: pre-wrap;
 }
+
+/* Autonomy mode banner (session-level plan/yolo indication) */
+.theia-ai-autonomy-mode-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--theia-ui-padding) * 0.75);
+  padding: calc(var(--theia-ui-padding) * 0.6) calc(var(--theia-ui-padding) * 1.5);
+  background-color: var(--theia-inputValidation-infoBackground);
+  font-size: var(--theia-ui-font-size1);
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
+}
+
+.theia-ai-autonomy-mode-strip.is-yolo {
+  background-color: var(--theia-inputValidation-warningBackground);
+}
+
+.theia-ai-autonomy-mode-strip-icon {
+  flex: none;
+}
+
+.theia-ai-autonomy-mode-strip.is-yolo .theia-ai-autonomy-mode-strip-icon {
+  color: var(--theia-editorWarning-foreground, var(--theia-warningForeground));
+}
+
+.theia-ai-autonomy-mode-strip-title {
+  font-weight: 600;
+}
+
+/* Queued chat messages (waiting for the running request to finish) */
+.theia-ai-chat-queued-requests {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: calc(var(--theia-ui-padding) * 0.4) calc(var(--theia-ui-padding) * 0.8);
+}
+
+.theia-ai-chat-queued-request {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--theia-ui-padding) * 0.5);
+  padding: 2px calc(var(--theia-ui-padding) * 0.5);
+  background-color: var(--theia-editorWidget-background, var(--theia-editor-background));
+  border: 1px solid var(--theia-editorWidget-border, var(--theia-panel-border));
+  border-radius: 3px;
+  font-size: var(--theia-ui-font-size1);
+  color: var(--theia-descriptionForeground);
+}
+
+.theia-ai-chat-queued-request-icon {
+  flex: none;
+}
+
+.theia-ai-chat-queued-request-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theia-ai-chat-queued-request-cancel {
+  flex: none;
+  padding: 0 4px;
+  background: transparent;
+  border: none;
+  color: var(--theia-icon-foreground);
+  cursor: pointer;
+}

@@ -15,6 +15,7 @@
 // *****************************************************************************
 
 export const SHELL_EXECUTION_FUNCTION_ID = 'shellExecute';
+export const SHELL_EXECUTE_BACKGROUND_FUNCTION_ID = 'shellExecuteBackground';
 
 export const ShellExecutionServer = Symbol('ShellExecutionServer');
 export const shellExecutionPath = '/services/shell-execution';
@@ -42,9 +43,48 @@ export interface ShellExecutionResult {
     resolvedCwd?: string;
 }
 
+/** A background shell task started via {@link ShellExecutionServer.start}. */
+export interface ShellTaskStartRequest {
+    command: string;
+    /** Working directory. Resolved to an absolute path on the frontend before sending to the backend. */
+    cwd?: string;
+}
+
+export interface ShellTaskStartResult {
+    taskId: string;
+}
+
+export interface ShellTaskStatus {
+    taskId: string;
+    running: boolean;
+    exitCode: number | undefined;
+    /** Epoch milliseconds. */
+    startedAt: number;
+    /** Epoch milliseconds; undefined while running. */
+    finishedAt: number | undefined;
+    error?: string;
+}
+
+/**
+ * Incremental output of a background task: everything written since `fromOffset`, plus the
+ * offset to continue reading from. `eof` is `true` once the task finished and all output was read.
+ */
+export interface ShellTaskOutput {
+    output: string;
+    offset: number;
+    eof: boolean;
+}
+
 export interface ShellExecutionServer {
     execute(request: ShellExecutionRequest): Promise<ShellExecutionResult>;
     cancel(executionId: string): Promise<boolean>;
+
+    /** Starts a command in the background and returns immediately with a task handle. */
+    start(request: ShellTaskStartRequest): Promise<ShellTaskStartResult>;
+    getStatus(taskId: string): Promise<ShellTaskStatus | undefined>;
+    /** Reads combined output (stdout, then stderr) from the given character offset. */
+    readOutput(taskId: string, fromOffset: number): Promise<ShellTaskOutput>;
+    stop(taskId: string): Promise<boolean>;
 }
 
 export interface ShellExecutionToolResult {

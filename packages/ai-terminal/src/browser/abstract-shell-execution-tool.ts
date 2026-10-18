@@ -16,6 +16,7 @@
 
 import { injectable, inject } from '@theia/core/shared/inversify';
 import { generateUuid } from '@theia/core';
+import * as path from 'path';
 import { ToolInvocationContext, ToolProvider, ToolRequest } from '@theia/ai-core';
 import { WorkspaceService } from '@theia/workspace/lib/browser/workspace-service';
 import {
@@ -42,6 +43,51 @@ export interface ShellCommandExecution {
     ctx?: unknown;
     /** Overrides the default output truncation budget. */
     truncation?: OutputTruncationOptions;
+}
+
+/**
+ * Resolves a user- or model-provided cwd (undefined, absolute, root-relative, or a root name)
+ * to an absolute path. Throws a descriptive error when it cannot be resolved.
+ */
+export function resolveShellCwd(workspaceService: WorkspaceService, cwd: string | undefined): string {
+    const roots = workspaceService.tryGetRoots();
+
+    const rootNames = roots.map(r => r.resource.path.base);
+    if (!cwd) {
+        if (roots.length === 1) {
+            return roots[0].resource.path.fsPath();
+        }
+        throw new Error(
+            'A working directory (cwd) is required in a multi-root workspace. ' +
+            `Available workspace roots: ${rootNames.join(', ')}. ` +
+            'Provide one as cwd (e.g., "backend") or use a sub-path (e.g., "backend/src").'
+        );
+    }
+
+    const normalized = cwd.replace(/\\/g, '/');
+
+    if (path.isAbsolute(normalized)) {
+        return normalized;
+    }
+
+    const segments = normalized.split('/');
+    for (const root of roots) {
+        if (root.resource.path.base === segments[0]) {
+            const rest = segments.slice(1).join('/');
+            const resolved = rest ? root.resource.resolve(rest) : root.resource;
+            return resolved.path.fsPath();
+        }
+    }
+
+    if (roots.length === 1) {
+        return roots[0].resource.resolve(normalized).path.fsPath();
+    }
+
+    throw new Error(
+        `Could not resolve working directory '${cwd}' to a workspace root. ` +
+        'In a multi-root workspace, prefix paths with the workspace root name ' +
+        `(e.g., '${rootNames[0]}/path'). Available roots: ${rootNames.join(', ')}.`
+    );
 }
 
 /**

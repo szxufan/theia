@@ -23,6 +23,7 @@ import { ContainerModule } from '@theia/core/shared/inversify';
 import { AiTerminalAgent } from './ai-terminal-agent';
 import { AiTerminalCommandContribution } from './ai-terminal-contribution';
 import { ShellExecutionTool } from './shell-execution-tool';
+import { ShellBackgroundExecutionTool } from './shell-background-execution-tool';
 import { ShellExecutionToolRenderer } from './shell-execution-tool-renderer';
 import { ShellExecutionServer, shellExecutionPath } from '../common/shell-execution-server';
 import { ShellCommandPermissionService } from './shell-command-permission-service';
@@ -43,6 +44,7 @@ export default new ContainerModule(bind => {
     bind(Agent).toService(AiTerminalAgent);
 
     bindToolProvider(ShellExecutionTool, bind);
+    bindToolProvider(ShellBackgroundExecutionTool, bind);
 
     bind(ShellExecutionServer).toDynamicValue(ctx => {
         const connection = ctx.container.get(WebSocketConnectionProvider);

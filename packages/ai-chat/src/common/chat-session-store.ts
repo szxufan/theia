@@ -28,6 +28,8 @@ export interface ChatModelWithMetadata {
     lastInteraction?: number;
     /** Whether the last request ended with an error. */
     hasError?: boolean;
+    /** Whether the session was saved while a request was still in progress (e.g. app crash). */
+    hasInterrupted?: boolean;
     /** ID of the root session in the delegation chain. */
     rootSessionId?: string;
     /** ID of the immediate parent session that delegated this one. */
@@ -79,6 +81,8 @@ export interface ChatSessionMetadata {
     pinnedAgentId?: string;
     /** Whether the last request ended with an error. */
     hasError?: boolean;
+    /** Whether the session was saved while a request was still in progress (e.g. app crash). */
+    hasInterrupted?: boolean;
     /** ID of the root session in the delegation chain. */
     rootSessionId?: string;
     /** ID of the immediate parent session that delegated this one. */

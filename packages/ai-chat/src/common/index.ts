@@ -17,6 +17,7 @@ export * from './chat-agents';
 export * from './chat-agent-service';
 export * from './chat-agent-recommendation-service';
 export * from './chat-model';
+export * from './chat-autonomy';
 export * from './chat-model-serialization';
 export * from './chat-content-deserializer';
 export * from './chat-model-util';

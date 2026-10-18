@@ -15,6 +15,7 @@
 // *****************************************************************************
 
 import { bindRootContributionProvider, CommandContribution, CommandHandler, PreferenceContribution, ResourceResolver } from '@theia/core';
+import { ToolCallEventBus, ToolCallHook } from '../common/tool-call-hook';
 import {
     RemoteConnectionProvider,
     ServiceConnectionProvider,
@@ -94,6 +95,8 @@ import { OSNotificationService } from './os-notification-service';
 import { WindowBlinkService } from './window-blink-service';
 
 export default new ContainerModule(bind => {
+    bind(ToolCallEventBus).toSelf().inSingletonScope();
+    bindRootContributionProvider(bind, ToolCallHook);
     bindRootContributionProvider(bind, Agent);
     bindRootContributionProvider(bind, LanguageModelProvider);
 

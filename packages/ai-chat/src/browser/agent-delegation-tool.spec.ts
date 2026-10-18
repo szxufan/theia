@@ -37,6 +37,8 @@ import {
 } from '../common';
 import { ChatAgentServiceImpl } from '../common/chat-agent-service';
 import { AgentDelegationTool } from './agent-delegation-tool';
+import { BackgroundDelegationRegistry } from './background-delegation-registry';
+import { GetDelegationResultTool } from './background-delegation-tools';
 import { TASK_CONTEXT_VARIABLE } from './task-context-variable';
 
 disableJSDOM();
@@ -59,6 +61,7 @@ function makeAgentDelegationTool(chatAgentService: ChatAgentService, chatService
     Object.defineProperty(tool, 'getChatAgentService', { value: () => chatAgentService });
     Object.defineProperty(tool, 'getChatService', { value: () => chatService });
     Object.defineProperty(tool, 'logger', { value: logger });
+    Object.defineProperty(tool, 'backgroundDelegations', { value: new BackgroundDelegationRegistry() });
     return tool;
 }
 
@@ -172,6 +175,9 @@ function makeChatService(newSession: ReturnType<typeof makeNewSession>, response
     });
     return {
         onSessionEvent: sinon.stub() as Event<SessionEvent>,
+        onDidChangeQueuedRequests: sinon.stub() as Event<{ sessionId: string }>,
+        getQueuedRequests: sinon.stub().returns([]),
+        cancelQueuedRequest: sinon.stub().returns(false),
         getSession: sinon.stub(),
         getSessions: sinon.stub().returns([]),
         getActiveSession: sinon.stub().returns({ id: 'active-session-id' }),
@@ -609,5 +615,87 @@ describe('AgentDelegationTool', () => {
             // deleteSession should never have been called for the delegated session
             expect((chatService.deleteSession as sinon.SinonStub).called).to.be.false;
         });
+    });
+});
+
+describe('AgentDelegationTool background delegations', () => {
+
+    /** Context whose parent response records informational notifications. */
+    function makeBackgroundContext(): {
+        ctx: ReturnType<typeof makeChatContext> & { response: { response: { addContent: sinon.SinonStub } } };
+    } {
+        return {
+            ctx: {
+                cancellationToken: undefined,
+                toolCallId: undefined,
+                request: { session: makeParentSession() },
+                response: { response: { addContent: sinon.stub() } }
+            } as never
+        };
+    }
+
+    it('returns immediately with a task handle and registers the delegation', async () => {
+        const newSession = makeNewSession();
+        const chatService = makeChatService(newSession);
+        const tool = makeAgentDelegationTool(makeChatAgentService(), chatService);
+        const { ctx } = makeBackgroundContext();
+
+        const argString = JSON.stringify({ agentId: 'test-agent', prompt: 'long task', background: true });
+        const result = await tool.getTool().handler(argString, ctx);
+
+        expect(result).to.be.a('string');
+        expect(result).to.contain('started in the background');
+        expect(result).to.contain('taskId');
+        expect(result).to.not.contain('agent response');
+    });
+
+    it('records the result and notifies the parent response when the delegation finishes', async () => {
+        const newSession = makeNewSession();
+        const chatService = makeChatService(newSession);
+        const registry = new BackgroundDelegationRegistry();
+        const tool = new AgentDelegationTool();
+        Object.defineProperty(tool, 'getChatAgentService', { value: () => makeChatAgentService() });
+        Object.defineProperty(tool, 'getChatService', { value: () => chatService });
+        Object.defineProperty(tool, 'logger', { value: makeStubLogger() });
+        Object.defineProperty(tool, 'backgroundDelegations', { value: registry });
+        const { ctx } = makeBackgroundContext();
+
+        const argString = JSON.stringify({ agentId: 'test-agent', prompt: 'long task', background: true });
+        const result = await tool.getTool().handler(argString, ctx) as string;
+        const taskId = result.match(/taskId: ([^,\]]+)/)![1];
+
+        // The mocked responseCompleted is already resolved, so the completion handler has run
+        // after the microtask queue settles.
+        await new Promise(resolve => setTimeout(resolve, 0));
+        const entry = registry.get(taskId)!;
+        expect(entry).to.not.be.undefined;
+        expect(entry.state).to.equal('completed');
+        expect(entry.result).to.contain('agent response');
+        expect(ctx.response.response.addContent.called).to.be.true;
+
+        // The result tool reports the finished delegation.
+        const resultTool = new GetDelegationResultTool();
+        Object.defineProperty(resultTool, 'registry', { value: registry });
+        const fetched = await resultTool.getTool().handler(JSON.stringify({ taskId })) as { status: string; result: string };
+        expect(fetched.status).to.equal('completed');
+        expect(fetched.result).to.contain('agent response');
+    });
+
+    it('reports unknown and running task ids through the result tool', async () => {
+        const registry = new BackgroundDelegationRegistry();
+        registry.create({
+            agentId: 'test-agent',
+            sessionId: 's',
+            invocation: { requestCompleted: Promise.resolve({} as never), responseCreated: Promise.resolve({} as never), responseCompleted: new Promise(() => { }) }
+        });
+        const resultTool = new GetDelegationResultTool();
+        Object.defineProperty(resultTool, 'registry', { value: registry });
+
+        const unknown = await resultTool.getTool().handler(JSON.stringify({ taskId: 'nope' })) as { status: string };
+        expect(unknown.status).to.equal('unknown');
+
+        const entries = registry.list();
+        const running = await resultTool.getTool().handler(JSON.stringify({ taskId: entries[0].taskId })) as { status: string };
+        expect(running.status).to.equal('running');
     });
 });

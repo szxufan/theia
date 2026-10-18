@@ -116,6 +116,7 @@ export class ChatSessionStoreImpl implements ChatSessionStore {
                     title: session.title,
                     pinnedAgentId: session.pinnedAgentId,
                     saveDate: session.saveDate,
+                    hasInterrupted: session.hasInterrupted,
                     rootSessionId: session.rootSessionId,
                     parentSessionId: session.parentSessionId,
                     model: modelData

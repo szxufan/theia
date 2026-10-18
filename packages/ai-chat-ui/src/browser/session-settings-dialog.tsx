@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { ChatSessionSettings, CommonChatSessionSettings } from '@theia/ai-chat';
+import { AutonomyMode, ChatSessionSettings, CommonChatSessionSettings } from '@theia/ai-chat';
 import { SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM } from '@theia/ai-core';
 import { InMemoryResources, URI, nls } from '@theia/core';
 import { AbstractDialog, Message } from '@theia/core/lib/browser';
@@ -78,6 +78,50 @@ const ConfirmationTimeoutSection: React.FC<ConfirmationTimeoutSectionProps> = ({
                 disabled={!enabled}
                 onChange={e => onTimeoutChange(parseInt(e.target.value, 10))}
             />
+        </div>
+    </div>
+);
+
+interface AutonomyModeSectionProps {
+    autonomyMode: AutonomyMode | undefined;
+    onAutonomyModeChange: (mode: AutonomyMode | undefined) => void;
+}
+
+const AUTONOMY_MODE_OPTIONS: Array<{ value: AutonomyMode | 'default-off'; label: string }> = [
+    { value: 'default-off', label: nls.localizeByDefault('默认（按偏好确认）') },
+    { value: 'plan', label: nls.localizeByDefault('计划（禁止写操作）') },
+    { value: 'yolo', label: nls.localizeByDefault('全自动（自动放行确认）') }
+];
+
+const AutonomyModeSection: React.FC<AutonomyModeSectionProps> = ({
+    autonomyMode,
+    onAutonomyModeChange
+}) => (
+    <div className="session-settings-autonomy-mode">
+        <div className="session-settings-section-header">
+            {nls.localize('theia/ai/session-settings-dialog/autonomyHeader', '自主模式')}
+        </div>
+        <div className="session-settings-section-note">
+            {nls.localize('theia/ai/session-settings-dialog/autonomyNote',
+                '计划模式：拒绝所有写文件、执行命令等修改性工具，代理只能读取与规划。' +
+                '全自动模式：自动放行工具确认（Shell 执行等高危工具除外）。')}
+        </div>
+        <div className="session-settings-select-container">
+            <label htmlFor="autonomy-mode-select">
+                {nls.localize('theia/ai/session-settings-dialog/autonomyLabel', '模式：')}
+            </label>
+            <select
+                id="autonomy-mode-select"
+                value={autonomyMode ?? 'default-off'}
+                onChange={e => {
+                    const v = e.target.value;
+                    onAutonomyModeChange(v === 'default-off' ? undefined : v as AutonomyMode);
+                }}
+            >
+                {AUTONOMY_MODE_OPTIONS.map(option => (
+                    <option key={option.value} value={option.value}>{option.label}</option>
+                ))}
+            </select>
         </div>
     </div>
 );
@@ -193,11 +237,13 @@ interface DialogContentProps {
     confirmationTimeoutSeconds: number;
     compactionOverride: CompactionOverride;
     compactionTokenThreshold: number | undefined;
+    autonomyMode: AutonomyMode | undefined;
     errorMessage: string;
     onConfirmationTimeoutEnabledChange: (enabled: boolean) => void;
     onConfirmationTimeoutSecondsChange: (seconds: number) => void;
     onCompactionOverrideChange: (value: CompactionOverride) => void;
     onCompactionTokenThresholdChange: (value: number | undefined) => void;
+    onAutonomyModeChange: (mode: AutonomyMode | undefined) => void;
 }
 
 const DialogContent: React.FC<DialogContentProps> = ({
@@ -205,13 +251,19 @@ const DialogContent: React.FC<DialogContentProps> = ({
     confirmationTimeoutSeconds,
     compactionOverride,
     compactionTokenThreshold,
+    autonomyMode,
     errorMessage,
     onConfirmationTimeoutEnabledChange,
     onConfirmationTimeoutSecondsChange,
     onCompactionOverrideChange,
-    onCompactionTokenThresholdChange
+    onCompactionTokenThresholdChange,
+    onAutonomyModeChange
 }) => (
     <div className="session-settings-container">
+        <AutonomyModeSection
+            autonomyMode={autonomyMode}
+            onAutonomyModeChange={onAutonomyModeChange}
+        />
         <ConfirmationTimeoutSection
             enabled={confirmationTimeoutEnabled}
             timeoutSeconds={confirmationTimeoutSeconds}
@@ -243,6 +295,8 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
     protected compactionOverride: boolean | undefined;
     protected compactionTokenThreshold: number | undefined;
 
+    protected autonomyMode: AutonomyMode | undefined;
+
     protected preservedReasoning: CommonChatSessionSettings['reasoning'];
 
     protected preservedModelId: CommonChatSessionSettings['modelId'];
@@ -272,6 +326,9 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
         // Read the per-session compaction override (undefined = use global/per-provider setting).
         this.compactionOverride = this.settings.commonSettings?.compaction?.enabled;
         this.compactionTokenThreshold = this.settings.commonSettings?.compaction?.tokenThreshold;
+
+        // Read the session autonomy mode (undefined = follow tool confirmation preferences).
+        this.autonomyMode = this.settings.commonSettings?.autonomyMode;
 
         // Extract confirmation timeout settings from commonSettings
         const savedTimeout = this.settings.commonSettings?.confirmationTimeout;
@@ -328,11 +385,13 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
                 confirmationTimeoutSeconds={this.confirmationTimeoutSeconds}
                 compactionOverride={this.compactionOverride}
                 compactionTokenThreshold={this.compactionTokenThreshold}
+                autonomyMode={this.autonomyMode}
                 errorMessage={this.errorMessage}
                 onConfirmationTimeoutEnabledChange={this.handleConfirmationTimeoutEnabledChange}
                 onConfirmationTimeoutSecondsChange={this.handleConfirmationTimeoutSecondsChange}
                 onCompactionOverrideChange={this.handleCompactionOverrideChange}
                 onCompactionTokenThresholdChange={this.handleCompactionTokenThresholdChange}
+                onAutonomyModeChange={this.handleAutonomyModeChange}
             />
         );
     }
@@ -458,6 +517,13 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
         this.attachEditorContainer();
     };
 
+    protected handleAutonomyModeChange = (mode: AutonomyMode | undefined): void => {
+        this.autonomyMode = mode;
+        this.updateSettingsFromCommonSettings();
+        this.render();
+        this.attachEditorContainer();
+    };
+
     protected updateSettingsFromCommonSettings(): void {
         const commonSettings: CommonChatSessionSettings = {};
         if (this.preservedReasoning) {
@@ -474,6 +540,9 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
                 enabled: this.compactionOverride,
                 tokenThreshold: this.compactionTokenThreshold
             };
+        }
+        if (this.autonomyMode !== undefined) {
+            commonSettings.autonomyMode = this.autonomyMode;
         }
         this.settings.commonSettings = Object.keys(commonSettings).length > 0 ? commonSettings : undefined;
     }

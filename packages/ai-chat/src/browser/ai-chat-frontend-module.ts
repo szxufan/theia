@@ -41,6 +41,9 @@ import { FrontendChatServiceImpl } from './frontend-chat-service';
 import { CustomAgentFactory } from './custom-agent-factory';
 import { ChatToolRequestService } from '../common/chat-tool-request-service';
 import { FrontendChatToolRequestService } from './chat-tool-request-service';
+import { ClientCompactionService } from '../common/client-compaction';
+import { GetDelegationResultTool, StopDelegationTool } from './background-delegation-tools';
+import { BackgroundDelegationRegistry } from './background-delegation-registry';
 import { ChangeSetFileService } from './change-set-file-service';
 import { FileReadTracker } from '../common/file-read-tracker';
 import { FileReadTrackerImpl } from './file-read-tracker-impl';
@@ -98,6 +101,11 @@ export default new ContainerModule(bind => {
 
     bind(FrontendChatToolRequestService).toSelf().inSingletonScope();
     bind(ChatToolRequestService).toService(FrontendChatToolRequestService);
+    bind(ClientCompactionService).toSelf().inSingletonScope();
+
+    bind(BackgroundDelegationRegistry).toSelf().inSingletonScope();
+    bindToolProvider(GetDelegationResultTool, bind);
+    bindToolProvider(StopDelegationTool, bind);
 
     bind(ChatAgentServiceImpl).toSelf().inSingletonScope();
     bind(ChatAgentService).toService(ChatAgentServiceImpl);

@@ -17,7 +17,7 @@
 import { FrontendApplicationContribution } from '@theia/core/lib/browser';
 import { inject, injectable } from '@theia/core/shared/inversify';
 import { PromptService } from '@theia/ai-core/lib/common';
-import { SHELL_EXECUTION_FUNCTION_ID } from '@theia/ai-terminal/lib/common/shell-execution-server';
+import { SHELL_EXECUTE_BACKGROUND_FUNCTION_ID, SHELL_EXECUTION_FUNCTION_ID } from '@theia/ai-terminal/lib/common/shell-execution-server';
 import { LIST_TASKS_FUNCTION_ID, RUN_TASK_FUNCTION_ID } from '../common/workspace-functions';
 import { nls } from '@theia/core';
 
@@ -64,8 +64,16 @@ Appropriate use cases for ~{${SHELL_EXECUTION_FUNCTION_ID}}:
 
 ### Important constraints
 
-- **Do not start long-running or blocking processes** (e.g., dev servers, file watchers) with this tool — use launch configurations instead.
+- **Do not start long-running or blocking processes** (e.g., dev servers, file watchers, long builds) with this tool — \
+use launch configurations or the ~{${SHELL_EXECUTE_BACKGROUND_FUNCTION_ID}} tool for those.
 - Commands require **user approval** before execution. The user sees the exact command and can approve, deny, or cancel it.
-- Output is truncated for large results; use filters (\`grep\`, \`head\`, \`tail\`) to keep output focused.`;
+- Output is truncated for large results; use filters (\`grep\`, \`head\`, \`tail\`) to keep output focused.
+
+## Background Shell Tasks
+
+For commands that run long or keep running (builds taking minutes, watch modes, dev servers), use \
+~{${SHELL_EXECUTE_BACKGROUND_FUNCTION_ID}} instead: it starts the command in the background, returns a taskId at once, \
+and lets you read incremental output (\`action: "read"\` with an increasing \`fromOffset\`) and stop the process \
+(\`action: "stop"\`) later. Poll every few seconds rather than in a tight loop, and always stop tasks you no longer need.`;
     }
 }

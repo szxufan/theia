@@ -175,6 +175,8 @@ Use the todo tool for complex multi-step tasks to:
 
 {{capability:shell-execution default off}}
 
+{{capability:web-access default on}}
+
 {{capability:github default off}}
 
 {{capability:apptester default off}}
@@ -258,6 +260,8 @@ Always retrieve relevant files using ~{${FILE_CONTENT_FUNCTION_ID}} to understan
 
 ## Project Info
 {{prompt:project-info}}
+
+{{capability:workspace-instructions default on}}
 
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}
 
@@ -408,6 +412,8 @@ The user may edit a plan at any time — re-read it before resuming work and bef
 
 {{capability:shell-execution default off}}
 
+{{capability:web-access default on}}
+
 {{capability:github default off}}
 
 # Workflow
@@ -543,6 +549,8 @@ Always retrieve relevant files using ~{${FILE_CONTENT_FUNCTION_ID}} to understan
 ## Project Info
 {{prompt:project-info}}
 
+{{capability:workspace-instructions default on}}
+
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}
 
 {{${TASK_CONTEXT_SUMMARY_VARIABLE_ID}}}
@@ -644,6 +652,8 @@ You have previously proposed changes for the following files. Some suggestions m
 {{${CHANGE_SET_SUMMARY_VARIABLE_ID}}}
 
 {{prompt:project-info}}
+
+{{capability:workspace-instructions default on}}
 
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}
 

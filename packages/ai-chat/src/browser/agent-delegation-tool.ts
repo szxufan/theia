@@ -16,7 +16,7 @@
 
 import { inject, injectable, named } from '@theia/core/shared/inversify';
 import { AGENT_DELEGATION_FUNCTION_ID, ToolInvocationContext, ToolProvider, ToolRequest } from '@theia/ai-core';
-import { Disposable, ILogger } from '@theia/core';
+import { Disposable, ILogger, nls } from '@theia/core';
 import {
     assertChatContext,
     ChatAgentService,
@@ -30,6 +30,7 @@ import {
     ChatSession,
     ChatSessionStatus,
     ChatToolContext,
+    InformationalChatResponseContentImpl,
     MutableChatModel,
     MutableChatRequestModel,
     MutableChatResponseModel,
@@ -37,6 +38,7 @@ import {
     ThinkingChatResponseContent,
     ToolCallChatResponseContent,
 } from '../common';
+import { BackgroundDelegationRegistry } from './background-delegation-registry';
 import { TASK_CONTEXT_VARIABLE } from './task-context-variable';
 
 @injectable()
@@ -50,6 +52,9 @@ export class AgentDelegationTool implements ToolProvider {
 
     @inject(ChatServiceFactory)
     protected readonly getChatService: () => ChatService;
+
+    @inject(BackgroundDelegationRegistry)
+    protected readonly backgroundDelegations: BackgroundDelegationRegistry;
 
     @inject(ILogger) @named('ai-chat:AgentDelegationTool')
     protected readonly logger: ILogger;
@@ -92,6 +97,12 @@ export class AgentDelegationTool implements ToolProvider {
                             'The delegated agent keeps its previous conversation context, so you do not need to repeat context you already sent it. ' +
                             'Only a session that you delegated yourself can be resumed, and the agentId must match the original delegation.',
                     },
+                    background: {
+                        type: 'boolean',
+                        description: 'Run the delegation in the background and return immediately with a taskId. ' +
+                            'Use for independent long-running subtasks you want to parallelize. Poll the result with getDelegationResult(taskId); ' +
+                            'a note is added to this conversation when the task finishes. Stop it early with stopDelegation(taskId).',
+                    },
                 },
                 required: ['agentId', 'prompt'],
             },
@@ -125,7 +136,7 @@ export class AgentDelegationTool implements ToolProvider {
 
         try {
             const args = JSON.parse(arg_string);
-            const { agentId, prompt, taskContextId, sessionId } = args;
+            const { agentId, prompt, taskContextId, sessionId, background } = args;
 
             if (!agentId || !prompt) {
                 const errorMsg = 'Both agentId and prompt parameters are required.';
@@ -275,6 +286,40 @@ export class AgentDelegationTool implements ToolProvider {
                 }
 
                 if (response) {
+                    if (background) {
+                        // The delegation keeps running in its child session; the parent
+                        // conversation continues immediately with a task handle. Event bubbling
+                        // lives as long as the background task, so the finally below must not
+                        // dispose it.
+                        const bubbling = childModelDisposable;
+                        childModelDisposable = undefined;
+                        const entry = this.backgroundDelegations.create({
+                            agentId,
+                            sessionId: session.id,
+                            invocation: response,
+                            onDispose: () => bubbling?.dispose()
+                        });
+                        const parentResponse = ctx.response;
+                        response.responseCompleted.then(result => {
+                            entry.state = result.isCanceled ? 'cancelled' : 'completed';
+                            entry.result = this.renderDelegationResult(result.response.content,
+                                result.isCanceled ? `Delegation to agent '${agentId}' was cancelled by the user.` : '',
+                                sessionIdSuffix);
+                            parentResponse.response.addContent(new InformationalChatResponseContentImpl(
+                                nls.localize('theia/ai/chat/delegation/backgroundFinished',
+                                    '后台委派任务 {0}（代理 {1}）已完成，可调用 getDelegationResult 获取结果。',
+                                    entry.taskId, agentId)));
+                        }).catch(completionError => {
+                            entry.state = 'error';
+                            entry.result = `Failed to complete response from agent '${agentId}': ${completionError instanceof Error ? completionError.message : completionError}`;
+                        });
+                        return [
+                            `Delegation to agent '${agentId}' started in the background.`,
+                            `Do not wait for it; continue with other work. The conversation will be notified when it finishes.`,
+                            `[delegation taskId: ${entry.taskId}, sessionId: ${session.id}]`
+                        ].join('\n\n');
+                    }
+
                     // Store the invocation in the registry so the renderer can access it
                     if (ctx.toolCallId) {
                         this.pendingDelegations.set(ctx.toolCallId, {
@@ -295,16 +340,9 @@ export class AgentDelegationTool implements ToolProvider {
                     try {
                         // Wait for completion to return the final result as tool output
                         const result = await response.responseCompleted;
-                        const filteredContent = result.response.content.filter(c => !ThinkingChatResponseContent.is(c) && !ToolCallChatResponseContent.is(c));
-                        const stringResult = filteredContent
-                            .map(c => ChatResponseContent.hasAsString(c) ? c.asString() : undefined)
-                            .filter((text): text is string => text !== undefined && text !== '')
-                            .join('\n\n');
-
-                        // Return the raw text to the top-level Agent, as a tool result. The session id
-                        // allows the caller to send follow-up requests into the same session.
-                        const cancellationNotice = result.isCanceled ? `Delegation to agent '${agentId}' was cancelled by the user.` : '';
-                        return [stringResult, cancellationNotice, sessionIdSuffix].filter(text => text !== '').join('\n\n');
+                        return this.renderDelegationResult(result.response.content,
+                            result.isCanceled ? `Delegation to agent '${agentId}' was cancelled by the user.` : '',
+                            sessionIdSuffix);
                     } catch (completionError) {
                         if (
                             completionError instanceof Error &&
@@ -330,6 +368,19 @@ export class AgentDelegationTool implements ToolProvider {
                 error: `Failed to parse arguments or delegate to agent: ${error instanceof Error ? error.message : 'Unknown error'}`,
             });
         }
+    }
+
+    /**
+     * Renders a delegation session's response content as tool result text. Thinking and tool
+     * call parts are dropped; a session id suffix enables follow-ups into the same session.
+     */
+    private renderDelegationResult(content: ChatResponseContent[], cancellationNotice = '', sessionIdSuffix = ''): string {
+        const filteredContent = content.filter(c => !ThinkingChatResponseContent.is(c) && !ToolCallChatResponseContent.is(c));
+        const stringResult = filteredContent
+            .map(c => ChatResponseContent.hasAsString(c) ? c.asString() : undefined)
+            .filter((text): text is string => text !== undefined && text !== '')
+            .join('\n\n');
+        return [stringResult, cancellationNotice, sessionIdSuffix].filter(text => text !== '').join('\n\n');
     }
 
     /**

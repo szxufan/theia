@@ -15,13 +15,15 @@
 // *****************************************************************************
 
 import { CancellationToken, ILogger } from '@theia/core';
-import { inject, injectable, named } from '@theia/core/shared/inversify';
+import { inject, injectable, named, optional } from '@theia/core/shared/inversify';
+import { ContributionProvider } from '@theia/core/lib/common/contribution-provider';
 import {
     ToolRequest,
     ToolCallResult,
     ToolInvocationContext,
     createToolCallError
 } from './language-model';
+import { ToolCallEventBus, ToolCallHook } from './tool-call-hook';
 
 /**
  * A single tool call collected from one model response/turn, in a provider-neutral shape.
@@ -120,6 +122,12 @@ export class ToolCallExecutorImpl implements ToolCallExecutor {
     @inject(ILogger) @named('ai-core:ToolCallExecutorImpl')
     protected readonly logger: ILogger;
 
+    @inject(ToolCallEventBus) @optional()
+    protected readonly eventBus: ToolCallEventBus | undefined;
+
+    @inject(ContributionProvider) @named(ToolCallHook) @optional()
+    protected readonly hooks: ContributionProvider<ToolCallHook> | undefined;
+
     async executeToolCalls(
         toolCalls: readonly ToolInvocation[],
         tools: readonly ExecutableTool[] | undefined,
@@ -135,8 +143,15 @@ export class ToolCallExecutorImpl implements ToolCallExecutor {
     ): Promise<ToolCallOutcome> {
         const { id, name, arguments: args } = toolCall;
         const tool = tools?.find(candidate => candidate.name === name);
+        this.eventBus?.fire({ phase: 'before', call: toolCall });
         let outcome: ToolCallOutcome;
-        if (!tool) {
+        const hookVerdict = await this.runBeforeHooks(toolCall, tool);
+        if (hookVerdict?.action === 'deny') {
+            outcome = {
+                id, name, arguments: args, notFound: false,
+                result: { denied: true, reason: hookVerdict.reason ?? `Tool call '${name}' was blocked by a hook.` }
+            };
+        } else if (!tool) {
             outcome = {
                 id, name, arguments: args, notFound: true,
                 result: createToolCallError(`Tool '${name}' not found in the available tools for this request.`, 'tool-not-available')
@@ -151,11 +166,53 @@ export class ToolCallExecutorImpl implements ToolCallExecutor {
                 outcome = { id, name, arguments: args, notFound: false, error, result: createToolCallError(error.message || 'Tool execution failed') };
             }
         }
+        await this.runAfterHooks(outcome);
+        this.eventBus?.fire({ phase: 'after', outcome });
         try {
             options.onResult?.(outcome);
         } catch (error) {
             this.logger.error('Uncaught error in tool-call onResult call-back.', error);
         }
         return outcome;
+    }
+
+    /**
+     * Runs all registered {@link ToolCallHook.beforeToolCall} hooks; the first deny wins,
+     * an explicit allow short-circuits the remaining hooks.
+     */
+    protected async runBeforeHooks(
+        call: ToolInvocation,
+        tool: ExecutableTool | undefined
+    ): Promise<{ action: 'allow' | 'deny'; reason?: string } | undefined> {
+        if (!this.hooks) {
+            return undefined;
+        }
+        for (const hook of this.hooks.getContributions()) {
+            try {
+                const verdict = await hook.beforeToolCall?.(call, tool);
+                if (verdict?.action === 'deny') {
+                    return verdict;
+                }
+                if (verdict?.action === 'allow') {
+                    return verdict;
+                }
+            } catch (error) {
+                this.logger.error('Uncaught error in beforeToolCall hook.', error);
+            }
+        }
+        return undefined;
+    }
+
+    protected async runAfterHooks(outcome: ToolCallOutcome): Promise<void> {
+        if (!this.hooks) {
+            return;
+        }
+        for (const hook of this.hooks.getContributions()) {
+            try {
+                await hook.afterToolCall?.(outcome);
+            } catch (error) {
+                this.logger.error('Uncaught error in afterToolCall hook.', error);
+            }
+        }
     }
 }
