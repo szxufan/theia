@@ -5734,7 +5734,8 @@
               "lint",
               "build",
               "watch",
-              "clean"
+              "clean",
+              "install"
             ]
           },
           "description": "Theia FFMPEG reader utility.",
@@ -5802,6 +5803,18 @@
             "metadata": {
               "scriptContent": "theiaext clean",
               "runCommand": "npm run clean"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "install": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "install"
+            },
+            "metadata": {
+              "scriptContent": "node -e \"\"",
+              "runCommand": "npm run install"
             },
             "configurations": {},
             "parallelism": true
@@ -9653,6 +9666,111 @@
             "packageName": "@theia/ai-mcp",
             "packageVersion": "1.76.0",
             "packageMain": "lib/common",
+            "isInPackageManagerWorkspaces": true
+          }
+        },
+        "targets": {
+          "build": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "build"
+            },
+            "metadata": {
+              "scriptContent": "theiaext build",
+              "runCommand": "npm run build"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "clean": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "clean"
+            },
+            "metadata": {
+              "scriptContent": "theiaext clean",
+              "runCommand": "npm run clean"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "compile": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "compile"
+            },
+            "metadata": {
+              "scriptContent": "theiaext compile",
+              "runCommand": "npm run compile"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "lint": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "lint"
+            },
+            "metadata": {
+              "scriptContent": "theiaext lint",
+              "runCommand": "npm run lint"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "test": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "test"
+            },
+            "metadata": {
+              "scriptContent": "theiaext test",
+              "runCommand": "npm run test"
+            },
+            "configurations": {},
+            "parallelism": true
+          },
+          "watch": {
+            "executor": "nx:run-script",
+            "options": {
+              "script": "watch"
+            },
+            "metadata": {
+              "scriptContent": "theiaext watch",
+              "runCommand": "npm run watch"
+            },
+            "configurations": {},
+            "parallelism": true
+          }
+        },
+        "implicitDependencies": []
+      }
+    },
+    "@theia/ai-web": {
+      "name": "@theia/ai-web",
+      "type": "app",
+      "data": {
+        "root": "packages/ai-web",
+        "name": "@theia/ai-web",
+        "tags": [
+          "npm:public",
+          "npm:theia-extension"
+        ],
+        "metadata": {
+          "targetGroups": {
+            "NPM Scripts": [
+              "build",
+              "clean",
+              "compile",
+              "lint",
+              "test",
+              "watch"
+            ]
+          },
+          "description": "Theia - AI Web Access Extension",
+          "js": {
+            "packageName": "@theia/ai-web",
+            "packageVersion": "1.76.0",
             "isInPackageManagerWorkspaces": true
           }
         },
@@ -27779,7 +27897,7 @@
       },
       {
         "source": "@theia/ai-mcp-server",
-        "target": "npm:zod",
+        "target": "npm:zod@4.6.5",
         "type": "static"
       }
     ],
@@ -28529,7 +28647,7 @@
       },
       {
         "source": "@theia/ai-terminal",
-        "target": "npm:zod",
+        "target": "npm:zod@4.6.5",
         "type": "static"
       }
     ],
@@ -28646,7 +28764,7 @@
       },
       {
         "source": "@theia/api-samples",
-        "target": "npm:zod",
+        "target": "npm:zod@4.6.5",
         "type": "static"
       }
     ],
@@ -31568,6 +31686,38 @@
       },
       {
         "source": "@theia/ai-mcp",
+        "target": "@theia/workspace",
+        "type": "static"
+      }
+    ],
+    "@theia/ai-web": [
+      {
+        "source": "@theia/ai-web",
+        "target": "@theia/ext-scripts",
+        "type": "static"
+      },
+      {
+        "source": "@theia/ai-web",
+        "target": "@theia/ai-core",
+        "type": "static"
+      },
+      {
+        "source": "@theia/ai-web",
+        "target": "@theia/core",
+        "type": "static"
+      },
+      {
+        "source": "@theia/ai-web",
+        "target": "@theia/filesystem",
+        "type": "static"
+      },
+      {
+        "source": "@theia/ai-web",
+        "target": "npm:@theia/monaco-editor-core",
+        "type": "static"
+      },
+      {
+        "source": "@theia/ai-web",
         "target": "@theia/workspace",
         "type": "static"
       }
@@ -50477,5 +50627,5 @@
   },
   "version": "6.0",
   "errors": [],
-  "computedAt": 1792116623006
+  "computedAt": 1792312323318
 }

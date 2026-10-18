@@ -1012,6 +1012,10 @@
       "dev-packages/ffmpeg/package.json",
       "nx/core/package-json"
     ],
+    "metadata.targetGroups.NPM Scripts.5": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
     "metadata.description": [
       "dev-packages/ffmpeg/package.json",
       "nx/core/package-json"
@@ -1181,6 +1185,34 @@
       "nx/core/package-json"
     ],
     "targets.clean.metadata.runCommand": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.install": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.install.executor": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.install.options": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.install.metadata": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.install.options.script": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.install.metadata.scriptContent": [
+      "dev-packages/ffmpeg/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.install.metadata.runCommand": [
       "dev-packages/ffmpeg/package.json",
       "nx/core/package-json"
     ]
@@ -11582,6 +11614,260 @@
     ],
     "targets.watch.metadata.runCommand": [
       "packages/ai-tool-sketchpad/package.json",
+      "nx/core/package-json"
+    ]
+  },
+  "packages/ai-web": {
+    "root": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "name": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "tags": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:public": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "tags.npm:theia-extension": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.0": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.1": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.2": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.3": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.4": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.targetGroups.NPM Scripts.5": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.description": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageName": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageVersion": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageExports": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.packageMain": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "metadata.js.isInPackageManagerWorkspaces": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.build": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.build.executor": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.build.options": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.build.metadata": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.build.options.script": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.build.metadata.scriptContent": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.build.metadata.runCommand": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.executor": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.options": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.metadata": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.options.script": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.metadata.scriptContent": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.clean.metadata.runCommand": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.compile": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.compile.executor": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.compile.options": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.compile.metadata": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.compile.options.script": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.compile.metadata.scriptContent": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.compile.metadata.runCommand": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.lint": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.lint.executor": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.lint.options": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.lint.metadata": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.lint.options.script": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.lint.metadata.scriptContent": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.lint.metadata.runCommand": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.test": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.test.executor": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.test.options": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.test.metadata": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.test.options.script": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.test.metadata.scriptContent": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.test.metadata.runCommand": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.watch": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.watch.executor": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.watch.options": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.watch.metadata": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.watch.options.script": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.watch.metadata.scriptContent": [
+      "packages/ai-web/package.json",
+      "nx/core/package-json"
+    ],
+    "targets.watch.metadata.runCommand": [
+      "packages/ai-web/package.json",
       "nx/core/package-json"
     ]
   },
