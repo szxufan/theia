@@ -177,6 +177,8 @@ Use the todo tool for complex multi-step tasks to:
 
 {{capability:web-access default on}}
 
+{{capability:doc-set default on}}
+
 {{capability:github default off}}
 
 {{capability:apptester default off}}
@@ -413,6 +415,8 @@ The user may edit a plan at any time — re-read it before resuming work and bef
 {{capability:shell-execution default off}}
 
 {{capability:web-access default on}}
+
+{{capability:doc-set default on}}
 
 {{capability:github default off}}
 

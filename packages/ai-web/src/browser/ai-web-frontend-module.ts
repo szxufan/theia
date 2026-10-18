@@ -18,12 +18,18 @@ import { bindToolProvider } from '@theia/ai-core/lib/common/tool-invocation-regi
 import { PreferenceContribution } from '@theia/core/lib/common/preferences';
 import { FrontendApplicationContribution } from '@theia/core/lib/browser';
 import { WebSocketConnectionProvider } from '@theia/core/lib/browser';
+import { AIVariableContribution } from '@theia/ai-core/lib/common';
+import { CommandContribution } from '@theia/core';
 import { ContainerModule } from '@theia/core/shared/inversify';
 import { aiWebPath, WebServer } from '../common/web-protocol';
 import { webPreferences } from '../common/web-preferences';
 import { WebAccessCapabilityContribution } from './web-access-capability-contribution';
 import { WebFetchTool } from './web-fetch-tool';
 import { WebSearchTool } from './web-search-tool';
+import { DocSetService, DocSetServiceImpl } from './doc-set-service';
+import { DocSetVariableContribution } from './doc-set-variable-contribution';
+import { DocSetCapabilityContribution } from './doc-set-capability-contribution';
+import { DocSetCommandContribution } from './doc-set-command-contribution';
 
 export default new ContainerModule(bind => {
     bind(WebServer).toDynamicValue(ctx => {
@@ -37,4 +43,12 @@ export default new ContainerModule(bind => {
     bind(FrontendApplicationContribution).to(WebAccessCapabilityContribution);
 
     bind(PreferenceContribution).toConstantValue({ schema: webPreferences });
+
+    bind(DocSetServiceImpl).toSelf().inSingletonScope();
+    bind(DocSetService).toService(DocSetServiceImpl);
+    bind(DocSetVariableContribution).toSelf().inSingletonScope();
+    bind(AIVariableContribution).toService(DocSetVariableContribution);
+    bind(DocSetCommandContribution).toSelf().inSingletonScope();
+    bind(CommandContribution).toService(DocSetCommandContribution);
+    bind(FrontendApplicationContribution).to(DocSetCapabilityContribution);
 });

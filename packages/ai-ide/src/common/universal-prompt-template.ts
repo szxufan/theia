@@ -30,6 +30,8 @@ Some files and other pieces of data may have been added by the user to the conte
 {{capability:workspace-instructions default on}}
 
 {{capability:web-access default on}}
+
+{{capability:doc-set default on}}
 `
 };
 

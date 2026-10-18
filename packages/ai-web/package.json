@@ -4,7 +4,10 @@
   "description": "Theia - AI Web Access Extension",
   "dependencies": {
     "@theia/ai-core": "1.76.0",
-    "@theia/core": "1.76.0"
+    "@theia/core": "1.76.0",
+    "@theia/filesystem": "1.76.0",
+    "@theia/monaco-editor-core": "1.108.201",
+    "@theia/workspace": "1.76.0"
   },
   "publishConfig": {
     "access": "public"
