@@ -38,3 +38,6 @@ license-check-summary.txt*
 .playwright-mcp/*
 /.theia/chatSessions
 .tmp.cfg
+
+# nx 守护进程本地缓存（构建产物，不应入库）
+.nx/
