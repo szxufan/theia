@@ -17,7 +17,7 @@
 import { enableJSDOM } from '@theia/core/lib/browser/test/jsdom';
 enableJSDOM();
 import { FrontendApplicationConfigProvider } from '@theia/core/lib/browser/frontend-application-config-provider';
-FrontendApplicationConfigProvider.set({});
+try { FrontendApplicationConfigProvider.set({}); } catch { /* 已由其他 spec 设置 */ }
 
 import { expect } from 'chai';
 import { URI } from '@theia/core';

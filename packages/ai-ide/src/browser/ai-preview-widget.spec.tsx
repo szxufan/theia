@@ -15,7 +15,7 @@
 // *****************************************************************************
 
 import { enableJSDOM } from '@theia/core/lib/browser/test/jsdom';
-enableJSDOM();
+let disableJSDOM = enableJSDOM();
 import { FrontendApplicationConfigProvider } from '@theia/core/lib/browser/frontend-application-config-provider';
 try { FrontendApplicationConfigProvider.set({}); } catch { /* 已由其他 spec 设置 */ }
 
@@ -25,11 +25,18 @@ import { Container } from '@theia/core/shared/inversify';
 import { FileService } from '@theia/filesystem/lib/browser/file-service';
 import { AiPreviewWidget, PREVIEW_REFRESH_DEBOUNCE_MS } from './ai-preview-widget';
 
+// 与本包其他 browser spec 相同的模式：模块加载期用完即释放 jsdom，
+// 运行期在 describe 的 before/after 中重新启停，避免与其他 spec 的共享窗口配置互相冲突
+disableJSDOM();
+
 describe('AiPreviewWidget', () => {
 
     let widget: AiPreviewWidget;
     let filesChanged: Emitter<unknown>;
     let reloadCount: () => number;
+
+    before(() => { disableJSDOM = enableJSDOM(); });
+    after(() => { disableJSDOM(); });
 
     beforeEach(() => {
         filesChanged = new Emitter<unknown>();
