@@ -154,6 +154,8 @@ import { PerspectiveContribution } from '@theia/core/lib/browser/perspective-ser
 import { AIFirstPerspectiveContribution } from './ai-first-perspective-contribution';
 import { ChatSessionListService } from './chat-session-list-service';
 import { AISessionsWidget } from './ai-sessions-widget';
+import { AiPreviewWidget } from './ai-preview-widget';
+import { AiPreviewCommandContribution } from './ai-preview-command-contribution';
 import { AISessionsViewContribution } from './ai-sessions-view-contribution';
 import { CommitMessageAgent } from './commit-message-agent';
 import { CommitMessageRunner } from './commit-message-runner';
@@ -422,4 +424,14 @@ export default new ContainerModule((bind, _unbind, _isBound, rebind) => {
     bind(CommitMessageCommandContribution).toSelf().inSingletonScope();
     bind(CommandContribution).toService(CommitMessageCommandContribution);
     rebind(ScmCommitWidget).to(AiAwareScmCommitWidget);
+
+    bind(AiPreviewWidget).toSelf();
+    bind(WidgetFactory)
+        .toDynamicValue(ctx => ({
+            id: AiPreviewWidget.ID,
+            createWidget: () => ctx.container.get(AiPreviewWidget)
+        }))
+        .inSingletonScope();
+    bind(AiPreviewCommandContribution).toSelf().inSingletonScope();
+    bind(CommandContribution).toService(AiPreviewCommandContribution);
 });

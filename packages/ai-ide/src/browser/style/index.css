@@ -2238,3 +2238,68 @@ button.agent-chip:focus-visible {
   outline: 1px dotted var(--theia-contrastActiveBorder, transparent);
   outline-offset: -1px;
 }
+
+/* AI 预览部件：地址栏 + iframe 实时预览 */
+.theia-ai-preview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.theia-ai-preview-toolbar {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--theia-ui-padding) * 1);
+  padding: calc(var(--theia-ui-padding) * 0.5) calc(var(--theia-ui-padding) * 1);
+  border-bottom: 1px solid var(--theia-panel-border);
+}
+
+.theia-ai-preview-address-form {
+  flex: 1;
+  display: flex;
+}
+
+.theia-ai-preview-address {
+  flex: 1;
+  background: var(--theia-input-background);
+  color: var(--theia-input-foreground);
+  border: 1px solid var(--theia-input-border);
+  padding: 2px calc(var(--theia-ui-padding) * 0.5);
+  font-family: var(--theia-ui-font-family);
+}
+
+.theia-ai-preview-refresh {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0 calc(var(--theia-ui-padding) * 0.5);
+}
+
+.theia-ai-preview-refresh:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.theia-ai-preview-auto {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--theia-descriptionForeground);
+  white-space: nowrap;
+}
+
+.theia-ai-preview-content {
+  flex: 1;
+  position: relative;
+}
+
+.theia-ai-preview-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.theia-ai-preview-empty {
+  padding: calc(var(--theia-ui-padding) * 3);
+  color: var(--theia-descriptionForeground);
+}
