@@ -156,6 +156,8 @@ import { ChatSessionListService } from './chat-session-list-service';
 import { AISessionsWidget } from './ai-sessions-widget';
 import { AiPreviewWidget } from './ai-preview-widget';
 import { AiPreviewCommandContribution } from './ai-preview-command-contribution';
+import { WorkingChangesReviewerAgent } from './working-changes-reviewer-agent';
+import { WorkingChangesReviewCommandContribution } from './working-changes-review-command-contribution';
 import { AISessionsViewContribution } from './ai-sessions-view-contribution';
 import { CommitMessageAgent } from './commit-message-agent';
 import { CommitMessageRunner } from './commit-message-runner';
@@ -225,6 +227,12 @@ export default new ContainerModule((bind, _unbind, _isBound, rebind) => {
     bind(CodeReviewerAgent).toSelf().inSingletonScope();
     bind(Agent).toService(CodeReviewerAgent);
     bind(ChatAgent).toService(CodeReviewerAgent);
+
+    bind(WorkingChangesReviewerAgent).toSelf().inSingletonScope();
+    bind(Agent).toService(WorkingChangesReviewerAgent);
+    bind(ChatAgent).toService(WorkingChangesReviewerAgent);
+    bind(WorkingChangesReviewCommandContribution).toSelf().inSingletonScope();
+    bind(CommandContribution).toService(WorkingChangesReviewCommandContribution);
 
     bind(PRReviewAgent).toSelf().inSingletonScope();
     bind(Agent).toService(PRReviewAgent);

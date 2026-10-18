@@ -94,6 +94,17 @@ describe('GetGitChangesTool', () => {
         expect(command).to.not.match(/;|\||xargs|sh -c|\/dev\/null/);
     });
 
+    it('runs git diff HEAD in the repository root for working-tree review', async () => {
+        shellServer.execute.resolves(shellResult({ stdout: 'working tree diff' }));
+
+        const diff = await tool.getWorkingTreeChanges(backend);
+
+        expect(diff).to.contain('working tree diff');
+        const request = shellServer.execute.firstCall.args[0] as ShellExecutionRequest;
+        expect(request.command).to.equal('git diff HEAD --no-color');
+        expect(request.cwd?.replace(/\\/g, '/')).to.equal('/work/backend');
+    });
+
     it('falls back to the selected repository when no repository argument is given', async () => {
         await tool.getTool().handler('{}');
         expect(cwdOfCall()).to.equal('/work/frontend');

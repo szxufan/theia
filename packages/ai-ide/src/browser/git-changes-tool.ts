@@ -121,8 +121,20 @@ export class GetGitChangesTool extends PredefinedShellTool {
      * @throws if the git command fails, so a `fatal: ...` message is never mistaken for a diff.
      */
     async getStagedChanges(repository: ScmRepository, cancellationToken?: CancellationToken): Promise<string> {
+        return this.runDiff('git diff --cached --no-color', repository, cancellationToken);
+    }
+
+    /**
+     * The working-tree diff against HEAD (staged plus unstaged; untracked files are not
+     * included). Feeds the「审查未提交变更」command.
+     */
+    async getWorkingTreeChanges(repository: ScmRepository, cancellationToken?: CancellationToken): Promise<string> {
+        return this.runDiff('git diff HEAD --no-color', repository, cancellationToken);
+    }
+
+    protected async runDiff(command: string, repository: ScmRepository, cancellationToken?: CancellationToken): Promise<string> {
         const result = await this.runShellCommand({
-            command: this.buildCommand(),
+            command,
             cwd: new URI(repository.provider.rootUri).path.fsPath(),
             timeout: this.timeout,
             ctx: { cancellationToken },
