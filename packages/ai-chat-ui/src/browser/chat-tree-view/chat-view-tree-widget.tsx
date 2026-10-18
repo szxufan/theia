@@ -29,7 +29,7 @@ import {
     type ChatHierarchyBranch,
 } from '@theia/ai-chat';
 import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
-import { AIVariableService } from '@theia/ai-core';
+import { AIVariableService, PREFERENCE_NAME_COLLAPSE_TOOL_CALLS } from '@theia/ai-core';
 import { AIActivationService } from '@theia/ai-core/lib/browser';
 import { CommandRegistry, ContributionProvider, Disposable, DisposableCollection, Emitter, Event, ILogger } from '@theia/core';
 import {
@@ -68,6 +68,7 @@ import { ChatNodeToolbarActionContribution } from '../chat-node-toolbar-action-c
 import { ChatResponsePartRenderer } from '../chat-response-part-renderer';
 import { formatTokenCount } from '../chat-token-usage-indicator-util';
 import { MarkdownRendering, useMarkdownRendering } from '../chat-response-renderer/markdown-part-renderer';
+import { chunkResponseContent, summarizeToolCalls, ToolCallGroup } from '../chat-response-renderer/tool-call-group';
 import { ProgressMessage } from '../chat-progress-message';
 import { AIChatTreeInputFactory, type AIChatTreeInputWidget } from './chat-view-tree-input-widget';
 import { PromptVariantBadge } from './prompt-variant-badge';
@@ -768,9 +769,7 @@ export class ChatViewTreeWidget extends TreeWidget {
                             <ProgressMessage {...c} key={`${node.id}-progress-untilFirstContent-${i}`} />
                         )
                 }
-                {node.response.response.content.map((c, i) =>
-                    <div className='theia-ResponseNode-Content' key={`${node.id}-content-${i}`}>{this.getChatResponsePartRenderer(c, node)}</div>
-                )}
+                {this.renderResponseContents(node)}
                 {!node.response.isComplete
                     && node.response.progressMessages
                         .filter(c => c.show === 'whileIncomplete')
@@ -784,6 +783,32 @@ export class ChatViewTreeWidget extends TreeWidget {
                         <ProgressMessage {...c} key={`${node.id}-progress-afterComplete-${i}`} />
                     )
                 }
+            </div>
+        );
+    }
+
+    /**
+     * Renders the response content, collapsing finished runs of tool calls into one
+     * summary line (unless `ai-features.chat.collapseToolCalls` is disabled).
+     */
+    protected renderResponseContents(node: ResponseNode): React.ReactNode[] {
+        const contents = node.response.response.content;
+        if (!this.preferenceService.get(PREFERENCE_NAME_COLLAPSE_TOOL_CALLS, true)) {
+            return contents.map((content, index) =>
+                <div className='theia-ResponseNode-Content' key={`${node.id}-content-${index}`}>
+                    {this.getChatResponsePartRenderer(content, node)}
+                </div>
+            );
+        }
+        return chunkResponseContent(contents).map(chunk =>
+            <div className='theia-ResponseNode-Content' key={`${node.id}-content-${chunk.kind === 'single' ? chunk.index : `group-${chunk.startIndex}`}`}>
+                {chunk.kind === 'single'
+                    ? this.getChatResponsePartRenderer(chunk.content, node)
+                    : <ToolCallGroup
+                        contents={chunk.contents}
+                        summary={summarizeToolCalls(chunk.contents)}
+                        renderPart={content => this.getChatResponsePartRenderer(content, node)}
+                    />}
             </div>
         );
     }

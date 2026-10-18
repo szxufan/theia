@@ -66,6 +66,7 @@ export const PREFERENCE_NAME_DEFAULT_NOTIFICATION_TYPE = 'ai-features.notificati
 export const PREFERENCE_NAME_SKILL_DIRECTORIES = 'ai-features.skills.skillDirectories';
 export const PREFERENCE_NAME_SERVER_SIDE_COMPACTION = 'ai-features.chat.serverSideCompaction';
 export const PREFERENCE_NAME_SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD = 'ai-features.chat.serverSideCompactionTokenThreshold';
+export const PREFERENCE_NAME_COLLAPSE_TOOL_CALLS = 'ai-features.chat.collapseToolCalls';
 
 export const LANGUAGE_MODEL_ALIASES_PREFERENCE = 'ai-features.languageModelAliases';
 
@@ -77,6 +78,14 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             description: nls.localize('theia/ai/core/serverSideCompaction/description',
                 '默认为聊天请求启用提供商原生的服务端压缩。启用后，支持的模型会在对话超出其自身阈值时自动总结较早的轮次，' +
                 '让长会话能够突破上下文限制继续进行。每个提供商均可单独覆盖此设置，单个聊天会话也可在其会话设置中覆盖。不支持该功能的模型会忽略此设置。'),
+            default: true,
+        },
+        [PREFERENCE_NAME_COLLAPSE_TOOL_CALLS]: {
+            title: AI_CORE_PREFERENCES_TITLE,
+            type: 'boolean',
+            description: nls.localize('theia/ai/core/collapseToolCalls/description',
+                '将聊天回复中连续多次已完成的工具调用折叠为一行摘要，点击可展开查看每次调用的参数与结果。' +
+                '进行中的调用始终保持展开显示。'),
             default: true,
         },
         [PREFERENCE_NAME_SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD]: {
