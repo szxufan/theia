@@ -22,6 +22,7 @@ import '../../style/ask-ai-input.css';
 import { AICodeActionProvider } from './ai-code-action-provider';
 import { AiEditorCommandContribution } from './ai-editor-command-contribution';
 import { EditorContextVariableContribution } from './ai-editor-context-variable';
+import { AddSelectionToChatContribution } from './add-selection-to-chat-contribution';
 import {
     AskAIInputArgs,
     AskAIInputConfiguration,
@@ -35,6 +36,10 @@ export default new ContainerModule(bind => {
     bind(CommandContribution).toService(AiEditorCommandContribution);
     bind(MenuContribution).toService(AiEditorCommandContribution);
     bind(KeybindingContribution).toService(AiEditorCommandContribution);
+
+    bind(AddSelectionToChatContribution).toSelf().inSingletonScope();
+    bind(CommandContribution).toService(AddSelectionToChatContribution);
+    bind(MenuContribution).toService(AddSelectionToChatContribution);
 
     bind(AIVariableContribution).to(EditorContextVariableContribution).inSingletonScope();
 
