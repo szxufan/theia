@@ -16,9 +16,9 @@
 
 /**
  * A schema-driven editor for `array` preferences whose entries are objects with a declared
- * `properties` map — above all a provider's custom endpoints (`ai-features.openAiCustom.endpoints`,
- * `ai-features.anthropicCustom.customAnthropicModels`), which would otherwise be editable only as raw
- * JSON in `settings.json`. Each entry renders as a card with one field per declared property; entries
+ * `properties` map — above all a provider's custom endpoints (`ai-features.openAiCustom.endpoints`),
+ * which would otherwise be editable only as raw JSON in `settings.json`. Each entry renders as a card
+ * with one field per declared property; entries
  * can be added and removed. Clearing a field removes the property from the entry, so optional settings
  * fall back to their defaults. Properties the schema does not declare are preserved untouched.
  *
@@ -30,7 +30,7 @@ import { nls } from '@theia/core';
 import { codicon } from '@theia/core/lib/browser';
 import { PreferenceDataProperty } from '@theia/core/lib/common/preferences/preference-schema';
 import * as React from '@theia/core/shared/react';
-import { AiEnumOption, AiEnumSelect, AiTextInput } from './ai-configuration-controls';
+import { AiEnumOption, AiEnumSelect, AiTextInput, AiToggleSwitch } from './ai-configuration-controls';
 
 /** The outcome of parsing a field's committed text into a storable property value. */
 type ParsedFieldValue =
@@ -160,9 +160,10 @@ function fieldLabel(key: string, property: PreferenceDataProperty): string {
 }
 
 /**
- * One property of an entry: renders the control matching the property's schema type — a select for
- * enums, a tri-state select for booleans (`undefined` keeps the default), a text input for strings
- * (masked for secrets), and a JSON text input for nested objects/arrays such as `headers`.
+ * One property of an entry: renders the control matching the property's schema type — a switch for
+ * booleans and a select for enums (both showing the effective value, i.e. the schema default while the
+ * property is unset), a text input for strings (masked for secrets), and a JSON text input for nested
+ * objects/arrays such as `headers`.
  */
 const AiObjectField: React.FC<{
     fieldKey: string;
@@ -179,38 +180,34 @@ const AiObjectField: React.FC<{
     </span>;
 
     if (property.enum) {
-        const options: AiEnumOption[] = [
-            { value: '', label: nls.localize('theia/ai/core/aiConfiguration/objectList/default', '默认') },
-            ...property.enum.map(option => ({ value: String(option), label: String(option) }))
-        ];
+        const options: AiEnumOption[] = property.enum.map(option => ({ value: String(option), label: String(option) }));
+        // Show the effective value: while the property is unset the schema default applies, so that is
+        // what the select displays. No extra "unset" entry in the list.
+        const selected = value !== undefined ? String(value) : String(property.default ?? property.enum[0]);
         return <div className='ai-config-object-field'>
             {labelNode}
             <AiEnumSelect
-                value={value === undefined ? '' : String(value)}
+                value={selected}
                 options={options}
                 ariaLabel={label}
                 disabled={disabled}
-                onCommit={selected => onCommit(selected === '' ? { kind: 'unset' } : { kind: 'value', value: selected })}
+                onCommit={chosen => onCommit({ kind: 'value', value: chosen })}
             />
         </div>;
     }
 
     const type = property.type;
     if (type === 'boolean') {
-        const options: AiEnumOption[] = [
-            { value: '', label: nls.localize('theia/ai/core/aiConfiguration/objectList/default', '默认') },
-            { value: 'true', label: nls.localize('theia/ai/core/aiConfiguration/objectList/true', '是') },
-            { value: 'false', label: nls.localize('theia/ai/core/aiConfiguration/objectList/false', '否') }
-        ];
-        return <div className='ai-config-object-field'>
+        // A plain on/off switch: an unset property shows the schema default (the behaviour the backend
+        // applies), and toggling writes an explicit value.
+        const checked = typeof value === 'boolean' ? value : property.default === true;
+        return <div className='ai-config-object-field ai-config-object-field-inline'>
             {labelNode}
-            <AiEnumSelect
-                value={value === true ? 'true' : value === false ? 'false' : ''}
-                options={options}
+            <AiToggleSwitch
+                checked={checked}
                 ariaLabel={label}
                 disabled={disabled}
-                onCommit={selected => onCommit(
-                    selected === '' ? { kind: 'unset' } : { kind: 'value', value: selected === 'true' })}
+                onChange={next => onCommit({ kind: 'value', value: next })}
             />
         </div>;
     }
@@ -221,6 +218,8 @@ const AiObjectField: React.FC<{
             <ParsedTextInput
                 value={value}
                 ariaLabel={label}
+                // The schema default is hinted as the placeholder rather than shown as a stored value.
+                placeholder={typeof property.default === 'number' ? String(property.default) : undefined}
                 disabled={disabled}
                 format={current => typeof current === 'number' ? String(current) : ''}
                 parse={text => {
@@ -239,6 +238,40 @@ const AiObjectField: React.FC<{
     }
 
     if (type === 'object') {
+        const declared = property.properties;
+        if (declared && Object.keys(declared).length > 0) {
+            // An object with a declared schema (e.g. `reasoningSupport`) renders as a group of sub-fields
+            // instead of a raw JSON box. Sub-field edits merge into the object; an emptied object is
+            // removed so the property falls back to its default.
+            const current = isPlainObject(value) ? value : {};
+            const requiredKeys = Array.isArray(property.required) ? property.required : [];
+            const commitSubField = (key: string, parsed: ParsedFieldValue): void => {
+                if (parsed.kind === 'error') {
+                    return;
+                }
+                const next = { ...current };
+                if (parsed.kind === 'unset') {
+                    delete next[key];
+                } else {
+                    next[key] = parsed.value;
+                }
+                onCommit(Object.keys(next).length > 0 ? { kind: 'value', value: next } : { kind: 'unset' });
+            };
+            return <div className='ai-config-object-field'>
+                {labelNode}
+                <div className='ai-config-object-group'>
+                    {Object.entries(declared).map(([key, subProperty]) => <AiObjectField
+                        key={key}
+                        fieldKey={key}
+                        property={subProperty}
+                        required={requiredKeys.includes(key)}
+                        value={current[key]}
+                        disabled={disabled}
+                        onCommit={parsed => commitSubField(key, parsed)}
+                    />)}
+                </div>
+            </div>;
+        }
         return <div className='ai-config-object-field'>
             {labelNode}
             <ParsedTextInput
@@ -277,6 +310,36 @@ const AiObjectField: React.FC<{
                         // An emptied nested list removes the property, so a just-cleared entry carries no ghost `models: []`.
                         : { kind: 'unset' })}
                 />
+            </div>;
+        }
+        // A list of declared choices (e.g. `reasoningSupport.supportedLevels`): checkbox chips over the
+        // enumerated values, so the levels are picked rather than typed into a JSON box.
+        const itemEnum = itemSchema?.enum;
+        if (Array.isArray(itemEnum) && itemEnum.length > 0) {
+            const selected = Array.isArray(value) ? value.map(String) : [];
+            return <div className='ai-config-object-field'>
+                {labelNode}
+                <div className='ai-config-object-chips' role='group' aria-label={label}>
+                    {itemEnum.map(level => {
+                        const levelValue = String(level);
+                        const isOn = selected.includes(levelValue);
+                        return <label key={levelValue} className={`ai-config-object-chip${isOn ? ' selected' : ''}`}>
+                            <input
+                                type='checkbox'
+                                checked={isOn}
+                                disabled={disabled}
+                                onChange={event => {
+                                    const next = event.target.checked
+                                        ? [...selected, levelValue]
+                                        : selected.filter(entry => entry !== levelValue);
+                                    // Selecting nothing removes the property, so an empty list is not stored.
+                                    onCommit(next.length > 0 ? { kind: 'value', value: next } : { kind: 'unset' });
+                                }}
+                            />
+                            <span>{levelValue}</span>
+                        </label>;
+                    })}
+                </div>
             </div>;
         }
         return <div className='ai-config-object-field'>

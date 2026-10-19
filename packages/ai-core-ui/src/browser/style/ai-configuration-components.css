@@ -651,6 +651,46 @@
   gap: 2px;
 }
 
+/* A boolean field sits inline — label left, switch right — like the top-level setting rows. */
+.ai-config-object-field-inline {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--theia-ui-padding);
+}
+
+/* A declared sub-object (e.g. `reasoningSupport`) renders as an indented group of its own fields. */
+.ai-config-object-group {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--theia-ui-padding) / 1.5);
+  padding-left: var(--theia-ui-padding);
+  border-left: 2px solid var(--theia-dropdown-border);
+}
+
+/* A fixed set of choices (e.g. the supported reasoning levels): toggleable chips. */
+.ai-config-object-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ai-config-object-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid var(--theia-dropdown-border);
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ai-config-object-chip.selected {
+  border-color: var(--theia-focusBorder);
+  background-color: var(--theia-list-hoverBackground);
+}
+
 .ai-config-object-field-label {
   color: var(--theia-descriptionForeground);
   overflow: hidden;

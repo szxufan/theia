@@ -117,6 +117,7 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
                     },
                     useResponseApi: {
                         type: 'boolean',
+                        default: false,
                         title: nls.localize('theia/ai/openai/customEndpoints/useResponseApi/title', 'API 格式'),
                         description: nls.localize('theia/ai/openai/customEndpoints/useResponseApi/description',
                             '开启使用 Response API；关闭（默认）使用 Chat Completions')
@@ -159,18 +160,21 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
                                 },
                                 vision: {
                                     type: 'boolean',
+                                    default: true,
                                     title: nls.localize('theia/ai/openai/customEndpoints/vision/title', '图像输入'),
                                     description: nls.localize('theia/ai/openai/customEndpoints/vision/description',
                                         '是否接受图像输入；关闭后图片会被忽略。默认开启')
                                 },
                                 enableStreaming: {
                                     type: 'boolean',
+                                    default: true,
                                     title: nls.localize('theia/ai/openai/customEndpoints/enableStreaming/title', '流式传输'),
                                     description: nls.localize('theia/ai/openai/customEndpoints/enableStreaming/description',
                                         '是否使用流式 API。默认开启')
                                 },
                                 supportsStructuredOutput: {
                                     type: 'boolean',
+                                    default: true,
                                     title: nls.localize('theia/ai/openai/customEndpoints/supportsStructuredOutput/title', '结构化输出'),
                                     description: nls.localize('theia/ai/openai/customEndpoints/supportsStructuredOutput/description',
                                         '该模型是否支持结构化输出。默认开启')
@@ -187,10 +191,14 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
                                     type: 'object',
                                     title: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/title', '推理能力'),
                                     description: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/description',
-                                        '声明后聊天界面将显示推理力度选择器。格式如 {"supportedLevels": ["low", "high"], "defaultLevel": "medium"}'),
+                                        '声明本端点模型的推理能力；声明后聊天界面会显示推理力度选择器，不声明则视为不支持推理。'),
                                     properties: {
                                         supportedLevels: {
                                             type: 'array',
+                                            title: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/supportedLevels/title',
+                                                '支持的推理等级'),
+                                            description: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/supportedLevels/description',
+                                                '只勾选端点实际支持的等级；未勾选的不会出现在聊天推理选择器中。'),
                                             items: {
                                                 type: 'string',
                                                 enum: ['off', 'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'auto']
@@ -198,6 +206,10 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
                                         },
                                         defaultLevel: {
                                             type: 'string',
+                                            title: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/defaultLevel/title',
+                                                '默认推理等级'),
+                                            description: nls.localize('theia/ai/openai/customEndpoints/reasoningSupport/defaultLevel/description',
+                                                '聊天推理选择器的初始等级；未设置时为 `off`，即不发送推理参数、交由端点决定。'),
                                             enum: ['off', 'none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'auto']
                                         }
                                     }

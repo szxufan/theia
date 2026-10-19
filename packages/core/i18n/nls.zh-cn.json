@@ -87,36 +87,6 @@
         "compactionTokenThreshold": {
           "description": "覆盖 Anthropic 模型服务器端压缩的全局输入令牌阈值。若未设置,则应用全局设置或提供商的默认值。若已设置,该值必须至少为 50,000 个令牌。"
         },
-        "customEndpoints": {
-          "apiKey": {
-            "title": "要么是访问指定网址所托管API的密钥,要么是使用全局Anthropic API密钥的`true`值"
-          },
-          "enableStreaming": {
-            "title": "指示是否使用流式API。默认值为`true`。"
-          },
-          "headers": {
-            "title": "每次向端点发送请求时附带的额外 HTTP 头"
-          },
-          "id": {
-            "title": "用于在用户界面中标识自定义模型的唯一标识符"
-          },
-          "maxRetries": {
-            "title": "请求失败时的最大重试次数。默认值为3。"
-          },
-          "mdDescription": "集成与 Anthropic API 兼容的自定义模型。必需的属性为 `model` 和 `url`。            \n            可选地,您可以            \n            - 指定一个唯一的 `id` 来在 UI 中标识该自定义模型。如果未指定,则 `model` 将被用作 `id`。            \n            - 提供一个 `apiKey` 来访问指定 URL 提供的 API。使用 `true` 表示使用全局 Anthropic API 密钥。            \n            - 指定 `enableStreaming: false` 表示不使用流式传输。            \n            - 指定 `useCaching: false` 以表示不使用提示词缓存。            \n            - 指定 `maxRetries: <number>` 以指定请求失败时的最大重试次数。默认值为 3。            \n            - 指定 `headers` 以在每次向端点发送请求时附加额外的 HTTP 头,例如 API 前端网关所需的头部。            \n            推理能力及最大输出令牌限制由端点的 `/v1/models` 响应决定。",
-          "modelId": {
-            "title": "模型ID"
-          },
-          "url": {
-            "title": "托管该模型的Anthropic API兼容端点"
-          },
-          "useCaching": {
-            "title": "指示模型是否支持提示缓存。默认值为`true`"
-          }
-        },
-        "customProvider": {
-          "label": "{0} (自定义)"
-        },
         "discovery": {
           "cached": "正在显示缓存模型;上次刷新失败:{0}",
           "consentPrompt": "在环境中发现了一个 Anthropic API 密钥(ANTHROPIC_API_KEY)。是否允许 Theia 使用该密钥来发现并调用 Anthropic 模型?",
@@ -1739,45 +1709,6 @@
         },
         "compactionTokenThreshold": {
           "description": "覆盖官方 OpenAI 模型服务器端压缩的全局输入令牌阈值。若未设置,则应用全局设置或提供商的默认值。若已设置,该值必须至少为 50,000 个令牌。"
-        },
-        "customEndpoints": {
-          "apiKey": {
-            "title": "访问指定网址所托管的API所需的密钥,或使用全局OpenAI API密钥时传入`true`"
-          },
-          "apiVersion": {
-            "title": "要么使用访问Azure指定URL所托管API的版本,要么使用`true`启用全局OpenAI API版本"
-          },
-          "deployment": {
-            "title": "访问Azure中指定URL所托管API的部署名称"
-          },
-          "developerMessageSettings": {
-            "title": "控制系统消息处理方式:`user`、`system` 和 `developer` 将作为角色使用;`mergeWithFollowingUserMessage` 会将系统消息作为后续用户消息的前缀,或在后续消息非用户消息时将系统消息转换为用户消息;`skip` 则直接移除系统消息。默认角色为 `developer`。"
-          },
-          "enableStreaming": {
-            "title": "指示是否使用流式API。默认值为`true`。"
-          },
-          "headers": {
-            "title": "每次向端点发送请求时附带的额外 HTTP 头"
-          },
-          "id": {
-            "title": "用于在用户界面中标识自定义模型的唯一标识符"
-          },
-          "mdDescription": "集成与 OpenAI API 兼容的自定义模型,例如通过 `vllm` 实现。必填属性为 `model` 和 `url`。            \n            可选地,您可以            \n            - 指定一个唯一的 `id`,用于在用户界面中标识该自定义模型。 如果未提供,则 `model` 将用作 `id`。            \n            - 提供一个 `apiKey` 以访问指定 URL 提供的 API。使用 `true` 表示使用全局 OpenAI API 密钥。            \n            - 提供 `apiVersion` 以访问 Azure 中指定 URL 提供的 API。使用 `true` 表示使用全局 OpenAI API 版本。            \n            - 为您的 Azure 部署提供一个 `deployment` 名称。            \n            - 将 `developerMessageSettings` 设置为 `user`、`system`、`developer`、`mergeWithFollowingUserMessage` 或 `skip` 之一,以控制开发者消息的            包含方式 (其中 `user`、`system` 和 `developer` 将作为角色使用;`mergeWithFollowingUserMessage` 会将系统消息作为前缀附加到后续用户消息前,或当后续消息非用户消息时将系统消息转换为用户消息;`skip` 则仅移除系统消息)。            默认值为 `developer`。            \n            - 指定 `supportsStructuredOutput: false` 以指示不使用结构化输出。            \n            - 指定 `enableStreaming: false` 以指示不使用流式传输。            \n            - 指定 `useResponseApi: true` 以使用较新的 OpenAI Response API 代替 Chat Completion API(需要兼容的端点)。            \n            - 指定 `reasoningSupport` 以启用聊天推理选择器。 提供一个包含            `supportedLevels`(例如 `[\"off\", \"low\", \"medium\", \"high\", \"auto\"]`)和可选的 `defaultLevel` 的对象。            \n            - 指定 `headers` 以在向端点发送的每次请求中附加额外的 HTTP 头部,例如 API 前置网关所需的头部。            \n            更多信息请参阅 [我们的文档](https://theia-ide.org/docs/user_ai/#openai-compatible-models-eg-via-vllm)。",
-          "modelId": {
-            "title": "模型ID"
-          },
-          "reasoningSupport": {
-            "title": "声明该模型的推理能力。启用后,聊天界面将显示该模型的推理选择器。"
-          },
-          "supportsStructuredOutput": {
-            "title": "指示模型是否支持结构化输出。默认值为`true`。"
-          },
-          "url": {
-            "title": "托管该模型的OpenAI API兼容接口"
-          },
-          "useResponseApi": {
-            "title": "请使用新版 OpenAI Response API 替代 Chat Completion API。自定义提供程序默认值为 `false`。注意:当使用工具时,系统将自动回退至 Chat Completions API。"
-          }
         },
         "customProvider": {
           "label": "{0} (自定义)"

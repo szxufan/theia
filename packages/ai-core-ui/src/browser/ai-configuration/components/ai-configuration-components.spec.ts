@@ -884,6 +884,132 @@ describe('AiObjectListInput', () => {
             container.remove();
         }
     });
+
+    /** Renders entries for an ad-hoc schema with controlled re-rendering, recording each commit. */
+    function mountSchema(values: Record<string, unknown>[], schema: PreferenceDataProperty): {
+        container: HTMLElement; changes: Record<string, unknown>[][]; dispose: () => void;
+    } {
+        const changes: Record<string, unknown>[][] = [];
+        const container = document.createElement('div');
+        document.body.appendChild(container);
+        const root = createRoot(container);
+        let current = values;
+        const render = (): void => flushSync(() => root.render(React.createElement(AiObjectListInput, {
+            values: current,
+            itemSchema: schema,
+            ariaLabel: 'Entry',
+            onChange: (next: Record<string, unknown>[]) => { changes.push(next); current = next; render(); }
+        })));
+        render();
+        return { container, changes, dispose: () => { flushSync(() => root.unmount()); container.remove(); } };
+    }
+
+    it('renders booleans as plain on/off switches, showing the schema default while unset', () => {
+        const schema = {
+            type: 'object',
+            properties: {
+                streaming: { type: 'boolean', default: true, title: '流式传输' },
+                caching: { type: 'boolean', default: false, title: '提示词缓存' }
+            }
+        } as PreferenceDataProperty;
+        const { container, changes, dispose } = mountSchema([{}], schema);
+        try {
+            const switches = container.querySelectorAll<HTMLInputElement>('input[type="checkbox"]');
+            expect(switches.length).to.equal(2);
+            // An unset property shows the value the backend would apply — no "默认" third state.
+            expect(switches[0].checked).to.equal(true);
+            expect(switches[1].checked).to.equal(false);
+            expect(container.textContent).to.not.include('默认');
+
+            flushSync(() => switches[0].click());
+            expect(changes).to.deep.equal([[{ streaming: false }]]);
+        } finally {
+            dispose();
+        }
+    });
+
+    it('renders enums as a select over the declared values, defaulting to the schema default', () => {
+        const schema = {
+            type: 'object',
+            properties: {
+                strength: { type: 'string', enum: ['low', 'high'], default: 'high', title: '推理力度' }
+            }
+        } as PreferenceDataProperty;
+        const { container, changes, dispose } = mountSchema([{}], schema);
+        try {
+            expect(container.textContent).to.not.include('默认');
+            // The select shows the effective value (the schema default while unset).
+            expect(container.querySelector('.theia-select-component-label')?.textContent).to.equal('high');
+            expect(changes).to.be.empty;
+        } finally {
+            dispose();
+        }
+    });
+
+    it('renders an object with declared properties as sub-fields instead of a JSON box', () => {
+        const schema = {
+            type: 'object',
+            properties: {
+                reasoning: {
+                    type: 'object',
+                    title: '推理能力',
+                    properties: {
+                        level: { type: 'string', enum: ['low', 'high'], default: 'low', title: '默认推理等级' },
+                        note: { type: 'string', title: '备注' }
+                    }
+                }
+            }
+        } as PreferenceDataProperty;
+        const { container, changes, dispose } = mountSchema([{}], schema);
+        try {
+            // Sub-fields render as their own controls; no JSON text box is used.
+            expect(container.querySelectorAll('.ai-config-input-mono').length).to.equal(0);
+            expect(container.textContent).to.include('默认推理等级').and.to.include('备注');
+            expect(container.querySelector('.theia-select-component-label')?.textContent).to.equal('low');
+
+            const note = container.querySelector('input[aria-label="备注"]') as HTMLInputElement;
+            const view = container.ownerDocument.defaultView as unknown as { Event: typeof Event; HTMLInputElement: typeof HTMLInputElement; FocusEvent: typeof FocusEvent };
+            const nativeSetter = Object.getOwnPropertyDescriptor(view.HTMLInputElement.prototype, 'value')!.set!;
+            flushSync(() => {
+                nativeSetter.call(note, 'hello');
+                note.dispatchEvent(new view.Event('input', { bubbles: true }));
+            });
+            flushSync(() => note.dispatchEvent(new view.FocusEvent('focusout', { bubbles: true })));
+            // A sub-field edit commits the whole object.
+            expect(changes).to.deep.equal([[{ reasoning: { note: 'hello' } }]]);
+        } finally {
+            dispose();
+        }
+    });
+
+    it('renders a list of declared choices as checkbox chips instead of a JSON box', () => {
+        const schema = {
+            type: 'object',
+            properties: {
+                levels: {
+                    type: 'array',
+                    title: '支持的推理等级',
+                    items: { type: 'string', enum: ['low', 'high', 'max'] }
+                }
+            }
+        } as PreferenceDataProperty;
+        const { container, changes, dispose } = mountSchema([{}], schema);
+        try {
+            expect(container.querySelectorAll('.ai-config-input-mono').length).to.equal(0);
+            const chips = container.querySelectorAll<HTMLInputElement>('.ai-config-object-chip input');
+            expect(chips.length).to.equal(3);
+            expect(Array.from(chips).every(chip => !chip.checked)).to.equal(true);
+
+            flushSync(() => chips[1].click());
+            expect(changes).to.deep.equal([[{ levels: ['high'] }]]);
+
+            // Clearing the last choice removes the property rather than storing an empty list.
+            flushSync(() => container.querySelectorAll<HTMLInputElement>('.ai-config-object-chip input')[1].click());
+            expect(changes[1]).to.deep.equal([{}]);
+        } finally {
+            dispose();
+        }
+    });
 });
 
 describe('AiNumberStepper', () => {
