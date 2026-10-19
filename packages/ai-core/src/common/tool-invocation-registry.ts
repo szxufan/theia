@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { inject, injectable, named, postConstruct, interfaces } from '@theia/core/shared/inversify';
+import { inject, injectable, named, interfaces } from '@theia/core/shared/inversify';
 import { ToolRequest } from './language-model';
 import { ContributionProvider, Emitter, Event, ILogger } from '@theia/core';
 
@@ -102,20 +102,42 @@ export class ToolInvocationRegistryImpl implements ToolInvocationRegistry {
     @inject(ILogger) @named('ai-core:ToolInvocationRegistryImpl')
     protected readonly logger: ILogger;
 
-    @postConstruct()
-    init(): void {
+    /**
+     * 是否已完成 `ToolProvider` 贡献的初始注册。
+     *
+     * 注册被延迟到注册表首次被访问时进行：若在构造期（`@postConstruct`）急切解析全部
+     * `ToolProvider`，任何依赖 ChatService 一族服务的工具都会与
+     * `PromptServiceImpl → ToolInvocationRegistry` 构成构造期循环依赖，
+     * inversify 会无限递归直至栈溢出（前端表现为启动卡死白屏）。
+     * 延迟到首次访问时，DI 图已经完整，任何注入路径都是安全的。
+     */
+    private contributionsRegistered = false;
+
+    /** 首次访问时注册全部 `ToolProvider` 贡献；初始注册不触发 `onDidChange`（与原构造期注册的可见行为一致）。 */
+    protected registerContributions(): void {
+        if (this.contributionsRegistered) {
+            return;
+        }
+        this.contributionsRegistered = true;
         this.providers.getContributions().forEach(provider => {
-            this.registerTool(provider.getTool());
+            const tool = provider.getTool();
+            if (this.tools.has(tool.id)) {
+                this.logger.warn(`Function with id ${tool.id} is already registered.`);
+            } else {
+                this.tools.set(tool.id, tool);
+            }
         });
     }
 
     unregisterTool(toolId: string): void {
+        this.registerContributions();
         if (this.tools.delete(toolId)) {
             this.onDidChangeEmitter.fire();
         }
     }
 
     unregisterAllTools(providerName: string): void {
+        this.registerContributions();
         const toolsToRemove: string[] = [];
         for (const [id, tool] of this.tools.entries()) {
             if (tool.providerName === providerName) {
@@ -133,6 +155,7 @@ export class ToolInvocationRegistryImpl implements ToolInvocationRegistry {
         }
     }
     getAllFunctions(): ToolRequest[] {
+        this.registerContributions();
         return Array.from(this.tools.values());
     }
 
@@ -146,10 +169,12 @@ export class ToolInvocationRegistryImpl implements ToolInvocationRegistry {
     }
 
     getFunction(toolId: string): ToolRequest | undefined {
+        this.registerContributions();
         return this.tools.get(toolId);
     }
 
     getFunctions(...toolIds: string[]): ToolRequest[] {
+        this.registerContributions();
         const tools: ToolRequest[] = toolIds.map(toolId => {
             const tool = this.tools.get(toolId);
             if (tool) {
