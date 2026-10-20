@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AutonomyMode, ChatSessionSettings, CommonChatSessionSettings } from '@theia/ai-chat';
+import { ChatSessionSettings, CommonChatSessionSettings, PermissionMode, resolvePermissionSettings } from '@theia/ai-chat';
 import { SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM } from '@theia/ai-core';
 import { InMemoryResources, URI, nls } from '@theia/core';
 import { AbstractDialog, Message } from '@theia/core/lib/browser';
@@ -82,46 +82,59 @@ const ConfirmationTimeoutSection: React.FC<ConfirmationTimeoutSectionProps> = ({
     </div>
 );
 
-interface AutonomyModeSectionProps {
-    autonomyMode: AutonomyMode | undefined;
-    onAutonomyModeChange: (mode: AutonomyMode | undefined) => void;
+interface PermissionModeSectionProps {
+    permissionMode: PermissionMode;
+    planMode: boolean;
+    onPermissionModeChange: (mode: PermissionMode) => void;
+    onPlanModeChange: (enabled: boolean) => void;
 }
 
-const AUTONOMY_MODE_OPTIONS: Array<{ value: AutonomyMode | 'default-off'; label: string }> = [
-    { value: 'default-off', label: nls.localizeByDefault('默认（按偏好确认）') },
-    { value: 'plan', label: nls.localizeByDefault('计划（禁止写操作）') },
-    { value: 'yolo', label: nls.localizeByDefault('全自动（自动放行确认）') }
+const PERMISSION_MODE_OPTIONS: Array<{ value: PermissionMode; label: string }> = [
+    { value: 'confirm', label: nls.localizeByDefault('变更前确认（修改前逐一确认）') },
+    { value: 'autonomous', label: nls.localizeByDefault('自主模式（自动执行，命令经 AI 审查）') },
+    { value: 'full', label: nls.localizeByDefault('完全访问（一切自动执行，不再确认）') }
 ];
 
-const AutonomyModeSection: React.FC<AutonomyModeSectionProps> = ({
-    autonomyMode,
-    onAutonomyModeChange
+const PermissionModeSection: React.FC<PermissionModeSectionProps> = ({
+    permissionMode,
+    planMode,
+    onPermissionModeChange,
+    onPlanModeChange
 }) => (
-    <div className="session-settings-autonomy-mode">
+    <div className="session-settings-permission-mode">
         <div className="session-settings-section-header">
-            {nls.localize('theia/ai/session-settings-dialog/autonomyHeader', '自主模式')}
+            {nls.localize('theia/ai/session-settings-dialog/permissionHeader', '权限模式')}
         </div>
         <div className="session-settings-section-note">
-            {nls.localize('theia/ai/session-settings-dialog/autonomyNote',
-                '计划模式：拒绝所有写文件、执行命令等修改性工具，代理只能读取与规划。' +
-                '全自动模式：自动放行工具确认（Shell 执行等高危工具除外）。')}
+            {nls.localize('theia/ai/session-settings-dialog/permissionNote',
+                '变更前确认：修改文件、执行命令前逐一确认。' +
+                '自主模式：自动执行，Shell 命令经 AI 审查，有风险时确认。' +
+                '完全访问：一切自动执行（含高风险命令）。')}
         </div>
         <div className="session-settings-select-container">
-            <label htmlFor="autonomy-mode-select">
-                {nls.localize('theia/ai/session-settings-dialog/autonomyLabel', '模式：')}
+            <label htmlFor="permission-mode-select">
+                {nls.localize('theia/ai/session-settings-dialog/permissionLabel', '模式：')}
             </label>
             <select
-                id="autonomy-mode-select"
-                value={autonomyMode ?? 'default-off'}
-                onChange={e => {
-                    const v = e.target.value;
-                    onAutonomyModeChange(v === 'default-off' ? undefined : v as AutonomyMode);
-                }}
+                id="permission-mode-select"
+                value={permissionMode}
+                onChange={e => onPermissionModeChange(e.target.value as PermissionMode)}
             >
-                {AUTONOMY_MODE_OPTIONS.map(option => (
+                {PERMISSION_MODE_OPTIONS.map(option => (
                     <option key={option.value} value={option.value}>{option.label}</option>
                 ))}
             </select>
+        </div>
+        <div className="session-settings-checkbox-container">
+            <input
+                type="checkbox"
+                id="plan-mode-enabled"
+                checked={planMode}
+                onChange={e => onPlanModeChange(e.target.checked)}
+            />
+            <label htmlFor="plan-mode-enabled">
+                {nls.localize('theia/ai/session-settings-dialog/planMode', '计划模式（禁止写操作，只能读取与规划）')}
+            </label>
         </div>
     </div>
 );
@@ -237,13 +250,15 @@ interface DialogContentProps {
     confirmationTimeoutSeconds: number;
     compactionOverride: CompactionOverride;
     compactionTokenThreshold: number | undefined;
-    autonomyMode: AutonomyMode | undefined;
+    permissionMode: PermissionMode;
+    planMode: boolean;
     errorMessage: string;
     onConfirmationTimeoutEnabledChange: (enabled: boolean) => void;
     onConfirmationTimeoutSecondsChange: (seconds: number) => void;
     onCompactionOverrideChange: (value: CompactionOverride) => void;
     onCompactionTokenThresholdChange: (value: number | undefined) => void;
-    onAutonomyModeChange: (mode: AutonomyMode | undefined) => void;
+    onPermissionModeChange: (mode: PermissionMode) => void;
+    onPlanModeChange: (enabled: boolean) => void;
 }
 
 const DialogContent: React.FC<DialogContentProps> = ({
@@ -251,18 +266,22 @@ const DialogContent: React.FC<DialogContentProps> = ({
     confirmationTimeoutSeconds,
     compactionOverride,
     compactionTokenThreshold,
-    autonomyMode,
+    permissionMode,
+    planMode,
     errorMessage,
     onConfirmationTimeoutEnabledChange,
     onConfirmationTimeoutSecondsChange,
     onCompactionOverrideChange,
     onCompactionTokenThresholdChange,
-    onAutonomyModeChange
+    onPermissionModeChange,
+    onPlanModeChange
 }) => (
     <div className="session-settings-container">
-        <AutonomyModeSection
-            autonomyMode={autonomyMode}
-            onAutonomyModeChange={onAutonomyModeChange}
+        <PermissionModeSection
+            permissionMode={permissionMode}
+            planMode={planMode}
+            onPermissionModeChange={onPermissionModeChange}
+            onPlanModeChange={onPlanModeChange}
         />
         <ConfirmationTimeoutSection
             enabled={confirmationTimeoutEnabled}
@@ -295,7 +314,8 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
     protected compactionOverride: boolean | undefined;
     protected compactionTokenThreshold: number | undefined;
 
-    protected autonomyMode: AutonomyMode | undefined;
+    protected permissionMode: PermissionMode;
+    protected planMode: boolean;
 
     protected preservedReasoning: CommonChatSessionSettings['reasoning'];
 
@@ -327,8 +347,11 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
         this.compactionOverride = this.settings.commonSettings?.compaction?.enabled;
         this.compactionTokenThreshold = this.settings.commonSettings?.compaction?.tokenThreshold;
 
-        // Read the session autonomy mode (undefined = follow tool confirmation preferences).
-        this.autonomyMode = this.settings.commonSettings?.autonomyMode;
+        // Read the session permission mode (migrating the legacy autonomy mode on the fly).
+        ({
+            permissionMode: this.permissionMode,
+            planMode: this.planMode
+        } = resolvePermissionSettings(this.settings.commonSettings));
 
         // Extract confirmation timeout settings from commonSettings
         const savedTimeout = this.settings.commonSettings?.confirmationTimeout;
@@ -385,13 +408,15 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
                 confirmationTimeoutSeconds={this.confirmationTimeoutSeconds}
                 compactionOverride={this.compactionOverride}
                 compactionTokenThreshold={this.compactionTokenThreshold}
-                autonomyMode={this.autonomyMode}
+                permissionMode={this.permissionMode}
+                planMode={this.planMode}
                 errorMessage={this.errorMessage}
                 onConfirmationTimeoutEnabledChange={this.handleConfirmationTimeoutEnabledChange}
                 onConfirmationTimeoutSecondsChange={this.handleConfirmationTimeoutSecondsChange}
                 onCompactionOverrideChange={this.handleCompactionOverrideChange}
                 onCompactionTokenThresholdChange={this.handleCompactionTokenThresholdChange}
-                onAutonomyModeChange={this.handleAutonomyModeChange}
+                onPermissionModeChange={this.handlePermissionModeChange}
+                onPlanModeChange={this.handlePlanModeChange}
             />
         );
     }
@@ -517,8 +542,15 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
         this.attachEditorContainer();
     };
 
-    protected handleAutonomyModeChange = (mode: AutonomyMode | undefined): void => {
-        this.autonomyMode = mode;
+    protected handlePermissionModeChange = (mode: PermissionMode): void => {
+        this.permissionMode = mode;
+        this.updateSettingsFromCommonSettings();
+        this.render();
+        this.attachEditorContainer();
+    };
+
+    protected handlePlanModeChange = (enabled: boolean): void => {
+        this.planMode = enabled;
         this.updateSettingsFromCommonSettings();
         this.render();
         this.attachEditorContainer();
@@ -541,8 +573,9 @@ export class SessionSettingsDialog extends AbstractDialog<ChatSessionSettings> {
                 tokenThreshold: this.compactionTokenThreshold
             };
         }
-        if (this.autonomyMode !== undefined) {
-            commonSettings.autonomyMode = this.autonomyMode;
+        commonSettings.permissionMode = this.permissionMode;
+        if (this.planMode) {
+            commonSettings.planMode = true;
         }
         this.settings.commonSettings = Object.keys(commonSettings).length > 0 ? commonSettings : undefined;
     }

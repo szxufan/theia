@@ -253,7 +253,7 @@
         },
         "chatInput": {
           "clearHistory": "清除输入提示历史记录",
-          "cycleMode": "循环聊天模式",
+          "cycleMode": "循环切换权限模式",
           "nextPrompt": "下一提示",
           "pasteWithImageSupport": "粘贴(支持图片)",
           "previousPrompt": "上一个提示",
@@ -1007,7 +1007,7 @@
       "ide": {
         "agent-description": "在[AI配置视图]({0})中配置AI代理设置,包括启用状态、LLM选择、提示模板自定义及自定义代理创建。",
         "agentConfiguration": {
-          "agentMode": "Coder 的代理模式",
+          "agentMode": "提示词模式",
           "behavior": "行为",
           "customAgentLocationQuickPick": {
             "placeholder": "选择创建 agents/<id>/agent.md 文件的位置",
@@ -1041,18 +1041,6 @@
           "resetAllServerTools": "关闭该提供商的所有服务器工具",
           "showCapabilitySnippet": "显示代码片段",
           "showToolSettings": "显示工具"
-        },
-        "agentMode": {
-          "enabled": {
-            "mdDescription": "为 Coder 代理启用代理模式。代理模式允许在无需进一步确认的情况下自主修改文件。                 在将此选项设置为 `true` 之前,使用代理模式时会显示首次使用确认对话框。"
-          }
-        },
-        "agentModeConfirmation": {
-          "continueAgentMode": "继续使用代理模式",
-          "continueEditMode": "继续进入编辑模式",
-          "info": "继续使用代理模式将保存您的确认。您稍后可通过 `ai-features.agentMode.enabled` 设置撤销此设置。\n\n继续使用编辑模式将把默认模式更改为编辑模式。\n\n您可以随时通过模式选择器或在 AI 配置中切换模式。",
-          "msg": "该代理采用**代理模式**。为实现自主流程,它能够直接写入您的工作区文件,无需进一步确认。\n\n建议使用版本控制(例如 Git),以便您审查和回滚更改。\n\n您可以通过下方聊天输入区域中的模式选择器切换至**编辑模式**,或使用**Architect**代理进行只读规划。\n\n此确认设置将保存至当前工作区,且不会再次显示。若需重置或进行全局配置,请在“设置”中查找 `ai-features.agentMode.confirmed`。",
-          "waiting": "正在等待确认..."
         },
         "agentsConfiguration": {
           "description": "IDE 中可用的 AI 代理。打开一个代理以配置其提示、模型和功能。"
@@ -1091,8 +1079,8 @@
         },
         "architectAgent": {
           "mode": {
-            "planNext": "规划模式(下一步)",
-            "simple": "简易模式"
+            "planNext": "深度规划（下一代）",
+            "simple": "快速回答"
           },
           "suggestion": {
             "executePlanWithCoder": "使用 Coder 执行 \"{0}\""
@@ -1111,10 +1099,6 @@
           "description": "一款代码审查助手,用于分析代码变更并返回结构化的审查结果。         检查完成标准、构建/代码检查/测试证据以及代码质量。"
         },
         "coderAgent": {
-          "mode": {
-            "agentNext": "代理模式(下一步)",
-            "edit": "编辑模式"
-          },
           "suggestion": {
             "fixProblems": {
               "content": "[修复当前文件中的问题]({0})。",

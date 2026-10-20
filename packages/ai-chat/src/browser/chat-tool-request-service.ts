@@ -15,14 +15,24 @@
 // *****************************************************************************
 
 import { ToolInvocationContext, ToolRequest } from '@theia/ai-core';
-import { ILogger } from '@theia/core';
+import { Disposable, ILogger } from '@theia/core';
 import { inject, injectable, named } from '@theia/core/shared/inversify';
+import { ContributionProvider } from '@theia/core/lib/common/contribution-provider';
 import { ChatToolRequestService, normalizeToolArgs } from '../common/chat-tool-request-service';
 import { raceConfirmationWithTimeout } from '../common/chat-tool-confirmation-timeout';
+import { ToolCallReview, ToolCallReviewer } from '../common/tool-call-reviewer';
 import { MutableChatRequestModel, ToolCallChatResponseContent } from '../common/chat-model';
 import { ToolConfirmationMode, ChatToolPreferences, TOOL_CONFIRMATION_TIMEOUT_PREFERENCE } from '../common/chat-tool-preferences';
-import { resolveAutonomyConfirmationMode } from '../common/chat-autonomy';
+import { resolvePermissionConfirmationMode } from '../common/chat-permission';
+import { resolvePermissionSettings } from '../common/chat-model';
 import { ToolConfirmationManager } from './chat-tool-preference-bindings';
+
+/**
+ * Upper bound for an AI tool call review; on expiry the plain confirmation flow continues.
+ * Generous on purpose: remote or reasoning models can take a while, and the confirmation card
+ * stays interactive throughout, so a slow review never blocks the user.
+ */
+const TOOL_CALL_REVIEW_TIMEOUT_MS = 30_000;
 
 /**
  * Frontend-specific implementation of ChatToolRequestService that handles tool confirmation
@@ -39,6 +49,9 @@ export class FrontendChatToolRequestService extends ChatToolRequestService {
     @inject(ChatToolPreferences)
     protected readonly preferences: ChatToolPreferences;
 
+    @inject(ContributionProvider) @named(ToolCallReviewer)
+    protected readonly toolCallReviewers: ContributionProvider<ToolCallReviewer>;
+
     protected override toChatToolRequest(toolRequest: ToolRequest, request: MutableChatRequestModel): ToolRequest {
         return {
             ...toolRequest,
@@ -46,10 +59,10 @@ export class FrontendChatToolRequestService extends ChatToolRequestService {
                 const toolCallId = ctx?.toolCallId;
                 const sessionId = request.session.rootSessionId ?? request.session.id;
                 const preferenceMode = this.confirmationManager.getConfirmationMode(toolRequest.id, sessionId, toolRequest);
-                const resolution = resolveAutonomyConfirmationMode(
+                const resolution = resolvePermissionConfirmationMode(
                     preferenceMode,
-                    request.session.settings?.commonSettings?.autonomyMode,
-                    toolRequest
+                    request.session.settings?.commonSettings,
+                    { id: toolRequest.id, confirmAlwaysAllow: toolRequest.confirmAlwaysAllow, arguments: arg_string }
                 );
 
                 if (typeof resolution === 'object' && 'deny' in resolution) {
@@ -104,6 +117,10 @@ export class FrontendChatToolRequestService extends ChatToolRequestService {
                             // surfaced consistently with agent questions (e.g. in the session overview).
                             request.response.waitForInput();
                             try {
+                                // The confirmation card is visible already; give an AI reviewer a
+                                // bounded chance to auto-approve or annotate it before racing the
+                                // user decision (so the confirmation timeout does not eat into review time).
+                                await this.runToolCallReview(toolRequest, arg_string, request, toolCallContent);
                                 confirmed = await raceConfirmationWithTimeout(toolCallContent, timeoutSeconds);
                             } finally {
                                 request.response.stopWaitingForInput();
@@ -122,6 +139,87 @@ export class FrontendChatToolRequestService extends ChatToolRequestService {
                 }
             }
         };
+    }
+
+    /**
+     * Runs an AI review of a tool call that is awaiting user confirmation. A reviewer whose
+     * `canReview` matches annotates the tool call content (`aiReview` payload) so confirmation
+     * UIs can render the verdict. A `safe` verdict with `autoApprove` confirms without a user
+     * click, but only in the `autonomous` permission mode — in `confirm` mode every mutating
+     * action needs an explicit user click and the review is annotation-only. Review failures,
+     * timeouts, and cancellation leave the plain confirmation unchanged.
+     */
+    protected async runToolCallReview(
+        toolRequest: ToolRequest,
+        argString: string,
+        request: MutableChatRequestModel,
+        toolCallContent: ToolCallChatResponseContent
+    ): Promise<void> {
+        let reviewer: ToolCallReviewer | undefined;
+        try {
+            reviewer = this.toolCallReviewers.getContributions().find(r => r.canReview(toolRequest.id, argString));
+        } catch (error) {
+            this.logger.warn(`Failed to determine tool call reviewer for ${toolRequest.id}.`, error);
+            return;
+        }
+        if (!reviewer) {
+            return;
+        }
+
+        toolCallContent.updateResult({ aiReview: { status: 'pending' } });
+        const review = await this.raceToolCallReview(reviewer, toolRequest.id, argString, request);
+
+        if (toolCallContent.finished) {
+            return; // The user already decided or the request was canceled — never confirm on top.
+        }
+        if (!review) {
+            // Review unavailable (disabled, failed, or timed out): drop the pending indicator again.
+            toolCallContent.updateResult(undefined);
+            return;
+        }
+        const { permissionMode } = resolvePermissionSettings(request.session?.settings?.commonSettings);
+        if (permissionMode === 'autonomous'
+            && review.verdict === 'safe' && review.autoApprove && toolCallContent.isAwaitingUserConfirmation) {
+            toolCallContent.confirm();
+            return;
+        }
+        toolCallContent.updateResult({
+            aiReview: { status: 'done', verdict: review.verdict, purpose: review.purpose, risks: review.risks }
+        });
+    }
+
+    /** Races the review against a timeout and the request's cancellation; never rejects. */
+    protected async raceToolCallReview(
+        reviewer: ToolCallReviewer,
+        toolId: string,
+        argString: string,
+        request: MutableChatRequestModel
+    ): Promise<ToolCallReview | undefined> {
+        let timeout: ReturnType<typeof setTimeout> | undefined;
+        let cancelListener: Disposable | undefined;
+        const timeoutPromise = new Promise<undefined>(resolve => {
+            timeout = setTimeout(() => resolve(undefined), TOOL_CALL_REVIEW_TIMEOUT_MS);
+        });
+        const cancellationPromise = request.response.cancellationToken.isCancellationRequested
+            ? Promise.resolve(undefined)
+            : new Promise<undefined>(resolve => {
+                cancelListener = request.response.cancellationToken.onCancellationRequested(() => resolve(undefined));
+            });
+        try {
+            return await Promise.race([
+                reviewer.review(toolId, argString, request.response.cancellationToken),
+                timeoutPromise,
+                cancellationPromise
+            ]);
+        } catch (error) {
+            this.logger.warn(`Tool call review for ${toolId} failed.`, error);
+            return undefined;
+        } finally {
+            if (timeout !== undefined) {
+                clearTimeout(timeout);
+            }
+            cancelListener?.dispose();
+        }
     }
 
     /**

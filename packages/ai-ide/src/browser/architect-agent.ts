@@ -59,15 +59,15 @@ export class ArchitectAgent extends AbstractModeAwareChatAgent {
     protected readonly modeDefinitions: Omit<ChatMode, 'isDefault'>[] = [
         {
             id: ARCHITECT_PLANNING_PROMPT_ID,
-            name: nls.localizeByDefault('计划模式')
+            name: nls.localizeByDefault('深度规划')
         },
         {
             id: ARCHITECT_SIMPLE_PROMPT_ID,
-            name: nls.localize('theia/ai/ide/architectAgent/mode/simple', '简单模式')
+            name: nls.localize('theia/ai/ide/architectAgent/mode/simple', '快速回答')
         },
         {
             id: ARCHITECT_PLANNING_NEXT_PROMPT_ID,
-            name: nls.localize('theia/ai/ide/architectAgent/mode/planNext', '计划模式（下一代）')
+            name: nls.localize('theia/ai/ide/architectAgent/mode/planNext', '深度规划（下一代）')
         },
     ];
 

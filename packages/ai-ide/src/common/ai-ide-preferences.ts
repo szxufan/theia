@@ -15,12 +15,11 @@
 // *****************************************************************************
 
 import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common';
-import { nls, PreferenceSchema, PreferenceScope } from '@theia/core';
+import { nls, PreferenceSchema } from '@theia/core';
 
 // We reuse the context key for the preference name
 export const PREFERENCE_NAME_ENABLE_AI = 'ai-features.AiEnable.enableAI';
 export const PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST = 'ai-features.orchestrator.excludedAgents';
-export const PREFERENCE_NAME_AGENT_MODE_ENABLED = 'ai-features.agentMode.enabled';
 export const AUTO_MEMORY_ENABLED_PREFERENCE = 'ai-features.autoMemory.enabled';
 export const aiIdePreferenceSchema: PreferenceSchema = {
     properties: {
@@ -56,15 +55,6 @@ export const aiIdePreferenceSchema: PreferenceSchema = {
                 type: 'string'
             },
             default: ['ClaudeCode', 'Codex'],
-        },
-        [PREFERENCE_NAME_AGENT_MODE_ENABLED]: {
-            title: AI_CORE_PREFERENCES_TITLE,
-            description: nls.localize('theia/ai/ide/agentMode/enabled/mdDescription',
-                '为 Coder 代理启用代理模式。代理模式允许在不经进一步确认的情况下自主修改文件。\
-                 在将其设置为 `true` 之前，使用代理模式时会显示首次使用确认对话框。'),
-            type: 'boolean',
-            default: false,
-            scope: PreferenceScope.User
         }
     }
 };

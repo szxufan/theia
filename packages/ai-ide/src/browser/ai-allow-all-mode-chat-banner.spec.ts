@@ -108,7 +108,7 @@ describe('AiAllowAllModeChatBanner', () => {
         it('returns false for unrelated keys', () => {
             const { banner } = createBanner();
             expect(banner.isBypassValue('ai-features.AiEnable.enableAI', true)).to.be.false;
-            expect(banner.isBypassValue('ai-features.agentMode.enabled', true)).to.be.false;
+            expect(banner.isBypassValue('ai-features.chat.fullAccessAcknowledged', true)).to.be.false;
             expect(banner.isBypassValue('ai-features.chat.defaultChatAgent', 'Coder')).to.be.false;
         });
     });

@@ -17,11 +17,15 @@
 import { ChatResponsePartRenderer } from '@theia/ai-chat-ui/lib/browser/chat-response-part-renderer';
 import { Agent, AIVariableContribution } from '@theia/ai-core/lib/common';
 import { bindToolProvider } from '@theia/ai-core/lib/common/tool-invocation-registry';
+import { ToolCallReviewer } from '@theia/ai-chat/lib/common';
 import { CommandContribution, MenuContribution, PreferenceContribution } from '@theia/core';
 import { KeybindingContribution, WebSocketConnectionProvider } from '@theia/core/lib/browser';
 import { ContainerModule } from '@theia/core/shared/inversify';
 import { AiTerminalAgent } from './ai-terminal-agent';
 import { AiTerminalCommandContribution } from './ai-terminal-contribution';
+import { CommandReviewAgent } from './command-review-agent';
+import { ShellCommandReviewService } from './shell-command-review-service';
+import { ShellCommandReviewer } from './shell-command-reviewer';
 import { ShellExecutionTool } from './shell-execution-tool';
 import { ShellBackgroundExecutionTool } from './shell-background-execution-tool';
 import { ShellExecutionToolRenderer } from './shell-execution-tool-renderer';
@@ -44,6 +48,14 @@ export default new ContainerModule(bind => {
 
     bind(AiTerminalAgent).toSelf().inSingletonScope();
     bind(Agent).toService(AiTerminalAgent);
+
+    bind(CommandReviewAgent).toSelf().inSingletonScope();
+    bind(Agent).toService(CommandReviewAgent);
+
+    bind(ShellCommandReviewService).toSelf().inSingletonScope();
+    // The ToolCallReviewer contribution provider is bound once in ai-chat; here we only contribute.
+    bind(ShellCommandReviewer).toSelf().inSingletonScope();
+    bind(ToolCallReviewer).toService(ShellCommandReviewer);
 
     bindToolProvider(ShellExecutionTool, bind);
     bindToolProvider(ShellBackgroundExecutionTool, bind);

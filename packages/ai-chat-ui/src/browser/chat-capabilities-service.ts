@@ -80,9 +80,26 @@ export class ChatCapabilitiesServiceImpl implements ChatCapabilitiesService {
         });
     }
 
+    /**
+     * Gets capabilities for a specific agent. The capability set is the union across ALL prompt
+     * variants of the agent's prompt set, so it stays stable when the selected variant (mode)
+     * changes — variant selection is a prompt concern, not a capability concern.
+     *
+     * @param agentId The agent ID to get capabilities for
+     * @param modeId Optional mode ID; ignored — capabilities are variant-independent
+     * @returns Array of parsed capabilities in order they appear in the templates
+     */
     async getCapabilitiesForAgent(agentId: string, modeId?: string): Promise<ParsedCapability[]> {
-        const template = this.getAgentTemplate(agentId, modeId);
-        const capabilities = template ? parseCapabilitiesFromTemplate(template) : [];
+        const capabilities: ParsedCapability[] = [];
+        const seen = new Set<string>();
+        for (const template of this.getAgentVariantTemplates(agentId)) {
+            for (const cap of parseCapabilitiesFromTemplate(template)) {
+                if (!seen.has(cap.fragmentId)) {
+                    seen.add(cap.fragmentId);
+                    capabilities.push(cap);
+                }
+            }
+        }
         return capabilities.map(cap => {
             const fragment = this.promptService.getRawPromptFragment(cap.fragmentId);
             return {
@@ -94,20 +111,38 @@ export class ChatCapabilitiesServiceImpl implements ChatCapabilitiesService {
     }
 
     async getUsedGenericCapabilitiesForAgent(agentId: string, modeId?: string): Promise<GenericCapabilitySelections> {
-        const template = this.getAgentTemplate(agentId, modeId);
-        return template ? this.extractUsedGenericCapabilities(template) : {};
+        const functions: string[] = [];
+        const variables: string[] = [];
+        for (const template of this.getAgentVariantTemplates(agentId)) {
+            const used = this.extractUsedGenericCapabilities(template);
+            functions.push(...used.functions ?? []);
+            variables.push(...used.variables ?? []);
+        }
+        return {
+            functions: [...new Set(functions)],
+            variables: [...new Set(variables)]
+        };
     }
 
-    protected getAgentTemplate(agentId: string, modeId?: string): string | undefined {
+    /**
+     * All prompt templates of the agent's first prompt variant set: the effective default
+     * variant plus every other declared variant. Mode-specific selection is deliberately
+     * ignored so the capability bar does not change with the mode. A user-customized variant
+     * registered in the prompt service takes precedence over the inline template.
+     */
+    protected getAgentVariantTemplates(agentId: string): string[] {
         const agent = this.chatAgentService.getAgent(agentId);
         if (!agent?.prompts || agent.prompts.length === 0) {
-            return undefined;
+            return [];
         }
-
-        const variantInfo = this.promptService.getPromptVariantInfo(agent.prompts[0].id, modeId);
-        return variantInfo
-            ? this.promptService.getRawPromptFragment(variantInfo.variantId)?.template
-            : undefined;
+        const variantSet = agent.prompts[0];
+        const variants = [
+            variantSet.defaultVariant,
+            ...(variantSet.variants ?? [])
+        ].filter((variant): variant is NonNullable<typeof variant> => variant !== undefined);
+        return variants.map(variant =>
+            this.promptService.getRawPromptFragment(variant.id)?.template ?? variant.template
+        ).filter((template): template is string => template !== undefined);
     }
 
     /**

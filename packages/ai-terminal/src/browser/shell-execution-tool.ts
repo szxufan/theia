@@ -20,10 +20,27 @@ import { ShellCommandPermissionService } from './shell-command-permission-servic
 import { AbstractShellExecutionTool, resolveShellCwd } from './abstract-shell-execution-tool';
 import {
     SHELL_EXECUTION_FUNCTION_ID,
+    OutputReadOptions,
     ShellExecutionToolResult,
-    ShellExecutionCanceledResult
+    ShellExecutionCanceledResult,
+    ShellOutputReadError,
+    ShellOutputReadResult
 } from '../common/shell-execution-server';
 
+interface ShellExecuteArgs extends Partial<OutputReadOptions> {
+    action?: 'execute' | 'read';
+    command?: string;
+    description?: string;
+    cwd?: string;
+    timeout?: number;
+    resultId?: string;
+}
+
+/**
+ * Parameterized tool for running a one-shot shell command ("execute") and re-reading portions of
+ * a previous execution's retained output ("read"). Execute is blocking and subject to the
+ * allow/deny pattern confirmation; read only reads buffered output and is auto-approved.
+ */
 @injectable()
 export class ShellExecutionTool extends AbstractShellExecutionTool {
 
@@ -37,49 +54,52 @@ export class ShellExecutionTool extends AbstractShellExecutionTool {
             providerName: 'ai-terminal',
             confirmAlwaysAllow: 'This tool has full system access and can execute any command, ' +
                 'modify files outside the workspace, and access network resources.',
-            description: `Execute a shell command on the host system and return the output.
+            description: `Execute a shell command on the host system and read its output, via two actions.
 
-This tool runs commands in a shell environment (bash on Linux/macOS, cmd/PowerShell on Windows).
-Use it for:
-- Running build commands (npm, make, gradle, cargo, etc.)
-- Executing git commands
-- Running tests and linters
-- Efficient search with grep, ripgrep, or find
-- Bulk search-and-replace operations with sed, awk, or perl
-- Reading or modifying files outside the workspace
-- Installing dependencies or packages
-- System administration and diagnostics
-- Running scripts (bash, python, node, etc.)
+Action "execute" runs \`command\` in a shell (bash on Linux/macOS, cmd/PowerShell on Windows) and returns
+a truncated preview plus a \`resultId\`. Use it for build/test/git commands, bulk operations, system
+diagnostics, installing dependencies, and running scripts (bash, python, node, etc.).
+
+Action "read" re-reads any portion of a previous execution's output using its \`resultId\` — no
+re-execution, reads are repeatable and paginated.
+
+KEEP COMMANDS SIMPLE: do NOT pipe through grep/head/tail/wc/sed merely to shape or limit output.
+Run the plain command, then use the tool's native read options to inspect it:
+- filter: regex; keeps only matching lines, preserving original line numbers (grep -n style)
+- head / tail: first / last N lines of the filtered view (pick one)
+- fromLine / toLine: 1-based inclusive range on original line numbers; after a maxLines cutoff,
+  continue with fromLine = endLine + 1
+- maxLines: caps lines per read (default 200, max 2000); hasMore tells you more remain
+- stream: "combined" (default), "stdout", or "stderr"
+Command-side filtering is only needed when output exceeds the 1MB-per-stream retention cap.
+
+The execute preview keeps the first and last 50 lines; when \`truncated\` is true, follow up with
+"read" (using the returned \`resultId\`) instead of re-running the command with different flags.
 
 USER INTERACTION:
-- Commands require user approval before execution - the user sees the exact command and can approve or deny
-- Once approved, the user may cancel execution at any time while it's running
-- Users can configure "Always Allow" to skip confirmations for this tool
+- "execute" requires user approval - the user sees the exact command and can approve or deny,
+  cancel while it's running, or configure "Always Allow"
+- "read" is auto-approved; it executes nothing
 
-It should not be used for "endless" or long-running processes (e.g., servers, watchers) as the execution
-will block further tool usage and chat messages until it completes or times out.
-
-OUTPUT TRUNCATION: To keep responses manageable, output is truncated at multiple levels:
-- Stream limit: stdout and stderr each capped at 1MB
-- Line count: Only first 50 and last 50 lines kept (middle lines omitted)
-- Line length: Lines over 1000 chars show start/end with middle omitted
-To avoid losing important information, limit output size in your commands:
-- Use grep/findstr to filter output (e.g., "npm test 2>&1 | grep -E '(FAIL|PASS|Error)'")
-- Use head/tail to limit lines (e.g., "git log --oneline -20")
-- Use wc -l to count lines before fetching full output
-- Redirect verbose output to /dev/null if not needed
-
-TIMEOUT: Default 2 minutes, max 10 minutes. Specify higher timeout for longer commands.`,
+Do not run long-lived or endless processes (servers, watchers) with this tool; use
+shellExecuteBackground instead. TIMEOUT (execute only): default 2 minutes, max 10 minutes.`,
             parameters: {
                 type: 'object',
                 properties: {
+                    action: {
+                        type: 'string',
+                        enum: ['execute', 'read'],
+                        description: '"execute" runs a shell command; "read" reads portions of a previous execution\'s output. ' +
+                            'Defaults to "execute" when a command is given, "read" when a resultId is given.'
+                    },
                     command: {
                         type: 'string',
-                        description: 'The shell command to execute. Can include pipes, redirects, and shell features.'
+                        description: 'The shell command to execute (action "execute"). Can include pipes, redirects, and shell ' +
+                            'features - but keep it free of output-shaping filters (grep/head/tail/wc); use the read action instead.'
                     },
                     description: {
                         type: 'string',
-                        description: 'Describe what this command actually does in active voice, ' +
+                        description: 'Describe what this command actually does in active voice (action "execute"), ' +
                             'so the user can verify the command matches their intent without ' +
                             'parsing flags or shell syntax themselves. ' +
                             'Never use words like "complex" or "risk".\n\n' +
@@ -102,23 +122,60 @@ TIMEOUT: Default 2 minutes, max 10 minutes. Specify higher timeout for longer co
                     },
                     cwd: {
                         type: 'string',
-                        description: 'Working directory for command execution. ' +
+                        description: 'Working directory for command execution (action "execute"). ' +
                             'Use a workspace-relative path (e.g., "backend", "frontend/src") ' +
                             'or an absolute filesystem path. ' +
                             'If omitted, defaults to the workspace root (single-root workspaces only).'
                     },
                     timeout: {
                         type: 'number',
-                        description: 'Timeout in milliseconds. Default: 120000 (2 minutes). Max: 600000 (10 minutes).'
+                        description: 'Timeout in milliseconds (action "execute"). Default: 120000 (2 minutes). Max: 600000 (10 minutes).'
+                    },
+                    resultId: {
+                        type: 'string',
+                        description: 'Result handle returned by a previous "execute" (action "read").'
+                    },
+                    filter: {
+                        type: 'string',
+                        description: 'Regex keeping only matching lines, preserving original line numbers (action "read").'
+                    },
+                    stream: {
+                        type: 'string',
+                        enum: ['combined', 'stdout', 'stderr'],
+                        description: 'Which stream to read (action "read"). Default "combined".'
+                    },
+                    head: {
+                        type: 'number',
+                        description: 'First N lines of the filtered view (action "read").'
+                    },
+                    tail: {
+                        type: 'number',
+                        description: 'Last N lines of the filtered view (action "read").'
+                    },
+                    fromLine: {
+                        type: 'number',
+                        description: 'Start of a 1-based inclusive line range on original line numbers (action "read").'
+                    },
+                    toLine: {
+                        type: 'number',
+                        description: 'End of a 1-based inclusive line range on original line numbers (action "read").'
+                    },
+                    maxLines: {
+                        type: 'number',
+                        description: 'Maximum lines returned per read (action "read"). Default 200, max 2000.'
                     }
                 },
-                required: ['command', 'description']
+                required: ['action']
             },
-            handler: (argString: string, ctx?: unknown) => this.executeCommand(argString, ctx),
+            handler: (argString: string, ctx?: unknown) => this.executeAction(JSON.parse(argString), ctx),
             checkAutoAction: (argString: string): AutoActionResult | undefined => {
                 try {
-                    const args = JSON.parse(argString);
-                    const result = this.shellCommandPermissionService.checkCommand(args.command);
+                    const args = JSON.parse(argString) as ShellExecuteArgs;
+                    if (this.resolveAction(args) === 'read') {
+                        // Reading buffered output starts nothing new.
+                        return { action: 'allow' };
+                    }
+                    const result = this.shellCommandPermissionService.checkCommand(args.command ?? '');
 
                     if (result.reason === 'denied') {
                         return {
@@ -133,23 +190,63 @@ TIMEOUT: Default 2 minutes, max 10 minutes. Specify higher timeout for longer co
                 } catch {
                     return undefined; // Show confirmation UI
                 }
+            },
+            getArgumentsShortLabel: (args: string): { label: string; hasMore: boolean } | undefined => {
+                try {
+                    const parsed = JSON.parse(args) as ShellExecuteArgs;
+                    if (parsed && typeof parsed === 'object' && 'action' in parsed) {
+                        if (this.resolveAction(parsed) === 'read') {
+                            const options = ['filter', 'head', 'tail', 'fromLine', 'toLine']
+                                .filter(key => parsed[key as keyof ShellExecuteArgs] !== undefined);
+                            return {
+                                label: `read: ${String(parsed.resultId ?? '')}${options.length > 0 ? ` (${options.join(', ')})` : ''}`,
+                                hasMore: true
+                            };
+                        }
+                        return { label: `execute: ${String(parsed.command ?? '')}`, hasMore: true };
+                    }
+                } catch {
+                    // fall through
+                }
+                return undefined;
             }
         };
     }
 
-    protected async executeCommand(argString: string, ctx?: unknown): Promise<ShellExecutionToolResult | ShellExecutionCanceledResult> {
-        const args: {
-            command: string;
-            cwd?: string;
-            timeout?: number;
-        } = JSON.parse(argString);
+    /** Infers the action when the model omits it: a resultId means read, anything else execute. */
+    protected resolveAction(args: ShellExecuteArgs): 'execute' | 'read' {
+        if (args.action) {
+            return args.action;
+        }
+        return args.resultId !== undefined ? 'read' : 'execute';
+    }
 
-        return this.runShellCommand({
+    protected async executeAction(
+        args: ShellExecuteArgs,
+        ctx?: unknown
+    ): Promise<ShellExecutionToolResult | ShellExecutionCanceledResult | ShellOutputReadResult | ShellOutputReadError> {
+        if (this.resolveAction(args) === 'read') {
+            if (!args.resultId) {
+                return { error: 'action "read" requires a resultId.' };
+            }
+            const { filter, stream, head, tail, fromLine, toLine, maxLines } = args;
+            return this.shellServer.readResult(args.resultId, { filter, stream, head, tail, fromLine, toLine, maxLines });
+        }
+
+        if (!args.command) {
+            return { error: 'action "execute" requires a command.' };
+        }
+        const result = await this.runShellCommand({
             command: args.command,
             cwd: resolveShellCwd(this.workspaceService, args.cwd),
             timeout: args.timeout,
             ctx
         });
+        if (!ShellExecutionCanceledResult.is(result) && result.truncated) {
+            result.hint = `Preview truncated (${result.totalLines} lines total). Use action "read" with resultId ` +
+                `'${result.resultId}' and filter/head/tail/fromLine/toLine/maxLines to inspect the full output.`;
+        }
+        return result;
     }
 
 }

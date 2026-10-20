@@ -147,7 +147,10 @@ export abstract class AbstractShellExecutionTool implements ToolProvider {
                 return {
                     canceled: true,
                     output: this.combineAndTruncate(result.stdout, result.stderr, truncation) || undefined,
-                    duration: result.duration
+                    duration: result.duration,
+                    resultId: executionId,
+                    totalLines: result.totalLines,
+                    truncated: result.truncated
                 };
             }
 
@@ -157,7 +160,10 @@ export abstract class AbstractShellExecutionTool implements ToolProvider {
                 output: this.combineAndTruncate(result.stdout, result.stderr, truncation),
                 error: result.error,
                 duration: result.duration,
-                cwd: result.resolvedCwd
+                cwd: result.resolvedCwd,
+                resultId: executionId,
+                totalLines: result.totalLines,
+                truncated: result.truncated
             };
         } finally {
             cancellationListener?.dispose();

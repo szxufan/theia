@@ -20,9 +20,32 @@ import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common/ai-core-pre
 
 export const SHELL_COMMAND_ALLOWLIST_PREFERENCE = 'ai-features.terminal.shellCommandAllowlist';
 export const SHELL_COMMAND_DENYLIST_PREFERENCE = 'ai-features.terminal.shellCommandDenylist';
+export const AI_COMMAND_REVIEW_ENABLED_PREFERENCE = 'ai-features.terminal.aiCommandReview.enabled';
+export const AI_COMMAND_REVIEW_AUTO_APPROVE_PREFERENCE = 'ai-features.terminal.aiCommandReview.autoApprove';
 
 export const shellCommandPreferences: PreferenceSchema = {
     properties: {
+        [AI_COMMAND_REVIEW_ENABLED_PREFERENCE]: {
+            type: 'boolean',
+            default: true,
+            description: nls.localize(
+                'theia/ai-terminal/aiCommandReviewEnabled/description',
+                '启用「命令审查」代理：shell 命令等待确认时由 AI 审查，'
+                + '在确认界面上显示命令作用与风险点；判定完全无风险的只读命令可自动放行。'
+            ),
+            title: AI_CORE_PREFERENCES_TITLE,
+        },
+        [AI_COMMAND_REVIEW_AUTO_APPROVE_PREFERENCE]: {
+            type: 'boolean',
+            default: true,
+            description: nls.localize(
+                'theia/ai-terminal/aiCommandReviewAutoApprove/description',
+                '允许 AI 审查判定为完全无风险的只读命令免确认直接执行。'
+                + '关闭后审查结果仅用于展示，所有命令仍需人工确认。'
+                + '包含危险 shell 模式（$()、反引号、-exec 等）的命令永远不会被自动放行。'
+            ),
+            title: AI_CORE_PREFERENCES_TITLE,
+        },
         [SHELL_COMMAND_ALLOWLIST_PREFERENCE]: {
             type: 'array',
             items: { type: 'string' },

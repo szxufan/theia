@@ -22,7 +22,7 @@ import { ChatInputFocusService } from './chat-input-focus-service';
 
 const CHAT_INPUT_CYCLE_MODE_COMMAND = Command.toLocalizedCommand({
     id: 'chat-input:cycle-mode',
-    label: 'Cycle Chat Mode'
+    label: 'Cycle Chat Permission Mode'
 }, 'theia/ai/chat-ui/chatInput/cycleMode');
 
 @injectable()
@@ -42,7 +42,7 @@ export class ChatInputModeContribution implements CommandContribution, Keybindin
         keybindings.registerKeybinding({
             command: CHAT_INPUT_CYCLE_MODE_COMMAND.id,
             keybinding: 'ctrl+m',
-            when: 'chatInputFocus && chatInputHasModes && !suggestWidgetVisible'
+            when: 'chatInputFocus && !suggestWidgetVisible'
         });
     }
 
@@ -51,7 +51,7 @@ export class ChatInputModeContribution implements CommandContribution, Keybindin
         if (!chatInputWidget) {
             return;
         }
-        chatInputWidget.cycleMode();
+        chatInputWidget.cyclePermissionMode();
     }
 
     protected isCycleModeEnabled(): boolean {

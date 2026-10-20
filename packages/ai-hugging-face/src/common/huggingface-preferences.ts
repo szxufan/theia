@@ -37,7 +37,6 @@ export const HuggingFacePreferencesSchema: PreferenceSchema = {
                 '要使用的 Hugging Face 模型。**请注意：**目前仅支持支持聊天补全 API 的模型\
             （如 `*-Instruct` 等指令微调模型）。部分模型可能需要先在 Hugging Face 网站上接受许可条款。'),
             title: AI_CORE_PREFERENCES_TITLE,
-            default: ['meta-llama/Llama-3.2-3B-Instruct', 'meta-llama/Llama-3.1-8B-Instruct'],
             items: {
                 type: 'string'
             },

@@ -418,3 +418,63 @@
     text-decoration: underline;
     color: var(--theia-textLink-activeForeground);
 }
+
+.shell-execution-tool.command-review {
+    margin: var(--theia-ui-padding) 0;
+    padding: calc(var(--theia-ui-padding) * 1.5);
+    border-radius: 4px;
+    font-size: var(--theia-ui-font-size1);
+}
+
+.shell-execution-tool.command-review.pending {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--theia-ui-padding) / 2);
+    padding: 0;
+    margin: calc(var(--theia-ui-padding) / 2) 0;
+    color: var(--theia-descriptionForeground);
+}
+
+.shell-execution-tool.command-review.risky {
+    background: color-mix(in srgb, var(--theia-editorWarning-border, #be9700) 10%, transparent);
+    border: 1px solid var(--theia-editorWarning-border, #be9700);
+}
+
+.shell-execution-tool.command-review.safe {
+    background: color-mix(in srgb, var(--theia-editorInfo-border, #1a7f9e) 8%, transparent);
+    border: 1px solid var(--theia-editorInfo-border, #1a7f9e);
+}
+
+.shell-execution-tool.command-review-header {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--theia-ui-padding) / 2);
+    font-weight: bold;
+    margin-bottom: calc(var(--theia-ui-padding) / 2);
+}
+
+.shell-execution-tool.command-review-verdict {
+    font-weight: normal;
+    font-size: var(--theia-ui-font-size0);
+    color: var(--theia-editorWarning-foreground, var(--theia-descriptionForeground));
+}
+
+.shell-execution-tool.command-review-label {
+    font-weight: bold;
+    margin-right: calc(var(--theia-ui-padding) / 2);
+}
+
+.shell-execution-tool.command-review-purpose {
+    margin-bottom: calc(var(--theia-ui-padding) / 2);
+}
+
+.shell-execution-tool.command-review-risks ul {
+    margin: calc(var(--theia-ui-padding) / 4) 0 0;
+    padding-left: calc(var(--theia-ui-padding) * 3);
+}
+
+.shell-execution-tool.command-review-note {
+    margin-top: calc(var(--theia-ui-padding) / 2);
+    font-size: var(--theia-ui-font-size0);
+    color: var(--theia-descriptionForeground);
+}

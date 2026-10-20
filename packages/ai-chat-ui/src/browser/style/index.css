@@ -793,6 +793,118 @@ div:last-child>.theia-ChatNode {
   pointer-events: none;
 }
 
+/* Permission mode selector (confirm/autonomous/full + orthogonal plan mode): a toolbar trigger
+   with a dropdown menu — plan checkbox on top, then the three permission radio items. */
+.theia-ChatInput-PermissionSelector {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.theia-ChatInput-PermissionSelector-Trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--theia-ui-padding) / 3);
+  height: calc(var(--theia-icon-size) + var(--theia-ui-padding) - 1px);
+  padding: 0 calc(var(--theia-ui-padding) * 2 / 3);
+  border: var(--theia-border-width) solid transparent;
+  border-radius: calc(var(--theia-ui-padding) * 5 / 6);
+  background: var(--theia-editor-background);
+  font-family: var(--theia-ui-font-family);
+  font-size: var(--theia-content-font-size);
+  color: var(--theia-descriptionForeground);
+  cursor: pointer;
+  max-width: 180px;
+  white-space: nowrap;
+}
+
+.theia-ChatInput-PermissionSelector-Trigger:hover {
+  background-color: var(--theia-toolbar-hoverBackground);
+}
+
+.theia-ChatInput-PermissionSelector-Trigger:focus-visible {
+  outline: 1px solid var(--theia-focusBorder);
+  outline-offset: -1px;
+}
+
+.theia-ChatInput-PermissionSelector-Trigger.warning,
+.theia-ChatInput-PermissionSelector-Item.warning .item-label {
+  color: var(--theia-editorWarning-foreground, #e2a03f);
+}
+
+.theia-ChatInput-PermissionSelector-Label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.theia-ChatInput-PermissionSelector-Trigger .plan-indicator {
+  color: var(--theia-list-focusOutline, #007fd4);
+}
+
+.theia-ChatInput-PermissionSelector.disabled {
+  opacity: var(--theia-mod-disabled-opacity);
+  cursor: default;
+  pointer-events: none;
+}
+
+.theia-ChatInput-PermissionSelector-Menu {
+  position: absolute;
+  bottom: calc(100% + calc(var(--theia-ui-padding) / 2));
+  left: 0;
+  z-index: 1000;
+  min-width: 260px;
+  padding: calc(var(--theia-ui-padding) / 2) 0;
+  background: var(--theia-menu-background);
+  color: var(--theia-menu-foreground);
+  border: var(--theia-border-width) solid var(--theia-menu-border);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.theia-ChatInput-PermissionSelector-Item {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--theia-ui-padding) / 2);
+  padding: calc(var(--theia-ui-padding) / 2) calc(var(--theia-ui-padding) * 2 / 3);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.theia-ChatInput-PermissionSelector-Item:hover {
+  background: var(--theia-menu-selectionBackground);
+  color: var(--theia-menu-selectionForeground);
+}
+
+.theia-ChatInput-PermissionSelector-Item input[type='checkbox'] {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.theia-ChatInput-PermissionSelector-Item .item-label {
+  display: block;
+  font-size: var(--theia-ui-font-size1);
+}
+
+.theia-ChatInput-PermissionSelector-Item .item-description {
+  display: block;
+  font-size: calc(var(--theia-ui-font-size1) - 1px);
+  opacity: 0.85;
+}
+
+.theia-ChatInput-PermissionSelector-ItemText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.theia-ChatInput-PermissionSelector-Separator {
+  height: var(--theia-border-width);
+  margin: calc(var(--theia-ui-padding) / 4) 0;
+  background: var(--theia-menu-border);
+}
+
 /* Wrapper span is the flex item in the options row, so it (not the inner select) carries the shrink
    behaviour; otherwise the inner nowrap label keeps it at full width. Sizes to content (so "Default"
    sits snug to the chevron) up to max-width, then shrinks and ellipsizes the label for long names. */
@@ -1129,6 +1241,50 @@ div:last-child>.theia-ChatNode {
 
 .theia-tool-confirmation-info {
   margin-bottom: 12px;
+}
+
+.theia-tool-confirmation-ai-review {
+  margin: 0 0 12px 0;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--theia-editorWidget-border, var(--theia-border))
+}
+
+.theia-tool-confirmation-ai-review.pending {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--theia-descriptionForeground);
+  border: none;
+  padding: 0 0 4px 0;
+  margin: -6px 0 12px 0;
+}
+
+.theia-tool-confirmation-ai-review.risky {
+  background: color-mix(in srgb, var(--theia-editorWarning-border, #be9700) 10%, transparent);
+  border-color: var(--theia-editorWarning-border, #be9700);
+}
+
+.theia-tool-confirmation-ai-review.safe {
+  background: color-mix(in srgb, var(--theia-editorInfo-border, #1a7f9e) 8%, transparent);
+  border-color: var(--theia-editorInfo-border, #1a7f9e);
+}
+
+.theia-tool-confirmation-ai-review-header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.theia-tool-confirmation-ai-review-purpose {
+  margin-bottom: 4px;
+}
+
+.theia-tool-confirmation-ai-review-risks {
+  margin: 0;
+  padding-left: 20px;
 }
 
 .theia-tool-confirmation-name,
@@ -2555,7 +2711,7 @@ details.theia-tool-confirmation-args>summary::marker {
   white-space: pre-wrap;
 }
 
-/* Autonomy mode banner (session-level plan/yolo indication) */
+/* Permission mode banner (session-level plan / full-access indication) */
 .theia-ai-autonomy-mode-strip {
   display: flex;
   align-items: center;
@@ -2571,7 +2727,7 @@ details.theia-tool-confirmation-args>summary::marker {
   cursor: default;
 }
 
-.theia-ai-autonomy-mode-strip.is-yolo {
+.theia-ai-autonomy-mode-strip.is-full {
   background-color: var(--theia-inputValidation-warningBackground);
 }
 
@@ -2579,7 +2735,7 @@ details.theia-tool-confirmation-args>summary::marker {
   flex: none;
 }
 
-.theia-ai-autonomy-mode-strip.is-yolo .theia-ai-autonomy-mode-strip-icon {
+.theia-ai-autonomy-mode-strip.is-full .theia-ai-autonomy-mode-strip-icon {
   color: var(--theia-editorWarning-foreground, var(--theia-warningForeground));
 }
 

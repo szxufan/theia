@@ -6,7 +6,7 @@
 // http://www.eclipse.org/legal/epl-2.0.
 //
 // This Source Code may also be made available under the following Secondary
-// Licenses when the conditions for such availability set forth in the Eclipse
+// Licenses when the conditions for such availability as set forth in the Eclipse
 // Public License v. 2.0 are satisfied: GNU General Public License, version 2
 // with the GNU Classpath Exception which is available at
 // https://www.gnu.org/software/classpath/license.html.
@@ -14,36 +14,32 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 import {
-    ChatMode, ChatRequestModel, ChatService, ChatSession,
-    MutableChatModel, MutableChatRequestModel
+    AbstractStreamParsingChatAgent, ChatRequestModel, ChatService, ChatSession,
+    ChatSessionContext, CommonChatSessionSettings, MutableChatModel, resolvePermissionSettings, SystemMessageDescription
 } from '@theia/ai-chat/lib/common';
 import { inject, injectable, named } from '@theia/core/shared/inversify';
-import {
-    CODER_SYSTEM_PROMPT_ID,
-    CODER_EDIT_TEMPLATE_ID,
-    CODER_AGENT_MODE_TEMPLATE_ID,
-    CODER_AGENT_MODE_NEXT_TEMPLATE_ID,
-    getCoderAgentModePromptTemplate,
-    getCoderAgentModeNextPromptTemplate,
-    getCoderPromptTemplateEdit
-} from '../common/coder-replace-prompt-template';
-import { LanguageModelRequirement, PromptVariantSet } from '@theia/ai-core';
+import { CODER_SYSTEM_PROMPT_ID, getCoderAgentModePromptTemplate } from '../common/coder-replace-prompt-template';
+import { AIVariableContext, LanguageModelRequirement, PromptVariantSet } from '@theia/ai-core';
 import { ILogger, nls } from '@theia/core';
 import { FrontendApplicationConfigProvider } from '@theia/core/lib/browser/frontend-application-config-provider';
 import { MarkdownStringImpl } from '@theia/core/lib/common/markdown-rendering';
 import { AI_CHAT_HOME, ChatCommands } from '@theia/ai-chat-ui/lib/browser/chat-view-commands';
-import { AbstractModeAwareChatAgent } from './mode-aware-chat-agent';
-import { AgentModeConfirmationService } from './agent-mode-confirmation-service';
 
 export const CoderAgentId = 'Coder';
 
+/**
+ * The Coder agent uses a single system prompt: how its tool calls are executed is governed by
+ * the session permission mode (confirm/autonomous/full + orthogonal plan mode), which is
+ * enforced at the tool-request layer, not by different prompt variants. A short instruction
+ * describing the active mode is appended to the system message so the model knows what to
+ * expect (e.g. that mutating calls will be confirmed or denied).
+ */
 @injectable()
-export class CoderAgent extends AbstractModeAwareChatAgent {
+export class CoderAgent extends AbstractStreamParsingChatAgent {
     @inject(ILogger) @named('ai-ide:CoderAgent')
     protected override readonly logger: ILogger;
 
     @inject(ChatService) protected readonly chatService: ChatService;
-    @inject(AgentModeConfirmationService) protected readonly agentModeConfirmation: AgentModeConfirmationService;
     id: string = CoderAgentId;
     name = CoderAgentId;
     displayName = nls.localize('theia/ai/ide/coderAgent/displayName', '编码');
@@ -60,71 +56,22 @@ export class CoderAgent extends AbstractModeAwareChatAgent {
         + '涉及文件更改的任务。',
         FrontendApplicationConfigProvider.get().applicationName);
 
-    protected readonly modeDefinitions: Omit<ChatMode, 'isDefault'>[] = [
-        {
-            id: CODER_EDIT_TEMPLATE_ID,
-            name: nls.localize('theia/ai/ide/coderAgent/mode/edit', '编辑模式')
-        },
-        {
-            id: CODER_AGENT_MODE_TEMPLATE_ID,
-            name: nls.localizeByDefault('代理模式')
-        },
-        {
-            id: CODER_AGENT_MODE_NEXT_TEMPLATE_ID,
-            name: nls.localize('theia/ai/ide/coderAgent/mode/agentNext', '代理模式（下一代）')
-        },
-    ];
-
     override prompts: PromptVariantSet[] = [{
         id: CODER_SYSTEM_PROMPT_ID,
         defaultVariant: getCoderAgentModePromptTemplate(),
-        variants: [getCoderPromptTemplateEdit(), getCoderAgentModeNextPromptTemplate()]
+        variants: []
     }];
     protected override systemPromptId: string | undefined = CODER_SYSTEM_PROMPT_ID;
 
-    private useSettingsDefaultMode = false;
-
-    override async invoke(request: MutableChatRequestModel): Promise<void> {
-        if (this.isAgentModeRequest(request) && !this.agentModeConfirmation.isAcknowledged()) {
-            const confirmed = await this.agentModeConfirmation.requestConfirmation(request);
-            if (!confirmed) {
-                await this.switchToEditMode();
-                // Continue the same request using Edit Mode's prompt by ignoring
-                // the request's original agent mode modeId for variant resolution.
-                this.useSettingsDefaultMode = true;
-                try {
-                    await super.invoke(request);
-                    this.suggest(request);
-                } finally {
-                    this.useSettingsDefaultMode = false;
-                }
-                return;
-            }
+    protected override async getSystemMessageDescription(context: AIVariableContext): Promise<SystemMessageDescription | undefined> {
+        const description = await super.getSystemMessageDescription(context);
+        if (!description) {
+            return description;
         }
-        await super.invoke(request);
-        this.suggest(request);
-    }
-
-    protected override getEffectiveVariantIdWithMode(modeId?: string): string | undefined {
-        if (this.useSettingsDefaultMode) {
-            return super.getEffectiveVariantIdWithMode(undefined);
-        }
-        return super.getEffectiveVariantIdWithMode(modeId);
-    }
-
-    protected async switchToEditMode(): Promise<void> {
-        if (this.systemPromptId) {
-            await this.promptService.updateSelectedVariantId(this.id, this.systemPromptId, CODER_EDIT_TEMPLATE_ID);
-        }
-    }
-
-    protected isAgentModeRequest(request: MutableChatRequestModel): boolean {
-        const modeId = request.request.modeId;
-        if (modeId) {
-            return modeId === CODER_AGENT_MODE_TEMPLATE_ID || modeId === CODER_AGENT_MODE_NEXT_TEMPLATE_ID;
-        }
-        const effectiveVariantId = this.getEffectiveVariantIdWithMode(undefined);
-        return effectiveVariantId === CODER_AGENT_MODE_TEMPLATE_ID || effectiveVariantId === CODER_AGENT_MODE_NEXT_TEMPLATE_ID;
+        const settings = ChatSessionContext.is(context)
+            ? context.request?.session.settings?.commonSettings
+            : undefined;
+        return { ...description, text: `${description.text}\n\n${getPermissionModePromptInstruction(settings)}` };
     }
 
     async suggest(context: ChatSession | ChatRequestModel): Promise<void> {
@@ -149,4 +96,32 @@ export class CoderAgent extends AbstractModeAwareChatAgent {
         }
     }
 
+}
+
+/** Short system-prompt instruction describing the active permission mode to the model. */
+export function getPermissionModePromptInstruction(settings?: CommonChatSessionSettings): string {
+    const { permissionMode, planMode } = resolvePermissionSettings(settings);
+    const lines: string[] = [];
+    if (planMode) {
+        lines.push('# Permission: Plan Mode Active\n'
+            + 'Mutating operations (writing files, executing commands) will be rejected. Explore the '
+            + 'workspace with read-only tools and produce a complete implementation plan. Changes will '
+            + 'only be executed after the user disables plan mode.');
+    }
+    switch (permissionMode) {
+        case 'confirm':
+            lines.push('# Permission: Confirm Before Changes\n'
+                + 'File modifications and command executions require explicit user approval before they run.');
+            break;
+        case 'autonomous':
+            lines.push('# Permission: Autonomous\n'
+                + 'You may modify files and run commands directly. Shell commands are safety-reviewed; '
+                + 'risky ones will ask the user for confirmation.');
+            break;
+        case 'full':
+            lines.push('# Permission: Full Access\n'
+                + 'All operations execute directly without confirmation.');
+            break;
+    }
+    return lines.join('\n\n');
 }

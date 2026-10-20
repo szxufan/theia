@@ -116,4 +116,29 @@ describe('parseShellExecutionInput', () => {
             expect(result.command).to.equal('cat file.txt | grep error > output.log');
         });
     });
+
+    describe('action-based input', () => {
+        it('should parse complete read actions with resultId and options', () => {
+            const result = parseShellExecutionInput('{"action": "read", "resultId": "abc", "tail": 20, "filter": "error"}');
+            expect(result.action).to.equal('read');
+            expect(result.resultId).to.equal('abc');
+        });
+
+        it('should parse complete execute actions', () => {
+            const result = parseShellExecutionInput('{"action": "execute", "command": "npm test"}');
+            expect(result.action).to.equal('execute');
+            expect(result.command).to.equal('npm test');
+        });
+
+        it('should extract resultId from an incomplete read action', () => {
+            const result = parseShellExecutionInput('{"action": "read", "resultId": "ab');
+            expect(result.action).to.equal('read');
+            expect(result.resultId).to.equal('ab');
+        });
+
+        it('falls back to command extraction while an execute action is still streaming', () => {
+            const result = parseShellExecutionInput('{"action": "execute", "command": "git st');
+            expect(result.command).to.equal('git st');
+        });
+    });
 });

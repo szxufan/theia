@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { createPreferenceProxy, PreferenceContribution, PreferenceProxy, PreferenceSchema, PreferenceService } from '@theia/core/lib/common/preferences';
+import { createPreferenceProxy, PreferenceContribution, PreferenceProxy, PreferenceScope, PreferenceSchema, PreferenceService } from '@theia/core/lib/common/preferences';
 import { nls } from '@theia/core/lib/common/nls';
 import { interfaces } from '@theia/core/shared/inversify';
 
@@ -22,6 +22,7 @@ export const CHAT_VIEW_TOKEN_USAGE_ENABLED = 'ai-features.chat.tokenUsageIndicat
 export const CHAT_VIEW_TOKEN_USAGE_WARNING_ENABLED = 'ai-features.chat.tokenUsageWarning.enabled';
 export const CHAT_VIEW_TOKEN_USAGE_WARNING_THRESHOLD_PERCENTAGE = 'ai-features.chat.tokenUsageWarning.defaultThresholdPercentage';
 export const CHAT_VIEW_ALLOWED_RESOURCE_URLS = 'ai-features.chat.allowedResourceUrls';
+export const CHAT_VIEW_FULL_ACCESS_ACKNOWLEDGED = 'ai-features.chat.fullAccessAcknowledged';
 
 export const CHAT_VIEW_TOKEN_USAGE_WARNING_THRESHOLD_PERCENTAGE_DEFAULT = 80;
 
@@ -71,6 +72,16 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
                 'AI 聊天回复中引用的外部资源（图片、样式表、媒体等）默认会被阻止，' +
                 '并在被明确允许之前替换为占位符。URL 以所配置前缀之一开头的资源将直接渲染而不被阻止。' +
                 '请包含以斜杠结尾的完整源（例如 "https://example.com/"），以避免意外匹配。仅添加你完全信任的来源。'
+            )
+        },
+        [CHAT_VIEW_FULL_ACCESS_ACKNOWLEDGED]: {
+            type: 'boolean',
+            default: false,
+            scope: PreferenceScope.User,
+            description: nls.localize(
+                'theia/ai/chat-ui/fullAccessAcknowledged',
+                '确认已知晓「完全访问」权限模式的风险。完全访问模式下，AI 修改文件、执行命令均自动放行，' +
+                '不再弹确认。在将其设置为 `true` 之前，首次切换到完全访问模式时会显示确认对话框。'
             )
         }
     }

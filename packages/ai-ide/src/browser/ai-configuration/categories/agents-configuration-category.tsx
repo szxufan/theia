@@ -54,7 +54,7 @@ import { CollectionCategoryRenderer, AiConfigurationAddDescriptor } from '@theia
 import { AiConfigurationSection } from '@theia/ai-core-ui/lib/browser/ai-configuration/components/ai-configuration-primitives';
 import { AiSettingsRow } from '@theia/ai-core-ui/lib/browser/ai-configuration/components/ai-settings-row';
 import { AiSettingsRowService } from '@theia/ai-core-ui/lib/browser/ai-configuration/components/ai-settings-row-service';
-import { PREFERENCE_NAME_AGENT_MODE_ENABLED, PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST } from '../../../common/ai-ide-preferences';
+import { PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST } from '../../../common/ai-ide-preferences';
 import { AgentDetailView } from './agent-detail-view';
 import { PromptSnippetsConfiguration } from './prompt-snippets-configuration-category';
 import { AgentDetailServices } from './agent-detail-model';
@@ -153,7 +153,6 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
             DEFAULT_CHAT_AGENT_PREF,
             PREFERENCE_NAME_DEFAULT_NOTIFICATION_TYPE,
             PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST,
-            PREFERENCE_NAME_AGENT_MODE_ENABLED,
             // Per-agent settings storage; edited through the agent detail pages, not as a raw row.
             AGENT_SETTINGS_PREF
         ];
@@ -222,14 +221,6 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
     protected override renderCategorySettings(ctx: AiConfigurationRenderContext): React.ReactNode {
         return <>
             <AiConfigurationSection title={nls.localize('theia/ai/ide/agentConfiguration/behavior', '行为')}>
-                <AiSettingsRow
-                    service={this.settingsRowService}
-                    preferenceId={PREFERENCE_NAME_AGENT_MODE_ENABLED}
-                    label={nls.localize('theia/ai/ide/agentConfiguration/agentMode', 'Coder 的代理模式')}
-                    scope={ctx.scope}
-                    control={{ type: 'boolean' }}
-                    onDidChange={ctx.update}
-                />
                 <AiSettingsRow
                     service={this.settingsRowService}
                     preferenceId={PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST}
@@ -330,12 +321,6 @@ export class AgentsConfigurationCategory extends CollectionCategoryRenderer impl
     getSearchItems(): AiConfigurationSearchItem[] {
         const settingLabel = nls.localizeByDefault('设置');
         const items: AiConfigurationSearchItem[] = [{
-            label: nls.localize('theia/ai/ide/agentConfiguration/agentMode', 'Coder 的代理模式'),
-            typeLabel: settingLabel,
-            categoryId: this.id,
-            target: { categoryId: this.id },
-            keywords: PREFERENCE_NAME_AGENT_MODE_ENABLED
-        }, {
             label: nls.localize('theia/ai/ide/agentConfiguration/orchestratorExclude', '对编排器隐藏的代理'),
             typeLabel: settingLabel,
             categoryId: this.id,

@@ -17,7 +17,7 @@
 import * as React from '@theia/core/shared/react';
 import { nls } from '@theia/core/lib/common/nls';
 import { codicon, ContextMenuRenderer, LocalizedMarkdown, MarkdownRenderer, OpenerService } from '@theia/core/lib/browser';
-import { ToolCallChatResponseContent } from '@theia/ai-chat/lib/common';
+import { ToolCallChatResponseContent, getAiReviewOfResult, AiReviewInfo } from '@theia/ai-chat/lib/common';
 import { ToolRequest } from '@theia/ai-core';
 import { CommandMenu, ContextExpressionMatcher, MenuPath } from '@theia/core/lib/common/menu';
 import { GroupImpl } from '@theia/core/lib/browser/menu/composite-menu-node';
@@ -486,6 +486,49 @@ const ToolConfirmationIntro: React.FC<{ markdownRenderer: MarkdownRenderer }> = 
     </div>
 );
 
+/**
+ * Renders an AI review of the pending tool call (written via `updateResult({ aiReview })` by the
+ * tool call review contribution) while the user is deciding. Hidden when no review is in flight.
+ */
+const AiReviewSection: React.FC<{ response: ToolCallChatResponseContent }> = ({ response }) => {
+    const [review, setReview] = React.useState<AiReviewInfo | undefined>(() => getAiReviewOfResult(response.result));
+    React.useEffect(() => {
+        const update = () => setReview(getAiReviewOfResult(response.result));
+        update();
+        const listener = response.onDidChange(update);
+        return () => listener.dispose();
+    }, [response]);
+
+    if (!review) {
+        // eslint-disable-next-line no-null/no-null
+        return null;
+    }
+    if (review.status === 'pending') {
+        return (
+            <div className="theia-tool-confirmation-ai-review pending">
+                <span className={`${codicon('loading')} theia-animation-spin`}></span>
+                {nls.localize('theia/ai/chat-ui/toolconfirmation/aiReviewPending', 'AI 正在审查此工具调用...')}
+            </div>
+        );
+    }
+    return (
+        <div className={`theia-tool-confirmation-ai-review ${review.verdict === 'risky' ? 'risky' : 'safe'}`}>
+            <div className="theia-tool-confirmation-ai-review-header">
+                <span className={codicon(review.verdict === 'risky' ? 'warning' : 'shield')}></span>
+                {nls.localize('theia/ai/chat-ui/toolconfirmation/aiReviewHeader', 'AI 审查')}
+            </div>
+            {review.purpose && (
+                <div className="theia-tool-confirmation-ai-review-purpose">{review.purpose}</div>
+            )}
+            {review.risks && review.risks.length > 0 && (
+                <ul className="theia-tool-confirmation-ai-review-risks">
+                    {review.risks.map((risk, index) => <li key={index}>{risk}</li>)}
+                </ul>
+            )}
+        </div>
+    );
+};
+
 export const ToolConfirmation: React.FC<ToolConfirmationProps> = ({
     response, toolRequest, onAllow, onDeny, contextMenuRenderer, openerService, pendingTracker, keybindingHints, chatId, markdownRenderer
 }) => {
@@ -568,6 +611,7 @@ export const ToolConfirmation: React.FC<ToolConfirmationProps> = ({
                     )}
                     <ToolArgsDisplay args={response.arguments} openerService={openerService} />
                 </div>
+                <AiReviewSection response={response} />
                 <ToolConfirmationActions
                     toolName={response.name ?? 'unknown'}
                     toolRequest={toolRequest}

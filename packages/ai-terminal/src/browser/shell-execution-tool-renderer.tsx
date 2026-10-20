@@ -18,7 +18,7 @@ import { ChatResponsePartRenderer } from '@theia/ai-chat-ui/lib/browser/chat-res
 import { ResponseNode } from '@theia/ai-chat-ui/lib/browser/chat-tree-view';
 import { CountdownTimer, InlineActionMenuNode, useToolConfirmationState } from '@theia/ai-chat-ui/lib/browser/chat-response-renderer/tool-confirmation';
 import { CopyButton, MetaRow, OutputBox, formatDuration } from '@theia/ai-chat-ui/lib/browser/chat-response-renderer/tool-call-rendering';
-import { ChatResponseContent, ToolCallChatResponseContent } from '@theia/ai-chat/lib/common';
+import { ChatResponseContent, ToolCallChatResponseContent, AiReviewInfo, getAiReviewOfResult } from '@theia/ai-chat/lib/common';
 import { ToolConfirmationMode as ToolConfirmationPreferenceMode } from '@theia/ai-chat/lib/common/chat-tool-preferences';
 import { ToolConfirmationManager } from '@theia/ai-chat/lib/browser/chat-tool-preference-bindings';
 import { isToolCallContent, ToolInvocationRegistry, ToolRequest } from '@theia/ai-core';
@@ -34,7 +34,8 @@ import { ShellCommandPermissionService } from './shell-command-permission-servic
 import {
     SHELL_EXECUTION_FUNCTION_ID,
     ShellExecutionToolResult,
-    ShellExecutionCanceledResult
+    ShellExecutionCanceledResult,
+    ShellOutputReadResult
 } from '../common/shell-execution-server';
 import { parseShellExecutionInput, ShellExecutionInput } from '../common/shell-execution-input-parser';
 import { generateCommandPatterns, flattenSuggestions, PatternSuggestion } from '../common/shell-command-patterns';
@@ -263,6 +264,8 @@ const ShellExecutionToolComponent: React.FC<ShellExecutionToolComponentProps> = 
 
     let result: ShellExecutionToolResult | undefined;
     let canceledResult: ShellExecutionCanceledResult | undefined;
+    let readResult: ShellOutputReadResult | undefined;
+    let readError: string | undefined;
     if (toolFinished && response.result) {
         try {
             const parsed = typeof response.result === 'string'
@@ -272,11 +275,16 @@ const ShellExecutionToolComponent: React.FC<ShellExecutionToolComponentProps> = 
                 canceledResult = parsed;
             } else if (ShellExecutionToolResult.is(parsed)) {
                 result = parsed;
+            } else if (ShellOutputReadResult.is(parsed)) {
+                readResult = parsed;
+            } else if (parsed && typeof parsed === 'object' && 'error' in parsed
+                && typeof (parsed as { error: unknown }).error === 'string') {
+                readError = (parsed as { error: string }).error;
             }
         } catch (err) {
             logger.debug('Failed to parse shell execution result:', err);
         }
-        if (!result && !canceledResult) {
+        if (!result && !canceledResult && !readResult && readError === undefined) {
             if (typeof response.result === 'string') {
                 result = { success: false, exitCode: undefined, output: response.result, duration: 0 };
             } else if (isToolCallContent(response.result)) {
@@ -289,6 +297,34 @@ const ShellExecutionToolComponent: React.FC<ShellExecutionToolComponentProps> = 
                 }
             }
         }
+    }
+
+    // Read actions execute nothing; they never need confirmation, cancellation, or a command display.
+    const isReadAction = input.action === 'read' || (input.action === undefined && input.resultId !== undefined && !input.command);
+    if (isReadAction) {
+        if (!toolFinished) {
+            return (
+                <div className="shell-execution-tool container">
+                    <div className="shell-execution-tool header running">
+                        <span className={codicon('terminal')} />
+                        <code className="shell-execution-tool command-preview">
+                            {nls.localize('theia/ai-terminal/readingOutput', '读取输出 {0}', input.resultId ?? '')}
+                        </code>
+                        <span className="shell-execution-tool meta-badges">
+                            <span className={`${codicon('loading')} shell-execution-tool status-icon theia-animation-spin`} />
+                        </span>
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <ReadFinishedUI
+                resultId={input.resultId}
+                readResult={readResult}
+                readError={readError}
+                clipboardService={clipboardService}
+            />
+        );
     }
 
     if (!input.command && !toolFinished) {
@@ -392,6 +428,71 @@ interface ConfirmationUIProps {
     response: ToolCallChatResponseContent;
 }
 
+/**
+ * AI review of the pending command, written to the tool call content by the command review
+ * contribution (`updateResult({ aiReview })`). Shows an in-flight indicator while the review
+ * runs, the command purpose and risk points once it lands — the buttons stay usable throughout.
+ */
+const CommandReviewSection: React.FC<{ response: ToolCallChatResponseContent }> = ({ response }) => {
+    const [review, setReview] = React.useState<AiReviewInfo | undefined>(() => getAiReviewOfResult(response.result));
+    React.useEffect(() => {
+        const update = () => setReview(getAiReviewOfResult(response.result));
+        update();
+        const listener = response.onDidChange(update);
+        return () => listener.dispose();
+    }, [response]);
+
+    if (!review) {
+        // eslint-disable-next-line no-null/no-null
+        return null;
+    }
+    if (review.status === 'pending') {
+        return (
+            <div className="shell-execution-tool command-review pending">
+                <span className={`${codicon('loading')} theia-animation-spin`} />
+                {nls.localize('theia/ai-terminal/commandReview/pending', 'AI 正在审查命令...')}
+            </div>
+        );
+    }
+    return (
+        <div className={`shell-execution-tool command-review ${review.verdict === 'risky' ? 'risky' : 'safe'}`}>
+            <div className="shell-execution-tool command-review-header">
+                <span className={codicon(review.verdict === 'risky' ? 'warning' : 'shield')} />
+                {nls.localize('theia/ai-terminal/commandReview/title', 'AI 命令审查')}
+                {review.verdict === 'risky' && (
+                    <span className="shell-execution-tool command-review-verdict">
+                        {nls.localize('theia/ai-terminal/commandReview/risky', '有风险')}
+                    </span>
+                )}
+            </div>
+            {review.purpose && (
+                <div className="shell-execution-tool command-review-purpose">
+                    <span className="shell-execution-tool command-review-label">
+                        {nls.localize('theia/ai-terminal/commandReview/purposeLabel', '命令作用')}
+                    </span>
+                    {review.purpose}
+                </div>
+            )}
+            {review.risks && review.risks.length > 0 && (
+                <div className="shell-execution-tool command-review-risks">
+                    <div className="shell-execution-tool command-review-label">
+                        {nls.localize('theia/ai-terminal/commandReview/risksLabel', '风险点')}
+                    </div>
+                    <ul>
+                        {review.risks.map((risk, index) => <li key={index}>{risk}</li>)}
+                    </ul>
+                </div>
+            )}
+            {review.verdict === 'safe' && (
+                <div className="shell-execution-tool command-review-note">
+                    {nls.localize('theia/ai-terminal/commandReview/safeNote',
+                        '审查认为该命令无风险；若含静态危险模式则仍需人工确认。')}
+                </div>
+            )}
+        </div>
+    );
+};
+
 const ConfirmationUI: React.FC<ConfirmationUIProps> = ({
     input,
     shellCommandPermissionService,
@@ -419,8 +520,10 @@ const ConfirmationUI: React.FC<ConfirmationUIProps> = ({
             )}
 
             <div className="shell-execution-tool command-display confirmation">
-                <code>{input.command}</code>
+                <code>{input.command ?? ''}</code>
             </div>
+
+            <CommandReviewSection response={response} />
 
             <div className="shell-execution-tool confirmation-meta">
                 {input.cwd && (
@@ -444,7 +547,7 @@ const ConfirmationUI: React.FC<ConfirmationUIProps> = ({
             </div>
 
             <ShellExecutionConfirmationActions
-                command={input.command}
+                command={input.command ?? ''}
                 shellCommandPermissionService={shellCommandPermissionService}
                 onAllow={onAllow}
                 onAllowAllForever={onAllowAllForever}
@@ -998,12 +1101,76 @@ const FinishedUI: React.FC<FinishedUIProps> = ({
     );
 };
 
-interface CommandDisplayProps {
-    command: string;
+interface ReadFinishedUIProps {
+    resultId: string | undefined;
+    readResult?: ShellOutputReadResult;
+    readError?: string;
     clipboardService: ClipboardService;
 }
 
-const CommandDisplay: React.FC<CommandDisplayProps> = ({ command, clipboardService }) => (
+/** Presentation of a finished "read" action: a targeted output slice, expanded by default. */
+const ReadFinishedUI: React.FC<ReadFinishedUIProps> = ({
+    resultId,
+    readResult,
+    readError,
+    clipboardService
+}) => {
+    const [isExpanded, setIsExpanded] = React.useState(true);
+    const isSuccess = readResult !== undefined;
+
+    return (
+        <div className={`shell-execution-tool container ${isExpanded ? 'expanded' : ''}`}>
+            <div
+                className={`shell-execution-tool header finished ${isSuccess ? 'success' : 'failure'}`}
+                onClick={() => setIsExpanded(!isExpanded)}
+            >
+                <span className={codicon('terminal')} />
+                <code className="shell-execution-tool command-preview">
+                    {nls.localize('theia/ai-terminal/readingOutput', '读取输出 {0}', resultId ?? '')}
+                </code>
+                <span className="shell-execution-tool meta-badges">
+                    {readResult && (
+                        <span className="shell-execution-tool duration">
+                            {readResult.startLine > 0
+                                ? nls.localize('theia/ai-terminal/readRange', '第 {0}-{1} 行，共 {2} 行',
+                                    readResult.startLine, readResult.endLine, readResult.totalLines)
+                                : nls.localize('theia/ai-terminal/readNoLines', '共 {0} 行（无匹配行）', readResult.totalLines)}
+                        </span>
+                    )}
+                    {readResult?.hasMore && (
+                        <span className="shell-execution-tool exit-code">
+                            {nls.localize('theia/ai-terminal/readHasMore', '还有更多')}
+                        </span>
+                    )}
+                    <span className={`${codicon(isSuccess ? 'check' : 'error')} shell-execution-tool status-icon ${isSuccess ? 'success' : 'failure'}`} />
+                </span>
+            </div>
+            {isExpanded && (
+                <div className="shell-execution-tool expanded-content">
+                    {readError && (
+                        <div className="shell-execution-tool error-message">
+                            {readError}
+                        </div>
+                    )}
+                    {readResult && (
+                        <OutputBox
+                            title={nls.localizeByDefault('输出')}
+                            output={readResult.output}
+                            clipboardService={clipboardService}
+                        />
+                    )}
+                </div>
+            )}
+        </div>
+    );
+};
+
+interface CommandDisplayProps {
+    command?: string;
+    clipboardService: ClipboardService;
+}
+
+const CommandDisplay: React.FC<CommandDisplayProps> = ({ command = '', clipboardService }) => (
     <div className="shell-execution-tool full-command-container">
         <div className="shell-execution-tool full-command">
             <span className="shell-execution-tool prompt">$</span>
@@ -1031,9 +1198,9 @@ function formatSuggestionLabel(suggestion: PatternSuggestion, action: 'allow' | 
         : nls.localize('theia/ai-terminal/alwaysDenyPattern', '始终拒绝 {0}', quoted[0] ?? '');
 }
 
-function truncateCommand(command: string): string {
+function truncateCommand(command: string | undefined): string {
     // Only take first line, CSS handles the ellipsis truncation
-    return command.split('\n')[0];
+    return (command ?? '').split('\n')[0];
 }
 
 function truncatePattern(pattern: string, maxLength: number = 50): string {

@@ -107,4 +107,89 @@ describe('ShellExecutionServerImpl background tasks', () => {
             expect((error as Error).message).to.contain('non-absolute cwd');
         }
     });
+
+    describe('readTaskOutputLines', () => {
+        it('reads background task output with line options and eof', async () => {
+            const { taskId } = await server.start({
+                command: `"${process.execPath}" -e "console.log('alpha'); console.log('beta'); console.error('gamma')"`
+            });
+            await waitForFinish(taskId);
+
+            // Combined stream: alpha, beta, '--- stderr ---', gamma.
+            const tail = await server.readTaskOutputLines(taskId, { tail: 3 });
+            expect(tail).to.not.have.property('error');
+            expect((tail as { output: string }).output).to.contain('beta');
+            expect((tail as { output: string }).output).to.contain('gamma');
+            expect((tail as { eof: boolean }).eof).to.be.true;
+
+            const stderrOnly = await server.readTaskOutputLines(taskId, { stream: 'stderr' });
+            expect((stderrOnly as { output: string }).output).to.contain('gamma');
+            expect((stderrOnly as { output: string }).output).to.not.contain('alpha');
+        });
+
+        it('reports an error object for unknown task ids', async () => {
+            const result = await server.readTaskOutputLines('does-not-exist', { tail: 5 });
+            expect((result as { error: string }).error).to.contain('does-not-exist');
+        });
+    });
+
+    describe('completed execution reads', () => {
+        const SCRIPT = `"${process.execPath}" -e "for (let i = 1; i <= 30; i++) { console.log('row ' + i); }"`;
+
+        it('retains finished executions and reads them by id with all options', async () => {
+            const result = await server.execute({ command: SCRIPT, executionId: 'exec-1' });
+            expect(result.success).to.be.true;
+            expect(result.totalLines).to.equal(30);
+            expect(result.truncated).to.be.false;
+
+            const head = await server.readResult('exec-1', { head: 3 });
+            expect((head as { output: string }).output).to.equal('1| row 1\n2| row 2\n3| row 3');
+
+            const tail = await server.readResult('exec-1', { tail: 2 });
+            expect((tail as { output: string }).output).to.equal('29| row 29\n30| row 30');
+
+            const range = await server.readResult('exec-1', { fromLine: 10, toLine: 12 });
+            expect((range as { output: string }).output).to.equal('10| row 10\n11| row 11\n12| row 12');
+
+            const filtered = await server.readResult('exec-1', { filter: '^row 12$' });
+            expect((filtered as { output: string }).output).to.equal('12| row 12');
+            expect((filtered as { matchedLines: number }).matchedLines).to.equal(1);
+        });
+
+        it('marks results truncated when the preview would drop lines', async () => {
+            const longScript = `"${process.execPath}" -e "for (let i = 1; i <= 300; i++) { console.log('r' + i); }"`;
+            const result = await server.execute({ command: longScript, executionId: 'exec-long' });
+            expect(result.totalLines).to.equal(300);
+            expect(result.truncated).to.be.true;
+
+            const page1 = await server.readResult('exec-long', { maxLines: 100 }) as { output: string; hasMore: boolean; endLine: number };
+            expect(page1.hasMore).to.be.true;
+            expect(page1.endLine).to.equal(100);
+            const page2 = await server.readResult('exec-long', { fromLine: 101 }) as { output: string; hasMore: boolean };
+            expect(page2.hasMore).to.be.false;
+            expect(page2.output).to.contain('300| r300');
+        });
+
+        it('evicts the oldest results beyond the retention cap', async function (): Promise<void> {
+            this.timeout(30000); // spawns 11 real node processes sequentially
+            for (let i = 0; i < 11; i++) {
+                await server.execute({ command: `"${process.execPath}" -e "console.log(${i})"`, executionId: `evict-${i}` });
+            }
+            const oldest = await server.readResult('evict-0', {});
+            expect((oldest as { error: string }).error).to.contain('evict-0');
+            const newest = await server.readResult('evict-10', { head: 1 });
+            expect((newest as { output: string }).output).to.contain('10');
+        });
+
+        it('reports an error object for unknown result ids', async () => {
+            const result = await server.readResult('never-ran', {});
+            expect((result as { error: string }).error).to.contain('never-ran');
+        });
+
+        it('rejects invalid read options with an error object instead of throwing', async () => {
+            await server.execute({ command: `"${process.execPath}" -e "console.log('x')"`, executionId: 'exec-opts' });
+            const result = await server.readResult('exec-opts', { head: 1, tail: 1 });
+            expect((result as { error: string }).error).to.include('at most one window');
+        });
+    });
 });

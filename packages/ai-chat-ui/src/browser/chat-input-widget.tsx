@@ -16,7 +16,8 @@
 import {
     ChangeSet, ChangeSetElement, ChatAgent, ChatChangeEvent, ChatHierarchyBranch,
     ChatModel, ChatRequestModel, ChatService, ChatSuggestion, EditableChatRequestModel,
-    ChatRequestParser, ChatMode, ChatSession, MutableChatModel, ChatSessionSettings
+    ChatRequestParser, ChatMode, ChatSession, MutableChatModel, ChatSessionSettings,
+    CommonChatSessionSettings, PermissionMode, resolvePermissionSettings
 } from '@theia/ai-chat';
 import { ChatAgentService } from '@theia/ai-chat/lib/common/chat-agent-service';
 import { getAgentDisplayName } from '@theia/ai-chat/lib/common/chat-agents';
@@ -56,6 +57,7 @@ import { ChatInputHistoryService, ChatInputNavigationState } from './chat-input-
 import { ContextFileValidationService, FileValidationResult, FileValidationState } from '@theia/ai-chat/lib/browser/context-file-validation-service';
 import { PendingImageRegistry } from '@theia/ai-chat/lib/browser/pending-image-registry';
 import { ChatCapabilitiesService } from './chat-capabilities-service';
+import { FullAccessConfirmationService } from './full-access-confirmation-service';
 import { CapabilityChip, CapabilityChipsRow } from './chat-capabilities-panel';
 import { ChatInputFocusService } from './chat-input-focus-service';
 import { AvailableGenericCapabilities, GenericCapabilitiesService } from './generic-capabilities-service';
@@ -206,6 +208,9 @@ export class AIChatInputWidget extends ReactWidget {
     @inject(CommandService)
     protected readonly commandService: CommandService;
 
+    @inject(FullAccessConfirmationService)
+    protected readonly fullAccessConfirmation: FullAccessConfirmationService;
+
     protected tokenUsageEnabled = false;
     /** Sessions we have already notified for the current warning cycle (re-armed when usage drops below the threshold). */
     protected readonly notifiedSessions = new Set<string>();
@@ -259,14 +264,12 @@ export class AIChatInputWidget extends ReactWidget {
         return this.getKeybindingHint('chat-input:cycle-mode');
     }
 
-    cycleMode(): void {
-        if (!this.receivingAgent || !this.receivingAgent.modes || this.receivingAgent.modes.length <= 1) {
-            return;
-        }
-        const currentIndex = this.receivingAgent.modes.findIndex(mode => mode.id === this.receivingAgent!.currentModeId);
-        const nextIndex = currentIndex === -1 ? 1 : (currentIndex + 1) % this.receivingAgent.modes.length;
-        const nextModeId = this.receivingAgent.modes[nextIndex].id;
-        this.handleModeChange(nextModeId);
+    /** Cycles the session permission mode confirm → autonomous → full → confirm (ZCode-style). */
+    async cyclePermissionMode(): Promise<void> {
+        const order: PermissionMode[] = ['confirm', 'autonomous', 'full'];
+        const { permissionMode } = this.getSessionPermissionSettings();
+        const next = order[(Math.max(0, order.indexOf(permissionMode)) + 1) % order.length];
+        await this.handlePermissionModeChange(next);
     }
 
     protected handleModeChange = async (mode: string): Promise<void> => {
@@ -274,6 +277,49 @@ export class AIChatInputWidget extends ReactWidget {
             this.receivingAgent = { ...this.receivingAgent, currentModeId: mode };
             await this.updateCapabilitiesForAgent(this.receivingAgent.agentId, mode);
         }
+    };
+
+    /** Session-level permission settings shown in the permission mode selector. */
+    protected getSessionPermissionSettings(): { permissionMode: PermissionMode; planMode: boolean } {
+        const session = this.chatService.getSessions().find(s => s.model.id === this._chatModel?.id);
+        return resolvePermissionSettings(session?.model.settings?.commonSettings);
+    }
+
+    protected updateSessionCommonSettings(
+        mutate: (settings: CommonChatSessionSettings | undefined) => CommonChatSessionSettings
+    ): void {
+        const session = this.chatService.getSessions().find(s => s.model.id === this._chatModel?.id);
+        if (!session) {
+            return;
+        }
+        const current = session.model.settings ?? {};
+        (session.model as MutableChatModel).setSettings({
+            ...current,
+            commonSettings: mutate(current.commonSettings)
+        });
+    }
+
+    protected handlePermissionModeChange = async (mode: PermissionMode): Promise<void> => {
+        if (mode === 'full' && !await this.fullAccessConfirmation.confirmFullAccess()) {
+            this.update(); // Re-render to drop the optimistic selection again.
+            return;
+        }
+        this.updateSessionCommonSettings(settings => ({
+            ...settings,
+            permissionMode: mode,
+            // Clear the legacy field so it cannot resurface through the migration path.
+            autonomyMode: undefined
+        }));
+        this.update();
+    };
+
+    protected handlePlanModeChange = (enabled: boolean): void => {
+        this.updateSessionCommonSettings(settings => ({
+            ...settings,
+            planMode: enabled || undefined,
+            autonomyMode: undefined
+        }));
+        this.update();
     };
 
     /** Monotonic token for the latest async {@link updateReasoningSupport} run; older, out-of-order runs discard their results when this changes. */
@@ -1632,6 +1678,12 @@ export class AIChatInputWidget extends ReactWidget {
                     onModeChange: this.handleModeChange,
                     keybindingHint: this.getModeKeybindingHint(),
                 }}
+                permissionSelectorProps={{
+                    ...this.getSessionPermissionSettings(),
+                    onPermissionModeChange: this.handlePermissionModeChange,
+                    onPlanModeChange: this.handlePlanModeChange,
+                    disabled: !this.isEnabled,
+                }}
                 reasoningSelectorProps={{
                     reasoningSupport: this.currentReasoningSupport,
                     currentLevel: this.getCurrentReasoningLevel(),
@@ -2021,6 +2073,13 @@ interface ChatInputProperties {
         currentMode?: string;
         onModeChange: (mode: string) => void;
         keybindingHint?: string;
+    };
+    permissionSelectorProps: {
+        permissionMode: PermissionMode;
+        planMode: boolean;
+        onPermissionModeChange: (mode: PermissionMode) => void;
+        onPlanModeChange: (enabled: boolean) => void;
+        disabled?: boolean;
     };
     reasoningSelectorProps: {
         reasoningSupport?: ReasoningSupport;
@@ -2559,6 +2618,10 @@ const ChatInput: React.FunctionComponent<ChatInputProperties> = (props: ChatInpu
                         onModeChange: props.modeSelectorProps.onModeChange,
                         keybindingHint: props.modeSelectorProps.keybindingHint,
                     }}
+                    permissionSelectorProps={{
+                        ...props.permissionSelectorProps,
+                        hoverService: props.hoverService,
+                    }}
                     reasoningSelectorProps={{
                         show: !!props.reasoningSelectorProps.reasoningSupport,
                         reasoningSupport: props.reasoningSelectorProps.reasoningSupport,
@@ -2612,6 +2675,14 @@ interface ChatInputOptionsProps {
         onModeChange: (mode: string) => void;
         keybindingHint?: string;
     };
+    permissionSelectorProps: {
+        permissionMode: PermissionMode;
+        planMode: boolean;
+        onPermissionModeChange: (mode: PermissionMode) => void;
+        onPlanModeChange: (enabled: boolean) => void;
+        disabled?: boolean;
+        hoverService: HoverService;
+    };
     reasoningSelectorProps: {
         show: boolean;
         reasoningSupport?: ReasoningSupport;
@@ -2636,6 +2707,7 @@ const ChatInputOptions: React.FunctionComponent<ChatInputOptionsProps> = ({
     hoverService,
     tokenUsage,
     modeSelectorProps,
+    permissionSelectorProps,
     reasoningSelectorProps,
     modelSelectorProps,
     capabilitiesToggle
@@ -2717,6 +2789,14 @@ const ChatInputOptions: React.FunctionComponent<ChatInputOptionsProps> = ({
                         hoverService={hoverService}
                     />
                 )}
+                <ChatPermissionModeSelector
+                    permissionMode={permissionSelectorProps.permissionMode}
+                    planMode={permissionSelectorProps.planMode}
+                    onPermissionModeChange={permissionSelectorProps.onPermissionModeChange}
+                    onPlanModeChange={permissionSelectorProps.onPlanModeChange}
+                    disabled={permissionSelectorProps.disabled}
+                    hoverService={permissionSelectorProps.hoverService}
+                />
                 {capabilitiesToggle.show && (
                     <span
                         className={`option${capabilitiesToggle.isOpen ? ' toggled' : ''}`}
@@ -2918,6 +2998,149 @@ const ChatModeSelector: React.FunctionComponent<ChatModeSelectorProps> = React.m
         </span>
     );
 });
+
+interface ChatPermissionModeSelectorProps {
+    permissionMode: PermissionMode;
+    planMode: boolean;
+    onPermissionModeChange: (mode: PermissionMode) => void;
+    onPlanModeChange: (enabled: boolean) => void;
+    disabled?: boolean;
+    hoverService: HoverService;
+}
+
+interface PermissionModeOption {
+    value: PermissionMode;
+    label: string;
+    description: string;
+    iconClass: string;
+    warning?: boolean;
+}
+
+const PERMISSION_MODE_OPTIONS: PermissionModeOption[] = [
+    {
+        value: 'confirm',
+        label: nls.localizeByDefault('变更前确认'),
+        description: nls.localizeByDefault('修改文件、执行命令前逐一确认'),
+        iconClass: 'codicon-eye'
+    },
+    {
+        value: 'autonomous',
+        label: nls.localizeByDefault('自主模式'),
+        description: nls.localizeByDefault('自动执行；命令经 AI 审查，有风险时确认'),
+        iconClass: 'codicon-zap'
+    },
+    {
+        value: 'full',
+        label: nls.localizeByDefault('完全访问'),
+        description: nls.localizeByDefault('一切自动执行，不再确认（含高风险命令）'),
+        iconClass: 'codicon-shield',
+        warning: true
+    }
+];
+
+const ChatPermissionModeSelector: React.FunctionComponent<ChatPermissionModeSelectorProps> = ({
+    permissionMode, planMode, onPermissionModeChange, onPlanModeChange, disabled, hoverService
+}) => {
+    const [open, setOpen] = React.useState(false);
+    // eslint-disable-next-line no-null/no-null
+    const containerRef = React.useRef<HTMLSpanElement | null>(null);
+
+    React.useEffect(() => {
+        if (!open) {
+            return;
+        }
+        const onDocMouseDown = (e: MouseEvent): void => {
+            if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+                setOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', onDocMouseDown);
+        return () => document.removeEventListener('mousedown', onDocMouseDown);
+    }, [open]);
+
+    const current = PERMISSION_MODE_OPTIONS.find(option => option.value === permissionMode)
+        ?? PERMISSION_MODE_OPTIONS[0];
+    const planLabel = nls.localizeByDefault('计划模式');
+    const planDescription = nls.localizeByDefault('只读探索并输出实施计划，禁止修改操作');
+    const label = nls.localize('theia/ai/chat-ui/permissionSelector', '权限模式');
+    const title = planMode ? `${label}：${current.label} + ${planLabel}` : `${label}：${current.label}`;
+
+    const selectOption = (option: PermissionModeOption): void => {
+        if (disabled || option.value === permissionMode) {
+            setOpen(false);
+            return;
+        }
+        onPermissionModeChange(option.value);
+        setOpen(false);
+    };
+
+    return (
+        <span
+            className={`theia-ChatInput-PermissionSelector${disabled ? ' disabled' : ''}`}
+            ref={containerRef}
+            onMouseEnter={hoverHandler(hoverService, title)}
+        >
+            <span
+                className={`theia-ChatInput-PermissionSelector-Trigger${current.warning ? ' warning' : ''}`}
+                role='button'
+                tabIndex={disabled ? -1 : 0}
+                aria-haspopup='menu'
+                aria-expanded={open}
+                aria-label={title}
+                onClick={() => !disabled && setOpen(!open)}
+                onKeyDown={e => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        if (!disabled) {
+                            setOpen(!open);
+                        }
+                    }
+                }}
+            >
+                {planMode && <span className='codicon codicon-lightbulb plan-indicator' />}
+                <span className={`codicon ${current.iconClass}`} />
+                <span className='theia-ChatInput-PermissionSelector-Label'>{current.label}</span>
+                <span className={`codicon codicon-chevron-${open ? 'up' : 'down'}`} />
+            </span>
+            {open && (
+                <div className='theia-ChatInput-PermissionSelector-Menu' role='menu'>
+                    <label
+                        className='theia-ChatInput-PermissionSelector-Item plan-item'
+                        title={planDescription}
+                    >
+                        <input
+                            type='checkbox'
+                            checked={planMode}
+                            onChange={e => onPlanModeChange(e.target.checked)}
+                        />
+                        <span className='codicon codicon-lightbulb' />
+                        <span className='theia-ChatInput-PermissionSelector-ItemText'>
+                            <span className='item-label'>{planLabel}</span>
+                            <span className='item-description'>{planDescription}</span>
+                        </span>
+                    </label>
+                    <div className='theia-ChatInput-PermissionSelector-Separator' />
+                    {PERMISSION_MODE_OPTIONS.map(option => (
+                        <div
+                            key={option.value}
+                            role='menuitemradio'
+                            aria-checked={option.value === permissionMode}
+                            className={`theia-ChatInput-PermissionSelector-Item${option.warning ? ' warning' : ''}`}
+                            onClick={() => selectOption(option)}
+                        >
+                            <span className={`codicon ${option.iconClass}`} />
+                            <span className='theia-ChatInput-PermissionSelector-ItemText'>
+                                <span className='item-label'>{option.label}</span>
+                                <span className='item-description'>{option.description}</span>
+                            </span>
+                            {option.value === permissionMode && <span className='codicon codicon-check' />}
+                        </div>
+                    ))}
+                </div>
+            )}
+        </span>
+    );
+};
 
 interface ChatModelSelectorProps {
     models: LanguageModel[];

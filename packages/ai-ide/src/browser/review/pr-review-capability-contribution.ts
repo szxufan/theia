@@ -163,6 +163,8 @@ description: ${description}
 4. If dependencies are missing, identify the correct install task or command before building.
 5. Build the project or run the closest available validation for the changed area.
 6. If validation fails, record the failure as a critical finding and continue the review.
+7. To inspect long build/test output, use the ~{${SHELL_EXECUTION_FUNCTION_ID}} \`read\` action (\`filter\`, \`head\`, \`tail\`, \`fromLine\`/\`toLine\`, \`maxLines\`) \
+instead of piping commands through \`grep\`/\`head\`/\`tail\` or re-running them with different flags.
 
 Store this value for the review plan:
 - Build/validation status`;

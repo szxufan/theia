@@ -18,7 +18,19 @@ import { inject, injectable } from '@theia/core/shared/inversify';
 import { AutoActionResult, ToolRequest } from '@theia/ai-core';
 import { ShellCommandPermissionService } from './shell-command-permission-service';
 import { AbstractShellExecutionTool, resolveShellCwd } from './abstract-shell-execution-tool';
-import { SHELL_EXECUTE_BACKGROUND_FUNCTION_ID } from '../common/shell-execution-server';
+import {
+    SHELL_EXECUTE_BACKGROUND_FUNCTION_ID,
+    OutputReadOptions
+} from '../common/shell-execution-server';
+
+interface ShellBackgroundArgs extends Partial<OutputReadOptions> {
+    action: 'start' | 'status' | 'read' | 'stop';
+    command?: string;
+    description?: string;
+    cwd?: string;
+    taskId?: string;
+    fromOffset?: number;
+}
 
 /**
  * Parameterized tool for shell work that outlives a single tool call: long builds, watch modes,
@@ -44,8 +56,19 @@ Use this instead of shellExecute whenever the command runs long or keeps running
 Actions:
 - start: launch \`command\` in the background; returns a taskId at once. \`cwd\` works like in shellExecute.
 - status: report whether the task is still running, its exit code, and timing.
-- read: return the output written since the offset you pass (start at 0); the response contains the next offset and \`eof\`. Poll every few seconds rather than in a tight loop.
+- read: return output, in one of two modes (see below).
 - stop: terminate the task's process tree. Always stop tasks you no longer need.
+
+Read modes:
+- Incremental polling: pass \`fromOffset\` (start at 0); the response contains the next offset and \`eof\`.
+  Cheap way to tail live output. Poll every few seconds rather than in a tight loop.
+- Line-based selection: pass any of filter/head/tail/fromLine/toLine/maxLines/stream to slice the whole
+  output accumulated so far - filter keeps regex-matching lines with original line numbers, head/tail take
+  the first/last N lines, fromLine/toLine address original 1-based lines, maxLines caps the response
+  (default 200, max 2000; hasMore + fromLine = endLine + 1 paginate). \`eof\` is true once the task finished.
+
+KEEP THE STARTED COMMAND SIMPLE: do NOT pipe through grep/head/tail/wc/sed just to shape or limit output;
+use the native read options instead. Command-side filtering is only needed beyond the 1MB-per-stream cap.
 
 Starting a command requires user approval, subject to the same allow/deny patterns as shellExecute.`,
             parameters: {
@@ -58,7 +81,8 @@ Starting a command requires user approval, subject to the same allow/deny patter
                     },
                     command: {
                         type: 'string',
-                        description: 'The shell command to run (action "start" only). Describe it in `description`.'
+                        description: 'The shell command to run (action "start" only). Describe it in `description`. ' +
+                            'Keep it free of output-shaping filters; use the read options to inspect output.'
                     },
                     description: {
                         type: 'string',
@@ -74,7 +98,36 @@ Starting a command requires user approval, subject to the same allow/deny patter
                     },
                     fromOffset: {
                         type: 'number',
-                        description: 'Character offset to read output from (action "read"); use the offset of the previous read, 0 for the first.'
+                        description: 'Character offset to read output from (action "read", incremental mode); use the offset of the previous read, 0 for the first.'
+                    },
+                    filter: {
+                        type: 'string',
+                        description: 'Regex keeping only matching lines, preserving original line numbers (action "read", line mode).'
+                    },
+                    stream: {
+                        type: 'string',
+                        enum: ['combined', 'stdout', 'stderr'],
+                        description: 'Which stream to read (action "read", line mode). Default "combined".'
+                    },
+                    head: {
+                        type: 'number',
+                        description: 'First N lines of the filtered view (action "read", line mode).'
+                    },
+                    tail: {
+                        type: 'number',
+                        description: 'Last N lines of the filtered view (action "read", line mode).'
+                    },
+                    fromLine: {
+                        type: 'number',
+                        description: 'Start of a 1-based inclusive line range on original line numbers (action "read", line mode).'
+                    },
+                    toLine: {
+                        type: 'number',
+                        description: 'End of a 1-based inclusive line range on original line numbers (action "read", line mode).'
+                    },
+                    maxLines: {
+                        type: 'number',
+                        description: 'Maximum lines returned per read (action "read", line mode). Default 200, max 2000.'
                     }
                 },
                 required: ['action']
@@ -119,13 +172,7 @@ Starting a command requires user approval, subject to the same allow/deny patter
         };
     }
 
-    protected async executeAction(args: {
-        action: 'start' | 'status' | 'read' | 'stop';
-        command?: string;
-        cwd?: string;
-        taskId?: string;
-        fromOffset?: number;
-    }): Promise<object> {
+    protected async executeAction(args: ShellBackgroundArgs): Promise<object> {
         switch (args.action) {
             case 'start': {
                 if (!args.command) {
@@ -147,6 +194,12 @@ Starting a command requires user approval, subject to the same allow/deny patter
             case 'read': {
                 if (!args.taskId) {
                     return { error: 'action "read" requires a taskId.' };
+                }
+                const { filter, stream, head, tail, fromLine, toLine, maxLines } = args;
+                const hasLineOptions = filter !== undefined || stream !== undefined || head !== undefined
+                    || tail !== undefined || fromLine !== undefined || toLine !== undefined || maxLines !== undefined;
+                if (hasLineOptions) {
+                    return await this.shellServer.readTaskOutputLines(args.taskId, { filter, stream, head, tail, fromLine, toLine, maxLines });
                 }
                 return await this.shellServer.readOutput(args.taskId, args.fromOffset ?? 0);
             }

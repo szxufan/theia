@@ -144,7 +144,6 @@ import { GitHubCapabilityContribution } from './github-capability-contribution';
 import { ShellExecutionCapabilityContribution } from './shell-execution-capability-contribution';
 import { MemoryCapabilityContribution } from './memory-capability-contribution';
 import { OpenEditorsHintContribution } from './open-editors-hint-contribution';
-import { AgentModeConfirmationService, AgentModeConfirmationServiceImpl } from './agent-mode-confirmation-service';
 import { ExploreAgent } from './explore-agent';
 import { CodeReviewerAgent } from './code-reviewer-agent';
 import { CodeReviewCapabilityContribution } from './code-review-capability-contribution';
@@ -169,9 +168,6 @@ import { ScmCommitWidget } from '@theia/scm/lib/browser/scm-commit-widget';
 export default new ContainerModule((bind, _unbind, _isBound, rebind) => {
     bind(PreferenceContribution).toConstantValue({ schema: aiIdePreferenceSchema });
     bind(PreferenceContribution).toConstantValue({ schema: WorkspacePreferencesSchema });
-
-    bind(AgentModeConfirmationServiceImpl).toSelf().inSingletonScope();
-    bind(AgentModeConfirmationService).toService(AgentModeConfirmationServiceImpl);
 
     bind(AIIdeActivationServiceImpl).toSelf().inSingletonScope();
     // rebinds the default implementation of '@theia/ai-core'

@@ -15,7 +15,7 @@
 // *****************************************************************************
 
 import { Agent, AgentService, AISettingsService, AIVariableContribution, bindToolProvider, CustomAgentPromptVariant } from '@theia/ai-core/lib/common';
-import { bindRootContributionProvider, CommandContribution, PreferenceContribution } from '@theia/core';
+import { bindContributionProvider, bindRootContributionProvider, CommandContribution, PreferenceContribution } from '@theia/core';
 import { FrontendApplicationContribution, LabelProviderContribution } from '@theia/core/lib/browser';
 import { ContainerModule } from '@theia/core/shared/inversify';
 import {
@@ -29,7 +29,8 @@ import {
     ServerToolCallResponseContentFactory,
     PinChatAgent,
     ChatServiceFactory,
-    ChatAgentServiceFactory
+    ChatAgentServiceFactory,
+    ToolCallReviewer
 } from '../common';
 import { ChatAgentsVariableContribution } from '../common/chat-agents-variable-contribution';
 import { CustomChatAgent } from '../common/custom-chat-agent';
@@ -105,6 +106,7 @@ export default new ContainerModule(bind => {
 
     bind(FrontendChatToolRequestService).toSelf().inSingletonScope();
     bind(ChatToolRequestService).toService(FrontendChatToolRequestService);
+    bindContributionProvider(bind, ToolCallReviewer);
     bind(ClientCompactionService).toSelf().inSingletonScope();
 
     bind(BackgroundDelegationRegistry).toSelf().inSingletonScope();

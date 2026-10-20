@@ -17,15 +17,18 @@
 import { extractJsonStringField } from '@theia/ai-chat-ui/lib/common/toolcall-utils';
 
 export interface ShellExecutionInput {
-    command: string;
+    action?: 'execute' | 'read';
+    command?: string;
     description?: string;
     cwd?: string;
     timeout?: number;
+    resultId?: string;
 }
 
 /**
  * Parses shell execution input from potentially incomplete JSON.
  * During streaming, extracts partial command value via regex when JSON.parse fails.
+ * For read actions (complete or partial), the streaming fallback extracts `resultId` instead.
  */
 export function parseShellExecutionInput(args: string | undefined): ShellExecutionInput {
     if (!args) {
@@ -35,6 +38,10 @@ export function parseShellExecutionInput(args: string | undefined): ShellExecuti
     try {
         return JSON.parse(args);
     } catch {
+        const action = extractJsonStringField(args, 'action');
+        if (action === 'read') {
+            return { action: 'read', resultId: extractJsonStringField(args, 'resultId') ?? '' };
+        }
         return { command: extractJsonStringField(args, 'command') ?? '' };
     }
 }

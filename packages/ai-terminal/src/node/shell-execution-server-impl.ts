@@ -20,12 +20,18 @@ import { spawn, ChildProcess, execSync } from 'child_process';
 import { generateUuid } from '@theia/core';
 import {
     ShellExecutionServer, ShellExecutionRequest, ShellExecutionResult,
-    ShellTaskOutput, ShellTaskStartRequest, ShellTaskStartResult, ShellTaskStatus
+    ShellTaskOutput, ShellTaskStartRequest, ShellTaskStartResult, ShellTaskStatus,
+    OutputReadOptions, ShellOutputReadError, ShellOutputReadResult,
+    selectOutputLines, splitOutputLines,
+    HEAD_LINES, TAIL_LINES, GRACE_LINES, MAX_LINE_LENGTH
 } from '../common/shell-execution-server';
 
 const DEFAULT_TIMEOUT = 120000; // 2 minutes
 const MAX_TIMEOUT = 600000;     // 10 minutes
 const MAX_OUTPUT_SIZE = 1024 * 1024; // 1MB
+
+/** How many completed foreground executions keep their output readable for the "read" action. */
+const MAX_COMPLETED_RESULTS = 10;
 
 interface BackgroundTask {
     process: ChildProcess;
@@ -38,12 +44,46 @@ interface BackgroundTask {
     error: string | undefined;
 }
 
+/** Retained output of a finished foreground execution, keyed by its execution id (= resultId). */
+interface CompletedExecution {
+    command: string;
+    stdout: string;
+    stderr: string;
+    exitCode: number | undefined;
+    duration: number;
+    resolvedCwd: string | undefined;
+    canceled: boolean;
+}
+
+/**
+ * Combined view of both streams: stdout, a '--- stderr ---' separator line, then stderr. A single
+ * trailing newline on stdout is dropped so the separator does not create an addressable empty line
+ * in line-based reads.
+ */
+function combineStreamText(stdout: string, stderr: string): string {
+    if (!stderr) {
+        return stdout;
+    }
+    return `${stdout.replace(/\r?\n$/, '')}\n--- stderr ---\n${stderr}`;
+}
+
+function selectStreamText(stdout: string, stderr: string, stream: OutputReadOptions['stream'] | undefined): string {
+    if (stream === 'stdout') {
+        return stdout;
+    }
+    if (stream === 'stderr') {
+        return stderr;
+    }
+    return combineStreamText(stdout, stderr);
+}
+
 @injectable()
 export class ShellExecutionServerImpl implements ShellExecutionServer {
 
     protected readonly runningProcesses = new Map<string, ChildProcess>();
     protected readonly canceledExecutions = new Set<string>();
     protected readonly backgroundTasks = new Map<string, BackgroundTask>();
+    protected readonly completedResults = new Map<string, CompletedExecution>();
 
     async execute(request: ShellExecutionRequest): Promise<ShellExecutionResult> {
         const { command, cwd, timeout, executionId } = request;
@@ -60,6 +100,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
             let stdout = '';
             let stderr = '';
             let killed = false;
+            let streamCapped = false;
 
             const childProcess = spawn(command, [], {
                 cwd,
@@ -76,12 +117,22 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
             childProcess.stdout?.on('data', (data: Buffer) => {
                 if (stdout.length < MAX_OUTPUT_SIZE) {
                     stdout += data.toString();
+                    if (stdout.length >= MAX_OUTPUT_SIZE) {
+                        streamCapped = true;
+                    }
+                } else {
+                    streamCapped = true;
                 }
             });
 
             childProcess.stderr?.on('data', (data: Buffer) => {
                 if (stderr.length < MAX_OUTPUT_SIZE) {
                     stderr += data.toString();
+                    if (stderr.length >= MAX_OUTPUT_SIZE) {
+                        streamCapped = true;
+                    }
+                } else {
+                    streamCapped = true;
                 }
             });
 
@@ -89,6 +140,30 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
                 killed = true;
                 this.killProcessTree(childProcess);
             }, effectiveTimeout);
+
+            /** Enriches the raw result with read metadata, retains it for later reads, and resolves. */
+            const complete = (result: ShellExecutionResult): void => {
+                const combined = combineStreamText(stdout, stderr);
+                const lines = splitOutputLines(combined);
+                const totalLines = lines.length;
+                const truncated = streamCapped
+                    || lines.length > HEAD_LINES + TAIL_LINES + GRACE_LINES
+                    || lines.some(line => line.length > MAX_LINE_LENGTH);
+                const enriched: ShellExecutionResult = { ...result, totalLines, truncated };
+
+                if (executionId) {
+                    this.storeCompletedResult(executionId, {
+                        command,
+                        stdout,
+                        stderr,
+                        exitCode: enriched.exitCode,
+                        duration: enriched.duration,
+                        resolvedCwd: cwd,
+                        canceled: enriched.canceled ?? false
+                    });
+                }
+                resolve(enriched);
+            };
 
             childProcess.on('close', (code, signal) => {
                 clearTimeout(timeoutId);
@@ -105,7 +180,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
 
                 if (signal || killed) {
                     if (wasCanceledByUser) {
-                        resolve({
+                        complete({
                             success: false,
                             exitCode: undefined,
                             stdout,
@@ -116,7 +191,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
                             resolvedCwd: cwd,
                         });
                     } else {
-                        resolve({
+                        complete({
                             success: false,
                             exitCode: undefined,
                             stdout,
@@ -127,7 +202,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
                         });
                     }
                 } else if (code === 0) {
-                    resolve({
+                    complete({
                         success: true,
                         exitCode: 0,
                         stdout,
@@ -136,7 +211,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
                         resolvedCwd: cwd,
                     });
                 } else {
-                    resolve({
+                    complete({
                         success: false,
                         exitCode: code ?? undefined,
                         stdout,
@@ -155,7 +230,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
                     this.canceledExecutions.delete(executionId);
                 }
 
-                resolve({
+                complete({
                     success: false,
                     exitCode: undefined,
                     stdout,
@@ -177,6 +252,39 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
             return true;
         }
         return false;
+    }
+
+    async readResult(resultId: string, options?: OutputReadOptions): Promise<ShellOutputReadResult | ShellOutputReadError> {
+        const entry = this.completedResults.get(resultId);
+        if (!entry) {
+            return { error: `No result with id '${resultId}'. Output is retained for the last ${MAX_COMPLETED_RESULTS} executions only.` };
+        }
+        return selectOutputLines(selectStreamText(entry.stdout, entry.stderr, options?.stream), options ?? {});
+    }
+
+    async readTaskOutputLines(taskId: string, options?: OutputReadOptions): Promise<ShellOutputReadResult | ShellOutputReadError> {
+        const task = this.backgroundTasks.get(taskId);
+        if (!task) {
+            return { error: `No background task with id '${taskId}'.` };
+        }
+        const result = selectOutputLines(selectStreamText(task.stdout, task.stderr, options?.stream), options ?? {});
+        if ('error' in result) {
+            return result;
+        }
+        return { ...result, eof: task.finishedAt !== undefined };
+    }
+
+    /** Inserts into the LRU, re-inserting on repeat ids and evicting the oldest beyond the cap. */
+    protected storeCompletedResult(executionId: string, entry: CompletedExecution): void {
+        this.completedResults.delete(executionId);
+        this.completedResults.set(executionId, entry);
+        while (this.completedResults.size > MAX_COMPLETED_RESULTS) {
+            const oldest = this.completedResults.keys().next().value;
+            if (oldest === undefined) {
+                break;
+            }
+            this.completedResults.delete(oldest);
+        }
     }
 
     async start(request: ShellTaskStartRequest): Promise<ShellTaskStartResult> {
@@ -256,9 +364,7 @@ export class ShellExecutionServerImpl implements ShellExecutionServer {
             throw new Error(`No background task with id '${taskId}'.`);
         }
         // Combined view: stdout followed by stderr. Offsets refer to this combined text.
-        const combined = task.stderr
-            ? `${task.stdout}\n--- stderr ---\n${task.stderr}`
-            : task.stdout;
+        const combined = combineStreamText(task.stdout, task.stderr);
         const offset = Math.max(0, Math.min(fromOffset, combined.length));
         // The returned chunk always reaches the current end of the combined output, so once the
         // task has finished there is nothing more to come.

@@ -37,6 +37,7 @@ import {
     ChatRequestInvocation,
     ThinkingChatResponseContent,
     ToolCallChatResponseContent,
+    resolvePermissionSettings,
 } from '../common';
 import { BackgroundDelegationRegistry } from './background-delegation-registry';
 import { TASK_CONTEXT_VARIABLE } from './task-context-variable';
@@ -225,6 +226,23 @@ export class AgentDelegationTool implements ToolProvider {
                     const parentId = ctx.request.session.id;
                     newSession.parentSessionId = parentId;
                     newSession.model.parentSessionId = parentId;
+
+                    // Inherit the parent's permission settings so delegated sub-agents run under the
+                    // same permission mode and plan-mode restrictions as the delegating session.
+                    const parentCommon = ctx.request.session.settings?.commonSettings;
+                    if (parentCommon) {
+                        const inherited = resolvePermissionSettings(parentCommon);
+                        if (inherited.permissionMode !== 'confirm' || inherited.planMode) {
+                            (newSession.model as MutableChatModel).setSettings({
+                                ...newSession.model.settings,
+                                commonSettings: {
+                                    ...newSession.model.settings?.commonSettings,
+                                    permissionMode: inherited.permissionMode,
+                                    planMode: inherited.planMode || undefined
+                                }
+                            });
+                        }
+                    }
 
                     if (taskContextId) {
                         newSession.model.context.addVariables({

@@ -62,18 +62,37 @@ Appropriate use cases for ~{${SHELL_EXECUTION_FUNCTION_ID}}:
 - Querying system or environment information (e.g., checking installed tool versions, environment variables)
 - Running scripts (bash, python, node, etc.) that are part of the task
 
+### Inspect output with the tool's native read options — not shell filters
+
+**Do not pipe commands through \`grep\`, \`head\`, \`tail\`, \`wc -l\`, or \`sed\` just to shape or limit output.**
+Run the plain command once, then re-read exactly the part you need via the tool's \`read\` action:
+- \`filter\` (regex) keeps only matching lines, preserving original line numbers — use it instead of \`grep\`
+- \`head\`/\`tail\` take the first/last N lines — use instead of \`head\`/\`tail\` flags
+- \`fromLine\`/\`toLine\` read a specific line range, \`maxLines\` caps each read
+- reads are repeatable and paginated (\`hasMore\` → continue with \`fromLine = endLine + 1\`), so you can \
+narrow down without re-running the command
+
+Command-side filtering is only needed when a command's output exceeds the 1MB-per-stream retention cap.
+
 ### Important constraints
 
 - **Do not start long-running or blocking processes** (e.g., dev servers, file watchers, long builds) with this tool — \
 use launch configurations or the ~{${SHELL_EXECUTE_BACKGROUND_FUNCTION_ID}} tool for those.
 - Commands require **user approval** before execution. The user sees the exact command and can approve, deny, or cancel it.
-- Output is truncated for large results; use filters (\`grep\`, \`head\`, \`tail\`) to keep output focused.
+- Output previews are truncated to the first and last 50 lines; when \`truncated\` is true, follow up with the \`read\` action \
+instead of re-running the command with different flags.
 
 ## Background Shell Tasks
 
 For commands that run long or keep running (builds taking minutes, watch modes, dev servers), use \
 ~{${SHELL_EXECUTE_BACKGROUND_FUNCTION_ID}} instead: it starts the command in the background, returns a taskId at once, \
-and lets you read incremental output (\`action: "read"\` with an increasing \`fromOffset\`) and stop the process \
-(\`action: "stop"\`) later. Poll every few seconds rather than in a tight loop, and always stop tasks you no longer need.`;
+and lets you read output and stop the process later. Poll every few seconds rather than in a tight loop, and always stop \
+tasks you no longer need.
+
+Two read modes are available for background tasks:
+- Incremental polling: \`action: "read"\` with an increasing \`fromOffset\` — cheap for tailing live output.
+- Line-based selection: the same native read options as ~{${SHELL_EXECUTION_FUNCTION_ID}} (\`filter\`, \`head\`, \`tail\`, \
+\`fromLine\`/\`toLine\`, \`maxLines\`) over the output accumulated so far — again, prefer these over \`grep\`/\`head\`/\`tail\` \
+pipes in the started command.`;
     }
 }

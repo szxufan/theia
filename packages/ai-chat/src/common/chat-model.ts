@@ -258,18 +258,52 @@ export interface CommonChatSessionSettings {
     /** Per-session server-side compaction settings; set values win over the per-provider and global settings. */
     compaction?: CompactionSettings;
     /**
-     * Session-level autonomy mode governing tool confirmation:
-     * - `default`: confirmations follow the tool confirmation preferences.
-     * - `plan`: mutating tools are denied outright (with an explanatory reason) so the agent
-     *   can only read and plan.
-     * - `yolo`: all confirmations are auto-approved, except tools flagged
-     *   `confirmAlwaysAllow` (e.g. shell execution), which still require explicit approval.
+     * Session-level permission mode governing how tool calls are gated:
+     * - `confirm` (变更前确认): mutating tools always require explicit user confirmation.
+     * - `autonomous` (自主模式): confirmations are auto-approved; shell commands are gated by
+     *   the AI command review (safe verdicts auto-approve, risky ones prompt).
+     * - `full` (完全访问): everything is auto-approved, including shell execution.
+     * Defaults to `confirm` when unset.
+     */
+    permissionMode?: PermissionMode;
+    /**
+     * Orthogonal plan mode: when enabled, mutating tool calls are denied outright (with an
+     * explanatory reason handed back to the model) so the agent can only read and plan.
+     * Combinable with any {@link PermissionMode}; takes precedence over it for mutating calls.
+     */
+    planMode?: boolean;
+    /**
+     * @deprecated Legacy autonomy mode predating the permission-mode system. Read via
+     * {@link resolvePermissionSettings}, which maps it onto `permissionMode`/`planMode`.
      */
     autonomyMode?: AutonomyMode;
 }
 
+/**
+ * Session-level permission mode controlling how mutating tool calls are executed.
+ * See {@link CommonChatSessionSettings.permissionMode}.
+ */
+export type PermissionMode = 'confirm' | 'autonomous' | 'full';
+
 /** Session-level autonomy mode controlling how tool calls are confirmed. */
 export type AutonomyMode = 'default' | 'plan' | 'yolo';
+
+/**
+ * Resolves the effective permission mode and plan flag from common session settings, migrating
+ * the deprecated `autonomyMode` on the fly:
+ * - `plan` → plan mode enabled (permission mode falls back to the stored value or `confirm`)
+ * - `yolo` → `autonomous` (its historical semantics: auto-approve, shell still gated)
+ * - `default`/unset → stored `permissionMode` or the `confirm` default.
+ */
+export function resolvePermissionSettings(
+    settings?: CommonChatSessionSettings
+): { permissionMode: PermissionMode; planMode: boolean } {
+    const permissionMode = settings?.permissionMode
+        ?? (settings?.autonomyMode === 'yolo' ? 'autonomous' : undefined)
+        ?? 'confirm';
+    const planMode = settings?.planMode ?? settings?.autonomyMode === 'plan';
+    return { permissionMode, planMode };
+}
 
 export interface ChatSessionSettings {
     /**
