@@ -31,6 +31,7 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
         [CHAT_VIEW_TOKEN_USAGE_ENABLED]: {
             type: 'boolean',
             default: false,
+            title: nls.localize('theia/ai/chat-ui/tokenUsageIndicatorEnabled/title', '令牌用量指示器'),
             description: nls.localize(
                 'theia/ai/chat-ui/tokenUsageIndicatorEnabled',
                 '控制是否在聊天视图中显示实验性的令牌用量指示器。' +
@@ -41,6 +42,7 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
         [CHAT_VIEW_TOKEN_USAGE_WARNING_ENABLED]: {
             type: 'boolean',
             default: false,
+            title: nls.localize('theia/ai/chat-ui/tokenUsageWarningEnabled/title', '令牌用量警告'),
             description: nls.localize(
                 'theia/ai/chat-ui/tokenUsageWarningEnabled',
                 '控制当聊天会话的令牌用量超过配置的阈值时是否显示通知。' +
@@ -53,6 +55,7 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
             minimum: 1,
             maximum: 100,
             default: CHAT_VIEW_TOKEN_USAGE_WARNING_THRESHOLD_PERCENTAGE_DEFAULT,
+            title: nls.localize('theia/ai/chat-ui/tokenUsageWarningThresholdPercentage/title', '令牌用量警告阈值'),
             description: nls.localize(
                 'theia/ai/chat-ui/tokenUsageWarningThresholdPercentage',
                 '触发令牌用量警告的模型上下文窗口百分比。' +
@@ -67,6 +70,7 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
                 type: 'string'
             },
             default: [],
+            title: nls.localize('theia/ai/chat-ui/allowedResourceUrls/title', '允许的外部资源 URL'),
             description: nls.localize(
                 'theia/ai/chat-ui/allowedResourceUrls',
                 'AI 聊天回复中引用的外部资源（图片、样式表、媒体等）默认会被阻止，' +
@@ -78,6 +82,7 @@ export const chatViewPreferenceSchema: PreferenceSchema = {
             type: 'boolean',
             default: false,
             scope: PreferenceScope.User,
+            title: nls.localize('theia/ai/chat-ui/fullAccessAcknowledged/title', '完全访问模式确认'),
             description: nls.localize(
                 'theia/ai/chat-ui/fullAccessAcknowledged',
                 '确认已知晓「完全访问」权限模式的风险。完全访问模式下，AI 修改文件、执行命令均自动放行，' +

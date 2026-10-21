@@ -72,7 +72,7 @@ export const notebookPreferenceSchema: PreferenceSchema = {
         },
         [NotebookPreferences.OUTPUT_LINE_LIMIT]: {
             markdownDescription: nls.localizeByDefault(
-                'Controls how many lines of text are displayed in a text output. If {0} is enabled, this setting is used to determine the scroll height of the output.',
+                '控制文本输出中显示的文本行数。若启用 {0}，此设置还用于决定输出区域的滚动高度。',
                 '`#notebook.output.scrolling#`'),
             type: 'number',
             default: 30,

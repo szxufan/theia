@@ -14,7 +14,6 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { nls } from '@theia/core';
 import {
     createPreferenceProxy,
@@ -79,7 +78,7 @@ export const chatToolPreferences: PreferenceSchema = {
             description: nls.localize('theia/ai/chat/defaultToolConfirmation/description',
                 '在 "ai-features.chat.toolConfirmation" 下没有特定工具条目的工具所使用的默认确认行为。' +
                 '显式要求在自动批准前进行确认的工具始终默认为 "confirm"，无论此设置如何。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/chat/defaultToolConfirmation/title', '工具确认默认行为'),
         },
         [TOOL_CONFIRMATION_PREFERENCE]: {
             type: 'object',
@@ -92,7 +91,7 @@ export const chatToolPreferences: PreferenceSchema = {
             description: nls.localize('theia/ai/chat/toolConfirmation/description',
                 '为单个工具配置确认行为。键为工具 ID，值为确认模式。' +
                 '要更改所有工具的默认值，请使用 "ai-features.chat.defaultToolConfirmation"。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/chat/toolConfirmation/title', '按工具配置确认行为'),
         },
         [TOOL_CONFIRMATION_TIMEOUT_PREFERENCE]: {
             type: 'number',
@@ -101,7 +100,7 @@ export const chatToolPreferences: PreferenceSchema = {
             description: nls.localize('theia/ai/chat/toolConfirmationTimeout/description',
                 '工具确认对话框的超时时间（秒）。设置为正值时，工具确认将在指定的时长后自动被拒绝。' +
                 '设置为 0 表示禁用（默认）。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/chat/toolConfirmationTimeout/title', '工具确认超时'),
         }
     }
 };

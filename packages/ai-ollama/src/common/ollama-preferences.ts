@@ -14,8 +14,8 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE, MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
-import { PreferenceSchema } from '@theia/core/lib/common';
+import { MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
+import { nls, PreferenceSchema } from '@theia/core';
 
 export const HOST_PREF = 'ai-features.ollama.ollamaHost';
 export const MODELS_PREF = 'ai-features.ollama.ollamaModels';
@@ -25,12 +25,16 @@ export const OllamaPreferencesSchema: PreferenceSchema = {
         [HOST_PREF]: {
             type: 'string',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'Ollama' } satisfies ModelProviderTypeDetail },
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/ollama/host/title', '主机地址'),
+            markdownDescription: nls.localize('theia/ai/ollama/host/mdDescription',
+                '本机 Ollama 服务的主机地址。'),
             default: 'http://localhost:11434'
         },
         [MODELS_PREF]: {
             type: 'array',
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/ollama/models/title', '模型'),
+            markdownDescription: nls.localize('theia/ai/ollama/models/mdDescription',
+                '要使用的 Ollama 模型 ID 列表（例如 `llama3.2`）。'),
             default: [],
             items: {
                 type: 'string'

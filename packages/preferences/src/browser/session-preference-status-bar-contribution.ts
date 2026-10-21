@@ -67,7 +67,7 @@ export class SessionPreferenceStatusBarContribution implements FrontendApplicati
             return;
         }
         const label = nls.localize('theia/preferences/sessionPreferences/statusBar',
-            'Session Preferences ({0})', entries.length);
+            '会话首选项（{0}）', entries.length);
         this.statusBar.setElement(SESSION_PREFERENCE_STATUS_BAR_ID, {
             alignment: StatusBarAlignment.LEFT,
             text: `$(warning) ${label}`,
@@ -100,9 +100,9 @@ export class SessionPreferenceStatusBarContribution implements FrontendApplicati
             isTrusted: { enabledCommands: [CommonCommands.OPEN_PREFERENCES.id] }
         });
         md.appendMarkdown(`**${nls.localize('theia/preferences/sessionPreferences/tooltipHeader',
-            'These settings are overridden for this session')}**\n\n`);
+            '以下设置在当前会话中被覆盖')}**\n\n`);
         md.appendMarkdown(nls.localize('theia/preferences/sessionPreferences/tooltipBody',
-            'They were passed in via --session-preference and only live in memory. Click a setting name to jump to it in the Settings view.'));
+            '它们通过 --session-preference 传入，仅保存在内存中。点击设置名称可在设置视图中跳转到该项。'));
         md.appendMarkdown('\n\n');
         for (const [key, value] of entries) {
             // The setting name is a plain markdown link to the Settings view; the value
@@ -110,7 +110,7 @@ export class SessionPreferenceStatusBarContribution implements FrontendApplicati
             md.appendMarkdown(`[${this.escapeLinkText(key)}](${this.buildOpenSettingsUri(key)}): ${this.formatDisplayValue(value)}\n\n`);
         }
         md.appendMarkdown(nls.localize('theia/preferences/sessionPreferences/tooltipChangeNote',
-            'Editing any of these clears its session override for this run. To use the saved values from the next launch on, restart without the --session-preference arguments.'));
+            '编辑其中任意一项都会在本次运行中清除其会话覆盖。若要从下次启动起使用已保存的值，请去掉 --session-preference 参数后重启。'));
         return md;
     }
 
@@ -128,7 +128,7 @@ export class SessionPreferenceStatusBarContribution implements FrontendApplicati
      */
     protected formatDisplayValue(value: unknown): string {
         if (typeof value === 'string') {
-            return value.length === 0 ? '(empty)' : value;
+            return value.length === 0 ? nls.localizeByDefault('（空）') : value;
         }
         if (typeof value === 'boolean') {
             return value
@@ -136,7 +136,7 @@ export class SessionPreferenceStatusBarContribution implements FrontendApplicati
                 : nls.localize('theia/preferences/sessionPreferences/valueOff', '关');
         }
         if (value === undefined) {
-            return '(unset)';
+            return nls.localizeByDefault('（未设置）');
         }
         try {
             return JSON.stringify(value);

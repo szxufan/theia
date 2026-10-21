@@ -58,24 +58,24 @@ export const externalApiPreferenceSchema: PreferenceSchema = {
             default: 0,
             scope: PreferenceScope.User,
             description: nls.localize('theia/external-api/port/description',
-                'Port on which the external HTTP API is served. Only used when "externalApi.delivery" is set to "separatePort".')
+                '外部 HTTP API 的服务端口。仅在 "externalApi.delivery" 设为 "separatePort" 时使用。')
         },
         [EXTERNAL_API_HOSTNAME_PREF]: {
             type: 'string',
             default: EXTERNAL_API_DEFAULT_HOSTNAME,
             scope: PreferenceScope.User,
             description: nls.localize('theia/external-api/hostname/description',
-                'Hostname or IP address the external HTTP API server binds to. Use "0.0.0.0" to accept remote connections. \
-A name such as "localhost" is bound as it resolves, so clients using the other loopback address may not reach the server; \
-use "127.0.0.1" or "::1" to pin one. Only used when "externalApi.delivery" is set to "separatePort".')
+                '外部 HTTP API 服务器绑定的主机名或 IP 地址。使用 "0.0.0.0" 可接受远程连接。\
+形如 "localhost" 的名称按其解析结果绑定，使用另一个回环地址的客户端可能无法访问服务器；\
+请使用 "127.0.0.1" 或 "::1" 固定其中一个。仅在 "externalApi.delivery" 设为 "separatePort" 时使用。')
         },
         [EXTERNAL_API_TOKEN_PREF]: {
             type: 'string',
             default: '',
             scope: PreferenceScope.User,
             description: nls.localize('theia/external-api/token/description',
-                'Bearer token required to access protected external API endpoints ("Authorization: Bearer <token>"). \
-When empty, the external API is served without verification.')
+                '访问受保护的外部 API 端点所需的 Bearer 令牌（"Authorization: Bearer <token>"）。\
+为空时，外部 API 将在不校验的情况下提供服务。')
         }
     }
 };

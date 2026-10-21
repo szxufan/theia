@@ -16,7 +16,6 @@
 
 import { nls } from '@theia/core';
 import { PreferenceSchema } from '@theia/core/lib/common/preferences';
-import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common/ai-core-preferences';
 
 export const SHELL_COMMAND_ALLOWLIST_PREFERENCE = 'ai-features.terminal.shellCommandAllowlist';
 export const SHELL_COMMAND_DENYLIST_PREFERENCE = 'ai-features.terminal.shellCommandDenylist';
@@ -33,7 +32,7 @@ export const shellCommandPreferences: PreferenceSchema = {
                 '启用「命令审查」代理：shell 命令等待确认时由 AI 审查，'
                 + '在确认界面上显示命令作用与风险点；判定完全无风险的只读命令可自动放行。'
             ),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai-terminal/aiCommandReviewEnabled/title', '启用 AI 命令审查'),
         },
         [AI_COMMAND_REVIEW_AUTO_APPROVE_PREFERENCE]: {
             type: 'boolean',
@@ -44,7 +43,7 @@ export const shellCommandPreferences: PreferenceSchema = {
                 + '关闭后审查结果仅用于展示，所有命令仍需人工确认。'
                 + '包含危险 shell 模式（$()、反引号、-exec 等）的命令永远不会被自动放行。'
             ),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai-terminal/aiCommandReviewAutoApprove/title', '自动放行无风险命令'),
         },
         [SHELL_COMMAND_ALLOWLIST_PREFERENCE]: {
             type: 'array',
@@ -56,7 +55,7 @@ export const shellCommandPreferences: PreferenceSchema = {
                 '"git log *"（可带任意参数）、"* --version"（任何以 --version 结尾的命令）。' +
                 '通配符前必须有空格。包含危险模式（$、反引号）的命令永远不会被自动允许。'
             ),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai-terminal/shellCommandAllowlist/title', 'Shell 命令允许列表'),
         },
         [SHELL_COMMAND_DENYLIST_PREFERENCE]: {
             type: 'array',
@@ -113,7 +112,7 @@ export const shellCommandPreferences: PreferenceSchema = {
                 '使用模式语法："git push"（精确匹配）或 "git push *"（可带任意参数）。' +
                 '内置了危险命令（eval、exec、sudo、rm -rf 等）的默认模式。'
             ),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai-terminal/shellCommandDenylist/title', 'Shell 命令拒绝列表'),
         }
     }
 };

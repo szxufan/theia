@@ -364,12 +364,12 @@ export const DEFAULT_LAYOUT: PreferenceLayout[] = [
             },
             {
                 id: 'ai-features.openAiCustom',
-                label: nls.localize('theia/preferences/ai-features/open-ai-custom', '{0} Custom Models', 'Open AI'),
+                label: nls.localize('theia/preferences/ai-features/open-ai-custom', '{0} 自定义模型', 'OpenAI'),
                 settings: ['ai-features.openAiCustom.*']
             },
             {
                 id: 'ai-features.openAiOfficial',
-                label: nls.localize('theia/preferences/ai-features/open-ai-official', '{0} Official Models', 'Open AI'),
+                label: nls.localize('theia/preferences/ai-features/open-ai-official', '{0} 官方模型', 'OpenAI'),
                 settings: ['ai-features.openAiOfficial.*']
             },
             {

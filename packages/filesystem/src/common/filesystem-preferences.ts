@@ -106,7 +106,7 @@ export const filesystemPreferenceSchema: PreferenceSchema = {
             default: 1,
             description: nls.localize(
                 'theia/filesystem/maxConcurrentUploads',
-                'Maximum number of concurrent files to upload when uploading multiple files. 0 means all files will be uploaded concurrently.'
+                '上传多个文件时并发上传的最大文件数。设为 0 表示所有文件并发上传。'
             ),
         }
     }

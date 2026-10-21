@@ -14,7 +14,6 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { nls, PreferenceSchema } from '@theia/core';
 
 export const PREF_AI_INLINE_COMPLETION_AUTOMATIC_ENABLE = 'ai-features.codeCompletion.automaticCodeCompletion';
@@ -27,7 +26,7 @@ export const PREF_AI_INLINE_COMPLETION_CACHE_CAPACITY = 'ai-features.codeComplet
 export const AICodeCompletionPreferencesSchema: PreferenceSchema = {
     properties: {
         [PREF_AI_INLINE_COMPLETION_AUTOMATIC_ENABLE]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/completion/automaticEnable/title', '自动代码补全'),
             type: 'boolean',
             description: nls.localize('theia/ai/completion/automaticEnable/description',
                 '编辑时在任何（Monaco）编辑器中自动内联触发 AI 补全。\

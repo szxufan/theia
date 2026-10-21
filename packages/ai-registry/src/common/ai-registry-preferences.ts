@@ -14,7 +14,6 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { nls, PreferenceSchema, PreferenceScope } from '@theia/core';
 
 export const AUTO_UPDATE_PREF = 'ai-features.registry.autoUpdate';
@@ -44,6 +43,11 @@ export const AIRegistryPreferencesSchema: PreferenceSchema = {
         [AUTO_UPDATE_PREF]: {
             type: 'string',
             enum: [...AUTO_UPDATE_MODES],
+            enumItemLabels: [
+                nls.localize('theia/ai-registry/autoUpdate/off/label', '从不更新'),
+                nls.localize('theia/ai-registry/autoUpdate/ask/label', '有更新时询问'),
+                nls.localize('theia/ai-registry/autoUpdate/on/label', '自动更新')
+            ],
             default: 'ask',
             scope: PreferenceScope.User,
             enumDescriptions: [
@@ -55,7 +59,7 @@ export const AIRegistryPreferencesSchema: PreferenceSchema = {
             description: nls.localize('theia/ai-registry/autoUpdate/description',
                 '从 AI 注册表安装的技能、MCP 服务器和代理插件的默认更新行为。每次\
 窗口加载时检查一次更新。单个工件可以在扩展视图的齿轮菜单中覆盖此设置。'),
-            title: AI_CORE_PREFERENCES_TITLE
+            title: nls.localize('theia/ai-registry/autoUpdate/title', '注册表自动更新')
         },
         [AUTO_UPDATE_OVERRIDES_PREF]: {
             type: 'object',
@@ -69,7 +73,7 @@ export const AIRegistryPreferencesSchema: PreferenceSchema = {
                 '按工件覆盖 `#ai-features.registry.autoUpdate#`，以 `skill:<skillId>`、`mcp:<serverId>` 或 \
 `plugin:<pluginId>` 为键。条目通常通过扩展视图中的齿轮菜单维护；没有条目的工件将遵循\
 默认设置。'),
-            title: AI_CORE_PREFERENCES_TITLE
+            title: nls.localize('theia/ai-registry/autoUpdateOverrides/title', '按工件覆盖自动更新')
         }
     }
 };

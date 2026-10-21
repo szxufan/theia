@@ -22,10 +22,10 @@ import { PreferenceProxyFactory } from '@theia/core/lib/common/preferences/injec
 import { PreferenceContribution, PreferenceSchema } from '@theia/core/lib/common/preferences/preference-schema';
 
 const nodeDownloadTemplateParts = [
-    nls.localize('theia/remote/nodeDownloadTemplateVersion', '`{version}` for the used node version'),
-    nls.localize('theia/remote/nodeDownloadTemplateOS', '`{os}` for the remote operating system. Either `win`, `linux` or `darwin`.'),
-    nls.localize('theia/remote/nodeDownloadTemplateArch', '`{arch}` for the remote system architecture.'),
-    nls.localize('theia/remote/nodeDownloadTemplateExt', '`{ext}` for the file extension. Either `zip`, `tar.xz` or `tar.xz`, depending on the operating system.')
+    nls.localize('theia/remote/nodeDownloadTemplateVersion', '`{version}`：使用的 node 版本'),
+    nls.localize('theia/remote/nodeDownloadTemplateOS', '`{os}`：远程操作系统，取值为 `win`、`linux` 或 `darwin`。'),
+    nls.localize('theia/remote/nodeDownloadTemplateArch', '`{arch}`：远程系统架构。'),
+    nls.localize('theia/remote/nodeDownloadTemplateExt', '`{ext}`：文件扩展名，取决于操作系统（`zip`、`tar.xz` 等）。')
 ];
 
 export const RemotePreferenceSchema: PreferenceSchema = {
@@ -35,7 +35,7 @@ export const RemotePreferenceSchema: PreferenceSchema = {
             default: '',
             markdownDescription: nls.localize(
                 'theia/remote/nodeDownloadTemplate',
-                'Controls the template used to download the node.js binaries for the remote backend. Points to the official node.js website by default. Uses multiple placeholders:'
+                '控制为远程后端下载 node.js 二进制文件所用的模板。默认指向 node.js 官网。可使用以下占位符：'
             ) + '\n- ' + nodeDownloadTemplateParts.join('\n- ')
         },
         'remote.ssh.configFile': {
@@ -43,7 +43,7 @@ export const RemotePreferenceSchema: PreferenceSchema = {
             default: OS.backend.isWindows ? '${env:USERPROFILE}\\.ssh\\config' : '${env:HOME}/.ssh/config',
             markdownDescription: nls.localize(
                 'theia/remote/ssh/configFile',
-                'Remote SSH Config file'
+                '远程 SSH 的配置文件路径。'
             )
         },
     }

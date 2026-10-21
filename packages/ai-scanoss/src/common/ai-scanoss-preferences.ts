@@ -14,7 +14,6 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { nls, PreferenceSchema } from '@theia/core';
 
 export const SCANOSS_MODE_PREF = 'ai-features.SCANOSS.mode';
@@ -24,6 +23,11 @@ export const AIScanOSSPreferencesSchema: PreferenceSchema = {
         [SCANOSS_MODE_PREF]: {
             type: 'string',
             enum: ['off', 'manual', 'automatic'],
+            enumItemLabels: [
+                nls.localizeByDefault('关闭'),
+                nls.localizeByDefault('手动'),
+                nls.localizeByDefault('自动')
+            ],
             markdownEnumDescriptions: [
                 nls.localize('theia/ai/scanoss/mode/off/description', '完全关闭该功能。'),
                 nls.localize('theia/ai/scanoss/mode/manual/description', '用户可以通过点击聊天视图中的 SCANOSS 项来手动触发扫描。'),
@@ -33,7 +37,7 @@ export const AIScanOSSPreferencesSchema: PreferenceSchema = {
                 '配置用于分析聊天视图中代码片段的 SCANOSS 功能。这会将建议代码片段的哈希值发送到由 [Software Transparency foundation](https://www.softwaretransparency.org/osskb) 托管的 SCANOSS\n\
 服务进行分析。'),
             default: 'off',
-            title: AI_CORE_PREFERENCES_TITLE
+            title: nls.localize('theia/ai/scanoss/mode/title', 'SCANOSS 扫描模式')
         }
     }
 };

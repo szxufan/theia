@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE, MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
+import { MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { LINUX_ENV_HINT, nls, PreferenceSchema } from '@theia/core';
 
 export const API_KEY_PREF = 'ai-features.google.apiKey';
@@ -32,12 +32,12 @@ export const GooglePreferencesSchema: PreferenceSchema = {
             markdownDescription: nls.localize('theia/ai/google/apiKey/description',
                 '输入您官方 Google AI (Gemini) 账户的 API 密钥。**请注意：**使用此偏好设置后，GOOGLE AI API 密钥将以明文形式存储\
             在运行 Theia 的机器上。请使用环境变量 `GOOGLE_API_KEY` 安全地设置密钥。') + LINUX_ENV_HINT,
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/google/apiKey/title', 'API 密钥'),
         },
         [ALLOW_ENV_API_KEY_PREF]: {
             type: 'boolean',
             default: false,
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/google/allowEnvApiKey/title', '允许使用环境变量中的 API 密钥'),
             markdownDescription: nls.localize('theia/ai/google/allowEnvApiKey/description',
                 '允许 Theia 使用在环境中找到的 Google AI (Gemini) API 密钥（`GOOGLE_API_KEY` / `GEMINI_API_KEY`）。'
                 + '在密钥被使用之前，系统会要求您确认一次；将其重新设置为 `false` 可撤销授权。'),
@@ -48,7 +48,7 @@ export const GooglePreferencesSchema: PreferenceSchema = {
             items: {
                 type: 'string'
             },
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/google/modelOverrides/title', '模型覆盖'),
             markdownDescription: nls.localize('theia/ai/google/modelOverrides/description',
                 '覆盖从 Google Gemini 发现的模型。为空时（默认），将从提供程序发现可用模型。'
                 + '设置显式的模型 ID 可精确使用这些模型；此时将完全不使用发现功能。')
@@ -57,7 +57,7 @@ export const GooglePreferencesSchema: PreferenceSchema = {
             type: 'integer',
             description: nls.localize('theia/ai/google/maxRetriesOnErrors/description',
                 '发生错误时的最大重试次数。如果小于 1，则禁用重试逻辑。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/google/maxRetriesOnErrors/title', '错误最大重试次数'),
             default: 3,
             minimum: 0
         },
@@ -65,7 +65,7 @@ export const GooglePreferencesSchema: PreferenceSchema = {
             type: 'number',
             description: nls.localize('theia/ai/google/retryDelayOnRateLimitError/description',
                 '发生速率限制错误时重试之间的延迟时间（秒）。参见 https://ai.google.dev/gemini-api/docs/rate-limits'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/google/retryDelayOnRateLimitError/title', '速率限制错误重试延迟'),
             default: 60,
             minimum: 0
         },
@@ -75,7 +75,7 @@ export const GooglePreferencesSchema: PreferenceSchema = {
                 '发生其他错误时重试之间的延迟时间（秒）（有时 Google GenAI 会报告错误，例如模型返回不完整的 JSON 语法 \
                 或 500 内部服务器错误）。将其设置为 -1 可防止在这些情况下重试。否则，重试要么立即进行（设置为 0 时），要么在 \
                 此延迟时间（秒）之后进行（设置为正数时）。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/google/retryDelayOnOtherErrors/title', '其他错误重试延迟'),
             default: -1,
             minimum: -1
         }

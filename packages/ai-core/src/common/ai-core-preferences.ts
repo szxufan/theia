@@ -73,7 +73,7 @@ export const LANGUAGE_MODEL_ALIASES_PREFERENCE = 'ai-features.languageModelAlias
 export const aiCorePreferenceSchema: PreferenceSchema = {
     properties: {
         [PREFERENCE_NAME_SERVER_SIDE_COMPACTION]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/core/serverSideCompaction/title', '服务端压缩'),
             type: 'boolean',
             description: nls.localize('theia/ai/core/serverSideCompaction/description',
                 '默认为聊天请求启用提供商原生的服务端压缩。启用后，支持的模型会在对话超出其自身阈值时自动总结较早的轮次，' +
@@ -81,7 +81,7 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: true,
         },
         [PREFERENCE_NAME_COLLAPSE_TOOL_CALLS]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/core/collapseToolCalls/title', '折叠工具调用'),
             type: 'boolean',
             description: nls.localize('theia/ai/core/collapseToolCalls/description',
                 '将聊天回复中连续多次已完成的工具调用折叠为一行摘要，点击可展开查看每次调用的参数与结果。' +
@@ -89,14 +89,14 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: true,
         },
         [PREFERENCE_NAME_SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/core/serverSideCompactionTokenThreshold/title', '服务端压缩 Token 阈值'),
             type: 'integer',
             minimum: SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM,
             description: nls.localize('theia/ai/core/serverSideCompactionTokenThreshold/description',
                 '提供商原生服务端压缩的默认输入 token 阈值。提供商和单个聊天会话可以覆盖此值。未设置时，提供商使用其默认阈值。若设置，该值必须至少为 50,000 个 token。'),
         },
         [PREFERENCE_NAME_PROMPT_TEMPLATES]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/core/promptTemplates/title', '提示词模板文件夹'),
             description: nls.localize('theia/ai/core/promptTemplates/description',
                 '用于存储自定义提示词模板的文件夹。未自定义时使用用户配置目录。建议使用纳入版本控制的文件夹来管理你的提示词模板变体。'),
             type: 'string',
@@ -222,6 +222,7 @@ export const aiCorePreferenceSchema: PreferenceSchema = {
             default: NOTIFICATION_TYPE_OFF
         },
         [PREFERENCE_NAME_SKILL_DIRECTORIES]: {
+            title: nls.localize('theia/ai/core/skillDirectories/title', '技能目录'),
             description: nls.localize('theia/ai/core/skillDirectories/description',
                 '包含技能定义（SKILL.md 文件）的其他目录。技能提供可被 AI 代理引用的可复用指令。' +
                 '工作区中的 .prompts/skills 和 .agents/skills 目录、主目录中的 .agents/skills 目录，' +

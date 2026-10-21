@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE, MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
+import { MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { nls, PreferenceSchema } from '@theia/core';
 
 export const CODEX_API_KEY_PREF = 'ai-features.codex.apiKey';
@@ -27,7 +27,7 @@ export const CodexPreferencesSchema: PreferenceSchema = {
             markdownDescription: nls.localize('theia/ai/codex/apiKey/description',
                 'Codex 的 OpenAI API 密钥。如果未设置，将回退到共享的 OpenAI API 密钥（`ai-features.openAiOfficial.openAiApiKey`）。' +
                 '也可以通过 `OPENAI_API_KEY` 环境变量设置。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/codex/apiKey/title', 'API 密钥'),
         },
     }
 };

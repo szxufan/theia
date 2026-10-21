@@ -14,7 +14,6 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE } from '@theia/ai-core/lib/common';
 import { nls, PreferenceSchema } from '@theia/core';
 
 // We reuse the context key for the preference name
@@ -24,7 +23,7 @@ export const AUTO_MEMORY_ENABLED_PREFERENCE = 'ai-features.autoMemory.enabled';
 export const aiIdePreferenceSchema: PreferenceSchema = {
     properties: {
         [AUTO_MEMORY_ENABLED_PREFERENCE]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/ide/autoMemory/enabled/title', '自动记忆'),
             type: 'boolean',
             default: false,
             description: nls.localize('theia/ai/ide/autoMemory/enabled/description',
@@ -32,7 +31,7 @@ export const aiIdePreferenceSchema: PreferenceSchema = {
                 '提取使用 default/summarize 模型别名。默认关闭。'),
         },
         [PREFERENCE_NAME_ENABLE_AI]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/ide/enableAI/title', '启用 AI 功能'),
             markdownDescription: '❗ ' + nls.localize('theia/ai/ide/enableAI/mdDescription',
                 '此设置允许你访问 Theia IDE 的 AI 功能。\
             \n\
@@ -46,7 +45,7 @@ export const aiIdePreferenceSchema: PreferenceSchema = {
             default: false,
         },
         [PREFERENCE_NAME_ORCHESTRATOR_EXCLUSION_LIST]: {
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/ide/orchestrator/excludedAgents/title', '编排器排除的代理'),
             markdownDescription: nls.localize('theia/ai/ide/orchestrator/excludedAgents/mdDescription',
                 '编排器不允许委派给它的代理 ID 列表。' +
                 '在选择处理请求的代理时，这些代理将对编排器不可见。'),

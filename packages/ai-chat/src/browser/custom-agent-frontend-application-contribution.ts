@@ -155,9 +155,9 @@ export class AICustomAgentsFrontendApplicationContribution implements FrontendAp
         const dontShowAgain = nls.localizeByDefault('不再显示');
         const message = nls.localize(
             'theia/ai/chat/customAgents/migratePrompt/message',
-            'Your custom agents still use the older `customAgents.yml` format. '
-            + 'We recommend migrating them to the new per-agent format (`agents/<id>/agent.md`), which {0} uses going forward. '
-            + 'Each agent gets its own file next to your `customAgents.yml`, and the original is kept as a `customAgents.yml.bak` backup.',
+            '您的自定义代理仍在使用旧版 `customAgents.yml` 格式。'
+            + '建议迁移到新的按代理格式（`agents/<id>/agent.md`），{0} 今后将使用该格式。'
+            + '每个代理会在 `customAgents.yml` 旁边获得自己的文件，原文件将保留为 `customAgents.yml.bak` 备份。',
             FrontendApplicationConfigProvider.get().applicationName
         );
         const choice = await this.messageService.info(message, migrate, notNow, dontShowAgain);
@@ -190,7 +190,7 @@ export class AICustomAgentsFrontendApplicationContribution implements FrontendAp
         const overrides = reports.reduce((sum, r) => sum + r.promptOverridesMigrated, 0);
         const message = nls.localize(
             'theia/ai/chat/customAgents/migrationResult',
-            'Custom-agent migration: {0} migrated, {1} corrected, {2} failed, {3} legacy customAgents.yml backed up to .bak, {4} prompt overrides folded into agent.md.',
+            '自定义代理迁移：{0} 个已迁移，{1} 个已修正，{2} 个失败，{3} 个旧版 customAgents.yml 已备份为 .bak，{4} 个提示词覆盖已并入 agent.md。',
             migrated, corrected, failed, backedUp, overrides
         );
         // Keep the result visible until the user dismisses it (no auto-hide timeout).

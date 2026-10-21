@@ -51,8 +51,8 @@ export const HostedPluginConfigSchema: PreferenceSchema = {
                     'serverName': {
                         type: 'string',
                         description: nls.localize('theia/plugin-dev/debugPorts/serverName',
-                            'The plugin host server name, e.g. "hosted-plugin" as in "--hosted-plugin-inspect=" ' +
-                            'or "headless-hosted-plugin" as in "--headless-hosted-plugin-inspect="'),
+                            '插件宿主服务器名称，如 "--hosted-plugin-inspect=" 中的 "hosted-plugin"，'
+                            + '或 "--headless-hosted-plugin-inspect=" 中的 "headless-hosted-plugin"'),
                     },
                     'debugPort': {
                         type: 'number',

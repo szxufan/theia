@@ -14,7 +14,7 @@
 // SPDX-License-Identifier: EPL-2.0 OR GPL-2.0-only WITH Classpath-exception-2.0
 // *****************************************************************************
 
-import { AI_CORE_PREFERENCES_TITLE, MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
+import { MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { nls, PreferenceSchema } from '@theia/core';
 
 export const COPILOT_ENABLED_PREF = 'ai-features.copilot.enabled';
@@ -33,7 +33,7 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
                 + '请求通过官方 GitHub Copilot CLI 路由，该 CLI 作为后台进程运行在'
                 + '托管后端的机器上。它只会获得您的 Copilot 登录凭据，不会使用其他内容，'
                 + '因此不会使用环境中的 Token 或 GitHub CLI 的现有登录。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/copilot/enabled/title', '启用 GitHub Copilot 提供程序'),
             default: true,
             tags: ['experimental']
         },
@@ -43,7 +43,7 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
                 '覆盖自动发现的 GitHub Copilot 模型。'
                 + '为空时（默认），会从您的 Copilot 订阅中发现可用模型。'
                 + '设置显式的模型 ID 可覆盖自动发现。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/copilot/modelOverrides/title', '模型覆盖'),
             default: [],
             items: {
                 type: 'string'
@@ -55,7 +55,7 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
             markdownDescription: nls.localize('theia/ai/copilot/enterpriseUrl/mdDescription',
                 '用于身份验证和发送请求的 GitHub Enterprise 域名（例如 `github.mycompany.com`）。'
                 + '留空表示 GitHub.com。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/copilot/enterpriseUrl/title', 'GitHub Enterprise 域名'),
             default: '',
             tags: ['experimental']
         },
@@ -66,7 +66,7 @@ export const CopilotPreferencesSchema: PreferenceSchema = {
                 + '为空时（默认），将在应用程序的安装目录、`PATH` 以及全局 `npm` 目录中搜索 CLI。'
                 + '当 CLI 安装在其他位置时请设置此项。\n\n'
                 + 'CLI 不随应用程序一起提供，请使用 `npm install -g @github/copilot` 安装。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/copilot/executablePath/title', 'CLI 可执行文件路径'),
             default: '',
             tags: ['experimental']
         }

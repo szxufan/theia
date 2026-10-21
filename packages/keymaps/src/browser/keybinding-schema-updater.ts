@@ -57,7 +57,7 @@ const keybindingSchemaId = 'vscode://schemas/keybindings';
 export const keybindingSchema = {
     $id: keybindingSchemaId,
     type: 'array',
-    title: 'Keybinding Configuration File',
+    title: nls.localizeByDefault('键位绑定配置文件'),
     default: [],
     definitions: {
         key: { type: 'string', description: nls.localizeByDefault('按键或按键序列（以空格分隔）') },

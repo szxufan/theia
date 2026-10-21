@@ -15,6 +15,7 @@
 // *****************************************************************************
 
 import { interfaces } from '@theia/core/shared/inversify';
+import { nls } from '@theia/core/lib/common/nls';
 import { PreferenceConfiguration } from '@theia/core/lib/common/preferences/preference-configurations';
 import { PreferenceContribution, PreferenceSchema } from '@theia/core/lib/common/preferences/preference-schema';
 import { PreferenceScope } from '@theia/core/lib/common/preferences/preference-scope';
@@ -26,7 +27,7 @@ export const taskPreferencesSchema: PreferenceSchema = {
     properties: {
         tasks: {
             $ref: taskSchemaId,
-            description: 'Task definition file',
+            description: nls.localizeByDefault('任务定义文件'),
             default: {
                 version: '2.0.0',
                 tasks: []

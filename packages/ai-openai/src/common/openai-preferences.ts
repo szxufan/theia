@@ -15,7 +15,7 @@
 // *****************************************************************************
 
 import {
-    AI_CORE_PREFERENCES_TITLE, MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail, PREFERENCE_NAME_SERVER_SIDE_COMPACTION
+    MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail, PREFERENCE_NAME_SERVER_SIDE_COMPACTION
 } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM } from '@theia/ai-core/lib/common/language-model';
 import { LINUX_ENV_HINT, nls, PreferenceSchema } from '@theia/core';
@@ -36,12 +36,12 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
             markdownDescription: nls.localize('theia/ai/openai/apiKey/mdDescription',
                 '输入您官方 OpenAI 账户的 API 密钥。**请注意：**使用此偏好设置后，Open AI API 密钥将以明文形式存储 \
 在运行 Theia 的机器上。请使用环境变量 `OPENAI_API_KEY` 安全地设置密钥。') + LINUX_ENV_HINT,
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/openai/apiKey/title', 'API 密钥'),
         },
         [ALLOW_ENV_API_KEY_PREF]: {
             type: 'boolean',
             default: false,
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/openai/allowEnvApiKey/title', '允许使用环境变量中的 API 密钥'),
             markdownDescription: nls.localize('theia/ai/openai/allowEnvApiKey/description',
                 '允许 Theia 使用在环境中找到的 OpenAI API 密钥（`OPENAI_API_KEY`）。'
                 + '在密钥被使用之前，系统会要求您确认一次；将其重新设置为 `false` 可撤销授权。'),
@@ -52,7 +52,7 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
             items: {
                 type: 'string'
             },
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/openai/modelOverrides/title', '模型覆盖'),
             markdownDescription: nls.localize('theia/ai/openai/modelOverrides/description',
                 '覆盖从 OpenAI 发现的模型。为空时（默认），将从提供程序发现可用模型。'
                 + '设置显式的模型 ID 可精确使用这些模型；此时将完全不使用发现功能。')
@@ -60,7 +60,7 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
         [USE_RESPONSE_API_PREF]: {
             type: 'boolean',
             default: true,
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/openai/useResponseApi/title', '使用 Response API'),
             markdownDescription: nls.localize('theia/ai/openai/useResponseApi/mdDescription',
                 '对官方 OpenAI 模型使用较新的 OpenAI Response API 而不是 Chat Completion API。' +
                 '此设置仅适用于官方 OpenAI 模型——自定义提供程序必须单独配置此项。')
@@ -68,6 +68,11 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
         [SERVER_SIDE_COMPACTION_PREF]: {
             type: 'string',
             enum: ['default', 'enabled', 'disabled'],
+            enumItemLabels: [
+                nls.localizeByDefault('默认'),
+                nls.localizeByDefault('启用'),
+                nls.localizeByDefault('禁用')
+            ],
             enumDescriptions: [
                 nls.localize('theia/ai/openai/compaction/default', '遵循全局聊天服务端压缩设置。'),
                 nls.localize('theia/ai/openai/compaction/enabled', '始终为官方 OpenAI 模型请求服务端压缩。'),
@@ -79,7 +84,7 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
                 'Chat Completions API 会忽略它。"default" 遵循全局聊天设置（{0}）。在有效启用的情况下，' +
                 '当对话增长超过提供程序的阈值时，将要求 Response API 总结较早的对话轮次。',
                 `\`#${PREFERENCE_NAME_SERVER_SIDE_COMPACTION}#\``),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/openai/compaction/title', '服务端压缩'),
         },
         [SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_PREF]: {
             type: 'integer',
@@ -87,14 +92,14 @@ export const OpenAiPreferencesSchema: PreferenceSchema = {
             markdownDescription: nls.localize('theia/ai/openai/compactionTokenThreshold/description',
                 '覆盖官方 OpenAI 模型服务端压缩的全局输入 Token 阈值。未设置时，将应用全局设置或提供程序默认值。' +
                 '如果设置，该值必须至少为 50,000 Token。'),
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/openai/compactionTokenThreshold/title', '服务端压缩 Token 阈值'),
         },
         [CUSTOM_ENDPOINTS_PREF]: {
             type: 'array',
             typeDetails: {
                 [MODEL_PROVIDER_TYPE_DETAIL]: { label: nls.localize('theia/ai/openai/customProvider/label', '{0}（自定义）', 'OpenAI') } satisfies ModelProviderTypeDetail
             },
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/openai/customEndpoints/title', '自定义端点'),
             markdownDescription: nls.localize('theia/ai/openai/customEndpoints/mdDescription',
                 '添加与 OpenAI API 兼容的自定义端点（如 `vllm`）。每个端点填写 Base URL 与自己的 API 密钥（留空表示无需认证），'
                 + '并在其模型列表中声明各模型的 ID 与能力；详细说明见[我们的文档](https://theia-ide.org/docs/user_ai/#openai-compatible-models-eg-via-vllm)。'),

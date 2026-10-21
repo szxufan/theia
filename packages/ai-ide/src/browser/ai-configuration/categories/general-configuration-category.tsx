@@ -237,8 +237,37 @@ export class GeneralConfigurationCategory implements AiConfigurationCategory, Ai
         />;
     }
 
-    /** `ai-features.<segment>` → Title Case words (e.g. `codeCompletion` → "Code Completion"). */
+    /**
+     * 中文分区名映射：`ai-features.<segment>` → 分区标题。未收录的 segment（例如第三方扩展
+     * 注册的新功能域）回退为 Title Case 英文形式。
+     */
+    protected static readonly SEGMENT_LABELS: Record<string, string> = {
+        'chat': nls.localizeByDefault('聊天'),
+        'promptTemplates': nls.localizeByDefault('提示词模板'),
+        'workspaceFunctions': nls.localizeByDefault('工作区函数'),
+        'codeCompletion': nls.localizeByDefault('代码补全'),
+        'terminal': nls.localizeByDefault('终端'),
+        'web': nls.localizeByDefault('网页'),
+        'registry': nls.localizeByDefault('AI 注册表'),
+        'autoMemory': nls.localizeByDefault('自动记忆'),
+        'modelSettings': nls.localizeByDefault('模型设置'),
+        'reasoning': nls.localizeByDefault('推理'),
+        'skills': nls.localizeByDefault('技能'),
+        'notifications': nls.localizeByDefault('通知'),
+        'orchestrator': nls.localizeByDefault('编排器'),
+        'mcp': nls.localizeByDefault('MCP'),
+        'agentSettings': nls.localizeByDefault('代理设置'),
+        'languageModelAliases': nls.localizeByDefault('语言模型别名'),
+        'AiEnable': nls.localizeByDefault('AI 功能'),
+        'SCANOSS': 'SCANOSS'
+    };
+
+    /** `ai-features.<segment>` → 已知 segment 的中文分区名，未知 segment 回退 Title Case（如 `codeCompletion` → "Code Completion"）。 */
     protected segmentLabel(segment: string): string {
+        const localized = GeneralConfigurationCategory.SEGMENT_LABELS[segment];
+        if (localized) {
+            return localized;
+        }
         const spaced = segment.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
         return spaced.charAt(0).toLocaleUpperCase() + spaced.slice(1);
     }

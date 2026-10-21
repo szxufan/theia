@@ -89,6 +89,7 @@ export const WorkspacePreferencesSchema: PreferenceSchema = {
         },
         [TASK_CONTEXT_STORAGE_DIRECTORY_PREF]: {
             type: 'string',
+            title: nls.localize('theia/ai/chat/taskContextStorageDirectory/title', '任务上下文存储目录'),
             description: nls.localize('theia/ai/chat/taskContextStorageDirectory/description',
                 '用于持久化任务上下文描述的工作区相对路径，也将从中检索。' +
                 '若设置为空值，生成的任务上下文将存储在内存中而非磁盘上。'

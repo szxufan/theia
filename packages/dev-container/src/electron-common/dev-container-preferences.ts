@@ -28,8 +28,8 @@ export const DevContainerPreferenceSchema: PreferenceSchema = {
             default: 'ask',
             markdownDescription: nls.localize(
                 'theia/devContainer/attach/applyFoundConfig',
-                'Controls whether to apply a devcontainer.json found inside a container when attaching. '
-                + 'Extensions, settings, port forwarding, and post-attach commands from the configuration will be applied.'
+                '控制在附加（attach）到容器时是否应用容器内发现的 devcontainer.json。'
+                + '配置中的扩展、设置、端口转发与附加后命令将被应用。'
             )
         }
     }

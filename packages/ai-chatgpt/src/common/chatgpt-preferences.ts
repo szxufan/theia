@@ -15,7 +15,7 @@
 // *****************************************************************************
 
 import {
-    AI_CORE_PREFERENCES_TITLE, MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail, PREFERENCE_NAME_SERVER_SIDE_COMPACTION
+    MODEL_PROVIDER_TYPE_DETAIL, ModelProviderTypeDetail, PREFERENCE_NAME_SERVER_SIDE_COMPACTION
 } from '@theia/ai-core/lib/common/ai-core-preferences';
 import { SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_MINIMUM } from '@theia/ai-core/lib/common/language-model';
 import { nls, PreferenceSchema } from '@theia/core';
@@ -49,12 +49,17 @@ export const ChatGptPreferencesSchema: PreferenceSchema = {
                 '启用 ChatGPT 提供程序。启用后，状态栏将出现用于身份验证的条目，'
                 + '并会从您的 ChatGPT 订阅中发现可用模型。'),
             tags: ['experimental'],
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/chatgpt/enabled/title', '启用 ChatGPT 提供程序'),
             default: true
         },
         [SERVER_SIDE_COMPACTION_PREF]: {
             type: 'string',
             enum: ['default', 'enabled', 'disabled'],
+            enumItemLabels: [
+                nls.localizeByDefault('默认'),
+                nls.localizeByDefault('启用'),
+                nls.localizeByDefault('禁用')
+            ],
             enumDescriptions: [
                 nls.localize('theia/ai/chatgpt/compaction/default', '遵循全局聊天服务端压缩设置。'),
                 nls.localize('theia/ai/chatgpt/compaction/enabled', '始终为 ChatGPT 模型请求服务端压缩。'),
@@ -66,7 +71,7 @@ export const ChatGptPreferencesSchema: PreferenceSchema = {
                 '在有效启用的情况下，当对话增长超过提供程序的阈值时，将要求 Response API 总结较早的对话轮次。',
                 `\`#${PREFERENCE_NAME_SERVER_SIDE_COMPACTION}#\``),
             tags: ['experimental'],
-            title: AI_CORE_PREFERENCES_TITLE
+            title: nls.localize('theia/ai/chatgpt/compaction/title', '服务端压缩')
         },
         [SERVER_SIDE_COMPACTION_TOKEN_THRESHOLD_PREF]: {
             type: 'integer',
@@ -75,14 +80,14 @@ export const ChatGptPreferencesSchema: PreferenceSchema = {
                 '覆盖 ChatGPT 模型服务端压缩的全局输入 Token 阈值。未设置时，将应用全局设置或提供程序默认值。' +
                 '如果设置，该值必须至少为 50,000 Token。'),
             tags: ['experimental'],
-            title: AI_CORE_PREFERENCES_TITLE
+            title: nls.localize('theia/ai/chatgpt/compactionTokenThreshold/title', '服务端压缩 Token 阈值')
         },
         [MODELS_PREF]: {
             type: 'array',
             typeDetails: { [MODEL_PROVIDER_TYPE_DETAIL]: { label: 'ChatGPT' } satisfies ModelProviderTypeDetail },
             markdownDescription: MODELS_DESCRIPTION,
             tags: ['experimental'],
-            title: AI_CORE_PREFERENCES_TITLE,
+            title: nls.localize('theia/ai/chatgpt/models/title', '模型'),
             default: [],
             items: {
                 type: 'string'
