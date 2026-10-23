@@ -34,15 +34,14 @@ export class GetDelegationResultTool implements ToolProvider {
             id: GET_DELEGATION_RESULT_FUNCTION_ID,
             name: GET_DELEGATION_RESULT_FUNCTION_ID,
             providerName: 'ai-chat',
-            description: 'Fetch the state and result of a background agent delegation started with delegateToAgent(background: true). ' +
-                'A note is also added to the conversation when a task finishes. Poll only occasionally; while a task is still ' +
-                'running, continue with other work instead of waiting.',
+            description: '获取通过 delegateToAgent(background: true) 启动的后台代理委派的状态和结果。' +
+                '任务完成时也会向会话中追加一条提示。只需偶尔轮询；任务仍在运行时，请继续其他工作而不是等待。',
             parameters: {
                 type: 'object',
                 properties: {
                     taskId: {
                         type: 'string',
-                        description: 'The taskId returned when the delegation was started.'
+                        description: '启动委派时返回的 taskId。'
                     }
                 },
                 required: ['taskId']
@@ -88,14 +87,14 @@ export class StopDelegationTool implements ToolProvider {
             id: STOP_DELEGATION_FUNCTION_ID,
             name: STOP_DELEGATION_FUNCTION_ID,
             providerName: 'ai-chat',
-            description: 'Stop a background agent delegation started with delegateToAgent(background: true). ' +
-                'The sub-agent session is cancelled and its partial result is kept retrievable.',
+            description: '停止通过 delegateToAgent(background: true) 启动的后台代理委派。' +
+                '子代理会话会被取消，其部分结果仍可获取。',
             parameters: {
                 type: 'object',
                 properties: {
                     taskId: {
                         type: 'string',
-                        description: 'The taskId returned when the delegation was started.'
+                        description: '启动委派时返回的 taskId。'
                     }
                 },
                 required: ['taskId']

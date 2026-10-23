@@ -645,22 +645,22 @@ export class GetWorkspaceDirectoryStructure implements ToolProvider {
         return {
             id: GetWorkspaceDirectoryStructure.ID,
             name: GetWorkspaceDirectoryStructure.ID,
-            description: 'Retrieves the directory tree structure as a nested JSON object. ' +
-                'By default returns all workspace roots with root names as keys. ' +
-                'Pass `root` to inspect a specific directory the tools may access, such as one listed in the ' +
-                '`ai-features.workspaceFunctions.allowedExternalPaths` preference, instead. ' +
-                'Lists only directories (no files), excluding common non-essential directories (node_modules, hidden files, etc.). ' +
-                'Useful for getting a high-level overview of project organization. ' +
-                'For listing files within a specific directory, use getWorkspaceFileList instead. ' +
-                'For finding specific files, use findFilesByPattern.',
+            description: '以嵌套 JSON 对象的形式返回目录树结构。' +
+                '默认返回所有工作区根目录，并以根名称作为键。' +
+                '也可传入 `root` 检查工具可访问的特定目录，例如 ' +
+                '`ai-features.workspaceFunctions.allowedExternalPaths` 偏好中列出的目录。' +
+                '仅列出目录（不含文件），并排除常见的非必要目录（node_modules、隐藏文件等）。' +
+                '适合获取项目组织结构的高层概览。' +
+                '要列出某个目录下的文件，请改用 getWorkspaceFileList。' +
+                '要查找特定文件，请使用 findFilesByPattern。',
             parameters: {
                 type: 'object',
                 properties: {
                     root: {
                         type: 'string',
-                        description: 'Optional absolute path or `file://` URI to inspect instead of the workspace. ' +
-                            'Must point to a directory the tools may access, such as one listed in the `allowedExternalPaths` preference. ' +
-                            'When omitted, all workspace roots are returned.'
+                        description: '可选的绝对路径或 `file://` URI，用于代替工作区进行检查。' +
+                            '必须指向工具可访问的目录，例如 `allowedExternalPaths` 偏好中列出的目录。' +
+                            '省略时返回所有工作区根目录。'
                     }
                 },
             },
@@ -756,38 +756,38 @@ export class FileContentFunction implements ToolProvider {
         return {
             id: FileContentFunction.ID,
             name: FileContentFunction.ID,
-            description: 'Returns the content of a specified file as a raw string. ' +
-                'File paths use the same format returned by other workspace tools ' +
-                '(e.g., "my-project/src/index.ts"). ' +
-                'Absolute paths and `file://` URIs are accepted when the target is a location the tools may access, ' +
-                'such as a directory listed in the `ai-features.workspaceFunctions.allowedExternalPaths` preference. ' +
-                'If the file is currently open in an editor with unsaved changes, returns the editor\'s current content (not the saved file on disk). ' +
-                'Binary files may not be readable and will return an error. ' +
-                'Use this tool to read file contents before making any edits with replacement functions. ' +
-                'Do NOT use this for files you haven\'t located yet - use findFilesByPattern or searchInWorkspace first. ' +
-                'Files exceeding the configured size limit will return an error. ' +
-                'It is recommended to read the whole file by not providing offset or limit parameters, ' +
-                'unless you expect it to be very large. ' +
-                'If the size limit is hit, do NOT attempt to read the full file in chunks using offset and limit — ' +
-                'this wastes context window. Use searchInWorkspace to find the specific content you need instead.',
+            description: '以原始字符串形式返回指定文件的内容。' +
+                '文件路径使用与其他工作区工具相同的格式' +
+                '（例如 "my-project/src/index.ts"）。' +
+                '当目标位于工具可访问的位置（例如 `ai-features.workspaceFunctions.allowedExternalPaths` 偏好中列出的目录）时，' +
+                '也接受绝对路径和 `file://` URI。' +
+                '如果文件当前在编辑器中打开且有未保存的修改，返回编辑器的当前内容（而不是磁盘上已保存的文件）。' +
+                '二进制文件可能无法读取，将返回错误。' +
+                '在使用替换函数做任何编辑之前，先用此工具读取文件内容。' +
+                '尚未定位到的文件不要用它读取——请先使用 findFilesByPattern 或 searchInWorkspace。' +
+                '超过配置大小限制的文件会返回错误。' +
+                '建议不提供 offset 和 limit 参数以读取整个文件，' +
+                '除非预计文件非常大。' +
+                '如果达到大小限制，不要用 offset 和 limit 分块读取整个文件——' +
+                '这会浪费上下文窗口。请改用 searchInWorkspace 查找所需的特定内容。',
             parameters: {
                 type: 'object',
                 properties: {
                     file: {
                         type: 'string',
-                        description: 'Path to the target file. May be workspace-relative ' +
-                            '(e.g., "my-project/src/index.ts"), an absolute path, or a `file://` URI. ' +
-                            'Absolute / URI forms must point to a location the tools may access, such as a directory listed in the ' +
-                            '`allowedExternalPaths` preference.',
+                        description: '目标文件的路径。可以是工作区相对路径 ' +
+                            '（例如 "my-project/src/index.ts"）、绝对路径或 `file://` URI。' +
+                            '绝对路径 / URI 形式必须指向工具可访问的位置，例如 ' +
+                            '`allowedExternalPaths` 偏好中列出的目录。',
                     },
                     offset: {
                         type: 'number',
-                        description: 'Zero-based line offset to start reading from (default: 0). ' +
-                            'Use together with limit to page through large files.'
+                        description: '开始读取的行偏移量，从 0 开始计数（默认：0）。' +
+                            '与 limit 配合使用以分页读取大文件。'
                     },
                     limit: {
                         type: 'number',
-                        description: 'Maximum number of lines to return. Defaults to the rest of the file.'
+                        description: '返回的最大行数。默认为文件的剩余全部内容。'
                     }
                 },
                 required: ['file']
@@ -1054,21 +1054,20 @@ export class GetWorkspaceFileList implements ToolProvider {
                 properties: {
                     path: {
                         type: 'string',
-                        description: 'Path to a directory. Workspace-relative paths use the format \'rootName/path\' ' +
-                            '(e.g., \'my-project/src\', \'backend/src/components\'). ' +
-                            'Use \'\' or \'.\' to list the workspace top-level directories. ' +
-                            'Absolute paths and `file://` URIs are accepted when they point to a location the tools may access, ' +
-                            'such as a directory listed in the `allowedExternalPaths` preference.'
+                        description: '目录路径。工作区相对路径使用 \'rootName/path\' 格式 ' +
+                            '（例如 \'my-project/src\'、\'backend/src/components\'）。' +
+                            '使用 \'\' 或 \'.\' 列出工作区顶层目录。' +
+                            '指向工具可访问位置（例如 `allowedExternalPaths` 偏好中列出的目录）的绝对路径和 `file://` URI 也会被接受。'
                     }
                 },
                 required: ['path']
             },
-            description: 'Lists files and directories within a specified directory. ' +
-                'Returns a JSON object mapping each immediate child name to its type ("directory" or "file"). ' +
-                'Use "" or "." to list the workspace top-level directories. ' +
-                'Use this to explore directory structure step by step. ' +
-                'For finding specific files by pattern, use findFilesByPattern instead. ' +
-                'For searching file contents, use searchInWorkspace instead.',
+            description: '列出指定目录内的文件和目录。' +
+                '返回一个 JSON 对象，将每个直接子项的名称映射到其类型（"directory" 或 "file"）。' +
+                '使用 "" 或 "." 列出工作区顶层目录。' +
+                '用它逐步探索目录结构。' +
+                '要按模式查找特定文件，请改用 findFilesByPattern。' +
+                '要搜索文件内容，请改用 searchInWorkspace。',
             handler: (arg_string: string, ctx?: ToolInvocationContext) => {
                 const args = JSON.parse(arg_string);
                 return this.getProjectFileList(args.path, ctx?.cancellationToken);
@@ -1169,20 +1168,19 @@ export class FileDiagnosticProvider implements ToolProvider {
             id: FileDiagnosticProvider.ID,
             name: FileDiagnosticProvider.ID,
             description:
-                'Retrieves Error and Warning level diagnostics for a specific file in the workspace (Info and Hint level are filtered out). ' +
-                'Returns a list of problems including: surrounding source code context (at least 3 lines), the error/warning message, ' +
-                'and optionally a diagnostic code with description. ' +
-                'Note: If the file was not recently opened, diagnostics may take a few seconds to appear as language services initialize. ' +
-                'If no diagnostics are returned, the file may be error-free OR language services may not be active for this file type. ' +
-                'Use this after making code changes to verify they compile correctly.',
+                '获取工作区中特定文件的 Error 和 Warning 级别诊断（Info 和 Hint 级别会被过滤掉）。' +
+                '返回问题列表，包括：周边源码上下文（至少 3 行）、错误/警告消息，' +
+                '以及可选的诊断代码及其描述。' +
+                '注意：如果文件最近未被打开过，语言服务初始化可能需要几秒钟，诊断才会出现。' +
+                '如果未返回诊断，可能是文件没有错误，也可能是该文件类型的语言服务未激活。' +
+                '修改代码后用它验证代码能否正确编译。',
             parameters: {
                 type: 'object',
                 properties: {
                     file: {
                         type: 'string',
-                        description: 'The path to the target file. May be workspace-relative ' +
-                            '(e.g., "my-project/src/index.ts", "backend/src/main.ts"), an absolute path, or a `file://` URI ' +
-                            'pointing to a location the tools may access.'
+                        description: '目标文件的路径。可以是工作区相对路径 ' +
+                            '（例如 "my-project/src/index.ts"、"backend/src/main.ts"）、绝对路径，或指向工具可访问位置的 `file://` URI。'
                     }
                 },
                 required: ['file']
@@ -1313,37 +1311,36 @@ export class FindFilesByPattern implements ToolProvider {
         return {
             id: FindFilesByPattern.ID,
             name: FindFilesByPattern.ID,
-            description: 'Find files matching a given glob pattern. ' +
-                'By default searches across all workspace roots. ' +
-                'Pass `searchRoot` to search a directory the tools may access, such as one listed in the ' +
-                '`ai-features.workspaceFunctions.allowedExternalPaths` preference, instead. ' +
-                'This function allows efficient discovery of files using patterns like \'**/*.ts\' for all TypeScript files or ' +
-                '\'src/**/*.js\' for JavaScript files in the src directory. The function respects gitignore patterns and user exclusions, ' +
-                'returns workspace-relative paths (e.g., "my-project/src/index.ts") or absolute paths for external roots, ' +
-                'and limits results to 200 files maximum. ' +
-                'Use this to find files by name/extension. Do NOT use this for searching file contents - use searchInWorkspace instead.',
+            description: '查找匹配给定 glob 模式的文件。' +
+                '默认在所有工作区根目录中搜索。' +
+                '也可传入 `searchRoot` 以搜索工具可访问的目录，例如 ' +
+                '`ai-features.workspaceFunctions.allowedExternalPaths` 偏好中列出的目录。' +
+                '支持用 \'**/*.ts\'（所有 TypeScript 文件）、\'src/**/*.js\'（src 目录下的 JavaScript 文件）等模式高效发现文件。' +
+                '该函数遵循 gitignore 模式和用户排除项，返回工作区相对路径（例如 "my-project/src/index.ts"），' +
+                '对外部根目录则返回绝对路径，结果最多 200 个文件。' +
+                '用它按名称/扩展名查找文件。不要用它搜索文件内容——请改用 searchInWorkspace。',
             parameters: {
                 type: 'object',
                 properties: {
                     pattern: {
                         type: 'string',
-                        description: 'Glob pattern to match files against. ' +
-                            'Examples: \'**/*.ts\' (all TypeScript files), \'src/**/*.js\' (JS files in src), ' +
-                            '\'**/*.{js,ts}\' (JS or TS files), \'**/test/**/*.spec.ts\' (test files).'
+                        description: '用于匹配文件的 glob 模式。' +
+                            '示例：\'**/*.ts\'（所有 TypeScript 文件）、\'src/**/*.js\'（src 下的 JS 文件）、' +
+                            '\'**/*.{js,ts}\'（JS 或 TS 文件）、\'**/test/**/*.spec.ts\'（测试文件）。'
                     },
                     exclude: {
                         type: 'array',
                         items: { type: 'string' },
-                        description: 'Optional glob patterns to exclude. ' +
-                            'Examples: [\'**/*.spec.ts\', \'**/node_modules/**\']. ' +
-                            'Common exclusions (node_modules, .git) are applied automatically via gitignore.'
+                        description: '可选的排除 glob 模式。' +
+                            '示例：[\'**/*.spec.ts\', \'**/node_modules/**\']。' +
+                            '常见排除项（node_modules、.git）已通过 gitignore 自动应用。'
                     },
                     searchRoot: {
                         type: 'string',
-                        description: 'Optional absolute path or `file://` URI to search instead of the workspace. ' +
-                            'Must point to a directory the tools may access, such as one listed in the `allowedExternalPaths` preference. ' +
-                            'When set, results are returned as absolute paths so they can be passed back to getFileContent. ' +
-                            'When omitted (default), all workspace roots are searched and results are workspace-relative.'
+                        description: '可选的绝对路径或 `file://` URI，用于代替工作区进行搜索。' +
+                            '必须指向工具可访问的目录，例如 `allowedExternalPaths` 偏好中列出的目录。' +
+                            '设置后结果以绝对路径返回，以便回传给 getFileContent。' +
+                            '省略时（默认）搜索所有工作区根目录，结果为工作区相对路径。'
                     }
                 },
                 required: ['pattern']

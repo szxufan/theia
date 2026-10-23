@@ -38,7 +38,7 @@ export const InDebugReplContextKey = Symbol('inDebugReplContextKey');
 
 export namespace DebugConsoleCommands {
 
-    export const DEBUG_CATEGORY = 'Debug';
+    export const DEBUG_CATEGORY = '调试';
 
     export const CLEAR = Command.toDefaultLocalizedCommand({
         id: 'debug.console.clear',

@@ -45,41 +45,41 @@ export class WorkspaceSearchProvider implements ToolProvider {
         return {
             id: SEARCH_IN_WORKSPACE_FUNCTION_ID,
             name: SEARCH_IN_WORKSPACE_FUNCTION_ID,
-            description: 'Searches file contents within the workspace for lines matching the given search term. ' +
-            'Returns up to 30 matching results by default (configurable via preferences). If results are truncated, ' +
-            'refine your search with fileExtensions or subDirectoryPath filters. ' +
-            'The search uses case-insensitive string matching or regular expressions (controlled by the `useRegExp` parameter). ' +
-            'Returns a list of matches including: file path, line number, and the matching line content. ' +
-            'Multi-word patterns must match exactly (including spaces, case-insensitively). ' +
-            'For best results, use specific search terms and filter by file extensions or subdirectories. ' +
-            'For complex searches, prefer multiple simpler queries over one complex regex. ' +
-            'Use this for finding code patterns, function usages, or text across the codebase. ' +
-            'Do NOT use this for finding files by name - use findFilesByPattern instead.',
+            description: '在工作区文件内容中搜索匹配给定搜索词的行。' +
+            '默认最多返回 30 条匹配结果（可通过偏好配置）。如果结果被截断，' +
+            '请用 fileExtensions 或 subDirectoryPath 过滤条件细化搜索。' +
+            '搜索采用不区分大小写的字符串匹配或正则表达式（由 `useRegExp` 参数控制）。' +
+            '返回的匹配列表包括：文件路径、行号和匹配行的内容。' +
+            '多词模式必须完全匹配（包括空格，不区分大小写）。' +
+            '为获得最佳结果，请使用具体的搜索词并按文件扩展名或子目录过滤。' +
+            '复杂搜索时，优先使用多个简单查询而非一个复杂 regex。' +
+            '用它查找代码模式、函数用法或代码库中的文本。' +
+            '不要用它按名称查找文件——请改用 findFilesByPattern。',
             parameters: {
                 type: 'object',
                 properties: {
                     query: {
                         type: 'string',
-                        description: 'The search term or regular expression pattern.',
+                        description: '搜索词或正则表达式模式。',
                     },
                     useRegExp: {
                         type: 'boolean',
-                        description: 'Set to true if the query is a regular expression.',
+                        description: '如果 query 是正则表达式，请设为 true。',
                     },
                     fileExtensions: {
                         type: 'array',
                         items: {
                             type: 'string'
                         },
-                        description: 'Optional array of file extensions to search in (e.g., ["ts", "js", "py"]). If not specified, searches all files.'
+                        description: '可选的文件扩展名数组，用于限定搜索范围（例如 ["ts", "js", "py"]）。未指定时搜索所有文件。'
                     },
                     subDirectoryPath: {
                         type: 'string',
-                        description: 'Optional directory to limit the search scope ' +
-                            '(e.g., "frontend/src", "backend/packages/core/src/browser"). ' +
-                            'May also be an absolute path or `file://` URI of a directory the AI tools may access, ' +
-                            'such as one listed in the `ai-features.workspaceFunctions.allowedExternalPaths` preference. ' +
-                            'If not specified, searches the entire workspace.'
+                        description: '可选的目录，用于限定搜索范围 ' +
+                            '（例如 "frontend/src"、"backend/packages/core/src/browser"）。' +
+                            '也可以是 AI 工具可访问目录的绝对路径或 `file://` URI，' +
+                            '例如 `ai-features.workspaceFunctions.allowedExternalPaths` 偏好中列出的目录。' +
+                            '未指定时搜索整个工作区。'
                     }
                 },
                 required: ['query', 'useRegExp']

@@ -70,49 +70,49 @@ const CONTENT_REF_SCHEMA: ToolRequestParameterProperty = {
     properties: {
         path: {
             type: 'string',
-            description: 'Workspace-relative file path. Required unless "empty" is true.'
+            description: '工作区相对文件路径。除非 "empty" 为 true，否则必填。'
         },
         gitRef: {
             type: 'string',
-            description: 'Optional git ref (branch, tag, or commit hash). Ignored when "empty" is true.'
+            description: '可选的 git 引用（分支、标签或提交哈希）。当 "empty" 为 true 时忽略。'
         },
         line: {
             type: 'number',
-            description: 'Optional 1-based line number to scroll to. Ignored when "empty" is true.'
+            description: '可选的行号（从 1 开始计数），用于定位滚动。当 "empty" 为 true 时忽略。'
         },
         empty: {
             type: 'boolean',
-            description: 'Set to true to mark this side as intentionally empty (e.g., for newly added or deleted files in a diff).'
+            description: '设为 true 表示该侧刻意留空（例如 diff 中新增或删除的文件）。'
         },
         label: {
             type: 'string',
-            description: 'Optional label for an empty side (e.g., "new file", "deleted"). Only used when "empty" is true.'
+            description: '空白侧的可选标签（例如 "新文件"、"已删除"）。仅当 "empty" 为 true 时使用。'
         }
     },
-    description: 'Content reference. Provide "path" for a real file (optionally with "gitRef" and/or "line"), '
-        + 'or set "empty": true to represent a missing side of a diff.'
+    description: '内容引用。为真实文件提供 "path"（可选附带 "gitRef" 和/或 "line"），'
+        + '或设置 "empty": true 表示 diff 中缺失的一侧。'
 };
 
 const STEP_SCHEMA: ToolRequestParameterProperty = {
     type: 'object',
     properties: {
-        title: { type: 'string', description: 'A short title for this step.' },
-        message: { type: 'string', description: 'A markdown-formatted message to present to the user.' },
+        title: { type: 'string', description: '该步骤的简短标题。' },
+        message: { type: 'string', description: '向用户展示的 markdown 格式消息。' },
         options: {
             type: 'array',
             items: {
                 type: 'object',
                 properties: {
-                    text: { type: 'string', description: 'Display text for the option button.' },
-                    value: { type: 'string', description: 'Value returned when the user selects this option.' },
-                    description: { type: 'string', description: 'Optional longer description shown with the option.' },
-                    buttonLabel: { type: 'string', description: 'Optional prominent button label text. Falls back to text if not provided.' }
+                    text: { type: 'string', description: '选项按钮的显示文本。' },
+                    value: { type: 'string', description: '用户选择该选项时返回的值。' },
+                    description: { type: 'string', description: '随选项一起显示的可选详细描述。' },
+                    buttonLabel: { type: 'string', description: '可选的醒目按钮标签文本。未提供时回退为 text。' }
                 },
                 required: ['text', 'value']
             },
-            description: 'Buttons offered to the user for this step. '
-                + 'Omit it (or pass an empty array) only for purely informational steps: a step without options is never a confirmation, '
-                + 'so never use one to ask for approval. In a multi-step interaction a hardcoded "Next"/"Finish" button is always shown to advance.'
+            description: '该步骤向用户提供的按钮。'
+                + '仅在纯信息展示步骤中省略（或传空数组）：没有选项的步骤绝不会构成确认，'
+                + '因此绝不要用它来征求同意。多步骤交互中始终会显示一个固定的“下一步”/“完成”按钮用于推进。'
         },
         links: {
             type: 'array',
@@ -121,26 +121,26 @@ const STEP_SCHEMA: ToolRequestParameterProperty = {
                 properties: {
                     ref: {
                         ...CONTENT_REF_SCHEMA,
-                        description: 'Content reference for the file (or left side of a diff). '
-                            + 'Provide "path" for a real file, or "empty": true for files that did not exist.'
+                        description: '文件（或 diff 左侧）的内容引用。'
+                            + '为真实文件提供 "path"，对原本不存在的文件设置 "empty": true。'
                     },
                     rightRef: {
                         ...CONTENT_REF_SCHEMA,
-                        description: 'Right-side content reference for a diff view. '
-                            + 'Only provide this when the step should show a diff; omit it entirely for a single file link. '
-                            + 'Provide "path" for a real file, or "empty": true for files that no longer exist.'
+                        description: 'diff 视图右侧的内容引用。'
+                            + '仅当该步骤要展示 diff 时才提供；单个文件链接请完全省略。'
+                            + '为真实文件提供 "path"，对已不存在的文件设置 "empty": true。'
                     },
-                    label: { type: 'string', description: 'Optional label for the link or diff tab.' },
+                    label: { type: 'string', description: '链接或 diff 标签页的可选标签。' },
                     autoOpen: {
                         type: 'boolean',
-                        description: 'Whether to automatically open the file/diff when this step becomes active. Defaults to false; '
-                            + 'set to true only when the link is essential context the user must see immediately.'
+                        description: '该步骤变为当前步骤时是否自动打开文件/diff。默认为 false；'
+                            + '仅当链接是用户必须立即查看的关键上下文时才设为 true。'
                     }
                 },
                 required: ['ref']
             },
-            description: 'Optional links to files or diffs to show alongside this step. '
-                + 'Use "ref" alone for a single file link. Add "rightRef" only when the step should show a diff.'
+            description: '随该步骤一起显示的可选文件或 diff 链接。'
+                + '仅用 "ref" 表示单个文件链接；只在该步骤要展示 diff 时才添加 "rightRef"。'
         }
     },
     required: ['title', 'message']
@@ -152,25 +152,25 @@ const TOOL_PARAMETERS: ToolRequestParameters = {
         interactions: {
             type: 'array',
             items: STEP_SCHEMA,
-            description: 'Ordered list of interaction steps. The user walks through them sequentially and can revisit previous steps.'
+            description: '有序的交互步骤列表。用户按顺序逐步浏览，也可以回到之前的步骤。'
         }
     },
     required: ['interactions']
 };
 
-const TOOL_DESCRIPTION = 'Present an interactive user interaction. Each step has a title, a markdown message, optional option buttons, '
-    + 'and optional file/diff links that the user can click. '
-    + 'For links, use "ref" alone to show one file; add "rightRef" only when the step should show a diff. '
-    + 'Single-step behavior: if the step has options, the tool waits for the user to pick one option and then completes the interaction; '
-    + 'if the step has no options, it is purely informational and is auto-completed by the tool '
-    + '(do not promise the user a "Finish" or "Next" button; there is none, and no comments can be entered). '
-    + 'Multi-step behavior: the user advances through steps with a "Next" button (or "Finish" on the last step), can revisit previous steps, '
-    + 'and may add free-form comments on every step. '
-    + 'The tool returns a JSON string with { "completed": boolean, "steps": [{ "title", "value"?, "comments"?, "skipped"? }] }. '
-    + 'If the user cancels mid-interaction, the tool returns whatever has been collected so far with "completed": false. '
-    + 'Use this to walk users through a series of pre-determined findings or decisions in a single tool call, '
-    + 'or to surface a single message/diff that should be shown inline in the chat. '
-    + 'Pass nested values as real JSON arrays and objects, never as JSON-encoded strings.';
+const TOOL_DESCRIPTION = '展示一个交互式用户交互。每个步骤包含标题、markdown 消息、可选的选项按钮，'
+    + '以及用户可点击的可选文件/diff 链接。'
+    + '链接方面，仅用 "ref" 展示单个文件；只在该步骤要展示 diff 时才添加 "rightRef"。'
+    + '单步骤行为：如果该步骤有选项，工具会等待用户选择一个选项，然后完成交互；'
+    + '如果没有选项，则纯属信息展示，由工具自动完成'
+    + '（不要向用户承诺会有“完成”或“下一步”按钮；没有这类按钮，也无法输入评论）。'
+    + '多步骤行为：用户通过“下一步”按钮（最后一步为“完成”）推进各步骤，可以回到之前的步骤，'
+    + '并可在每个步骤添加自由格式的评论。'
+    + '工具返回一个 JSON 字符串，格式为 { "completed": boolean, "steps": [{ "title", "value"?, "comments"?, "skipped"? }] }。'
+    + '如果用户中途取消，工具会返回目前收集到的内容，且 "completed" 为 false。'
+    + '用它可在一次工具调用中引导用户完成一系列预先确定的发现或决策，'
+    + '或在聊天中内联展示单条消息/diff。'
+    + '嵌套值必须作为真正的 JSON 数组和对象传入，绝不要传 JSON 编码后的字符串。';
 
 @injectable()
 export class UserInteractionTool implements ToolProvider {

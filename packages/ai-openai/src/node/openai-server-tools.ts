@@ -22,5 +22,5 @@ export const OPENAI_WEB_SEARCH_REPLAY_DATA_KEY = 'openAiWebSearchReplay';
 export const OPENAI_SERVER_TOOLS: ServerToolDescriptor[] = [{
     id: OPENAI_WEB_SEARCH,
     name: 'Web Search',
-    description: 'Lets the model search the web on OpenAI\'s infrastructure.'
+    description: '让模型在 OpenAI 的基础设施上搜索网络。'
 }];

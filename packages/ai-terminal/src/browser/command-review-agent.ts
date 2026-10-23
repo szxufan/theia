@@ -151,7 +151,7 @@ export class CommandReviewAgent implements Agent {
                 type: 'json_schema',
                 json_schema: {
                     name: 'command-review',
-                    description: 'Safety review of a shell command about to run',
+                    description: '对即将运行的 shell 命令进行安全审查',
                     schema: CommandReview.toJSONSchema()
                 }
             },

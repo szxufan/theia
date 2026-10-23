@@ -29,12 +29,12 @@ import { AskAIInputFactory } from './ask-ai-input-widget';
 export namespace AI_EDITOR_COMMANDS {
     export const AI_EDITOR_ASK_AI: Command = Command.toLocalizedCommand({
         id: 'ai-editor.contextAction',
-        label: 'Ask AI',
+        label: '询问 AI',
         iconClass: codicon('sparkle')
     }, 'theia/ai-editor/contextMenu');
     export const AI_EDITOR_SEND_TO_CHAT: Command = Command.toLocalizedCommand({
         id: 'ai-editor.sendToChat',
-        label: 'Send to AI Chat'
+        label: '发送到 AI 聊天'
     }, 'theia/ai-editor/sendToChat');
 };
 

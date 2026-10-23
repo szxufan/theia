@@ -38,7 +38,7 @@ export class LaunchBrowserProvider extends BrowserAutomationToolProvider {
         return {
             id: LaunchBrowserProvider.ID,
             name: LaunchBrowserProvider.ID,
-            description: 'Start the browser.',
+            description: '启动浏览器。',
             parameters: {
                 type: 'object',
                 properties: {},
@@ -94,7 +94,7 @@ export class CloseBrowserProvider extends BrowserAutomationToolProvider {
         return {
             id: CloseBrowserProvider.ID,
             name: CloseBrowserProvider.ID,
-            description: 'Close the browser.',
+            description: '关闭浏览器。',
             parameters: {
                 type: 'object',
                 properties: {},
@@ -119,7 +119,7 @@ export class IsBrowserRunningProvider extends BrowserAutomationToolProvider {
         return {
             id: IsBrowserRunningProvider.ID,
             name: IsBrowserRunningProvider.ID,
-            description: 'Check if the browser is running.',
+            description: '检查浏览器是否正在运行。',
             parameters: {
                 type: 'object',
                 properties: {},
@@ -145,14 +145,14 @@ export class QueryDomProvider extends BrowserAutomationToolProvider {
         return {
             id: QueryDomProvider.ID,
             name: QueryDomProvider.ID,
-            description: 'Query the DOM of the active page.',
+            description: '查询活动页面的 DOM。',
             parameters: {
                 type: 'object',
                 properties: {
                     selector: {
                         type: 'string',
-                        description: `The selector of the element to get the DOM of. The selector is a 
-                        CSS selector that identifies the element. If not provided, the entire DOM will be returned.`
+                        description: `要获取 DOM 的元素选择器。该选择器是
+                        标识元素的 CSS 选择器。未提供时返回整个 DOM。`
                     }
                 },
                 required: []

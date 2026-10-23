@@ -49,85 +49,84 @@ export class ShellBackgroundExecutionTool extends AbstractShellExecutionTool {
             id: SHELL_EXECUTE_BACKGROUND_FUNCTION_ID,
             name: SHELL_EXECUTE_BACKGROUND_FUNCTION_ID,
             providerName: 'ai-terminal',
-            confirmAlwaysAllow: 'This tool starts background processes on the host system with full system access.',
-            description: `Run a shell command as a managed background task and read its output incrementally.
-Use this instead of shellExecute whenever the command runs long or keeps running (builds, watch modes, dev servers, test suites that take minutes).
+            confirmAlwaysAllow: '此工具在主机系统上启动后台进程，拥有完整的系统访问权限。',
+            description: `将 shell 命令作为受管理的后台任务运行，并增量读取其输出。
+当命令运行时间长或持续运行时（构建、监视模式、开发服务器、耗时数分钟的测试套件），请用此工具代替 shellExecute。
 
-Actions:
-- start: launch \`command\` in the background; returns a taskId at once. \`cwd\` works like in shellExecute.
-- status: report whether the task is still running, its exit code, and timing.
-- read: return output, in one of two modes (see below).
-- stop: terminate the task's process tree. Always stop tasks you no longer need.
+动作：
+- start：在后台启动 \`command\`；立即返回 taskId。\`cwd\` 的用法与 shellExecute 相同。
+- status：报告任务是否仍在运行、退出码及耗时。
+- read：返回输出，有两种模式（见下）。
+- stop：终止任务的进程树。不再需要的任务请务必停止。
 
-Read modes:
-- Incremental polling: pass \`fromOffset\` (start at 0); the response contains the next offset and \`eof\`.
-  Cheap way to tail live output. Poll every few seconds rather than in a tight loop.
-- Line-based selection: pass any of filter/head/tail/fromLine/toLine/maxLines/stream to slice the whole
-  output accumulated so far - filter keeps regex-matching lines with original line numbers, head/tail take
-  the first/last N lines, fromLine/toLine address original 1-based lines, maxLines caps the response
-  (default 200, max 2000; hasMore + fromLine = endLine + 1 paginate). \`eof\` is true once the task finished.
+读取模式：
+- 增量轮询：传入 \`fromOffset\`（从 0 开始）；响应中包含下一个偏移量和 \`eof\`。
+  这是跟踪实时输出的低成本方式。每隔几秒轮询一次，不要紧密循环。
+- 按行选取：传入 filter/head/tail/fromLine/toLine/maxLines/stream 中的任意项，对目前已累积的全部输出切片——
+  filter 用正则保留匹配行并保留原始行号，head/tail 取前/后 N 行，fromLine/toLine 定位原始的从 1 开始的行号，
+  maxLines 限制响应行数（默认 200，最大 2000；hasMore + fromLine = endLine + 1 翻页）。任务结束后 \`eof\` 为 true。
 
-KEEP THE STARTED COMMAND SIMPLE: do NOT pipe through grep/head/tail/wc/sed just to shape or limit output;
-use the native read options instead. Command-side filtering is only needed beyond the 1MB-per-stream cap.
+保持启动的命令简单：不要仅为整形或限制输出而通过 grep/head/tail/wc/sed 管道过滤；
+请改用原生的读取选项。仅当超过每个流 1MB 的上限时，才需要在命令侧过滤。
 
-Starting a command requires user approval, subject to the same allow/deny patterns as shellExecute.`,
+启动命令需要用户批准，遵循与 shellExecute 相同的允许/拒绝模式。`,
             parameters: {
                 type: 'object',
                 properties: {
                     action: {
                         type: 'string',
                         enum: ['start', 'status', 'read', 'stop'],
-                        description: 'The operation to perform on a background task.'
+                        description: '要对后台任务执行的操作。'
                     },
                     command: {
                         type: 'string',
-                        description: 'The shell command to run (action "start" only). Describe it in `description`. ' +
-                            'Keep it free of output-shaping filters; use the read options to inspect output.'
+                        description: '要运行的 shell 命令（仅动作 "start"）。请在 `description` 中描述它。' +
+                            '不要加入整形输出的过滤器；请用读取选项查看输出。'
                     },
                     description: {
                         type: 'string',
-                        description: 'What the command does, in active voice (action "start" only), so the user can verify it.'
+                        description: '命令的作用，使用主动语态（仅动作 "start"），便于用户核对。'
                     },
                     cwd: {
                         type: 'string',
-                        description: 'Working directory for the command (action "start" only): workspace-relative or absolute.'
+                        description: '命令的工作目录（仅动作 "start"）：工作区相对路径或绝对路径。'
                     },
                     taskId: {
                         type: 'string',
-                        description: 'The task handle returned by start (actions "status", "read", "stop").'
+                        description: 'start 返回的任务句柄（动作 "status"、"read"、"stop"）。'
                     },
                     fromOffset: {
                         type: 'number',
-                        description: 'Character offset to read output from (action "read", incremental mode); use the offset of the previous read, 0 for the first.'
+                        description: '读取输出的起始字符偏移（动作 "read"，增量模式）；使用上次读取返回的偏移，首次传 0。'
                     },
                     filter: {
                         type: 'string',
-                        description: 'Regex keeping only matching lines, preserving original line numbers (action "read", line mode).'
+                        description: '正则表达式，只保留匹配的行并保留原始行号（动作 "read"，按行模式）。'
                     },
                     stream: {
                         type: 'string',
                         enum: ['combined', 'stdout', 'stderr'],
-                        description: 'Which stream to read (action "read", line mode). Default "combined".'
+                        description: '要读取的流（动作 "read"，按行模式）。默认 "combined"。'
                     },
                     head: {
                         type: 'number',
-                        description: 'First N lines of the filtered view (action "read", line mode).'
+                        description: '过滤后视图的前 N 行（动作 "read"，按行模式）。'
                     },
                     tail: {
                         type: 'number',
-                        description: 'Last N lines of the filtered view (action "read", line mode).'
+                        description: '过滤后视图的后 N 行（动作 "read"，按行模式）。'
                     },
                     fromLine: {
                         type: 'number',
-                        description: 'Start of a 1-based inclusive line range on original line numbers (action "read", line mode).'
+                        description: '基于原始行号的、从 1 开始的闭区间行范围的起始行（动作 "read"，按行模式）。'
                     },
                     toLine: {
                         type: 'number',
-                        description: 'End of a 1-based inclusive line range on original line numbers (action "read", line mode).'
+                        description: '基于原始行号的、从 1 开始的闭区间行范围的结束行（动作 "read"，按行模式）。'
                     },
                     maxLines: {
                         type: 'number',
-                        description: 'Maximum lines returned per read (action "read", line mode). Default 200, max 2000.'
+                        description: '每次读取返回的最大行数（动作 "read"，按行模式）。默认 200，最大 2000。'
                     }
                 },
                 required: ['action']

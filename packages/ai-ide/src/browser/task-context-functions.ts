@@ -40,20 +40,20 @@ export class CreateTaskContextFunction implements ToolProvider {
         return {
             id: CreateTaskContextFunction.ID,
             name: CreateTaskContextFunction.ID,
-            description: 'Create a new task context (implementation plan) for the current session. ' +
-                'The plan will be stored and opened in the editor so the user can see it. ' +
-                'Use this to document the implementation plan after exploring the codebase.',
+            description: '为当前会话创建新的任务上下文（实施计划）。' +
+                '计划会被存储并在编辑器中打开，让用户可以看到。' +
+                '探索完代码库后，用它记录实施计划。',
             parameters: {
                 type: 'object',
                 properties: {
                     title: {
                         type: 'string',
-                        description: 'Title for the task context (e.g., "Add user authentication feature")'
+                        description: '任务上下文的标题（例如 "添加用户认证功能"）'
                     },
                     content: {
                         type: 'string',
-                        description: 'The plan content in markdown format. Should include: Goal, Design, Implementation Steps (with file paths), ' +
-                            'Reference Examples, and Verification.'
+                        description: 'markdown 格式的计划内容。应包含：目标、设计、实施步骤（含文件路径）、' +
+                            '参考示例和验证方式。'
                     }
                 },
                 required: ['title', 'content']
@@ -100,19 +100,19 @@ export class GetTaskContextFunction implements ToolProvider {
         return {
             id: GetTaskContextFunction.ID,
             name: GetTaskContextFunction.ID,
-            description: 'Read the current task context (implementation plan). ' +
-                'Call this before planning or exploring a task. If a matching plan exists, use it as your roadmap instead of re-exploring, ' +
-                'but treat it as a starting point, not a mandate: deviate when a step is wrong (outdated assumptions, conflicts) ' +
-                'or a simpler alternative exists. Explain each deviation before acting on it and list deviations in your final report. ' +
-                'When a sub-agent reports a taskContextId, read it with this tool and use it as your plan. ' +
-                'Always call this before editing or resuming work to ensure you have the latest version, ' +
-                'as the user may have edited the plan directly in the editor.',
+            description: '读取当前的任务上下文（实施计划）。' +
+                '在规划或探索任务前调用它。如果存在匹配的计划，直接将其用作路线图，无需重新探索，' +
+                '但要把它当作起点而非硬性要求：当某个步骤有误（假设过时、存在冲突）或存在更简单的替代方案时可以偏离。' +
+                '执行偏离操作前先解释原因，并在最终报告中列出所有偏离之处。' +
+                '当子代理报告 taskContextId 时，用此工具读取并将其作为你的计划。' +
+                '编辑或恢复工作前务必先调用它以获取最新版本，' +
+                '因为用户可能直接在编辑器中修改过计划。',
             parameters: {
                 type: 'object',
                 properties: {
                     taskContextId: {
                         type: 'string',
-                        description: 'Optional task context ID. If not provided, returns the task context for the current session.'
+                        description: '可选的任务上下文 ID。未提供时返回当前会话的任务上下文。'
                     }
                 },
                 required: []
@@ -164,29 +164,29 @@ export class EditTaskContextFunction implements ToolProvider {
         return {
             id: EditTaskContextFunction.ID,
             name: EditTaskContextFunction.ID,
-            description: 'Edit the current task context by replacing specific content. ' +
-                'The plan will be updated and opened in the editor so the user can see the changes. ' +
-                'The oldContent must appear exactly once in the plan. ' +
-                'IMPORTANT: Always call getTaskContext first to read the latest version before editing, ' +
-                'as the user may have edited the plan directly. ' +
-                'If you see "not found" errors: The content does not exist, has different whitespace, or the plan changed. Re-read with getTaskContext first. ' +
-                'If you see "multiple occurrences" errors: Add more surrounding lines to oldContent to make it unique. ' +
-                'Common mistakes: Missing/extra trailing newlines, wrong indentation, outdated content. ' +
-                'If edits continue to fail, use rewriteTaskContext to replace the entire content.',
+            description: '通过替换特定内容来编辑当前任务上下文。' +
+                '计划会被更新并在编辑器中打开，让用户可以看到变更。' +
+                'oldContent 必须在计划中恰好出现一次。' +
+                '重要：编辑前务必先调用 getTaskContext 读取最新版本，' +
+                '因为用户可能直接修改过计划。' +
+                '如果看到 "not found" 错误：内容不存在、空白字符不同或计划已变化。请先用 getTaskContext 重新读取。' +
+                '如果看到 "multiple occurrences" 错误：在 oldContent 中加入更多上下文行使其唯一。' +
+                '常见错误：缺少/多余的行尾换行、缩进错误、内容过时。' +
+                '如果编辑持续失败，用 rewriteTaskContext 替换整个内容。',
             parameters: {
                 type: 'object',
                 properties: {
                     oldContent: {
                         type: 'string',
-                        description: 'The exact content to be replaced. Must match exactly, including whitespace and indentation.'
+                        description: '要被替换的确切内容。必须完全匹配，包括空白字符和缩进。'
                     },
                     newContent: {
                         type: 'string',
-                        description: 'The replacement text. For deletions, use an empty string.'
+                        description: '替换后的文本。删除内容时请使用空字符串。'
                     },
                     taskContextId: {
                         type: 'string',
-                        description: 'Optional task context ID. If not provided, edits the task context for the current session.'
+                        description: '可选的任务上下文 ID。未提供时编辑当前会话的任务上下文。'
                     }
                 },
                 required: ['oldContent', 'newContent']
@@ -253,8 +253,8 @@ export class ListTaskContextsFunction implements ToolProvider {
         return {
             id: ListTaskContextsFunction.ID,
             name: ListTaskContextsFunction.ID,
-            description: 'List all task contexts (plans) for the current session. ' +
-                'Use this to see what plans exist and their IDs.',
+            description: '列出当前会话的所有任务上下文（计划）。' +
+                '用它查看现有哪些计划及其 ID。',
             parameters: {
                 type: 'object',
                 properties: {},
@@ -300,20 +300,20 @@ export class RewriteTaskContextFunction implements ToolProvider {
         return {
             id: RewriteTaskContextFunction.ID,
             name: RewriteTaskContextFunction.ID,
-            description: 'Completely rewrite a task context with new content. ' +
-                'Use this as a fallback when editTaskContext fails repeatedly, ' +
-                'for example when the user has made significant changes to the plan. ' +
-                'The plan will be updated and opened in the editor so the user can see the changes.',
+            description: '用新内容完全重写任务上下文。' +
+                '当 editTaskContext 反复失败时作为兜底使用，' +
+                '例如用户对计划做了大幅修改的情况。' +
+                '计划会被更新并在编辑器中打开，让用户可以看到变更。',
             parameters: {
                 type: 'object',
                 properties: {
                     content: {
                         type: 'string',
-                        description: 'The complete new content for the task context in markdown format.'
+                        description: '任务上下文的完整新内容，markdown 格式。'
                     },
                     taskContextId: {
                         type: 'string',
-                        description: 'Optional task context ID. If not provided, rewrites the task context for the current session.'
+                        description: '可选的任务上下文 ID。未提供时重写当前会话的任务上下文。'
                     }
                 },
                 required: ['content']

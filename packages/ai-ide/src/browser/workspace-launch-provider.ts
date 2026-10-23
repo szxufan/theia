@@ -67,16 +67,16 @@ export class LaunchListProvider implements ToolProvider {
         return {
             id: LIST_LAUNCH_CONFIGURATIONS_FUNCTION_ID,
             name: LIST_LAUNCH_CONFIGURATIONS_FUNCTION_ID,
-            description: 'Lists available launch configurations in the workspace. Each result includes the configuration name, whether it is currently running, ' +
-                'and a "workspaceRoot" (identifying where the configuration is defined). ' +
-                'Optionally provide a filter substring to narrow results by name. If omitted, all configurations are returned. ' +
-                'Always call this before runLaunchConfiguration to discover exact configuration names.',
+            description: '列出工作区中可用的启动配置。每个结果包含配置名称、当前是否正在运行，' +
+                '以及 "workspaceRoot"（标识配置定义的位置）。' +
+                '可选择提供过滤子串以按名称缩小结果范围。省略时返回所有配置。' +
+                '运行 runLaunchConfiguration 前务必先调用它以获取准确的配置名称。',
             parameters: {
                 type: 'object',
                 properties: {
                     filter: {
                         type: 'string',
-                        description: 'Filter to apply on launch configuration names (empty string to retrieve all configurations).'
+                        description: '应用于启动配置名称的过滤器（空字符串表示获取全部配置）。'
                     }
                 },
                 required: []
@@ -155,21 +155,21 @@ export class LaunchRunnerProvider implements ToolProvider {
         return {
             id: RUN_LAUNCH_CONFIGURATION_FUNCTION_ID,
             name: RUN_LAUNCH_CONFIGURATION_FUNCTION_ID,
-            description: 'Starts a launch configuration and returns immediately — the application continues running in the background. ' +
-                'Use listLaunchConfigurations first to discover available configuration names and check whether one is already running. ' +
-                'If multiple configurations share the same name, specify the workspaceRoot parameter to disambiguate. ' +
-                'The response includes the debug session ID on success. If the configuration name doesn\'t match any available configuration, returns an error.',
+            description: '启动一个启动配置并立即返回——应用程序会在后台继续运行。' +
+                '先用 listLaunchConfigurations 发现可用的配置名称并检查是否已在运行。' +
+                '如果多个配置同名，请指定 workspaceRoot 参数加以区分。' +
+                '成功时响应中包含调试会话 ID。如果配置名称与任何可用配置都不匹配，则返回错误。',
             parameters: {
                 type: 'object',
                 properties: {
                     configurationName: {
                         type: 'string',
-                        description: 'The exact name of the launch configuration to start, as returned by listLaunchConfigurations.'
+                        description: '要启动的启动配置的确切名称，与 listLaunchConfigurations 返回的一致。'
                     },
                     workspaceRoot: {
                         type: 'string',
-                        description: 'The workspaceRoot value as returned by listLaunchConfigurations. ' +
-                            'Required when multiple configurations share the same name.'
+                        description: 'listLaunchConfigurations 返回的 workspaceRoot 值。' +
+                            '当多个配置同名时必填。'
                     }
                 },
                 required: ['configurationName']
@@ -309,21 +309,21 @@ export class LaunchStopProvider implements ToolProvider {
         return {
             id: STOP_LAUNCH_CONFIGURATION_FUNCTION_ID,
             name: STOP_LAUNCH_CONFIGURATION_FUNCTION_ID,
-            description: 'Stops an active launch configuration or debug session. If a configuration name is provided, stops the session matching that name. ' +
-                'If no name is provided, stops the currently active session. ' +
-                'If multiple sessions share the same configuration name, specify the workspaceRoot parameter to disambiguate. ' +
-                'Returns an error if no matching active session is found.',
+            description: '停止活动的启动配置或调试会话。如果提供了配置名称，停止匹配该名称的会话。' +
+                '未提供名称时，停止当前活动的会话。' +
+                '如果多个会话共用同一配置名称，请指定 workspaceRoot 参数加以区分。' +
+                '找不到匹配的活动会话时返回错误。',
             parameters: {
                 type: 'object',
                 properties: {
                     configurationName: {
                         type: 'string',
-                        description: 'The name of the launch configuration to stop. If omitted, stops the current active debug session.'
+                        description: '要停止的启动配置名称。省略时停止当前活动的调试会话。'
                     },
                     workspaceRoot: {
                         type: 'string',
-                        description: 'The workspaceRoot value as returned by listLaunchConfigurations. ' +
-                            'Required when multiple sessions share the same configuration name.'
+                        description: 'listLaunchConfigurations 返回的 workspaceRoot 值。' +
+                            '当多个会话共用同一配置名称时必填。'
                     }
                 },
                 required: []

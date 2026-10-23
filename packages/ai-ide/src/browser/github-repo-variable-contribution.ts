@@ -106,20 +106,20 @@ export class GitHubRepoVariableContribution implements AIVariableContribution, A
 
             if (uniqueRepos.size === 1) {
                 const [repoName] = uniqueRepos.keys();
-                return { variable: request.variable, value: `You are currently working with the GitHub repository: **${repoName}**` };
+                return { variable: request.variable, value: `你当前正在操作的 GitHub 仓库：**${repoName}**` };
             }
 
             const lines = Array.from(uniqueRepos.entries()).map(
-                ([repoName, roots]) => `- **${repoName}** (${roots.join(', ')})`
+                ([repoName, roots]) => `- **${repoName}**（${roots.join(', ')}）`
             );
             return {
                 variable: request.variable,
-                value: `You are currently working with the following GitHub repositories:\n${lines.join('\n')}`
+                value: `你当前正在操作以下 GitHub 仓库：\n${lines.join('\n')}`
             };
 
         } catch (error) {
             this.logger.warn('Failed to resolve GitHub repository name:', error);
-            return { variable: request.variable, value: 'No GitHub repository is currently selected or detected.' };
+            return { variable: request.variable, value: '当前未选择或未检测到 GitHub 仓库。' };
         }
     }
 }

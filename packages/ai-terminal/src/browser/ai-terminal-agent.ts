@@ -137,7 +137,7 @@ export class AiTerminalAgent implements Agent {
                 type: 'json_schema',
                 json_schema: {
                     name: 'terminal-commands',
-                    description: 'Suggested terminal commands based on the user request',
+                    description: '根据用户请求建议的终端命令',
                     schema: Commands.toJSONSchema()
                 }
             },

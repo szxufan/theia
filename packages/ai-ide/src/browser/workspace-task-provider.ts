@@ -90,18 +90,18 @@ export class TaskListProvider implements ToolProvider {
         return {
             id: LIST_TASKS_FUNCTION_ID,
             name: LIST_TASKS_FUNCTION_ID,
-            description: 'Lists available tasks in the workspace that can be executed with runTask. Returns an array ' +
-                'of objects, each with a "label" (the task name) and a "workspaceRoot" (identifying where the task is defined). ' +
-                'Use the filter parameter with an empty string "" to retrieve all tasks, or provide a substring ' +
-                'to filter (e.g., "test" returns tasks containing "test" in the name). ' +
-                'Always call this before runTask to discover exact task names and their workspace roots.',
+            description: '列出工作区中可用 runTask 执行的任务。返回一个对象数组，' +
+                '每个对象包含 "label"（任务名称）和 "workspaceRoot"（标识任务定义的位置）。' +
+                'filter 参数传空字符串 "" 可获取所有任务，也可以提供子串' +
+                '进行过滤（例如 "test" 返回名称中含 "test" 的任务）。' +
+                '运行 runTask 前务必先调用它以获取准确的任务名称及其工作区根。',
             parameters: {
                 type: 'object',
                 properties: {
                     filter: {
                         type: 'string',
-                        description: 'Substring filter for task names. Use "" (empty string) to retrieve all tasks, ' +
-                            'or a keyword like "build", "test", "lint" to filter results.'
+                        description: '任务名称的子串过滤器。使用 ""（空字符串）获取所有任务，' +
+                            '或用 "build"、"test"、"lint" 等关键字过滤结果。'
                     }
                 },
                 required: ['filter']
@@ -147,27 +147,27 @@ export class TaskRunnerProvider implements ToolProvider {
         return {
             id: RUN_TASK_FUNCTION_ID,
             name: RUN_TASK_FUNCTION_ID,
-            description: 'Executes a specified task by name and waits for completion. Returns the terminal output ' +
-                '(first and last 50 lines if output exceeds this limit). The task must exist in the workspace ' +
-                '(use listTasks to discover available tasks). Common task types include: build tasks ' +
-                '(e.g., "npm: build"), test tasks (e.g., "npm: test"), and lint tasks (e.g., "npm: lint"). ' +
-                'If the task fails, the error output is included in the response. Tasks may take significant ' +
-                'time to complete (builds can take minutes). The operation can be cancelled by the user. ' +
-                'Because it blocks until the task ends, do NOT use it for long-running processes (dev servers, watch tasks, ' +
-                'applications under test) - use runLaunchConfiguration for those. ' +
-                'If multiple tasks share the same label, specify the workspaceRoot parameter to disambiguate. ' +
-                'Do NOT use this for tasks you haven\'t discovered via listTasks first.',
+            description: '按名称执行指定任务并等待完成。返回终端输出' +
+                '（输出超过限制时返回前 50 行和后 50 行）。任务必须存在于工作区中' +
+                '（用 listTasks 发现可用任务）。常见任务类型包括：构建任务' +
+                '（例如 "npm: build"）、测试任务（例如 "npm: test"）和 lint 任务（例如 "npm: lint"）。' +
+                '任务失败时，响应中会包含错误输出。任务可能需要较长时间完成' +
+                '（构建可能耗时数分钟）。该操作可被用户取消。' +
+                '由于它会阻塞到任务结束，不要用于长期运行的进程（开发服务器、watch 任务、' +
+                '被测应用）——那些请用 runLaunchConfiguration。' +
+                '如果多个任务使用同一标签，请指定 workspaceRoot 参数加以区分。' +
+                '未先通过 listTasks 发现的任务不要用它执行。',
             parameters: {
                 type: 'object',
                 properties: {
                     taskName: {
                         type: 'string',
-                        description: 'The exact name/label of the task to execute, as returned by listTasks.'
+                        description: '要执行的任务的确切名称/标签，与 listTasks 返回的一致。'
                     },
                     workspaceRoot: {
                         type: 'string',
-                        description: 'The workspaceRoot value as returned by listTasks. ' +
-                            'Required when multiple tasks share the same label.'
+                        description: 'listTasks 返回的 workspaceRoot 值。' +
+                            '当多个任务使用同一标签时必填。'
                     }
                 },
                 required: ['taskName']

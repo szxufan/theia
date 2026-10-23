@@ -29,24 +29,24 @@ export class WebSearchTool implements ToolProvider {
             id: WEB_SEARCH_FUNCTION_ID,
             name: WEB_SEARCH_FUNCTION_ID,
             providerName: 'ai-web',
-            confirmAlwaysAllow: 'This tool sends the search query to an external search engine. ' +
-                'Search results could try to mislead you with embedded instructions.',
-            description: `Search the web and return a list of results (title, URL, snippet).
-Works with any configured language model — unlike provider-native web search tools.
-Use it to find documentation, error message explanations, or current information.
-Use webFetch to read a promising result afterwards.
-The search backend is configured via ai-features.web.search.* preferences (default: DuckDuckGo, no API key required).
-The first search requires user approval; the user can configure "Always Allow" to skip confirmations.`,
+            confirmAlwaysAllow: '此工具会将搜索查询发送到外部搜索引擎。' +
+                '搜索结果可能包含内嵌指令并试图误导你。',
+            description: `搜索网络并返回结果列表（标题、URL、摘要）。
+适用于任何已配置的语言模型——不同于提供商原生的网络搜索工具。
+用于查找文档、错误信息解释或最新信息。
+之后可用 webFetch 阅读有价值的结果。
+搜索后端通过 ai-features.web.search.* 偏好配置（默认：DuckDuckGo，无需 API 密钥）。
+首次搜索需要用户批准；用户可配置“始终允许”以跳过确认。`,
             parameters: {
                 type: 'object',
                 properties: {
                     query: {
                         type: 'string',
-                        description: 'The search query.'
+                        description: '搜索查询。'
                     },
                     maxResults: {
                         type: 'number',
-                        description: 'Maximum number of results to return (1-10, default 5).'
+                        description: '返回结果的最大数量（1-10，默认 5）。'
                     }
                 },
                 required: ['query']

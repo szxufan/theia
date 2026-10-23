@@ -33,16 +33,16 @@ export class ListSkills implements ToolProvider {
         return {
             id: ListSkills.ID,
             name: ListSkills.ID,
-            description: 'Lists the available skills by name and description. Skills provide reusable instructions and domain knowledge; ' +
-                `load a fitting one with ${GET_SKILL_FILE_CONTENT_FUNCTION_ID}. ` +
-                'Pass a query with a few keywords from the task to get only the skills whose name or description matches any of them, best matches first. ' +
-                'Omit the query to list all skills.',
+            description: '按名称和描述列出可用技能。技能提供可复用的指令和领域知识；' +
+                `用 ${GET_SKILL_FILE_CONTENT_FUNCTION_ID} 加载合适的技能。` +
+                '传入包含任务中几个关键字的 query，可只获取名称或描述匹配任一关键字的技能，最匹配的排在前面。' +
+                '省略 query 则列出全部技能。',
             parameters: {
                 type: 'object',
                 properties: {
                     query: {
                         type: 'string',
-                        description: 'Optional space-separated keywords, matched case-insensitively against skill names and descriptions (e.g. \'refactor test\')'
+                        description: '可选的空格分隔关键字，与技能名称和描述进行不区分大小写的匹配（例如 \'refactor test\'）'
                     }
                 },
                 required: []
@@ -75,17 +75,17 @@ export class GetSkillFileContent implements ToolProvider {
         return {
             id: GetSkillFileContent.ID,
             name: GetSkillFileContent.ID,
-            description: 'Returns the content of a skill file by skill name. Use this to read the full instructions of a skill listed by ' +
-                `${LIST_SKILLS_FUNCTION_ID} or in the available_skills. ` +
-                'If the returned skill references another available skill by its exact name or with /<skill-name> syntax, load that skill with this same tool ' +
-                'when relevant or requested. ' +
-                'Pass skill names without the leading slash. The skill name must match one of the discovered skills.',
+            description: '按技能名称返回技能文件的内容。用它读取 ' +
+                `${LIST_SKILLS_FUNCTION_ID} 或 available_skills 中列出的技能的完整指令。` +
+                '如果返回的技能以确切名称或 /<skill-name> 语法引用了另一个可用技能，在相关或被要求时' +
+                '用同一工具加载该技能。' +
+                '技能名称不带前导斜杠，且必须与已发现的技能之一匹配。',
             parameters: {
                 type: 'object',
                 properties: {
                     skillName: {
                         type: 'string',
-                        description: 'The exact name of the skill to retrieve, without a leading slash (e.g., \'pdf-processing\')'
+                        description: '要获取的技能的确切名称，不带前导斜杠（例如 \'pdf-processing\'）'
                     }
                 },
                 required: ['skillName']

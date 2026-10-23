@@ -41,37 +41,37 @@ import { SkillsVariableContribution } from './skills-variable-contribution';
 export const SELECTED_SKILLS_VARIABLE: AIVariable = {
     id: 'selected_skills',
     name: 'selected_skills',
-    description: 'Returns the list of user-selected skills from the capabilities panel'
+    description: '返回用户在能力条中选择的技能列表'
 };
 
 export const SELECTED_MCP_FUNCTIONS_VARIABLE: AIVariable = {
     id: 'selected_mcp_functions',
     name: 'selected_mcp_functions',
-    description: 'Returns the list of user-selected MCP functions from the capabilities panel'
+    description: '返回用户在能力条中选择的 MCP 函数列表'
 };
 
 export const SELECTED_FUNCTIONS_VARIABLE: AIVariable = {
     id: 'selected_functions',
     name: 'selected_functions',
-    description: 'Returns the list of user-selected functions from the capabilities panel'
+    description: '返回用户在能力条中选择的函数列表'
 };
 
 export const SELECTED_PROMPT_FRAGMENTS_VARIABLE: AIVariable = {
     id: 'selected_prompt_fragments',
     name: 'selected_prompt_fragments',
-    description: 'Returns the list of user-selected prompt fragments from the capabilities panel'
+    description: '返回用户在能力条中选择的提示词片段列表'
 };
 
 export const SELECTED_AGENT_DELEGATION_VARIABLE: AIVariable = {
     id: 'selected_agent_delegation',
     name: 'selected_agent_delegation',
-    description: 'Returns the list of user-selected agents for delegation from the capabilities panel'
+    description: '返回用户在能力条中选择的可用于委派的代理列表'
 };
 
 export const SELECTED_VARIABLES_VARIABLE: AIVariable = {
     id: 'selected_variables',
     name: 'selected_variables',
-    description: 'Returns the list of user-selected variables from the capabilities panel'
+    description: '返回用户在能力条中选择的变量列表'
 };
 
 const GENERIC_CAPABILITY_VARIABLES = [

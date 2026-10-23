@@ -42,10 +42,10 @@ import { WRITE_CONTENT_MAX_SIZE_KB_PREF } from '../common/workspace-preferences'
  * Description of the `path` parameter shared by all file changeset tools, so that they advertise the
  * same accepted forms as the read-only workspace tools.
  */
-const FILE_PATH_PARAMETER_DESCRIPTION = 'Path to the target file. May be workspace-relative ' +
-    '(e.g., "my-project/src/index.ts"), an absolute path, or a `file://` URI. ' +
-    'Absolute / URI forms must point to a location the tools may access, such as a directory listed in the ' +
-    '`ai-features.workspaceFunctions.allowedExternalPaths` preference.';
+const FILE_PATH_PARAMETER_DESCRIPTION = '目标文件的路径。可以是工作区相对路径 ' +
+    '（例如 "my-project/src/index.ts"）、绝对路径或 `file://` URI。' +
+    '绝对路径 / URI 形式必须指向工具可访问的位置，例如 ' +
+    '`ai-features.workspaceFunctions.allowedExternalPaths` 偏好中列出的目录。';
 
 function createPathShortLabel(args: string, hasMore: boolean): { label: string; hasMore: boolean } | undefined {
     const path = extractJsonStringField(args, 'path');
@@ -143,13 +143,13 @@ export class SuggestFileContent implements ToolProvider {
             name: SuggestFileContent.ID,
             // A getter, because the registry keeps the tool from startup while the limit is a live preference.
             get description(): string {
-                return `Proposes writing complete content to a file for user review. If the file exists, it will be overwritten with the provided content.
-             If the file does not exist, it will be created. This tool will automatically create any directories needed to write the file.
-             If the new content is empty, the file will be deleted. To move a file, delete it and re-create it at the new location.
-             The proposed changes will be applied when the user accepts. If called again for the same file, previously proposed changes will be overridden.
-             Use this for creating new files or when you need to rewrite an entire file.
-             For targeted edits to existing files, prefer suggestFileReplacements instead - it's more efficient and shows clearer diffs.
-             Content larger than ${getWriteContentMaxSizeKB(preferenceService)}KB is rejected.`;
+                return `提议向文件写入完整内容，供用户审阅。如果文件存在，将用提供的内容覆盖。
+             如果文件不存在，将创建该文件。此工具会自动创建写文件所需的任何目录。
+             如果新内容为空，文件将被删除。要移动文件，请先删除再在新位置重新创建。
+             提议的变更将在用户接受时应用。如果对同一文件再次调用，先前提议的变更将被覆盖。
+             用于创建新文件或需要重写整个文件的场景。
+             对现有文件做局部修改时，请优先使用 suggestFileReplacements——它更高效，diff 也更清晰。
+             超过 ${getWriteContentMaxSizeKB(preferenceService)}KB 的内容会被拒绝。`;
             },
             parameters: {
                 type: 'object',
@@ -160,8 +160,8 @@ export class SuggestFileContent implements ToolProvider {
                     },
                     content: {
                         type: 'string',
-                        description: `The COMPLETE content to write to the file. You MUST include ALL parts of the file, even if they haven't been modified.
-                         Do not truncate or omit any sections. Use empty string "" to delete the file.`
+                        description: `要写入文件的完整内容。必须包含文件的所有部分，即使未修改的部分也不例外。
+                         不要截断或省略任何段落。使用空字符串 "" 可删除文件。`
                     }
                 },
                 required: ['path', 'content']
@@ -244,14 +244,14 @@ export class WriteFileContent implements ToolProvider {
             name: WriteFileContent.ID,
             // A getter, because the registry keeps the tool from startup while the limit is a live preference.
             get description(): string {
-                return `Immediately writes complete content to a file WITHOUT user confirmation. If the file exists, it will be overwritten.
-             If the file does not exist, it will be created. This tool will automatically create any directories needed to write the file.
-             If the new content is empty, the file will be deleted. To move a file, delete it and re-create it at the new location.
-             Use this for creating new files or complete file rewrites in agent mode.
-             For targeted edits, prefer writeFileReplacements - it's more efficient and less error-prone.
-             Never write to the same file in parallel tool calls.
-             Content larger than ${getWriteContentMaxSizeKB(preferenceService)}KB is rejected.
-             CAUTION: Changes are applied immediately and cannot be undone through the chat interface.`;
+                return `立即向文件写入完整内容，无需用户确认。如果文件存在，将被覆盖。
+             如果文件不存在，将创建该文件。此工具会自动创建写文件所需的任何目录。
+             如果新内容为空，文件将被删除。要移动文件，请先删除再在新位置重新创建。
+             用于代理模式下创建新文件或完全重写文件。
+             局部修改请优先使用 writeFileReplacements——它更高效且更不易出错。
+             绝不在并行的工具调用中写同一个文件。
+             超过 ${getWriteContentMaxSizeKB(preferenceService)}KB 的内容会被拒绝。
+             注意：变更会立即应用，无法通过聊天界面撤销。`;
             },
             parameters: {
                 type: 'object',
@@ -262,8 +262,8 @@ export class WriteFileContent implements ToolProvider {
                     },
                     content: {
                         type: 'string',
-                        description: `The COMPLETE content to write to the file. You MUST include ALL parts of the file, even if they haven't been modified.
-                         Do not truncate or omit any sections. Use empty string "" to delete the file.`
+                        description: `要写入文件的完整内容。必须包含文件的所有部分，即使未修改的部分也不例外。
+                         不要截断或省略任何段落。使用空字符串 "" 可删除文件。`
                     }
                 },
                 required: ['path', 'content']
@@ -353,18 +353,18 @@ export class ReplaceContentInFileFunctionHelper {
         const replacementProperties: ToolRequestParametersProperties = {
             oldContent: {
                 type: 'string',
-                description: 'The exact content to be replaced. Must match exactly, including whitespace, comments, etc.'
+                description: '要被替换的确切内容。必须完全匹配，包括空白字符、注释等。'
             },
             newContent: {
                 type: 'string',
-                description: 'The new content to insert in place of matched old content.'
+                description: '替换匹配到的旧内容时插入的新内容。'
             }
         };
 
         if (supportMultipleReplace) {
             replacementProperties.multiple = {
                 type: 'boolean',
-                description: 'Set to true if multiple occurrences of the oldContent are expected to be replaced.'
+                description: '如果预期替换 oldContent 的多个匹配处，请设为 true。'
             };
         }
         const replacementParameters = {
@@ -372,7 +372,7 @@ export class ReplaceContentInFileFunctionHelper {
             properties: {
                 path: {
                     type: 'string',
-                    description: FILE_PATH_PARAMETER_DESCRIPTION + ' Must read the file with getFileContent first.'
+                    description: FILE_PATH_PARAMETER_DESCRIPTION + ' 必须先用 getFileContent 读取该文件。'
                 },
                 replacements: {
                     type: 'array',
@@ -381,37 +381,37 @@ export class ReplaceContentInFileFunctionHelper {
                         properties: replacementProperties,
                         required: ['oldContent', 'newContent']
                     },
-                    description: 'An array of replacement objects, each containing oldContent and newContent strings.'
+                    description: '替换对象数组，每个对象包含 oldContent 和 newContent 字符串。'
                 },
                 reset: {
                     type: 'boolean',
-                    description: 'Set to true to clear any existing pending changes for this file and start fresh. Default is false, which merges with existing changes.'
+                    description: '设为 true 可清除该文件已有的全部挂起变更并重新开始。默认为 false，即与已有变更合并。'
                 }
             },
             required: ['path', 'replacements']
         } as ToolRequestParameters;
 
         const replacementSentence = supportMultipleReplace
-            ? 'By default, a single occurrence of each old content in the tuples is expected to be replaced. If the optional \'multiple\' flag is set to true, all occurrences will\
-             be replaced. In either case, if the number of occurrences in the file does not match the expectation the function will return an error. \
-             In that case try a different approach.'
-            : 'A single occurrence of each old content in the tuples is expected to be replaced. If the number of occurrences in the file does not match the expectation,\
-              the function will return an error. In that case try a different approach.';
+            ? '默认情况下，每组元组中的旧内容应只被替换一次。如果可选的 \'multiple\' 标志设为 true，将替换所有匹配处。\
+             无论哪种情况，如果文件中匹配处数量与预期不符，函数都会返回错误。\
+             此时请换一种方式。'
+            : '每组元组中的旧内容应只被替换一次。如果文件中匹配处数量与预期不符，\
+              函数会返回错误。此时请换一种方式。';
 
         const applicationText = immediateApplication
-            ? 'The changes will be applied immediately without user confirmation.'
-            : 'The proposed changes will be applied when the user accepts.';
+            ? '变更将立即应用，无需用户确认。'
+            : '提议的变更将在用户接受时应用。';
 
-        const replacementDescription = `Propose to replace sections of content in an existing file by providing a list of tuples with old content to be matched and replaced.
-            ${replacementSentence}. For deletions, use an empty new content in the tuple.
-            Make sure you use the same line endings and whitespace as in the original file content. ${applicationText}
-            Multiple calls for the same file will merge replacements unless the reset parameter is set to true. Use the reset parameter to clear previous changes and start
-            fresh if needed.
+        const replacementDescription = `提议替换现有文件中的内容片段，需提供一个元组列表，其中包含要匹配和替换的旧内容。
+            ${replacementSentence}。删除内容时，请在元组中使用空的新内容。
+            确保使用与原文件内容相同的行尾和空白字符。${applicationText}
+            对同一文件的多次调用会合并替换结果，除非 reset 参数设为 true。需要时可使用 reset 参数清除之前的变更并
+            重新开始。
 
-            IMPORTANT: Each oldContent must match exactly (including whitespace and indentation).
-            If replacements fail with "Expected 1 occurrence but found 0": re-read the file, the content may have changed or whitespace differs.
-            If replacements fail with "found 2+": include more surrounding context in oldContent to make it unique.
-            Always use getFileContent to read the current file state before making replacements.`;
+            重要：每个 oldContent 必须完全匹配（包括空白字符和缩进）。
+            如果替换失败并提示 "Expected 1 occurrence but found 0"：请重新读取文件，内容可能已变化或空白字符不一致。
+            如果替换失败并提示 "found 2+"：请在 oldContent 中加入更多上下文使其唯一。
+            做替换前，务必先用 getFileContent 读取文件当前状态。`;
 
         return {
             description: replacementDescription,
@@ -691,9 +691,9 @@ export class ClearFileChanges implements ToolProvider {
         return {
             id: ClearFileChanges.ID,
             name: ClearFileChanges.ID,
-            description: 'Clears all pending (not yet applied) changes for a specific file, allowing you to start fresh with new modifications. ' +
-                'Use this when previous replacement attempts failed and you want to try a different approach. ' +
-                'Does not affect already-applied changes or the actual file on disk.',
+            description: '清除某个文件所有尚未应用的挂起变更，让你可以重新开始新的修改。' +
+                '当之前的替换尝试失败、想换一种方案时使用。' +
+                '不影响已应用的变更或磁盘上的实际文件。',
             parameters: {
                 type: 'object',
                 properties: {
@@ -727,10 +727,10 @@ export class GetProposedFileState implements ToolProvider {
         return {
             id: GET_PROPOSED_CHANGES_ID,
             name: GET_PROPOSED_CHANGES_ID,
-            description: 'Returns the current proposed state of a file, including all pending changes that have been proposed ' +
-                'but not yet applied. Use this to see what the file will look like after your changes are applied. ' +
-                'This is useful when making incremental changes to verify the accumulated state is correct. ' +
-                'If no pending changes exist for the file, returns the original file content.',
+            description: '返回文件当前的建议状态，包括所有已提议 ' +
+                '但尚未应用的挂起变更。用它查看你的变更应用后文件的样子。' +
+                '做增量修改时可用于确认累积状态是否正确。' +
+                '如果该文件没有挂起变更，则返回原始文件内容。',
             parameters: {
                 type: 'object',
                 properties: {
@@ -774,19 +774,19 @@ export class SuggestFileReplacements implements ToolProvider {
         return {
             id: SuggestFileReplacements.ID,
             name: SuggestFileReplacements.ID,
-            description: `Proposes to replace sections of content in an existing file by providing a list of replacements.
-            Each replacement consists of oldContent to be matched and newContent to insert in its place.
-            By default, a single occurrence of each oldContent is expected. If the 'multiple' flag is set to true, all occurrences will be replaced.
-            For deletions, use an empty newContent.
-            The proposed changes will be applied when the user accepts.
-            Multiple calls for the same file will merge replacements unless the reset parameter is set to true.
+            description: `提议替换现有文件中的内容片段，需提供一个替换列表。
+            每个替换由要匹配的 oldContent 和插入到原位置的 newContent 组成。
+            默认情况下，每个 oldContent 应只出现一次。如果 'multiple' 标志设为 true，将替换所有匹配处。
+            删除内容时，请使用空的 newContent。
+            提议的变更将在用户接受时应用。
+            对同一文件的多次调用会合并替换结果，除非 reset 参数设为 true。
 
-            IMPORTANT: Each oldContent must appear exactly once in the file (unless 'multiple' is true).
-            If you see "Expected 1 occurrence but found X" errors:
-            - If found 0: The content doesn't exist, has different whitespace/indentation, or the file changed. Re-read the file first.
-            - If found 2+: Add more surrounding lines to oldContent to make it unique.
-            Common mistakes: Missing/extra trailing newlines, wrong indentation, outdated content.
-            Always read the file with getFileContent before attempting replacements.`,
+            重要：每个 oldContent 必须在文件中恰好出现一次（除非 'multiple' 为 true）。
+            如果看到 "Expected 1 occurrence but found X" 错误：
+            - 找到 0 处：内容不存在、空白字符/缩进不同，或文件已变化。请先重新读取文件。
+            - 找到 2 处及以上：在 oldContent 中加入更多上下文行使其唯一。
+            常见错误：缺少/多余的行尾换行、缩进错误、内容过时。
+            尝试替换前，务必先用 getFileContent 读取文件。`,
             parameters: metadata.parameters,
             handler: async (args: string, ctx?: ToolInvocationContext): Promise<string> => {
                 assertChatContext(ctx);
@@ -812,20 +812,20 @@ export class WriteFileReplacements implements ToolProvider {
         return {
             id: WriteFileReplacements.ID,
             name: WriteFileReplacements.ID,
-            description: `Immediately replaces sections of content in an existing file — changes are applied to disk without user confirmation.
-            Each replacement consists of oldContent to be matched and newContent to insert in its place.
-            By default, a single occurrence of each oldContent is expected. If the 'multiple' flag is set to true, all occurrences will be replaced.
-            For deletions, use an empty newContent.
-            Make sure you use the same line endings and whitespace as in the original file content.
-            Multiple calls for the same file will merge replacements unless the reset parameter is set to true.
+            description: `立即替换现有文件中的内容片段——变更会直接写入磁盘，无需用户确认。
+            每个替换由要匹配的 oldContent 和插入到原位置的 newContent 组成。
+            默认情况下，每个 oldContent 应只出现一次。如果 'multiple' 标志设为 true，将替换所有匹配处。
+            删除内容时，请使用空的 newContent。
+            确保使用与原文件内容相同的行尾和空白字符。
+            对同一文件的多次调用会合并替换结果，除非 reset 参数设为 true。
 
-            IMPORTANT: Each oldContent must appear exactly once in the file (unless 'multiple' is true).
-            If you see "Expected 1 occurrence but found X" errors:
-            - If found 0: The content doesn't exist, has different whitespace/indentation, or the file changed. Re-read the file first.
-            - If found 2+: Add more surrounding lines to oldContent to make it unique.
-            Common mistakes: Missing/extra trailing newlines, wrong indentation, outdated content.
-            Always read the file with getFileContent before attempting replacements.
-            Never write to the same file in parallel tool calls. After many edits to one file, re-read it to verify the result.`,
+            重要：每个 oldContent 必须在文件中恰好出现一次（除非 'multiple' 为 true）。
+            如果看到 "Expected 1 occurrence but found X" 错误：
+            - 找到 0 处：内容不存在、空白字符/缩进不同，或文件已变化。请先重新读取文件。
+            - 找到 2 处及以上：在 oldContent 中加入更多上下文行使其唯一。
+            常见错误：缺少/多余的行尾换行、缩进错误、内容过时。
+            尝试替换前，务必先用 getFileContent 读取文件。
+            绝不在并行的工具调用中写同一个文件。对一个文件多次编辑后，请重新读取以核实结果。`,
             parameters: metadata.parameters,
             handler: async (args: string, ctx?: ToolInvocationContext): Promise<string> => {
                 assertChatContext(ctx);

@@ -103,24 +103,23 @@ export function getPermissionModePromptInstruction(settings?: CommonChatSessionS
     const { permissionMode, planMode } = resolvePermissionSettings(settings);
     const lines: string[] = [];
     if (planMode) {
-        lines.push('# Permission: Plan Mode Active\n'
-            + 'Mutating operations (writing files, executing commands) will be rejected. Explore the '
-            + 'workspace with read-only tools and produce a complete implementation plan. Changes will '
-            + 'only be executed after the user disables plan mode.');
+        lines.push('# 权限：计划模式已启用\n'
+            + '修改性操作（写文件、执行命令）会被拒绝。请使用只读工具探索工作区并给出完整的'
+            + '实施计划。只有在用户关闭计划模式后才会真正执行变更。');
     }
     switch (permissionMode) {
         case 'confirm':
-            lines.push('# Permission: Confirm Before Changes\n'
-                + 'File modifications and command executions require explicit user approval before they run.');
+            lines.push('# 权限：变更前确认\n'
+                + '文件修改和命令执行在运行前需要用户明确批准。');
             break;
         case 'autonomous':
-            lines.push('# Permission: Autonomous\n'
-                + 'You may modify files and run commands directly. Shell commands are safety-reviewed; '
-                + 'risky ones will ask the user for confirmation.');
+            lines.push('# 权限：自主模式\n'
+                + '你可以直接修改文件和运行命令。shell 命令会经过安全审查，'
+                + '有风险的命令会请求用户确认。');
             break;
         case 'full':
-            lines.push('# Permission: Full Access\n'
-                + 'All operations execute directly without confirmation.');
+            lines.push('# 权限：完全访问\n'
+                + '所有操作直接执行，无需确认。');
             break;
     }
     return lines.join('\n\n');

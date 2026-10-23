@@ -28,11 +28,11 @@ export const GOOGLE_SERVER_TOOLS: ServerToolDescriptor[] = [
     {
         id: GOOGLE_URL_CONTEXT,
         name: 'URL Context',
-        description: 'Lets the model fetch and ground on the contents of URLs referenced in the prompt.'
+        description: '让模型获取提示词中引用的 URL 内容并以其为依据作答。'
     },
     {
         id: GOOGLE_GOOGLE_SEARCH,
         name: 'Google Search',
-        description: 'Lets the model ground its answer with Google Search results.'
+        description: '让模型以 Google 搜索结果为依据作答。'
     }
 ];

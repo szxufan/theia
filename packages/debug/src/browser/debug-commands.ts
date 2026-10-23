@@ -47,7 +47,7 @@ export function nlsDisableBreakpoint(breakpoint: string): string {
 
 export namespace DebugCommands {
 
-    export const DEBUG_CATEGORY = 'Debug';
+    export const DEBUG_CATEGORY = '调试';
     export const DEBUG_CATEGORY_KEY = nls.getDefaultKey(DEBUG_CATEGORY);
 
     export const START = Command.toDefaultLocalizedCommand({

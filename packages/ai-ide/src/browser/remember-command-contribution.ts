@@ -49,59 +49,59 @@ export class RememberCommandContribution implements FrontendApplicationContribut
             commandName: 'remember',
             commandDescription: nls.localize(
                 'theia/ai-ide/rememberCommand/description',
-                'Extract topics from conversation and update project info'
+                '从对话中提取主题并更新项目信息'
             ),
             commandArgumentHint: nls.localize(
                 'theia/ai-ide/rememberCommand/argumentHint',
-                '[topic-hint]'
+                '[主题提示]'
             ),
             commandAgents: [ArchitectAgentId, CoderAgentId]
         });
     }
 
     protected buildCommandTemplate(): string {
-        return `You have been asked to extract and remember important information from the current conversation.
+        return `你被要求从当前对话中提取并记住重要信息。
 
-    ## Task Overview
-    Review the conversation history and identify specific information that should be added to the persistent project context.
+    ## 任务概述
+    回顾对话历史，找出应添加到持久化项目上下文中的具体信息。
 
-    ## Focus Area
+    ## 关注领域
     $ARGUMENTS
 
-    ## What to Extract
-    **If a focus area is provided above**: ONLY extract information related to that specific focus area. Ignore all other topics.
+    ## 提取什么
+    **如果上面提供了关注领域**：只提取与该关注领域相关的信息，忽略其他所有主题。
 
-    **If no focus area is provided**: Look specifically for information where the user had to correct you or provide clarification:
-    - **User corrections**: When the user corrected your assumptions about the codebase, architecture, or processes
-    - **User-provided context**: Information the user explicitly provided that you couldn't discover yourself
-    - **Project-specific knowledge**: Details about the project that the user shared when you made incorrect assumptions
+    **如果未提供关注领域**：专门寻找用户不得不纠正你或提供澄清的信息：
+    - **用户纠正**：用户纠正了你对代码库、架构或流程的假设
+    - **用户提供的上下文**：用户明确提供、而你自己无法发现的信息
+    - **项目特有知识**：在你做出错误假设时用户分享的项目细节
 
-    **Do NOT extract**:
-    - General information you discovered through code analysis
-    - Standard coding practices you identified yourself
-    - Information you found by exploring the codebase
-    - Common knowledge or widely-known patterns
-    - Details that are already well-documented in the code
+    **不要提取**：
+    - 你通过代码分析自行发现的常规信息
+    - 你自己识别出的标准编码实践
+    - 你通过探索代码库得到的信息
+    - 常识或广为人知的模式
+    - 代码中已有完善文档的细节
 
-    ## Instructions
-    1. **Analyze the conversation**: Review messages for the specific criteria above
-    2. **Extract only relevant information**: For each qualifying item, prepare a clear description that captures:
-    - What the user corrected or clarified
-    - Why your initial understanding was incomplete
-    - The specific project context that was provided
-    3. **Delegate to ProjectInfo agent**: Use the ~{${AGENT_DELEGATION_FUNCTION_ID}} tool to send the extracted information to the ProjectInfo agent:
-    - Agent ID: 'ProjectInfo'
-    - Prompt: Ask the ProjectInfo agent to review the extracted information and update the project information file
+    ## 指令
+    1. **分析对话**：按上面的具体标准审查消息
+    2. **只提取相关信息**：为每个符合条件的条目准备清晰的描述，涵盖：
+    - 用户纠正或澄清了什么
+    - 你最初的理解为何不完整
+    - 提供了哪些具体的项目上下文
+    3. **委派 ProjectInfo 代理**：使用 ~{${AGENT_DELEGATION_FUNCTION_ID}} 工具将提取的信息发送给 ProjectInfo 代理：
+    - 代理 ID：'ProjectInfo'
+    - 提示词：让 ProjectInfo 代理审查提取的信息并更新项目信息文件
 
-    ## Example Delegation
+    ## 委派示例
     \`\`\`
-    Please review and incorporate the following user corrections/clarifications into the project context:
+    请审查以下用户纠正/澄清内容，并将其纳入项目上下文：
 
-    [Your extracted corrections and user-provided context here]
+    [此处填写你提取的纠正与用户提供的上下文]
 
-    Update /.prompts/project-info.prompttemplate by adding this information to the appropriate sections. Focus on information that prevents future misunderstandings.
+    更新 /.prompts/project-info.prompttemplate，将此信息添加到合适的章节。重点放在能避免未来误解的信息上。
     \`\`\`
 
-    Remember: Only extract information that prevents future AI agents from making the same mistakes or assumptions you made that were corrected by the user.`;
+    记住：只提取那些能避免未来 AI 代理重蹈你被用户纠正过的错误或假设的信息。`;
     }
 }

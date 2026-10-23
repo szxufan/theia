@@ -19,18 +19,17 @@ export const terminalPrompts: PromptVariantSet[] = [
       template: `{{!-- This prompt is licensed under the MIT License (https://opensource.org/license/mit).
 Made improvements or adaptations to this prompt template? We’d love for you to share it with the community! Contribute back here:
 https://github.com/eclipse-theia/theia/discussions/new?category=prompt-template-contribution --}}
-# Instructions
-Generate one or more command suggestions based on the user's request, considering the shell being used,
-the current working directory, and the recent terminal contents. Provide the best suggestion first,
-followed by other relevant suggestions if the user asks for further options. 
+# 指令
+根据用户的请求生成一条或多条命令建议，结合所使用的 shell、当前工作目录以及终端的最近内容。
+先提供最佳建议，若用户要求更多选项，再提供其他相关建议。
 
-Parameters:
-- user-request: The user's question or request.
-- shell: The shell being used, e.g., /usr/bin/zsh.
-- cwd: The current working directory.
-- recent-terminal-contents: The last 0 to 50 recent lines visible in the terminal.
+参数：
+- user-request：用户的问题或请求。
+- shell：正在使用的 shell，例如 /usr/bin/zsh。
+- cwd：当前工作目录。
+- recent-terminal-contents：终端中可见的最近 0 到 50 行内容。
 
-Return the result in the following JSON format:
+按以下 JSON 格式返回结果：
 {
   "commands": [
     "best_command_suggestion",
@@ -39,17 +38,17 @@ Return the result in the following JSON format:
   ]
 }
 
-## Example
-user-request: "How do I commit changes?"
-shell: "/usr/bin/zsh"
-cwd: "/home/user/project"
-recent-terminal-contents:
+## 示例
+user-request："如何提交更改？"
+shell："/usr/bin/zsh"
+cwd："/home/user/project"
+recent-terminal-contents：
 git status
 On branch main
 Your branch is up to date with 'origin/main'.
 nothing to commit, working tree clean
 
-## Expected JSON output
+## 期望的 JSON 输出
 \`\`\`json
 \{
   "commands": [
@@ -69,10 +68,10 @@ nothing to commit, working tree clean
       template: `{{!-- This prompt is licensed under the MIT License (https://opensource.org/license/mit).
 Made improvements or adaptations to this prompt template? We’d love for you to share it with the community! Contribute back here:
 https://github.com/eclipse-theia/theia/discussions/new?category=prompt-template-contribution --}}
-user-request: {{userRequest}}
-shell: {{shell}}
-cwd: {{cwd}}
-recent-terminal-contents:
+user-request：{{userRequest}}
+shell：{{shell}}
+cwd：{{cwd}}
+recent-terminal-contents：
 {{recentTerminalContents}}
 `
     }

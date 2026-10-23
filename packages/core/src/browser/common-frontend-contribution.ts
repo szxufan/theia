@@ -1275,23 +1275,23 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
         colors.register(
             // Base Colors should be aligned with https://code.visualstudio.com/api/references/theme-color#base-colors
             // if not yet contributed by Monaco, check runtime css variables to learn
-            { id: 'selection.background', defaults: { dark: '#217daf', light: '#c0dbf1' }, description: 'Overall border color for focused elements. This color is only used if not overridden by a component.' },
-            { id: 'icon.foreground', defaults: { dark: '#C5C5C5', light: '#424242', hcDark: '#FFFFFF', hcLight: '#292929' }, description: 'The default color for icons in the workbench.' },
-            { id: 'sash.hoverBorder', defaults: { dark: Color.transparent('focusBorder', 0.99), light: Color.transparent('focusBorder', 0.99), hcDark: 'focusBorder', hcLight: 'focusBorder' }, description: 'The hover border color for draggable sashes.' },
-            { id: 'sash.activeBorder', defaults: { dark: 'focusBorder', light: 'focusBorder', hcDark: 'focusBorder' }, description: 'The active border color for draggable sashes.' },
+            { id: 'selection.background', defaults: { dark: '#217daf', light: '#c0dbf1' }, description: '聚焦元素的整体边框颜色。此颜色仅在未被组件覆盖时使用。' },
+            { id: 'icon.foreground', defaults: { dark: '#C5C5C5', light: '#424242', hcDark: '#FFFFFF', hcLight: '#292929' }, description: '工作台图标的默认颜色。' },
+            { id: 'sash.hoverBorder', defaults: { dark: Color.transparent('focusBorder', 0.99), light: Color.transparent('focusBorder', 0.99), hcDark: 'focusBorder', hcLight: 'focusBorder' }, description: '可拖动分隔条的悬停边框颜色。' },
+            { id: 'sash.activeBorder', defaults: { dark: 'focusBorder', light: 'focusBorder', hcDark: 'focusBorder' }, description: '可拖动分隔条的活动边框颜色。' },
             // Window border colors should be aligned with https://code.visualstudio.com/api/references/theme-color#window-border
             {
                 id: 'window.activeBorder', defaults: {
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'The color used for the border of the window when it is active.'
+                }, description: '窗口处于活动状态时其边框使用的颜色。'
             },
             {
                 id: 'window.inactiveBorder', defaults: {
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
                 },
-                description: 'The color used for the border of the window when it is inactive.'
+                description: '窗口处于非活动状态时其边框使用的颜色。'
             },
 
             // Activity Bar colors should be aligned with https://code.visualstudio.com/api/references/theme-color#activity-bar
@@ -1301,7 +1301,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#2C2C2C',
                     hcDark: '#000000',
                     hcLight: '#FFFFFF'
-                }, description: 'Activity bar background color. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动栏的背景颜色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
             {
                 id: 'activityBar.foreground', defaults: {
@@ -1309,7 +1309,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.white,
                     hcDark: Color.white,
                     hcLight: 'editor.foreground'
-                }, description: 'Activity bar item foreground color when it is active. The activity bar is showing on the far left or right and allows to switch between views of the side bar.',
+                }, description: '活动栏项处于活动状态时的前景色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。',
             },
             {
                 id: 'activityBar.inactiveForeground', defaults: {
@@ -1317,33 +1317,33 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('activityBar.foreground', 0.4),
                     hcDark: Color.white,
                     hcLight: 'editor.foreground'
-                }, description: 'Activity bar item foreground color when it is inactive. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动栏项处于非活动状态时的前景色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
             {
                 id: 'activityBar.border', defaults: {
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'Activity bar border color separating to the side bar. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动栏与侧边栏分隔的边框颜色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
             {
                 id: 'activityBar.activeBorder', defaults: {
                     dark: 'activityBar.foreground',
                     light: 'activityBar.foreground',
                     hcLight: 'contrastBorder'
-                }, description: 'Activity bar border color for the active item. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动栏活动项的边框颜色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
             {
                 id: 'activityBar.activeFocusBorder', defaults: {
                     hcLight: '#B5200D'
-                }, description: 'Activity bar focus border color for the active item. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动栏活动项的焦点边框颜色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
-            { id: 'activityBar.activeBackground', description: 'Activity bar background color for the active item. The activity bar is showing on the far left or right and allows to switch between views of the side bar.' },
+            { id: 'activityBar.activeBackground', description: '活动栏活动项的背景颜色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。' },
             {
                 id: 'activityBar.dropBackground', defaults: {
                     dark: Color.transparent('#ffffff', 0.12),
                     light: Color.transparent('#ffffff', 0.12),
                     hcDark: Color.transparent('#ffffff', 0.12),
-                }, description: 'Drag and drop feedback color for the activity bar items. The color should have transparency so that the activity bar entries can still shine through. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动栏项的拖放反馈颜色。该颜色应带有透明度，以便活动栏条目仍能透出。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
             {
                 id: 'activityBarBadge.background', defaults: {
@@ -1351,7 +1351,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#007ACC',
                     hcDark: '#000000',
                     hcLight: '#0F4A85'
-                }, description: 'Activity notification badge background color. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动通知徽章的背景颜色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
             {
                 id: 'activityBarBadge.foreground', defaults: {
@@ -1359,16 +1359,16 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.white,
                     hcDark: Color.white,
                     hcLight: Color.white
-                }, description: 'Activity notification badge foreground color. The activity bar is showing on the far left or right and allows to switch between views of the side bar.'
+                }, description: '活动通知徽章的前景色。活动栏显示在最左侧或最右侧，用于在侧边栏的各视图之间切换。'
             },
 
             // Side Bar should be aligned with https://code.visualstudio.com/api/references/theme-color#side-bar
             // if not yet contributed by Monaco, check runtime css variables to learn
-            { id: 'sideBar.background', defaults: { dark: '#252526', light: '#F3F3F3', hcDark: '#000000', hcLight: '#FFFFFF' }, description: 'Side bar background color. The side bar is the container for views like explorer and search.' },
-            { id: 'sideBar.foreground', description: 'Side bar foreground color. The side bar is the container for views like explorer and search.' },
-            { id: 'sideBarSectionHeader.background', defaults: { dark: '#80808033', light: '#80808033' }, description: 'Side bar section header background color. The side bar is the container for views like explorer and search.' },
-            { id: 'sideBarSectionHeader.foreground', description: 'Side bar foreground color. The side bar is the container for views like explorer and search.' },
-            { id: 'sideBarSectionHeader.border', defaults: { dark: 'contrastBorder', light: 'contrastBorder', hcDark: 'contrastBorder', hcLight: 'contrastBorder' }, description: 'Side bar section header border color. The side bar is the container for views like explorer and search.' },
+            { id: 'sideBar.background', defaults: { dark: '#252526', light: '#F3F3F3', hcDark: '#000000', hcLight: '#FFFFFF' }, description: '侧边栏的背景颜色。侧边栏是资源管理器和搜索等视图的容器。' },
+            { id: 'sideBar.foreground', description: '侧边栏的前景色。侧边栏是资源管理器和搜索等视图的容器。' },
+            { id: 'sideBarSectionHeader.background', defaults: { dark: '#80808033', light: '#80808033' }, description: '侧边栏分区标题的背景颜色。侧边栏是资源管理器和搜索等视图的容器。' },
+            { id: 'sideBarSectionHeader.foreground', description: '侧边栏的前景色。侧边栏是资源管理器和搜索等视图的容器。' },
+            { id: 'sideBarSectionHeader.border', defaults: { dark: 'contrastBorder', light: 'contrastBorder', hcDark: 'contrastBorder', hcLight: 'contrastBorder' }, description: '侧边栏分区标题的边框颜色。侧边栏是资源管理器和搜索等视图的容器。' },
 
             // Lists and Trees colors should be aligned with https://code.visualstudio.com/api/references/theme-color#lists-and-trees
             // if not yet contributed by Monaco, check runtime css variables to learn.
@@ -1376,18 +1376,18 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
             // list.focusBackground, list.focusForeground, list.inactiveFocusBackground, list.filterMatchBorder,
             // list.dropBackground, listFilterWidget.outline, listFilterWidget.noMatchesOutline
             // list.invalidItemForeground => tree node needs an respective class
-            { id: 'list.activeSelectionBackground', defaults: { dark: '#094771', light: '#E8E8E8', hcLight: Color.transparent('#0F4A85', 0.1) }, description: 'List/Tree background color for the selected item when the list/tree is active. An active list/tree has keyboard focus, an inactive does not.' },
-            { id: 'list.activeSelectionForeground', defaults: { dark: '#FFF', light: '#FFF' }, description: 'List/Tree foreground color for the selected item when the list/tree is active. An active list/tree has keyboard focus, an inactive does not.' },
-            { id: 'list.inactiveSelectionBackground', defaults: { dark: '#37373D', light: '#E4E6F1', hcLight: Color.transparent('#0F4A85', 0.1) }, description: 'List/Tree background color for the selected item when the list/tree is inactive. An active list/tree has keyboard focus, an inactive does not.' },
-            { id: 'list.inactiveSelectionForeground', description: 'List/Tree foreground color for the selected item when the list/tree is inactive. An active list/tree has keyboard focus, an inactive does not.' },
-            { id: 'list.hoverBackground', defaults: { dark: '#2A2D2E', light: '#F0F0F0', hcLight: Color.transparent('#0F4A85', 0.1) }, description: 'List/Tree background when hovering over items using the mouse.' },
-            { id: 'list.hoverForeground', description: 'List/Tree foreground when hovering over items using the mouse.' },
-            { id: 'list.errorForeground', defaults: { dark: '#F88070', light: '#B01011' }, description: 'Foreground color of list items containing errors.' },
-            { id: 'list.warningForeground', defaults: { dark: '#CCA700', light: '#855F00' }, description: 'Foreground color of list items containing warnings.' },
-            { id: 'list.filterMatchBackground', defaults: { dark: 'editor.findMatchHighlightBackground', light: 'editor.findMatchHighlightBackground' }, description: 'Background color of the filtered match.' },
-            { id: 'list.highlightForeground', defaults: { dark: '#18A3FF', light: '#0066BF', hcDark: 'focusBorder', hcLight: 'focusBorder' }, description: 'List/Tree foreground color of the match highlights when searching inside the list/tree.' },
-            { id: 'list.focusHighlightForeground', defaults: { dark: 'list.highlightForeground', light: 'list.activeSelectionForeground', hcDark: 'list.highlightForeground', hcLight: 'list.highlightForeground' }, description: 'List/Tree foreground color of the match highlights on actively focused items when searching inside the list/tree.' },
-            { id: 'tree.inactiveIndentGuidesStroke', defaults: { dark: Color.transparent('tree.indentGuidesStroke', 0.4), light: Color.transparent('tree.indentGuidesStroke', 0.4), hcDark: Color.transparent('tree.indentGuidesStroke', 0.4) }, description: 'Tree stroke color for the inactive indentation guides.' },
+            { id: 'list.activeSelectionBackground', defaults: { dark: '#094771', light: '#E8E8E8', hcLight: Color.transparent('#0F4A85', 0.1) }, description: '列表/树处于活动状态时选中项的背景颜色。活动的列表/树拥有键盘焦点，非活动的则没有。' },
+            { id: 'list.activeSelectionForeground', defaults: { dark: '#FFF', light: '#FFF' }, description: '列表/树处于活动状态时选中项的前景色。活动的列表/树拥有键盘焦点，非活动的则没有。' },
+            { id: 'list.inactiveSelectionBackground', defaults: { dark: '#37373D', light: '#E4E6F1', hcLight: Color.transparent('#0F4A85', 0.1) }, description: '列表/树处于非活动状态时选中项的背景颜色。活动的列表/树拥有键盘焦点，非活动的则没有。' },
+            { id: 'list.inactiveSelectionForeground', description: '列表/树处于非活动状态时选中项的前景色。活动的列表/树拥有键盘焦点，非活动的则没有。' },
+            { id: 'list.hoverBackground', defaults: { dark: '#2A2D2E', light: '#F0F0F0', hcLight: Color.transparent('#0F4A85', 0.1) }, description: '使用鼠标悬停在列表/树项上时的背景颜色。' },
+            { id: 'list.hoverForeground', description: '使用鼠标悬停在列表/树项上时的前景色。' },
+            { id: 'list.errorForeground', defaults: { dark: '#F88070', light: '#B01011' }, description: '包含错误的列表项的前景色。' },
+            { id: 'list.warningForeground', defaults: { dark: '#CCA700', light: '#855F00' }, description: '包含警告的列表项的前景色。' },
+            { id: 'list.filterMatchBackground', defaults: { dark: 'editor.findMatchHighlightBackground', light: 'editor.findMatchHighlightBackground' }, description: '过滤匹配项的背景颜色。' },
+            { id: 'list.highlightForeground', defaults: { dark: '#18A3FF', light: '#0066BF', hcDark: 'focusBorder', hcLight: 'focusBorder' }, description: '在列表/树中搜索时，匹配高亮的前景色。' },
+            { id: 'list.focusHighlightForeground', defaults: { dark: 'list.highlightForeground', light: 'list.activeSelectionForeground', hcDark: 'list.highlightForeground', hcLight: 'list.highlightForeground' }, description: '在列表/树中搜索时，活动焦点项上匹配高亮的前景色。' },
+            { id: 'tree.inactiveIndentGuidesStroke', defaults: { dark: Color.transparent('tree.indentGuidesStroke', 0.4), light: Color.transparent('tree.indentGuidesStroke', 0.4), hcDark: Color.transparent('tree.indentGuidesStroke', 0.4) }, description: '非活动缩进参考线的树描边颜色。' },
 
             // Editor Group & Tabs colors should be aligned with https://code.visualstudio.com/api/references/theme-color#editor-groups-tabs
             {
@@ -1398,7 +1398,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
                 },
-                description: 'Color to separate multiple editor groups from each other. Editor groups are the containers of editors.'
+                description: '用于分隔多个编辑器组的颜色。编辑器组是编辑器的容器。'
             },
             {
                 id: 'editorGroup.dropBackground',
@@ -1407,7 +1407,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('#2677CB', 0.18),
                     hcLight: Color.transparent('#0F4A85', 0.50)
                 },
-                description: 'Background color when dragging editors around. The color should have transparency so that the editor contents can still shine through.'
+                description: '拖动编辑器时的背景颜色。该颜色应带有透明度，以便编辑器内容仍能透出。'
             },
             {
                 id: 'editorGroupHeader.tabsBackground',
@@ -1415,14 +1415,14 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: '#252526',
                     light: '#F3F3F3',
                 },
-                description: 'Background color of the editor group title header when tabs are enabled. Editor groups are the containers of editors.'
+                description: '启用标签页时编辑器组标题栏的背景颜色。编辑器组是编辑器的容器。'
             },
             {
                 id: 'editorGroupHeader.tabsBorder',
                 defaults: {
                     hcDark: 'contrastBorder'
                 },
-                description: 'Border color of the editor group title header when tabs are enabled. Editor groups are the containers of editors.'
+                description: '启用标签页时编辑器组标题栏的边框颜色。编辑器组是编辑器的容器。'
             },
             {
                 id: 'tab.activeBackground',
@@ -1432,7 +1432,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'editor.background',
                     hcLight: 'editor.background'
                 },
-                description: 'Active tab background color. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '活动标签页的背景颜色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedActiveBackground',
@@ -1442,7 +1442,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'tab.activeBackground',
                     hcLight: 'tab.activeBackground'
                 },
-                description: 'Active tab background color in an unfocused group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '未聚焦组中活动标签页的背景颜色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.inactiveBackground',
@@ -1450,7 +1450,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: '#2D2D2D',
                     light: '#ECECEC'
                 },
-                description: 'Inactive tab background color. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '非活动标签页的背景颜色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.activeForeground',
@@ -1459,7 +1459,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#333333',
                     hcDark: Color.white,
                     hcLight: '#292929'
-                }, description: 'Active tab foreground color in an active group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '活动组中活动标签页的前景色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.inactiveForeground', defaults: {
@@ -1467,7 +1467,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('tab.activeForeground', 0.7),
                     hcDark: Color.white,
                     hcLight: '#292929'
-                }, description: 'Inactive tab foreground color in an active group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '活动组中非活动标签页的前景色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedActiveForeground', defaults: {
@@ -1475,7 +1475,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('tab.activeForeground', 0.7),
                     hcDark: Color.white,
                     hcLight: '#292929'
-                }, description: 'Active tab foreground color in an unfocused group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '未聚焦组中活动标签页的前景色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedInactiveForeground', defaults: {
@@ -1483,7 +1483,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('tab.inactiveForeground', 0.5),
                     hcDark: Color.white,
                     hcLight: '#292929'
-                }, description: 'Inactive tab foreground color in an unfocused group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '未聚焦组中非活动标签页的前景色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.border', defaults: {
@@ -1491,11 +1491,11 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#F3F3F3',
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'Border to separate tabs from each other. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '用于分隔各标签页的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.activeBorder',
-                description: 'Border on the bottom of an active tab. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '活动标签页底部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedActiveBorder',
@@ -1503,49 +1503,49 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: Color.transparent('tab.activeBorder', 0.5),
                     light: Color.transparent('tab.activeBorder', 0.7)
                 },
-                description: 'Border on the bottom of an active tab in an unfocused group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '未聚焦组中活动标签页底部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.activeBorderTop',
                 defaults: {
                     hcLight: '#B5200D'
                 },
-                description: 'Border to the top of an active tab. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '活动标签页顶部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedActiveBorderTop', defaults: {
                     dark: Color.transparent('tab.activeBorderTop', 0.5),
                     light: Color.transparent('tab.activeBorderTop', 0.7),
                     hcLight: '#B5200D'
-                }, description: 'Border to the top of an active tab in an unfocused group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '未聚焦组中活动标签页顶部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.hoverBackground',
-                description: 'Tab background color when hovering. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '悬停时标签页的背景颜色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedHoverBackground', defaults: {
                     dark: Color.transparent('tab.hoverBackground', 0.5),
                     light: Color.transparent('tab.hoverBackground', 0.7)
-                }, description: 'Tab background color in an unfocused group when hovering. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '未聚焦组中悬停时标签页的背景颜色。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.hoverBorder',
-                description: 'Border to highlight tabs when hovering. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                description: '悬停时用于高亮标签页的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedHoverBorder', defaults: {
                     dark: Color.transparent('tab.hoverBorder', 0.5),
                     light: Color.transparent('tab.hoverBorder', 0.7),
                     hcLight: 'contrastBorder'
-                }, description: 'Border to highlight tabs in an unfocused group when hovering. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '未聚焦组中悬停时用于高亮标签页的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.activeModifiedBorder', defaults: {
                     dark: '#3399CC',
                     light: '#33AAEE',
                     hcLight: 'contrastBorder'
-                }, description: 'Border on the top of modified (dirty) active tabs in an active group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '活动组中已修改（脏）活动标签页顶部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.inactiveModifiedBorder', defaults: {
@@ -1553,7 +1553,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('tab.activeModifiedBorder', 0.5),
                     hcDark: Color.white,
                     hcLight: 'contrastBorder'
-                }, description: 'Border on the top of modified (dirty) inactive tabs in an active group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '活动组中已修改（脏）非活动标签页顶部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedActiveModifiedBorder', defaults: {
@@ -1561,7 +1561,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('tab.activeModifiedBorder', 0.7),
                     hcDark: Color.white,
                     hcLight: 'contrastBorder'
-                }, description: 'Border on the top of modified (dirty) active tabs in an unfocused group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '未聚焦组中已修改（脏）活动标签页顶部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
             {
                 id: 'tab.unfocusedInactiveModifiedBorder', defaults: {
@@ -1569,7 +1569,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('tab.inactiveModifiedBorder', 0.5),
                     hcDark: Color.white,
                     hcLight: 'contrastBorder'
-                }, description: 'Border on the top of modified (dirty) inactive tabs in an unfocused group. Tabs are the containers for editors in the editor area. Multiple tabs can be opened in one editor group. There can be multiple editor groups.'
+                }, description: '未聚焦组中已修改（脏）非活动标签页顶部的边框。标签页是编辑器区域中编辑器的容器。一个编辑器组中可以打开多个标签页，也可以有多个编辑器组。'
             },
 
             // Status bar colors should be aligned with https://code.visualstudio.com/api/references/theme-color#status-bar-colors
@@ -1579,13 +1579,13 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#FFFFFF',
                     hcDark: '#FFFFFF',
                     hcLight: 'editor.foreground'
-                }, description: 'Status bar foreground color when a workspace is opened. The status bar is shown in the bottom of the window.'
+                }, description: '打开工作区时状态栏的前景色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBar.background', defaults: {
                     dark: '#007ACC',
                     light: '#007ACC'
-                }, description: 'Status bar background color when a workspace is opened. The status bar is shown in the bottom of the window.'
+                }, description: '打开工作区时状态栏的背景颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBar.noFolderForeground', defaults: {
@@ -1593,19 +1593,19 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBar.foreground',
                     hcDark: 'statusBar.foreground',
                     hcLight: 'statusBar.foreground'
-                }, description: 'Status bar foreground color when no folder is opened. The status bar is shown in the bottom of the window.'
+                }, description: '未打开文件夹时状态栏的前景色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBar.noFolderBackground', defaults: {
                     dark: '#68217A',
                     light: '#68217A'
-                }, description: 'Status bar background color when no folder is opened. The status bar is shown in the bottom of the window.'
+                }, description: '未打开文件夹时状态栏的背景颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBar.border', defaults: {
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'Status bar border color separating to the sidebar and editor. The status bar is shown in the bottom of the window.'
+                }, description: '状态栏与侧边栏和编辑器分隔的边框颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBar.noFolderBorder', defaults: {
@@ -1613,7 +1613,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBar.border',
                     hcDark: 'statusBar.border',
                     hcLight: 'statusBar.border'
-                }, description: 'Status bar border color separating to the sidebar and editor when no folder is opened. The status bar is shown in the bottom of the window.'
+                }, description: '未打开文件夹时状态栏与侧边栏和编辑器分隔的边框颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.activeBackground', defaults: {
@@ -1621,7 +1621,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(255, 255, 255, 0.18),
                     hcDark: Color.rgba(255, 255, 255, 0.18),
                     hcLight: Color.rgba(0, 0, 0, 0.18)
-                }, description: 'Status bar item background color when clicking. The status bar is shown in the bottom of the window.'
+                }, description: '点击时状态栏项的背景颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.hoverBackground', defaults: {
@@ -1629,7 +1629,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(255, 255, 255, 0.12),
                     hcDark: Color.rgba(255, 255, 255, 0.12),
                     hcLight: Color.rgba(0, 0, 0, 0.12)
-                }, description: 'Status bar item background color when hovering. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏项的背景颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.hoverForeground', defaults: {
@@ -1637,7 +1637,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBar.foreground',
                     hcDark: 'statusBar.foreground',
                     hcLight: 'statusBar.foreground'
-                }, description: 'Status bar item foreground color when hovering. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏项的前景色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.compactHoverBackground', defaults: {
@@ -1645,7 +1645,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(255, 255, 255, 0.20),
                     hcDark: Color.rgba(255, 255, 255, 0.20),
                     hcLight: Color.rgba(0, 0, 0, 0.20)
-                }, description: 'Status bar item background color when hovering an item that contains two hovers. The status bar is shown in the bottom of the window.'
+                }, description: '悬停包含两个悬停提示的状态栏项时的背景颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.focusBorder', defaults: {
@@ -1653,7 +1653,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBar.foreground',
                     hcDark: 'statusBar.foreground',
                     hcLight: 'statusBar.foreground'
-                }, description: 'Status bar item border color when focused on keyboard navigation. The status bar is shown in the bottom of the window.'
+                }, description: '键盘导航聚焦时状态栏项的边框颜色。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.errorBackground', defaults: {
@@ -1661,7 +1661,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.darken('errorBackground', 0.4),
                     hcDark: undefined,
                     hcLight: '#B5200D'
-                }, description: 'Status bar error items background color. Error items stand out from other status bar entries to indicate error conditions. The status bar is shown in the bottom of the window.'
+                }, description: '状态栏错误项的背景颜色。错误项在其他状态栏条目中突出显示，以指示错误状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.errorForeground', defaults: {
@@ -1669,7 +1669,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.white,
                     hcDark: Color.white,
                     hcLight: Color.white
-                }, description: 'Status bar error items foreground color. Error items stand out from other status bar entries to indicate error conditions. The status bar is shown in the bottom of the window.'
+                }, description: '状态栏错误项的前景色。错误项在其他状态栏条目中突出显示，以指示错误状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.errorHoverBackground', defaults: {
@@ -1677,7 +1677,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.lighten('statusBarItem.errorBackground', 0.2),
                     hcDark: undefined,
                     hcLight: undefined
-                }, description: 'Status bar error items background color when hovering. Error items stand out from other status bar entries to indicate error conditions. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏错误项的背景颜色。错误项在其他状态栏条目中突出显示，以指示错误状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.errorHoverForeground', defaults: {
@@ -1685,7 +1685,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBarItem.errorForeground',
                     hcDark: 'statusBarItem.errorForeground',
                     hcLight: 'statusBarItem.errorForeground'
-                }, description: 'Status bar error items foreground color when hovering. Error items stand out from other status bar entries to indicate error conditions. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏错误项的前景色。错误项在其他状态栏条目中突出显示，以指示错误状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.warningBackground', defaults: {
@@ -1693,7 +1693,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.darken('warningBackground', 0.4),
                     hcDark: undefined,
                     hcLight: '#895503'
-                }, description: 'Status bar warning items background color. Warning items stand out from other status bar entries to indicate warning conditions. The status bar is shown in the bottom of the window.'
+                }, description: '状态栏警告项的背景颜色。警告项在其他状态栏条目中突出显示，以指示警告状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.warningForeground', defaults: {
@@ -1701,7 +1701,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.white,
                     hcDark: Color.white,
                     hcLight: Color.white
-                }, description: 'Status bar warning items foreground color. Warning items stand out from other status bar entries to indicate warning conditions. The status bar is shown in the bottom of the window.'
+                }, description: '状态栏警告项的前景色。警告项在其他状态栏条目中突出显示，以指示警告状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.warningHoverBackground', defaults: {
@@ -1709,7 +1709,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.lighten('statusBarItem.warningBackground', 0.2),
                     hcDark: undefined,
                     hcLight: undefined
-                }, description: 'Status bar warning items background color when hovering. Warning items stand out from other status bar entries to indicate warning conditions. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏警告项的背景颜色。警告项在其他状态栏条目中突出显示，以指示警告状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.warningHoverForeground', defaults: {
@@ -1717,7 +1717,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBarItem.warningForeground',
                     hcDark: 'statusBarItem.warningForeground',
                     hcLight: 'statusBarItem.warningForeground'
-                }, description: 'Status bar warning items foreground color when hovering. Warning items stand out from other status bar entries to indicate warning conditions. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏警告项的前景色。警告项在其他状态栏条目中突出显示，以指示警告状态。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.prominentForeground', defaults: {
@@ -1725,7 +1725,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBar.foreground',
                     hcDark: 'statusBar.foreground',
                     hcLight: 'statusBar.foreground'
-                }, description: 'Status bar prominent items foreground color. Prominent items stand out from other status bar entries to indicate importance. The status bar is shown in the bottom of the window.'
+                }, description: '状态栏重要项的前景色。重要项在其他状态栏条目中突出显示，以指示重要性。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.prominentBackground', defaults: {
@@ -1733,7 +1733,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(0, 0, 0, .5),
                     hcDark: Color.rgba(0, 0, 0, .5),
                     hcLight: Color.rgba(0, 0, 0, .5),
-                }, description: 'Status bar prominent items background color. Prominent items stand out from other status bar entries to indicate importance. The status bar is shown in the bottom of the window.'
+                }, description: '状态栏重要项的背景颜色。重要项在其他状态栏条目中突出显示，以指示重要性。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.prominentHoverForeground', defaults: {
@@ -1741,7 +1741,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBarItem.hoverForeground',
                     hcDark: 'statusBarItem.hoverForeground',
                     hcLight: 'statusBarItem.hoverForeground'
-                }, description: 'Status bar prominent items foreground color when hovering. Prominent items stand out from other status bar entries to indicate importance. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏重要项的前景色。重要项在其他状态栏条目中突出显示，以指示重要性。状态栏显示在窗口底部。'
             },
             {
                 id: 'statusBarItem.prominentHoverBackground', defaults: {
@@ -1749,7 +1749,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBarItem.hoverBackground',
                     hcDark: 'statusBarItem.hoverBackground',
                     hcLight: 'statusBarItem.hoverBackground'
-                }, description: 'Status bar prominent items background color when hovering. Prominent items stand out from other status bar entries to indicate importance. The status bar is shown in the bottom of the window.'
+                }, description: '悬停时状态栏重要项的背景颜色。重要项在其他状态栏条目中突出显示，以指示重要性。状态栏显示在窗口底部。'
             },
 
             // editor find
@@ -1762,7 +1762,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: undefined,
                     hcLight: undefined
                 },
-                description: 'Color of the current search match.'
+                description: '当前搜索匹配项的颜色。'
             },
 
             {
@@ -1773,7 +1773,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: undefined,
                     hcLight: undefined
                 },
-                description: 'Text color of the current search match.'
+                description: '当前搜索匹配项的文本颜色。'
             },
             {
                 id: 'editor.findMatchHighlightBackground',
@@ -1783,7 +1783,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: undefined,
                     hcLight: undefined
                 },
-                description: 'Color of the other search matches. The color must not be opaque so as not to hide underlying decorations.'
+                description: '其他搜索匹配项的颜色。该颜色不能为不透明，以免遮挡底层的装饰。'
             },
 
             {
@@ -1794,7 +1794,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: undefined,
                     hcLight: undefined
                 },
-                description: 'Foreground color of the other search matches.'
+                description: '其他搜索匹配项的前景色。'
             },
 
             {
@@ -1805,7 +1805,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: undefined,
                     hcLight: undefined
                 },
-                description: 'Color of the range limiting the search. The color must not be opaque so as not to hide underlying decorations.'
+                description: '限制搜索范围区域的颜色。该颜色不能为不透明，以免遮挡底层的装饰。'
             },
 
             {
@@ -1816,7 +1816,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'activeContrastBorder',
                     hcLight: 'activeContrastBorder'
                 },
-                description: 'Border color of the current search match.'
+                description: '当前搜索匹配项的边框颜色。'
             },
             {
                 id: 'editor.findMatchHighlightBorder',
@@ -1826,7 +1826,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'activeContrastBorder',
                     hcLight: 'activeContrastBorder'
                 },
-                description: 'Border color of the other search matches.'
+                description: '其他搜索匹配项的边框颜色。'
             },
 
             {
@@ -1837,7 +1837,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.transparent('activeContrastBorder', 0.4),
                     hcLight: Color.transparent('activeContrastBorder', 0.4)
                 },
-                description: 'Border color of the range limiting the search. The color must not be opaque so as not to hide underlying decorations.'
+                description: '限制搜索范围区域的边框颜色。该颜色不能为不透明，以免遮挡底层的装饰。'
             },
 
             // Quickinput colors should be aligned with https://code.visualstudio.com/api/references/theme-color#quick-picker
@@ -1848,7 +1848,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'editorWidget.background',
                     hcDark: 'editorWidget.background',
                     hcLight: 'editorWidget.background'
-                }, description: 'Quick Input background color. The Quick Input widget is the container for views like the color theme picker.'
+                }, description: '快速输入的背景颜色。快速输入小部件是颜色主题选择器等视图的容器。'
             },
             {
                 id: 'quickInput.foreground', defaults: {
@@ -1856,7 +1856,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'editorWidget.foreground',
                     hcDark: 'editorWidget.foreground',
                     hcLight: 'editorWidget.foreground'
-                }, description: 'Quick Input foreground color. The Quick Input widget is the container for views like the color theme picker.'
+                }, description: '快速输入的前景色。快速输入小部件是颜色主题选择器等视图的容器。'
             },
             {
                 id: 'quickInput.list.focusBackground', defaults: {
@@ -1864,7 +1864,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: undefined,
                     hcDark: undefined,
                     hcLight: undefined
-                }, description: 'quickInput.list.focusBackground deprecation. Please use quickInputList.focusBackground instead'
+                }, description: '已弃用 quickInput.list.focusBackground，请改用 quickInputList.focusBackground'
             },
             {
                 id: 'quickInputList.focusForeground', defaults: {
@@ -1872,55 +1872,55 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'list.activeSelectionForeground',
                     hcDark: 'list.activeSelectionForeground',
                     hcLight: 'list.activeSelectionForeground'
-                }, description: 'Quick picker foreground color for the focused item'
+                }, description: '快速选择器中聚焦项的前景色'
             },
             {
                 id: 'quickInputList.focusBackground', defaults: {
                     dark: 'list.activeSelectionBackground',
                     light: 'list.activeSelectionBackground',
                     hcDark: undefined
-                }, description: 'Quick picker background color for the focused item.'
+                }, description: '快速选择器中聚焦项的背景颜色。'
             },
 
             // Panel colors should be aligned with https://code.visualstudio.com/api/references/theme-color#panel-colors
             {
                 id: 'panel.background', defaults: {
                     dark: 'editor.background', light: 'editor.background', hcDark: 'editor.background', hcLight: 'editor.background'
-                }, description: 'Panel background color. Panels are shown below the editor area and contain views like output and integrated terminal.'
+                }, description: '面板的背景颜色。面板显示在编辑器区域下方，包含输出和集成终端等视图。'
             },
             {
                 id: 'panel.border', defaults: {
                     dark: Color.transparent('#808080', 0.35), light: Color.transparent('#808080', 0.35), hcDark: 'contrastBorder', hcLight: 'contrastBorder'
-                }, description: 'Panel border color to separate the panel from the editor. Panels are shown below the editor area and contain views like output and integrated terminal.'
+                }, description: '用于将面板与编辑器分隔的边框颜色。面板显示在编辑器区域下方，包含输出和集成终端等视图。'
             },
             {
                 id: 'panel.dropBackground', defaults: {
                     dark: Color.rgba(255, 255, 255, 0.12), light: Color.transparent('#2677CB', 0.18), hcDark: Color.rgba(255, 255, 255, 0.12)
-                }, description: 'Drag and drop feedback color for the panel title items. The color should have transparency so that the panel entries can still shine through. Panels are shown below the editor area and contain views like output and integrated terminal.'
+                }, description: '面板标题项的拖放反馈颜色。该颜色应带有透明度，以便面板条目仍能透出。面板显示在编辑器区域下方，包含输出和集成终端等视图。'
             },
             {
                 id: 'panelTitle.activeForeground', defaults: {
                     dark: '#E7E7E7', light: '#424242', hcDark: Color.white, hcLight: 'editor.foreground'
-                }, description: 'Title color for the active panel. Panels are shown below the editor area and contain views like output and integrated terminal.'
+                }, description: '活动面板的标题颜色。面板显示在编辑器区域下方，包含输出和集成终端等视图。'
             },
             {
                 id: 'panelTitle.inactiveForeground', defaults: {
                     dark: Color.transparent('panelTitle.activeForeground', 0.6), light: Color.transparent('panelTitle.activeForeground', 0.75), hcDark: Color.white, hcLight: 'editor.foreground'
-                }, description: 'Title color for the inactive panel. Panels are shown below the editor area and contain views like output and integrated terminal.'
+                }, description: '非活动面板的标题颜色。面板显示在编辑器区域下方，包含输出和集成终端等视图。'
             },
             {
                 id: 'panelTitle.activeBorder', defaults: {
                     dark: 'panelTitle.activeForeground', light: 'panelTitle.activeForeground', hcDark: 'contrastBorder', hcLight: '#B5200D'
-                }, description: 'Border color for the active panel title. Panels are shown below the editor area and contain views like output and integrated terminal.'
+                }, description: '活动面板标题的边框颜色。面板显示在编辑器区域下方，包含输出和集成终端等视图。'
             },
             {
                 id: 'panelInput.border', defaults: { light: '#ddd' },
-                description: 'Input box border for inputs in the panel.'
+                description: '面板中输入框的边框。'
             },
             {
                 id: 'imagePreview.border', defaults: {
                     dark: Color.transparent('#808080', 0.35), light: Color.transparent('#808080', 0.35), hcDark: 'contrastBorder', hcLight: 'contrastBorder'
-                }, description: 'Border color for image in image preview.'
+                }, description: '图片预览中图片的边框颜色。'
             },
 
             // Title Bar colors should be aligned with https://code.visualstudio.com/api/references/theme-color#title-bar-colors
@@ -1930,14 +1930,14 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#333333',
                     hcDark: '#FFFFFF',
                     hcLight: '#292929'
-                }, description: 'Title bar foreground when the window is active. Note that this color is currently only supported on macOS.'
+                }, description: '窗口处于活动状态时标题栏的前景色。注意，此颜色目前仅在 macOS 上受支持。'
             },
             {
                 id: 'titleBar.inactiveForeground', defaults: {
                     dark: Color.transparent('titleBar.activeForeground', 0.6),
                     light: Color.transparent('titleBar.activeForeground', 0.6),
                     hcLight: '#292929'
-                }, description: 'Title bar foreground when the window is inactive. Note that this color is currently only supported on macOS.'
+                }, description: '窗口处于非活动状态时标题栏的前景色。注意，此颜色目前仅在 macOS 上受支持。'
             },
             {
                 id: 'titleBar.activeBackground', defaults: {
@@ -1945,19 +1945,19 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#DDDDDD',
                     hcDark: '#000000',
                     hcLight: '#FFFFFF'
-                }, description: 'Title bar background when the window is active. Note that this color is currently only supported on macOS.'
+                }, description: '窗口处于活动状态时标题栏的背景颜色。注意，此颜色目前仅在 macOS 上受支持。'
             },
             {
                 id: 'titleBar.inactiveBackground', defaults: {
                     dark: Color.transparent('titleBar.activeBackground', 0.6),
                     light: Color.transparent('titleBar.activeBackground', 0.6)
-                }, description: 'Title bar background when the window is inactive. Note that this color is currently only supported on macOS.'
+                }, description: '窗口处于非活动状态时标题栏的背景颜色。注意，此颜色目前仅在 macOS 上受支持。'
             },
             {
                 id: 'titleBar.border', defaults: {
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'Title bar border color. Note that this color is currently only supported on macOS.'
+                }, description: '标题栏的边框颜色。注意，此颜色目前仅在 macOS 上受支持。'
             },
 
             // Menu Bar colors should be aligned with https://code.visualstudio.com/api/references/theme-color#menu-bar-colors
@@ -1967,63 +1967,63 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'titleBar.activeForeground',
                     hcDark: 'titleBar.activeForeground',
                     hcLight: 'titleBar.activeForeground'
-                }, description: 'Foreground color of the selected menu item in the menubar.'
+                }, description: '菜单栏中所选菜单项的前景色。'
             },
             {
                 id: 'menubar.selectionBackground', defaults: {
                     dark: 'toolbar.hoverBackground',
                     light: 'toolbar.hoverBackground'
-                }, description: 'Background color of the selected menu item in the menubar.'
+                }, description: '菜单栏中所选菜单项的背景颜色。'
             },
             {
                 id: 'menubar.selectionBorder', defaults: {
                     hcDark: 'activeContrastBorder', hcLight: 'activeContrastBorder'
-                }, description: 'Border color of the selected menu item in the menubar.'
+                }, description: '菜单栏中所选菜单项的边框颜色。'
             },
             {
                 id: 'menu.border', defaults: {
                     hcDark: 'contrastBorder', hcLight: 'contrastBorder'
-                }, description: 'Border color of menus.'
+                }, description: '菜单的边框颜色。'
             },
             {
                 id: 'menu.foreground', defaults: {
                     dark: 'dropdown.foreground', light: 'foreground', hcDark: 'dropdown.foreground', hcLight: 'dropdown.foreground'
                 },
-                description: 'Foreground color of menu items.'
+                description: '菜单项的前景色。'
             },
             {
                 id: 'menu.background', defaults: {
                     dark: 'dropdown.background', light: 'dropdown.background', hcDark: 'dropdown.background', hcLight: 'dropdown.background'
-                }, description: 'Background color of menu items.'
+                }, description: '菜单项的背景颜色。'
             },
             {
                 id: 'menu.selectionForeground', defaults: {
                     dark: 'list.activeSelectionForeground', light: 'list.activeSelectionForeground', hcDark: 'list.activeSelectionForeground', hcLight: 'list.activeSelectionForeground'
-                }, description: 'Foreground color of the selected menu item in menus.'
+                }, description: '菜单中所选菜单项的前景色。'
             },
             {
                 id: 'menu.selectionBackground', defaults: {
                     dark: 'list.activeSelectionBackground', light: 'list.activeSelectionBackground', hcDark: 'list.activeSelectionBackground', hcLight: 'list.activeSelectionBackground'
                 },
-                description: 'Background color of the selected menu item in menus.'
+                description: '菜单中所选菜单项的背景颜色。'
             },
             {
                 id: 'menu.selectionBorder', defaults: {
                     hcDark: 'activeContrastBorder', hcLight: 'activeContrastBorder'
-                }, description: 'Border color of the selected menu item in menus.'
+                }, description: '菜单中所选菜单项的边框颜色。'
             },
             {
                 id: 'menu.separatorBackground', defaults: {
                     dark: '#BBBBBB', light: '#888888', hcDark: 'contrastBorder', hcLight: 'contrastBorder'
                 },
-                description: 'Color of a separator menu item in menus.'
+                description: '菜单中分隔符菜单项的颜色。'
             },
 
             // Welcome Page colors should be aligned with https://code.visualstudio.com/api/references/theme-color#welcome-page
-            { id: 'welcomePage.background', description: 'Background color for the Welcome page.' },
-            { id: 'welcomePage.buttonBackground', defaults: { dark: Color.rgba(0, 0, 0, .2), light: Color.rgba(0, 0, 0, .04), hcDark: Color.black, hcLight: Color.white }, description: 'Background color for the buttons on the Welcome page.' },
-            { id: 'welcomePage.buttonHoverBackground', defaults: { dark: Color.rgba(200, 235, 255, .072), light: Color.rgba(0, 0, 0, .10) }, description: 'Hover background color for the buttons on the Welcome page.' },
-            { id: 'walkThrough.embeddedEditorBackground', defaults: { dark: Color.rgba(0, 0, 0, .4), light: '#f4f4f4' }, description: 'Background color for the embedded editors on the Interactive Playground.' },
+            { id: 'welcomePage.background', description: '欢迎页的背景颜色。' },
+            { id: 'welcomePage.buttonBackground', defaults: { dark: Color.rgba(0, 0, 0, .2), light: Color.rgba(0, 0, 0, .04), hcDark: Color.black, hcLight: Color.white }, description: '欢迎页上按钮的背景颜色。' },
+            { id: 'welcomePage.buttonHoverBackground', defaults: { dark: Color.rgba(200, 235, 255, .072), light: Color.rgba(0, 0, 0, .10) }, description: '欢迎页上按钮的悬停背景颜色。' },
+            { id: 'walkThrough.embeddedEditorBackground', defaults: { dark: Color.rgba(0, 0, 0, .4), light: '#f4f4f4' }, description: '交互式演练场中嵌入式编辑器的背景颜色。' },
 
             // Dropdown colors should be aligned with https://code.visualstudio.com/api/references/theme-color#dropdown-control
 
@@ -2033,20 +2033,20 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: '#3C3C3C',
                     hcDark: Color.black,
                     hcLight: Color.white
-                }, description: 'Dropdown background.'
+                }, description: '下拉框的背景颜色。'
             },
             {
                 id: 'dropdown.listBackground', defaults: {
                     hcDark: Color.black,
                     hcLight: Color.white
-                }, description: 'Dropdown list background.'
+                }, description: '下拉框列表的背景颜色。'
             },
             {
                 id: 'dropdown.foreground', defaults: {
                     dark: '#F0F0F0',
                     hcDark: Color.white,
                     hcLight: 'foreground'
-                }, description: 'Dropdown foreground.'
+                }, description: '下拉框的前景色。'
             },
             {
                 id: 'dropdown.border', defaults: {
@@ -2054,14 +2054,14 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: 'dropdown.background',
                     hcDark: 'contrastBorder',
                     hcLight: 'contrastBorder'
-                }, description: 'Dropdown border.'
+                }, description: '下拉框的边框。'
             },
 
             // Settings Editor colors should be aligned with https://code.visualstudio.com/api/references/theme-color#settings-editor-colors
             {
                 id: 'settings.headerForeground', defaults: {
                     light: '#444444', dark: '#e7e7e7', hcDark: '#ffffff', hcLight: '#292929'
-                }, description: 'The foreground color for a section header or active title.'
+                }, description: '分区标题或活动标题的前景色。'
             },
             {
                 id: 'settings.modifiedItemIndicator', defaults: {
@@ -2069,73 +2069,73 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: Color.rgba(12, 125, 157),
                     hcDark: Color.rgba(0, 73, 122),
                     hcLight: Color.rgba(102, 175, 224)
-                }, description: 'The color of the modified setting indicator.'
+                }, description: '已修改设置指示器的颜色。'
             },
             {
                 id: 'settings.dropdownBackground', defaults: {
                     dark: 'dropdown.background', light: 'dropdown.background', hcDark: 'dropdown.background', hcLight: 'dropdown.background'
                 },
-                description: 'Settings editor dropdown background.'
+                description: '设置编辑器下拉框的背景颜色。'
             },
             {
                 id: 'settings.dropdownForeground', defaults: {
                     dark: 'dropdown.foreground', light: 'dropdown.foreground', hcDark: 'dropdown.foreground', hcLight: 'dropdown.foreground'
-                }, description: 'Settings editor dropdown foreground.'
+                }, description: '设置编辑器下拉框的前景色。'
             },
             {
                 id: 'settings.dropdownBorder', defaults: {
                     dark: 'dropdown.border', light: 'dropdown.border', hcDark: 'dropdown.border', hcLight: 'dropdown.border'
-                }, description: 'Settings editor dropdown border.'
+                }, description: '设置编辑器下拉框的边框。'
             },
             {
                 id: 'settings.dropdownListBorder', defaults: {
                     dark: 'editorWidget.border', light: 'editorWidget.border', hcDark: 'editorWidget.border', hcLight: 'editorWidget.border'
-                }, description: 'Settings editor dropdown list border. This surrounds the options and separates the options from the description.'
+                }, description: '设置编辑器下拉列表的边框。它环绕各选项，并将选项与描述分隔开。'
             },
             {
                 id: 'settings.checkboxBackground', defaults: {
                     dark: 'checkbox.background', light: 'checkbox.background', hcDark: 'checkbox.background', hcLight: 'checkbox.background'
-                }, description: 'Settings editor checkbox background.'
+                }, description: '设置编辑器复选框的背景颜色。'
             },
             {
                 id: 'settings.checkboxForeground', defaults: {
                     dark: 'checkbox.foreground', light: 'checkbox.foreground', hcDark: 'checkbox.foreground', hcLight: 'checkbox.foreground'
-                }, description: 'Settings editor checkbox foreground.'
+                }, description: '设置编辑器复选框的前景色。'
             },
             {
                 id: 'settings.checkboxBorder', defaults: {
                     dark: 'checkbox.border', light: 'checkbox.border', hcDark: 'checkbox.border', hcLight: 'checkbox.border'
-                }, description: 'Settings editor checkbox border.'
+                }, description: '设置编辑器复选框的边框。'
             },
             {
                 id: 'settings.textInputBackground', defaults: {
                     dark: 'input.background', light: 'input.background', hcDark: 'input.background', hcLight: 'input.background'
-                }, description: 'Settings editor text input box background.'
+                }, description: '设置编辑器文本输入框的背景颜色。'
             },
             {
                 id: 'settings.textInputForeground', defaults: {
                     dark: 'input.foreground', light: 'input.foreground', hcDark: 'input.foreground', hcLight: 'input.foreground'
-                }, description: 'Settings editor text input box foreground.'
+                }, description: '设置编辑器文本输入框的前景色。'
             },
             {
                 id: 'settings.textInputBorder', defaults: {
                     dark: 'input.border', light: 'input.border', hcDark: 'input.border', hcLight: 'input.background'
-                }, description: 'Settings editor text input box border.'
+                }, description: '设置编辑器文本输入框的边框。'
             },
             {
                 id: 'settings.numberInputBackground', defaults: {
                     dark: 'input.background', light: 'input.background', hcDark: 'input.background', hcLight: 'input.background'
-                }, description: 'Settings editor number input box background.'
+                }, description: '设置编辑器数字输入框的背景颜色。'
             },
             {
                 id: 'settings.numberInputForeground', defaults: {
                     dark: 'input.foreground', light: 'input.foreground', hcDark: 'input.foreground', hcLight: 'input.foreground'
-                }, description: 'Settings editor number input box foreground.'
+                }, description: '设置编辑器数字输入框的前景色。'
             },
             {
                 id: 'settings.numberInputBorder', defaults: {
                     dark: 'input.border', light: 'input.border', hcDark: 'input.border', hcLight: 'input.border'
-                }, description: 'Settings editor number input box border.'
+                }, description: '设置编辑器数字输入框的边框。'
             },
             {
                 id: 'settings.focusedRowBackground', defaults: {
@@ -2143,7 +2143,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('#808080', 0.03),
                     hcDark: undefined,
                     hcLight: undefined
-                }, description: 'The background color of a settings row when focused.'
+                }, description: '设置行聚焦时的背景颜色。'
             },
             {
                 id: 'settings.rowHoverBackground', defaults: {
@@ -2151,7 +2151,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('#808080', 0.05),
                     hcDark: undefined,
                     hcLight: undefined
-                }, description: 'The background color of a settings row when hovered.'
+                }, description: '设置行悬停时的背景颜色。'
             },
             {
                 id: 'settings.focusedRowBorder', defaults: {
@@ -2159,13 +2159,13 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(0, 0, 0, 0.12),
                     hcDark: 'focusBorder',
                     hcLight: 'focusBorder'
-                }, description: "The color of the row's top and bottom border when the row is focused."
+                }, description: "设置行聚焦时该行顶部和底部边框的颜色。"
             },
             // Toolbar Action colors should be aligned with https://code.visualstudio.com/api/references/theme-color#action-colors
             {
                 id: 'toolbar.hoverBackground', defaults: {
                     dark: '#5a5d5e50', light: '#b8b8b850', hcDark: undefined, hcLight: undefined
-                }, description: 'Toolbar background when hovering over actions using the mouse.'
+                }, description: '使用鼠标悬停在工具栏操作上时的背景颜色。'
             },
 
             // Theia Variable colors
@@ -2175,7 +2175,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#9B46B0',
                     hcDark: '#C586C0'
                 },
-                description: 'Color of a variable name.'
+                description: '变量名的颜色。'
             },
             {
                 id: 'variable.value.color', defaults: {
@@ -2183,7 +2183,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(108, 108, 108, 0.8),
                     hcDark: Color.rgba(204, 204, 204, 0.6)
                 },
-                description: 'Color of a variable value.'
+                description: '变量值的颜色。'
             },
             {
                 id: 'variable.number.variable.color', defaults: {
@@ -2191,7 +2191,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#09885A',
                     hcDark: '#B5CEA8'
                 },
-                description: 'Value color of a number variable'
+                description: '数字变量值的颜色'
             },
             {
                 id: 'variable.boolean.variable.color', defaults: {
@@ -2199,7 +2199,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#0000FF',
                     hcDark: '#4E94CE'
                 },
-                description: 'Value color of a boolean variable'
+                description: '布尔变量值的颜色'
             },
             {
                 id: 'variable.string.variable.color', defaults: {
@@ -2207,7 +2207,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#A31515',
                     hcDark: '#CE9178'
                 },
-                description: 'Value color of a string variable'
+                description: '字符串变量值的颜色'
             },
 
             // Theia ANSI colors
@@ -2217,7 +2217,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(128, 128, 128),
                     hcDark: '#A0A0A0'
                 },
-                description: 'ANSI black color'
+                description: '黑色（ANSI）'
             },
             {
                 id: 'ansi.red.color', defaults: {
@@ -2225,7 +2225,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#BE1717',
                     hcDark: '#A74747'
                 },
-                description: 'ANSI red color'
+                description: '红色（ANSI）'
             },
             {
                 id: 'ansi.green.color', defaults: {
@@ -2233,7 +2233,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#338A2F',
                     hcDark: '#348F34'
                 },
-                description: 'ANSI green color'
+                description: '绿色（ANSI）'
             },
             {
                 id: 'ansi.yellow.color', defaults: {
@@ -2241,7 +2241,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#BEB817',
                     hcDark: '#5F4C29'
                 },
-                description: 'ANSI yellow color'
+                description: '黄色（ANSI）'
             },
             {
                 id: 'ansi.blue.color', defaults: {
@@ -2249,7 +2249,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(0, 0, 139),
                     hcDark: '#6286BB'
                 },
-                description: 'ANSI blue color'
+                description: '蓝色（ANSI）'
             },
             {
                 id: 'ansi.magenta.color', defaults: {
@@ -2257,7 +2257,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(139, 0, 139),
                     hcDark: '#914191'
                 },
-                description: 'ANSI magenta color'
+                description: '品红色（ANSI）'
             },
             {
                 id: 'ansi.cyan.color', defaults: {
@@ -2265,7 +2265,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.rgba(0, 139, 139),
                     hcDark: '#218D8D'
                 },
-                description: 'ANSI cyan color'
+                description: '青色（ANSI）'
             },
             {
                 id: 'ansi.white.color', defaults: {
@@ -2273,7 +2273,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#BDBDBD',
                     hcDark: '#707070'
                 },
-                description: 'ANSI white color'
+                description: '白色（ANSI）'
             },
 
             // Theia defaults
@@ -2284,7 +2284,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: 'inputValidation.errorBackground',
                     light: 'inputValidation.errorBackground',
                     hcDark: 'inputValidation.errorBackground'
-                }, description: 'Background color of error widgets (like alerts or notifications).'
+                }, description: '错误小部件（如提醒或通知）的背景颜色。'
             },
             {
                 id: 'successBackground',
@@ -2292,7 +2292,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: 'editorGutter.addedBackground',
                     light: 'editorGutter.addedBackground',
                     hcDark: 'editorGutter.addedBackground'
-                }, description: 'Background color of success widgets (like alerts or notifications).'
+                }, description: '成功小部件（如提醒或通知）的背景颜色。'
             },
             {
                 id: 'warningBackground',
@@ -2300,7 +2300,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: 'editorWarning.foreground',
                     light: 'editorWarning.foreground',
                     hcDark: 'editorWarning.border'
-                }, description: 'Background color of warning widgets (like alerts or notifications).'
+                }, description: '警告小部件（如提醒或通知）的背景颜色。'
             },
             {
                 id: 'warningForeground',
@@ -2308,7 +2308,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: 'inputValidation.warningBackground',
                     light: 'inputValidation.warningBackground',
                     hcDark: 'inputValidation.warningBackground'
-                }, description: 'Foreground color of warning widgets (like alerts or notifications).'
+                }, description: '警告小部件（如提醒或通知）的前景色。'
             },
             // Statusbar
             {
@@ -2318,7 +2318,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'editorWarning.foreground',
                     hcDark: 'editorWarning.foreground',
                     hcLight: 'editorWarning.foreground'
-                }, description: 'Background of hovered statusbar item in case the theia server is offline.'
+                }, description: '当 Theia 服务器离线时，悬停状态栏项的背景颜色。'
             },
             {
                 id: 'statusBar.offlineForeground',
@@ -2327,7 +2327,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'editor.background',
                     hcDark: 'editor.background',
                     hcLight: 'editor.background'
-                }, description: 'Background of hovered statusbar item in case the theia server is offline.'
+                }, description: '当 Theia 服务器离线时，悬停状态栏项的背景颜色。'
             },
             {
                 id: 'statusBarItem.offlineHoverBackground',
@@ -2336,7 +2336,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.lighten('statusBar.offlineBackground', 0.4),
                     hcDark: Color.lighten('statusBar.offlineBackground', 0.4),
                     hcLight: Color.lighten('statusBar.offlineBackground', 0.4)
-                }, description: 'Background of hovered statusbar item in case the theia server is offline.'
+                }, description: '当 Theia 服务器离线时，悬停状态栏项的背景颜色。'
             },
             {
                 id: 'statusBarItem.offlineActiveBackground',
@@ -2345,7 +2345,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.lighten('statusBar.offlineBackground', 0.6),
                     hcDark: Color.lighten('statusBar.offlineBackground', 0.6),
                     hcLight: Color.lighten('statusBar.offlineBackground', 0.6)
-                }, description: 'Background of active statusbar item in case the theia server is offline.'
+                }, description: '当 Theia 服务器离线时，活动状态栏项的背景颜色。'
             },
             {
                 id: 'statusBarItem.remoteBackground',
@@ -2354,7 +2354,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'activityBarBadge.background',
                     hcDark: 'activityBarBadge.background',
                     hcLight: 'activityBarBadge.background'
-                }, description: 'Background color for the remote indicator on the status bar.'
+                }, description: '状态栏上远程指示器的背景颜色。'
             },
             {
                 id: 'statusBarItem.remoteForeground',
@@ -2363,7 +2363,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'activityBarBadge.foreground',
                     hcDark: 'activityBarBadge.foreground',
                     hcLight: 'activityBarBadge.foreground'
-                }, description: 'Foreground color for the remote indicator on the status bar.'
+                }, description: '状态栏上远程指示器的前景色。'
             },
             {
                 id: 'statusBarItem.remoteHoverBackground',
@@ -2372,7 +2372,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.lighten('statusBarItem.remoteBackground', 0.2),
                     hcDark: Color.lighten('statusBarItem.remoteBackground', 0.2),
                     hcLight: Color.lighten('statusBarItem.remoteBackground', 0.2)
-                }, description: 'Background color for the remote indicator on the status bar when hovering.'
+                }, description: '悬停时状态栏上远程指示器的背景颜色。'
             },
             {
                 id: 'statusBarItem.remoteHoverForeground',
@@ -2381,14 +2381,14 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: 'statusBarItem.remoteForeground',
                     hcDark: 'statusBarItem.remoteForeground',
                     hcLight: 'statusBarItem.remoteForeground'
-                }, description: 'Foreground color for the remote indicator on the status bar when hovering.'
+                }, description: '悬停时状态栏上远程指示器的前景色。'
             },
             // Buttons
             // https://github.com/microsoft/vscode/blob/release/1.108/src/vs/platform/theme/common/colors/inputColors.ts#L112
             {
                 id: 'button.foreground',
                 defaults: Color.white,
-                description: 'Button foreground color.'
+                description: '按钮的前景色。'
             },
             {
                 id: 'button.disabledForeground',
@@ -2396,12 +2396,12 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     dark: Color.transparent('button.foreground', 0.5),
                     light: Color.transparent('button.foreground', 0.5),
                     hcDark: Color.transparent('button.foreground', 0.5)
-                }, description: 'Foreground color of disabled buttons.'
+                }, description: '已禁用按钮的前景色。'
             },
             {
                 id: 'button.separator',
                 defaults: Color.transparent('button.foreground', .4),
-                description: 'Button separator color.'
+                description: '按钮分隔符的颜色。'
             },
             {
                 id: 'button.background',
@@ -2411,14 +2411,14 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.black,
                     hcLight: '#0F4A85'
                 },
-                description: 'Button background color.'
+                description: '按钮的背景颜色。'
             },
             {
                 id: 'button.disabledBackground',
                 defaults: {
                     dark: Color.transparent('button.background', 0.5),
                     light: Color.transparent('button.background', 0.5)
-                }, description: 'Background color of disabled buttons.'
+                }, description: '已禁用按钮的背景颜色。'
             },
             {
                 id: 'button.hoverBackground',
@@ -2428,12 +2428,12 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'button.background',
                     hcLight: 'button.background'
                 },
-                description: 'Button background color when hovering.'
+                description: '悬停时按钮的背景颜色。'
             },
             {
                 id: 'button.border',
                 defaults: 'contrastBorder',
-                description: 'Button border color.'
+                description: '按钮的边框颜色。'
             },
             {
                 id: 'secondaryButton.foreground',
@@ -2442,7 +2442,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.white,
                     hcDark: Color.white,
                     hcLight: 'foreground'
-                }, description: 'Foreground color of secondary buttons.'
+                }, description: '次要按钮的前景色。'
             },
             {
                 id: 'secondaryButton.disabledForeground',
@@ -2451,7 +2451,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.transparent('secondaryButton.foreground', 0.5),
                     hcDark: Color.transparent('secondaryButton.foreground', 0.5),
                     hcLight: Color.transparent('secondaryButton.foreground', 0.5),
-                }, description: 'Foreground color of disabled secondary buttons.'
+                }, description: '已禁用次要按钮的前景色。'
             },
             {
                 id: 'secondaryButton.background',
@@ -2460,7 +2460,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#5F6A79',
                     hcDark: undefined,
                     hcLight: Color.white
-                }, description: 'Background color of secondary buttons.'
+                }, description: '次要按钮的背景颜色。'
             },
             {
                 id: 'secondaryButton.hoverBackground',
@@ -2469,14 +2469,14 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.lighten('secondaryButton.background', 0.2),
                     hcDark: undefined,
                     hcLight: undefined
-                }, description: 'Background color when hovering secondary buttons.'
+                }, description: '悬停次要按钮时的背景颜色。'
             },
             {
                 id: 'secondaryButton.disabledBackground',
                 defaults: {
                     dark: Color.transparent('secondaryButton.background', 0.6),
                     light: Color.transparent('secondaryButton.background', 0.6)
-                }, description: 'Background color of disabled secondary buttons.'
+                }, description: '已禁用次要按钮的背景颜色。'
             },
             {
                 id: 'editorGutter.commentRangeForeground',
@@ -2485,7 +2485,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: '#d5d8e9',
                     hcDark: Color.white,
                     hcLight: Color.black
-                }, description: 'Editor gutter decoration color for commenting ranges.'
+                }, description: '编辑器行号栏中注释范围的装饰颜色。'
             },
             {
                 id: 'editorGutter.itemGlyphForeground',
@@ -2495,7 +2495,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.black,
                     hcLight: Color.white,
                 },
-                description: 'Editor gutter decoration color for gutter item glyphs.'
+                description: '编辑器行号栏中项目字形的装饰颜色。'
             },
             {
                 id: 'breadcrumb.foreground',
@@ -2505,7 +2505,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.transparent('foreground', 0.8),
                     hcLight: Color.transparent('foreground', 0.8)
                 },
-                description: 'Color of breadcrumb item text'
+                description: '面包屑项文本的颜色'
             },
             {
                 id: 'breadcrumb.background',
@@ -2515,7 +2515,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'editor.background',
                     hcLight: 'editor.background'
                 },
-                description: 'Color of breadcrumb item background'
+                description: '面包屑项背景的颜色'
             },
             {
                 id: 'breadcrumb.focusForeground',
@@ -2525,7 +2525,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.lighten('foreground', 0.1),
                     hcLight: Color.lighten('foreground', 0.1)
                 },
-                description: 'Color of breadcrumb item text when focused'
+                description: '面包屑项文本聚焦时的颜色'
             },
             {
                 id: 'breadcrumb.activeSelectionForeground',
@@ -2535,7 +2535,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.lighten('foreground', 0.1),
                     hcLight: Color.lighten('foreground', 0.1)
                 },
-                description: 'Color of selected breadcrumb item'
+                description: '所选面包屑项的颜色'
             },
             {
                 id: 'breadcrumbPicker.background',
@@ -2545,7 +2545,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: 'editorWidget.background',
                     hcLight: 'editorWidget.background'
                 },
-                description: 'Background color of breadcrumb item picker'
+                description: '面包屑项选择器的背景颜色'
             },
             {
                 id: 'mainToolbar.background',
@@ -2555,7 +2555,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.lighten('activityBar.background', 0.1),
                     hcLight: Color.lighten('activityBar.background', 0.1)
                 },
-                description: 'Background color of shell\'s global toolbar'
+                description: '外壳全局工具栏的背景颜色'
             },
             {
                 id: 'mainToolbar.foreground', defaults: {
@@ -2563,7 +2563,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     light: Color.lighten('activityBar.foreground', 0.1),
                     hcDark: Color.lighten('activityBar.foreground', 0.1),
                     hcLight: Color.lighten('activityBar.foreground', 0.1),
-                }, description: 'Foreground color of active toolbar item',
+                }, description: '活动工具栏项的前景色',
             },
             {
                 id: 'editorHoverWidgetInternalBorder',
@@ -2573,7 +2573,7 @@ export class CommonFrontendContribution implements FrontendApplicationContributi
                     hcDark: Color.transparent('editorHoverWidget.border', 0.5),
                     hcLight: Color.transparent('editorHoverWidget.border', 0.5)
                 },
-                description: 'The border between subelements of a hover widget'
+                description: '悬停小部件各子元素之间的边框'
             }
         );
     }

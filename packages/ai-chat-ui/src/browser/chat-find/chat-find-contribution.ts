@@ -24,13 +24,13 @@ import { ChatViewWidget } from '../chat-view-widget';
 export const CHAT_FIND_COMMAND = Command.toLocalizedCommand({
     id: 'ai-chat.find',
     category: ChatCommands.CHAT_CATEGORY,
-    label: 'Find in Chat'
+    label: '在聊天中查找'
 }, 'theia/ai/chat-ui/find', ChatCommands.CHAT_CATEGORY_KEY);
 
 export const CHAT_FIND_HIDE_COMMAND = Command.toLocalizedCommand({
     id: 'ai-chat.find.hide',
     category: ChatCommands.CHAT_CATEGORY,
-    label: 'Hide Find in Chat'
+    label: '隐藏聊天查找'
 }, 'theia/ai/chat-ui/findHide', ChatCommands.CHAT_CATEGORY_KEY);
 
 /** Monaco's find action, bound to Ctrl+F while any editor is open and run on the focused or last active editor. */

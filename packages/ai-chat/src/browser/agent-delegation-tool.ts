@@ -65,44 +65,43 @@ export class AgentDelegationTool implements ToolProvider {
             id: AgentDelegationTool.ID,
             name: AgentDelegationTool.ID,
             description:
-                'Delegate a task or question to a specific AI agent. IMPORTANT: When you delegate a task or question to a specific AI agent using this tool, ' +
-                'remember that each sub-agent operates solely within its specialized capabilities and tools and, unless you resume a previous delegation via sessionId, ' +
-                'does not have access to previous conversation context or external systems. Therefore, it is crucial to provide all necessary context and detailed ' +
-                'information directly within your request to ensure accurate and effective task completion. ' +
-                'Each result ends with a "[delegation sessionId: <id>]" line. To send a follow-up request to the same agent with its previous conversation retained ' +
-                '(e.g. to request fixes after reviewing its result), pass that id as sessionId. Prefer resuming for follow-ups on the same task; ' +
-                'start a fresh session (omit sessionId) for unrelated tasks, as a resumed session grows with every round. ' +
-                'You may optionally pass a taskContextId to make a specific task context (e.g. a plan) available to the delegated agent via its system prompt.',
+                '将任务或问题委派给指定的 AI 代理。重要：使用此工具向指定 AI 代理委派任务或问题时，' +
+                '请记住：每个子代理只能在其专属能力与工具范围内工作，并且除非通过 sessionId 恢复先前的委派，' +
+                '否则它无法访问此前的对话上下文或外部系统。因此，必须在请求中直接提供所有必要的上下文和详细信息，' +
+                '以确保任务准确、有效地完成。' +
+                '每个结果都以一行 "[delegation sessionId: <id>]" 结尾。要向同一代理发送后续请求并保留其先前的对话' +
+                '（例如审查其结果后要求修复），请将该 id 作为 sessionId 传入。同一任务的后续请求优先选择恢复会话；' +
+                '不相关的任务请开启新会话（省略 sessionId），因为恢复的会话会随着每轮交互不断变长。' +
+                '还可选择传入 taskContextId，将特定任务上下文（例如计划）通过系统提示词提供给被委派的代理。',
             parameters: {
                 type: 'object',
                 properties: {
                     agentId: {
                         type: 'string',
                         description:
-                            'The ID of the AI agent to delegate the task to.',
+                            '要委派任务的 AI 代理的 ID。',
                     },
                     prompt: {
                         type: 'string',
                         description:
-                            'The task, question, or prompt to pass to the specified agent. Include the overall goal, the specific question, ' +
-                            'and relevant file paths. Keep the question narrow (e.g. "list every call site of X with surrounding lines"); ' +
-                            'vague prompts produce slow, generic reports.',
+                            '传递给指定代理的任务、问题或提示词。包含总体目标、具体问题及相关文件路径。' +
+                            '问题要聚焦（例如“列出 X 的所有调用点及上下文行”）；含糊的提示词只会得到缓慢而空泛的报告。',
                     },
                     taskContextId: {
                         type: 'string',
-                        description: 'Optional task context ID to make available to the delegated agent. The agent will see the task context in its system prompt.',
+                        description: '可选的任务上下文 ID，提供给被委派的代理。代理会在其系统提示词中看到该任务上下文。',
                     },
                     sessionId: {
                         type: 'string',
-                        description: 'Optional ID of a previous delegation session to continue, as reported in the "[delegation sessionId: <id>]" line of an earlier result. ' +
-                            'The delegated agent keeps its previous conversation context, so you do not need to repeat context you already sent it. ' +
-                            'Only a session that you delegated yourself can be resumed, and the agentId must match the original delegation.',
+                        description: '可选的先前委派会话的 ID，用于继续该会话，即先前结果中 "[delegation sessionId: <id>]" 一行报告的 id。' +
+                            '被委派的代理会保留其先前的对话上下文，因此无需重复已发送过的上下文。' +
+                            '只能恢复由你自己委派的会话，且 agentId 必须与原始委派一致。',
                     },
                     background: {
                         type: 'boolean',
-                        description: 'Run the delegation in the background and return immediately with a taskId. ' +
-                            'Use for independent long-running subtasks you want to parallelize. Poll the result with getDelegationResult(taskId); ' +
-                            'a note is added to this conversation when the task finishes. Stop it early with stopDelegation(taskId).',
+                        description: '在后台运行委派并立即返回 taskId。' +
+                            '用于想要并行的独立长耗时子任务。用 getDelegationResult(taskId) 轮询结果；' +
+                            '任务完成时会向当前会话追加一条提示。可用 stopDelegation(taskId) 提前停止。',
                     },
                 },
                 required: ['agentId', 'prompt'],

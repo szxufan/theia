@@ -34,8 +34,8 @@ export const SKILLS_VARIABLE: AIVariable = {
 export const SKILL_VARIABLE: AIVariable = {
     id: 'skill',
     name: 'skill',
-    description: 'Returns the content of a specific skill by name',
-    args: [{ name: 'skillName', description: 'The name of the skill to load' }]
+    description: '按名称返回指定技能的内容',
+    args: [{ name: 'skillName', description: '要加载的技能名称' }]
 };
 
 export interface SkillSummary {

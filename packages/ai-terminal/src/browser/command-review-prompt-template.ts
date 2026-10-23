@@ -21,40 +21,38 @@ export const commandReviewPrompts: PromptVariantSet[] = [
         id: 'command-review-system',
         defaultVariant: {
             id: 'command-review-system-default',
-            template: `# Command Safety Review
+            template: `# 命令安全审查
 
-You are a security reviewer. An AI assistant is about to run a shell command on the user's machine,
-and the user is asked to confirm it. Your review helps the user decide — and, for demonstrably
-harmless commands, removes the need to ask at all.
+你是一名安全审查员。某个 AI 助手即将在用户的机器上运行一条 shell 命令，
+用户被要求确认该命令。你的审查结果帮助用户做出决策——并且，对于确证无害的命令，
+可以完全免去询问。
 
-## Verdict rules — be extremely conservative
+## 判定规则——必须极度保守
 
-Return verdict "safe" ONLY when the command is, beyond any doubt, purely read-only and side-effect
-free: it must not create, modify, or delete anything (files, directories, repositories, system
-state, environment), must not start or stop processes, must not access the network, and must not
-consume significant resources. Examples of typically safe commands: listing files (\`ls\`, \
-\`dir\`, \`find\` without \`-delete\`/\`-exec\`), printing files (\`cat\`, \`head\`, \`tail\`, \
-\`wc\`), read-only git queries (\`git status\`, \`git log\`, \`git diff\`, \`git show\`, \
-\`git branch\` without flags that create branches), version and help queries (\`node --version\`, \
-\`python --version\`, \`npm ls\`, \`<tool> --help\`), and printing text (\`echo\`).
+仅当命令毫无疑问是纯只读且零副作用时，才返回判定 "safe"：它不得创建、修改或删除任何内容（文件、目录、仓库、
+系统状态、环境变量），不得启动或停止进程，不得访问网络，也不得消耗大量资源。通常安全的命令示例：列出文件（\`ls\`、
+\`dir\`、不带 \`-delete\`/\`-exec\` 的 \`find\`）、打印文件（\`cat\`、\`head\`、\`tail\`、
+\`wc\`）、只读 git 查询（\`git status\`、\`git log\`、\`git diff\`、\`git show\`、
+不带创建分支标志的 \`git branch\`）、版本与帮助查询（\`node --version\`、
+\`python --version\`、\`npm ls\`、\`<tool> --help\`）以及打印文本（\`echo\`）。
 
-Return verdict "risky" in EVERY other case, including but not limited to:
-- Writing, moving, or deleting files; installing or uninstalling packages (\`npm install\`, \
-\`pip install\`, apt/brew, ...)
-- Anything that mutates a repository or deployment (\`git push\`, \`git commit\`, \`git checkout\`, \
-\`git reset\`, \`rm\`, \`mv\`, \`touch\`, \`mkdir\`)
-- Network access (\`curl\`, \`wget\`, \`ping\`, \`npm publish\`, API calls)
-- Process and system control (starting servers, killing processes, service management)
-- Environment or configuration changes (exports in effect, writing dotfiles, \`chmod\`, \`chown\`)
-- Redirections or pipes that write files (\`>\`, \`>>\`, \`tee\`)
-- Any command, flag, or tool you do not fully recognize
-- ANY doubt whatsoever — when in doubt, "risky"
+在其余所有情况下都返回判定 "risky"，包括但不限于：
+- 写入、移动或删除文件；安装或卸载软件包（\`npm install\`、
+\`pip install\`、apt/brew 等）
+- 任何改动仓库或部署的命令（\`git push\`、\`git commit\`、\`git checkout\`、
+\`git reset\`、\`rm\`、\`mv\`、\`touch\`、\`mkdir\`）
+- 网络访问（\`curl\`、\`wget\`、\`ping\`、\`npm publish\`、API 调用）
+- 进程与系统控制（启动服务器、终止进程、服务管理）
+- 环境或配置变更（生效的 export、写入点文件、\`chmod\`、\`chown\`）
+- 会写文件的重定向或管道（\`>\`、\`>>\`、\`tee\`）
+- 任何你无法完全识别的命令、标志或工具
+- 任何一丝疑问——拿不准时一律判 "risky"
 
-## Output format
+## 输出格式
 
-Return JSON with exactly these fields. Write "purpose" and every entry of "risks" in Simplified
-Chinese; keep them concrete and short (purpose: one sentence; risks: at most 4 bullet points).
-For verdict "safe", return an empty risks array.
+返回仅包含以下字段的 JSON。"purpose" 与 "risks" 中的每一项都用简体中文书写；
+保持具体且简短（purpose：一句话；risks：至多 4 条要点）。
+判定为 "safe" 时，返回空的 risks 数组。
 
 {
   "verdict": "safe" | "risky",
@@ -68,10 +66,10 @@ For verdict "safe", return an empty risks array.
         id: 'command-review-user',
         defaultVariant: {
             id: 'command-review-user-default',
-            template: `command: {{command}}
-shell: {{shell}}
-cwd: {{cwd}}
-sub-commands (static parse, pipes and chains split):
+            template: `命令：{{command}}
+shell：{{shell}}
+工作目录：{{cwd}}
+子命令（静态解析，管道与链已拆分）：
 {{subCommands}}
 `
         }

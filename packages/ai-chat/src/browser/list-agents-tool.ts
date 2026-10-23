@@ -29,16 +29,16 @@ export class ListAgentsTool implements ToolProvider {
         return {
             id: ListAgentsTool.ID,
             name: ListAgentsTool.ID,
-            description: `Lists the agents you can delegate to with ${AGENT_DELEGATION_FUNCTION_ID}, one per line as '- <agentId>: <description>'. ` +
-                'Call it before delegating to pick the agent whose description fits the task. ' +
-                'Pass a query with a few keywords to get only the agents whose id or description matches any of them, best matches first. ' +
-                'Omit the query to list all agents, which is the safer choice when comparing candidates.',
+            description: `列出可通过 ${AGENT_DELEGATION_FUNCTION_ID} 委派的代理，每行一个，格式为“- <agentId>: <description>”。` +
+                '委派前先调用此工具，挑选描述最契合任务的代理。' +
+                '传入包含少量关键词的 query，只返回 id 或描述匹配任一关键词的代理，最匹配的排在最前。' +
+                '省略 query 则列出全部代理，在比较候选代理时这是更稳妥的选择。',
             parameters: {
                 type: 'object',
                 properties: {
                     query: {
                         type: 'string',
-                        description: 'Optional space-separated keywords, matched case-insensitively against agent ids and descriptions (e.g. \'review test\')'
+                        description: '可选的空格分隔关键词，与代理 id 和描述做不区分大小写的匹配（如 \'review test\'）'
                     }
                 },
                 required: []

@@ -66,38 +66,38 @@ export namespace ExternalChatSessionSummary {
         type: 'object',
         required: ['id', 'status', 'restored'],
         properties: {
-            id: { type: 'string', description: 'Unique session id.' },
-            title: { type: 'string', description: 'Session title, if one has been set or generated.' },
+            id: { type: 'string', description: '唯一的会话 id。' },
+            title: { type: 'string', description: '会话标题（如已设置或生成）。' },
             status: {
                 type: 'string',
                 enum: [...ChatSessionStatus.VALUES],
-                description: 'Aggregated session status, derived from the state of the last request. '
-                    + "'awaitingApproval' and 'awaitingInput' mean the session is blocked on the user."
+                description: '会话的聚合状态，由最后一个请求的状态推导。'
+                    + "'awaitingApproval' 和 'awaitingInput' 表示会话正等待用户处理。"
             },
-            lastInteraction: { type: 'number', description: 'Timestamp in milliseconds since epoch of the last interaction with the session.' },
+            lastInteraction: { type: 'number', description: '与该会话最后一次交互的时间戳（自纪元起的毫秒数）。' },
             workspace: {
                 type: 'string',
-                description: "URI of the workspace the session belongs to; absent when the session's frontend has no open workspace "
-                    + 'and for not-restored sessions when sessions are persisted globally.'
+                description: '会话所属工作区的 URI；会话所在前端没有打开工作区时省略，'
+                    + '会话全局持久化时未恢复的会话也省略。'
             },
             preview: {
                 type: 'string',
-                description: 'The last few lines of the conversation as plain text; absent for an empty conversation and for sessions that are not restored.'
+                description: '对话最后几行的纯文本；空对话与未恢复的会话省略。'
             },
-            agentId: { type: 'string', description: 'ID of the agent driving the session; absent when no agent is pinned to the session.' },
-            agentName: { type: 'string', description: 'Human-readable name of the agent driving the session.' },
+            agentId: { type: 'string', description: '驱动该会话的代理 ID；未固定代理时省略。' },
+            agentName: { type: 'string', description: '驱动该会话的代理的可读名称。' },
             parentSessionId: {
                 type: 'string',
-                description: 'ID of the session that delegated this one; absent for a top-level session. '
-                    + 'Delegated sessions are listed alongside top-level ones; use this to group them.'
+                description: '委派产生该会话的父会话 ID；顶级会话省略。'
+                    + '被委派的会话与顶级会话一起列出；可用它分组。'
             },
             rootSessionId: {
                 type: 'string',
-                description: 'ID of the topmost session of the delegation chain; absent for a top-level session.'
+                description: '委派链最顶层会话的 ID；顶级会话省略。'
             },
             restored: {
                 type: 'boolean',
-                description: 'Whether the session is restored in a connected frontend. Sessions that are not restored report persisted metadata only.'
+                description: '会话是否已在某个已连接前端中恢复。未恢复的会话仅报告持久化的元数据。'
             }
         }
     };
@@ -123,8 +123,8 @@ export namespace ExternalChatMessage {
         type: 'object',
         required: ['actor', 'text'],
         properties: {
-            actor: { type: 'string', enum: ['user', 'ai'], description: 'Author of the entry.' },
-            text: { type: 'string', description: 'Plain-text representation of the entry.' }
+            actor: { type: 'string', enum: ['user', 'ai'], description: '条目的作者。' },
+            text: { type: 'string', description: '条目的纯文本表示。' }
         }
     };
 }
@@ -149,7 +149,7 @@ export namespace ExternalChatSessionDetail {
             messages: {
                 type: 'array',
                 items: ExternalChatMessage.SCHEMA,
-                description: "The session's conversation reduced to plain-text messages, oldest first. Absent when the session is not restored."
+                description: '会话对话的纯文本消息（按时间先后排序）。会话未恢复时省略。'
             }
         }
     };
@@ -178,12 +178,12 @@ export namespace ExternalChatPrompt {
             text: {
                 type: 'string',
                 pattern: '\\S',
-                description: 'The prompt text, including optional `@agent` mentions and variable references. Must not be blank.'
+                description: '提示词文本，可包含可选的 `@agent` 提及与变量引用。不能为空白。'
             },
             interrupt: {
                 type: 'boolean',
-                description: 'Cancel an in-progress request (including pending tool calls) before sending. '
-                    + 'Without this flag, prompting a session whose status is in progress is rejected as busy.'
+                description: '发送前取消进行中的请求（含待处理的工具调用）。'
+                    + '不设置该标志时，对进行中状态的会话发提示词会被拒绝（busy）。'
             }
         }
     };
@@ -229,22 +229,22 @@ export namespace ExternalChatSessionCreateRequest {
             workspace: {
                 type: 'string',
                 pattern: '\\S',
-                description: 'URI of the workspace in which to create the session. The session is created in a frontend that has this workspace open. '
-                    + 'May be omitted when all connected frontends share the same workspace.'
+                description: '创建会话的工作区 URI。会话在打开了该工作区的某个前端中创建。'
+                    + '所有已连接前端共享同一工作区时可省略。'
             },
             agentId: {
                 type: 'string',
                 pattern: '\\S',
-                description: 'ID of the agent to pin to the session. When omitted, the default agent handles prompts.'
+                description: '固定到该会话的代理 ID。省略时由默认代理处理提示词。'
             },
             prompt: {
                 type: 'string',
                 pattern: '\\S',
-                description: 'Initial prompt to send right after creation. Must not be blank when given.'
+                description: '创建后立即发送的初始提示词。给定该字段时不能为空白。'
             },
             focus: {
                 type: 'boolean',
-                description: 'Raise the chat view in the IDE. The created session becomes the active session of its frontend in any case.'
+                description: '在 IDE 中打开聊天视图。无论是否设置，创建的会话都会成为其前端的活动会话。'
             }
         }
     };

@@ -27,43 +27,43 @@ export class TodoWriteTool implements ToolProvider {
             id: TodoWriteTool.ID,
             name: TodoWriteTool.ID,
             providerName: 'ai-ide',
-            description: 'Create or replace a structured task list for the current session. ' +
-                'This helps you track progress, organize complex tasks, and demonstrate thoroughness to the user. ' +
-                'It also helps the user understand the progress and overall status of their requests.\n\n' +
-                'When to use:\n' +
-                '- Tasks requiring 3+ steps or careful planning\n' +
-                '- User provides multiple tasks or explicitly requests a todo list\n' +
-                '- After receiving new instructions — immediately capture requirements as todos\n' +
-                'Skip for single, trivial tasks, conversational or informational requests that need no tracking.\n' +
-                'When in doubt, use this tool.\n\n' +
-                'Task states:\n' +
-                '- pending: Task not yet started\n' +
-                '- in_progress: Currently working on (limit to ONE task at a time)\n' +
-                '- completed: Task finished successfully\n\n' +
-                'Task management:\n' +
-                '- Mark a task in_progress BEFORE starting work on it (one at a time)\n' +
-                '- Complete the current task before starting new ones\n' +
-                '- Mark tasks completed immediately after finishing — do not batch completions\n' +
-                '- Only mark completed when fully accomplished (no failing tests, no partial implementation, no unresolved errors)\n' +
-                '- If blocked, add a new task describing what needs to be resolved\n' +
-                '- Add follow-up tasks discovered during implementation\n' +
-                '- Remove tasks that are no longer relevant\n\n' +
-                'Task breakdown:\n' +
-                '- Create specific, actionable items\n' +
-                '- Break complex tasks into smaller, manageable steps\n' +
-                '- Use clear, descriptive task names\n\n' +
-                'Being proactive with task management demonstrates attentiveness and ensures you complete all requirements successfully.',
+            description: '为当前会话创建或替换结构化的任务列表。' +
+                '这有助于你跟踪进度、组织复杂任务，并向用户展示工作的周全性。' +
+                '同时也能帮助用户了解其请求的进展和整体状态。\n\n' +
+                '使用时机：\n' +
+                '- 需要 3 个以上步骤或仔细规划的任务\n' +
+                '- 用户提出多个任务或明确要求使用任务列表\n' +
+                '- 收到新指令后——立即将需求记为待办\n' +
+                '单一、琐碎的任务，或无需跟踪的对话式/信息类请求可跳过。\n' +
+                '拿不准时，就使用此工具。\n\n' +
+                '任务状态：\n' +
+                '- pending：任务尚未开始\n' +
+                '- in_progress：正在进行（同一时间只保留一个任务）\n' +
+                '- completed：任务已成功完成\n\n' +
+                '任务管理：\n' +
+                '- 开始工作前先将任务标记为 in_progress（一次一个）\n' +
+                '- 完成当前任务后再开始新任务\n' +
+                '- 任务完成后立即标记为 completed——不要攒着批量标记\n' +
+                '- 仅在完全达成时才标记为 completed（没有失败的测试、没有部分实现、没有未解决的错误）\n' +
+                '- 如遇阻塞，新增一个描述需要解决什么问题的任务\n' +
+                '- 补充实现过程中发现的后续任务\n' +
+                '- 移除不再相关的任务\n\n' +
+                '任务拆分：\n' +
+                '- 创建具体、可执行的事项\n' +
+                '- 将复杂任务拆分为更小、可控的步骤\n' +
+                '- 使用清晰、有描述性的任务名称\n\n' +
+                '积极主动的任务管理体现了你的细致，也能确保你成功完成所有需求。',
             parameters: {
                 type: 'object',
                 properties: {
                     todos: {
                         type: 'array',
-                        description: 'The updated todo list.',
+                        description: '更新后的待办列表。',
                         items: {
                             type: 'object',
                             properties: {
-                                content: { type: 'string', description: 'Clear, actionable task description (e.g., "Extract TokenValidator from AuthService").' },
-                                activeForm: { type: 'string', description: 'Continuous form shown during execution (e.g., "Extracting TokenValidator from AuthService").' },
+                                content: { type: 'string', description: '清晰、可执行的任务描述（例如 "从 AuthService 中提取 TokenValidator"）。' },
+                                activeForm: { type: 'string', description: '执行过程中显示的进行时表述（例如 "正在从 AuthService 中提取 TokenValidator"）。' },
                                 status: { type: 'string', enum: ['pending', 'in_progress', 'completed'] }
                             },
                             required: ['content', 'activeForm', 'status']

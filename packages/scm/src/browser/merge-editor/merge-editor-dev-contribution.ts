@@ -22,7 +22,7 @@ import { LanguageService } from '@theia/core/lib/browser/language-service';
 import { MergeEditor, MergeEditorOpenerOptions, MergeEditorUri } from './merge-editor';
 
 export namespace MergeEditorDevCommands {
-    export const MERGE_EDITOR_DEV_CATEGORY = 'Merge Editor (Dev)';
+    export const MERGE_EDITOR_DEV_CATEGORY = '合并编辑器（开发）';
     export const COPY_CONTENTS_TO_JSON = Command.toDefaultLocalizedCommand({
         id: 'mergeEditor.dev.copyContentsToJSON',
         label: 'Copy Merge Editor State as JSON',

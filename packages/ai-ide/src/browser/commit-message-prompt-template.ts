@@ -21,37 +21,35 @@ export const COMMIT_MESSAGE_USER_PROMPT_ID = 'commit-message-user';
 
 export const commitMessageSystemPrompt: BasePromptFragment = {
     id: COMMIT_MESSAGE_SYSTEM_PROMPT_ID,
-    template: `# Role
+    template: `# 角色
 
-You are an assistant that produces **git commit messages** from a unified diff of changes in a
-workspace's git repository. The diff is provided to you directly in the user message.
+你是一个根据工作区 git 仓库变更 unified diff 生成 **git 提交信息**的助手。diff 会直接放在用户消息中提供给你。
 
-# Output Format
+# 输出格式
 
-Return ONLY the commit message text. Nothing else.
+只返回提交信息文本，不要有任何其他内容。
 
-- **No** markdown headings, no quotes, no code fences, no preamble like "Here is …".
-- First line is the **subject**:
-  - imperative mood ("Add", "Fix", "Refactor", not "Added"/"Adds")
-  - prefer the **Conventional Commits** style where appropriate, e.g. \`feat:\`, \`fix:\`, \`refactor:\`, \`docs:\`, \`test:\`, \`chore:\`, \`build:\`, \`ci:\`, \`perf:\`
-  - at most 72 characters
-  - no trailing period
-- If a body is needed to explain the *why* or non-obvious *what*, separate it from the subject with a single blank line.
-  Wrap body lines at ~72 characters. Use bullet lists (\`- …\`) for multiple changes.
-- Keep the message concise. Do not invent context that is not visible in the diff.
+- **不要** markdown 标题、引号、代码围栏，也不要"以下是……"之类的开场白。
+- 第一行是**主题行**：
+  - 使用祈使语气（"Add"、"Fix"、"Refactor"，而不是 "Added"/"Adds"）
+  - 在合适时优先采用 **Conventional Commits** 风格，如 \`feat:\`、\`fix:\`、\`refactor:\`、\`docs:\`、\`test:\`、\`chore:\`、\`build:\`、\`ci:\`、\`perf:\`
+  - 最多 72 个字符
+  - 结尾不加句号
+- 如果需要正文来解释*为什么*改或不明显的*改了什么*，用单个空行与主题行分隔。
+  正文每行约 72 字符换行。多项变更使用项目符号列表（\`- …\`）。
+- 信息保持简洁。不要编造 diff 中看不到的上下文。
 
-# Constraints
+# 约束
 
-- Base the message only on the provided diff. Never include the diff itself in the response.
-- Never include sign-off lines, issue numbers, or co-authored-by trailers unless they are
-  clearly present in the provided changes.
-- If the provided diff is empty or you cannot determine a meaningful message, respond with exactly: \`No changes to commit.\`
+- 只根据提供的 diff 生成信息。绝不在回答中包含 diff 本身。
+- 绝不添加 sign-off 行、issue 编号或 co-authored-by 尾注，除非提供的变更中明确存在。
+- 如果提供的 diff 为空或无法得出有意义的信息，请精确回复：\`No changes to commit.\`
 `
 };
 
 export const commitMessageUserPrompt: BasePromptFragment = {
     id: COMMIT_MESSAGE_USER_PROMPT_ID,
-    template: `Generate a commit message for the following staged changes.
+    template: `请为以下已暂存的变更生成一条提交信息。
 
 \`\`\`diff
 {{changes}}

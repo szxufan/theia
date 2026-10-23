@@ -19,10 +19,10 @@ export const universalTemplate: BasePromptFragment = {
 Made improvements or adaptations to this prompt template? We’d love for you to share it with the community! Contribute back here:
 https://github.com/eclipse-theia/theia/discussions/new?category=prompt-template-contribution --}}
 
-You are an assistant integrated into {{productName}}, designed to assist software developers.
+你是一个集成在 {{productName}} 中的助手，旨在为软件开发者提供帮助。
 
-## Current Context
-Some files and other pieces of data may have been added by the user to the context of the chat. If any have, the details can be found below.
+## 当前上下文
+用户可能已将一些文件和其他数据添加到聊天上下文中。如果有的话，详细信息见下方。
 {{${CHAT_CONTEXT_DETAILS_VARIABLE_ID}}}
 
 {{prompt:${OPEN_EDITORS_HINT_FRAGMENT_ID}}}

@@ -24,13 +24,13 @@ import {
 } from '../common/external-chat-session-provider';
 import { ExternalChatSessionRegistry } from './external-chat-session-registry';
 
-const SESSION_ID_PARAM: RestParamDocumentation = { description: 'The session id.' };
+const SESSION_ID_PARAM: RestParamDocumentation = { description: '会话 id。' };
 
 const SESSION_LIST_SCHEMA: IJSONSchema = {
     type: 'object',
     required: ['sessions'],
     properties: {
-        sessions: { type: 'array', items: ExternalChatSessionSummary.SCHEMA, description: 'The sessions, most recently used first.' }
+        sessions: { type: 'array', items: ExternalChatSessionSummary.SCHEMA, description: '会话列表，按最近使用排序。' }
     }
 };
 
@@ -39,7 +39,7 @@ const SESSION_CREATED_SCHEMA: IJSONSchema = {
     required: ['session'],
     properties: {
         session: ExternalChatSessionSummary.SCHEMA,
-        requestId: { type: 'string', description: 'Id of the request created for the initial prompt; absent when no prompt was sent.' }
+        requestId: { type: 'string', description: '为初始提示词创建的请求 id；未发送提示词时省略。' }
     }
 };
 
@@ -47,8 +47,8 @@ const PROMPT_ACCEPTED_SCHEMA: IJSONSchema = {
     type: 'object',
     required: ['sessionId', 'requestId'],
     properties: {
-        sessionId: { type: 'string', description: 'Id of the prompted session.' },
-        requestId: { type: 'string', description: 'Id of the created request.' }
+        sessionId: { type: 'string', description: '收到提示词的会话 id。' },
+        requestId: { type: 'string', description: '创建的请求 id。' }
     }
 };
 
@@ -75,8 +75,8 @@ export class AIExternalApiEndpoint implements ExternalApiContribution {
     readonly path = AI_SESSIONS_API_PATH;
 
     readonly documentation: ExternalApiContributionDocumentation = {
-        title: 'AI Chat Sessions',
-        description: 'Inspect, follow, open, prompt, and create the AI chat sessions of this Theia instance.'
+        title: 'AI 聊天会话',
+        description: '查看、跟踪、打开、提示并创建该 Theia 实例的 AI 聊天会话。'
     };
 
     @inject(ExternalChatSessionRegistry)
@@ -85,32 +85,32 @@ export class AIExternalApiEndpoint implements ExternalApiContribution {
     configure(router: ExternalApiRouter): void {
         router.get('/', {
             operationId: 'listChatSessions',
-            summary: 'List all AI chat sessions, most recently used first.',
+            summary: '列出全部 AI 聊天会话，按最近使用排序。',
             responses: {
-                200: { description: 'The current sessions of all connected frontends.', schema: SESSION_LIST_SCHEMA }
+                200: { description: '所有已连接前端的当前会话。', schema: SESSION_LIST_SCHEMA }
             }
         }, async () => RestResult.ok({ sessions: await this.registry.getSessions() }));
         // register before '/:id' so that 'events' is not treated as a session id
         const events = router.eventStream('/events', {
             event: 'sessions',
             operationId: 'streamChatSessions',
-            summary: 'Stream the session list as server-sent events.',
-            description: 'On connect, the stream immediately delivers the current session list; afterwards, the full, '
-                + 'updated list is pushed whenever sessions change. Consume each event as a replacement, not a delta.',
+            summary: '以服务器推送事件（SSE）流式传输会话列表。',
+            description: '连接时立即推送当前会话列表；此后每当会话变化都会推送完整的更新列表。'
+                + '每个事件都是完整替换而非增量。',
             dataSchema: SESSION_LIST_SCHEMA,
             snapshot: async () => ({ sessions: await this.registry.getSessions() })
         });
         router.toDispose.push(this.registry.onDidChangeSessions(() => events.notifyChanged()));
         router.get('/:id', {
             operationId: 'getChatSession',
-            summary: 'Get a single session including its conversation reduced to plain-text messages.',
+            summary: '获取单个会话，含简化为纯文本消息的对话。',
             params: { id: SESSION_ID_PARAM },
             responses: {
                 200: {
-                    description: 'The session detail. Persisted sessions that are not restored carry no messages.',
+                    description: '会话详情。未恢复的持久化会话不含消息。',
                     schema: ExternalChatSessionDetail.SCHEMA
                 },
-                404: { description: 'The session is unknown to all connected frontends.' }
+                404: { description: '所有已连接前端均不认识该会话。' }
             }
         }, async ({ params }) => {
             const session = await this.registry.getSession(params.id);
@@ -118,33 +118,33 @@ export class AIExternalApiEndpoint implements ExternalApiContribution {
         });
         router.post('/', {
             operationId: 'createChatSession',
-            summary: 'Create a chat session in a connected frontend and optionally send an initial prompt.',
+            summary: '在已连接的前端中创建聊天会话，可选发送初始提示词。',
             bodySchema: ExternalChatSessionCreateRequest.SCHEMA,
             responses: {
-                201: { description: 'The created session and, if an initial prompt was sent, the id of the created request.', schema: SESSION_CREATED_SCHEMA },
-                400: { description: 'The requested agent is not registered.' },
-                404: { description: 'No connected frontend matches the requested workspace.' },
-                409: { description: 'The workspace is ambiguous or no agent could handle the initial prompt.' },
-                503: { description: 'No frontend is connected.' }
+                201: { description: '创建的会话；若发送了初始提示词，还含创建的请求 id。', schema: SESSION_CREATED_SCHEMA },
+                400: { description: '请求的代理未注册。' },
+                404: { description: '没有已连接前端匹配所请求的工作区。' },
+                409: { description: '工作区不明确，或没有代理能处理初始提示词。' },
+                503: { description: '没有已连接的前端。' }
             }
         }, ({ body }) => this.createSession(body));
         router.post('/:id/open', {
             operationId: 'openChatSession',
-            summary: 'Show the session in the chat view of a connected frontend, restoring it first if necessary.',
+            summary: '在已连接前端的聊天视图中显示该会话，必要时先恢复。',
             params: { id: SESSION_ID_PARAM },
             responses: {
-                204: { description: 'The session is shown in a frontend.' },
-                404: { description: 'The session is unknown to all connected frontends.' }
+                204: { description: '会话已在前端中显示。' },
+                404: { description: '所有已连接前端均不认识该会话。' }
             }
         }, async ({ params }) =>
             await this.registry.openSession(params.id) ? RestResult.noContent() : RestResult.notFound());
         router.post('/:id/restore', {
             operationId: 'restoreChatSession',
-            summary: 'Restore the session in a connected frontend without focusing it, and return its detail.',
+            summary: '在已连接前端中恢复该会话（不聚焦），并返回其详情。',
             params: { id: SESSION_ID_PARAM },
             responses: {
-                200: { description: 'The detail of the restored session.', schema: ExternalChatSessionDetail.SCHEMA },
-                404: { description: 'The session is unknown to all connected frontends.' }
+                200: { description: '已恢复会话的详情。', schema: ExternalChatSessionDetail.SCHEMA },
+                404: { description: '所有已连接前端均不认识该会话。' }
             }
         }, async ({ params }) => {
             const session = await this.registry.restoreSession(params.id);
@@ -152,13 +152,13 @@ export class AIExternalApiEndpoint implements ExternalApiContribution {
         });
         router.post('/:id/prompt', {
             operationId: 'promptChatSession',
-            summary: 'Send a prompt to the session, restoring it first if necessary.',
+            summary: '向该会话发送提示词，必要时先恢复。',
             bodySchema: ExternalChatPrompt.SCHEMA,
             params: { id: SESSION_ID_PARAM },
             responses: {
-                202: { description: 'The prompt was submitted; follow the progress via the event stream or the read endpoints.', schema: PROMPT_ACCEPTED_SCHEMA },
-                404: { description: 'The session is unknown to all connected frontends.' },
-                409: { description: 'A request is in progress and `interrupt` was not set, or no agent is available.' }
+                202: { description: '提示词已提交；可通过事件流或读取端点跟踪进度。', schema: PROMPT_ACCEPTED_SCHEMA },
+                404: { description: '所有已连接前端均不认识该会话。' },
+                409: { description: '有请求进行中且未设置 `interrupt`，或没有可用代理。' }
             }
         }, ({ params, body }) => this.sendPrompt(params.id, body));
     }

@@ -18,28 +18,28 @@ import { Command, nls } from '@theia/core';
 import { codicon } from '@theia/core/lib/browser';
 
 export namespace ChatCommands {
-    export const CHAT_CATEGORY = 'Chat';
+    export const CHAT_CATEGORY = '聊天';
     export const CHAT_CATEGORY_KEY = nls.getDefaultKey(CHAT_CATEGORY);
 
     export const SCROLL_LOCK_WIDGET = Command.toLocalizedCommand({
         id: 'chat:widget:lock',
         category: CHAT_CATEGORY,
         iconClass: codicon('unlock'),
-        label: 'Lock Scroll'
+        label: '锁定滚动'
     }, 'theia/ai-chat-ui/scroll-lock', CHAT_CATEGORY_KEY);
 
     export const SCROLL_UNLOCK_WIDGET = Command.toLocalizedCommand({
         id: 'chat:widget:unlock',
         category: CHAT_CATEGORY,
         iconClass: codicon('lock'),
-        label: 'Unlock Scroll'
+        label: '解锁滚动'
     }, 'theia/ai-chat-ui/scroll-unlock', CHAT_CATEGORY_KEY);
 
     export const EDIT_SESSION_SETTINGS = Command.toLocalizedCommand({
         id: 'chat:widget:session-settings',
         category: CHAT_CATEGORY,
         iconClass: codicon('bracket'),
-        label: 'Set Session Settings'
+        label: '设置会话设置'
     }, 'theia/ai-chat-ui/session-settings', CHAT_CATEGORY_KEY);
 
     export const AI_CHAT_NEW_WITH_TASK_CONTEXT: Command = {
@@ -48,35 +48,35 @@ export namespace ChatCommands {
 
     export const AI_CHAT_INITIATE_SESSION_WITH_TASK_CONTEXT = Command.toLocalizedCommand({
         id: 'ai-chat.initiate-session-with-task-context',
-        label: 'Task Context: Initiate Session',
+        label: '任务上下文：发起会话',
         category: CHAT_CATEGORY
     }, 'theia/ai-chat-ui/initiate-session-task-context', CHAT_CATEGORY_KEY);
 
     export const AI_CHAT_SUMMARIZE_CURRENT_SESSION = Command.toLocalizedCommand({
         id: 'ai-chat-summary-current-session',
         iconClass: codicon('go-to-editing-session'),
-        label: 'Summarize Current Session',
+        label: '总结当前会话',
         category: CHAT_CATEGORY
     }, 'theia/ai-chat-ui/summarize-current-session', CHAT_CATEGORY_KEY);
 
     export const AI_CHAT_OPEN_SUMMARY_FOR_CURRENT_SESSION = Command.toLocalizedCommand({
         id: 'ai-chat-open-current-session-summary',
         iconClass: codicon('note'),
-        label: 'Open Current Session Summary',
+        label: '打开当前会话总结',
         category: CHAT_CATEGORY
     }, 'theia/ai-chat-ui/open-current-session-summary', CHAT_CATEGORY_KEY);
 
     export const AI_CHAT_RENAME_SESSION = Command.toLocalizedCommand({
         id: 'ai-chat-ui.rename-session',
         iconClass: codicon('edit'),
-        label: 'Rename Chat',
+        label: '重命名聊天',
         category: CHAT_CATEGORY
     }, 'theia/ai-chat-ui/renameChat', CHAT_CATEGORY_KEY);
 
     export const AI_CHAT_DELETE_SESSION = Command.toLocalizedCommand({
         id: 'ai-chat-ui.delete-session',
         iconClass: codicon('remove-close'),
-        label: 'Delete Chat',
+        label: '删除聊天',
         category: CHAT_CATEGORY
     }, 'theia/ai-chat-ui/deleteChat', CHAT_CATEGORY_KEY);
 }
@@ -90,18 +90,18 @@ export const AI_CHAT_HOME = Command.toLocalizedCommand({
     id: 'ai-chat-ui.home',
     iconClass: codicon('home'),
     category: ChatCommands.CHAT_CATEGORY,
-    label: 'Home'
+    label: '主页'
 }, 'theia/ai-chat-ui/home', ChatCommands.CHAT_CATEGORY_KEY);
 
 export const AI_CHAT_SHOW_CHATS_COMMAND = Command.toLocalizedCommand({
     id: 'ai-chat-ui.show-chats',
     iconClass: codicon('history'),
     category: ChatCommands.CHAT_CATEGORY,
-    label: 'Browse all chats...'
+    label: '浏览所有聊天...'
 }, 'theia/ai-chat-ui/browseAllChats');
 
 export const AI_CHAT_OPEN_SESSION = Command.toLocalizedCommand({
     id: 'ai-chat-ui.open-session',
     category: ChatCommands.CHAT_CATEGORY,
-    label: 'Open Chat Session'
+    label: '打开聊天会话'
 }, 'theia/ai-chat-ui/openSession', ChatCommands.CHAT_CATEGORY_KEY);

@@ -21,7 +21,7 @@ import { OpenAiResponseApiUtils } from '@theia/ai-openai/lib/node/openai-respons
 import type { ResponseInputItem } from 'openai/resources/responses/responses';
 
 /** Used when a request carries no system message, which the ChatGPT endpoint rejects with `Instructions are required`. */
-export const DEFAULT_CHATGPT_INSTRUCTIONS = 'You are a helpful assistant.';
+export const DEFAULT_CHATGPT_INSTRUCTIONS = '你是一个乐于助人的助手。';
 
 /**
  * Adapts the OpenAI Response API request to the additional constraints of the ChatGPT endpoint.

@@ -29,27 +29,27 @@ export class WebFetchTool implements ToolProvider {
             id: WEB_FETCH_FUNCTION_ID,
             name: WEB_FETCH_FUNCTION_ID,
             providerName: 'ai-web',
-            confirmAlwaysAllow: 'This tool sends network requests to arbitrary URLs and returns their content. ' +
-                'The fetched page could try to mislead you with embedded instructions.',
-            description: `Fetch content from a URL (http/https only) and return it as readable text.
-HTML pages are converted to Markdown: scripts, styles, and navigation chrome are removed, links become [label](url).
-Plain text, JSON, and XML are returned as-is.
+            confirmAlwaysAllow: '此工具会向任意 URL 发送网络请求并返回其内容。' +
+                '抓取到的页面可能包含内嵌指令并试图误导你。',
+            description: `抓取 URL（仅限 http/https）的内容并返回可读文本。
+HTML 页面会转换为 Markdown：脚本、样式和导航元素会被移除，链接变为 [label](url)。
+纯文本、JSON 和 XML 原样返回。
 
-Use this for reading documentation pages, raw files, and API responses.
-Do NOT use it for search — use webSearch instead.
-Content larger than the configured limit is truncated and marked with [... 内容已截断 ...].
-The first fetch of a URL requires user approval; the user can configure "Always Allow" to skip confirmations.`,
+用于阅读文档页面、原始文件和 API 响应。
+不要用它做搜索——请改用 webSearch。
+超过配置上限的内容会被截断并标记 [... 内容已截断 ...]。
+首次抓取某个 URL 需要用户批准；用户可配置“始终允许”以跳过确认。`,
             parameters: {
                 type: 'object',
                 properties: {
                     url: {
                         type: 'string',
-                        description: 'The absolute http(s) URL to fetch.'
+                        description: '要抓取的绝对 http(s) URL。'
                     },
                     maxLength: {
                         type: 'number',
-                        description: 'Maximum number of characters to return (1000-65536). ' +
-                            'Defaults to the ai-features.web.maxFetchChars preference.'
+                        description: '返回的最大字符数（1000-65536）。' +
+                            '默认取 ai-features.web.maxFetchChars 偏好值。'
                     }
                 },
                 required: ['url']

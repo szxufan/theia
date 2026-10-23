@@ -33,11 +33,11 @@ export const ANTHROPIC_SERVER_TOOLS: ServerToolDescriptor[] = [
     {
         id: ANTHROPIC_WEB_FETCH,
         name: 'Web Fetch',
-        description: 'Lets the model fetch the contents of a URL on Anthropic\'s infrastructure.'
+        description: '让模型在 Anthropic 的基础设施上获取 URL 内容。'
     },
     {
         id: ANTHROPIC_WEB_SEARCH,
         name: 'Web Search',
-        description: 'Lets the model run a web search on Anthropic\'s infrastructure.'
+        description: '让模型在 Anthropic 的基础设施上执行网络搜索。'
     }
 ];

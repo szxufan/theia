@@ -33,7 +33,7 @@ import { ScmColors } from '../scm-colors';
 import { MergeEditor, MergeEditorSettings } from './merge-editor';
 
 export namespace MergeEditorCommands {
-    export const MERGE_EDITOR_CATEGORY = 'Merge Editor';
+    export const MERGE_EDITOR_CATEGORY = '合并编辑器';
     export const ACCEPT_MERGE = Command.toDefaultLocalizedCommand({
         id: 'mergeEditor.acceptMerge', // don't change: this is an API command
         label: 'Complete Merge',

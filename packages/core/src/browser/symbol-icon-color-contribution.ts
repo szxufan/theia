@@ -25,12 +25,12 @@ export class SymbolIconColorContribution implements ColorContribution {
             {
                 id: 'symbolIcon.arrayForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for array symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '数组符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.booleanForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for boolean symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '布尔符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.classForeground',
@@ -40,17 +40,17 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#EE9D28',
                     hcLight: '#D67E00'
                 },
-                description: 'The foreground color for class symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '类符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.colorForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for color symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '颜色符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.constantForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for constant symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '常量符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.constructorForeground',
@@ -60,7 +60,7 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#B180D7',
                     hcLight: '#652D90'
                 },
-                description: 'The foreground color for constructor symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '构造函数符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.enumeratorForeground',
@@ -70,7 +70,7 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#EE9D28',
                     hcLight: '#D67E00'
                 },
-                description: 'The foreground color for enumerator symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '枚举符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.enumeratorMemberForeground',
@@ -80,7 +80,7 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#75BEFF',
                     hcLight: '#007ACC'
                 },
-                description: 'The foreground color for enumerator member symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '枚举成员符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.eventForeground',
@@ -90,7 +90,7 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#EE9D28',
                     hcLight: '#D67E00'
                 },
-                description: 'The foreground color for event symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '事件符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.fieldForeground',
@@ -100,17 +100,17 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#75BEFF',
                     hcLight: '#007ACC'
                 },
-                description: 'The foreground color for field symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '字段符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.fileForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for file symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '文件符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.folderForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for folder symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '文件夹符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.functionForeground',
@@ -120,7 +120,7 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#B180D7',
                     hcLight: '#652D90'
                 },
-                description: 'The foreground color for function symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '函数符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.interfaceForeground',
@@ -130,17 +130,17 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#75BEFF',
                     hcLight: '#007ACC'
                 },
-                description: 'The foreground color for interface symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '接口符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.keyForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for key symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '键符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.keywordForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for keyword symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '关键字符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.methodForeground',
@@ -150,82 +150,82 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#B180D7',
                     hcLight: '#652D90'
                 },
-                description: 'The foreground color for method symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '方法符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.moduleForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for module symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '模块符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.namespaceForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for namespace symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '命名空间符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.nullForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for null symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '空值（null）符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.numberForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for number symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '数字符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.objectForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for object symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '对象符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.operatorForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for operator symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '运算符符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.packageForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for package symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '包符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.propertyForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for property symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '属性符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.referenceForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for reference symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '引用符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.snippetForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for snippet symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '代码片段符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.stringForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for string symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '字符串符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.structForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for struct symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '结构符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.textForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for text symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '文本符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.typeParameterForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for type parameter symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '类型参数符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.unitForeground',
                 defaults: 'editor.foreground',
-                description: 'The foreground color for unit symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '单位符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             },
             {
                 id: 'symbolIcon.variableForeground',
@@ -235,7 +235,7 @@ export class SymbolIconColorContribution implements ColorContribution {
                     hcDark: '#75BEFF',
                     hcLight: '#007ACC'
                 },
-                description: 'The foreground color for variable symbols. These symbols appear in the outline, breadcrumb, and suggest widget.'
+                description: '变量符号的前景色。这些符号出现在大纲、面包屑和建议小部件中。'
             }
         );
     }

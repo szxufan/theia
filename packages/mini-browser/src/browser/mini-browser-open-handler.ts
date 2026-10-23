@@ -35,7 +35,7 @@ import { nls } from '@theia/core/lib/common/nls';
 
 export namespace MiniBrowserCommands {
 
-    export const PREVIEW_CATEGORY = 'Preview';
+    export const PREVIEW_CATEGORY = '预览';
     export const PREVIEW_CATEGORY_KEY = nls.getDefaultKey(PREVIEW_CATEGORY);
 
     export const PREVIEW = Command.toLocalizedCommand({

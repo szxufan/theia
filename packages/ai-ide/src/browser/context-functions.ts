@@ -29,7 +29,7 @@ export class ListChatContext implements ToolProvider {
         return {
             id: ListChatContext.ID,
             name: ListChatContext.ID,
-            description: 'Returns the list of context elements (such as files) specified by the user manually as part of the chat request.',
+            description: '返回用户在聊天请求中手动指定的上下文元素（如文件）的列表。',
             handler: async (_: string, ctx?: ToolInvocationContext): Promise<string> => {
                 assertChatContext(ctx);
                 if (ctx.cancellationToken?.isCancellationRequested) {
@@ -57,13 +57,13 @@ export class ResolveChatContext implements ToolProvider {
         return {
             id: ResolveChatContext.ID,
             name: ResolveChatContext.ID,
-            description: 'Returns the content of a specific context element (such as files) specified by the user manually as part of the chat request.',
+            description: '返回用户在聊天请求中手动指定的某个上下文元素（如文件）的内容。',
             parameters: {
                 type: 'object',
                 properties: {
                     contextElementId: {
                         type: 'string',
-                        description: 'The id of the context element to resolve.'
+                        description: '要解析的上下文元素的 id。'
                     }
                 },
                 required: ['contextElementId']
@@ -106,20 +106,20 @@ export class AddFileToChatContext implements ToolProvider {
                 properties: {
                     filesToAdd: {
                         type: 'array',
-                        description: 'Array of file paths to bookmark ' +
-                            '(e.g., ["my-project/src/index.ts", "backend/package.json"]).',
+                        description: '要收藏的文件路径数组 ' +
+                            '（例如 ["my-project/src/index.ts", "backend/package.json"]）。',
                         items: { type: 'string' }
                     }
                 },
                 required: ['filesToAdd']
             },
-            description: 'Adds one or more files to the context of the current chat session for future reference. ' +
-                'Use this to bookmark important files that you\'ll need to reference multiple times during the conversation - ' +
-                'this is more efficient than re-reading files repeatedly. ' +
-                'Only files that exist within the workspace boundaries will be added. ' +
-                'Files outside the workspace or non-existent files will be rejected. ' +
-                'Returns a detailed status for each file, including which were successfully added and which were rejected with reasons. ' +
-                'Note: Adding a file to context does NOT read its contents - use getFileContent to read the actual content.',
+            description: '将一个或多个文件添加到当前聊天会话的上下文中，供后续引用。' +
+                '用它收藏对话中需要多次引用的重要文件——' +
+                '这比反复重新读取文件更高效。' +
+                '只有位于工作区边界内的文件才会被添加。' +
+                '工作区之外的文件或不存在的文件会被拒绝。' +
+                '返回每个文件的详细状态，包括成功添加的文件，以及被拒绝的文件及原因。' +
+                '注意：将文件添加到上下文不会读取其内容——请用 getFileContent 读取实际内容。',
             handler: async (arg: string, ctx?: ToolInvocationContext): Promise<string> => {
                 assertChatContext(ctx);
                 if (ctx.cancellationToken?.isCancellationRequested) {

@@ -41,140 +41,139 @@ export class AddressGhReviewCommandContribution implements FrontendApplicationCo
             commandName: 'address-gh-review',
             commandDescription: nls.localize(
                 'theia/ai-ide/addressGhReviewCommand/description',
-                'Address review comments on a GitHub pull request'
+                '处理 GitHub 拉取请求上的审查评论'
             ),
             commandArgumentHint: nls.localize(
                 'theia/ai-ide/addressGhReviewCommand/argumentHint',
-                '<pr-number>'
+                '<PR 编号>'
             ),
             commandAgents: ['Coder']
         });
     }
 
     protected buildCommandTemplate(): string {
-        return `You have been asked to address review comments on a GitHub pull request.
+        return `你被要求处理一个 GitHub 拉取请求上的审查评论。
 
-## Pull Request Number
+## 拉取请求编号
 $ARGUMENTS
 
-## Task Overview
-You need to retrieve all details about the specified pull request, especially the review comments, assess whether you can safely address all comments, and if so, 
-implement the requested changes.
+## 任务概述
+你需要获取指定拉取请求的全部详情（尤其是审查评论），评估你是否能安全地处理所有评论，若能，则实现所要求的变更。
 
-## Step 1: Retrieve Pull Request Information
-Use the ~{${AGENT_DELEGATION_FUNCTION_ID}} tool to delegate to the GitHub agent and retrieve comprehensive information about the pull request.
+## 步骤 1：获取拉取请求信息
+使用 ~{${AGENT_DELEGATION_FUNCTION_ID}} 工具委派 GitHub 代理，获取该拉取请求的全面信息。
 
-**Agent ID:** '${GitHubChatAgentId}'
-**Prompt:** Ask the GitHub agent to retrieve ALL details about PR #$ARGUMENTS, specifically requesting:
-- The PR title and description
-- The current state of the PR (open, closed, merged)
-- ALL review comments - this is critical, every single review comment must be retrieved
-- General PR comments (conversation)
-- The list of files changed in the PR
-- Any referenced issues
-- Review status (approved, changes requested, etc.)
+**代理 ID：**'${GitHubChatAgentId}'
+**提示词：** 让 GitHub 代理获取 PR #$ARGUMENTS 的全部详情，具体要求获取：
+- PR 标题和描述
+- PR 的当前状态（开放、关闭、已合并）
+- 所有审查评论——这一点至关重要，每一条审查评论都必须获取
+- PR 的一般评论（对话区）
+- PR 中变更文件的列表
+- 任何被引用的 issue
+- 审查状态（已批准、要求修改等）
 
-Example delegation prompt:
+委派示例提示词：
 \`\`\`
-Please retrieve comprehensive information about pull request #$ARGUMENTS. I need:
-1. The PR title, description, and current state
-2. ALL review comments on this PR - every single inline review comment is critical
-3. ALL general conversation comments on the PR
-4. The list of files changed in this PR
-5. The current review status (approved, changes requested, pending)
-6. Any linked or referenced issues
+请获取拉取请求 #$ARGUMENTS 的全面信息。我需要：
+1. PR 标题、描述和当前状态
+2. 该 PR 的所有审查评论——每一条行内审查评论都至关重要
+3. PR 对话区的所有一般评论
+4. 该 PR 变更文件的列表
+5. 当前审查状态（已批准、要求修改、等待中）
+6. 任何被链接或引用的 issue
 
-This is for addressing the review comments, so completeness is absolutely crucial. Make sure to get every review comment.
-\`\`\`
-
-## Step 2: Analyze and Categorize Review Comments
-After receiving the PR information, analyze each review comment and categorize them:
-
-### Categories of Review Comments:
-1. **Clear code changes**: Comments requesting specific, unambiguous code modifications (e.g., "rename this variable", "add null check here", "fix this typo")
-2. **Style/formatting fixes**: Comments about code style, formatting, or conventions
-3. **Bug fixes**: Comments pointing out bugs or issues that need to be fixed
-4. **Clarification questions**: Reviewers asking questions that need answers, not code changes
-5. **Design discussions**: Comments about architectural or design decisions that require human judgment
-6. **Ambiguous requests**: Comments that are unclear or could be interpreted multiple ways
-
-### Criteria for Safely Addressable Comments:
-- The requested change is clearly specified
-- The change is localized and well-scoped
-- No architectural or design decisions are required
-- The change doesn't conflict with other review comments
-- You have enough context to make the change correctly
-
-### Criteria for Comments Requiring Clarification:
-- The comment is ambiguous or vague
-- Multiple valid interpretations exist
-- The comment requires design decisions
-- Comments conflict with each other
-- The reviewer is asking a question rather than requesting a change
-
-## Step 3: Respond Based on Analysis
-
-### If ANY comments cannot be safely addressed:
-List all comments and their status, then ask for clarification on the problematic ones:
-
-Example response format:
-\`\`\`
-## PR Review Analysis
-
-### Comments I Can Address:
-1. [File: path/to/file.ts, Line X] - "[Comment summary]" - Will [action]
-2. [File: path/to/file.ts, Line Y] - "[Comment summary]" - Will [action]
-
-### Comments Requiring Clarification:
-1. [File: path/to/file.ts, Line Z] - "[Comment summary]"
-   - **Issue**: [Why this needs clarification]
-   - **Question**: [Specific question to resolve ambiguity]
-
-2. [File: path/to/other.ts, Line W] - "[Comment summary]"
-   - **Issue**: [Why this needs clarification]
-   - **Question**: [Specific question to resolve ambiguity]
-
-### Conflicting Comments:
-- [Describe any conflicts between review comments]
-
-Please provide clarification on the above items. Once clarified, I can proceed to address all review comments.
-
-Alternatively, if you'd like me to proceed with just the comments I can safely address, please confirm.
+这是为了处理审查评论，因此完整性绝对至关重要。务必获取每一条审查评论。
 \`\`\`
 
-### If ALL comments can be safely addressed:
-Proceed with implementing all the requested changes:
+## 步骤 2：分析并归类审查评论
+收到 PR 信息后，逐条分析审查评论并归类：
 
-1. **List all comments** and what you will do to address each one
-2. **Implement the changes** file by file, addressing each review comment
-3. **Explain each change** as you make it, referencing the original review comment
-4. **Summarize** all changes made at the end
+### 审查评论的类别：
+1. **明确的代码修改**：要求具体、无歧义代码变更的评论（例如“重命名这个变量”“这里加个空值检查”“修正这个拼写错误”）
+2. **风格/格式修正**：关于代码风格、格式或约定的评论
+3. **缺陷修复**：指出需要修复的缺陷或问题的评论
+4. **澄清性问题**：审查者提出的是需要回答的问题，而非代码变更
+5. **设计讨论**：关于需要人类判断的架构或设计决策的评论
+6. **含糊的请求**：不明确或可有多种解读的评论
 
-Example response format:
+### 可安全处理评论的标准：
+- 所要求的变更表述明确
+- 变更局部且范围清晰
+- 无需做架构或设计决策
+- 变更与其他审查评论不冲突
+- 你有足够的上下文正确完成变更
+
+### 需要澄清的评论的标准：
+- 评论含糊或模糊
+- 存在多种合理解读
+- 评论涉及设计决策
+- 评论之间相互冲突
+- 审查者是在提问而非要求变更
+
+## 步骤 3：根据分析结果回应
+
+### 如果有任何评论无法安全处理：
+列出所有评论及其状态，然后就有问题的评论请求澄清：
+
+回复格式示例：
 \`\`\`
-## PR Review Analysis
+## PR 审查分析
 
-All review comments can be safely addressed. Proceeding with implementation.
+### 我能处理的评论：
+1. [文件：path/to/file.ts，第 X 行] - “[评论摘要]” - 将[动作]
+2. [文件：path/to/file.ts，第 Y 行] - “[评论摘要]” - 将[动作]
 
-### Review Comments to Address:
-1. [File: path/to/file.ts, Line X] - "[Comment summary]" - Will [action]
-2. [File: path/to/file.ts, Line Y] - "[Comment summary]" - Will [action]
+### 需要澄清的评论：
+1. [文件：path/to/file.ts，第 Z 行] - “[评论摘要]”
+   - **症结**：[为何需要澄清]
+   - **提问**：[消除歧义的具体问题]
+
+2. [文件：path/to/other.ts，第 W 行] - “[评论摘要]”
+   - **症结**：[为何需要澄清]
+   - **提问**：[消除歧义的具体问题]
+
+### 相互冲突的评论：
+- [描述审查评论之间的冲突]
+
+请对以上各项予以澄清。澄清后，我就可以继续处理所有审查评论。
+
+或者，如果你希望我只处理可以安全应对的那些评论，请确认。
+\`\`\`
+
+### 如果所有评论都可以安全处理：
+开始实现所有要求的变更：
+
+1. **列出所有评论**以及你将如何逐条处理
+2. **逐个文件实现变更**，处理每条审查评论
+3. 边修改**边解释每个变更**，并引用对应的原始审查评论
+4. 最后**总结**所有已完成的变更
+
+回复格式示例：
+\`\`\`
+## PR 审查分析
+
+所有审查评论均可安全处理。开始实施。
+
+### 待处理的审查评论：
+1. [文件：path/to/file.ts，第 X 行] - “[评论摘要]” - 将[动作]
+2. [文件：path/to/file.ts，第 Y 行] - “[评论摘要]” - 将[动作]
 ...
 
-### Implementation
-[Proceed to make changes, explaining each one]
+### 实现
+[开始修改并逐一解释]
 
-### Summary
-[List all changes made and which review comments they address]
+### 总结
+[列出所有已完成的变更及其对应的审查评论]
 \`\`\`
 
-## Important Guidelines
-- Always preserve the intent of the original code while addressing review comments
-- If a review comment conflicts with the existing code style, follow the project's conventions
-- Make minimal changes - only change what's necessary to address each comment
-- If you discover issues beyond the review comments, mention them but don't fix them unless asked
-- After implementation, provide a summary that maps each change to the review comment it addresses
+## 重要准则
+- 处理审查评论时始终保留原代码的意图
+- 如果审查评论与现有代码风格冲突，遵循项目的约定
+- 做最小化修改——只改处理每条评论所必需的内容
+- 如果发现审查评论之外的问题，提及即可，除非被要求否则不要修复
+- 实现之后，提供一份总结，将每个变更对应到它所处理的审查评论
 
-Remember: It's better to ask for clarification than to make assumptions that could introduce bugs or go against the reviewer's intent.`;
+记住：宁可请求澄清，也不要做可能引入缺陷或违背审查者意图的假设。`;
     }
 }
