@@ -74,36 +74,21 @@ export class CopilotStatusBarContribution implements FrontendApplicationContribu
     }
 
     protected updateStatusBar(): void {
-        if (!this.activationService.isActive || !this.preferenceService.get<boolean>(COPILOT_ENABLED_PREF, true)) {
+        // 仅在已登录时显示账户状态；未登录时不占用状态栏（登录入口保留在命令面板与 AI 配置界面）。
+        if (!this.activationService.isActive || !this.preferenceService.get<boolean>(COPILOT_ENABLED_PREF, true)
+            || !this.authState.isAuthenticated) {
             this.statusBar.removeElement(COPILOT_STATUS_BAR_ID);
             return;
         }
 
-        const isAuthenticated = this.authState.isAuthenticated;
-
-        let text: string;
-        let tooltip: string;
-        let command: string;
-
-        if (isAuthenticated) {
-            const accountLabel = this.authState.accountLabel ?? 'GitHub';
-            text = `$(github) ${accountLabel}`;
-            tooltip = nls.localize('theia/ai/copilot/statusBar/signedIn',
-                '已登录 GitHub Copilot，账户为 {0}。点击登出。', accountLabel);
-            command = CopilotCommands.SIGN_OUT.id;
-        } else {
-            text = `$(github) ${nls.localize('theia/ai/copilot/commands/signIn', '登录 GitHub Copilot')}`;
-            tooltip = nls.localize('theia/ai/copilot/statusBar/signedOut',
-                '未登录 GitHub Copilot。点击登录。');
-            command = CopilotCommands.SIGN_IN.id;
-        }
-
+        const accountLabel = this.authState.accountLabel ?? 'GitHub';
         this.statusBar.setElement(COPILOT_STATUS_BAR_ID, {
-            text,
-            tooltip,
+            text: `$(github) ${accountLabel}`,
+            tooltip: nls.localize('theia/ai/copilot/statusBar/signedIn',
+                '已登录 GitHub Copilot，账户为 {0}。点击登出。', accountLabel),
             alignment: StatusBarAlignment.RIGHT,
             priority: 100,
-            command
+            command: CopilotCommands.SIGN_OUT.id
         });
     }
 }

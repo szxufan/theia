@@ -22,7 +22,7 @@ FrontendApplicationConfigProvider.set({});
 import { expect } from 'chai';
 import { AIActivationService } from '@theia/ai-core/lib/browser';
 import { Emitter, PreferenceChange, PreferenceService } from '@theia/core';
-import { StatusBar, StatusBarAlignment, StatusBarEntry } from '@theia/core/lib/browser/status-bar/status-bar-types';
+import { StatusBar, StatusBarEntry } from '@theia/core/lib/browser/status-bar/status-bar-types';
 import { ChatGptAuthService, ChatGptAuthState, CHATGPT_ENABLED_PREF } from '../common';
 import { ChatGptCommands } from './chatgpt-command-contribution';
 import { ChatGptStatusBarContribution } from './chatgpt-status-bar-contribution';
@@ -90,18 +90,15 @@ describe('ChatGptStatusBarContribution', () => {
         await Promise.resolve();
     }
 
-    it('offers sign-in while signed out and account sign-out after sign-in', async () => {
+    it('hides the entry while signed out and shows account sign-out after sign-in', async () => {
         await start();
-        expect(entry()?.command).to.equal(ChatGptCommands.SIGN_IN.id);
-        expect(entry()?.text).to.equal('$(openai) 使用 ChatGPT 登录');
-        expect(entry()?.alignment).to.equal(StatusBarAlignment.RIGHT);
+        expect(entry()).to.be.undefined;
         authEmitter.fire({ isAuthenticated: true, accountLabel: 'user@example.com' });
         expect(entry()?.text).to.equal('$(openai) ChatGPT: user@example.com');
         expect(entry()?.tooltip).to.contain('点击登出');
         expect(entry()?.command).to.equal(ChatGptCommands.SIGN_OUT.id);
         authEmitter.fire({ isAuthenticated: false });
-        expect(entry()?.text).to.equal('$(openai) 使用 ChatGPT 登录');
-        expect(entry()?.command).to.equal(ChatGptCommands.SIGN_IN.id);
+        expect(entry()).to.be.undefined;
     });
 
     it('shows the initial authenticated account', async () => {
@@ -123,14 +120,15 @@ describe('ChatGptStatusBarContribution', () => {
         expect(entry()?.command).to.equal(ChatGptCommands.SIGN_OUT.id);
     });
 
-    it('removes the entry while AI is inactive and restores it when active', async () => {
+    it('removes the entry while AI is inactive and restores it when active and signed in', async () => {
+        initialState = Promise.resolve({ isAuthenticated: true, accountLabel: 'user@example.com' });
         await start();
         active = false;
         activationEmitter.fire(active);
         expect(entries.size).to.equal(0);
         active = true;
         activationEmitter.fire(active);
-        expect(entry()?.command).to.equal(ChatGptCommands.SIGN_IN.id);
+        expect(entry()?.command).to.equal(ChatGptCommands.SIGN_OUT.id);
     });
 
     it('does not show an entry on startup when disabled or AI is inactive', async () => {
@@ -150,7 +148,8 @@ describe('ChatGptStatusBarContribution', () => {
         authEmitter.fire({ isAuthenticated: false });
         resolveState({ isAuthenticated: true, accountLabel: 'old@example.com' });
         await Promise.resolve();
-        expect(entry()?.command).to.equal(ChatGptCommands.SIGN_IN.id);
+        // The late initial lookup must be ignored; the signed-out state hides the entry entirely.
+        expect(entry()).to.be.undefined;
     });
 
     it('removes the entry and all listeners on disposal', async () => {

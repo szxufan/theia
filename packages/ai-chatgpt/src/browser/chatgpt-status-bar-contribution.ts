@@ -76,20 +76,19 @@ export class ChatGptStatusBarContribution implements FrontendApplicationContribu
     }
 
     protected updateStatusBar(): void {
-        if (!this.activationService.isActive || !this.preferenceService.get<boolean>(CHATGPT_ENABLED_PREF, true)) {
+        // 仅在已登录时显示账户状态；未登录时不占用状态栏（登录入口保留在命令面板与 AI 配置界面）。
+        if (!this.activationService.isActive || !this.preferenceService.get<boolean>(CHATGPT_ENABLED_PREF, true)
+            || !this.authState.isAuthenticated) {
             this.statusBar.removeElement(CHATGPT_STATUS_BAR_ID);
             return;
         }
         const accountLabel = this.authState.accountLabel ?? 'ChatGPT';
         this.statusBar.setElement(CHATGPT_STATUS_BAR_ID, {
-            text: this.authState.isAuthenticated ? `$(openai) ChatGPT: ${accountLabel}`
-                : `$(openai) ${nls.localize('theia/ai/chatgpt/models/signIn', '使用 ChatGPT 登录')}`,
-            tooltip: this.authState.isAuthenticated
-                ? nls.localize('theia/ai/chatgpt/statusBar/signedIn', '已登录 ChatGPT，账户为 {0}。点击登出。', accountLabel)
-                : nls.localize('theia/ai/chatgpt/statusBar/signedOut', '未登录 ChatGPT。点击登录。'),
+            text: `$(openai) ChatGPT: ${accountLabel}`,
+            tooltip: nls.localize('theia/ai/chatgpt/statusBar/signedIn', '已登录 ChatGPT，账户为 {0}。点击登出。', accountLabel),
             alignment: StatusBarAlignment.RIGHT,
             priority: 100,
-            command: this.authState.isAuthenticated ? ChatGptCommands.SIGN_OUT.id : ChatGptCommands.SIGN_IN.id
+            command: ChatGptCommands.SIGN_OUT.id
         });
     }
 }
