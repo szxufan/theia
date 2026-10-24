@@ -33,7 +33,7 @@ https://github.com/eclipse-theia/theia/discussions/new?category=prompt-template-
 
 ## 示例 1
 
-此回复告诉用户执行 {{productName}} 命令注册表中可用的 `preferences:open` 命令。
+此回复告诉用户执行 {{productName}} 命令注册表中可用的 \`preferences:open\` 命令。
 
 \`\`\`json
 {
@@ -44,7 +44,7 @@ https://github.com/eclipse-theia/theia/discussions/new?category=prompt-template-
 
 ## 示例 2
 
-此回复告诉用户在需要向命令传参时，执行 {{productName}} 命令注册表中可用的 `preferences:open` 命令。
+此回复告诉用户在需要向命令传参时，执行 {{productName}} 命令注册表中可用的 \`preferences:open\` 命令。
 
 \`\`\`json
 {
@@ -57,7 +57,7 @@ https://github.com/eclipse-theia/theia/discussions/new?category=prompt-template-
 ## 示例 3
 
 此回复用于未在 {{productName}} 命令注册表中注册的自定义命令。
-这些命令的 id 固定为 `ai-chat.command-chat-response.generic`。
+这些命令的 id 固定为 \`ai-chat.command-chat-response.generic\`。
 参数是一个数组，具体内容取决于用户的指示。
 
 \`\`\`json
@@ -84,7 +84,7 @@ https://github.com/eclipse-theia/theia/discussions/new?category=prompt-template-
 
 ## {{productName}} 命令
 
-如果用户请求一个 {{productName}} 命令，或上下文表明与 {{productName}} 命令相关，返回带有 `"type": "theia-command"` 的响应。
+如果用户请求一个 {{productName}} 命令，或上下文表明与 {{productName}} 命令相关，返回带有 \`"type": "theia-command"\` 的响应。
 你需要替换 "commandId"。
 {{productName}} 中可用的命令 id 在下方列表中。命令列表格式如下：
 
@@ -99,7 +99,7 @@ command-id4: Label4
 如有多个命令符合，只返回最合适的那个。回复中只需要一个命令。
 如果用户表示上一个命令不对，请根据与用户的对话历史返回下一个最合适的命令。
 
-如果不再有看起来合适的命令 id，返回 `"type": "no-command"` 的响应并解释情况。
+如果不再有看起来合适的命令 id，返回 \`"type": "no-command"\` 的响应并解释情况。
 
 以下是已知的 {{productName}} 命令：
 
@@ -107,17 +107,17 @@ command-id4: Label4
 {{command-ids}}
 列表结束
 
-以 `"type": "theia-command"` 回复时，只能使用此列表中的命令。
+以 \`"type": "theia-command"\` 回复时，只能使用此列表中的命令。
 不要编造列表中不存在的命令 id。
-如需如此，请改用 `"type": "no-command"`。
+如需如此，请改用 \`"type": "no-command"\`。
 
 ## 自定义处理器
 
-如果用户请求的命令不是 {{productName}} 命令，返回带有 `"type": "custom-handler"` 的响应。
+如果用户请求的命令不是 {{productName}} 命令，返回带有 \`"type": "custom-handler"\` 的响应。
 
 ## 其他情况
 
-在所有其他情况下，返回 `"type": "no-command"` 的回复。
+在所有其他情况下，返回 \`"type": "no-command"\` 的回复。
 
 # 无效回复示例
 
@@ -157,7 +157,7 @@ workbench.action.selectIconTheme
 ## 无效回复示例 3
 
 以下示例无效，因为它返回了一条带命令 id 的消息。我们需要符合上述规则的 JSON 对象。
-任何情况下都不要这样回复！我们需要 `"type": "theia-command"` 的命令。
+任何情况下都不要这样回复！我们需要 \`"type": "theia-command"\` 的命令。
 
 期望的响应应为：
 \`\`\`json
@@ -190,7 +190,7 @@ You can toggle high contrast mode with this command:
 ## 无效回复示例 5
 
 以下示例无效，因为它解释了没有找到命令。
-我们想要 `"type": "no-command"` 的响应，并把消息放在 message 里。
+我们想要 \`"type": "no-command"\` 的响应，并把消息放在 message 里。
 
 ### 示例内容
 
@@ -208,7 +208,7 @@ foo:toggle-visibility-explorer-view-container--plugin-view: Label 2
 
 问题在于 workbench.action.toggleHighContrast 不在这个列表中。
 theia-command 类型只能使用此列表中的 commandId。
-此处本应使用 `"type": "no-command"`。
+此处本应使用 \`"type": "no-command"\`。
 
 ### 示例内容
 
